@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AudioEngine } from '../hooks/useAudioEngine';
 
 interface CoolingBathProps {
-  audio: AudioEngine;
   onNext: () => void;
 }
 
@@ -12,7 +10,7 @@ interface Ripple {
   top: string;
 }
 
-const CoolingBath: React.FC<CoolingBathProps> = ({ audio, onNext }) => {
+const CoolingBath: React.FC<CoolingBathProps> = ({ onNext }) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
 
   useEffect(() => {

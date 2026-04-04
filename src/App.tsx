@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './index.css';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
@@ -58,7 +58,7 @@ function App() {
 
         {stage === 'water' && (
           <div style={{ opacity: opacity, transition: 'opacity 1s', width: '100%', height: '100%' }}>
-            <CoolingBath audio={audio} onNext={() => {
+            <CoolingBath onNext={() => {
               audio.playAmbient('totonou');
               changeStage('totonou');
             }} />
@@ -67,7 +67,7 @@ function App() {
 
         {stage === 'totonou' && (
           <div style={{ opacity: opacity, transition: 'opacity 1s', width: '100%', height: '100%' }}>
-            <TotonouSpace audio={audio} onNext={() => {
+            <TotonouSpace onNext={() => {
               audio.playAmbient('sauna');
               changeStage('sauna');
             }} />

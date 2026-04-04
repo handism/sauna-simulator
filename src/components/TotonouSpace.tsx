@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AudioEngine } from '../hooks/useAudioEngine';
 
 interface TotonouSpaceProps {
-  audio: AudioEngine;
   onNext: () => void;
 }
 
