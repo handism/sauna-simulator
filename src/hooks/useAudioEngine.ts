@@ -1,13 +1,24 @@
 import { useRef, useCallback } from 'react';
 
-export function useAudioEngine() {
-  const ctxRef = useRef(null);
-  const ambientNodesRef = useRef(null); // { source, filter, gain }
-  const currentEnvRef = useRef('none');
+export interface AudioEngine {
+  init: () => void;
+  playAmbient: (env: string) => void;
+  playLoyly: () => void;
+}
+
+export function useAudioEngine(): AudioEngine {
+  const ctxRef = useRef<AudioContext | null>(null);
+  const ambientNodesRef = useRef<{
+    source: AudioBufferSourceNode | OscillatorNode | { stop: () => void };
+    filter?: BiquadFilterNode;
+    gain: GainNode;
+  } | null>(null);
+  const currentEnvRef = useRef<string>('none');
 
   const init = useCallback(() => {
     if (!ctxRef.current) {
-      ctxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      ctxRef.current = new AudioCtx();
     }
     if (ctxRef.current.state === 'suspended') {
       ctxRef.current.resume();
@@ -17,7 +28,9 @@ export function useAudioEngine() {
   const stopAmbient = () => {
     if (ambientNodesRef.current) {
       const { source, gain } = ambientNodesRef.current;
-      gain.gain.setTargetAtTime(0, ctxRef.current.currentTime, 0.5);
+      if (ctxRef.current) {
+        gain.gain.setTargetAtTime(0, ctxRef.current.currentTime, 0.5);
+      }
       setTimeout(() => {
         try { source.stop(); } catch(e){}
       }, 1000);
@@ -25,7 +38,7 @@ export function useAudioEngine() {
     }
   };
 
-  const playAmbient = useCallback((env) => {
+  const playAmbient = useCallback((env: string) => {
     if (!ctxRef.current) return;
     const ctx = ctxRef.current;
     

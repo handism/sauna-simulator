@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { AudioEngine } from '../hooks/useAudioEngine';
 
-function CoolingBath({ onNext }) {
-  const [ripples, setRipples] = useState([]);
+interface CoolingBathProps {
+  audio: AudioEngine;
+  onNext: () => void;
+}
+
+interface Ripple {
+  id: number;
+  left: string;
+  top: string;
+}
+
+const CoolingBath: React.FC<CoolingBathProps> = ({ audio, onNext }) => {
+  const [ripples, setRipples] = useState<Ripple[]>([]);
 
   useEffect(() => {
     // Add random ripples over time
     const int = setInterval(() => {
-      const newRipple = {
+      const newRipple: Ripple = {
         id: Date.now(),
         left: Math.random() * 80 + 10 + '%',
         top: Math.random() * 80 + 10 + '%',
