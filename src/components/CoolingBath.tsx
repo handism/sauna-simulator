@@ -36,7 +36,7 @@ const CoolingBath: React.FC<CoolingBathProps> = ({ onNext }) => {
     }}>
       
       <div className="glass-panel" style={{ textAlign: 'center', minWidth: '300px', zIndex: 10, background: 'rgba(255,255,255,0.05)' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 300, color: '#bae6fd' }}>WATER BATH</h2>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 300, color: '#bae6fd' }}>水風呂</h2>
         <div style={{ fontSize: '1.2rem', fontWeight: 400, margin: '20px 0', color: '#e0f2fe' }}>
           ゆっくりと粗熱を取る...
         </div>
