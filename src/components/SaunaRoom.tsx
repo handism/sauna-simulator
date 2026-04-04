@@ -47,7 +47,7 @@ const SaunaRoom: React.FC<SaunaRoomProps> = ({ audio, onNext }) => {
     }}>
       
       <div className="glass-panel" style={{ textAlign: 'center', minWidth: '300px', zIndex: 10 }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 300, color: '#fca5a5' }}>SAUNA ROOM</h2>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 300, color: '#fca5a5' }}>サウナルーム</h2>
         <div style={{ fontSize: '5rem', fontWeight: 600, margin: '20px 0', textShadow: '0 0 20px rgba(239,68,68,0.5)' }}>
           {temperature.toFixed(1)}°C
         </div>

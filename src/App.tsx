@@ -39,7 +39,7 @@ function App() {
       <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%' }}>
         {stage === 'start' && (
           <div style={{ textAlign: 'center', opacity: opacity, transition: 'opacity 1s', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <h1 style={{ fontSize: '3rem', marginBottom: '1rem', letterSpacing: '4px', textTransform: 'uppercase', textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>Browser Sauna</h1>
+            <h1 style={{ fontSize: '3rem', marginBottom: '1rem', letterSpacing: '4px', textTransform: 'uppercase', textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>ブラウザ・サウナ</h1>
             <p style={{ marginBottom: '3rem', color: '#eaeaea', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>プレミアムな疑似サウナ体験</p>
             <button className="primary-btn" onClick={handleStart}>
               入室する
