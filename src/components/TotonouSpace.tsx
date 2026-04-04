@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { AudioEngine } from '../hooks/useAudioEngine';
 
-function TotonouSpace({ onNext }) {
-  const [breathText, setBreathText] = useState('吸って...');
+interface TotonouSpaceProps {
+  audio: AudioEngine;
+  onNext: () => void;
+}
+
+const TotonouSpace: React.FC<TotonouSpaceProps> = ({ onNext }) => {
+  const [breathText, setBreathText] = useState<string>('吸って...');
 
   useEffect(() => {
     // 8-second breathing cycle (4s in, 4s out)

@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { AudioEngine } from '../hooks/useAudioEngine';
 
-function SaunaRoom({ audio, onNext }) {
-  const [temperature, setTemperature] = useState(90);
-  const [steams, setSteams] = useState([]);
+interface SaunaRoomProps {
+  audio: AudioEngine;
+  onNext: () => void;
+}
+
+interface Steam {
+  id: number;
+  left: string;
+}
+
+const SaunaRoom: React.FC<SaunaRoomProps> = ({ audio, onNext }) => {
+  const [temperature, setTemperature] = useState<number>(90);
+  const [steams, setSteams] = useState<Steam[]>([]);
 
   const handleLoyly = () => {
     audio.playLoyly();
     setTemperature(prev => Math.min(prev + 2, 110));
     
-    const newSteam = {
+    const newSteam: Steam = {
       id: Date.now(),
       left: Math.random() * 60 + 20 + '%'
     };
