@@ -31,9 +31,9 @@ function App() {
     <div className="app-container" style={{ background: '#000' }}>
       
       {/* Background Image Layers for smooth crossfading */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'sauna' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(/sauna_bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'water' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: 'linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(/water_bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'totonou' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url(/totonou_bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'sauna' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${import.meta.env.BASE_URL}sauna_bg.png)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'water' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${import.meta.env.BASE_URL}water_bg.png)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'totonou' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url(${import.meta.env.BASE_URL}totonou_bg.png)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
 
       {/* Foreground Content */}
       <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%' }}>
