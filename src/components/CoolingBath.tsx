@@ -41,7 +41,7 @@ const CoolingBath = ({ onNext }: CoolingBathProps) => {
         </div>
       </div>
 
-      <div style={{position: 'absolute', bottom: 'clamp(20px, 8vh, 60px)', zIndex: 10}}>
+      <div style={{position: 'absolute', bottom: 'calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px))', zIndex: 10}}>
          <button className="primary-btn" onClick={onNext} style={{ background: 'rgba(192,132,252,0.2)', borderColor: 'rgba(192,132,252,0.5)'}}>
             外気浴へ 🍃
          </button>
