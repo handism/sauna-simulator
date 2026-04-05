@@ -45,9 +45,9 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
       position: 'relative'
     }}>
       
-      <div className="glass-panel" style={{ textAlign: 'center', minWidth: '300px', zIndex: 10 }}>
+      <div className="glass-panel" style={{ textAlign: 'center', zIndex: 10 }}>
         <h2 style={{ fontSize: '1.5rem', fontWeight: 300, color: '#fca5a5' }}>サウナルーム</h2>
-        <div style={{ fontSize: '5rem', fontWeight: 600, margin: '20px 0', textShadow: '0 0 20px rgba(239,68,68,0.5)' }}>
+        <div style={{ fontSize: 'clamp(3rem, 15vw, 5rem)', fontWeight: 600, margin: '20px 0', textShadow: '0 0 20px rgba(239,68,68,0.5)' }}>
           {temperature.toFixed(1)}°C
         </div>
         
@@ -58,7 +58,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
         </div>
       </div>
 
-      <div style={{position: 'absolute', bottom: '40px', zIndex: 10}}>
+      <div style={{position: 'absolute', bottom: 'calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px))', zIndex: 10}}>
          <button className="primary-btn" onClick={onNext} style={{ background: 'rgba(56,189,248,0.2)', borderColor: 'rgba(56,189,248,0.5)'}}>
             限界.. 水風呂へ 💧
          </button>
