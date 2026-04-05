@@ -28,11 +28,11 @@ const TotonouSpace = ({ onNext }: TotonouSpaceProps) => {
           </div>
       </div>
 
-      <div style={{position: 'absolute', top: '10%', zIndex: 10, textAlign: 'center'}}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 200, letterSpacing: '12px', color: '#94a3b8' }}>ととのう</h2>
+      <div style={{position: 'absolute', top: 'clamp(20px, 10vh, 10%)', zIndex: 10, textAlign: 'center'}}>
+        <h2 style={{ fontSize: 'clamp(1.5rem, 6vw, 2rem)', fontWeight: 200, letterSpacing: '12px', color: '#94a3b8' }}>ととのう</h2>
       </div>
 
-      <div style={{position: 'absolute', bottom: '40px', zIndex: 10}}>
+      <div style={{position: 'absolute', bottom: 'calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px))', zIndex: 10}}>
          <button className="primary-btn" onClick={onNext} style={{ background: 'rgba(255,255,255,0.1)', fontSize: '1rem', padding: '12px 24px'}}>
             もう一度サウナへ
          </button>
