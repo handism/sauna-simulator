@@ -3,16 +3,21 @@ import './index.css';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
-import { useAudioEngine } from './hooks/useAudioEngine';
+import { useAudioEngine, AmbientEnv } from './hooks/useAudioEngine';
 
-type Stage = 'start' | 'sauna' | 'water' | 'totonou';
+type Stage = 'start' | AmbientEnv;
+
+const BACKGROUNDS: { stage: Stage; gradient: string; image: string }[] = [
+  { stage: 'sauna', gradient: 'rgba(0,0,0,0.4), rgba(0,0,0,0.7)', image: 'sauna_bg.png' },
+  { stage: 'water', gradient: 'rgba(0,0,0,0.2), rgba(0,0,0,0.6)', image: 'water_bg.png' },
+  { stage: 'totonou', gradient: 'rgba(0,0,0,0.5), rgba(0,0,0,0.8)', image: 'totonou_bg.png' },
+];
 
 function App() {
   const [stage, setStage] = useState<Stage>('start');
   const [opacity, setOpacity] = useState<number>(1);
   const audio = useAudioEngine();
 
-  // Handle cross-fading stage transitions
   const changeStage = (nextStage: Stage) => {
     setOpacity(0);
     setTimeout(() => {
@@ -29,13 +34,12 @@ function App() {
 
   return (
     <div className="app-container" style={{ background: '#000' }}>
-      
-      {/* Background Image Layers for smooth crossfading */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'sauna' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${import.meta.env.BASE_URL}sauna_bg.png)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'water' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${import.meta.env.BASE_URL}water_bg.png)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === 'totonou' ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url(${import.meta.env.BASE_URL}totonou_bg.png)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
 
-      {/* Foreground Content */}
+      {/* All backgrounds stay mounted for smooth crossfading */}
+      {BACKGROUNDS.map(({ stage: s, gradient, image }) => (
+        <div key={s} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: stage === s ? 1 : 0, transition: 'opacity 2s ease', backgroundImage: `linear-gradient(${gradient}), url(${import.meta.env.BASE_URL}${image})`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
+      ))}
+
       <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%' }}>
         {stage === 'start' && (
           <div style={{ textAlign: 'center', opacity: opacity, transition: 'opacity 1s', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>

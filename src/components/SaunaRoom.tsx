@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
 
 interface SaunaRoomProps {
@@ -11,7 +11,7 @@ interface Steam {
   left: string;
 }
 
-const SaunaRoom: React.FC<SaunaRoomProps> = ({ audio, onNext }) => {
+const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   const [temperature, setTemperature] = useState<number>(90);
   const [steams, setSteams] = useState<Steam[]>([]);
 
@@ -30,7 +30,6 @@ const SaunaRoom: React.FC<SaunaRoomProps> = ({ audio, onNext }) => {
     }, 4000);
   };
 
-  // Slowly lose heat over time
   useEffect(() => {
     const int = setInterval(() => {
       setTemperature(prev => Math.max(prev - 0.2, 85));
@@ -65,7 +64,6 @@ const SaunaRoom: React.FC<SaunaRoomProps> = ({ audio, onNext }) => {
          </button>
       </div>
 
-      {/* Renders steam animations */}
       {steams.map(steam => (
         <div 
           key={steam.id}
