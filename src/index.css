@@ -26,13 +26,13 @@ body {
   color: var(--text-main);
   background: var(--totonou-bg-end);
   overflow: hidden;
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   -webkit-font-smoothing: antialiased;
 }
 
 #root {
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
 }
 
@@ -44,6 +44,9 @@ body {
   border: 1px solid var(--glass-border);
   border-radius: 24px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
 }
 
 /* Base App Layout */
