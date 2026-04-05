@@ -3,9 +3,9 @@ import './index.css';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
-import { useAudioEngine } from './hooks/useAudioEngine';
+import { useAudioEngine, AmbientEnv } from './hooks/useAudioEngine';
 
-type Stage = 'start' | 'sauna' | 'water' | 'totonou';
+type Stage = 'start' | AmbientEnv;
 
 const BACKGROUNDS: { stage: Stage; gradient: string; image: string }[] = [
   { stage: 'sauna', gradient: 'rgba(0,0,0,0.4), rgba(0,0,0,0.7)', image: 'sauna_bg.png' },

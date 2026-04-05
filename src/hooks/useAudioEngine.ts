@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-type AmbientEnv = 'sauna' | 'water' | 'totonou';
+export type AmbientEnv = 'sauna' | 'water' | 'totonou';
 
 export interface AudioEngine {
   init: () => void;
@@ -110,7 +110,7 @@ export function useAudioEngine(): AudioEngine {
     if (!ctxRef.current) return;
     const ctx = ctxRef.current;
     
-    const bufferSize = ctx.sampleRate * 1.5;
+    const bufferSize = Math.floor(ctx.sampleRate * 1.5);
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < bufferSize; i++) {
