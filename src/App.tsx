@@ -43,8 +43,8 @@ function App() {
       <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%' }}>
         {stage === 'start' && (
           <div style={{ textAlign: 'center', opacity: opacity, transition: 'opacity 1s', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <h1 style={{ fontSize: '3rem', marginBottom: '1rem', letterSpacing: '4px', textTransform: 'uppercase', textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>ブラウザサウナ</h1>
-            <p style={{ marginBottom: '3rem', color: '#eaeaea', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>プレミアムな疑似サウナ体験</p>
+            <h1 style={{ fontSize: 'clamp(2rem, 8vw, 3rem)', marginBottom: '1rem', letterSpacing: '4px', textTransform: 'uppercase', textShadow: '0 4px 12px rgba(0,0,0,0.5)', textAlign: 'center' }}>ブラウザサウナ</h1>
+            <p style={{ fontSize: 'clamp(1rem, 4vw, 1.2rem)', marginBottom: '3rem', color: '#eaeaea', textShadow: '0 2px 8px rgba(0,0,0,0.5)', textAlign: 'center' }}>プレミアムな疑似サウナ体験</p>
             <button className="primary-btn" onClick={handleStart}>
               入室する
             </button>
