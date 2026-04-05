@@ -46,26 +46,6 @@ body {
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-/* Transitions */
-.fade-enter {
-  opacity: 0;
-  transform: scale(0.95);
-}
-.fade-enter-active {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 1000ms ease, transform 1000ms ease;
-}
-.fade-exit {
-  opacity: 1;
-  transform: scale(1);
-}
-.fade-exit-active {
-  opacity: 0;
-  transform: scale(1.05);
-  transition: opacity 800ms ease, transform 800ms ease;
-}
-
 /* Base App Layout */
 .app-container {
   width: 100%;

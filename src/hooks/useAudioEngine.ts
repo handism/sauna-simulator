@@ -1,8 +1,10 @@
 import { useRef, useCallback } from 'react';
 
+type AmbientEnv = 'sauna' | 'water' | 'totonou';
+
 export interface AudioEngine {
   init: () => void;
-  playAmbient: (env: string) => void;
+  playAmbient: (env: AmbientEnv) => void;
   playLoyly: () => void;
 }
 
@@ -13,7 +15,6 @@ export function useAudioEngine(): AudioEngine {
     filter?: BiquadFilterNode;
     gain: GainNode;
   } | null>(null);
-  const currentEnvRef = useRef<string>('none');
 
   const init = useCallback(() => {
     if (!ctxRef.current) {
@@ -38,15 +39,13 @@ export function useAudioEngine(): AudioEngine {
     }
   };
 
-  const playAmbient = useCallback((env: string) => {
+  const playAmbient = useCallback((env: AmbientEnv) => {
     if (!ctxRef.current) return;
     const ctx = ctxRef.current;
     
     stopAmbient();
-    currentEnvRef.current = env;
 
     if (env === 'sauna' || env === 'water') {
-      // Brown noise generator
       const bufferSize = ctx.sampleRate * 2;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -111,7 +110,6 @@ export function useAudioEngine(): AudioEngine {
     if (!ctxRef.current) return;
     const ctx = ctxRef.current;
     
-    // Quick burst of white noise for steam sizzle
     const bufferSize = ctx.sampleRate * 1.5;
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 interface CoolingBathProps {
   onNext: () => void;
@@ -10,11 +10,10 @@ interface Ripple {
   top: string;
 }
 
-const CoolingBath: React.FC<CoolingBathProps> = ({ onNext }) => {
+const CoolingBath = ({ onNext }: CoolingBathProps) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
 
   useEffect(() => {
-    // Add random ripples over time
     const int = setInterval(() => {
       const newRipple: Ripple = {
         id: Date.now(),
@@ -48,7 +47,6 @@ const CoolingBath: React.FC<CoolingBathProps> = ({ onNext }) => {
          </button>
       </div>
 
-      {/* Renders water ripples animations */}
       {ripples.map(r => (
         <div 
           key={r.id}
