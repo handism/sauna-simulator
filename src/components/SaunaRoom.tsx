@@ -58,7 +58,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
         </div>
       </div>
 
-      <div style={{position: 'absolute', bottom: 'clamp(20px, 8vh, 60px)', zIndex: 10}}>
+      <div style={{position: 'absolute', bottom: 'calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px))', zIndex: 10}}>
          <button className="primary-btn" onClick={onNext} style={{ background: 'rgba(56,189,248,0.2)', borderColor: 'rgba(56,189,248,0.5)'}}>
             限界.. 水風呂へ 💧
          </button>
