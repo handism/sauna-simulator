@@ -6,10 +6,12 @@ export interface AudioEngine {
   init: () => void;
   playAmbient: (env: AmbientEnv) => void;
   playLoyly: () => void;
+  setMuted: (muted: boolean) => void;
 }
 
 export function useAudioEngine(): AudioEngine {
   const ctxRef = useRef<AudioContext | null>(null);
+  const masterGainRef = useRef<GainNode | null>(null);
   const ambientNodesRef = useRef<{
     source: AudioBufferSourceNode | OscillatorNode | { stop: () => void };
     filter?: BiquadFilterNode;
@@ -23,6 +25,12 @@ export function useAudioEngine(): AudioEngine {
     }
     if (ctxRef.current.state === 'suspended') {
       ctxRef.current.resume();
+    }
+    if (!masterGainRef.current && ctxRef.current) {
+      const master = ctxRef.current.createGain();
+      master.gain.value = 0; // デフォルトミュート
+      master.connect(ctxRef.current.destination);
+      masterGainRef.current = master;
     }
   }, []);
 
@@ -73,7 +81,7 @@ export function useAudioEngine(): AudioEngine {
 
       source.connect(filter);
       filter.connect(gain);
-      gain.connect(ctx.destination);
+      gain.connect(masterGainRef.current!);
       source.start();
 
       ambientNodesRef.current = { source, filter, gain };
@@ -93,7 +101,7 @@ export function useAudioEngine(): AudioEngine {
 
       source.connect(gain);
       source2.connect(gain);
-      gain.connect(ctx.destination);
+      gain.connect(masterGainRef.current!);
       source.start();
       source2.start();
 
@@ -130,11 +138,21 @@ export function useAudioEngine(): AudioEngine {
 
     source.connect(filter);
     filter.connect(gain);
-    gain.connect(ctx.destination);
+    gain.connect(masterGainRef.current!);
 
     source.start();
     source.stop(ctx.currentTime + 1.5);
   }, []);
 
-  return { init, playAmbient, playLoyly };
+  const setMuted = useCallback((muted: boolean) => {
+    if (masterGainRef.current && ctxRef.current) {
+      masterGainRef.current.gain.setTargetAtTime(
+        muted ? 0 : 1,
+        ctxRef.current.currentTime,
+        0.05
+      );
+    }
+  }, []);
+
+  return { init, playAmbient, playLoyly, setMuted };
 }
