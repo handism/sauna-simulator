@@ -15,7 +15,13 @@ const BACKGROUNDS: { stage: Stage; gradient: string; image: string }[] = [
 
 function MuteButton({ isMuted, onToggle }: { isMuted: boolean; onToggle: () => void }) {
   return (
-    <button className="mute-btn" onClick={onToggle} aria-label={isMuted ? 'ミュート解除' : 'ミュート'}>
+    <button
+      type="button"
+      className="mute-btn"
+      onClick={onToggle}
+      aria-label={isMuted ? 'ミュート解除' : 'ミュート'}
+      aria-pressed={isMuted}
+    >
       {isMuted ? (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
