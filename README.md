@@ -22,10 +22,10 @@
 
 ```bash
 # パッケージのインストール
-npm install
+bun install
 
 # 開発サーバーの起動
-npm run dev
+bun run dev
 ```
 
 ## ビルド・検証
@@ -34,11 +34,11 @@ TypeScriptによる型チェックを行ってからビルドします。
 
 ```bash
 # 型チェックのみ実行する場合
-npx tsc --noEmit
+bunx tsc --noEmit
 
 # 本番ビルドを実行する場合
-npm run build
+bun run build
 
 # ビルドしたアプリのプレビュー
-npm run preview
+bun run preview
 ```
