@@ -17,6 +17,11 @@ export function useAudioEngine(): AudioEngine {
   const activeSourcesRef = useRef<{ stop: () => void }[]>([]);
   const activeGainsRef = useRef<GainNode[]>([]);
 
+  // 音源バッファのキャッシュ
+  const saunaNoiseBufferRef = useRef<AudioBuffer | null>(null);
+  const totonouWindBufferRef = useRef<AudioBuffer | null>(null);
+  const loylyWhiteNoiseBufferRef = useRef<AudioBuffer | null>(null);
+
   const init = useCallback(() => {
     if (!ctxRef.current) {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
@@ -68,20 +73,23 @@ export function useAudioEngine(): AudioEngine {
     const now = ctx.currentTime;
 
     if (env === 'sauna' || env === 'water') {
-      // ブラウンノイズに類似した低周波ノイズバッファの作成
-      const bufferSize = ctx.sampleRate * 2;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      let lastOut = 0;
-      for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        data[i] = (lastOut + (0.02 * white)) / 1.02;
-        lastOut = data[i];
-        data[i] *= 3.5;
+      // ブラウンノイズに類似した低周波ノイズバッファの作成・キャッシュ
+      if (!saunaNoiseBufferRef.current) {
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        let lastOut = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          data[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = data[i];
+          data[i] *= 3.5;
+        }
+        saunaNoiseBufferRef.current = buffer;
       }
       
       const source = ctx.createBufferSource();
-      source.buffer = buffer;
+      source.buffer = saunaNoiseBufferRef.current;
       source.loop = true;
 
       const filter = ctx.createBiquadFilter();
@@ -136,21 +144,24 @@ export function useAudioEngine(): AudioEngine {
       activeSourcesRef.current.push(oscL, oscR);
       activeGainsRef.current.push(humGain);
 
-      // 2. そよ風ノイズの合成
-      const windBufferSize = ctx.sampleRate * 3;
-      const windBuffer = ctx.createBuffer(1, windBufferSize, ctx.sampleRate);
-      const windData = windBuffer.getChannelData(0);
-      let lastOutWind = 0;
-      for (let i = 0; i < windBufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        // 低周波を強調するフィルタ処理
-        windData[i] = (lastOutWind + (0.015 * white)) / 1.015;
-        lastOutWind = windData[i];
-        windData[i] *= 5.0; // 音量補正
+      // 2. そよ風ノイズの合成・キャッシュ
+      if (!totonouWindBufferRef.current) {
+        const windBufferSize = ctx.sampleRate * 3;
+        const windBuffer = ctx.createBuffer(1, windBufferSize, ctx.sampleRate);
+        const windData = windBuffer.getChannelData(0);
+        let lastOutWind = 0;
+        for (let i = 0; i < windBufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          // 低周波を強調するフィルタ処理
+          windData[i] = (lastOutWind + (0.015 * white)) / 1.015;
+          lastOutWind = windData[i];
+          windData[i] *= 5.0; // 音量補正
+        }
+        totonouWindBufferRef.current = windBuffer;
       }
 
       const windSource = ctx.createBufferSource();
-      windSource.buffer = windBuffer;
+      windSource.buffer = totonouWindBufferRef.current;
       windSource.loop = true;
 
       const windFilter = ctx.createBiquadFilter();
@@ -190,17 +201,20 @@ export function useAudioEngine(): AudioEngine {
     const ctx = ctxRef.current;
     const now = ctx.currentTime;
     
-    // 共通のホワイトノイズバッファ (2.0秒)
-    const bufferSize = Math.floor(ctx.sampleRate * 2.0);
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
+    // 共通のホワイトノイズバッファ (2.0秒)の作成・キャッシュ
+    if (!loylyWhiteNoiseBufferRef.current) {
+      const bufferSize = Math.floor(ctx.sampleRate * 2.0);
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+      }
+      loylyWhiteNoiseBufferRef.current = buffer;
     }
 
     // --- 1. 高音のジュワー音 (瞬発的な沸騰) ---
     const sourceSizzle = ctx.createBufferSource();
-    sourceSizzle.buffer = buffer;
+    sourceSizzle.buffer = loylyWhiteNoiseBufferRef.current;
 
     const filterSizzle = ctx.createBiquadFilter();
     filterSizzle.type = 'highpass';
@@ -217,7 +231,7 @@ export function useAudioEngine(): AudioEngine {
 
     // --- 2. 低音・中音のフシュー音 (スチームの対流・部屋への拡散) ---
     const sourceSteam = ctx.createBufferSource();
-    sourceSteam.buffer = buffer;
+    sourceSteam.buffer = loylyWhiteNoiseBufferRef.current;
 
     const filterSteam = ctx.createBiquadFilter();
     filterSteam.type = 'bandpass';
