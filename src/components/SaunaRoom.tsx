@@ -12,9 +12,15 @@ interface Steam {
 }
 
 const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
-  const [temperature, setTemperature] = useState<number>(90);
-  const [humidity, setHumidity] = useState<number>(15);
-  const [heartRate, setHeartRate] = useState<number>(75);
+  const [saunaState, setSaunaState] = useState<{
+    temperature: number;
+    humidity: number;
+    heartRate: number;
+  }>({
+    temperature: 90,
+    humidity: 15,
+    heartRate: 75,
+  });
   const [steams, setSteams] = useState<Steam[]>([]);
   const [isSteaming, setIsSteaming] = useState<boolean>(false);
   
@@ -22,11 +28,16 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   const loylyCountRef = useRef<number>(0);
   const steamTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const { temperature, humidity, heartRate } = saunaState;
+
   // ロウリュ実行
   const handleLoyly = () => {
     audio.playLoyly();
-    setTemperature(prev => Math.min(prev + 3, 110));
-    setHumidity(prev => Math.min(prev + 25, 90));
+    setSaunaState(prev => ({
+      ...prev,
+      temperature: Math.min(prev.temperature + 3, 110),
+      humidity: Math.min(prev.humidity + 25, 90),
+    }));
     loylyCountRef.current += 1;
     
     // スチーム曇り演出トリガー
@@ -57,25 +68,24 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
       // 滞在時間カウント
       secondsRef.current += 1;
 
-      // 自然減衰 (温度と湿度は徐々に下がる)
-      setTemperature(prev => Math.max(prev - 0.05, 85));
-      setHumidity(prev => Math.max(prev - 0.4, 12));
+      setSaunaState(prev => {
+        // 自然減衰 (温度と湿度は徐々に下がる)
+        const nextTemp = Math.max(prev.temperature - 0.05, 85);
+        const nextHum = Math.max(prev.humidity - 0.4, 12);
 
-      // 体感温度の算出 (簡易Heat Index)
-      // 湿度が上がると体感温度が急激に上がる
-      setHumidity(currentHum => {
-        setTemperature(currentTemp => {
-          const heatIndex = currentTemp + (currentHum * 0.45);
-          
-          // 体感温度に応じて心拍数が徐々に上昇
-          setHeartRate(prevHeart => {
-            const hrIncrease = (heatIndex - 70) * 0.006;
-            return Math.min(prevHeart + Math.max(hrIncrease, 0.02), 155);
-          });
+        // 体感温度の算出 (簡易Heat Index)
+        // 湿度が上がると体感温度が急激に上がる
+        const heatIndex = nextTemp + (nextHum * 0.45);
+        
+        // 体感温度に応じて心拍数が徐々に上昇
+        const hrIncrease = (heatIndex - 70) * 0.006;
+        const nextHeartRate = Math.min(prev.heartRate + Math.max(hrIncrease, 0.02), 155);
 
-          return currentTemp;
-        });
-        return currentHum;
+        return {
+          temperature: nextTemp,
+          humidity: nextHum,
+          heartRate: nextHeartRate
+        };
       });
 
     }, 1000);

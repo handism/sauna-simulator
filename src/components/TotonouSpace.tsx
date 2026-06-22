@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface TotonouSpaceProps {
   saunaTime: number;
@@ -11,32 +11,31 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
   const [breathText, setBreathText] = useState<string>('吸って...');
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [totonouLevel, setTotonouLevel] = useState<number>(0);
-  
-  const maxTotonouRef = useRef<number>(0);
-  const feedbackRef = useRef<string>('');
 
-  // ととのいスコアの計算 (初回マウント時に一度だけ計算)
-  useEffect(() => {
+  // ととのいスコアの計算とフィードバックの決定 (useMemo で宣言的に算出)
+  const { maxTotonou, feedback } = useMemo(() => {
     // サウナスコア (最大55点): 50秒以上滞在で満点、ロウリュ1回につき+5点
     const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
     // 水風呂スコア (最大40点): 20秒以上滞在で満点
     const waterScore = Math.min(waterTime / 20, 1.0) * 40;
     
     const totalScore = Math.min(Math.round(saunaScore + waterScore), 100);
-    maxTotonouRef.current = totalScore;
 
     // スコアに応じたフィードバック
+    let text = '';
     if (totalScore >= 90) {
-      feedbackRef.current = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
+      text = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
     } else if (totalScore >= 70) {
-      feedbackRef.current = 'しっかり「ととのい」の波が押し寄せています 🧘';
+      text = 'しっかり「ととのい」の波が押し寄せています 🧘';
     } else if (saunaTime < 15) {
-      feedbackRef.current = 'サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥';
+      text = 'サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥';
     } else if (waterTime < 8) {
-      feedbackRef.current = '水風呂の冷却が短かったようです。羽衣を感じるまで浸かってみましょう 💧';
+      text = '水風呂の冷却が短かったようです。羽衣を感じるまで浸かってみましょう 💧';
     } else {
-      feedbackRef.current = '心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃';
+      text = '心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃';
     }
+
+    return { maxTotonou: totalScore, feedback: text };
   }, [saunaTime, waterTime, loylyCount]);
 
   // 呼吸の切り替えサイクル (4秒吸って、4秒吐く)
@@ -56,18 +55,18 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
   useEffect(() => {
     const totonouInterval = setInterval(() => {
       setTotonouLevel(prev => {
-        if (prev >= maxTotonouRef.current) {
+        if (prev >= maxTotonou) {
           clearInterval(totonouInterval);
-          return maxTotonouRef.current;
+          return maxTotonou;
         }
         // 徐々に減速しながら目標値に近づくイージング
-        const step = Math.max((maxTotonouRef.current - prev) * 0.05, 0.2);
-        return Math.min(prev + step, maxTotonouRef.current);
+        const step = Math.max((maxTotonou - prev) * 0.05, 0.2);
+        return Math.min(prev + step, maxTotonou);
       });
     }, 100);
 
     return () => clearInterval(totonouInterval);
-  }, []);
+  }, [maxTotonou]);
 
   return (
     <div style={{
@@ -169,7 +168,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
         </div>
 
         {/* フィードバックコメント */}
-        {totonouLevel >= maxTotonouRef.current * 0.95 && (
+        {totonouLevel >= maxTotonou * 0.95 && (
           <p 
             style={{ 
               fontSize: '0.85rem', 
@@ -180,7 +179,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
               animation: 'steam-blur-fade 1.5s ease-out'
             }}
           >
-            {feedbackRef.current}
+            {feedback}
           </p>
         )}
       </div>
