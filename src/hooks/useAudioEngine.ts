@@ -12,11 +12,10 @@ export interface AudioEngine {
 export function useAudioEngine(): AudioEngine {
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
-  const ambientNodesRef = useRef<{
-    source: AudioBufferSourceNode | OscillatorNode | { stop: () => void };
-    filter?: BiquadFilterNode;
-    gain: GainNode;
-  } | null>(null);
+  
+  // 稼働中のソースとゲインを追跡し、フェードアウト後に安全に停止する
+  const activeSourcesRef = useRef<{ stop: () => void }[]>([]);
+  const activeGainsRef = useRef<GainNode[]>([]);
 
   const init = useCallback(() => {
     if (!ctxRef.current) {
@@ -34,26 +33,42 @@ export function useAudioEngine(): AudioEngine {
     }
   }, []);
 
-  const stopAmbient = () => {
-    if (ambientNodesRef.current) {
-      const { source, gain } = ambientNodesRef.current;
-      if (ctxRef.current) {
-        gain.gain.setTargetAtTime(0, ctxRef.current.currentTime, 0.5);
+  const stopAmbient = useCallback(() => {
+    if (!ctxRef.current) return;
+    const now = ctxRef.current.currentTime;
+    
+    // 全ての進行中ゲインを滑らかにフェードアウト
+    activeGainsRef.current.forEach(gain => {
+      try {
+        gain.gain.cancelScheduledValues(now);
+        gain.gain.setTargetAtTime(0, now, 0.4);
+      } catch (e) {
+        console.error('Failed to fade out gain', e);
       }
-      setTimeout(() => {
-        try { source.stop(); } catch(e){}
-      }, 1000);
-      ambientNodesRef.current = null;
-    }
-  };
+    });
+
+    const sourcesToStop = [...activeSourcesRef.current];
+    activeSourcesRef.current = [];
+    activeGainsRef.current = [];
+
+    // フェードアウト完了後に停止
+    setTimeout(() => {
+      sourcesToStop.forEach(src => {
+        try { src.stop(); } catch(e){}
+      });
+    }, 1200);
+  }, []);
 
   const playAmbient = useCallback((env: AmbientEnv) => {
-    if (!ctxRef.current) return;
+    if (!ctxRef.current || !masterGainRef.current) return;
     const ctx = ctxRef.current;
     
     stopAmbient();
 
+    const now = ctx.currentTime;
+
     if (env === 'sauna' || env === 'water') {
+      // ブラウンノイズに類似した低周波ノイズバッファの作成
       const bufferSize = ctx.sampleRate * 2;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -64,95 +79,175 @@ export function useAudioEngine(): AudioEngine {
         lastOut = data[i];
         data[i] *= 3.5;
       }
+      
       const source = ctx.createBufferSource();
       source.buffer = buffer;
       source.loop = true;
 
       const filter = ctx.createBiquadFilter();
       filter.type = env === 'sauna' ? 'lowpass' : 'bandpass';
-      filter.frequency.value = env === 'sauna' ? 300 : 1500;
+      filter.frequency.value = env === 'sauna' ? 250 : 1200;
       if (env === 'water') {
-         filter.Q.value = 0.5;
+         filter.Q.value = 0.6;
       }
 
       const gain = ctx.createGain();
       gain.gain.value = 0;
-      gain.gain.setTargetAtTime(env === 'sauna' ? 0.3 : 0.4, ctx.currentTime, 1);
+      gain.gain.setTargetAtTime(env === 'sauna' ? 0.35 : 0.45, now, 1.0);
 
       source.connect(filter);
       filter.connect(gain);
-      gain.connect(masterGainRef.current!);
+      gain.connect(masterGainRef.current);
       source.start();
 
-      ambientNodesRef.current = { source, filter, gain };
+      activeSourcesRef.current.push(source);
+      activeGainsRef.current.push(gain);
 
     } else if (env === 'totonou') {
-      const source = ctx.createOscillator();
-      source.type = 'sine';
-      source.frequency.value = 110; // low deep hum (A2)
+      // 1. ととのい誘発バイノーラルビート (A2: 110Hz と 112.5Hz)
+      const oscL = ctx.createOscillator();
+      oscL.type = 'sine';
+      oscL.frequency.value = 110;
+
+      const oscR = ctx.createOscillator();
+      oscR.type = 'sine';
+      oscR.frequency.value = 112.5;
+
+      // 左右にパンニングしてバイノーラル効果を高める
+      const pannerL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+      const pannerR = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+      if (pannerL) pannerL.pan.value = -0.8;
+      if (pannerR) pannerR.pan.value = 0.8;
+
+      const humGain = ctx.createGain();
+      humGain.gain.value = 0;
+      humGain.gain.setTargetAtTime(0.25, now, 2.0);
+
+      if (pannerL && pannerR) {
+        oscL.connect(pannerL).connect(humGain);
+        oscR.connect(pannerR).connect(humGain);
+      } else {
+        oscL.connect(humGain);
+        oscR.connect(humGain);
+      }
+
+      oscL.start();
+      oscR.start();
+      activeSourcesRef.current.push(oscL, oscR);
+      activeGainsRef.current.push(humGain);
+
+      // 2. そよ風ノイズの合成
+      const windBufferSize = ctx.sampleRate * 3;
+      const windBuffer = ctx.createBuffer(1, windBufferSize, ctx.sampleRate);
+      const windData = windBuffer.getChannelData(0);
+      let lastOutWind = 0;
+      for (let i = 0; i < windBufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        // 低周波を強調するフィルタ処理
+        windData[i] = (lastOutWind + (0.015 * white)) / 1.015;
+        lastOutWind = windData[i];
+        windData[i] *= 5.0; // 音量補正
+      }
+
+      const windSource = ctx.createBufferSource();
+      windSource.buffer = windBuffer;
+      windSource.loop = true;
+
+      const windFilter = ctx.createBiquadFilter();
+      windFilter.type = 'lowpass';
+      windFilter.frequency.value = 200; // 低い風のささやき
+
+      const windGain = ctx.createGain();
+      windGain.gain.value = 0.04;
+
+      // LFOで風の強弱を不規則に揺らす
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 0.08; // 超低頻度 (約12.5秒周期)
       
-      const source2 = ctx.createOscillator();
-      source2.type = 'sine';
-      source2.frequency.value = 112; // binaural beats effect
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 0.03; // ゲインの揺れ幅
 
-      const gain = ctx.createGain();
-      gain.gain.value = 0;
-      gain.gain.setTargetAtTime(0.2, ctx.currentTime, 2);
+      lfo.connect(lfoGain);
+      lfoGain.connect(windGain.gain);
 
-      source.connect(gain);
-      source2.connect(gain);
-      gain.connect(masterGainRef.current!);
-      source.start();
-      source2.start();
+      windSource.connect(windFilter);
+      windFilter.connect(windGain);
+      windGain.connect(masterGainRef.current);
 
-      ambientNodesRef.current = { 
-        source: {
-          stop: () => { source.stop(); source2.stop(); }
-        }, 
-        gain 
-      };
+      windSource.start();
+      lfo.start();
+
+      activeSourcesRef.current.push(windSource, lfo);
+      activeGainsRef.current.push(windGain);
+      
+      humGain.connect(masterGainRef.current);
     }
-  }, []);
+  }, [stopAmbient]);
 
+  // ロウリュ音：二段階変化（ジュワーの高域 ➔ フシューの中低域）
   const playLoyly = useCallback(() => {
-    if (!ctxRef.current) return;
+    if (!ctxRef.current || !masterGainRef.current) return;
     const ctx = ctxRef.current;
+    const now = ctx.currentTime;
     
-    const bufferSize = Math.floor(ctx.sampleRate * 1.5);
+    // 共通のホワイトノイズバッファ (2.0秒)
+    const bufferSize = Math.floor(ctx.sampleRate * 2.0);
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < bufferSize; i++) {
         data[i] = Math.random() * 2 - 1;
     }
-    const source = ctx.createBufferSource();
-    source.buffer = buffer;
 
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'highpass';
-    filter.frequency.setValueAtTime(800, ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(3000, ctx.currentTime + 1.2);
+    // --- 1. 高音のジュワー音 (瞬発的な沸騰) ---
+    const sourceSizzle = ctx.createBufferSource();
+    sourceSizzle.buffer = buffer;
 
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.5, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.5);
+    const filterSizzle = ctx.createBiquadFilter();
+    filterSizzle.type = 'highpass';
+    filterSizzle.frequency.setValueAtTime(3500, now);
+    filterSizzle.frequency.exponentialRampToValueAtTime(7000, now + 0.6);
 
-    source.connect(filter);
-    filter.connect(gain);
-    gain.connect(masterGainRef.current!);
+    const gainSizzle = ctx.createGain();
+    gainSizzle.gain.setValueAtTime(0.55, now);
+    gainSizzle.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
 
-    source.start();
-    source.stop(ctx.currentTime + 1.5);
+    sourceSizzle.connect(filterSizzle).connect(gainSizzle).connect(masterGainRef.current);
+    sourceSizzle.start(now);
+    sourceSizzle.stop(now + 0.8);
+
+    // --- 2. 低音・中音のフシュー音 (スチームの対流・部屋への拡散) ---
+    const sourceSteam = ctx.createBufferSource();
+    sourceSteam.buffer = buffer;
+
+    const filterSteam = ctx.createBiquadFilter();
+    filterSteam.type = 'bandpass';
+    filterSteam.frequency.setValueAtTime(800, now);
+    filterSteam.frequency.exponentialRampToValueAtTime(2500, now + 1.2);
+    filterSteam.Q.value = 1.0;
+
+    const gainSteam = ctx.createGain();
+    // 少し遅れて立ち上がるようにする
+    gainSteam.gain.setValueAtTime(0, now);
+    gainSteam.gain.linearRampToValueAtTime(0.35, now + 0.25);
+    gainSteam.gain.exponentialRampToValueAtTime(0.005, now + 2.0);
+
+    sourceSteam.connect(filterSteam).connect(gainSteam).connect(masterGainRef.current);
+    sourceSteam.start(now);
+    sourceSteam.stop(now + 2.0);
   }, []);
 
   const setMuted = useCallback((muted: boolean) => {
     if (masterGainRef.current && ctxRef.current) {
+      const now = ctxRef.current.currentTime;
+      masterGainRef.current.gain.cancelScheduledValues(now);
       masterGainRef.current.gain.setTargetAtTime(
         muted ? 0 : 1,
-        ctxRef.current.currentTime,
-        0.05
+        now,
+        0.08
       );
     }
   }, []);
 
   return { init, playAmbient, playLoyly, setMuted };
 }
+

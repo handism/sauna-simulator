@@ -135,3 +135,154 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+/* --- Premium Animations & Styles --- */
+
+/* Steam Blur Overlay (Sauna Room) */
+.steam-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+}
+
+.steam-overlay.active {
+  animation: steam-blur-fade 7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes steam-blur-fade {
+  0% {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    background: rgba(255, 255, 255, 0);
+    opacity: 0;
+  }
+  15% {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 0.9;
+  }
+  45% {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.12);
+    opacity: 0.7;
+  }
+  100% {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    background: rgba(255, 255, 255, 0);
+    opacity: 0;
+  }
+}
+
+/* Cooling Glow Overlay (Water Bath) */
+.cooling-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 8;
+  transition: box-shadow 0.3s ease;
+}
+
+@keyframes glow-pulse {
+  0% { box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25); }
+  50% { box-shadow: inset 0 0 100px rgba(56, 189, 248, 0.6); }
+  100% { box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25); }
+}
+
+/* Aurora Backdrop (Totonou Space) */
+.aurora-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0.65;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(15, 23, 42, 0.8) 0%, rgba(2, 6, 23, 1) 100%);
+  transition: opacity 2s ease;
+}
+
+.aurora-blob {
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  max-width: 600px;
+  max-height: 600px;
+  border-radius: 50%;
+  filter: blur(80px);
+  -webkit-filter: blur(80px);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.aurora-blob.one {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, transparent 70%);
+  top: -10%;
+  left: -10%;
+  animation: float-aurora 25s infinite alternate ease-in-out;
+}
+
+.aurora-blob.two {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.45) 0%, transparent 70%);
+  bottom: -15%;
+  right: -10%;
+  animation: float-aurora 32s infinite alternate-reverse ease-in-out;
+}
+
+.aurora-blob.three {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%);
+  top: 35%;
+  left: 30%;
+  animation: float-aurora 20s infinite alternate ease-in-out -7s;
+}
+
+@keyframes float-aurora {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(12%, 8%) scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: translate(-6%, -10%) scale(0.9) rotate(360deg);
+  }
+}
+
+/* Premium Breathing Circle with Glow */
+.breathing-circle-premium {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 50%, transparent 70%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1), background 4s ease;
+  z-index: 10;
+}
+
+/* Dashboard Metrics for Simulator feeling */
+.dashboard-value {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
