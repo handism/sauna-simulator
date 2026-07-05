@@ -9,20 +9,62 @@ export interface AudioEngine {
   setMuted: (muted: boolean) => void;
 }
 
-function generateSecureWhiteNoise(length: number): Float32Array {
+// Web Worker for offloading expensive audio buffer generation
+const workerCode = `
+self.onmessage = function(e) {
+  const { id, type, length } = e.data;
   const data = new Float32Array(length);
-  const maxElements = 16384; // 65536 bytes limit / 4 bytes per Uint32
+  const maxElements = 16384;
   const randomValues = new Uint32Array(maxElements);
 
+  let lastOut = 0;
   for (let i = 0; i < length; i += maxElements) {
     const chunkLength = Math.min(maxElements, length - i);
     const chunk = chunkLength === maxElements ? randomValues : new Uint32Array(chunkLength);
-    window.crypto.getRandomValues(chunk);
+    self.crypto.getRandomValues(chunk);
     for (let j = 0; j < chunkLength; j++) {
-      data[i + j] = (chunk[j] / 4294967295) * 2 - 1;
+      const white = (chunk[j] / 4294967295) * 2 - 1;
+      if (type === 'saunaNoise') {
+        data[i + j] = (lastOut + (0.02 * white)) / 1.02;
+        lastOut = data[i + j];
+        data[i + j] *= 3.5;
+      } else if (type === 'windNoise') {
+        data[i + j] = (lastOut + (0.015 * white)) / 1.015;
+        lastOut = data[i + j];
+        data[i + j] *= 5.0;
+      } else {
+        data[i + j] = white;
+      }
     }
   }
-  return data;
+  self.postMessage({ id, data }, [data.buffer]);
+};
+`;
+
+let audioWorker: Worker | null = null;
+let msgIdCounter = 0;
+const resolvers = new Map<number, (data: Float32Array) => void>();
+
+// A wrapper to handle concurrent requests to the worker
+function generateBufferAsync(type: 'whiteNoise' | 'saunaNoise' | 'windNoise', length: number): Promise<Float32Array> {
+  return new Promise((resolve) => {
+    if (!audioWorker) {
+      const blob = new Blob([workerCode], { type: 'application/javascript' });
+      audioWorker = new Worker(URL.createObjectURL(blob));
+      audioWorker.onmessage = (e) => {
+        const { id, data } = e.data;
+        const resolveFn = resolvers.get(id);
+        if (resolveFn) {
+          resolveFn(data);
+          resolvers.delete(id);
+        }
+      };
+    }
+
+    const id = msgIdCounter++;
+    resolvers.set(id, resolve);
+    audioWorker.postMessage({ id, type, length });
+  });
 }
 
 export function useAudioEngine(): AudioEngine {
@@ -54,7 +96,10 @@ export function useAudioEngine(): AudioEngine {
     }
   }, []);
 
+  const currentEnvRef = useRef<AmbientEnv | null>(null);
+
   const stopAmbient = useCallback(() => {
+    currentEnvRef.current = null;
     if (!ctxRef.current) return;
     const now = ctxRef.current.currentTime;
     
@@ -80,31 +125,26 @@ export function useAudioEngine(): AudioEngine {
     }, 1200);
   }, []);
 
-  const playAmbient = useCallback((env: AmbientEnv) => {
+  const playAmbient = useCallback(async (env: AmbientEnv) => {
     if (!ctxRef.current || !masterGainRef.current) return;
     const ctx = ctxRef.current;
     
+    currentEnvRef.current = env;
     stopAmbient();
 
-    const now = ctx.currentTime;
-
     if (env === 'sauna' || env === 'water') {
-      // ブラウンノイズに類似した低周波ノイズバッファの作成・キャッシュ
       if (!saunaNoiseBufferRef.current) {
         const bufferSize = ctx.sampleRate * 2;
+        const generatedData = await generateBufferAsync('saunaNoise', bufferSize);
+        // Ensure we haven't switched environments while waiting
+        if (currentEnvRef.current !== env) return;
+
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        const whiteNoise = generateSecureWhiteNoise(bufferSize);
-        let lastOut = 0;
-        for (let i = 0; i < bufferSize; i++) {
-          const white = whiteNoise[i];
-          data[i] = (lastOut + (0.02 * white)) / 1.02;
-          lastOut = data[i];
-          data[i] *= 3.5;
-        }
+        buffer.copyToChannel(generatedData, 0);
         saunaNoiseBufferRef.current = buffer;
       }
       
+      const now = ctx.currentTime;
       const source = ctx.createBufferSource();
       source.buffer = saunaNoiseBufferRef.current;
       source.loop = true;
@@ -129,6 +169,8 @@ export function useAudioEngine(): AudioEngine {
       activeGainsRef.current.push(gain);
 
     } else if (env === 'totonou') {
+      const now = ctx.currentTime;
+
       // 1. ととのい誘発バイノーラルビート (A2: 110Hz と 112.5Hz)
       const oscL = ctx.createOscillator();
       oscL.type = 'sine';
@@ -138,7 +180,6 @@ export function useAudioEngine(): AudioEngine {
       oscR.type = 'sine';
       oscR.frequency.value = 112.5;
 
-      // 左右にパンニングしてバイノーラル効果を高める
       const pannerL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
       const pannerR = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
       if (pannerL) pannerL.pan.value = -0.8;
@@ -160,21 +201,16 @@ export function useAudioEngine(): AudioEngine {
       oscR.start();
       activeSourcesRef.current.push(oscL, oscR);
       activeGainsRef.current.push(humGain);
+      humGain.connect(masterGainRef.current);
 
       // 2. そよ風ノイズの合成・キャッシュ
       if (!totonouWindBufferRef.current) {
         const windBufferSize = ctx.sampleRate * 3;
+        const generatedData = await generateBufferAsync('windNoise', windBufferSize);
+        if (currentEnvRef.current !== env) return;
+
         const windBuffer = ctx.createBuffer(1, windBufferSize, ctx.sampleRate);
-        const windData = windBuffer.getChannelData(0);
-        const whiteNoise = generateSecureWhiteNoise(windBufferSize);
-        let lastOutWind = 0;
-        for (let i = 0; i < windBufferSize; i++) {
-          const white = whiteNoise[i];
-          // 低周波を強調するフィルタ処理
-          windData[i] = (lastOutWind + (0.015 * white)) / 1.015;
-          lastOutWind = windData[i];
-          windData[i] *= 5.0; // 音量補正
-        }
+        windBuffer.copyToChannel(generatedData, 0);
         totonouWindBufferRef.current = windBuffer;
       }
 
@@ -189,7 +225,6 @@ export function useAudioEngine(): AudioEngine {
       const windGain = ctx.createGain();
       windGain.gain.value = 0.04;
 
-      // LFOで風の強弱を不規則に揺らす
       const lfo = ctx.createOscillator();
       lfo.frequency.value = 0.08; // 超低頻度 (約12.5秒周期)
       
@@ -208,25 +243,22 @@ export function useAudioEngine(): AudioEngine {
 
       activeSourcesRef.current.push(windSource, lfo);
       activeGainsRef.current.push(windGain);
-      
-      humGain.connect(masterGainRef.current);
     }
   }, [stopAmbient]);
 
-  // ロウリュ音：二段階変化（ジュワーの高域 ➔ フシューの中低域）
-  const playLoyly = useCallback(() => {
+  const playLoyly = useCallback(async () => {
     if (!ctxRef.current || !masterGainRef.current) return;
     const ctx = ctxRef.current;
-    const now = ctx.currentTime;
     
-    // 共通のホワイトノイズバッファ (2.0秒)の作成・キャッシュ
     if (!loylyWhiteNoiseBufferRef.current) {
       const bufferSize = Math.floor(ctx.sampleRate * 2.0);
+      const generatedData = await generateBufferAsync('whiteNoise', bufferSize);
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      data.set(generateSecureWhiteNoise(bufferSize));
+      buffer.copyToChannel(generatedData, 0);
       loylyWhiteNoiseBufferRef.current = buffer;
     }
+
+    const now = ctx.currentTime;
 
     // --- 1. 高音のジュワー音 (瞬発的な沸騰) ---
     const sourceSizzle = ctx.createBufferSource();
