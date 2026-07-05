@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { calculateTotonouScore } from './TotonouSpace';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, screen, act, fireEvent } from '@testing-library/react';
+import TotonouSpace, { calculateTotonouScore } from './TotonouSpace';
 
 describe('calculateTotonouScore', () => {
   it('should calculate perfect score correctly', () => {
@@ -64,5 +65,54 @@ describe('calculateTotonouScore', () => {
     const { maxTotonou, feedback } = calculateTotonouScore(15, 8, 0);
     expect(maxTotonou).toBe(31);
     expect(feedback).toBe('心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃');
+  });
+});
+
+describe('TotonouSpace Component', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should render correctly and display initial breathing text', () => {
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={() => {}} />);
+    expect(screen.getByText('外気浴')).toBeInTheDocument();
+    expect(screen.getByText('風の音に身を任せて')).toBeInTheDocument();
+    expect(screen.getByText('吸って...')).toBeInTheDocument();
+  });
+
+  it('should change breathing text cyclically', () => {
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={() => {}} />);
+
+    // Initially "吸って..."
+    expect(screen.getByText('吸って...')).toBeInTheDocument();
+
+    // Advance by 4000ms
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+
+    // Should change to "吐いて..."
+    expect(screen.getByText('吐いて...')).toBeInTheDocument();
+
+    // Advance by another 4000ms
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+
+    // Should change back to "吸って..."
+    expect(screen.getByText('吸って...')).toBeInTheDocument();
+  });
+
+  it('should call onNext when button is clicked', () => {
+    const mockOnNext = vi.fn();
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={mockOnNext} />);
+
+    const button = screen.getByRole('button', { name: /もう一度サウナへ/ });
+    fireEvent.click(button);
+    expect(mockOnNext).toHaveBeenCalledTimes(1);
   });
 });
