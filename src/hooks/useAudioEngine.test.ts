@@ -59,6 +59,7 @@ class MockAudioBuffer {
     this.sampleRate = sampleRate;
   }
   getChannelData = vi.fn().mockImplementation(() => new Float32Array(this.length));
+  copyToChannel = vi.fn();
   set = vi.fn();
 }
 
@@ -87,9 +88,11 @@ class MockAudioContext {
 describe('useAudioEngine', () => {
   let originalAudioContext: any;
   let originalCrypto: any;
+  let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
     vi.useFakeTimers();
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     mockCreateGain.mockClear();
     mockCreateBiquadFilter.mockClear();
@@ -119,6 +122,7 @@ describe('useAudioEngine', () => {
   });
 
   afterEach(() => {
+    consoleErrorSpy.mockRestore();
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
     vi.restoreAllMocks();
@@ -161,7 +165,7 @@ describe('useAudioEngine', () => {
     expect(masterGain.gain.setTargetAtTime).toHaveBeenCalledWith(0, expect.any(Number), 0.08);
   });
 
-  it('plays sauna ambient sound', () => {
+  it('plays sauna ambient sound', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
@@ -170,8 +174,8 @@ describe('useAudioEngine', () => {
 
     mockCreateGain.mockClear();
 
-    act(() => {
-      result.current.playAmbient('sauna');
+    await act(async () => {
+      await result.current.playAmbient('sauna');
     });
 
     expect(mockCreateBuffer).toHaveBeenCalledTimes(1);
@@ -191,7 +195,7 @@ describe('useAudioEngine', () => {
     expect(gain.gain.setTargetAtTime).toHaveBeenCalledWith(0.35, expect.any(Number), 1.0);
   });
 
-  it('plays water ambient sound', () => {
+  it('plays water ambient sound', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
@@ -200,8 +204,8 @@ describe('useAudioEngine', () => {
 
     mockCreateGain.mockClear();
 
-    act(() => {
-      result.current.playAmbient('water');
+    await act(async () => {
+      await result.current.playAmbient('water');
     });
 
     const filter = mockCreateBiquadFilter.mock.results[0].value;
@@ -213,7 +217,7 @@ describe('useAudioEngine', () => {
     expect(gain.gain.setTargetAtTime).toHaveBeenCalledWith(0.45, expect.any(Number), 1.0);
   });
 
-  it('plays totonou ambient sound (binaural beats + wind)', () => {
+  it('plays totonou ambient sound (binaural beats + wind)', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
@@ -224,8 +228,8 @@ describe('useAudioEngine', () => {
     mockCreateOscillator.mockClear();
     mockCreateBufferSource.mockClear();
 
-    act(() => {
-      result.current.playAmbient('totonou');
+    await act(async () => {
+      await result.current.playAmbient('totonou');
     });
 
     // 2 sine oscillators for binaural, 1 for LFO
@@ -253,7 +257,7 @@ describe('useAudioEngine', () => {
     expect(windSource.start).toHaveBeenCalled();
   });
 
-  it('plays loyly sounds (sizzle and steam)', () => {
+  it('plays loyly sounds (sizzle and steam)', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
@@ -264,8 +268,8 @@ describe('useAudioEngine', () => {
     mockCreateBiquadFilter.mockClear();
     mockCreateBufferSource.mockClear();
 
-    act(() => {
-      result.current.playLoyly();
+    await act(async () => {
+      await result.current.playLoyly();
     });
 
     // Sizzle and Steam sources
@@ -284,22 +288,22 @@ describe('useAudioEngine', () => {
     expect(filterSteam.frequency.setValueAtTime).toHaveBeenCalledWith(800, expect.any(Number));
   });
 
-  it('stops previous ambient sounds when playing new one', () => {
+  it('stops previous ambient sounds when playing new one', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
       result.current.init();
     });
 
-    act(() => {
-      result.current.playAmbient('sauna');
+    await act(async () => {
+      await result.current.playAmbient('sauna');
     });
 
     const initialSource = mockCreateBufferSource.mock.results[0].value;
     const initialGain = mockCreateGain.mock.results[1].value; // 0 is master gain, 1 is sauna gain
 
-    act(() => {
-      result.current.playAmbient('water');
+    await act(async () => {
+      await result.current.playAmbient('water');
     });
 
     expect(initialGain.gain.cancelScheduledValues).toHaveBeenCalled();
@@ -311,5 +315,29 @@ describe('useAudioEngine', () => {
     });
 
     expect(initialSource.stop).toHaveBeenCalled();
+  });
+
+  it('catches and logs errors when fading out gains during stopAmbient', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+
+    act(() => {
+      result.current.init();
+    });
+
+    await act(async () => {
+      await result.current.playAmbient('sauna');
+    });
+
+    const testError = new Error('Test fade out error');
+    const activeGain = mockCreateGain.mock.results[mockCreateGain.mock.results.length - 1].value;
+    activeGain.gain.cancelScheduledValues.mockImplementation(() => {
+      throw testError;
+    });
+
+    await act(async () => {
+      await result.current.playAmbient('water');
+    });
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to fade out gain', testError);
   });
 });
