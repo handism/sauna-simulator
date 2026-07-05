@@ -56,13 +56,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   const pulseSpeed = 60 / heartRate;
 
   return (
-    <div style={{
-      width: '100%', height: '100%', 
-      display: 'flex', flexDirection: 'column', 
-      alignItems: 'center', justifyContent: 'center',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <div className="scene-container">
       {/* 冷気インセットグローオーバーレイ。心拍と同期して脈動 */}
       <div 
         className="cooling-glow" 
