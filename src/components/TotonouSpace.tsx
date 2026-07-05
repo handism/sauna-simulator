@@ -58,6 +58,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
   useEffect(() => {
     let animationFrameId: number;
     let currentLevel = 0;
+    let feedbackShown = false;
 
     // FPS非依存のイージングのために前回時刻を記録
     let lastTime = performance.now();
@@ -94,8 +95,10 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
         totonouBarRef.current.style.width = `${currentLevel}%`;
       }
 
-      if (currentLevel >= maxTotonou * 0.95) {
-        setShowFeedback(prev => (prev ? prev : true));
+      // フィードバック表示は一度だけ setState を呼ぶ
+      if (!feedbackShown && currentLevel >= maxTotonou * 0.95) {
+        feedbackShown = true;
+        setShowFeedback(true);
       }
 
       if (currentLevel < maxTotonou) {
