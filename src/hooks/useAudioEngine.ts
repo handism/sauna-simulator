@@ -59,7 +59,7 @@ export function useAudioEngine(): AudioEngine {
     // フェードアウト完了後に停止
     setTimeout(() => {
       sourcesToStop.forEach(src => {
-        try { src.stop(); } catch(e){}
+        try { src.stop(); } catch(e) { console.error('Failed to stop source', e); }
       });
     }, 1200);
   }, []);
