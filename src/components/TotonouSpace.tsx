@@ -1,5 +1,30 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 
+export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
+  // サウナスコア (最大55点): 50秒以上滞在で満点、ロウリュ1回につき+5点
+  const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
+  // 水風呂スコア (最大40点): 20秒以上滞在で満点
+  const waterScore = Math.min(waterTime / 20, 1.0) * 40;
+
+  const totalScore = Math.min(Math.round(saunaScore + waterScore), 100);
+
+  // スコアに応じたフィードバック
+  let text = '';
+  if (totalScore >= 90) {
+    text = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
+  } else if (totalScore >= 70) {
+    text = 'しっかり「ととのい」の波が押し寄せています 🧘';
+  } else if (saunaTime < 15) {
+    text = 'サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥';
+  } else if (waterTime < 8) {
+    text = '水風呂の冷却が短かったようです。羽衣を感じるまで浸かってみましょう 💧';
+  } else {
+    text = '心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃';
+  }
+
+  return { maxTotonou: totalScore, feedback: text };
+};
+
 interface TotonouSpaceProps {
   saunaTime: number;
   waterTime: number;
@@ -17,28 +42,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
 
   // ととのいスコアの計算とフィードバックの決定 (useMemo で宣言的に算出)
   const { maxTotonou, feedback } = useMemo(() => {
-    // サウナスコア (最大55点): 50秒以上滞在で満点、ロウリュ1回につき+5点
-    const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
-    // 水風呂スコア (最大40点): 20秒以上滞在で満点
-    const waterScore = Math.min(waterTime / 20, 1.0) * 40;
-    
-    const totalScore = Math.min(Math.round(saunaScore + waterScore), 100);
-
-    // スコアに応じたフィードバック
-    let text = '';
-    if (totalScore >= 90) {
-      text = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
-    } else if (totalScore >= 70) {
-      text = 'しっかり「ととのい」の波が押し寄せています 🧘';
-    } else if (saunaTime < 15) {
-      text = 'サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥';
-    } else if (waterTime < 8) {
-      text = '水風呂の冷却が短かったようです。羽衣を感じるまで浸かってみましょう 💧';
-    } else {
-      text = '心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃';
-    }
-
-    return { maxTotonou: totalScore, feedback: text };
+    return calculateTotonouScore(saunaTime, waterTime, loylyCount);
   }, [saunaTime, waterTime, loylyCount]);
 
   // 呼吸の切り替えサイクル (4秒吸って、4秒吐く)

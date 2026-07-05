@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useMemo } from 'react';
 
 export type AmbientEnv = 'sauna' | 'water' | 'totonou';
 
@@ -7,6 +7,22 @@ export interface AudioEngine {
   playAmbient: (env: AmbientEnv) => void;
   playLoyly: () => void;
   setMuted: (muted: boolean) => void;
+}
+
+function generateSecureWhiteNoise(length: number): Float32Array {
+  const data = new Float32Array(length);
+  const maxElements = 16384; // 65536 bytes limit / 4 bytes per Uint32
+  const randomValues = new Uint32Array(maxElements);
+
+  for (let i = 0; i < length; i += maxElements) {
+    const chunkLength = Math.min(maxElements, length - i);
+    const chunk = chunkLength === maxElements ? randomValues : new Uint32Array(chunkLength);
+    window.crypto.getRandomValues(chunk);
+    for (let j = 0; j < chunkLength; j++) {
+      data[i + j] = (chunk[j] / 4294967295) * 2 - 1;
+    }
+  }
+  return data;
 }
 
 export function useAudioEngine(): AudioEngine {
@@ -59,7 +75,7 @@ export function useAudioEngine(): AudioEngine {
     // フェードアウト完了後に停止
     setTimeout(() => {
       sourcesToStop.forEach(src => {
-        try { src.stop(); } catch(e){}
+        try { src.stop(); } catch(e) { console.error('Failed to stop source', e); }
       });
     }, 1200);
   }, []);
@@ -78,9 +94,10 @@ export function useAudioEngine(): AudioEngine {
         const bufferSize = ctx.sampleRate * 2;
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
+        const whiteNoise = generateSecureWhiteNoise(bufferSize);
         let lastOut = 0;
         for (let i = 0; i < bufferSize; i++) {
-          const white = Math.random() * 2 - 1;
+          const white = whiteNoise[i];
           data[i] = (lastOut + (0.02 * white)) / 1.02;
           lastOut = data[i];
           data[i] *= 3.5;
@@ -149,9 +166,10 @@ export function useAudioEngine(): AudioEngine {
         const windBufferSize = ctx.sampleRate * 3;
         const windBuffer = ctx.createBuffer(1, windBufferSize, ctx.sampleRate);
         const windData = windBuffer.getChannelData(0);
+        const whiteNoise = generateSecureWhiteNoise(windBufferSize);
         let lastOutWind = 0;
         for (let i = 0; i < windBufferSize; i++) {
-          const white = Math.random() * 2 - 1;
+          const white = whiteNoise[i];
           // 低周波を強調するフィルタ処理
           windData[i] = (lastOutWind + (0.015 * white)) / 1.015;
           lastOutWind = windData[i];
@@ -206,9 +224,7 @@ export function useAudioEngine(): AudioEngine {
       const bufferSize = Math.floor(ctx.sampleRate * 2.0);
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-          data[i] = Math.random() * 2 - 1;
-      }
+      data.set(generateSecureWhiteNoise(bufferSize));
       loylyWhiteNoiseBufferRef.current = buffer;
     }
 
@@ -262,6 +278,6 @@ export function useAudioEngine(): AudioEngine {
     }
   }, []);
 
-  return { init, playAmbient, playLoyly, setMuted };
+  return useMemo(() => ({ init, playAmbient, playLoyly, setMuted }), [init, playAmbient, playLoyly, setMuted]);
 }
 
