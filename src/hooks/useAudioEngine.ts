@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useMemo } from 'react';
 
 export type AmbientEnv = 'sauna' | 'water' | 'totonou';
 
@@ -262,6 +262,6 @@ export function useAudioEngine(): AudioEngine {
     }
   }, []);
 
-  return { init, playAmbient, playLoyly, setMuted };
+  return useMemo(() => ({ init, playAmbient, playLoyly, setMuted }), [init, playAmbient, playLoyly, setMuted]);
 }
 
