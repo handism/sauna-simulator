@@ -5,4 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/sauna-simulator/',
   plugins: [react()],
+  test: {
+    environment: 'happy-dom',
+  },
 })
