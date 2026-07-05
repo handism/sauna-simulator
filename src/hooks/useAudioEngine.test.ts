@@ -32,6 +32,7 @@ describe('useAudioEngine', () => {
       }),
       createBuffer: vi.fn(() => ({
         getChannelData: vi.fn(() => new Float32Array(44100)),
+        copyToChannel: vi.fn(),
       })),
       createBufferSource: vi.fn(() => ({
         buffer: null,
@@ -75,7 +76,7 @@ describe('useAudioEngine', () => {
     vi.clearAllMocks();
   });
 
-  it('catches and logs errors when fading out gains during stopAmbient', () => {
+  it('catches and logs errors when fading out gains during stopAmbient', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     // Initialize AudioContext
@@ -84,8 +85,8 @@ describe('useAudioEngine', () => {
     });
 
     // Populate activeGainsRef by calling playAmbient
-    act(() => {
-      result.current.playAmbient('sauna');
+    await act(async () => {
+      await result.current.playAmbient('sauna');
     });
 
     // We expect gainNodes to be populated
@@ -100,8 +101,8 @@ describe('useAudioEngine', () => {
     });
 
     // Call playAmbient again to trigger stopAmbient internally
-    act(() => {
-      result.current.playAmbient('water');
+    await act(async () => {
+      await result.current.playAmbient('water');
     });
 
     // Verify console.error was called with the correct message and error
