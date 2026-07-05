@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
+import { calculateHeatIndex } from '../utils/saunaUtils';
 
 interface SaunaRoomProps {
   audio: AudioEngine;
@@ -75,7 +76,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 
         // 体感温度の算出 (簡易Heat Index)
         // 湿度が上がると体感温度が急激に上がる
-        const heatIndex = nextTemp + (nextHum * 0.45);
+        const heatIndex = calculateHeatIndex(nextTemp, nextHum);
         
         // 体感温度に応じて心拍数が徐々に上昇
         const hrIncrease = (heatIndex - 70) * 0.006;
@@ -97,7 +98,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   }, []);
 
   // 体感温度のリアルタイム計算
-  const heatIndex = temperature + (humidity * 0.45);
+  const heatIndex = calculateHeatIndex(temperature, humidity);
 
   const handleLeave = () => {
     onNext(Math.round(heartRate), secondsRef.current, loylyCountRef.current);
