@@ -108,13 +108,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   const pulseSpeed = 60 / heartRate;
 
   return (
-    <div style={{
-      width: '100%', height: '100%', 
-      display: 'flex', flexDirection: 'column', 
-      alignItems: 'center', justifyContent: 'center',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <div className="scene-container">
       {/* スチームオーバーレイ曇り演出 */}
       <div className={`steam-overlay ${isSteaming ? 'active' : ''}`} />
       

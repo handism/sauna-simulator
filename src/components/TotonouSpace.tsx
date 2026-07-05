@@ -116,13 +116,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
   }, [maxTotonou]);
 
   return (
-    <div style={{
-      width: '100%', height: '100%', 
-      display: 'flex', flexDirection: 'column', 
-      alignItems: 'center', justifyContent: 'center',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <div className="scene-container">
       
       {/* プレミアムオーロラ背景 (呼吸に合わせて透明度と光が微細に揺らぐ) */}
       <div 
