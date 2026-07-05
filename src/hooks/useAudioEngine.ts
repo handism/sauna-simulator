@@ -280,8 +280,8 @@ export function useAudioEngine(): AudioEngine {
   const playAmbient = useCallback(async (env: AmbientEnv) => {
     if (!ctxRef.current || !masterGainRef.current) return;
 
-    currentEnvRef.current = env;
     stopAmbient();
+    currentEnvRef.current = env;
 
     switch (env) {
       case 'sauna':
