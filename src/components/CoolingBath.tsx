@@ -17,13 +17,20 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   
   const secondsRef = useRef<number>(0);
 
+  // 乱数生成ヘルパー (CSPRNG)
+  const getSecureRandom = () => {
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    return array[0] / 4294967296; // 0 to <1
+  };
+
   // 波紋（リップル）の定期生成
   useEffect(() => {
     const int = setInterval(() => {
       const newRipple: Ripple = {
         id: Date.now(),
-        left: Math.random() * 80 + 10 + '%',
-        top: Math.random() * 80 + 10 + '%',
+        left: getSecureRandom() * 80 + 10 + '%',
+        top: getSecureRandom() * 80 + 10 + '%',
       };
       setRipples(prev => [...prev.slice(-4), newRipple]); // 最大5つの波紋
     }, 1500);
@@ -40,7 +47,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         const diff = (60 - prev) * 0.16;
         const nextHR = prev + diff;
         // わずかにランダムなゆらぎを加えて自然にする
-        const jitter = (Math.random() - 0.5) * 0.5;
+        const jitter = (getSecureRandom() - 0.5) * 0.5;
         return Math.max(nextHR + jitter, 56);
       });
     }, 1000);
