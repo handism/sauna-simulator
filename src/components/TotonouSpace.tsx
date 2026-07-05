@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 
 export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
   // サウナスコア (最大55点): 50秒以上滞在で満点、ロウリュ1回につき+5点
@@ -35,7 +35,10 @@ interface TotonouSpaceProps {
 const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpaceProps) => {
   const [breathText, setBreathText] = useState<string>('吸って...');
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
-  const [totonouLevel, setTotonouLevel] = useState<number>(0);
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+
+  const totonouTextRef = useRef<HTMLSpanElement>(null);
+  const totonouBarRef = useRef<HTMLDivElement>(null);
 
   // ととのいスコアの計算とフィードバックの決定 (useMemo で宣言的に算出)
   const { maxTotonou, feedback } = useMemo(() => {
@@ -55,21 +58,61 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
     return () => clearInterval(breathInterval);
   }, []);
 
-  // ととのいメーターの上昇アニメーション (0.1秒ごとに少しずつ上昇)
+  // ととのいメーターの上昇アニメーション (requestAnimationFrame で最適化)
   useEffect(() => {
-    const totonouInterval = setInterval(() => {
-      setTotonouLevel(prev => {
-        if (prev >= maxTotonou) {
-          clearInterval(totonouInterval);
-          return maxTotonou;
-        }
-        // 徐々に減速しながら目標値に近づくイージング
-        const step = Math.max((maxTotonou - prev) * 0.05, 0.2);
-        return Math.min(prev + step, maxTotonou);
-      });
-    }, 100);
+    let animationFrameId: number;
+    let currentLevel = 0;
+    let feedbackShown = false;
 
-    return () => clearInterval(totonouInterval);
+    // FPS非依存のイージングのために前回時刻を記録
+    let lastTime = performance.now();
+
+    const animate = (time: number) => {
+      const deltaTime = time - lastTime;
+      lastTime = time;
+
+      if (currentLevel >= maxTotonou) {
+        currentLevel = maxTotonou;
+      } else {
+        // 徐々に減速しながら目標値に近づくイージング (deltaTimeを用いて補正)
+        // 元の100ms間隔に合わせたステップ幅の補正
+        const timeScale = deltaTime / 100;
+        const step = Math.max((maxTotonou - currentLevel) * 0.05, 0.2) * timeScale;
+        currentLevel = Math.min(currentLevel + step, maxTotonou);
+      }
+
+      // DOM直接更新で再レンダリングを回避
+      if (totonouTextRef.current) {
+        const rounded = Math.round(currentLevel);
+        totonouTextRef.current.innerText = `${rounded}%`;
+        // 色の更新
+        if (rounded >= 90) {
+          totonouTextRef.current.style.color = '#34d399';
+        } else if (rounded >= 60) {
+          totonouTextRef.current.style.color = '#60a5fa';
+        } else {
+          totonouTextRef.current.style.color = '#a78bfa';
+        }
+      }
+
+      if (totonouBarRef.current) {
+        totonouBarRef.current.style.width = `${currentLevel}%`;
+      }
+
+      // フィードバック表示は一度だけ setState を呼ぶ
+      if (!feedbackShown && currentLevel >= maxTotonou * 0.95) {
+        feedbackShown = true;
+        setShowFeedback(true);
+      }
+
+      if (currentLevel < maxTotonou) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, [maxTotonou]);
 
   return (
@@ -147,32 +190,34 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
           <span style={{ fontSize: '0.9rem', color: '#94a3b8' }}>ととのい度:</span>
           <span 
+            ref={totonouTextRef}
             className="dashboard-value" 
             style={{ 
               fontSize: '2.2rem', 
-              color: totonouLevel >= 90 ? '#34d399' : totonouLevel >= 60 ? '#60a5fa' : '#a78bfa',
+              color: '#a78bfa', // 初期色、以降は requestAnimationFrame で更新
               textShadow: '0 0 15px rgba(255,255,255,0.1)'
             }}
           >
-            {Math.round(totonouLevel)}%
+            0%
           </span>
         </div>
 
         {/* プログレスバー */}
         <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
           <div 
+            ref={totonouBarRef}
             style={{ 
-              width: `${totonouLevel}%`, 
+              width: '0%',
               height: '100%', 
               background: 'linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981)',
               borderRadius: '3px',
-              transition: 'width 0.1s linear'
+              // width の transition を外す（requestAnimationFrame で滑らかに更新するため）
             }} 
           />
         </div>
 
         {/* フィードバックコメント */}
-        {totonouLevel >= maxTotonou * 0.95 && (
+        {showFeedback && (
           <p 
             style={{ 
               fontSize: '0.85rem', 
