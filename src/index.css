@@ -297,3 +297,13 @@ body {
   font-weight: bold;
 }
 
+/* UI Hidden State */
+.ui-hidden .glass-panel,
+.ui-hidden .primary-btn,
+.ui-hidden h2,
+.ui-hidden p,
+.ui-hidden .breathing-circle-premium {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.5s ease;
+}
