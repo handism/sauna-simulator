@@ -297,6 +297,21 @@ body {
   font-weight: bold;
 }
 
+/* Transitions for UI fading */
+.glass-panel,
+h2,
+p {
+  transition: opacity 0.5s ease;
+}
+
+.breathing-circle-premium {
+  transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1), background 4s ease, opacity 0.5s ease;
+}
+
+.primary-btn {
+  transition: all 0.3s ease, opacity 0.5s ease;
+}
+
 /* UI Hidden State */
 .ui-hidden .glass-panel,
 .ui-hidden .primary-btn,
@@ -305,5 +320,5 @@ body {
 .ui-hidden .breathing-circle-premium {
   opacity: 0 !important;
   pointer-events: none !important;
-  transition: opacity 0.5s ease;
 }
+
