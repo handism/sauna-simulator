@@ -132,4 +132,34 @@ describe('App Component', () => {
     const unmuteButton = screen.getByRole('button', { name: 'ミュート' });
     expect(unmuteButton).toBeInTheDocument();
   });
+
+  it('toggles UI visibility correctly', async () => {
+    render(<App />);
+
+    // Start
+    fireEvent.click(screen.getByText('音ありで入室する'));
+
+    await waitFor(() => {
+      expect(screen.getByTestId('sauna-room')).toBeInTheDocument();
+    }, { timeout: 1500 });
+
+    // Initial state (UI should not be hidden)
+    const container = screen.getByLabelText('UI非表示').closest('.app-container');
+    expect(container).not.toHaveClass('ui-hidden');
+
+    // Toggle UI (hide)
+    const toggleButton = screen.getByLabelText('UI非表示');
+    fireEvent.click(toggleButton);
+
+    expect(container).toHaveClass('ui-hidden');
+    expect(screen.getByLabelText('UI表示')).toBeInTheDocument();
+
+    // Toggle UI (show again)
+    const showButton = screen.getByLabelText('UI表示');
+    fireEvent.click(showButton);
+
+    expect(container).not.toHaveClass('ui-hidden');
+    expect(screen.getByLabelText('UI非表示')).toBeInTheDocument();
+  });
 });
+
