@@ -12,15 +12,35 @@ interface Steam {
   left: string;
 }
 
+const SAUNA_CONFIG = {
+  INITIAL_TEMP: 90,
+  INITIAL_HUMIDITY: 15,
+  INITIAL_HEART_RATE: 75,
+  MAX_TEMP: 110,
+  MAX_HUMIDITY: 90,
+  LOYLY_TEMP_INC: 3,
+  LOYLY_HUMIDITY_INC: 25,
+  TEMP_DECAY: 0.05,
+  HUMIDITY_DECAY: 0.4,
+  MIN_TEMP: 85,
+  MIN_HUMIDITY: 12,
+  HEAT_INDEX_BASE: 70,
+  HR_INCREASE_MULTIPLIER: 0.006,
+  HR_BASE_INCREASE: 0.02,
+  MAX_HEART_RATE: 155,
+  STEAM_DURATION_MS: 7000,
+  STEAM_PARTICLE_DURATION_MS: 4000
+};
+
 const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   const [saunaState, setSaunaState] = useState<{
     temperature: number;
     humidity: number;
     heartRate: number;
   }>({
-    temperature: 90,
-    humidity: 15,
-    heartRate: 75,
+    temperature: SAUNA_CONFIG.INITIAL_TEMP,
+    humidity: SAUNA_CONFIG.INITIAL_HUMIDITY,
+    heartRate: SAUNA_CONFIG.INITIAL_HEART_RATE,
   });
   const [steams, setSteams] = useState<Steam[]>([]);
   const [isSteaming, setIsSteaming] = useState<boolean>(false);
@@ -36,8 +56,8 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
     audio.playLoyly();
     setSaunaState(prev => ({
       ...prev,
-      temperature: Math.min(prev.temperature + 3, 110),
-      humidity: Math.min(prev.humidity + 25, 90),
+      temperature: Math.min(prev.temperature + SAUNA_CONFIG.LOYLY_TEMP_INC, SAUNA_CONFIG.MAX_TEMP),
+      humidity: Math.min(prev.humidity + SAUNA_CONFIG.LOYLY_HUMIDITY_INC, SAUNA_CONFIG.MAX_HUMIDITY),
     }));
     loylyCountRef.current += 1;
     
@@ -50,7 +70,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
     if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
     steamTimeoutRef.current = setTimeout(() => {
       setIsSteaming(false);
-    }, 7000); // index.css の steam-blur-fade アニメーション長と同期
+    }, SAUNA_CONFIG.STEAM_DURATION_MS); // index.css の steam-blur-fade アニメーション長と同期
 
     // サウナストーンからの蒸気パーティクル
     const newSteam: Steam = {
@@ -60,7 +80,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
     setSteams(prev => [...prev, newSteam]);
     setTimeout(() => {
       setSteams(prev => prev.filter(s => s.id !== newSteam.id));
-    }, 4000);
+    }, SAUNA_CONFIG.STEAM_PARTICLE_DURATION_MS);
   };
 
   // メインシミュレーションループ (1秒ごと)
@@ -71,16 +91,16 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 
       setSaunaState(prev => {
         // 自然減衰 (温度と湿度は徐々に下がる)
-        const nextTemp = Math.max(prev.temperature - 0.05, 85);
-        const nextHum = Math.max(prev.humidity - 0.4, 12);
+        const nextTemp = Math.max(prev.temperature - SAUNA_CONFIG.TEMP_DECAY, SAUNA_CONFIG.MIN_TEMP);
+        const nextHum = Math.max(prev.humidity - SAUNA_CONFIG.HUMIDITY_DECAY, SAUNA_CONFIG.MIN_HUMIDITY);
 
         // 体感温度の算出 (簡易Heat Index)
         // 湿度が上がると体感温度が急激に上がる
         const heatIndex = calculateHeatIndex(nextTemp, nextHum);
         
         // 体感温度に応じて心拍数が徐々に上昇
-        const hrIncrease = (heatIndex - 70) * 0.006;
-        const nextHeartRate = Math.min(prev.heartRate + Math.max(hrIncrease, 0.02), 155);
+        const hrIncrease = (heatIndex - SAUNA_CONFIG.HEAT_INDEX_BASE) * SAUNA_CONFIG.HR_INCREASE_MULTIPLIER;
+        const nextHeartRate = Math.min(prev.heartRate + Math.max(hrIncrease, SAUNA_CONFIG.HR_BASE_INCREASE), SAUNA_CONFIG.MAX_HEART_RATE);
 
         return {
           temperature: nextTemp,
@@ -112,59 +132,58 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
       {/* スチームオーバーレイ曇り演出 */}
       <div className={`steam-overlay ${isSteaming ? 'active' : ''}`} />
       
-      <div className="glass-panel" style={{ textAlign: 'center', zIndex: 10, width: '92%', maxWidth: '420px', padding: '2.5rem 2rem' }}>
-        <h2 style={{ fontSize: '1.4rem', fontWeight: 300, color: '#fca5a5', letterSpacing: '4px', marginBottom: '1.5rem' }}>サウナルーム</h2>
+      <div className="glass-panel sauna-room-panel">
+        <h2 className="sauna-room-title">サウナルーム</h2>
         
         {/* メインデジタルメーター */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', margin: '20px 0' }}>
-          <div style={{ background: 'rgba(0,0,0,0.2)', padding: '15px 10px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <span style={{ fontSize: '0.8rem', color: '#fca5a5', textTransform: 'uppercase', letterSpacing: '1px' }}>温度</span>
-            <div className="dashboard-value" style={{ fontSize: '2rem', marginTop: '5px' }}>
+        <div className="sauna-meters-grid">
+          <div className="sauna-meter-box">
+            <span className="sauna-meter-label-temp">温度</span>
+            <div className="dashboard-value sauna-meter-val-temp">
               {temperature.toFixed(1)}°C
             </div>
           </div>
-          <div style={{ background: 'rgba(0,0,0,0.2)', padding: '15px 10px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <span style={{ fontSize: '0.8rem', color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '1px' }}>湿度</span>
-            <div className="dashboard-value" style={{ fontSize: '2rem', marginTop: '5px', color: '#93c5fd' }}>
+          <div className="sauna-meter-box">
+            <span className="sauna-meter-label-hum">湿度</span>
+            <div className="dashboard-value sauna-meter-val-hum">
               {Math.round(humidity)}%
             </div>
           </div>
         </div>
 
         {/* 体感温度 & 心拍数情報 */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '15px', borderRadius: '16px', marginBottom: '25px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem' }}>
-            <span style={{ color: '#cbd5e1' }}>体感温度:</span>
-            <span className="dashboard-value" style={{ color: '#f87171', fontWeight: 600 }}>{heatIndex.toFixed(1)}°C</span>
+        <div className="sauna-info-panel">
+          <div className="sauna-info-row">
+            <span className="sauna-info-label">体感温度:</span>
+            <span className="dashboard-value sauna-info-val-heat">{heatIndex.toFixed(1)}°C</span>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.95rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '10px' }}>
-            <span style={{ color: '#cbd5e1' }}>心拍数:</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div className="sauna-info-row-bottom">
+            <span className="sauna-info-label">心拍数:</span>
+            <span className="sauna-info-val-hr">
               <span 
-                style={{ 
-                  color: '#ef4444', 
-                  display: 'inline-block',
-                  animation: `breathe ${pulseSpeed}s infinite ease-in-out`
-                }}
+                className="sauna-heart-icon"
+                style={{ animation: `breathe ${pulseSpeed}s infinite ease-in-out` }}
               >
                 ❤️
               </span>
-              <span className="dashboard-value" style={{ fontWeight: 600 }}>{Math.round(heartRate)} <span style={{ fontSize: '0.75rem', fontWeight: 300 }}>BPM</span></span>
+              <span className="dashboard-value" style={{ fontWeight: 600 }}>
+                {Math.round(heartRate)} <span className="sauna-hr-bpm">BPM</span>
+              </span>
             </span>
           </div>
         </div>
         
-        <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
-          <button className="primary-btn" onClick={handleLoyly} style={{ borderColor: 'var(--accent)', color: 'var(--accent)', width: '100%', fontSize: '1.1rem' }}>
+        <div className="sauna-action-btn-container">
+          <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly}>
             ロウリュ (Löyly)
           </button>
         </div>
       </div>
 
       {/* 水風呂への遷移アクションボタン */}
-      <div style={{ position: 'absolute', bottom: 'calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px))', zIndex: 12 }}>
-         <button className="primary-btn" onClick={handleLeave} style={{ background: 'rgba(56,189,248,0.2)', borderColor: 'rgba(56,189,248,0.6)', boxShadow: '0 4px 20px rgba(56,189,248,0.15)' }}>
+      <div className="sauna-next-stage-btn-container">
+         <button className="primary-btn sauna-next-stage-btn" onClick={handleLeave}>
             限界.. 水風呂へ 💧
          </button>
       </div>
@@ -173,18 +192,8 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
       {steams.map(steam => (
         <div 
           key={steam.id}
-          style={{
-            position: 'absolute',
-            bottom: '-5%',
-            left: steam.left,
-            width: '180px',
-            height: '180px',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)',
-            borderRadius: '50%',
-            animation: 'steam-rise 4s ease-out forwards',
-            pointerEvents: 'none',
-            zIndex: 5
-          }}
+          className="sauna-steam-particle"
+          style={{ left: steam.left }}
         />
       ))}
     </div>
