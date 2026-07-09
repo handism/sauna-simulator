@@ -76,9 +76,7 @@ describe('CoolingBath', () => {
     // However, it's easier to check if the component renders successfully without crashing.
     // Let's query all divs with border: '2px solid rgba(56,189,248,0.25)' since that's specific to ripples.
     // React testing library `container.querySelectorAll` can do this.
-    const rippleElements = Array.from(container.querySelectorAll('div')).filter(
-      div => div.style.borderRadius === '50%' && div.style.pointerEvents === 'none'
-    );
+    const rippleElements = container.querySelectorAll('.cooling-ripple-effect');
 
     expect(rippleElements.length).toBe(2);
   });

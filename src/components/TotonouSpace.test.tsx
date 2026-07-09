@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, act, fireEvent } from '@testing-library/react';
-import TotonouSpace, { calculateTotonouScore } from './TotonouSpace';
+import TotonouSpace from './TotonouSpace';
+import { calculateTotonouScore } from '../utils/saunaUtils';
 
 describe('calculateTotonouScore', () => {
   it('should calculate perfect score correctly', () => {
