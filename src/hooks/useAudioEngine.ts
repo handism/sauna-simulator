@@ -20,7 +20,7 @@ self.onmessage = function(e) {
   let lastOut = 0;
   for (let i = 0; i < length; i += maxElements) {
     const chunkLength = Math.min(maxElements, length - i);
-    const chunk = chunkLength === maxElements ? randomValues : new Uint32Array(chunkLength);
+    const chunk = chunkLength === maxElements ? randomValues : randomValues.subarray(0, chunkLength);
     self.crypto.getRandomValues(chunk);
     for (let j = 0; j < chunkLength; j++) {
       const white = (chunk[j] / 4294967295) * 2 - 1;
