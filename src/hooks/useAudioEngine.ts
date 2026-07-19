@@ -18,12 +18,13 @@ self.onmessage = function(e) {
   const randomValues = new Uint32Array(maxElements);
 
   let lastOut = 0;
+  const multiplier = 2 / 4294967295;
   for (let i = 0; i < length; i += maxElements) {
     const chunkLength = Math.min(maxElements, length - i);
     const chunk = chunkLength === maxElements ? randomValues : new Uint32Array(chunkLength);
     self.crypto.getRandomValues(chunk);
     for (let j = 0; j < chunkLength; j++) {
-      const white = (chunk[j] / 4294967295) * 2 - 1;
+      const white = chunk[j] * multiplier - 1;
       if (type === 'saunaNoise') {
         data[i + j] = (lastOut + (0.02 * white)) / 1.02;
         lastOut = data[i + j];
