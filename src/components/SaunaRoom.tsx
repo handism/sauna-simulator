@@ -28,6 +28,13 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   const secondsRef = useRef<number>(0);
   const loylyCountRef = useRef<number>(0);
   const steamTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef<boolean>(true);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const { temperature, humidity, heartRate } = saunaState;
 
@@ -44,12 +51,16 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
     // スチーム曇り演出トリガー
     setIsSteaming(false); // 一度リセットして再起動できるようにする
     setTimeout(() => {
-      setIsSteaming(true);
+      if (isMountedRef.current) {
+        setIsSteaming(true);
+      }
     }, 10);
 
     if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
     steamTimeoutRef.current = setTimeout(() => {
-      setIsSteaming(false);
+      if (isMountedRef.current) {
+        setIsSteaming(false);
+      }
     }, 7000); // index.css の steam-blur-fade アニメーション長と同期
 
     // サウナストーンからの蒸気パーティクル
@@ -59,7 +70,9 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
     };
     setSteams(prev => [...prev, newSteam]);
     setTimeout(() => {
-      setSteams(prev => prev.filter(s => s.id !== newSteam.id));
+      if (isMountedRef.current) {
+        setSteams(prev => prev.filter(s => s.id !== newSteam.id));
+      }
     }, 4000);
   };
 
