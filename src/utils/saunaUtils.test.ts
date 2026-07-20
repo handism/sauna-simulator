@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateHeatIndex } from './saunaUtils';
+import { calculateHeatIndex, calculateTotonouScore } from './saunaUtils';
 
 describe('calculateHeatIndex', () => {
   it('should calculate heat index correctly with typical sauna values', () => {
@@ -23,3 +23,34 @@ describe('calculateHeatIndex', () => {
     expect(calculateHeatIndex(-50, -50)).toBe(-72.5);
   });
 });
+
+describe('calculateTotonouScore', () => {
+  it('should return maximum score (100) and top feedback when conditions are fully satisfied', () => {
+    const result = calculateTotonouScore(60, 25, 2);
+    expect(result.maxTotonou).toBe(100);
+    expect(result.feedback).toContain('完璧な温冷交代浴です！');
+  });
+
+  it('should return high feedback when score is >= 70', () => {
+    const result = calculateTotonouScore(45, 18, 1);
+    expect(result.maxTotonou).toBeGreaterThanOrEqual(70);
+    expect(result.maxTotonou).toBeLessThan(90);
+    expect(result.feedback).toContain('しっかり「ととのい」の波が押し寄せています');
+  });
+
+  it('should advise more sauna time when saunaTime < 15', () => {
+    const result = calculateTotonouScore(10, 20, 0);
+    expect(result.feedback).toContain('サウナ室の温まりが少し足りなかったようです');
+  });
+
+  it('should advise more water time when waterTime < 8 and saunaTime >= 15', () => {
+    const result = calculateTotonouScore(30, 5, 0);
+    expect(result.feedback).toContain('水風呂の冷却が短かったようです');
+  });
+
+  it('should provide standard rest feedback for intermediate durations', () => {
+    const result = calculateTotonouScore(20, 10, 0);
+    expect(result.feedback).toContain('心地よい休息です');
+  });
+});
+
