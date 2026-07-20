@@ -340,4 +340,32 @@ describe('useAudioEngine', () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to fade out gain', testError);
   });
+
+  it('catches and logs errors when stopping sources during stopAmbient', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+
+    act(() => {
+      result.current.init();
+    });
+
+    await act(async () => {
+      await result.current.playAmbient('sauna');
+    });
+
+    const testError = new Error('Test stop error');
+    const activeSource = mockCreateBufferSource.mock.results[mockCreateBufferSource.mock.results.length - 1].value;
+    activeSource.stop.mockImplementation(() => {
+      throw testError;
+    });
+
+    await act(async () => {
+      await result.current.playAmbient('water');
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(1200);
+    });
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to stop source', testError);
+  });
 });
