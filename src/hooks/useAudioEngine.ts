@@ -12,25 +12,36 @@ export interface AudioEngine {
 
 let audioWorker: Worker | null = null;
 let msgIdCounter = 0;
-const resolvers = new Map<number, (data: Float32Array) => void>();
+type ResolverType = {
+  resolve: (data: Float32Array) => void;
+  reject: (reason?: any) => void;
+  timeoutId: ReturnType<typeof setTimeout>;
+};
+const resolvers = new Map<number, ResolverType>();
 
 // A wrapper to handle concurrent requests to the worker
 function generateBufferAsync(type: 'whiteNoise' | 'saunaNoise' | 'windNoise', length: number): Promise<Float32Array> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (!audioWorker) {
       audioWorker = new AudioWorker();
       audioWorker.onmessage = (e) => {
         const { id, data } = e.data;
-        const resolveFn = resolvers.get(id);
-        if (resolveFn) {
-          resolveFn(data);
+        const resolver = resolvers.get(id);
+        if (resolver) {
+          clearTimeout(resolver.timeoutId);
+          resolver.resolve(data);
           resolvers.delete(id);
         }
       };
     }
 
     const id = msgIdCounter++;
-    resolvers.set(id, resolve);
+    const timeoutId = setTimeout(() => {
+      resolvers.delete(id);
+      reject(new Error(`Worker timeout for message id ${id}`));
+    }, 10000);
+
+    resolvers.set(id, { resolve, reject, timeoutId });
     audioWorker.postMessage({ id, type, length });
   });
 }
