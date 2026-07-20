@@ -22,8 +22,8 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
     const int = setInterval(() => {
       const newRipple: Ripple = {
         id: Date.now(),
-        left: Math.random() * 80 + 10 + '%',
-        top: Math.random() * 80 + 10 + '%',
+        left: (window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295) * 80 + 10 + '%',
+        top: (window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295) * 80 + 10 + '%',
       };
       setRipples(prev => [...prev.slice(-4), newRipple]); // 最大5つの波紋
     }, 1500);
@@ -40,7 +40,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         const diff = (60 - prev) * 0.16;
         const nextHR = prev + diff;
         // わずかにランダムなゆらぎを加えて自然にする
-        const jitter = (Math.random() - 0.5) * 0.5;
+        const jitter = ((window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295) - 0.5) * 0.5;
         return Math.max(nextHR + jitter, 56);
       });
     }, 1000);
