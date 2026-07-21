@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
-import { calculateHeatIndex } from '../utils/saunaUtils';
+import { calculateHeatIndex, getSecureRandom } from '../utils/saunaUtils';
 
 interface SaunaRoomProps {
   audio: AudioEngine;
@@ -55,7 +55,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
     // サウナストーンからの蒸気パーティクル
     const newSteam: Steam = {
       id: Date.now(),
-      left: (window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295) * 60 + 20 + '%'
+      left: getSecureRandom() * 60 + 20 + '%'
     };
     setSteams(prev => [...prev, newSteam]);
     setTimeout(() => {
