@@ -25,6 +25,9 @@ interface SaunaSessionContextType {
   handleStart: (withSound: boolean) => void;
   toggleMute: () => void;
   toggleUiVisibility: () => void;
+  completeSauna: (heartRate: number, duration: number, loylys: number) => void;
+  completeWater: (heartRate: number, duration: number) => void;
+  completeTotonou: () => void;
 }
 
 const SaunaContext = createContext<SaunaSessionContextType | undefined>(
@@ -101,26 +104,9 @@ export function SaunaProvider({ children }: { children: React.ReactNode }) {
     handleStart,
     toggleMute,
     toggleUiVisibility,
+    completeSauna,
+    completeWater,
+    completeTotonou,
   };
-
-  // 内部的な setter を提供したい場合は、これらを Context に含める必要がある。
-  // ただし、コンポーネントが直接 state を書き換えるのではなく、action (callback) を通じるのが良い設計。
-  // ここでは 일단 existing props と互換性を持たせるために不足しているものを追加することを検討する。
-  // 実際には `onNext` はコンポーネントごとに異なるロジックを持つ可能性があるため、context には全 setter を入れるのではなく、
-  // 「stageを遷移させる」といった高レベルなアクションを含めるのが望ましい。
-
-  return (
-    <SaunaContext.Provider value={value as any}>
-      {/* type assertion is a temporary measure until we refine the interface for component-specific actions */}
-      {children}
-    </SaunaContext.Provider>
-  );
-}
-
-export function useSaunaContext() {
-  const context = useContext(SaunaContext);
-  if (context === undefined) {
-    throw new Error("useSaunaContext must be used within a SaunaProvider");
-  }
   return context;
 }
