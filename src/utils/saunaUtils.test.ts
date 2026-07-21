@@ -65,6 +65,19 @@ describe('saunaUtils', () => {
       }
     });
 
+    it('falls back to Math.random if crypto is undefined', () => {
+      const originalCrypto = globalThis.crypto;
+      // @ts-ignore
+      delete globalThis.crypto;
+
+      const val = getSecureRandom();
+      expect(val).toBeGreaterThanOrEqual(0);
+      expect(val).toBeLessThan(1);
+
+      // Restore
+      globalThis.crypto = originalCrypto;
+    });
+
     it('should return floating point numbers with reasonable randomness', () => {
       const results = new Set<number>();
       for (let i = 0; i < 50; i++) {
