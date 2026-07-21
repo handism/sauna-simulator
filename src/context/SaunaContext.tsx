@@ -94,9 +94,31 @@ export function SaunaProvider({ children }: { children: React.ReactNode }) {
     setIsUiHidden((prev) => !prev);
   }, []);
 
-  // Props として渡すための値の整理 (onNext などのコールバックはコンポーネント内で定義するか、context に含める)
-  // 今後の拡張性を考えて、 setter も一部公開しておくか、あるいは component から直接 stage を変えられるようにする
-  // 今回は既存の onNext を維持しつつ Context で管理することを目的とする
+  const completeSauna = useCallback(
+    (finalHeartRate: number, duration: number, loylys: number) => {
+      setHeartRate(finalHeartRate);
+      setSaunaTime(duration);
+      setLoylyCount(loylys);
+      audio.playAmbient("water");
+      changeStage("water");
+    },
+    [audio, changeStage],
+  );
+
+  const completeWater = useCallback(
+    (finalHeartRate: number, duration: number) => {
+      setHeartRate(finalHeartRate);
+      setWaterTime(duration);
+      audio.playAmbient("totonou");
+      changeStage("totonou");
+    },
+    [audio, changeStage],
+  );
+
+  const completeTotonou = useCallback(() => {
+    audio.playAmbient("sauna");
+    changeStage("sauna");
+  }, [audio, changeStage]);
 
   const value = {
     stage,
@@ -104,9 +126,13 @@ export function SaunaProvider({ children }: { children: React.ReactNode }) {
     isMuted,
     isUiHidden,
     heartRate,
+    setHeartRate,
     saunaTime,
+    setSaunaTime,
     loylyCount,
+    setLoylyCount,
     waterTime,
+    setWaterTime,
     audio,
     changeStage,
     handleStart,

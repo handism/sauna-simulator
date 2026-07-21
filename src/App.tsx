@@ -1,10 +1,19 @@
+import { useState, useCallback, useEffect } from "react";
 import "./index.css";
 import SaunaRoom from "./components/SaunaRoom";
 import CoolingBath from "./components/CoolingBath";
 import TotonouSpace from "./components/TotonouSpace";
-import { useSaunaContext } from "./context/SaunaContext";
+import { useAudioEngine, AmbientEnv } from "./hooks/useAudioEngine";
 
-const BACKGROUNDS: { stage: Stage; gradient: string; image: string }[] = [
+export type Stage = "start" | AmbientEnv;
+
+interface BackgroundConfig {
+  stage: Stage;
+  gradient: string;
+  image: string;
+}
+
+const BACKGROUNDS: BackgroundConfig[] = [
   {
     stage: "sauna",
     gradient: "rgba(0,0,0,0.45), rgba(0,0,0,0.75)",
@@ -32,7 +41,6 @@ function UiToggleButton({
   return (
     <button
       type="button"
-      // ...existing code...
       className="mute-btn ui-toggle-btn"
       style={{ right: "72px", opacity: isUiHidden ? 0.3 : 1 }}
       onClick={onToggle}
@@ -123,43 +131,85 @@ function MuteButton({
 }
 
 function App() {
-  const {
-    stage,
-    opacity,
-    isMuted,
-    isUiHidden,
-    heartRate,
-    setHeartRate,
-    saunaTime,
-    setSaunaTime,
-    loylyCount,
-    setLoylyCount,
-    waterTime,
-    setWaterTime,
-    audio,
-    changeStage,
-    handleStart,
-    toggleMute,
-    toggleUiVisibility,
-  } = useSaunaSession();
+  const [stage, setStage] = useState<Stage>("start");
+  const [opacity, setOpacity] = useState<number>(1);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
+
+  const [heartRate, setHeartRate] = useState<number>(75);
+  const [saunaTime, setSaunaTime] = useState<number>(0);
+  const [loylyCount, setLoylyCount] = useState<number>(0);
+  const [waterTime, setWaterTime] = useState<number>(0);
+
+  const audio = useAudioEngine();
+
+  // 背景画像レイヤーのアンマウント最適化
+  // クロスフェード遷移中のみ現在と遷移先の背景を保持し、遷移完了後に非アクティブな背景をDOMからアンマウント
+  const [activeLayers, setActiveLayers] = useState<Stage[]>([stage]);
+
+  useEffect(() => {
+    setActiveLayers((prev) => Array.from(new Set([...prev, stage])));
+    const timer = setTimeout(() => {
+      setActiveLayers([stage]);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [stage]);
+
+  const changeStage = useCallback((nextStage: Stage) => {
+    setOpacity(0);
+    setTimeout(() => {
+      setStage(nextStage);
+      setOpacity(1);
+    }, 1000);
+  }, []);
+
+  const handleStart = useCallback(
+    (withSound: boolean) => {
+      audio.init();
+      setIsMuted(!withSound);
+      audio.setMuted(!withSound);
+      audio.playAmbient("sauna");
+
+      setHeartRate(75);
+      setSaunaTime(0);
+      setLoylyCount(0);
+      setWaterTime(0);
+
+      changeStage("sauna");
+    },
+    [audio, changeStage],
+  );
+
+  const toggleMute = useCallback(() => {
+    setIsMuted((prev) => {
+      const next = !prev;
+      audio.setMuted(next);
+      return next;
+    });
+  }, [audio]);
+
+  const toggleUiVisibility = useCallback(() => {
+    setIsUiHidden((prev) => !prev);
+  }, []);
 
   return (
     <div
       className={`app-container ${isUiHidden ? "ui-hidden" : ""}`}
       style={{ background: "#000" }}
     >
-      {/* Background image crossfading */}
-      {BACKGROUNDS.map(({ stage: s, gradient, image }) => (
-        <div
-          key={s}
-          className="app-bg-layer"
-          style={{
-            opacity: stage === s ? 1 : 0,
-            backgroundImage: `linear-gradient(${gradient}), url(${import.meta.env.BASE_URL}${image})`,
-            visibility: stage === s ? "visible" : "hidden",
-          }}
-        />
-      ))}
+      {/* Background image crossfading with unmount optimization */}
+      {BACKGROUNDS.filter(({ stage: s }) => activeLayers.includes(s)).map(
+        ({ stage: s, gradient, image }) => (
+          <div
+            key={s}
+            className="app-bg-layer"
+            style={{
+              opacity: stage === s ? 1 : 0,
+              backgroundImage: `linear-gradient(${gradient}), url(${import.meta.env.BASE_URL}${image})`,
+            }}
+          />
+        ),
+      )}
 
       <div className="app-main-ui-container">
         {stage !== "start" && (

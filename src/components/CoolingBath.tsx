@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { useSaunaContext } from "../context/SaunaContext";
 import { getSecureRandom } from "../utils/saunaUtils";
 
 interface Ripple {
   id: number;
   left: string;
   top: string;
+}
+
+export interface CoolingBathProps {
+  initialHeartRate: number;
+  onNext: (finalHeartRate: number, duration: number) => void;
 }
 
 const COOLING_CONFIG = {
@@ -15,8 +19,7 @@ const COOLING_CONFIG = {
   RIPPLE_INTERVAL_MS: 1500,
 };
 
-const CoolingBath = () => {
-  const { heartRate: initialHeartRate, completeWater } = useSaunaContext();
+const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [heartRate, setHeartRate] = useState<number>(initialHeartRate);
 
@@ -55,7 +58,7 @@ const CoolingBath = () => {
   }, []);
 
   const handleLeave = () => {
-    completeWater(Math.round(heartRate), secondsRef.current);
+    onNext(Math.round(heartRate), secondsRef.current);
   };
 
   // 心拍に同期するアニメーション速度
