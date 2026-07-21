@@ -34,6 +34,14 @@ const SaunaContext = createContext<SaunaSessionContextType | undefined>(
   undefined,
 );
 
+export const useSaunaContext = () => {
+  const context = useContext(SaunaContext);
+  if (context === undefined) {
+    throw new Error("useSaunaContext must be used within a SaunaProvider");
+  }
+  return context;
+};
+
 export function SaunaProvider({ children }: { children: React.ReactNode }) {
   const [stage, setStage] = useState<Stage>("start");
   const [opacity, setOpacity] = useState<number>(1);
@@ -108,5 +116,8 @@ export function SaunaProvider({ children }: { children: React.ReactNode }) {
     completeWater,
     completeTotonou,
   };
-  return context;
+
+  return (
+    <SaunaContext.Provider value={value}>{children}</SaunaContext.Provider>
+  );
 }
