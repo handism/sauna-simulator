@@ -12,25 +12,39 @@ export interface AudioEngine {
 
 let audioWorker: Worker | null = null;
 let msgIdCounter = 0;
-const resolvers = new Map<number, (data: Float32Array) => void>();
+type ResolverType = {
+  resolve: (data: Float32Array) => void;
+  reject: (reason?: any) => void;
+  timeoutId: ReturnType<typeof setTimeout>;
+};
+const resolvers = new Map<number, ResolverType>();
 
 // A wrapper to handle concurrent requests to the worker
 function generateBufferAsync(type: 'whiteNoise' | 'saunaNoise' | 'windNoise', length: number): Promise<Float32Array> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (!audioWorker) {
       audioWorker = new AudioWorker();
       audioWorker.onmessage = (e) => {
         const { id, data } = e.data;
-        const resolveFn = resolvers.get(id);
-        if (resolveFn) {
-          resolveFn(data);
+        const resolver = resolvers.get(id);
+        if (resolver) {
+          clearTimeout(resolver.timeoutId);
+          resolver.resolve(data);
           resolvers.delete(id);
         }
+      };
+      audioWorker.onerror = (e) => {
+        console.error('AudioWorker error:', e);
       };
     }
 
     const id = msgIdCounter++;
-    resolvers.set(id, resolve);
+    const timeoutId = setTimeout(() => {
+      resolvers.delete(id);
+      reject(new Error(`Worker timeout for message id ${id}`));
+    }, 10000);
+
+    resolvers.set(id, { resolve, reject, timeoutId });
     audioWorker.postMessage({ id, type, length });
   });
 }
@@ -99,12 +113,17 @@ export function useAudioEngine(): AudioEngine {
     
     if (!saunaNoiseBufferRef.current) {
       const bufferSize = ctx.sampleRate * 2;
-      const generatedData = await generateBufferAsync('saunaNoise', bufferSize);
-      if (currentEnvRef.current !== 'sauna') return;
+      try {
+        const generatedData = await generateBufferAsync('saunaNoise', bufferSize);
+        if (currentEnvRef.current !== 'sauna') return;
 
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      buffer.copyToChannel(generatedData, 0);
-      saunaNoiseBufferRef.current = buffer;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        buffer.copyToChannel(generatedData, 0);
+        saunaNoiseBufferRef.current = buffer;
+      } catch (e) {
+        console.error('Failed to generate sauna noise buffer', e);
+        return;
+      }
     }
     
     const now = ctx.currentTime;
@@ -135,12 +154,17 @@ export function useAudioEngine(): AudioEngine {
     
     if (!saunaNoiseBufferRef.current) {
       const bufferSize = ctx.sampleRate * 2;
-      const generatedData = await generateBufferAsync('saunaNoise', bufferSize);
-      if (currentEnvRef.current !== 'water') return;
+      try {
+        const generatedData = await generateBufferAsync('saunaNoise', bufferSize);
+        if (currentEnvRef.current !== 'water') return;
 
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      buffer.copyToChannel(generatedData, 0);
-      saunaNoiseBufferRef.current = buffer;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        buffer.copyToChannel(generatedData, 0);
+        saunaNoiseBufferRef.current = buffer;
+      } catch (e) {
+        console.error('Failed to generate water noise buffer', e);
+        return;
+      }
     }
     
     const now = ctx.currentTime;
@@ -206,12 +230,17 @@ export function useAudioEngine(): AudioEngine {
     // 2. そよ風ノイズの合成・キャッシュ
     if (!totonouWindBufferRef.current) {
       const windBufferSize = ctx.sampleRate * 3;
-      const generatedData = await generateBufferAsync('windNoise', windBufferSize);
-      if (currentEnvRef.current !== 'totonou') return;
+      try {
+        const generatedData = await generateBufferAsync('windNoise', windBufferSize);
+        if (currentEnvRef.current !== 'totonou') return;
 
-      const windBuffer = ctx.createBuffer(1, windBufferSize, ctx.sampleRate);
-      windBuffer.copyToChannel(generatedData, 0);
-      totonouWindBufferRef.current = windBuffer;
+        const windBuffer = ctx.createBuffer(1, windBufferSize, ctx.sampleRate);
+        windBuffer.copyToChannel(generatedData, 0);
+        totonouWindBufferRef.current = windBuffer;
+      } catch (e) {
+        console.error('Failed to generate wind noise buffer', e);
+        return;
+      }
     }
 
     const windSource = ctx.createBufferSource();
@@ -270,10 +299,15 @@ export function useAudioEngine(): AudioEngine {
     
     if (!loylyWhiteNoiseBufferRef.current) {
       const bufferSize = Math.floor(ctx.sampleRate * 2.0);
-      const generatedData = await generateBufferAsync('whiteNoise', bufferSize);
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      buffer.copyToChannel(generatedData, 0);
-      loylyWhiteNoiseBufferRef.current = buffer;
+      try {
+        const generatedData = await generateBufferAsync('whiteNoise', bufferSize);
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        buffer.copyToChannel(generatedData, 0);
+        loylyWhiteNoiseBufferRef.current = buffer;
+      } catch (e) {
+        console.error('Failed to generate loyly white noise buffer', e);
+        return;
+      }
     }
 
     const now = ctx.currentTime;
