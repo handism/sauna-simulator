@@ -86,7 +86,7 @@ export interface AudioEngine {
 let audioWorker: Worker | null = null;
 let msgIdCounter = 0;
 type ResolverType = {
-  resolve: (data: Float32Array) => void;
+  resolve: (data: Float32Array<ArrayBuffer>) => void;
   reject: (reason?: any) => void;
   timeoutId: ReturnType<typeof setTimeout>;
 };
@@ -96,7 +96,7 @@ const resolvers = new Map<number, ResolverType>();
 function generateBufferAsync(
   type: "whiteNoise" | "saunaNoise" | "windNoise",
   length: number,
-): Promise<Float32Array> {
+): Promise<Float32Array<ArrayBuffer>> {
   return new Promise((resolve, reject) => {
     if (!audioWorker) {
       audioWorker = new AudioWorker();
