@@ -368,4 +368,30 @@ describe('useAudioEngine', () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to stop source', testError);
   });
+
+  it('handles worker timeouts gracefully when generateBufferAsync fails', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+
+    act(() => {
+      result.current.init();
+    });
+
+    const originalPostMessage = (window as any).Worker.prototype.postMessage;
+    (window as any).Worker.prototype.postMessage = vi.fn();
+
+    const playPromise = act(async () => {
+      const p = result.current.playAmbient('sauna');
+      vi.advanceTimersByTime(10000);
+      await p;
+    });
+
+    await playPromise;
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to generate sauna noise buffer',
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+    );
+
+    (window as any).Worker.prototype.postMessage = originalPostMessage;
+  });
 });
