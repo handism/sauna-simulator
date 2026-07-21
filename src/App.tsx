@@ -156,6 +156,7 @@ function App() {
           style={{
             opacity: stage === s ? 1 : 0,
             backgroundImage: `linear-gradient(${gradient}), url(${import.meta.env.BASE_URL}${image})`,
+            visibility: stage === s ? "visible" : "hidden",
           }}
         />
       ))}
