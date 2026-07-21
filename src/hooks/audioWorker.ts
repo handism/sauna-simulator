@@ -8,7 +8,7 @@ self.onmessage = function(e: MessageEvent) {
   if (type === 'saunaNoise') {
     for (let i = 0; i < length; i += maxElements) {
       const chunkLength = Math.min(maxElements, length - i);
-      const chunk = chunkLength === maxElements ? randomValues : new Uint32Array(chunkLength);
+      const chunk = chunkLength === maxElements ? randomValues : randomValues.subarray(0, chunkLength);
       self.crypto.getRandomValues(chunk);
       for (let j = 0; j < chunkLength; j++) {
         const white = (chunk[j] / 4294967295) * 2 - 1;
@@ -20,7 +20,7 @@ self.onmessage = function(e: MessageEvent) {
   } else if (type === 'windNoise') {
     for (let i = 0; i < length; i += maxElements) {
       const chunkLength = Math.min(maxElements, length - i);
-      const chunk = chunkLength === maxElements ? randomValues : new Uint32Array(chunkLength);
+      const chunk = chunkLength === maxElements ? randomValues : randomValues.subarray(0, chunkLength);
       self.crypto.getRandomValues(chunk);
       for (let j = 0; j < chunkLength; j++) {
         const white = (chunk[j] / 4294967295) * 2 - 1;
@@ -32,7 +32,7 @@ self.onmessage = function(e: MessageEvent) {
   } else {
     for (let i = 0; i < length; i += maxElements) {
       const chunkLength = Math.min(maxElements, length - i);
-      const chunk = chunkLength === maxElements ? randomValues : new Uint32Array(chunkLength);
+      const chunk = chunkLength === maxElements ? randomValues : randomValues.subarray(0, chunkLength);
       self.crypto.getRandomValues(chunk);
       for (let j = 0; j < chunkLength; j++) {
         const white = (chunk[j] / 4294967295) * 2 - 1;
