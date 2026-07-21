@@ -322,3 +322,428 @@ p {
   pointer-events: none !important;
 }
 
+/* App.tsx Extracted Styles */
+.app-bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 2s ease;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.app-main-ui-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+}
+
+/* SaunaRoom.tsx Extracted Styles */
+.sauna-room-panel {
+  text-align: center;
+  z-index: 10;
+  width: 92%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+}
+
+.sauna-room-title {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: #fca5a5;
+  letter-spacing: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.sauna-meters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.sauna-meter-box {
+  background: rgba(0,0,0,0.2);
+  padding: 15px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.sauna-meter-label-temp {
+  font-size: 0.8rem;
+  color: #fca5a5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sauna-meter-label-hum {
+  font-size: 0.8rem;
+  color: #93c5fd;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sauna-meter-val-temp {
+  font-size: 2rem;
+  margin-top: 5px;
+}
+
+.sauna-meter-val-hum {
+  font-size: 2rem;
+  margin-top: 5px;
+  color: #93c5fd;
+}
+
+.sauna-info-panel {
+  background: rgba(255,255,255,0.03);
+  padding: 15px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sauna-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.sauna-info-row-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 10px;
+}
+
+.sauna-info-label {
+  color: #cbd5e1;
+}
+
+.sauna-info-val-heat {
+  color: #f87171;
+  font-weight: 600;
+}
+
+.sauna-info-val-hr {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sauna-heart-icon {
+  color: #ef4444;
+  display: inline-block;
+}
+
+.sauna-hr-bpm {
+  font-size: 0.75rem;
+  font-weight: 300;
+}
+
+.sauna-action-btn-container {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.sauna-loyly-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+  width: 100%;
+  font-size: 1.1rem;
+}
+
+.sauna-next-stage-btn-container {
+  position: absolute;
+  bottom: calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px));
+  z-index: 12;
+}
+
+.sauna-next-stage-btn {
+  background: rgba(56,189,248,0.2);
+  border-color: rgba(56,189,248,0.6);
+  box-shadow: 0 4px 20px rgba(56,189,248,0.15);
+}
+
+.sauna-steam-particle {
+  position: absolute;
+  bottom: -5%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: steam-rise 4s ease-out forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* CoolingBath.tsx Extracted Styles */
+.cooling-panel {
+  text-align: center;
+  z-index: 10;
+  background: rgba(255,255,255,0.04);
+  width: 92%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+}
+
+.cooling-title {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: #bae6fd;
+  letter-spacing: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.cooling-desc {
+  font-size: 1.1rem;
+  font-weight: 300;
+  margin: 15px 0;
+  color: #e0f2fe;
+  line-height: 1.6;
+}
+
+.cooling-info-panel {
+  background: rgba(56,189,248,0.05);
+  padding: 15px;
+  border-radius: 16px;
+  margin: 20px 0 25px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid rgba(56,189,248,0.1);
+}
+
+.cooling-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.cooling-info-row-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 10px;
+}
+
+.cooling-info-label {
+  color: #bae6fd;
+}
+
+.cooling-info-val-temp {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.cooling-info-val-hr {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cooling-heart-icon {
+  color: #38bdf8;
+  display: inline-block;
+}
+
+.cooling-hr-bpm-val {
+  font-weight: 600;
+  color: #e0f2fe;
+}
+
+.cooling-hr-bpm-label {
+  font-size: 0.75rem;
+  font-weight: 300;
+}
+
+.cooling-next-btn-container {
+  position: absolute;
+  bottom: calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px));
+  z-index: 12;
+}
+
+.cooling-next-btn {
+  background: rgba(192,132,252,0.25);
+  border-color: rgba(192,132,252,0.6);
+  box-shadow: 0 4px 20px rgba(192,132,252,0.15);
+}
+
+.cooling-ripple-effect {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 2px solid rgba(56,189,248,0.25);
+  border-radius: 50%;
+  animation: ripple 3s ease-out forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* TotonouSpace.tsx Extracted Styles */
+.totonou-title-container {
+  position: absolute;
+  top: calc(clamp(15px, 8vh, 6%) + env(safe-area-inset-top, 0px));
+  z-index: 10;
+  text-align: center;
+  width: 90%;
+}
+
+.totonou-title {
+  font-size: clamp(1.4rem, 6vw, 1.8rem);
+  font-weight: 200;
+  letter-spacing: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.totonou-subtitle {
+  font-size: 0.9rem;
+  color: #64748b;
+  letter-spacing: 2px;
+}
+
+.totonou-info-panel {
+  margin-top: 40px;
+  background: rgba(255,255,255,0.03);
+  z-index: 10;
+  width: 90%;
+  max-width: 380px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.totonou-info-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.totonou-info-label {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.totonou-progress-val {
+  font-size: 2.2rem;
+  text-shadow: 0 0 15px rgba(255,255,255,0.1);
+}
+
+.totonou-progress-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.totonou-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981);
+  border-radius: 3px;
+}
+
+.totonou-feedback {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 5px;
+  animation: steam-blur-fade 1.5s ease-out;
+}
+
+.totonou-next-btn-container {
+  position: absolute;
+  bottom: calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px));
+  z-index: 12;
+}
+
+.totonou-next-btn {
+  background: rgba(255,255,255,0.08);
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.app-start-screen {
+  text-align: center;
+  transition: opacity 1s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app-main-title {
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  text-align: center;
+}
+
+.app-subtitle {
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  margin-bottom: 1.5rem;
+  color: #cbd5e1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  text-align: center;
+  font-weight: 300;
+}
+
+.app-headphone-notice {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.05);
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.app-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.app-btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.app-btn-secondary {
+  background: rgba(255,255,255,0.1);
+  font-size: 1rem;
+  padding: 12px 24px;
+}
+
+.app-stage-container {
+  transition: opacity 1s;
+  width: 100%;
+  height: 100%;
+}
