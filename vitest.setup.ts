@@ -21,5 +21,14 @@ vi.stubGlobal('Worker', MockWorker);
 if (typeof window !== 'undefined') {
   window.URL.createObjectURL = window.URL.createObjectURL || vi.fn(() => 'mock-url');
   window.URL.revokeObjectURL = window.URL.revokeObjectURL || vi.fn();
+
+  if (!window.crypto) {
+    (window as any).crypto = {};
+  }
+  if (!window.crypto.getRandomValues) {
+    window.crypto.getRandomValues = function (buffer: any) {
+      return require('crypto').webcrypto.getRandomValues(buffer);
+    };
+  }
 }
 
