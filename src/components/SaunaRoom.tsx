@@ -214,4 +214,3 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 }
 
 export default SaunaRoom;
-
