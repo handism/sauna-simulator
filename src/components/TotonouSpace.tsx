@@ -34,6 +34,12 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
     return () => clearInterval(breathInterval);
   }, []);
 
+  const maxTotonouRef = useRef(maxTotonou);
+
+  useEffect(() => {
+    maxTotonouRef.current = maxTotonou;
+  }, [maxTotonou]);
+
   // ととのいメーターの上昇アニメーション (requestAnimationFrame で最適化)
   useEffect(() => {
     let animationFrameId: number;
@@ -47,14 +53,16 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       const deltaTime = time - lastTime;
       lastTime = time;
 
-      if (currentLevel >= maxTotonou) {
-        currentLevel = maxTotonou;
+      const currentMaxTotonou = maxTotonouRef.current;
+
+      if (currentLevel >= currentMaxTotonou) {
+        currentLevel = currentMaxTotonou;
       } else {
         // 徐々に減速しながら目標値に近づくイージング (deltaTimeを用いて補正)
         // 元の100ms間隔に合わせたステップ幅の補正
         const timeScale = deltaTime / 100;
-        const step = Math.max((maxTotonou - currentLevel) * 0.05, 0.2) * timeScale;
-        currentLevel = Math.min(currentLevel + step, maxTotonou);
+        const step = Math.max((currentMaxTotonou - currentLevel) * 0.05, 0.2) * timeScale;
+        currentLevel = Math.min(currentLevel + step, currentMaxTotonou);
       }
 
       // DOM直接更新で再レンダリングを回避
@@ -76,12 +84,12 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       }
 
       // フィードバック表示は一度だけ setState を呼ぶ
-      if (!feedbackShown && currentLevel >= maxTotonou * 0.95) {
+      if (!feedbackShown && currentLevel >= currentMaxTotonou * 0.95) {
         feedbackShown = true;
         setShowFeedback(true);
       }
 
-      if (currentLevel < maxTotonou) {
+      if (currentLevel < currentMaxTotonou) {
         animationFrameId = requestAnimationFrame(animate);
       }
     };
@@ -89,7 +97,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
     animationFrameId = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [maxTotonou]);
+  }, []);
 
   return (
     <div className="scene-container">
