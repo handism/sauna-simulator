@@ -1,4 +1,5 @@
 import { useRef, useCallback, useMemo } from 'react';
+import AudioWorker from './audioWorker?worker';
 
 export type AmbientEnv = 'sauna' | 'water' | 'totonou';
 
@@ -9,38 +10,6 @@ export interface AudioEngine {
   setMuted: (muted: boolean) => void;
 }
 
-// Web Worker for offloading expensive audio buffer generation
-const workerCode = `
-self.onmessage = function(e) {
-  const { id, type, length } = e.data;
-  const data = new Float32Array(length);
-  const maxElements = 16384;
-  const randomValues = new Uint32Array(maxElements);
-
-  let lastOut = 0;
-  for (let i = 0; i < length; i += maxElements) {
-    const chunkLength = Math.min(maxElements, length - i);
-    const chunk = chunkLength === maxElements ? randomValues : randomValues.subarray(0, chunkLength);
-    self.crypto.getRandomValues(chunk);
-    for (let j = 0; j < chunkLength; j++) {
-      const white = (chunk[j] / 4294967295) * 2 - 1;
-      if (type === 'saunaNoise') {
-        data[i + j] = (lastOut + (0.02 * white)) / 1.02;
-        lastOut = data[i + j];
-        data[i + j] *= 3.5;
-      } else if (type === 'windNoise') {
-        data[i + j] = (lastOut + (0.015 * white)) / 1.015;
-        lastOut = data[i + j];
-        data[i + j] *= 5.0;
-      } else {
-        data[i + j] = white;
-      }
-    }
-  }
-  self.postMessage({ id, data }, [data.buffer]);
-};
-`;
-
 let audioWorker: Worker | null = null;
 let msgIdCounter = 0;
 const resolvers = new Map<number, (data: Float32Array) => void>();
@@ -49,8 +18,7 @@ const resolvers = new Map<number, (data: Float32Array) => void>();
 function generateBufferAsync(type: 'whiteNoise' | 'saunaNoise' | 'windNoise', length: number): Promise<Float32Array> {
   return new Promise((resolve) => {
     if (!audioWorker) {
-      const blob = new Blob([workerCode], { type: 'application/javascript' });
-      audioWorker = new Worker(URL.createObjectURL(blob));
+      audioWorker = new AudioWorker();
       audioWorker.onmessage = (e) => {
         const { id, data } = e.data;
         const resolveFn = resolvers.get(id);
