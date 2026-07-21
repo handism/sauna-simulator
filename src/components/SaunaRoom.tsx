@@ -1,11 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-import { AudioEngine } from '../hooks/useAudioEngine';
-import { calculateHeatIndex, getSecureRandom } from '../utils/saunaUtils';
-
-interface SaunaRoomProps {
-  audio: AudioEngine;
-  onNext: (heartRate: number, duration: number, loylyCount: number) => void;
-}
+import { useState, useEffect, useRef } from "react";
+import { useSaunaContext } from "../context/SaunaContext";
+import { calculateHeatIndex, getSecureRandom } from "../utils/saunaUtils";
 
 interface Steam {
   id: number;
@@ -13,6 +8,7 @@ interface Steam {
 }
 
 const SAUNA_CONFIG = {
+  // ...existing code...
   INITIAL_TEMP: 90,
   INITIAL_HUMIDITY: 15,
   INITIAL_HEART_RATE: 75,
@@ -29,10 +25,13 @@ const SAUNA_CONFIG = {
   HR_BASE_INCREASE: 0.02,
   MAX_HEART_RATE: 155,
   STEAM_DURATION_MS: 7000,
-  STEAM_PARTICLE_DURATION_MS: 4000
+  STEAM_PARTICLE_DURATION_MS: 4000,
 };
 
-const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
+const SaunaRoom = () => {
+  const { audio, setHeartRate, setSaunaTime, setLoylyCount, changeStage } =
+    useSaunaContext();
+
   const [saunaState, setSaunaState] = useState<{
     temperature: number;
     humidity: number;
@@ -44,7 +43,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   });
   const [steams, setSteams] = useState<Steam[]>([]);
   const [isSteaming, setIsSteaming] = useState<boolean>(false);
-  
+
   const secondsRef = useRef<number>(0);
   const loylyCountRef = useRef<number>(0);
   const steamTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -61,13 +60,19 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   // ロウリュ実行
   const handleLoyly = () => {
     audio.playLoyly();
-    setSaunaState(prev => ({
+    setSaunaState((prev) => ({
       ...prev,
-      temperature: Math.min(prev.temperature + SAUNA_CONFIG.LOYLY_TEMP_INC, SAUNA_CONFIG.MAX_TEMP),
-      humidity: Math.min(prev.humidity + SAUNA_CONFIG.LOYLY_HUMIDITY_INC, SAUNA_CONFIG.MAX_HUMIDITY),
+      temperature: Math.min(
+        prev.temperature + SAUNA_CONFIG.LOYLY_TEMP_INC,
+        SAUNA_CONFIG.MAX_TEMP,
+      ),
+      humidity: Math.min(
+        prev.humidity + SAUNA_CONFIG.LOYLY_HUMIDITY_INC,
+        SAUNA_CONFIG.MAX_HUMIDITY,
+      ),
     }));
     loylyCountRef.current += 1;
-    
+
     // スチーム曇り演出トリガー
     setIsSteaming(false); // 一度リセットして再起動できるようにする
     setTimeout(() => {
@@ -86,12 +91,12 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
     // サウナストーンからの蒸気パーティクル
     const newSteam: Steam = {
       id: Date.now(),
-      left: getSecureRandom() * 60 + 20 + '%'
+      left: getSecureRandom() * 60 + 20 + "%",
     };
-    setSteams(prev => [...prev, newSteam]);
+    setSteams((prev) => [...prev, newSteam]);
     setTimeout(() => {
       if (isMountedRef.current) {
-        setSteams(prev => prev.filter(s => s.id !== newSteam.id));
+        setSteams((prev) => prev.filter((s) => s.id !== newSteam.id));
       }
     }, SAUNA_CONFIG.STEAM_PARTICLE_DURATION_MS);
   };
@@ -102,26 +107,36 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
       // 滞在時間カウント
       secondsRef.current += 1;
 
-      setSaunaState(prev => {
+      setSaunaState((prev) => {
         // 自然減衰 (温度と湿度は徐々に下がる)
-        const nextTemp = Math.max(prev.temperature - SAUNA_CONFIG.TEMP_DECAY, SAUNA_CONFIG.MIN_TEMP);
-        const nextHum = Math.max(prev.humidity - SAUNA_CONFIG.HUMIDITY_DECAY, SAUNA_CONFIG.MIN_HUMIDITY);
+        const nextTemp = Math.max(
+          prev.temperature - SAUNA_CONFIG.TEMP_DECAY,
+          SAUNA_CONFIG.MIN_TEMP,
+        );
+        const nextHum = Math.max(
+          prev.humidity - SAUNA_CONFIG.HUMIDITY_DECAY,
+          SAUNA_CONFIG.MIN_HUMIDITY,
+        );
 
         // 体感温度の算出 (簡易Heat Index)
         // 湿度が上がると体感温度が急激に上がる
         const heatIndex = calculateHeatIndex(nextTemp, nextHum);
-        
+
         // 体感温度に応じて心拍数が徐々に上昇
-        const hrIncrease = (heatIndex - SAUNA_CONFIG.HEAT_INDEX_BASE) * SAUNA_CONFIG.HR_INCREASE_MULTIPLIER;
-        const nextHeartRate = Math.min(prev.heartRate + Math.max(hrIncrease, SAUNA_CONFIG.HR_BASE_INCREASE), SAUNA_CONFIG.MAX_HEART_RATE);
+        const hrIncrease =
+          (heatIndex - SAUNA_CONFIG.HEAT_INDEX_BASE) *
+          SAUNA_CONFIG.HR_INCREASE_MULTIPLIER;
+        const nextHeartRate = Math.min(
+          prev.heartRate + Math.max(hrIncrease, SAUNA_CONFIG.HR_BASE_INCREASE),
+          SAUNA_CONFIG.MAX_HEART_RATE,
+        );
 
         return {
           temperature: nextTemp,
           humidity: nextHum,
-          heartRate: nextHeartRate
+          heartRate: nextHeartRate,
         };
       });
-
     }, 1000);
 
     return () => {
@@ -143,11 +158,11 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   return (
     <div className="scene-container">
       {/* スチームオーバーレイ曇り演出 */}
-      <div className={`steam-overlay ${isSteaming ? 'active' : ''}`} />
-      
+      <div className={`steam-overlay ${isSteaming ? "active" : ""}`} />
+
       <div className="glass-panel sauna-room-panel">
         <h2 className="sauna-room-title">サウナルーム</h2>
-        
+
         {/* メインデジタルメーター */}
         <div className="sauna-meters-grid">
           <div className="sauna-meter-box">
@@ -168,25 +183,30 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
         <div className="sauna-info-panel">
           <div className="sauna-info-row">
             <span className="sauna-info-label">体感温度:</span>
-            <span className="dashboard-value sauna-info-val-heat">{heatIndex.toFixed(1)}°C</span>
+            <span className="dashboard-value sauna-info-val-heat">
+              {heatIndex.toFixed(1)}°C
+            </span>
           </div>
 
           <div className="sauna-info-row-bottom">
             <span className="sauna-info-label">心拍数:</span>
             <span className="sauna-info-val-hr">
-              <span 
+              <span
                 className="sauna-heart-icon"
-                style={{ animation: `breathe ${pulseSpeed}s infinite ease-in-out` }}
+                style={{
+                  animation: `breathe ${pulseSpeed}s infinite ease-in-out`,
+                }}
               >
                 ❤️
               </span>
               <span className="dashboard-value" style={{ fontWeight: 600 }}>
-                {Math.round(heartRate)} <span className="sauna-hr-bpm">BPM</span>
+                {Math.round(heartRate)}{" "}
+                <span className="sauna-hr-bpm">BPM</span>
               </span>
             </span>
           </div>
         </div>
-        
+
         <div className="sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly}>
             ロウリュ (Löyly)
@@ -196,14 +216,17 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 
       {/* 水風呂への遷移アクションボタン */}
       <div className="sauna-next-stage-btn-container">
-         <button className="primary-btn sauna-next-stage-btn" onClick={handleLeave}>
-            限界.. 水風呂へ 💧
-         </button>
+        <button
+          className="primary-btn sauna-next-stage-btn"
+          onClick={handleLeave}
+        >
+          限界.. 水風呂へ 💧
+        </button>
       </div>
 
       {/* サウナストーンからの上昇蒸気パーティクル */}
-      {steams.map(steam => (
-        <div 
+      {steams.map((steam) => (
+        <div
           key={steam.id}
           className="sauna-steam-particle"
           style={{ left: steam.left }}
@@ -211,6 +234,6 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
       ))}
     </div>
   );
-}
+};
 
 export default SaunaRoom;
