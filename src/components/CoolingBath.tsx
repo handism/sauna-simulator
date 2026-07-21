@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getSecureRandom } from '../utils/saunaUtils';
 
 interface CoolingBathProps {
   initialHeartRate: number;
@@ -29,8 +30,8 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
     const int = setInterval(() => {
       const newRipple: Ripple = {
         id: Date.now(),
-        left: Math.random() * 80 + 10 + '%',
-        top: Math.random() * 80 + 10 + '%',
+        left: getSecureRandom() * 80 + 10 + '%',
+        top: getSecureRandom() * 80 + 10 + '%',
       };
       setRipples(prev => [...prev.slice(-4), newRipple]); // 最大5つの波紋
     }, COOLING_CONFIG.RIPPLE_INTERVAL_MS);
@@ -47,7 +48,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         const diff = (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
         const nextHR = prev + diff;
         // わずかにランダムなゆらぎを加えて自然にする
-        const jitter = (Math.random() - 0.5) * 0.5;
+        const jitter = (getSecureRandom() - 0.5) * 0.5;
         return Math.max(nextHR + jitter, COOLING_CONFIG.MIN_HR);
       });
     }, 1000);

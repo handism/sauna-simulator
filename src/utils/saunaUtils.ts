@@ -2,6 +2,23 @@ export const calculateHeatIndex = (temperature: number, humidity: number): numbe
   return temperature + (humidity * 0.45);
 };
 
+export const getSecureRandom = (): number => {
+  const cryptoObj =
+    typeof globalThis !== 'undefined' && globalThis.crypto
+      ? globalThis.crypto
+      : typeof window !== 'undefined'
+      ? window.crypto
+      : undefined;
+
+  if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
+    const array = new Uint32Array(1);
+    cryptoObj.getRandomValues(array);
+    return array[0] / (0xffffffff + 1);
+  }
+
+  return Math.random();
+};
+
 export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
   // サウナスコア (最大55点): 50秒以上滞在で満点、ロウリュ1回につき+5点
   const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
