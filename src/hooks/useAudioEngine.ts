@@ -16,6 +16,66 @@ export interface EnvironmentConfig {
   noiseType: "whiteNoise" | "saunaNoise" | "windNoise";
 }
 
+export interface BinauralBeatConfig {
+  frequencyLeft: number;
+  frequencyRight: number;
+  panLeft: number;
+  panRight: number;
+  targetGain: number;
+  timeConstant: number;
+}
+
+export interface WindNoiseConfig {
+  filterSettings: AudioEffectSettings;
+  baseGain: number;
+  lfoFrequency: number;
+  lfoGain: number;
+}
+
+export interface AudioPresets {
+  sauna: EnvironmentConfig;
+  water: EnvironmentConfig;
+  totonouBinaural: BinauralBeatConfig;
+  totonouWind: WindNoiseConfig;
+}
+
+export const AUDIO_PRESETS: AudioPresets = {
+  sauna: {
+    filterSettings: {
+      type: "lowpass",
+      frequency: 250,
+    },
+    targetGain: 0.35,
+    noiseType: "saunaNoise",
+  },
+  water: {
+    filterSettings: {
+      type: "bandpass",
+      frequency: 1200,
+      Q: 0.6,
+    },
+    targetGain: 0.45,
+    noiseType: "saunaNoise",
+  },
+  totonouBinaural: {
+    frequencyLeft: 110,
+    frequencyRight: 112.5,
+    panLeft: -0.8,
+    panRight: 0.8,
+    targetGain: 0.25,
+    timeConstant: 2.0,
+  },
+  totonouWind: {
+    filterSettings: {
+      type: "lowpass",
+      frequency: 200,
+    },
+    baseGain: 0.04,
+    lfoFrequency: 0.08,
+    lfoGain: 0.03,
+  },
+};
+
 export interface AudioEngine {
   init: () => void;
   playAmbient: (env: AmbientEnv) => void;

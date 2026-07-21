@@ -1,11 +1,19 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { calculateTotonouScore } from "../utils/saunaUtils";
 
-interface TotonouSpaceProps {}
+export interface TotonouSpaceProps {
+  saunaTime: number;
+  waterTime: number;
+  loylyCount: number;
+  onNext: () => void;
+}
 
-const TotonouSpace = () => {
-  const { saunaTime, waterTime, loylyCount, completeTotonou } =
-    useSaunaContext();
+const TotonouSpace = ({
+  saunaTime,
+  waterTime,
+  loylyCount,
+  onNext,
+}: TotonouSpaceProps) => {
   const [breathText, setBreathText] = useState<string>("吸って...");
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);

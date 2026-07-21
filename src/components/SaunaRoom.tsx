@@ -1,10 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { useSaunaContext } from "../context/SaunaContext";
+import { AudioEngine } from "../hooks/useAudioEngine";
 import { calculateHeatIndex, getSecureRandom } from "../utils/saunaUtils";
 
 interface Steam {
   id: number;
   left: string;
+}
+
+export interface SaunaRoomProps {
+  audio: AudioEngine;
+  onNext: (finalHeartRate: number, duration: number, loylyCount: number) => void;
 }
 
 const SAUNA_CONFIG = {
@@ -28,9 +33,7 @@ const SAUNA_CONFIG = {
   STEAM_PARTICLE_DURATION_MS: 4000,
 };
 
-const SaunaRoom = () => {
-  const { audio, setHeartRate, setSaunaTime, setLoylyCount, changeStage } =
-    useSaunaContext();
+const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 
   const [saunaState, setSaunaState] = useState<{
     temperature: number;
