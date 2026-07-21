@@ -12,6 +12,13 @@ interface Ripple {
   top: string;
 }
 
+const COOLING_CONFIG = {
+  TARGET_HR: 60,
+  HR_DECAY_FACTOR: 0.16,
+  MIN_HR: 56,
+  RIPPLE_INTERVAL_MS: 1500
+};
+
 const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [heartRate, setHeartRate] = useState<number>(initialHeartRate);
@@ -27,7 +34,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         top: getSecureRandom() * 80 + 10 + '%',
       };
       setRipples(prev => [...prev.slice(-4), newRipple]); // 最大5つの波紋
-    }, 1500);
+    }, COOLING_CONFIG.RIPPLE_INTERVAL_MS);
     return () => clearInterval(int);
   }, []);
 
@@ -37,12 +44,12 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
       secondsRef.current += 1;
       
       setHeartRate(prev => {
-        // 目標心拍数 60 bpm に向けてイージングで急低下
-        const diff = (60 - prev) * 0.16;
+        // 目標心拍数 TARGET_HR bpm に向けてイージングで急低下
+        const diff = (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
         const nextHR = prev + diff;
         // わずかにランダムなゆらぎを加えて自然にする
         const jitter = (getSecureRandom() - 0.5) * 0.5;
-        return Math.max(nextHR + jitter, 56);
+        return Math.max(nextHR + jitter, COOLING_CONFIG.MIN_HR);
       });
     }, 1000);
 
@@ -66,34 +73,31 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         }} 
       />
       
-      <div className="glass-panel" style={{ textAlign: 'center', zIndex: 10, background: 'rgba(255,255,255,0.04)', width: '92%', maxWidth: '420px', padding: '2.5rem 2rem' }}>
-        <h2 style={{ fontSize: '1.4rem', fontWeight: 300, color: '#bae6fd', letterSpacing: '4px', marginBottom: '1.5rem' }}>水風呂</h2>
+      <div className="glass-panel cooling-panel">
+        <h2 className="cooling-title">水風呂</h2>
         
-        <div style={{ fontSize: '1.1rem', fontWeight: 300, margin: '15px 0', color: '#e0f2fe', lineHeight: 1.6 }}>
+        <div className="cooling-desc">
           ゆっくりと粗熱を取る...
         </div>
 
         {/* シミュレーター情報ダッシュボード */}
-        <div style={{ background: 'rgba(56,189,248,0.05)', padding: '15px', borderRadius: '16px', margin: '20px 0 25px 0', display: 'flex', flexDirection: 'column', gap: '10px', border: '1px solid rgba(56,189,248,0.1)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.95rem' }}>
-            <span style={{ color: '#bae6fd' }}>水温:</span>
-            <span className="dashboard-value" style={{ color: '#38bdf8', fontWeight: 600 }}>16.0°C</span>
+        <div className="cooling-info-panel">
+          <div className="cooling-info-row">
+            <span className="cooling-info-label">水温:</span>
+            <span className="dashboard-value cooling-info-val-temp">16.0°C</span>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.95rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '10px' }}>
-            <span style={{ color: '#bae6fd' }}>心拍数:</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div className="cooling-info-row-bottom">
+            <span className="cooling-info-label">心拍数:</span>
+            <span className="cooling-info-val-hr">
               <span 
-                style={{ 
-                  color: '#38bdf8', 
-                  display: 'inline-block',
-                  animation: `breathe ${pulseSpeed}s infinite ease-in-out`
-                }}
+                className="cooling-heart-icon"
+                style={{ animation: `breathe ${pulseSpeed}s infinite ease-in-out` }}
               >
                 💙
               </span>
-              <span className="dashboard-value" style={{ fontWeight: 600, color: '#e0f2fe' }}>
-                {Math.round(heartRate)} <span style={{ fontSize: '0.75rem', fontWeight: 300 }}>BPM</span>
+              <span className="dashboard-value cooling-hr-bpm-val">
+                {Math.round(heartRate)} <span className="cooling-hr-bpm-label">BPM</span>
               </span>
             </span>
           </div>
@@ -101,8 +105,8 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
       </div>
 
       {/* 外気浴へ遷移 */}
-      <div style={{position: 'absolute', bottom: 'calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px))', zIndex: 12}}>
-         <button className="primary-btn" onClick={handleLeave} style={{ background: 'rgba(192,132,252,0.25)', borderColor: 'rgba(192,132,252,0.6)', boxShadow: '0 4px 20px rgba(192,132,252,0.15)'}}>
+      <div className="cooling-next-btn-container">
+         <button className="primary-btn cooling-next-btn" onClick={handleLeave}>
             外気浴へ 🍃
          </button>
       </div>
@@ -111,18 +115,8 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
       {ripples.map(r => (
         <div 
           key={r.id}
-          style={{
-            position: 'absolute',
-            top: r.top,
-            left: r.left,
-            width: '120px',
-            height: '120px',
-            border: '2px solid rgba(56,189,248,0.25)',
-            borderRadius: '50%',
-            animation: 'ripple 3s ease-out forwards',
-            pointerEvents: 'none',
-            zIndex: 5
-          }}
+          className="cooling-ripple-effect"
+          style={{ top: r.top, left: r.left }}
         />
       ))}
     </div>

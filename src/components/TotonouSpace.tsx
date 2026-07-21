@@ -1,29 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-
-export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
-  // サウナスコア (最大55点): 50秒以上滞在で満点、ロウリュ1回につき+5点
-  const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
-  // 水風呂スコア (最大40点): 20秒以上滞在で満点
-  const waterScore = Math.min(waterTime / 20, 1.0) * 40;
-
-  const totalScore = Math.min(Math.round(saunaScore + waterScore), 100);
-
-  // スコアに応じたフィードバック
-  let text = '';
-  if (totalScore >= 90) {
-    text = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
-  } else if (totalScore >= 70) {
-    text = 'しっかり「ととのい」の波が押し寄せています 🧘';
-  } else if (saunaTime < 15) {
-    text = 'サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥';
-  } else if (waterTime < 8) {
-    text = '水風呂の冷却が短かったようです。羽衣を感じるまで浸かってみましょう 💧';
-  } else {
-    text = '心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃';
-  }
-
-  return { maxTotonou: totalScore, feedback: text };
-};
+import { calculateTotonouScore } from '../utils/saunaUtils';
 
 interface TotonouSpaceProps {
   saunaTime: number;
@@ -58,6 +34,12 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
     return () => clearInterval(breathInterval);
   }, []);
 
+  const maxTotonouRef = useRef(maxTotonou);
+
+  useEffect(() => {
+    maxTotonouRef.current = maxTotonou;
+  }, [maxTotonou]);
+
   // ととのいメーターの上昇アニメーション (requestAnimationFrame で最適化)
   useEffect(() => {
     let animationFrameId: number;
@@ -71,14 +53,16 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       const deltaTime = time - lastTime;
       lastTime = time;
 
-      if (currentLevel >= maxTotonou) {
-        currentLevel = maxTotonou;
+      const currentMaxTotonou = maxTotonouRef.current;
+
+      if (currentLevel >= currentMaxTotonou) {
+        currentLevel = currentMaxTotonou;
       } else {
         // 徐々に減速しながら目標値に近づくイージング (deltaTimeを用いて補正)
         // 元の100ms間隔に合わせたステップ幅の補正
         const timeScale = deltaTime / 100;
-        const step = Math.max((maxTotonou - currentLevel) * 0.05, 0.2) * timeScale;
-        currentLevel = Math.min(currentLevel + step, maxTotonou);
+        const step = Math.max((currentMaxTotonou - currentLevel) * 0.05, 0.2) * timeScale;
+        currentLevel = Math.min(currentLevel + step, currentMaxTotonou);
       }
 
       // DOM直接更新で再レンダリングを回避
@@ -100,12 +84,12 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       }
 
       // フィードバック表示は一度だけ setState を呼ぶ
-      if (!feedbackShown && currentLevel >= maxTotonou * 0.95) {
+      if (!feedbackShown && currentLevel >= currentMaxTotonou * 0.95) {
         feedbackShown = true;
         setShowFeedback(true);
       }
 
-      if (currentLevel < maxTotonou) {
+      if (currentLevel < currentMaxTotonou) {
         animationFrameId = requestAnimationFrame(animate);
       }
     };
@@ -113,7 +97,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
     animationFrameId = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [maxTotonou]);
+  }, []);
 
   return (
     <div className="scene-container">
@@ -131,9 +115,9 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
         <div className="aurora-blob three" />
       </div>
 
-      <div style={{ position: 'absolute', top: 'calc(clamp(15px, 8vh, 6%) + env(safe-area-inset-top, 0px))', zIndex: 10, textAlign: 'center', width: '90%' }}>
-        <h2 style={{ fontSize: 'clamp(1.4rem, 6vw, 1.8rem)', fontWeight: 200, letterSpacing: '10px', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '8px' }}>外気浴</h2>
-        <p style={{ fontSize: '0.9rem', color: '#64748b', letterSpacing: '2px' }}>風の音に身を任せて</p>
+      <div className="totonou-title-container">
+        <h2 className="totonou-title">外気浴</h2>
+        <p className="totonou-subtitle">風の音に身を任せて</p>
       </div>
 
       {/* 呼吸サークル (プレミアム仕様、吸う/吐くに合わせて伸縮しグローが強まる) */}
@@ -166,69 +150,37 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       </div>
 
       {/* 「ととのい度」情報パネル */}
-      <div 
-        className="glass-panel" 
-        style={{ 
-          marginTop: '40px', 
-          background: 'rgba(255,255,255,0.03)', 
-          zIndex: 10, 
-          width: '90%', 
-          maxWidth: '380px',
-          padding: '1.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '12px'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-          <span style={{ fontSize: '0.9rem', color: '#94a3b8' }}>ととのい度:</span>
+      <div className="glass-panel totonou-info-panel">
+        <div className="totonou-info-row">
+          <span className="totonou-info-label">ととのい度:</span>
           <span 
             ref={totonouTextRef}
-            className="dashboard-value" 
-            style={{ 
-              fontSize: '2.2rem', 
-              color: '#a78bfa', // 初期色、以降は requestAnimationFrame で更新
-              textShadow: '0 0 15px rgba(255,255,255,0.1)'
-            }}
+            className="dashboard-value totonou-progress-val"
+            style={{ color: '#a78bfa' }}
           >
             0%
           </span>
         </div>
 
         {/* プログレスバー */}
-        <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
+        <div className="totonou-progress-bg">
           <div 
             ref={totonouBarRef}
-            style={{ 
-              width: '0%',
-              height: '100%', 
-              background: 'linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981)',
-              borderRadius: '3px',
-              // width の transition を外す（requestAnimationFrame で滑らかに更新するため）
-            }} 
+            className="totonou-progress-bar"
+            style={{ width: '0%' }}
           />
         </div>
 
         {/* フィードバックコメント */}
         {showFeedback && (
-          <p 
-            style={{ 
-              fontSize: '0.85rem', 
-              color: '#cbd5e1', 
-              textAlign: 'center', 
-              lineHeight: '1.5',
-              marginTop: '5px',
-              animation: 'steam-blur-fade 1.5s ease-out'
-            }}
-          >
+          <p className="totonou-feedback">
             {feedback}
           </p>
         )}
       </div>
 
-      <div style={{ position: 'absolute', bottom: 'calc(clamp(20px, 8vh, 60px) + env(safe-area-inset-bottom, 0px))', zIndex: 12 }}>
-         <button className="primary-btn" onClick={onNext} style={{ background: 'rgba(255,255,255,0.08)', fontSize: '0.95rem', padding: '12px 28px', border: '1px solid rgba(255,255,255,0.2)' }}>
+      <div className="totonou-next-btn-container">
+         <button className="primary-btn totonou-next-btn" onClick={onNext}>
             もう一度サウナへ 🔄
          </button>
       </div>
