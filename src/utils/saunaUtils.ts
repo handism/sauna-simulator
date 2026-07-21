@@ -2,6 +2,10 @@ export const calculateHeatIndex = (temperature: number, humidity: number): numbe
   return temperature + (humidity * 0.45);
 };
 
+/**
+ * Cryptographically secure random number generator in [0, 1) range,
+ * equivalent to Math.random() but using Web Crypto API when available.
+ */
 export const getSecureRandom = (): number => {
   const cryptoObj =
     typeof globalThis !== 'undefined' && globalThis.crypto
