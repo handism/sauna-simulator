@@ -124,4 +124,3 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
 }
 
 export default CoolingBath;
-
