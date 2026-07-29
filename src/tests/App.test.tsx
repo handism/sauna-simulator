@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import App from '../App';
+import { SaunaProvider } from '../context/SaunaContext';
 import * as useAudioEngineModule from '../hooks/useAudioEngine';
 
 // Mock child components to isolate App testing
@@ -41,14 +42,14 @@ describe('App Component', () => {
   });
 
   it('renders start screen initially', () => {
-    render(<App />);
+    render(<SaunaProvider><App /></SaunaProvider>);
     expect(screen.getByText('ブラウザサウナ')).toBeInTheDocument();
     expect(screen.getByText('音ありで入室する')).toBeInTheDocument();
     expect(screen.getByText('静かに入室する')).toBeInTheDocument();
   });
 
   it('starts experience with sound when "音ありで入室する" is clicked', async () => {
-    render(<App />);
+    render(<SaunaProvider><App /></SaunaProvider>);
     const button = screen.getByText('音ありで入室する');
     fireEvent.click(button);
 
@@ -62,7 +63,7 @@ describe('App Component', () => {
   });
 
   it('starts experience muted when "静かに入室する" is clicked', async () => {
-    render(<App />);
+    render(<SaunaProvider><App /></SaunaProvider>);
     const button = screen.getByText('静かに入室する');
     fireEvent.click(button);
 
@@ -76,7 +77,7 @@ describe('App Component', () => {
   });
 
   it('transitions through stages correctly', async () => {
-    render(<App />);
+    render(<SaunaProvider><App /></SaunaProvider>);
 
     // Start -> Sauna
     fireEvent.click(screen.getByText('音ありで入室する'));
@@ -111,7 +112,7 @@ describe('App Component', () => {
   });
 
   it('toggles mute correctly', async () => {
-    render(<App />);
+    render(<SaunaProvider><App /></SaunaProvider>);
 
     // Start without sound
     fireEvent.click(screen.getByText('静かに入室する'));
@@ -134,7 +135,7 @@ describe('App Component', () => {
   });
 
   it('toggles UI visibility correctly', async () => {
-    render(<App />);
+    render(<SaunaProvider><App /></SaunaProvider>);
 
     // Start
     fireEvent.click(screen.getByText('音ありで入室する'));
