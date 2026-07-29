@@ -65,14 +65,12 @@ describe('saunaUtils', () => {
       }
     });
 
-    it('falls back to Math.random if crypto is undefined', () => {
+    it('throws an error if crypto is undefined', () => {
       const originalCrypto = globalThis.crypto;
       // @ts-ignore
       delete globalThis.crypto;
 
-      const val = getSecureRandom();
-      expect(val).toBeGreaterThanOrEqual(0);
-      expect(val).toBeLessThan(1);
+      expect(() => getSecureRandom()).toThrow("Web Crypto API is not available in this environment.");
 
       // Restore
       globalThis.crypto = originalCrypto;
