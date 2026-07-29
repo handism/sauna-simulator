@@ -51,7 +51,7 @@ describe('SaunaContext', () => {
     expect(result.current.waterTime).toBe(0);
   });
 
-  it('handleStart initializes audio and transitions stage', () => {
+  it('handleStart initializes audio with sound and transitions stage', () => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
 
     act(() => {
@@ -71,6 +71,35 @@ describe('SaunaContext', () => {
 
     expect(result.current.stage).toBe('sauna');
     expect(result.current.opacity).toBe(1);
+  });
+
+  it('handleStart without sound keeps audio muted', () => {
+    const { result } = renderHook(() => useSaunaContext(), { wrapper });
+
+    act(() => {
+      result.current.handleStart(false);
+    });
+
+    expect(mockAudioEngine.init).toHaveBeenCalled();
+    expect(mockAudioEngine.setMuted).toHaveBeenCalledWith(true);
+    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith('sauna');
+    expect(result.current.isMuted).toBe(true);
+  });
+
+  it('state setters update heartRate, saunaTime, loylyCount, and waterTime', () => {
+    const { result } = renderHook(() => useSaunaContext(), { wrapper });
+
+    act(() => {
+      result.current.setHeartRate(110);
+      result.current.setSaunaTime(300);
+      result.current.setLoylyCount(2);
+      result.current.setWaterTime(60);
+    });
+
+    expect(result.current.heartRate).toBe(110);
+    expect(result.current.saunaTime).toBe(300);
+    expect(result.current.loylyCount).toBe(2);
+    expect(result.current.waterTime).toBe(60);
   });
 
   it('toggleMute toggles mute state', () => {
