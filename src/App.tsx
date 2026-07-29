@@ -1,11 +1,9 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
 import SaunaRoom from "./components/SaunaRoom";
 import CoolingBath from "./components/CoolingBath";
 import TotonouSpace from "./components/TotonouSpace";
-import { useAudioEngine, AmbientEnv } from "./hooks/useAudioEngine";
-
-export type Stage = "start" | AmbientEnv;
+import { useSaunaContext, Stage } from "./context/SaunaContext";
 
 interface BackgroundConfig {
   stage: Stage;
@@ -131,17 +129,23 @@ function MuteButton({
 }
 
 function App() {
-  const [stage, setStage] = useState<Stage>("start");
-  const [opacity, setOpacity] = useState<number>(1);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
-  const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
-
-  const [heartRate, setHeartRate] = useState<number>(75);
-  const [saunaTime, setSaunaTime] = useState<number>(0);
-  const [loylyCount, setLoylyCount] = useState<number>(0);
-  const [waterTime, setWaterTime] = useState<number>(0);
-
-  const audio = useAudioEngine();
+  const {
+    stage,
+    opacity,
+    isMuted,
+    isUiHidden,
+    heartRate,
+    saunaTime,
+    loylyCount,
+    waterTime,
+    audio,
+    handleStart,
+    toggleMute,
+    toggleUiVisibility,
+    completeSauna,
+    completeWater,
+    completeTotonou,
+  } = useSaunaContext();
 
   // 背景画像レイヤーのアンマウント最適化
   // クロスフェード遷移中のみ現在と遷移先の背景を保持し、遷移完了後に非アクティブな背景をDOMからアンマウント
@@ -154,43 +158,6 @@ function App() {
     }, 1000);
     return () => clearTimeout(timer);
   }, [stage]);
-
-  const changeStage = useCallback((nextStage: Stage) => {
-    setOpacity(0);
-    setTimeout(() => {
-      setStage(nextStage);
-      setOpacity(1);
-    }, 1000);
-  }, []);
-
-  const handleStart = useCallback(
-    (withSound: boolean) => {
-      audio.init();
-      setIsMuted(!withSound);
-      audio.setMuted(!withSound);
-      audio.playAmbient("sauna");
-
-      setHeartRate(75);
-      setSaunaTime(0);
-      setLoylyCount(0);
-      setWaterTime(0);
-
-      changeStage("sauna");
-    },
-    [audio, changeStage],
-  );
-
-  const toggleMute = useCallback(() => {
-    setIsMuted((prev) => {
-      const next = !prev;
-      audio.setMuted(next);
-      return next;
-    });
-  }, [audio]);
-
-  const toggleUiVisibility = useCallback(() => {
-    setIsUiHidden((prev) => !prev);
-  }, []);
 
   return (
     <div
@@ -252,13 +219,7 @@ function App() {
           <div className="app-stage-container" style={{ opacity }}>
             <SaunaRoom
               audio={audio}
-              onNext={(finalHeartRate, duration, loylys) => {
-                setHeartRate(finalHeartRate);
-                setSaunaTime(duration);
-                setLoylyCount(loylys);
-                audio.playAmbient("water");
-                changeStage("water");
-              }}
+              onNext={completeSauna}
             />
           </div>
         )}
@@ -267,12 +228,7 @@ function App() {
           <div className="app-stage-container" style={{ opacity }}>
             <CoolingBath
               initialHeartRate={heartRate}
-              onNext={(finalHeartRate, duration) => {
-                setHeartRate(finalHeartRate);
-                setWaterTime(duration);
-                audio.playAmbient("totonou");
-                changeStage("totonou");
-              }}
+              onNext={completeWater}
             />
           </div>
         )}
@@ -283,10 +239,7 @@ function App() {
               saunaTime={saunaTime}
               waterTime={waterTime}
               loylyCount={loylyCount}
-              onNext={() => {
-                audio.playAmbient("sauna");
-                changeStage("sauna");
-              }}
+              onNext={completeTotonou}
             />
           </div>
         )}
