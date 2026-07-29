@@ -4,7 +4,8 @@ export const calculateHeatIndex = (temperature: number, humidity: number): numbe
 
 /**
  * Cryptographically secure random number generator in [0, 1) range,
- * equivalent to Math.random() but using Web Crypto API when available.
+ * equivalent to Math.random() but using Web Crypto API.
+ * Throws an error if Web Crypto API is unavailable.
  */
 export const getSecureRandom = (): number => {
   const cryptoObj =
@@ -20,7 +21,7 @@ export const getSecureRandom = (): number => {
     return array[0] / (0xffffffff + 1);
   }
 
-  return Math.random();
+  throw new Error("Web Crypto API is not available in this environment.");
 };
 
 export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
