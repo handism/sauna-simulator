@@ -1,4 +1,7 @@
+declare const self: DedicatedWorkerGlobalScope;
+
 const maxElements = 16384;
+
 const randomValues = new Uint32Array(maxElements);
 
 self.onmessage = function(e: MessageEvent) {
@@ -44,3 +47,6 @@ self.onmessage = function(e: MessageEvent) {
   }
   self.postMessage({ id, data }, [data.buffer]);
 };
+
+export {};
+
