@@ -74,7 +74,7 @@ const TotonouSpace = ({
       // DOM直接更新で再レンダリングを回避
       if (totonouTextRef.current) {
         const rounded = Math.round(currentLevel);
-        totonouTextRef.current.innerText = `${rounded}%`;
+        totonouTextRef.current.textContent = `${rounded}%`;
         // 色の更新
         if (rounded >= 90) {
           totonouTextRef.current.style.color = "#34d399";
