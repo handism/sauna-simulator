@@ -1,8 +1,9 @@
+const maxElements = 16384;
+const randomValues = new Uint32Array(maxElements);
+
 self.onmessage = function(e: MessageEvent) {
   const { id, type, length } = e.data;
   const data = new Float32Array(length);
-  const maxElements = 16384;
-  const randomValues = new Uint32Array(maxElements);
 
   let lastOut = 0;
   const multiplier = 2 / 4294967295;

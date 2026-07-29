@@ -2,6 +2,9 @@ export const calculateHeatIndex = (temperature: number, humidity: number): numbe
   return temperature + (humidity * 0.45);
 };
 
+// Cache the Uint32Array to avoid recreating it on every function call
+const secureRandomArray = new Uint32Array(1);
+
 /**
  * Cryptographically secure random number generator in [0, 1) range,
  * equivalent to Math.random() but using Web Crypto API.
@@ -16,9 +19,8 @@ export const getSecureRandom = (): number => {
       : undefined;
 
   if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
-    const array = new Uint32Array(1);
-    cryptoObj.getRandomValues(array);
-    return array[0] / (0xffffffff + 1);
+    cryptoObj.getRandomValues(secureRandomArray);
+    return secureRandomArray[0] / (0xffffffff + 1);
   }
 
   throw new Error("Web Crypto API is not available in this environment.");
