@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 describe('audioWorker', () => {
   let postMessageSpy: any;
@@ -15,8 +15,8 @@ describe('audioWorker', () => {
     // We spy on it to ensure it's called with the correct chunks
     getRandomValuesSpy = vi.fn((array: any) => {
       // populate with some deterministic value
-      for(let i=0; i<array.length; i++) {
-         array[i] = 2147483647;
+      for (let i = 0; i < array.length; i++) {
+        array[i] = 2147483647;
       }
       return array;
     });
@@ -26,6 +26,14 @@ describe('audioWorker', () => {
 
     // Import the worker file which will attach onmessage to self
     await import('./audioWorker.ts');
+  });
+
+  afterEach(() => {
+    if (originalGetRandomValues) {
+      self.crypto.getRandomValues = originalGetRandomValues;
+    }
+    delete (self as any).postMessage;
+    delete (self as any).onmessage;
   });
 
   it('should process saunaNoise with length less than maxElements', () => {
@@ -50,6 +58,36 @@ describe('audioWorker', () => {
     expect(payload.id).toBe('test-sauna-1');
     expect(payload.data).toBeInstanceOf(Float32Array);
     expect(payload.data.length).toBe(100);
+    expect(Number.isNaN(payload.data[0])).toBe(false);
+    expect(transferList).toBeDefined();
+    expect(transferList[0]).toBe(payload.data.buffer);
+  });
+
+  it('should process saunaNoise with length greater than maxElements (chunking)', () => {
+    const onmessage = self.onmessage as ((e: MessageEvent) => void) | null;
+
+    const length = 20000;
+    const mockEvent = {
+      data: {
+        id: 'test-sauna-2',
+        type: 'saunaNoise',
+        length: length,
+      }
+    } as MessageEvent;
+
+    onmessage!(mockEvent);
+
+    expect(getRandomValuesSpy).toHaveBeenCalledTimes(2);
+    expect(getRandomValuesSpy.mock.calls[0][0].length).toBe(16384);
+    expect(getRandomValuesSpy.mock.calls[1][0].length).toBe(3616);
+
+    expect(postMessageSpy).toHaveBeenCalledTimes(1);
+    const [payload, transferList] = postMessageSpy.mock.calls[0];
+    expect(payload.id).toBe('test-sauna-2');
+    expect(payload.data).toBeInstanceOf(Float32Array);
+    expect(payload.data.length).toBe(length);
+    expect(Number.isNaN(payload.data[0])).toBe(false);
+    expect(Number.isNaN(payload.data[19999])).toBe(false);
     expect(transferList).toBeDefined();
     expect(transferList[0]).toBe(payload.data.buffer);
   });
@@ -78,6 +116,7 @@ describe('audioWorker', () => {
     expect(payload.id).toBe('test-wind-1');
     expect(payload.data).toBeInstanceOf(Float32Array);
     expect(payload.data.length).toBe(length);
+    expect(Number.isNaN(payload.data[0])).toBe(false);
     expect(transferList).toBeDefined();
     expect(transferList[0]).toBe(payload.data.buffer);
   });
@@ -101,5 +140,7 @@ describe('audioWorker', () => {
     const [payload] = postMessageSpy.mock.calls[0];
     expect(payload.id).toBe('test-default-1');
     expect(payload.data.length).toBe(50);
+    expect(Number.isNaN(payload.data[0])).toBe(false);
   });
 });
+
