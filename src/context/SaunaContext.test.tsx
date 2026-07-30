@@ -33,7 +33,9 @@ describe("SaunaContext", () => {
   });
 
   it("throws when used outside of SaunaProvider", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
     expect(() => renderHook(() => useSaunaContext())).toThrow(
       "useSaunaContext must be used within a SaunaProvider",
     );
