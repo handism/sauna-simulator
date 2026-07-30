@@ -9,7 +9,11 @@ interface Steam {
 
 export interface SaunaRoomProps {
   audio: AudioEngine;
-  onNext: (finalHeartRate: number, duration: number, loylyCount: number) => void;
+  onNext: (
+    finalHeartRate: number,
+    duration: number,
+    loylyCount: number,
+  ) => void;
 }
 
 const SAUNA_CONFIG = {
@@ -34,7 +38,6 @@ const SAUNA_CONFIG = {
 };
 
 const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
-
   const [saunaState, setSaunaState] = useState<{
     temperature: number;
     humidity: number;
@@ -49,12 +52,23 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 
   const secondsRef = useRef<number>(0);
   const loylyCountRef = useRef<number>(0);
-  const steamTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const steamTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const steamResetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const steamParticleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
   const isMountedRef = useRef<boolean>(true);
 
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
+      if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
+      if (steamResetTimeoutRef.current)
+        clearTimeout(steamResetTimeoutRef.current);
+      if (steamParticleTimeoutRef.current)
+        clearTimeout(steamParticleTimeoutRef.current);
     };
   }, []);
 
@@ -78,7 +92,10 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 
     // スチーム曇り演出トリガー
     setIsSteaming(false); // 一度リセットして再起動できるようにする
-    setTimeout(() => {
+    if (steamResetTimeoutRef.current)
+      clearTimeout(steamResetTimeoutRef.current);
+    steamResetTimeoutRef.current = setTimeout(() => {
+      steamResetTimeoutRef.current = null;
       if (isMountedRef.current) {
         setIsSteaming(true);
       }
@@ -86,6 +103,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
 
     if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
     steamTimeoutRef.current = setTimeout(() => {
+      steamTimeoutRef.current = null;
       if (isMountedRef.current) {
         setIsSteaming(false);
       }
@@ -97,7 +115,10 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
       left: getSecureRandom() * 60 + 20 + "%",
     };
     setSteams((prev) => [...prev, newSteam]);
-    setTimeout(() => {
+    if (steamParticleTimeoutRef.current)
+      clearTimeout(steamParticleTimeoutRef.current);
+    steamParticleTimeoutRef.current = setTimeout(() => {
+      steamParticleTimeoutRef.current = null;
       if (isMountedRef.current) {
         setSteams((prev) => prev.filter((s) => s.id !== newSteam.id));
       }
