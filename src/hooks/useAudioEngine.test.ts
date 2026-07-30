@@ -394,4 +394,122 @@ describe('useAudioEngine', () => {
 
     (window as any).Worker.prototype.postMessage = originalPostMessage;
   });
+
+  it('handles worker timeouts gracefully when generateBufferAsync fails for water', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+
+    act(() => {
+      result.current.init();
+    });
+
+    const originalPostMessage = (window as any).Worker.prototype.postMessage;
+    (window as any).Worker.prototype.postMessage = vi.fn();
+
+    const playPromise = act(async () => {
+      const p = result.current.playAmbient('water');
+      vi.advanceTimersByTime(10000);
+      await p;
+    });
+
+    await playPromise;
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to generate water noise buffer',
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+    );
+
+    (window as any).Worker.prototype.postMessage = originalPostMessage;
+  });
+
+  it('handles worker timeouts gracefully when generateBufferAsync fails for totonou wind noise', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+
+    act(() => {
+      result.current.init();
+    });
+
+    const originalPostMessage = (window as any).Worker.prototype.postMessage;
+    (window as any).Worker.prototype.postMessage = vi.fn();
+
+    const playPromise = act(async () => {
+      const p = result.current.playAmbient('totonou');
+      vi.advanceTimersByTime(10000);
+      await p;
+    });
+
+    await playPromise;
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to generate wind noise buffer',
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+    );
+
+    (window as any).Worker.prototype.postMessage = originalPostMessage;
+  });
+
+  it('handles worker timeouts gracefully when generateBufferAsync fails for loyly white noise', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+
+    act(() => {
+      result.current.init();
+    });
+
+    const originalPostMessage = (window as any).Worker.prototype.postMessage;
+    (window as any).Worker.prototype.postMessage = vi.fn();
+
+    const playPromise = act(async () => {
+      const p = result.current.playLoyly();
+      vi.advanceTimersByTime(10000);
+      await p;
+    });
+
+    await playPromise;
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to generate loyly white noise buffer',
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+    );
+
+    (window as any).Worker.prototype.postMessage = originalPostMessage;
+  });
+
+  it('handles AudioWorker onerror event', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+
+    act(() => {
+      result.current.init();
+    });
+
+    // Original setup uses `new AudioWorker()` where `AudioWorker` is imported from `./audioWorker?worker`
+    // However in our setup `Worker` is stubbed in setup.js, so we mock `Worker.prototype.postMessage`
+    // to simulate `onerror`
+    const originalPostMessage = (window as any).Worker.prototype.postMessage;
+    (window as any).Worker.prototype.postMessage = function(this: Worker, msg: any) {
+      if (this.onerror) {
+        this.onerror(new ErrorEvent('error', {
+          error: new Error('Simulated Worker Error')
+        }));
+      }
+    };
+
+    const playPromise = act(async () => {
+      const p = result.current.playAmbient('sauna');
+      // Advance to avoid the test hanging, but also we just want onerror to fire
+      vi.advanceTimersByTime(100);
+      return p;
+    });
+
+    act(() => {
+        vi.advanceTimersByTime(10000);
+    });
+
+    await playPromise;
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'AudioWorker error:',
+      expect.any(ErrorEvent)
+    );
+
+    (window as any).Worker.prototype.postMessage = originalPostMessage;
+  });
 });
