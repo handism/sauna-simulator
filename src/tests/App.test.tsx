@@ -53,7 +53,7 @@ describe("App Component", () => {
     expect(screen.getByText("静かに入室する")).toBeInTheDocument();
   });
 
-  it("starts experience with sound when \"音ありで入室する\" is clicked", async () => {
+  it('starts experience with sound when "音ありで入室する" is clicked', async () => {
     renderWithProvider(<App />);
     const button = screen.getByText("音ありで入室する");
     fireEvent.click(button);
@@ -70,7 +70,7 @@ describe("App Component", () => {
     );
   });
 
-  it("starts experience muted when \"静かに入室する\" is clicked", async () => {
+  it('starts experience muted when "静かに入室する" is clicked', async () => {
     renderWithProvider(<App />);
     const button = screen.getByText("静かに入室する");
     fireEvent.click(button);
