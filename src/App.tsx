@@ -3,8 +3,7 @@ import "./index.css";
 import SaunaRoom from "./components/SaunaRoom";
 import CoolingBath from "./components/CoolingBath";
 import TotonouSpace from "./components/TotonouSpace";
-import { useSaunaContext } from "./context/SaunaContext";
-import type { Stage } from "./hooks/useSaunaSession";
+import { useSaunaContext, type Stage } from "./context/SaunaContext";
 
 interface BackgroundConfig {
   stage: Stage;
@@ -140,7 +139,6 @@ function App() {
     loylyCount,
     waterTime,
     audio,
-    changeStage,
     handleStart,
     toggleMute,
     toggleUiVisibility,

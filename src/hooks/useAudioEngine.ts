@@ -91,13 +91,20 @@ type ResolverType = {
   timeoutId: ReturnType<typeof setTimeout>;
 };
 const resolvers = new Map<number, ResolverType>();
+const ongoingGenerations = new Map<string, Promise<Float32Array<ArrayBuffer>>>();
 
 // A wrapper to handle concurrent requests to the worker
 function generateBufferAsync(
   type: "whiteNoise" | "saunaNoise" | "windNoise",
   length: number,
 ): Promise<Float32Array<ArrayBuffer>> {
-  return new Promise((resolve, reject) => {
+  const cacheKey = `${type}-${length}`;
+  const existingPromise = ongoingGenerations.get(cacheKey);
+  if (existingPromise) {
+    return existingPromise;
+  }
+
+  const promise = new Promise<Float32Array<ArrayBuffer>>((resolve, reject) => {
     if (!audioWorker) {
       audioWorker = new AudioWorker();
       audioWorker.onmessage = (e) => {
@@ -122,7 +129,12 @@ function generateBufferAsync(
 
     resolvers.set(id, { resolve, reject, timeoutId });
     audioWorker.postMessage({ id, type, length });
+  }).finally(() => {
+    ongoingGenerations.delete(cacheKey);
   });
+
+  ongoingGenerations.set(cacheKey, promise);
+  return promise;
 }
 
 export function useAudioEngine(): AudioEngine {
