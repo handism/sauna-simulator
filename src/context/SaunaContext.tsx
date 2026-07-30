@@ -1,11 +1,6 @@
-import React, { createContext, useContext, useCallback, useState } from "react";
-import {
-  useAudioEngine,
-  AudioEngine,
-  AmbientEnv,
-} from "../hooks/useAudioEngine";
-
-export type Stage = "start" | AmbientEnv;
+import React, { createContext, useContext, useCallback } from "react";
+import { AudioEngine } from "../hooks/useAudioEngine";
+import { useSaunaSession, type Stage } from "../hooks/useSaunaSession";
 
 interface SaunaSessionContextType {
   stage: Stage;
@@ -43,101 +38,36 @@ export const useSaunaContext = () => {
 };
 
 export function SaunaProvider({ children }: { children: React.ReactNode }) {
-  const [stage, setStage] = useState<Stage>("start");
-  const [opacity, setOpacity] = useState<number>(1);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
-  const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
-
-  // シミュレーション用パラメータの連携管理
-  const [heartRate, setHeartRate] = useState<number>(75);
-  const [saunaTime, setSaunaTime] = useState<number>(0);
-  const [loylyCount, setLoylyCount] = useState<number>(0);
-  const [waterTime, setWaterTime] = useState<number>(0);
-
-  const audio = useAudioEngine();
-
-  const changeStage = useCallback((nextStage: Stage) => {
-    setOpacity(0);
-    setTimeout(() => {
-      setStage(nextStage);
-      setOpacity(1);
-    }, 1000);
-  }, []);
-
-  const handleStart = useCallback(
-    (withSound: boolean) => {
-      audio.init();
-      setIsMuted(!withSound);
-      audio.setMuted(!withSound);
-      audio.playAmbient("sauna");
-
-      // ステート初期化
-      setHeartRate(75);
-      setSaunaTime(0);
-      setLoylyCount(0);
-      setWaterTime(0);
-
-      changeStage("sauna");
-    },
-    [audio, changeStage],
-  );
-
-  const toggleMute = useCallback(() => {
-    setIsMuted((prev) => {
-      const next = !prev;
-      audio.setMuted(next);
-      return next;
-    });
-  }, [audio]);
-
-  const toggleUiVisibility = useCallback(() => {
-    setIsUiHidden((prev) => !prev);
-  }, []);
+  const session = useSaunaSession();
 
   const completeSauna = useCallback(
     (finalHeartRate: number, duration: number, loylys: number) => {
-      setHeartRate(finalHeartRate);
-      setSaunaTime(duration);
-      setLoylyCount(loylys);
-      audio.playAmbient("water");
-      changeStage("water");
+      session.setHeartRate(finalHeartRate);
+      session.setSaunaTime(duration);
+      session.setLoylyCount(loylys);
+      session.audio.playAmbient("water");
+      session.changeStage("water");
     },
-    [audio, changeStage],
+    [session],
   );
 
   const completeWater = useCallback(
     (finalHeartRate: number, duration: number) => {
-      setHeartRate(finalHeartRate);
-      setWaterTime(duration);
-      audio.playAmbient("totonou");
-      changeStage("totonou");
+      session.setHeartRate(finalHeartRate);
+      session.setWaterTime(duration);
+      session.audio.playAmbient("totonou");
+      session.changeStage("totonou");
     },
-    [audio, changeStage],
+    [session],
   );
 
   const completeTotonou = useCallback(() => {
-    audio.playAmbient("sauna");
-    changeStage("sauna");
-  }, [audio, changeStage]);
+    session.audio.playAmbient("sauna");
+    session.changeStage("sauna");
+  }, [session]);
 
   const value = {
-    stage,
-    opacity,
-    isMuted,
-    isUiHidden,
-    heartRate,
-    setHeartRate,
-    saunaTime,
-    setSaunaTime,
-    loylyCount,
-    setLoylyCount,
-    waterTime,
-    setWaterTime,
-    audio,
-    changeStage,
-    handleStart,
-    toggleMute,
-    toggleUiVisibility,
+    ...session,
     completeSauna,
     completeWater,
     completeTotonou,

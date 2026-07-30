@@ -87,7 +87,7 @@ let audioWorker: Worker | null = null;
 let msgIdCounter = 0;
 type ResolverType = {
   resolve: (data: Float32Array<ArrayBuffer>) => void;
-  reject: (reason?: any) => void;
+  reject: (reason?: unknown) => void;
   timeoutId: ReturnType<typeof setTimeout>;
 };
 const resolvers = new Map<number, ResolverType>();
@@ -141,7 +141,15 @@ export function useAudioEngine(): AudioEngine {
   const init = useCallback(() => {
     if (!ctxRef.current) {
       const AudioCtx =
-        window.AudioContext || (window as any).webkitAudioContext;
+        window.AudioContext ||
+        (
+          window as Window &
+            typeof globalThis & { webkitAudioContext?: typeof AudioContext }
+        ).webkitAudioContext;
+      if (!AudioCtx) {
+        console.error("AudioContext is not supported in this browser");
+        return;
+      }
       ctxRef.current = new AudioCtx();
     }
     if (ctxRef.current.state === "suspended") {
