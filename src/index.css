@@ -747,3 +747,29 @@ p {
   width: 100%;
   height: 100%;
 }
+
+/* The UI receives input only on controls; uncovered scenery remains draggable. */
+.app-main-ui-container { pointer-events: none; }
+.app-main-ui-container button, .app-main-ui-container a { pointer-events: auto; }
+.sauna-3d-canvas { position: absolute; inset: 0; z-index: 2; touch-action: none; }
+.sauna-3d-canvas canvas { display: block; }
+.sauna-3d-canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+.scene-mode-controls { position: fixed; left: 16px; top: 16px; z-index: 30; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: calc(100% - 150px); font-size: 11px; }
+.scene-mode-controls button { border: 1px solid #ffffff40; border-radius: 20px; padding: 9px 14px; background: #18221cdd; color: #fff; cursor: pointer; }
+.scene-mode-controls a { color: #d1dacd; }
+.scene-mode-controls span { width: 100%; }
+.scene-status { position: fixed; bottom: 10px; left: 0; right: 0; text-align: center; pointer-events: none; z-index: 12; font-size: 11px; color: #fff; text-shadow: 0 1px 5px #000; }
+.ui-hidden .scene-status { opacity: 0; }
+.app-container:has(.sauna-3d-canvas) .glass-panel { background: rgba(16, 23, 20, .82); }
+/* One session deadline controls both background modes and stage UI. */
+.background-stack, .scene-3d-layer { position: absolute; inset: 0; transition: opacity 1s ease; }
+.background-stack { z-index: 0; }
+.scene-3d-layer { z-index: 2; pointer-events: none; }
+.scene-3d-layer .sauna-3d-canvas { pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .background-stack, .scene-3d-layer, .app-stage-container, .app-start-screen { transition: none; }
+}
+/* Effects with a world position replace the former screen-space particles. */
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .cooling-ripple-effect,
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .sauna-steam-particle,
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .steam-overlay { display: none; }

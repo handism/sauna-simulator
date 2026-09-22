@@ -55,14 +55,16 @@ describe('SaunaRoom', () => {
   });
 
   it('handles Loyly button interaction', () => {
-    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    const onLoyly = vi.fn();
+    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} onLoyly={onLoyly} />);
 
     const loylyBtn = screen.getByRole('button', { name: /ロウリュ \(Löyly\)/i });
     act(() => {
       fireEvent.click(loylyBtn);
     });
 
-    expect(mockAudioEngine.playLoyly).toHaveBeenCalled();
+    expect(mockAudioEngine.playLoyly).toHaveBeenCalledTimes(1);
+    expect(onLoyly).toHaveBeenCalledTimes(1);
     // Temperature +3, Humidity +25
     expect(screen.getByText('93.0°C')).toBeInTheDocument();
     expect(screen.getByText('40%')).toBeInTheDocument();

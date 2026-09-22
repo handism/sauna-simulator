@@ -5,7 +5,8 @@ export type Stage = "start" | AmbientEnv;
 
 export function useSaunaSession() {
   const [stage, setStage] = useState<Stage>("start");
-  const [opacity, setOpacity] = useState<number>(1);
+  const [pendingStage, setPendingStage] = useState<Stage | null>(null);
+  const opacity = pendingStage === null ? 1 : 0;
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
 
@@ -27,32 +28,30 @@ export function useSaunaSession() {
     };
   }, []);
 
-  const changeStage = useCallback((nextStage: Stage) => {
-    if (transitionTimeoutRef.current) {
-      clearTimeout(transitionTimeoutRef.current);
-    }
-
-    setOpacity(0);
+  // One owner for the fade-out deadline. UI, scenery and audio commit together.
+  const changeStage = useCallback((nextStage: Stage): boolean => {
+    if (transitionTimeoutRef.current !== null || nextStage === stage) return false;
+    setPendingStage(nextStage);
     transitionTimeoutRef.current = setTimeout(() => {
       transitionTimeoutRef.current = null;
+      if (nextStage !== "start") audio.playAmbient(nextStage);
       setStage(nextStage);
-      setOpacity(1);
+      setPendingStage(null);
     }, 1000);
-  }, []);
+    return true;
+  }, [audio, stage]);
 
   const handleStart = useCallback(
     (withSound: boolean) => {
+      if (!changeStage("sauna")) return;
       audio.init();
       setIsMuted(!withSound);
       audio.setMuted(!withSound);
-      audio.playAmbient("sauna");
 
       setHeartRate(75);
       setSaunaTime(0);
       setLoylyCount(0);
       setWaterTime(0);
-
-      changeStage("sauna");
     },
     [audio, changeStage],
   );
@@ -71,6 +70,7 @@ export function useSaunaSession() {
 
   return {
     stage,
+    pendingStage,
     opacity,
     isMuted,
     isUiHidden,

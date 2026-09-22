@@ -54,7 +54,7 @@ class MockAudioBufferSourceNode {
 class MockAudioBuffer {
   length: number;
   sampleRate: number;
-  constructor(channels: number, length: number, sampleRate: number) {
+  constructor(_channels: number, length: number, sampleRate: number) {
     this.length = length;
     this.sampleRate = sampleRate;
   }
@@ -484,7 +484,7 @@ describe('useAudioEngine', () => {
     // However in our setup `Worker` is stubbed in setup.js, so we mock `Worker.prototype.postMessage`
     // to simulate `onerror`
     const originalPostMessage = (window as any).Worker.prototype.postMessage;
-    (window as any).Worker.prototype.postMessage = function(this: Worker, msg: any) {
+    (window as any).Worker.prototype.postMessage = function(this: Worker, _msg: any) {
       if (this.onerror) {
         this.onerror(new ErrorEvent('error', {
           error: new Error('Simulated Worker Error')

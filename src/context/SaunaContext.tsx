@@ -2,8 +2,11 @@ import React, { createContext, useContext, useCallback } from "react";
 import { AudioEngine } from "../hooks/useAudioEngine";
 import { useSaunaSession, type Stage } from "../hooks/useSaunaSession";
 
+export type { Stage } from "../hooks/useSaunaSession";
+
 interface SaunaSessionContextType {
   stage: Stage;
+  pendingStage: Stage | null;
   opacity: number;
   isMuted: boolean;
   isUiHidden: boolean;
@@ -16,7 +19,7 @@ interface SaunaSessionContextType {
   waterTime: number;
   setWaterTime: React.Dispatch<React.SetStateAction<number>>;
   audio: AudioEngine;
-  changeStage: (nextStage: Stage) => void;
+  changeStage: (nextStage: Stage) => boolean;
   handleStart: (withSound: boolean) => void;
   toggleMute: () => void;
   toggleUiVisibility: () => void;
@@ -42,27 +45,26 @@ export function SaunaProvider({ children }: { children: React.ReactNode }) {
 
   const completeSauna = useCallback(
     (finalHeartRate: number, duration: number, loylys: number) => {
+      if (!session.changeStage("water")) return;
       session.setHeartRate(finalHeartRate);
       session.setSaunaTime(duration);
       session.setLoylyCount(loylys);
-      session.audio.playAmbient("water");
-      session.changeStage("water");
+
     },
     [session],
   );
 
   const completeWater = useCallback(
     (finalHeartRate: number, duration: number) => {
+      if (!session.changeStage("totonou")) return;
       session.setHeartRate(finalHeartRate);
       session.setWaterTime(duration);
-      session.audio.playAmbient("totonou");
-      session.changeStage("totonou");
+
     },
     [session],
   );
 
   const completeTotonou = useCallback(() => {
-    session.audio.playAmbient("sauna");
     session.changeStage("sauna");
   }, [session]);
 
