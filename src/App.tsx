@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./index.css";
+import SceneMode from "./components/SceneMode";
 import SaunaRoom from "./components/SaunaRoom";
 import CoolingBath from "./components/CoolingBath";
 import TotonouSpace from "./components/TotonouSpace";
@@ -131,6 +132,7 @@ function MuteButton({
 function App() {
   const {
     stage,
+    pendingStage,
     opacity,
     isMuted,
     isUiHidden,
@@ -147,37 +149,29 @@ function App() {
     completeTotonou,
   } = useSaunaContext();
 
-  // 背景画像レイヤーのアンマウント最適化
-  // クロスフェード遷移中のみ現在と遷移先の背景を保持し、遷移完了後に非アクティブな背景をDOMからアンマウント
-  const [activeLayers, setActiveLayers] = useState<Stage[]>([stage]);
-
-  useEffect(() => {
-    setActiveLayers((prev) => Array.from(new Set([...prev, stage])));
-    const timer = setTimeout(() => {
-      setActiveLayers([stage]);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [stage]);
+  const [loylyEvents] = useState(() => new EventTarget());
 
   return (
     <div
       className={`app-container ${isUiHidden ? "ui-hidden" : ""}`}
       style={{ background: "#000" }}
     >
-      {/* Background image crossfading with unmount optimization */}
-      {BACKGROUNDS.filter(({ stage: s }) => activeLayers.includes(s)).map(
-        ({ stage: s, gradient, image }) => (
-          <div
-            key={s}
-            className="app-bg-layer"
-            style={{
-              opacity: stage === s ? 1 : 0,
-              backgroundImage: `linear-gradient(${gradient}), url(${import.meta.env.BASE_URL}${image})`,
-            }}
-          />
-        ),
-      )}
+      <div className="background-stack" style={{ opacity }}>
+        {BACKGROUNDS.filter(({ stage: s }) => s === stage).map(
+          ({ stage: s, gradient, image }) => (
+            <div
+              key={s}
+              className="app-bg-layer"
+              style={{
+                opacity: stage === s ? 1 : 0,
+                backgroundImage: `linear-gradient(${gradient}), url(${import.meta.env.BASE_URL}${image})`,
+              }}
+            />
+          ),
+        )}
 
+      </div>
+      <SceneMode stage={stage} opacity={opacity} loylyEvents={loylyEvents} />
       <div className="app-main-ui-container">
         {stage !== "start" && (
           <>
@@ -190,7 +184,7 @@ function App() {
         )}
 
         {stage === "start" && (
-          <div className="app-start-screen" style={{ opacity }}>
+          <div className="app-start-screen" style={{ opacity }} inert={pendingStage !== null}>
             <h1 className="app-main-title">ブラウザサウナ</h1>
             <p className="app-subtitle">プレミアムな疑似サウナ体験</p>
 
@@ -216,9 +210,10 @@ function App() {
         )}
 
         {stage === "sauna" && (
-          <div className="app-stage-container" style={{ opacity }}>
+          <div className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
             <SaunaRoom
               audio={audio}
+              onLoyly={() => loylyEvents.dispatchEvent(new Event("loyly"))}
               onNext={(finalHeartRate, duration, loylys) => {
                 completeSauna(finalHeartRate, duration, loylys);
               }}
@@ -227,7 +222,7 @@ function App() {
         )}
 
         {stage === "water" && (
-          <div className="app-stage-container" style={{ opacity }}>
+          <div className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
             <CoolingBath
               initialHeartRate={heartRate}
               onNext={(finalHeartRate, duration) => {
@@ -238,7 +233,7 @@ function App() {
         )}
 
         {stage === "totonou" && (
-          <div className="app-stage-container" style={{ opacity }}>
+          <div className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
             <TotonouSpace
               saunaTime={saunaTime}
               waterTime={waterTime}

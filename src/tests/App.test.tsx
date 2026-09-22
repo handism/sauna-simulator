@@ -35,6 +35,7 @@ const renderWithProvider = (ui: React.ReactElement) =>
 describe("App Component", () => {
   const mockAudioEngine = {
     init: vi.fn(),
+    playLoyly: vi.fn(),
     setMuted: vi.fn(),
     playAmbient: vi.fn(),
   };
@@ -60,7 +61,7 @@ describe("App Component", () => {
 
     expect(mockAudioEngine.init).toHaveBeenCalled();
     expect(mockAudioEngine.setMuted).toHaveBeenCalledWith(false);
-    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("sauna");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
 
     await waitFor(
       () => {
@@ -77,7 +78,7 @@ describe("App Component", () => {
 
     expect(mockAudioEngine.init).toHaveBeenCalled();
     expect(mockAudioEngine.setMuted).toHaveBeenCalledWith(true);
-    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("sauna");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
 
     await waitFor(
       () => {

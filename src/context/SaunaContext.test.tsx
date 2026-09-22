@@ -64,7 +64,7 @@ describe("SaunaContext", () => {
 
     expect(mockAudioEngine.init).toHaveBeenCalled();
     expect(mockAudioEngine.setMuted).toHaveBeenCalledWith(false);
-    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("sauna");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
     expect(result.current.isMuted).toBe(false);
     expect(result.current.opacity).toBe(0);
 
@@ -73,6 +73,7 @@ describe("SaunaContext", () => {
     });
 
     expect(result.current.stage).toBe("sauna");
+    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("sauna");
     expect(result.current.opacity).toBe(1);
   });
 
@@ -85,7 +86,7 @@ describe("SaunaContext", () => {
 
     expect(mockAudioEngine.init).toHaveBeenCalled();
     expect(mockAudioEngine.setMuted).toHaveBeenCalledWith(true);
-    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("sauna");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
     expect(result.current.isMuted).toBe(true);
   });
 
@@ -147,13 +148,14 @@ describe("SaunaContext", () => {
     expect(result.current.heartRate).toBe(120);
     expect(result.current.saunaTime).toBe(600);
     expect(result.current.loylyCount).toBe(3);
-    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("water");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
 
     act(() => {
       vi.advanceTimersByTime(1000);
     });
 
     expect(result.current.stage).toBe("water");
+    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("water");
   });
 
   it("completeWater transitions to totonou stage", () => {
@@ -165,13 +167,14 @@ describe("SaunaContext", () => {
 
     expect(result.current.heartRate).toBe(90);
     expect(result.current.waterTime).toBe(120);
-    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("totonou");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
 
     act(() => {
       vi.advanceTimersByTime(1000);
     });
 
     expect(result.current.stage).toBe("totonou");
+    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("totonou");
   });
 
   it("completeTotonou transitions to sauna stage", () => {
@@ -181,12 +184,48 @@ describe("SaunaContext", () => {
       result.current.completeTotonou();
     });
 
-    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("sauna");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
 
     act(() => {
       vi.advanceTimersByTime(1000);
     });
 
     expect(result.current.stage).toBe("sauna");
+    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("sauna");
   });
+  it("uses one deadline and ignores duplicate transitions and result overwrites", () => {
+    const { result } = renderHook(() => useSaunaContext(), { wrapper });
+    act(() => { result.current.handleStart(false); });
+    expect(result.current.pendingStage).toBe("sauna");
+    act(() => { vi.advanceTimersByTime(999); });
+    expect(result.current.stage).toBe("start");
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
+    act(() => { vi.advanceTimersByTime(1); });
+    expect(result.current.pendingStage).toBeNull();
+    expect(result.current.stage).toBe("sauna");
+    mockAudioEngine.playAmbient.mockClear();
+    act(() => {
+      result.current.completeSauna(120, 600, 3);
+      result.current.completeSauna(150, 999, 9);
+      result.current.completeWater(80, 60);
+    });
+    expect(result.current.pendingStage).toBe("water");
+    expect(result.current.saunaTime).toBe(600);
+    expect(result.current.loylyCount).toBe(3);
+    expect(result.current.waterTime).toBe(0);
+    act(() => { vi.advanceTimersByTime(1000); });
+    expect(result.current.stage).toBe("water");
+    expect(result.current.opacity).toBe(1);
+    expect(mockAudioEngine.playAmbient).toHaveBeenCalledTimes(1);
+    expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith("water");
+  });
+
+  it("cancels a pending transition on unmount", () => {
+    const { result, unmount } = renderHook(() => useSaunaContext(), { wrapper });
+    act(() => { result.current.handleStart(false); });
+    unmount();
+    act(() => { vi.advanceTimersByTime(2000); });
+    expect(mockAudioEngine.playAmbient).not.toHaveBeenCalled();
+  });
+
 });

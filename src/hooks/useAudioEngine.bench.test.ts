@@ -31,7 +31,7 @@ const mockCreateBufferSource = vi.fn(() => ({
   stop: vi.fn(),
   buffer: null
 }));
-const mockCreateBuffer = vi.fn((channels, length, sampleRate) => ({
+const mockCreateBuffer = vi.fn((_channels, _length, _sampleRate) => ({
   copyToChannel: vi.fn()
 }));
 
@@ -50,7 +50,6 @@ class MockAudioContext {
   createBuffer = mockCreateBuffer;
 }
 
-const originalAudioContext = window.AudioContext;
 (window as any).AudioContext = MockAudioContext;
 
 describe('useAudioEngine performance', () => {

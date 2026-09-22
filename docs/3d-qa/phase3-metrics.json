@@ -1,0 +1,29 @@
+{
+  "conditions": "Chrome macOS; localhost warm cache; 1720x1319 CSS px; DPR cap 1.5; initial 180 frame intervals per stage; load-ms is initial model load, retained across stages",
+  "stages": [
+    {
+      "stage": "sauna",
+      "load-ms": "159",
+      "draw-calls": "87",
+      "triangles": "293106",
+      "frame-mean-ms": "16.86",
+      "frame-max-ms": "50.00"
+    },
+    {
+      "stage": "water",
+      "load-ms": "159",
+      "draw-calls": "78",
+      "triangles": "284976",
+      "frame-mean-ms": "16.86",
+      "frame-max-ms": "50.00"
+    },
+    {
+      "stage": "totonou",
+      "load-ms": "159",
+      "draw-calls": "73",
+      "triangles": "276480",
+      "frame-mean-ms": "16.67",
+      "frame-max-ms": "17.90"
+    }
+  ]
+}

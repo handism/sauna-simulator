@@ -1,10 +1,11 @@
 import '@testing-library/jest-dom';
+import { webcrypto } from 'node:crypto';
 import { vi } from 'vitest';
 
 class MockWorker {
   onmessage: ((e: MessageEvent) => void) | null = null;
   postMessage(message: any) {
-    const { id, type, length } = message;
+    const { id, length } = message;
     queueMicrotask(() => {
       if (this.onmessage) {
         const data = new Float32Array(length);
@@ -27,7 +28,7 @@ if (typeof window !== 'undefined') {
   }
   if (!window.crypto.getRandomValues) {
     window.crypto.getRandomValues = function (buffer: any) {
-      return require('crypto').webcrypto.getRandomValues(buffer);
+      return webcrypto.getRandomValues(buffer);
     };
   }
 }

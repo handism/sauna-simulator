@@ -25,3 +25,8 @@ dist-ssr
 
 # Claude Code worktrees
 .claude/worktrees/
+
+# Local source assets; exported web assets are tracked in public/models/
+blender/
+*.blend1
+*.tsbuildinfo
