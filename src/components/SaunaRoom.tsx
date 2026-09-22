@@ -9,6 +9,7 @@ interface Steam {
 
 export interface SaunaRoomProps {
   audio: AudioEngine;
+  onLoyly?: () => void;
   onNext: (
     finalHeartRate: number,
     duration: number,
@@ -37,7 +38,7 @@ const SAUNA_CONFIG = {
   STEAM_PARTICLE_DURATION_MS: 4000,
 };
 
-const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
+const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const [saunaState, setSaunaState] = useState<{
     temperature: number;
     humidity: number;
@@ -62,6 +63,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   const isMountedRef = useRef<boolean>(true);
 
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
       isMountedRef.current = false;
       if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
@@ -77,6 +79,7 @@ const SaunaRoom = ({ audio, onNext }: SaunaRoomProps) => {
   // ロウリュ実行
   const handleLoyly = () => {
     audio.playLoyly();
+    onLoyly?.();
     setSaunaState((prev) => ({
       ...prev,
       temperature: Math.min(

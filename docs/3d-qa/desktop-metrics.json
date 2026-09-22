@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-22",
+  "browser": "Chrome desktop, macOS",
+  "viewport_css": [
+    1720,
+    1319
+  ],
+  "network": "localhost, no throttling, warm browser cache; not WAN first load",
+  "device_pixel_ratio_cap": 1.5,
+  "load_ms": 267,
+  "draw_calls": 88,
+  "rendered_triangles": 297242,
+  "first_180_frame_interval_mean_ms": 17.41,
+  "first_180_frame_interval_max_ms": 150.1,
+  "model_bytes": 17322516,
+  "model_sha256": "4cc647509500c5dad1c9c47b3174582141182cd34cd91d01a428bde66280d486",
+  "validation": "Static screenshot and selected pointer interactions; not a mobile or sustained performance certification"
+}
