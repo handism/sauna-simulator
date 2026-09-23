@@ -1,0 +1,872 @@
+{
+  "browser": "153.0.8010.53",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "elapsedMs": 303294,
+  "cycles": 10,
+  "samples": [
+    {
+      "cycle": 1,
+      "elapsedMs": 8514,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "158",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "17.50",
+        "frameMaxMs": "150.00"
+      }
+    },
+    {
+      "cycle": 1,
+      "elapsedMs": 12718,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "158",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 1,
+      "elapsedMs": 16843,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "158",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 1,
+      "elapsedMs": 20989,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "158",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 1,
+      "elapsedMs": 27777,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "172",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.94",
+        "frameMaxMs": "66.70"
+      }
+    },
+    {
+      "cycle": 2,
+      "elapsedMs": 38511,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "172",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.30"
+      }
+    },
+    {
+      "cycle": 2,
+      "elapsedMs": 42643,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "172",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 2,
+      "elapsedMs": 46776,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "172",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 2,
+      "elapsedMs": 50906,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "172",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 2,
+      "elapsedMs": 57680,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "144",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "33.30"
+      }
+    },
+    {
+      "cycle": 3,
+      "elapsedMs": 68457,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "144",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 3,
+      "elapsedMs": 72567,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "144",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 3,
+      "elapsedMs": 76700,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "144",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 3,
+      "elapsedMs": 80828,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "144",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 3,
+      "elapsedMs": 87590,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "145",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.57",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 4,
+      "elapsedMs": 98477,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "145",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.30"
+      }
+    },
+    {
+      "cycle": 4,
+      "elapsedMs": 102610,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "145",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 4,
+      "elapsedMs": 106733,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "145",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 4,
+      "elapsedMs": 110858,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "145",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 4,
+      "elapsedMs": 117641,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "129",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.57",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 5,
+      "elapsedMs": 128510,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "129",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.40"
+      }
+    },
+    {
+      "cycle": 5,
+      "elapsedMs": 132636,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "129",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 5,
+      "elapsedMs": 136758,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "129",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 5,
+      "elapsedMs": 140889,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "129",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 5,
+      "elapsedMs": 147655,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "141",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.40"
+      }
+    },
+    {
+      "cycle": 6,
+      "elapsedMs": 158472,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "141",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 6,
+      "elapsedMs": 162603,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "141",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 6,
+      "elapsedMs": 166735,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "141",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 6,
+      "elapsedMs": 170848,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "141",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 6,
+      "elapsedMs": 177612,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "137",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.57",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 7,
+      "elapsedMs": 188503,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "137",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.40"
+      }
+    },
+    {
+      "cycle": 7,
+      "elapsedMs": 192614,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "137",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 7,
+      "elapsedMs": 196731,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "137",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 7,
+      "elapsedMs": 200845,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "137",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 7,
+      "elapsedMs": 207600,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "133",
+        "lighting": "day",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 8,
+      "elapsedMs": 218537,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "133",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.90"
+      }
+    },
+    {
+      "cycle": 8,
+      "elapsedMs": 222666,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "133",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 8,
+      "elapsedMs": 226784,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "133",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 8,
+      "elapsedMs": 230914,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "133",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 8,
+      "elapsedMs": 237669,
+      "data": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "136",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.34"
+      }
+    },
+    {
+      "cycle": 9,
+      "elapsedMs": 248470,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "136",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 9,
+      "elapsedMs": 252597,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "136",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 9,
+      "elapsedMs": 256715,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "136",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 9,
+      "elapsedMs": 260827,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "136",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 9,
+      "elapsedMs": 267586,
+      "data": {
+        "quality": "high",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "132",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "86",
+        "frameMeanMs": "16.57",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 10,
+      "elapsedMs": 278518,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "132",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.40"
+      }
+    },
+    {
+      "cycle": 10,
+      "elapsedMs": 282653,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "132",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 10,
+      "elapsedMs": 286780,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318710",
+        "drawCalls": "74",
+        "loadMs": "132",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 10,
+      "elapsedMs": 290905,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "132",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "cycle": 10,
+      "elapsedMs": 297648,
+      "data": {
+        "quality": "low",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "127",
+        "lighting": "evening",
+        "textures": "8",
+        "geometries": "86",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    }
+  ],
+  "errors": [],
+  "limitations": "Renderer resource counts only; not total GPU memory, audio-node counts, real-device performance or proof of leak absence.",
+  "status": "passed",
+  "stats": {
+    "startTime": "2026-09-23T07:42:49.095Z",
+    "duration": 305167.542,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
