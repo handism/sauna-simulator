@@ -9,7 +9,7 @@
     "texture_size": 1024,
     "scope": "sauna and courtyard",
     "materials": "simplified PBR; image diffuse/normal; no procedural baking",
-    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks"
+    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks"
   },
   "materials": [
     {
@@ -4619,6 +4619,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4626,6 +4627,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4633,6 +4635,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4640,6 +4643,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4647,6 +4651,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4654,6 +4659,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4661,6 +4667,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4668,6 +4675,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4675,6 +4683,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4682,6 +4691,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4689,6 +4699,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4696,6 +4707,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4703,6 +4715,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4710,6 +4723,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4717,6 +4731,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4724,6 +4739,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4731,6 +4747,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4738,6 +4755,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4745,6 +4763,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4752,6 +4771,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4759,6 +4779,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4766,6 +4787,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4773,6 +4795,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4780,6 +4803,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4787,6 +4811,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4794,6 +4819,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4801,6 +4827,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4808,6 +4835,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4815,6 +4843,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4822,6 +4851,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4829,6 +4859,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4836,6 +4867,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4843,6 +4875,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4850,6 +4883,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4857,6 +4891,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4864,6 +4899,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4871,6 +4907,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4878,6 +4915,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4885,6 +4923,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4892,6 +4931,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4899,6 +4939,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4906,6 +4947,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4913,6 +4955,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4920,6 +4963,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4927,6 +4971,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4934,6 +4979,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4941,6 +4987,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4948,6 +4995,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4955,6 +5003,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4962,6 +5011,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4969,6 +5019,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4976,6 +5027,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4983,6 +5035,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4990,6 +5043,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4997,6 +5051,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5004,6 +5059,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5011,6 +5067,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5018,6 +5075,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5025,6 +5083,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5032,6 +5091,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5039,6 +5099,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5046,6 +5107,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5053,6 +5115,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5060,6 +5123,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5067,6 +5131,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5074,6 +5139,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5081,6 +5147,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5088,6 +5155,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5095,6 +5163,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5102,6 +5171,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5109,6 +5179,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5116,6 +5187,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5123,6 +5195,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5130,6 +5203,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5137,6 +5211,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5144,6 +5219,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5151,6 +5227,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5158,6 +5235,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5165,6 +5243,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5172,6 +5251,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5179,6 +5259,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5186,6 +5267,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5193,6 +5275,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5200,6 +5283,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5207,6 +5291,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5214,6 +5299,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5221,6 +5307,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5228,6 +5315,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5235,6 +5323,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5242,6 +5331,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5249,6 +5339,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5256,6 +5347,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5263,6 +5355,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5270,6 +5363,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5277,6 +5371,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5284,6 +5379,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5291,6 +5387,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5298,6 +5395,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5305,6 +5403,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5312,6 +5411,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5319,6 +5419,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5326,6 +5427,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5333,6 +5435,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5340,6 +5443,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5347,6 +5451,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5354,6 +5459,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5361,6 +5467,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5368,6 +5475,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5375,6 +5483,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5382,6 +5491,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5389,6 +5499,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5396,6 +5507,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5403,6 +5515,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5410,6 +5523,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5417,6 +5531,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5424,6 +5539,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5431,6 +5547,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5438,6 +5555,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5445,6 +5563,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5452,6 +5571,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5459,6 +5579,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5466,6 +5587,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5473,6 +5595,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5480,6 +5603,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5487,6 +5611,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5494,6 +5619,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5501,6 +5627,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5508,6 +5635,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5515,6 +5643,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5522,6 +5651,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5529,6 +5659,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5536,6 +5667,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5543,6 +5675,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5550,6 +5683,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5557,6 +5691,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5564,6 +5699,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5571,6 +5707,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5578,6 +5715,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5585,6 +5723,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5592,6 +5731,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5599,6 +5739,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5606,6 +5747,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5613,6 +5755,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5620,6 +5763,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5627,6 +5771,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5634,6 +5779,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5641,6 +5787,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5648,6 +5795,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5655,6 +5803,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5662,6 +5811,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5669,6 +5819,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5676,6 +5827,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5683,6 +5835,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5690,6 +5843,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5697,6 +5851,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5704,6 +5859,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5711,6 +5867,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5718,6 +5875,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5725,6 +5883,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5732,6 +5891,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5739,6 +5899,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5746,6 +5907,7 @@
       "input_faces": 1920,
       "output_faces": 175,
       "islands": 480,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5753,6 +5915,7 @@
       "input_faces": 960,
       "output_faces": 960,
       "islands": 960,
+      "output_leaves": 960,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5760,6 +5923,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5767,6 +5931,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5774,6 +5939,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5781,6 +5947,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5788,6 +5955,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5795,6 +5963,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5802,6 +5971,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5809,6 +5979,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5816,6 +5987,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5823,6 +5995,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5830,6 +6003,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5837,6 +6011,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5844,6 +6019,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5851,6 +6027,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5858,6 +6035,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5865,6 +6043,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5872,6 +6051,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5879,6 +6059,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5886,6 +6067,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5893,6 +6075,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5900,6 +6083,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5907,6 +6091,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5914,6 +6099,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5921,6 +6107,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5928,6 +6115,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5935,6 +6123,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5942,6 +6131,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5949,6 +6139,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5956,6 +6147,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5963,6 +6155,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5970,6 +6163,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5977,6 +6171,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5984,6 +6179,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5991,6 +6187,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5998,6 +6195,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6005,6 +6203,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6012,6 +6211,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6019,6 +6219,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6026,6 +6227,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6033,6 +6235,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6040,6 +6243,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6047,6 +6251,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6054,6 +6259,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6061,6 +6267,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6068,6 +6275,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6075,6 +6283,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6082,6 +6291,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6089,6 +6299,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6096,6 +6307,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6103,6 +6315,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6110,6 +6323,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6117,6 +6331,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6124,6 +6339,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6131,6 +6347,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6138,6 +6355,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6145,6 +6363,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6152,6 +6371,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6159,6 +6379,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6166,6 +6387,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6173,6 +6395,7 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6180,6 +6403,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6187,6 +6411,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6194,6 +6419,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6201,6 +6427,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6208,6 +6435,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6215,6 +6443,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6222,6 +6451,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6229,6 +6459,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6236,6 +6467,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6243,6 +6475,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6250,6 +6483,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6257,6 +6491,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6264,6 +6499,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6271,6 +6507,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6278,6 +6515,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6285,6 +6523,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6292,6 +6531,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6299,6 +6539,7 @@
       "input_faces": 17600,
       "output_faces": 175,
       "islands": 4400,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6306,6 +6547,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6313,6 +6555,7 @@
       "input_faces": 14400,
       "output_faces": 175,
       "islands": 3600,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6320,6 +6563,7 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6327,6 +6571,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6334,6 +6579,7 @@
       "input_faces": 16000,
       "output_faces": 175,
       "islands": 4000,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6341,20 +6587,23 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
       "object": "V7 lobed maple leaves",
       "input_faces": 4420,
-      "output_faces": 350,
+      "output_faces": 4420,
       "islands": 442,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 442,
+      "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
       "object": "V9 seated woodland 0 / V6 clustered tree leaves.001",
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6362,6 +6611,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6369,6 +6619,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6376,6 +6627,7 @@
       "input_faces": 12800,
       "output_faces": 175,
       "islands": 3200,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6383,34 +6635,39 @@
       "input_faces": 19200,
       "output_faces": 175,
       "islands": 4800,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
       "object": "V11 maple clustered lobed foliage 0",
       "input_faces": 6970,
-      "output_faces": 350,
+      "output_faces": 6970,
       "islands": 697,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 697,
+      "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
       "object": "V11 maple clustered lobed foliage 1",
       "input_faces": 6880,
-      "output_faces": 350,
+      "output_faces": 6880,
       "islands": 688,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 688,
+      "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
       "object": "V11 maple clustered lobed foliage 2",
       "input_faces": 7270,
-      "output_faces": 350,
+      "output_faces": 7270,
       "islands": 727,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 727,
+      "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
       "object": "V11 bank leaf group 00 / V11 maple clustered lobed foliage 0",
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6418,6 +6675,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6425,6 +6683,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6432,6 +6691,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6439,6 +6699,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6446,6 +6707,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6453,6 +6715,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6460,6 +6723,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6467,6 +6731,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6474,6 +6739,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6481,6 +6747,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6488,6 +6755,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6495,6 +6763,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6502,6 +6771,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6509,6 +6779,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6516,6 +6787,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6523,6 +6795,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6530,6 +6803,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6537,6 +6811,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6544,6 +6819,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6551,6 +6827,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6558,6 +6835,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6565,6 +6843,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6572,6 +6851,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6579,6 +6859,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6586,6 +6867,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6593,6 +6875,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6600,6 +6883,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6607,6 +6891,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6614,6 +6899,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6621,6 +6907,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6628,6 +6915,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6635,6 +6923,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6642,6 +6931,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6649,6 +6939,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6656,6 +6947,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6663,6 +6955,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6670,6 +6963,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6677,6 +6971,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6684,6 +6979,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6691,6 +6987,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6698,6 +6995,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6705,6 +7003,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6712,6 +7011,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6719,6 +7019,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6726,6 +7027,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6733,6 +7035,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6740,6 +7043,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6747,6 +7051,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6754,6 +7059,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6761,6 +7067,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6768,6 +7075,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6775,6 +7083,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6782,6 +7091,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6789,6 +7099,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6796,6 +7107,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6803,6 +7115,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6810,6 +7123,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6817,6 +7131,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6824,6 +7139,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6831,6 +7147,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6838,6 +7155,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6845,6 +7163,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6852,6 +7171,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6859,6 +7179,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6866,6 +7187,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6873,6 +7195,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6880,6 +7203,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6887,6 +7211,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6894,6 +7219,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6901,6 +7227,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6908,6 +7235,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6915,6 +7243,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6922,6 +7251,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6929,6 +7259,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6936,6 +7267,7 @@
       "input_faces": 6970,
       "output_faces": 175,
       "islands": 697,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6943,6 +7275,7 @@
       "input_faces": 6880,
       "output_faces": 175,
       "islands": 688,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6950,6 +7283,7 @@
       "input_faces": 7270,
       "output_faces": 175,
       "islands": 727,
+      "output_leaves": 175,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     }
   ],
@@ -7132,7 +7466,7 @@
     }
   ],
   "export_objects_before_join": 3145,
-  "triangles": 338298,
+  "triangles": 361038,
   "export_meshes": 71,
   "export_settings": {
     "export_format": "GLB",
@@ -7145,7 +7479,7 @@
     "export_jpeg_quality": 82,
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 16989992,
-  "output_sha256": "8c7f54d453d4722fb36615a8287ac88e427344e45fe828e32845d1290629f45b",
+  "output_bytes": 17784168,
+  "output_sha256": "433e52cd83fb0364a1d324b5b289e0bc797aba63fc7759d525ce359b5400a3eb",
   "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }
