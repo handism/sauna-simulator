@@ -1,0 +1,285 @@
+{
+  "browser": "154.0.8037.57",
+  "viewport": {
+    "width": 1200,
+    "height": 800
+  },
+  "deviceScaleFactor": 1,
+  "quality": "standard",
+  "reducedMotion": true,
+  "muted": true,
+  "cameraReference": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "hashes": {
+    "sauna.glb": "64ea5acff44f865e2ee26e69860eb8100debdd82b65d5d94b2e1273c62110ab3",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
+  },
+  "errors": [],
+  "samples": [
+    {
+      "file": "cycles-02-day.jpg",
+      "stage": "sauna",
+      "lighting": "day",
+      "render": "02.png",
+      "camera": "02 • Cedar / sauna interior",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "sauna",
+        "triangles": "551646",
+        "drawCalls": "74",
+        "loadMs": "244",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-02-evening.jpg",
+      "stage": "sauna",
+      "lighting": "evening",
+      "render": null,
+      "camera": "02 • Cedar / sauna interior",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "sauna",
+        "triangles": "551646",
+        "drawCalls": "74",
+        "loadMs": "244",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-03-day.jpg",
+      "stage": "water",
+      "lighting": "day",
+      "render": "03.png",
+      "camera": "03 • Water / cold plunge",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "water",
+        "triangles": "548154",
+        "drawCalls": "67",
+        "loadMs": "244",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-03-evening.jpg",
+      "stage": "water",
+      "lighting": "evening",
+      "render": null,
+      "camera": "03 • Water / cold plunge",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "water",
+        "triangles": "548154",
+        "drawCalls": "67",
+        "loadMs": "244",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-07-day.jpg",
+      "stage": "totonou",
+      "lighting": "day",
+      "render": "07.png",
+      "camera": "07 • Seated / water and warmth",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "totonou",
+        "triangles": "530128",
+        "drawCalls": "78",
+        "loadMs": "244",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-07-evening.jpg",
+      "stage": "totonou",
+      "lighting": "evening",
+      "render": null,
+      "camera": "07 • Seated / water and warmth",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "totonou",
+        "triangles": "530128",
+        "drawCalls": "78",
+        "loadMs": "244",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-01-day.jpg",
+      "stage": "sauna",
+      "lighting": "day",
+      "render": "01.png",
+      "camera": "01 • Courtyard / architecture",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "sauna",
+        "triangles": "552788",
+        "drawCalls": "93",
+        "loadMs": "308",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-01-evening.jpg",
+      "stage": "sauna",
+      "lighting": "evening",
+      "render": "06.png",
+      "camera": "01 • Courtyard / architecture",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "sauna",
+        "triangles": "552788",
+        "drawCalls": "93",
+        "loadMs": "308",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-04-day.jpg",
+      "stage": "water",
+      "lighting": "day",
+      "render": "04.png",
+      "camera": "04 • Rest / lounge",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "water",
+        "triangles": "551382",
+        "drawCalls": "68",
+        "loadMs": "308",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-04-evening.jpg",
+      "stage": "water",
+      "lighting": "evening",
+      "render": null,
+      "camera": "04 • Rest / lounge",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "water",
+        "triangles": "551382",
+        "drawCalls": "68",
+        "loadMs": "308",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-05-day.jpg",
+      "stage": "totonou",
+      "lighting": "day",
+      "render": "05.png",
+      "camera": "05 • Garden / seated eye level",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "totonou",
+        "triangles": "552788",
+        "drawCalls": "93",
+        "loadMs": "308",
+        "lighting": "day",
+        "textures": "10",
+        "geometries": "91"
+      }
+    },
+    {
+      "file": "cycles-05-evening.jpg",
+      "stage": "totonou",
+      "lighting": "evening",
+      "render": null,
+      "camera": "05 • Garden / seated eye level",
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "stage": "totonou",
+        "triangles": "552788",
+        "drawCalls": "93",
+        "loadMs": "308",
+        "lighting": "evening",
+        "textures": "10",
+        "geometries": "91"
+      }
+    }
+  ],
+  "note": "Same camera position, direction and vertical FOV as the Cycles renders. Lighting, exposure and materials differ; manual review only.",
+  "captureStatus": "passed"
+}

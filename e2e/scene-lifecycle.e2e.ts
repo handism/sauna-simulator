@@ -96,3 +96,29 @@ test('a real 30-second load timeout falls back and permits retry', async ({ page
   release();
   await retry(page);
 });
+
+test('corrupt meshopt data falls back to 2D and a fresh model can recover', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.route('**/models/sauna.glb', async route => {
+    const response = await route.fetch();
+    const body = Buffer.from(await response.body());
+    const jsonLength = body.readUInt32LE(12);
+    const model = JSON.parse(body.subarray(20, 20 + jsonLength).toString());
+    expect(model.extensionsRequired).toContain('EXT_meshopt_compression');
+    const compressed = model.bufferViews.find((view: any) => view.extensions?.EXT_meshopt_compression)
+      .extensions.EXT_meshopt_compression;
+    // Break the compressed stream header, leaving the GLB structure valid.
+    body[28 + jsonLength + compressed.byteOffset] = 0;
+    await route.fulfill({ response, body });
+  }, { times: 1 });
+  await enter(page);
+  await expect(fallback(page)).toContainText('2Dで続けています');
+  await expect(scene(page)).toHaveCount(0);
+  await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
+  await retry(page);
+  await expect(scene(page)).toHaveAttribute('data-stage', 'water');
+  await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  expect(errors).toEqual([]);
+});

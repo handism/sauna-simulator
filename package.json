@@ -14,6 +14,7 @@
     "test:browser:visual": "bun run build && playwright test --config playwright.visual.config.ts"
   },
   "dependencies": {
+    "meshoptimizer": "1.1.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "three": "0.186.0"

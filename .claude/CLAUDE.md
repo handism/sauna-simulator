@@ -85,3 +85,6 @@
 - 石・布・木材の色は `imageRamp.ts`。`export_web_glb.py` の `base_color_image_ramp()` が「画像→RGBのBW化→線形ランプ × Object Info Randomのランプ（→一定色へ混合）」を材質 `extras.suiImageRamp` に記録し、結合前のオブジェクトごとの乱数を色属性 `SuiObjectRandom`→`COLOR_0` で渡す（名前seedの一様乱数でCyclesの値ではない）。濡れ跡のノイズは省略。輝度係数はBlenderのOCIO設定の `luma`。Three.jsの `common`・`map_fragment`・`color_fragment` チャンクに依存。`data-image-ramp-materials` に対象材質数を記録する。書き出しはUVの最下位ビットが実行ごとに揺らぐため、GLBのハッシュは再実行で変わる。
 
 - 壁の施設名・案内・温度計は、書き出し時に描画対象の `FONT` を元の輪郭・厚み・配置・材質のままメッシュへ変換する。文字は小物の除外・Decimateの対象外。`export-report.json` の `text_meshes` に本文・フォント・三角形数を記録する。ブラウザ用フォントや文字画像は追加しない。
+
+- GLBは書き出し末尾の `scripts/compress_web_glb.mjs` で可逆の `EXT_meshopt_compression` に圧縮する（meshoptimizer 1.1.1、bitstream v0、頂点はATTRIBUTES、インデックスは順序を完全保持するINDICES、フィルターなし）。すべての圧縮領域を復号し、元のバイト列と一致することを出力前に検査する。材質extras・画像・ノード変換は維持し、量子化は採用しない。`compression-report.json` と `export-report.json` に圧縮前後のハッシュと容量を記録。書き出しにはNode.jsと `bun install` が必要。
+- `SaunaScene` 内で `meshoptimizer/decoder` をGLTFLoaderへ渡す。WASMは3Dの遅延JS内に含まれ、CDNや別のデコーダーURLへ依存しない。圧縮ストリームの破損時も2Dを継続し、手動再試行できることを `scene-lifecycle.e2e.ts` で検証する。圧縮は転送量を減らすもので、描画三角形数やGPUメモリは減らさない。

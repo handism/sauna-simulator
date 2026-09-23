@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'meshoptimizer/decoder';
 
 import type { AmbientEnv, AudioEngine } from '../../hooks/useAudioEngine';
 import { QUALITY, type QualityMode } from './quality';
@@ -156,7 +157,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           fetch(`${base}sauna.glb`, { signal: abort.signal }).then(r => { if (!r.ok) throw Error('model'); return r.arrayBuffer(); }),
         ]);
         if (disposed || failed) return;
-        const gltf = await new GLTFLoader().parseAsync(binary, base);
+        const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(binary, base);
         if (disposed || failed) { disposeTree(gltf.scene); return; }
         // Replace the exported closed water volume with the bounded realtime surface.
         // Drawing both creates a milky double layer when the viewer sits in the pool.
