@@ -22,7 +22,8 @@ describe('3D lighting', () => {
     lighting.update(1, 0, true);
     expect(renderer.toneMappingExposure).toBe(1.1);
     expect(scene.children).toHaveLength(3);
-    expect((scene.fog as THREE.Fog).color.equals(scene.background as THREE.Color)).toBe(true);
+    expect(scene.fog).toBeNull();
+    expect((scene.background as THREE.Color).getHexString(THREE.SRGBColorSpace)).toBe('283d54');
   });
 });
 

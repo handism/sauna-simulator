@@ -45,7 +45,7 @@
 - `SaunaScene` のDOM `data-*` 属性に初回ロード時間、描画数、初期180フレームの間隔を記録する。Reactの毎フレーム更新は行わない。
 - 体験用視点と水面位置の正本は `scripts/web_scene.py`。`python3 scripts/web_scene.py` でシーン定義だけ再生成できる。GLB再出力時も同じ関数を呼ぶ。
 - 水は元GLBの閉じた水形状を非表示にし、`waterEffects.ts` の境界付き水面・波紋・注水に置き換える。動きを減らす設定では波紋・注水の時間更新を止める。最適化は未完了。
-- 昼／夕暮れ／自動は `lighting.ts` で管理。`sui-lighting-mode` に保存し、3Dモデルを再ロードせずに反映する。自動は各周回でサウナ=昼、水風呂=中間、外気浴=夕暮れ。ステージ変更時は暗転中に適用し、手動変更は補間する。動きを減らす設定では即時適用。
+- 昼／夕暮れ／自動は `lighting.ts` で管理。元Cyclesに合わせて霧はなく、空は元画像の表示色の単色（昼 `#4f616c`・夕暮れ `#283d54`）、カメラの描画距離は250m（地面は原点から100m）。`sui-lighting-mode` に保存し、3Dモデルを再ロードせずに反映する。自動は各周回でサウナ=昼、水風呂=中間、外気浴=夕暮れ。ステージ変更時は暗転中に適用し、手動変更は補間する。動きを減らす設定では即時適用。
 
 - 空間音響は `src/hooks/spatialAudio.ts`。既存AudioContextの2本の固定バスでストーブ（サウナ環境音・ロウリュ）と注水口（水風呂音）をHRTF定位する。風・バイノーラル音は従来の経路を維持。
 - `App → SceneMode → SaunaScene` に同一 `audio` を渡す。シーン定義の座標とカメラの位置・前方・上方向を `audio.setSpatialPose()` で反映し、アンマウント時は `null` で2D音へクロスフェード。モデル再読込・新たなAudioContextや音源の作成は行わない。AudioListenerの位置パラメータ非対応時は従来音へフォールバック。
@@ -73,7 +73,7 @@
 - 3D用JavaScriptのimport拒否は `SceneModuleError` で通常のモデル／WebGL失敗と区別する。`React.lazy` とブラウザが失敗を保持するため、モードの再選択で復帰できるとは案内しない。2Dを継続しつつ「最初から再読み込み」を表示し、体験が初期化されることを明示する。ページ更新は利用者の押下時だけ。取得保留・タイムアウト・モデル失敗にはこの案内を出さず、従来の再試行を維持する。
 
 - 全周の目視確認用画像は `bun run test:browser:visual --reporter=json > /tmp/sauna-visual-check.json`。専用configで `e2e/*.visual.ts` のみ実行し、3ステージ×昼夕×8方向×上下・水平の144枚を `test-results/visual/` に保存する。標準画質・動作抑制・1280×800・DPR1のChrome。`python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-qa/survey`（Pillow必要）で6枚の一覧画像とモデルハッシュ付きJSONを生成する。テストの成功は撮影・操作の成功であり、画質の合格判定ではない。画質所見は進捗記録へ残す。
-- 同じ実行で `e2e/cycles-compare.visual.ts` が元Cyclesのカメラ（`e2e/fixtures/cycles-cameras.json`、`scripts/blender_camera_reference.py` で元blendから生成）の位置・向き・垂直画角で撮影する。`sauna.scene.json` の取得をテスト内で差し替えるだけで、アプリにテスト用APIはない。`python3 scripts/summarize_cycles_compare.py /tmp/sauna-visual-check.json <出力先>` が `blender/renders/` と対にした比較画像を作る。照明・露出・霧・材質は一致させていない。
+- 同じ実行で `e2e/cycles-compare.visual.ts` が元Cyclesのカメラ（`e2e/fixtures/cycles-cameras.json`、`scripts/blender_camera_reference.py` で元blendから生成）の位置・向き・垂直画角で撮影する。`sauna.scene.json` の取得をテスト内で差し替えるだけで、アプリにテスト用APIはない。`python3 scripts/summarize_cycles_compare.py /tmp/sauna-visual-check.json <出力先>` が `blender/renders/` と対にした比較画像を作る。照明・露出・材質は一致させていない（霧はどちらにもなく、空の色は一致）。
 
 - 外気浴の2D用 `.aurora-container` は、3Dの `data-load-ms` が付いた準備完了時だけ非表示にする。昼夕の3D照明を濃紺の全画面背景で覆わない。読み込み中・2D切り替え・失敗後は従来の背景へ戻す。`scene-aurora.e2e.ts` でこの境界と実コンテキスト喪失後の操作継続を検証する。
 
