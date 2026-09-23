@@ -1,36 +1,9 @@
-import React, { createContext, useContext, useCallback } from "react";
-import { AudioEngine } from "../hooks/useAudioEngine";
-import { useSaunaSession, type Stage } from "../hooks/useSaunaSession";
+import React, { createContext, useContext } from "react";
+import { useSaunaSession, type SaunaSession } from "../hooks/useSaunaSession";
 
 export type { Stage } from "../hooks/useSaunaSession";
 
-interface SaunaSessionContextType {
-  stage: Stage;
-  pendingStage: Stage | null;
-  opacity: number;
-  isMuted: boolean;
-  isUiHidden: boolean;
-  heartRate: number;
-  setHeartRate: React.Dispatch<React.SetStateAction<number>>;
-  saunaTime: number;
-  setSaunaTime: React.Dispatch<React.SetStateAction<number>>;
-  loylyCount: number;
-  setLoylyCount: React.Dispatch<React.SetStateAction<number>>;
-  waterTime: number;
-  setWaterTime: React.Dispatch<React.SetStateAction<number>>;
-  audio: AudioEngine;
-  changeStage: (nextStage: Stage) => boolean;
-  handleStart: (withSound: boolean) => void;
-  toggleMute: () => void;
-  toggleUiVisibility: () => void;
-  completeSauna: (heartRate: number, duration: number, loylys: number) => void;
-  completeWater: (heartRate: number, duration: number) => void;
-  completeTotonou: () => void;
-}
-
-const SaunaContext = createContext<SaunaSessionContextType | undefined>(
-  undefined,
-);
+const SaunaContext = createContext<SaunaSession | undefined>(undefined);
 
 export const useSaunaContext = () => {
   const context = useContext(SaunaContext);
@@ -42,40 +15,7 @@ export const useSaunaContext = () => {
 
 export function SaunaProvider({ children }: { children: React.ReactNode }) {
   const session = useSaunaSession();
-
-  const completeSauna = useCallback(
-    (finalHeartRate: number, duration: number, loylys: number) => {
-      if (!session.changeStage("water")) return;
-      session.setHeartRate(finalHeartRate);
-      session.setSaunaTime(duration);
-      session.setLoylyCount(loylys);
-
-    },
-    [session],
-  );
-
-  const completeWater = useCallback(
-    (finalHeartRate: number, duration: number) => {
-      if (!session.changeStage("totonou")) return;
-      session.setHeartRate(finalHeartRate);
-      session.setWaterTime(duration);
-
-    },
-    [session],
-  );
-
-  const completeTotonou = useCallback(() => {
-    session.changeStage("sauna");
-  }, [session]);
-
-  const value = {
-    ...session,
-    completeSauna,
-    completeWater,
-    completeTotonou,
-  };
-
   return (
-    <SaunaContext.Provider value={value}>{children}</SaunaContext.Provider>
+    <SaunaContext.Provider value={session}>{children}</SaunaContext.Provider>
   );
 }

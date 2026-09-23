@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
   # 手動実行を許可
   workflow_dispatch:
@@ -16,7 +16,7 @@ permissions:
 
 # 複数のデプロイが並列で走らないように設定
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: true
 
 jobs:
@@ -41,8 +41,17 @@ jobs:
       - name: Lint
         run: bun run lint
 
+      - name: Format
+        run: bun run format:check
+
       - name: Build
         run: bun run build
+
+      # GPU を使わない回帰検証のみ（通常の2D利用で3D用JS／モデルを取得しないこと）。
+      # 3D描画を伴うブラウザ検証はソフトウェア描画だと重いため、引き続きローカルで実行する。
+      # Google Chrome は GitHub ホストランナーにプリインストールされている。
+      - name: Browser test (2D does not fetch 3D)
+        run: bunx playwright test e2e/scene-chunk.e2e.ts --grep "2D entry does not request"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

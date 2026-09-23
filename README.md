@@ -30,11 +30,16 @@ bun run dev
 
 ## ビルド・検証
 
-TypeScriptによる型チェックを行ってからビルドします。
+`bun run build` は型チェックを行わないため、CI と同じく個別に実行します。
 
 ```bash
-# 型チェックのみ実行する場合
-bunx tsc --noEmit
+# 型チェック（プロジェクト参照ごとに検査）
+bunx tsc -b
+
+# 単体テスト・Lint・フォーマット確認
+bun run test
+bun run lint
+bun run format:check
 
 # 本番ビルドを実行する場合
 bun run build
