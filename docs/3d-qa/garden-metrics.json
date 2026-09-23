@@ -1,0 +1,57 @@
+{
+  "before": {
+    "drawCalls": "73",
+    "frameMaxMs": "33.40",
+    "frameMeanMs": "16.77",
+    "geometries": "85",
+    "height": 1319,
+    "lighting": "day",
+    "loadMs": "126",
+    "pixelRatio": "1",
+    "quality": "standard",
+    "stage": "totonou",
+    "textures": "9",
+    "triangles": "276480",
+    "width": 1720
+  },
+  "after": {
+    "stage": "totonou",
+    "quality": "standard",
+    "lighting": "day",
+    "pixel-ratio": "1",
+    "load-ms": "173",
+    "frame-mean-ms": "16.67",
+    "frame-max-ms": "17.70",
+    "draw-calls": "73",
+    "triangles": "318666",
+    "textures": "9",
+    "geometries": "85"
+  },
+  "environment": "Chrome/macOS, localhost:4173 production, warm cache, 1720x1319 CSS px, DPR 1, standard shadows. Initial 180 frame scheduling intervals; not GPU timings or mobile results.",
+  "console": [
+    {
+      "level": "error",
+      "message": "Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received",
+      "timestamp": "2026-09-22T14:27:39.143Z",
+      "url": "http://localhost:4173/sauna-simulator/?view=3d"
+    },
+    {
+      "level": "error",
+      "message": "Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received",
+      "timestamp": "2026-09-22T14:27:39.143Z",
+      "url": "http://localhost:4173/sauna-simulator/?view=3d"
+    },
+    {
+      "level": "error",
+      "message": "Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received",
+      "timestamp": "2026-09-22T14:27:39.143Z",
+      "url": "http://localhost:4173/sauna-simulator/?view=3d"
+    },
+    {
+      "level": "error",
+      "message": "Error: Extension context invalidated.\n    at Ze (chrome-extension://cfhdojbkjhnklbpkdaibdccddilifddb/vendor/@eyeo/webext-ad-filtering-solution/content.js:18:98337)",
+      "timestamp": "2026-09-23T02:00:57.437Z",
+      "url": "chrome-extension://cfhdojbkjhnklbpkdaibdccddilifddb/vendor/@eyeo/webext-ad-filtering-solution/content.js"
+    }
+  ]
+}

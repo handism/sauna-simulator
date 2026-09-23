@@ -37,6 +37,7 @@ describe("App Component", () => {
     init: vi.fn(),
     playLoyly: vi.fn(),
     setMuted: vi.fn(),
+    setSpatialPose: vi.fn(),
     playAmbient: vi.fn(),
   };
 

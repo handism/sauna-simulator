@@ -773,3 +773,14 @@ p {
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .cooling-ripple-effect,
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .sauna-steam-particle,
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .steam-overlay { display: none; }
+
+.scene-lighting-control { display: flex; align-items: center; gap: 6px; color: #fff; }
+.scene-lighting-control select { font: inherit; color: #fff; background: #18221c; border: 1px solid #ffffff40; border-radius: 16px; padding: 8px; }
+.scene-lighting-control select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (max-width: 600px) {
+  .scene-mode-controls { display: grid; grid-template-columns: auto auto; max-width: calc(100% - 32px); }
+  .scene-mode-controls > button { grid-column: 1 / -1; justify-self: start; }
+  .scene-mode-controls > a, .scene-mode-controls > span { grid-column: 1 / -1; }
+  .app-container:has(.scene-lighting-control) .totonou-title-container { top: 145px; }
+}

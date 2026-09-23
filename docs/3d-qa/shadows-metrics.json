@@ -1,0 +1,99 @@
+{
+  "environment": "Chrome/macOS, localhost:4173, production build, warm cache; browser scheduling intervals, not GPU timings",
+  "samples": [
+    {
+      "drawCalls": "87",
+      "frameMaxMs": "17.70",
+      "frameMeanMs": "16.58",
+      "geometries": "85",
+      "height": 1319,
+      "lighting": "evening",
+      "loadMs": "888",
+      "pixelRatio": "1",
+      "quality": "standard",
+      "stage": "sauna",
+      "textures": "9",
+      "triangles": "293106",
+      "width": 1720
+    },
+    {
+      "drawCalls": "87",
+      "frameMaxMs": "33.00",
+      "frameMeanMs": "16.76",
+      "geometries": "85",
+      "height": 1319,
+      "lighting": "evening",
+      "loadMs": "888",
+      "pixelRatio": "1",
+      "quality": "low",
+      "stage": "sauna",
+      "textures": "7",
+      "triangles": "293106",
+      "width": 1720
+    },
+    {
+      "drawCalls": "87",
+      "frameMaxMs": "17.70",
+      "frameMeanMs": "16.68",
+      "geometries": "85",
+      "height": 1319,
+      "lighting": "evening",
+      "loadMs": "888",
+      "pixelRatio": "1",
+      "quality": "high",
+      "stage": "sauna",
+      "textures": "9",
+      "triangles": "293106",
+      "width": 1720
+    },
+    {
+      "drawCalls": "78",
+      "frameMaxMs": "83.60",
+      "frameMeanMs": "17.05",
+      "geometries": "85",
+      "height": 1319,
+      "lighting": "day",
+      "loadMs": "888",
+      "pixelRatio": "1",
+      "quality": "high",
+      "stage": "water",
+      "textures": "9",
+      "triangles": "284976",
+      "width": 1720
+    },
+    {
+      "drawCalls": "73",
+      "frameMaxMs": "17.80",
+      "frameMeanMs": "16.68",
+      "geometries": "85",
+      "height": 1319,
+      "lighting": "evening",
+      "loadMs": "888",
+      "pixelRatio": "1",
+      "quality": "high",
+      "stage": "totonou",
+      "textures": "9",
+      "triangles": "276480",
+      "width": 1720
+    }
+  ],
+  "afterThreeQualityCycles": {
+    "drawCalls": "73",
+    "frameMaxMs": "17.70",
+    "frameMeanMs": "16.67",
+    "geometries": "85",
+    "lighting": "evening",
+    "loadMs": "888",
+    "pixelRatio": "1",
+    "quality": "high",
+    "stage": "totonou",
+    "textures": "9",
+    "triangles": "276480"
+  },
+  "responsive": {
+    "width": 390,
+    "height": 844,
+    "note": "Desktop Chrome viewport override; not a mobile device test. Controls and outdoor heading visually checked."
+  },
+  "console": []
+}

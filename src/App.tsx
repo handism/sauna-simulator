@@ -171,7 +171,7 @@ function App() {
         )}
 
       </div>
-      <SceneMode stage={stage} opacity={opacity} loylyEvents={loylyEvents} />
+      <SceneMode audio={audio} stage={stage} opacity={opacity} loylyEvents={loylyEvents} />
       <div className="app-main-ui-container">
         {stage !== "start" && (
           <>

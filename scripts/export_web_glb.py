@@ -2,6 +2,7 @@
 Never saves the input blend. Export policies are intentionally explicit and recorded.
 """
 import bpy
+import random
 import hashlib
 import json
 import struct
@@ -19,8 +20,8 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna and courtyard',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking',
-                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; meshes over 500 polygons reduced toward 350'},
-          'materials': [], 'excluded': []}
+                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m'},
+          'materials': [], 'excluded': [], 'foliage_sampling': [], 'restored_bank_objects': 0}
 # Rebuild materials into the subset glTF can represent. Keep source UVs and packed images.
 for m in bpy.data.materials:
     if not m.use_nodes:
@@ -62,25 +63,80 @@ for m in bpy.data.materials:
         p.inputs['Emission Color'].default_value=(1,.45,.12,1)
         p.inputs['Emission Strength'].default_value=2
 
+def sample_whole_leaves(obj, budget):
+    """Sample disconnected leaves and preserve their footprint with planar silhouettes."""
+    mesh = obj.data
+    parent = list(range(len(mesh.vertices)))
+    def root(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    for edge in mesh.edges:
+        a, b = edge.vertices
+        parent[root(a)] = root(b)
+    islands = {}
+    for polygon in mesh.polygons:
+        islands.setdefault(root(polygon.vertices[0]), []).append(polygon.index)
+    # A connected solid is not a collection of leaves; retain the normal decimator.
+    if len(islands) < 2:
+        return False
+    groups = list(islands.values())
+    random.Random(obj.name).shuffle(groups)
+    vertices, faces, material_indices = [], [], []
+    # Each complete leaf becomes a broad two-triangle diamond in its own plane.
+    # This preserves its size and orientation while allowing more leaves per budget.
+    for group in groups[:budget // 2]:
+        points = [mesh.vertices[i].co.copy() for i in sorted({v for f in group for v in mesh.polygons[f].vertices})]
+        center = sum(points, Vector()) / len(points)
+        normal = mesh.polygons[group[0]].normal.normalized()
+        major = max((point - center for point in points), key=lambda v: v.length_squared)
+        major = (major - normal * major.dot(normal)).normalized()
+        minor = normal.cross(major).normalized()
+        if major.length < .5 or minor.length < .5:
+            continue
+        u = [(point-center).dot(major) for point in points]
+        v = [(point-center).dot(minor) for point in points]
+        start = len(vertices)
+        vertices.extend([center+major*max(u), center+minor*max(v), center+major*min(u), center+minor*min(v)])
+        faces.append((start, start+1, start+2, start+3))
+        material_indices.append(mesh.polygons[group[0]].material_index)
+    if not faces:
+        return False
+    simplified = bpy.data.meshes.new(obj.name + ' web leaves')
+    simplified.from_pydata(vertices, [], faces)
+    for material in mesh.materials: simplified.materials.append(material)
+    for polygon, material_index in zip(simplified.polygons, material_indices): polygon.material_index = material_index
+    simplified.update()
+    obj.data = simplified
+    report['foliage_sampling'].append({'object': obj.name, 'input_faces': len(mesh.polygons),
+                                      'output_faces': len(obj.data.polygons), 'islands': len(islands),
+                                      'method': 'seeded whole-leaf selection; two-triangle planar silhouettes'})
+    return True
+
 selected=[]
 for o in list(bpy.context.scene.objects):
     # Courtyard and sauna only; retain larger silhouettes beyond the glazing.
     corners=[o.matrix_world @ Vector(v) for v in o.bound_box] if o.type=='MESH' else []
     size=max(o.dimensions) if corners else 0
+    bank = o.name.startswith('V11 bank leaf group') and -20 <= o.location.y < -13 and abs(o.location.x) <= 23
     exclude=(o.type!='MESH' or o.hide_render or 'steam' in o.name.lower()
              or 'droplet' in o.name.lower()
              or (o.location.y < 0 and size < .35)
-             or o.location.y < -13 or abs(o.location.x)>15)
+             or (not bank and (o.location.y < -13 or abs(o.location.x)>15)))
     if exclude:
         report['excluded'].append(o.name)
         bpy.data.objects.remove(o, do_unlink=True)
         continue
+    if bank: report['restored_bank_objects'] += 1
     for mod in list(o.modifiers):
         if mod.type=='BEVEL': mod.segments=1
         if mod.type=='SUBSURF': o.modifiers.remove(mod)
     o.hide_set(False)
     o.hide_viewport=False
-    if len(o.data.polygons) > 500:
+    foliage = any(key in o.name.lower() for key in ('canopy', 'clustered tree leaves', 'clustered lobed foliage'))
+    sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, 700 if 'V11 maple' in o.name and not bank else 350)
+    if len(o.data.polygons) > 500 and not sampled:
         mod=o.modifiers.new('Web reduction','DECIMATE'); mod.ratio=min(1, 350/len(o.data.polygons))
     selected.append(o)
 bpy.ops.object.select_all(action='SELECT')
