@@ -1,0 +1,2811 @@
+{
+  "browser": "153.0.8010.53",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "deviceScaleFactor": 1,
+  "quality": "standard",
+  "reducedMotion": true,
+  "muted": true,
+  "hashes": {
+    "sauna.glb": "517de808fa0ccec59c938fdea7868e05cc7c8747777d490815c36e2ee206921d",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
+  },
+  "errors": [],
+  "samples": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-0-down.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "328444",
+        "drawCalls": "77",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-0-level.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335258",
+        "drawCalls": "87",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-0-up.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "312462",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-1-down.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "324310",
+        "drawCalls": "68",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-1-level.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "315640",
+        "drawCalls": "74",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-1-up.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "308638",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-2-down.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307994",
+        "drawCalls": "32",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-2-level.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "308344",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-2-up.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307994",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-3-down.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307644",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-3-level.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-3-up.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307046",
+        "drawCalls": "34",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-4-down.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-4-level.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-4-up.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-5-down.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "308388",
+        "drawCalls": "32",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-5-level.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307440",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-5-up.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307440",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-6-down.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "321792",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-6-level.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "325018",
+        "drawCalls": "43",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-6-up.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "309382",
+        "drawCalls": "37",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-7-down.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "327982",
+        "drawCalls": "69",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-7-level.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "334688",
+        "drawCalls": "81",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "file": "sauna-day-7-up.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "311282",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-0-down.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "328444",
+        "drawCalls": "77",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-0-level.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335258",
+        "drawCalls": "87",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-0-up.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "312462",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-1-down.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "324310",
+        "drawCalls": "68",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-1-level.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "315640",
+        "drawCalls": "74",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-1-up.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "308638",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-2-down.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307994",
+        "drawCalls": "32",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-2-level.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "308344",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-2-up.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307994",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-3-down.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307644",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-3-level.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-3-up.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307046",
+        "drawCalls": "34",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-4-down.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-4-level.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-4-up.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "306696",
+        "drawCalls": "30",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-5-down.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "308388",
+        "drawCalls": "32",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-5-level.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307440",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-5-up.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "307440",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-6-down.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "321792",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-6-level.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "325018",
+        "drawCalls": "43",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-6-up.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "309382",
+        "drawCalls": "37",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-7-down.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "327982",
+        "drawCalls": "69",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-7-level.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "334688",
+        "drawCalls": "81",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "file": "sauna-evening-7-up.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "311282",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.85",
+        "frameMaxMs": "49.97"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-0-down.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326812",
+        "drawCalls": "74",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-0-level.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-0-up.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "321864",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-1-down.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323624",
+        "drawCalls": "61",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-1-level.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325010",
+        "drawCalls": "65",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-1-up.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323692",
+        "drawCalls": "42",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-2-down.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323342",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-2-level.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326840",
+        "drawCalls": "45",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-2-up.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326840",
+        "drawCalls": "45",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-3-down.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "321444",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-3-level.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "324592",
+        "drawCalls": "41",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-3-up.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "324940",
+        "drawCalls": "44",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-4-down.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "319966",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-4-level.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "319966",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-4-up.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "320314",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-5-down.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325594",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-5-level.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325394",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-5-up.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323082",
+        "drawCalls": "40",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-6-down.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325612",
+        "drawCalls": "40",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-6-level.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326028",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-6-up.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "322882",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-7-down.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327480",
+        "drawCalls": "72",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-7-level.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327830",
+        "drawCalls": "76",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "file": "water-day-7-up.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "322732",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-0-down.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326812",
+        "drawCalls": "74",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-0-level.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327162",
+        "drawCalls": "78",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-0-up.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "321864",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-1-down.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323624",
+        "drawCalls": "61",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-1-level.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325010",
+        "drawCalls": "65",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-1-up.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323692",
+        "drawCalls": "42",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-2-down.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323342",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-2-level.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326840",
+        "drawCalls": "45",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-2-up.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326840",
+        "drawCalls": "45",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-3-down.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "321444",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-3-level.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "324592",
+        "drawCalls": "41",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-3-up.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "324940",
+        "drawCalls": "44",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-4-down.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "319966",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-4-level.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "319966",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-4-up.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "320314",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-5-down.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325594",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-5-level.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325394",
+        "drawCalls": "36",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-5-up.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "323082",
+        "drawCalls": "40",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-6-down.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "325612",
+        "drawCalls": "40",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-6-level.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "326028",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-6-up.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "322882",
+        "drawCalls": "38",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-7-down.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327480",
+        "drawCalls": "72",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-7-level.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "327830",
+        "drawCalls": "76",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "file": "water-evening-7-up.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "water",
+        "triangles": "322732",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-0-down.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "327480",
+        "drawCalls": "72",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-0-level.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318676",
+        "drawCalls": "74",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-0-up.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316062",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-1-down.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "329508",
+        "drawCalls": "77",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-1-level.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "331758",
+        "drawCalls": "82",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-1-up.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "329320",
+        "drawCalls": "44",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-2-down.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "328506",
+        "drawCalls": "53",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-2-level.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "332866",
+        "drawCalls": "57",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-2-up.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "317308",
+        "drawCalls": "42",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-3-down.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "324560",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-3-level.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "327978",
+        "drawCalls": "46",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-3-up.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "324910",
+        "drawCalls": "43",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-4-down.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "325392",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-4-level.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316238",
+        "drawCalls": "33",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-4-up.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "313552",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-5-down.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316238",
+        "drawCalls": "33",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-5-level.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316062",
+        "drawCalls": "32",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-5-up.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "313202",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-6-down.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "315712",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-6-level.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "315712",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-6-up.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "315712",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-7-down.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "317314",
+        "drawCalls": "47",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-7-level.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "317082",
+        "drawCalls": "44",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "file": "totonou-day-7-up.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316062",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "day",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-0-down.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "327480",
+        "drawCalls": "72",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-0-level.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "318676",
+        "drawCalls": "74",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-0-up.jpg",
+      "headingDegrees": 0,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316062",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-1-down.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "329508",
+        "drawCalls": "77",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-1-level.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "331758",
+        "drawCalls": "82",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-1-up.jpg",
+      "headingDegrees": 45.83662361046586,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "329320",
+        "drawCalls": "44",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-2-down.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "328506",
+        "drawCalls": "53",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-2-level.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "332866",
+        "drawCalls": "57",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-2-up.jpg",
+      "headingDegrees": 91.67324722093171,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "317308",
+        "drawCalls": "42",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-3-down.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "324560",
+        "drawCalls": "39",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-3-level.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "327978",
+        "drawCalls": "46",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-3-up.jpg",
+      "headingDegrees": 137.5098708313976,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "324910",
+        "drawCalls": "43",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-4-down.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "325392",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-4-level.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316238",
+        "drawCalls": "33",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-4-up.jpg",
+      "headingDegrees": 183.34649444186343,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "313552",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-5-down.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316238",
+        "drawCalls": "33",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-5-level.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316062",
+        "drawCalls": "32",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-5-up.jpg",
+      "headingDegrees": 229.1831180523293,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "313202",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-6-down.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "315712",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-6-level.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "315712",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-6-up.jpg",
+      "headingDegrees": 275.0197416627952,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "315712",
+        "drawCalls": "31",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-7-down.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "317314",
+        "drawCalls": "47",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-7-level.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": -0.01,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "317082",
+        "drawCalls": "44",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "file": "totonou-evening-7-up.jpg",
+      "headingDegrees": 320.856365273261,
+      "pitchRadians": 0.85,
+      "metrics": {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "totonou",
+        "triangles": "316062",
+        "drawCalls": "35",
+        "loadMs": "163",
+        "lighting": "evening",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.67",
+        "frameMaxMs": "16.80"
+      }
+    }
+  ],
+  "note": "Manual visual review required. Angles are relative to each initial seated heading. No performance or Cycles equivalence claim.",
+  "captureStatus": "passed",
+  "durationMs": 24953,
+  "capturedAt": "2026-09-23T08:18:34.258Z",
+  "visualReview": "See docs/3d-sauna-progress.md; capture success is not a quality approval."
+}

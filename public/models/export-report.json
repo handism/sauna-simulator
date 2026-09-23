@@ -6978,8 +6978,26 @@
     }
   ],
   "restored_bank_objects": 343,
+  "pillow_topology": [
+    {
+      "object": "V6 compressed linen pillow 0",
+      "boundary_edges_before": 200,
+      "boundary_edges_after_weld": 0,
+      "weld_distance_m": 1e-06,
+      "non_manifold_edges_after_reduction": 0,
+      "triangles_after_reduction": 682
+    },
+    {
+      "object": "V6 compressed linen pillow 1",
+      "boundary_edges_before": 200,
+      "boundary_edges_after_weld": 0,
+      "weld_distance_m": 1e-06,
+      "non_manifold_edges_after_reduction": 0,
+      "triangles_after_reduction": 682
+    }
+  ],
   "export_objects_before_join": 3114,
-  "triangles": 335824,
+  "triangles": 335790,
   "export_meshes": 71,
   "export_settings": {
     "export_format": "GLB",
@@ -6992,7 +7010,7 @@
     "export_jpeg_quality": 82,
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 16879316,
-  "output_sha256": "e01055d2d30158e36558dd0fcddce5497795ac89fb538e7c5ddc5e5488588ae4",
+  "output_bytes": 16878600,
+  "output_sha256": "517de808fa0ccec59c938fdea7868e05cc7c8747777d490815c36e2ee206921d",
   "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }

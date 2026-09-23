@@ -55,6 +55,7 @@
 - `SaunaScene` は描画数・三角形数・テクスチャ数・ジオメトリ数もDOM属性へ記録。描画数は最新フレームの値なので、照明補間中の影パスを含む値と、安定後の値を区別する。
 
 - 葉の書き出しは `export_web_glb.py` の `sample_whole_leaves()`。接続成分を葉として名前をseedに選び、元の位置・向き・広がりを近似した2三角形の平面へ変換する。近景V11 mapleは700三角形、その他は350三角形を上限とする。建物のDecimateとは分離。V11の奥の植栽帯はBlender座標 `abs(x)<=23, -20<=y<-13` の範囲を復元し、材質別に結合する。葉の細かな切れ込みは再現しない。
+- V6の枕は両極に未接続の重複頂点があるため、Web書き出し時に距離1e-6で結合してから簡略化する。対象は `V6 compressed linen pillow` のみ。結合後と簡略化後の閉じた形状を検査し、`export-report.json` の `pillow_topology` に記録する。元blendは保存しない。
 
 - 3Dの取得失敗・タイムアウト・コンテキスト喪失は `SaunaScene` 内で一度だけ失敗確定し、通信・描画を停止して2D音へ戻す。非同期取得／解析の完了時にも失敗・解除を判定し、遅着モデルは解放する。`SaunaScene.test.tsx` は模擬レンダラーでこの競合と解放を検証する（実GPUの検証ではない）。
 
@@ -69,3 +70,5 @@
 - `SceneMode` の `ActiveScene` は遅延JavaScript取得も含む読み込み全体に30秒の期限を設ける。ステージ・画質・時間帯の変更で期限を延長せず、準備完了・失敗・2D切り替え時にタイマーを解除する。期限後にモジュールが届いても自動で3Dを開始しない。`scene-chunk.e2e.ts` は通常2Dで3D用JS／モデルを取得しないことと、JS取得保留中の期限切れ・遅着・手動再試行を本番ビルドで検証する。通信帯域の性能測定ではない。
 
 - 3D用JavaScriptのimport拒否は `SceneModuleError` で通常のモデル／WebGL失敗と区別する。`React.lazy` とブラウザが失敗を保持するため、モードの再選択で復帰できるとは案内しない。2Dを継続しつつ「最初から再読み込み」を表示し、体験が初期化されることを明示する。ページ更新は利用者の押下時だけ。取得保留・タイムアウト・モデル失敗にはこの案内を出さず、従来の再試行を維持する。
+
+- 全周の目視確認用画像は `bun run test:browser:visual --reporter=json > /tmp/sauna-visual-check.json`。専用configで `e2e/*.visual.ts` のみ実行し、3ステージ×昼夕×8方向×上下・水平の144枚を `test-results/visual/` に保存する。標準画質・動作抑制・1280×800・DPR1のChrome。`python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-qa/survey`（Pillow必要）で6枚の一覧画像とモデルハッシュ付きJSONを生成する。テストの成功は撮影・操作の成功であり、画質の合格判定ではない。画質所見は進捗記録へ残す。

@@ -2,6 +2,7 @@
 Never saves the input blend. Export policies are intentionally explicit and recorded.
 """
 import bpy
+import bmesh
 import random
 import hashlib
 import json
@@ -21,7 +22,8 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna and courtyard',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking',
                      'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m'},
-          'materials': [], 'excluded': [], 'foliage_sampling': [], 'restored_bank_objects': 0}
+          'materials': [], 'excluded': [], 'foliage_sampling': [], 'restored_bank_objects': 0,
+          'pillow_topology': []}
 # Rebuild materials into the subset glTF can represent. Keep source UVs and packed images.
 for m in bpy.data.materials:
     if not m.use_nodes:
@@ -129,6 +131,18 @@ for o in list(bpy.context.scene.objects):
         bpy.data.objects.remove(o, do_unlink=True)
         continue
     if bank: report['restored_bank_objects'] += 1
+    if o.name.startswith('V6 compressed linen pillow'):
+        # The parametric poles have coincident, disconnected vertices. Decimate
+        # opens visible holes unless these are welded before simplification.
+        mesh = bmesh.new()
+        mesh.from_mesh(o.data)
+        before = sum(edge.is_boundary for edge in mesh.edges)
+        bmesh.ops.remove_doubles(mesh, verts=list(mesh.verts), dist=1e-6)
+        assert all(edge.is_manifold for edge in mesh.edges), o.name
+        mesh.to_mesh(o.data)
+        mesh.free()
+        report['pillow_topology'].append({'object': o.name, 'boundary_edges_before': before,
+                                         'boundary_edges_after_weld': 0, 'weld_distance_m': 1e-6})
     for mod in list(o.modifiers):
         if mod.type=='BEVEL': mod.segments=1
         if mod.type=='SUBSURF': o.modifiers.remove(mod)
@@ -142,6 +156,13 @@ for o in list(bpy.context.scene.objects):
 bpy.ops.object.select_all(action='SELECT')
 bpy.context.view_layer.objects.active=selected[0]
 bpy.ops.object.convert(target='MESH')
+for entry in report['pillow_topology']:
+    mesh = bmesh.new()
+    mesh.from_mesh(bpy.data.objects[entry['object']].data)
+    entry['non_manifold_edges_after_reduction'] = sum(not edge.is_manifold for edge in mesh.edges)
+    entry['triangles_after_reduction'] = sum(len(face.verts) - 2 for face in mesh.faces)
+    assert entry['non_manifold_edges_after_reduction'] == 0, entry
+    mesh.free()
 report['export_objects_before_join']=len(bpy.context.selected_objects)
 report['triangles']=sum(sum(len(p.vertices)-2 for p in o.data.polygons) for o in bpy.context.selected_objects)
 # Join by material to make repeated boards and foliage inexpensive to submit.
