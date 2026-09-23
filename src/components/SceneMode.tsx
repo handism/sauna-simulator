@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useCallback, useState, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
 import type { AudioEngine } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
 import type { LightingMode } from './3d/lighting';
@@ -22,8 +22,15 @@ class SceneBoundary extends Component<{ children: ReactNode; onError: () => void
 }
 function ActiveScene({ stage, opacity, loylyEvents, lightingMode, quality, audio }: { quality: QualityMode; audio: AudioEngine; lightingMode: LightingMode; stage: Exclude<Stage, 'start'>; opacity: number; loylyEvents: EventTarget }) {
   const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
-  const ready = useCallback(() => setStatus('ready'), []);
+  const ready = useCallback(() => setStatus(current => current === 'loading' ? 'ready' : current), []);
   const failed = useCallback(() => setStatus('failed'), []);
+  // Cover the lazy JavaScript download as well as the scene/model load.
+  // Stage and setting changes must not extend the deadline.
+  useEffect(() => {
+    if (status !== 'loading') return;
+    const timeout = window.setTimeout(failed, 30_000);
+    return () => window.clearTimeout(timeout);
+  }, [status, failed]);
   return <>
     <div className="scene-3d-layer" style={{ opacity }}>
     {status !== 'failed' && <SceneBoundary onError={failed}><Suspense fallback={null}>
