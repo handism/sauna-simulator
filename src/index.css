@@ -87,7 +87,7 @@ body {
 .primary-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* Mute Button */
@@ -118,29 +118,52 @@ body {
 
 /* Steam Animation */
 @keyframes steam-rise {
-  0% { transform: translateY(0) scale(1); opacity: 0; }
-  20% { opacity: 0.8; }
-  100% { transform: translateY(-50vh) scale(3); opacity: 0; }
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-50vh) scale(3);
+    opacity: 0;
+  }
 }
 
 /* Water Ripple Animations */
 @keyframes ripple {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(2.5); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
 }
 
 /* Breathing Animation */
 @keyframes breathe {
-  0% { transform: scale(1); filter: brightness(1); }
-  50% { transform: scale(1.1); filter: brightness(1.5); }
-  100% { transform: scale(1); filter: brightness(1); }
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
 }
 
 .breathing-circle {
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
   animation: breathe 8s infinite ease-in-out;
   display: flex;
   justify-content: center;
@@ -208,9 +231,15 @@ body {
 }
 
 @keyframes glow-pulse {
-  0% { box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25); }
-  50% { box-shadow: inset 0 0 100px rgba(56, 189, 248, 0.6); }
-  100% { box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25); }
+  0% {
+    box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25);
+  }
+  50% {
+    box-shadow: inset 0 0 100px rgba(56, 189, 248, 0.6);
+  }
+  100% {
+    box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25);
+  }
 }
 
 /* Aurora Backdrop (Totonou Space) */
@@ -283,11 +312,16 @@ body {
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 50%, transparent 70%);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 0 40px rgba(255, 255, 255, 0.05),
+    inset 0 0 30px rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1), background 4s ease;
+  transition:
+    transform 4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1),
+    background 4s ease;
   z-index: 10;
 }
 
@@ -305,11 +339,17 @@ p {
 }
 
 .breathing-circle-premium {
-  transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1), background 4s ease, opacity 0.5s ease;
+  transition:
+    transform 4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1),
+    background 4s ease,
+    opacity 0.5s ease;
 }
 
 .primary-btn {
-  transition: all 0.3s ease, opacity 0.5s ease;
+  transition:
+    all 0.3s ease,
+    opacity 0.5s ease;
 }
 
 /* UI Hidden State */
@@ -366,10 +406,10 @@ p {
 }
 
 .sauna-meter-box {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   padding: 15px 10px;
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .sauna-meter-label-temp {
@@ -398,7 +438,7 @@ p {
 }
 
 .sauna-info-panel {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   padding: 15px;
   border-radius: 16px;
   margin-bottom: 25px;
@@ -418,7 +458,7 @@ p {
   justify-content: space-between;
   align-items: center;
   font-size: 0.95rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding-top: 10px;
 }
 
@@ -467,9 +507,9 @@ p {
 }
 
 .sauna-next-stage-btn {
-  background: rgba(56,189,248,0.2);
-  border-color: rgba(56,189,248,0.6);
-  box-shadow: 0 4px 20px rgba(56,189,248,0.15);
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
 }
 
 .sauna-steam-particle {
@@ -477,7 +517,7 @@ p {
   bottom: -5%;
   width: 180px;
   height: 180px;
-  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
   border-radius: 50%;
   animation: steam-rise 4s ease-out forwards;
   pointer-events: none;
@@ -488,7 +528,7 @@ p {
 .cooling-panel {
   text-align: center;
   z-index: 10;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   width: 92%;
   max-width: 420px;
   padding: 2.5rem 2rem;
@@ -511,14 +551,14 @@ p {
 }
 
 .cooling-info-panel {
-  background: rgba(56,189,248,0.05);
+  background: rgba(56, 189, 248, 0.05);
   padding: 15px;
   border-radius: 16px;
   margin: 20px 0 25px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid rgba(56,189,248,0.1);
+  border: 1px solid rgba(56, 189, 248, 0.1);
 }
 
 .cooling-info-row {
@@ -533,7 +573,7 @@ p {
   justify-content: space-between;
   align-items: center;
   font-size: 0.95rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding-top: 10px;
 }
 
@@ -574,16 +614,16 @@ p {
 }
 
 .cooling-next-btn {
-  background: rgba(192,132,252,0.25);
-  border-color: rgba(192,132,252,0.6);
-  box-shadow: 0 4px 20px rgba(192,132,252,0.15);
+  background: rgba(192, 132, 252, 0.25);
+  border-color: rgba(192, 132, 252, 0.6);
+  box-shadow: 0 4px 20px rgba(192, 132, 252, 0.15);
 }
 
 .cooling-ripple-effect {
   position: absolute;
   width: 120px;
   height: 120px;
-  border: 2px solid rgba(56,189,248,0.25);
+  border: 2px solid rgba(56, 189, 248, 0.25);
   border-radius: 50%;
   animation: ripple 3s ease-out forwards;
   pointer-events: none;
@@ -616,7 +656,7 @@ p {
 
 .totonou-info-panel {
   margin-top: 40px;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   z-index: 10;
   width: 90%;
   max-width: 380px;
@@ -640,13 +680,13 @@ p {
 
 .totonou-progress-val {
   font-size: 2.2rem;
-  text-shadow: 0 0 15px rgba(255,255,255,0.1);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 .totonou-progress-bg {
   width: 100%;
   height: 6px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -673,10 +713,10 @@ p {
 }
 
 .totonou-next-btn {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   font-size: 0.95rem;
   padding: 12px 28px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .app-start-screen {
@@ -696,7 +736,7 @@ p {
   font-weight: 600;
   letter-spacing: 6px;
   text-transform: uppercase;
-  text-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   text-align: center;
 }
 
@@ -704,7 +744,7 @@ p {
   font-size: clamp(1rem, 4vw, 1.2rem);
   margin-bottom: 1.5rem;
   color: #cbd5e1;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   text-align: center;
   font-weight: 300;
 }
@@ -716,10 +756,10 @@ p {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   padding: 8px 16px;
   border-radius: 30px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .app-btn-group {
@@ -736,7 +776,7 @@ p {
 }
 
 .app-btn-secondary {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   font-size: 1rem;
   padding: 12px 24px;
 }
@@ -748,43 +788,154 @@ p {
 }
 
 /* The UI receives input only on controls; uncovered scenery remains draggable. */
-.app-main-ui-container { pointer-events: none; }
-.app-main-ui-container button, .app-main-ui-container a { pointer-events: auto; }
-.sauna-3d-canvas { position: absolute; inset: 0; z-index: 2; touch-action: none; }
-.sauna-3d-canvas canvas { display: block; }
-.sauna-3d-canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
-.scene-mode-controls { position: fixed; left: 16px; top: 16px; z-index: 30; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: calc(100% - 150px); font-size: 11px; }
-.scene-mode-controls button { border: 1px solid #ffffff40; border-radius: 20px; padding: 9px 14px; background: #18221cdd; color: #fff; cursor: pointer; }
-.scene-mode-controls a { color: #d1dacd; }
-.scene-mode-controls span { width: 100%; }
-.scene-status { position: fixed; bottom: 10px; left: 0; right: 0; text-align: center; pointer-events: none; z-index: 12; font-size: 11px; color: #fff; text-shadow: 0 1px 5px #000; }
-.ui-hidden .scene-status { opacity: 0; }
-.app-container:has(.sauna-3d-canvas) .glass-panel { background: rgba(16, 23, 20, .82); }
+.app-main-ui-container {
+  pointer-events: none;
+}
+.app-main-ui-container button,
+.app-main-ui-container a {
+  pointer-events: auto;
+}
+.sauna-3d-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  touch-action: none;
+}
+.sauna-3d-canvas canvas {
+  display: block;
+}
+.sauna-3d-canvas:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}
+.scene-mode-controls {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 30;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: calc(100% - 150px);
+  font-size: 11px;
+}
+.scene-mode-controls button {
+  border: 1px solid #ffffff40;
+  border-radius: 20px;
+  padding: 9px 14px;
+  background: #18221cdd;
+  color: #fff;
+  cursor: pointer;
+}
+.scene-mode-controls a {
+  color: #d1dacd;
+}
+.scene-mode-controls span {
+  width: 100%;
+}
+.scene-status {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+  z-index: 12;
+  font-size: 11px;
+  color: #fff;
+  text-shadow: 0 1px 5px #000;
+}
+.ui-hidden .scene-status {
+  opacity: 0;
+}
+.app-container:has(.sauna-3d-canvas) .glass-panel {
+  background: rgba(16, 23, 20, 0.82);
+}
 /* One session deadline controls both background modes and stage UI. */
-.background-stack, .scene-3d-layer { position: absolute; inset: 0; transition: opacity 1s ease; }
-.background-stack { z-index: 0; }
-.scene-3d-layer { z-index: 2; pointer-events: none; }
-.scene-3d-layer .sauna-3d-canvas { pointer-events: auto; }
+.background-stack,
+.scene-3d-layer {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1s ease;
+}
+.background-stack {
+  z-index: 0;
+}
+.scene-3d-layer {
+  z-index: 2;
+  pointer-events: none;
+}
+.scene-3d-layer .sauna-3d-canvas {
+  pointer-events: auto;
+}
 @media (prefers-reduced-motion: reduce) {
-  .background-stack, .scene-3d-layer, .app-stage-container, .app-start-screen { transition: none; }
+  .background-stack,
+  .scene-3d-layer,
+  .app-stage-container,
+  .app-start-screen {
+    transition: none;
+  }
 }
 /* Effects with a world position replace the former screen-space particles. */
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .cooling-ripple-effect,
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .sauna-steam-particle,
-.app-container:has(.sauna-3d-canvas[data-load-ms]) .steam-overlay { display: none; }
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .steam-overlay {
+  display: none;
+}
 /* The 2D aurora backdrop would tint and darken the whole lit 3D garden. */
-.app-container:has(.sauna-3d-canvas[data-load-ms]) .aurora-container { display: none; }
-
-.scene-lighting-control { display: flex; align-items: center; gap: 6px; color: #fff; }
-.scene-lighting-control select { font: inherit; color: #fff; background: #18221c; border: 1px solid #ffffff40; border-radius: 16px; padding: 8px; }
-.scene-lighting-control select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-@media (max-width: 600px) {
-  .scene-mode-controls { display: grid; grid-template-columns: auto auto; max-width: calc(100% - 32px); }
-  .scene-mode-controls > button { grid-column: 1 / -1; justify-self: start; }
-  .scene-mode-controls > a, .scene-mode-controls > span { grid-column: 1 / -1; }
-  .app-container:has(.scene-lighting-control) .totonou-title-container { top: 145px; }
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .aurora-container {
+  display: none;
 }
 
-.scene-status button { pointer-events: auto; margin-left: 8px; padding: 6px 10px; border: 1px solid #ffffff80; border-radius: 6px; background: #172625; color: #fff; cursor: pointer; }
-.ui-hidden .scene-status button { visibility: hidden; }
+.scene-lighting-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+}
+.scene-lighting-control select {
+  font: inherit;
+  color: #fff;
+  background: #18221c;
+  border: 1px solid #ffffff40;
+  border-radius: 16px;
+  padding: 8px;
+}
+.scene-lighting-control select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .scene-mode-controls {
+    display: grid;
+    grid-template-columns: auto auto;
+    max-width: calc(100% - 32px);
+  }
+  .scene-mode-controls > button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .scene-mode-controls > a,
+  .scene-mode-controls > span {
+    grid-column: 1 / -1;
+  }
+  .app-container:has(.scene-lighting-control) .totonou-title-container {
+    top: 145px;
+  }
+}
+
+.scene-status button {
+  pointer-events: auto;
+  margin-left: 8px;
+  padding: 6px 10px;
+  border: 1px solid #ffffff80;
+  border-radius: 6px;
+  background: #172625;
+  color: #fff;
+  cursor: pointer;
+}
+.ui-hidden .scene-status button {
+  visibility: hidden;
+}

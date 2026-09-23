@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { getSecureRandom } from "../utils/saunaUtils";
+import { useState, useEffect, useRef } from 'react';
+import { getSecureRandom } from '../utils/saunaUtils';
 
 interface Ripple {
   id: number;
@@ -30,8 +30,8 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
     const int = setInterval(() => {
       const newRipple: Ripple = {
         id: Date.now(),
-        left: getSecureRandom() * 80 + 10 + "%",
-        top: getSecureRandom() * 80 + 10 + "%",
+        left: getSecureRandom() * 80 + 10 + '%',
+        top: getSecureRandom() * 80 + 10 + '%',
       };
       setRipples((prev) => [...prev.slice(-4), newRipple]); // 最大5つの波紋
     }, COOLING_CONFIG.RIPPLE_INTERVAL_MS);
@@ -45,8 +45,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
 
       setHeartRate((prev) => {
         // 目標心拍数 TARGET_HR bpm に向けてイージングで急低下
-        const diff =
-          (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
+        const diff = (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
         const nextHR = prev + diff;
         // わずかにランダムなゆらぎを加えて自然にする
         const jitter = (getSecureRandom() - 0.5) * 0.5;
@@ -83,9 +82,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         <div className="cooling-info-panel">
           <div className="cooling-info-row">
             <span className="cooling-info-label">水温:</span>
-            <span className="dashboard-value cooling-info-val-temp">
-              16.0°C
-            </span>
+            <span className="dashboard-value cooling-info-val-temp">16.0°C</span>
           </div>
 
           <div className="cooling-info-row-bottom">
@@ -100,8 +97,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
                 💙
               </span>
               <span className="dashboard-value cooling-hr-bpm-val">
-                {Math.round(heartRate)}{" "}
-                <span className="cooling-hr-bpm-label">BPM</span>
+                {Math.round(heartRate)} <span className="cooling-hr-bpm-label">BPM</span>
               </span>
             </span>
           </div>
@@ -117,11 +113,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
 
       {/* 水面の波紋エフェクト */}
       {ripples.map((r) => (
-        <div
-          key={r.id}
-          className="cooling-ripple-effect"
-          style={{ top: r.top, left: r.left }}
-        />
+        <div key={r.id} className="cooling-ripple-effect" style={{ top: r.top, left: r.left }} />
       ))}
     </div>
   );

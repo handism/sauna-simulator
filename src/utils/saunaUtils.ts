@@ -1,5 +1,5 @@
 export const calculateHeatIndex = (temperature: number, humidity: number): number => {
-  return temperature + (humidity * 0.45);
+  return temperature + humidity * 0.45;
 };
 
 // Cache the Uint32Array to avoid recreating it on every function call
@@ -15,15 +15,15 @@ export const getSecureRandom = (): number => {
     typeof globalThis !== 'undefined' && globalThis.crypto
       ? globalThis.crypto
       : typeof window !== 'undefined'
-      ? window.crypto
-      : undefined;
+        ? window.crypto
+        : undefined;
 
   if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
     cryptoObj.getRandomValues(secureRandomArray);
     return secureRandomArray[0] / (0xffffffff + 1);
   }
 
-  throw new Error("Web Crypto API is not available in this environment.");
+  throw new Error('Web Crypto API is not available in this environment.');
 };
 
 export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {

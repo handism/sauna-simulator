@@ -1,45 +1,39 @@
-import { useState } from "react";
-import "./index.css";
-import SceneMode from "./components/SceneMode";
-import SaunaRoom from "./components/SaunaRoom";
-import CoolingBath from "./components/CoolingBath";
-import TotonouSpace from "./components/TotonouSpace";
-import { useSaunaContext, type Stage } from "./context/SaunaContext";
+import { useState } from 'react';
+import './index.css';
+import SceneMode from './components/SceneMode';
+import SaunaRoom from './components/SaunaRoom';
+import CoolingBath from './components/CoolingBath';
+import TotonouSpace from './components/TotonouSpace';
+import { useSaunaContext, type Stage } from './context/SaunaContext';
 
 interface BackgroundConfig {
   gradient: string;
   image: string;
 }
 
-const BACKGROUNDS: Record<Exclude<Stage, "start">, BackgroundConfig> = {
+const BACKGROUNDS: Record<Exclude<Stage, 'start'>, BackgroundConfig> = {
   sauna: {
-    gradient: "rgba(0,0,0,0.45), rgba(0,0,0,0.75)",
-    image: "sauna_bg.png",
+    gradient: 'rgba(0,0,0,0.45), rgba(0,0,0,0.75)',
+    image: 'sauna_bg.png',
   },
   water: {
-    gradient: "rgba(0,0,0,0.25), rgba(0,0,0,0.65)",
-    image: "water_bg.png",
+    gradient: 'rgba(0,0,0,0.25), rgba(0,0,0,0.65)',
+    image: 'water_bg.png',
   },
   totonou: {
-    gradient: "rgba(0,0,0,0.55), rgba(0,0,0,0.85)",
-    image: "totonou_bg.png",
+    gradient: 'rgba(0,0,0,0.55), rgba(0,0,0,0.85)',
+    image: 'totonou_bg.png',
   },
 };
 
-function UiToggleButton({
-  isUiHidden,
-  onToggle,
-}: {
-  isUiHidden: boolean;
-  onToggle: () => void;
-}) {
+function UiToggleButton({ isUiHidden, onToggle }: { isUiHidden: boolean; onToggle: () => void }) {
   return (
     <button
       type="button"
       className="mute-btn ui-toggle-btn"
-      style={{ right: "72px", opacity: isUiHidden ? 0.3 : 1 }}
+      style={{ right: '72px', opacity: isUiHidden ? 0.3 : 1 }}
       onClick={onToggle}
-      aria-label={isUiHidden ? "UI表示" : "UI非表示"}
+      aria-label={isUiHidden ? 'UI表示' : 'UI非表示'}
       aria-pressed={isUiHidden}
     >
       {isUiHidden ? (
@@ -75,19 +69,13 @@ function UiToggleButton({
   );
 }
 
-function MuteButton({
-  isMuted,
-  onToggle,
-}: {
-  isMuted: boolean;
-  onToggle: () => void;
-}) {
+function MuteButton({ isMuted, onToggle }: { isMuted: boolean; onToggle: () => void }) {
   return (
     <button
       type="button"
       className="mute-btn"
       onClick={onToggle}
-      aria-label={isMuted ? "ミュート解除" : "ミュート"}
+      aria-label={isMuted ? 'ミュート解除' : 'ミュート'}
       aria-pressed={isMuted}
     >
       {isMuted ? (
@@ -146,13 +134,10 @@ function App() {
   } = useSaunaContext();
 
   const [loylyEvents] = useState(() => new EventTarget());
-  const background = stage === "start" ? null : BACKGROUNDS[stage];
+  const background = stage === 'start' ? null : BACKGROUNDS[stage];
 
   return (
-    <div
-      className={`app-container ${isUiHidden ? "ui-hidden" : ""}`}
-      style={{ background: "#000" }}
-    >
+    <div className={`app-container ${isUiHidden ? 'ui-hidden' : ''}`} style={{ background: '#000' }}>
       <div className="background-stack" style={{ opacity }}>
         {background && (
           <div
@@ -166,17 +151,14 @@ function App() {
       </div>
       <SceneMode audio={audio} stage={stage} opacity={opacity} loylyEvents={loylyEvents} />
       <div className="app-main-ui-container">
-        {stage !== "start" && (
+        {stage !== 'start' && (
           <>
-            <UiToggleButton
-              isUiHidden={isUiHidden}
-              onToggle={toggleUiVisibility}
-            />
+            <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
             <MuteButton isMuted={isMuted} onToggle={toggleMute} />
           </>
         )}
 
-        {stage === "start" && (
+        {stage === 'start' && (
           <div className="app-start-screen" style={{ opacity }} inert={pendingStage !== null}>
             <h1 className="app-main-title">ブラウザサウナ</h1>
             <p className="app-subtitle">プレミアムな疑似サウナ体験</p>
@@ -186,42 +168,33 @@ function App() {
             </p>
 
             <div className="app-btn-group">
-              <button
-                className="primary-btn app-btn-primary"
-                onClick={() => handleStart(true)}
-              >
+              <button className="primary-btn app-btn-primary" onClick={() => handleStart(true)}>
                 音ありで入室する
               </button>
-              <button
-                className="primary-btn app-btn-secondary"
-                onClick={() => handleStart(false)}
-              >
+              <button className="primary-btn app-btn-secondary" onClick={() => handleStart(false)}>
                 静かに入室する
               </button>
             </div>
           </div>
         )}
 
-        {stage === "sauna" && (
+        {stage === 'sauna' && (
           <div className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
             <SaunaRoom
               audio={audio}
-              onLoyly={() => loylyEvents.dispatchEvent(new Event("loyly"))}
+              onLoyly={() => loylyEvents.dispatchEvent(new Event('loyly'))}
               onNext={completeSauna}
             />
           </div>
         )}
 
-        {stage === "water" && (
+        {stage === 'water' && (
           <div className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
-            <CoolingBath
-              initialHeartRate={heartRate}
-              onNext={completeWater}
-            />
+            <CoolingBath initialHeartRate={heartRate} onNext={completeWater} />
           </div>
         )}
 
-        {stage === "totonou" && (
+        {stage === 'totonou' && (
           <div className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
             <TotonouSpace
               saunaTime={saunaTime}

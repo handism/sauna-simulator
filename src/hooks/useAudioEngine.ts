@@ -1,10 +1,10 @@
-import { useRef, useCallback, useMemo } from "react";
-import { createSpatialAudio, type SpatialPose } from "./spatialAudio";
-import AudioWorker from "./audioWorker?worker";
+import { useRef, useCallback, useMemo } from 'react';
+import { createSpatialAudio, type SpatialPose } from './spatialAudio';
+import AudioWorker from './audioWorker?worker';
 
-export type AmbientEnv = "sauna" | "water" | "totonou";
+export type AmbientEnv = 'sauna' | 'water' | 'totonou';
 
-type NoiseType = "whiteNoise" | "saunaNoise" | "windNoise";
+type NoiseType = 'whiteNoise' | 'saunaNoise' | 'windNoise';
 
 export interface AudioEffectSettings {
   type: BiquadFilterType;
@@ -24,7 +24,7 @@ export interface EnvironmentConfig extends NoiseSourceConfig {
   targetGain: number;
   fadeInTimeConstant: number;
   /** 3D表示中に定位させる音源位置 */
-  spatialBus: "stove" | "water";
+  spatialBus: 'stove' | 'water';
 }
 
 export interface BinauralBeatConfig {
@@ -54,26 +54,26 @@ export interface AudioPresets {
 export const AUDIO_PRESETS: AudioPresets = {
   sauna: {
     filterSettings: {
-      type: "lowpass",
+      type: 'lowpass',
       frequency: 250,
     },
     targetGain: 0.35,
     fadeInTimeConstant: 1.0,
-    noiseType: "saunaNoise",
+    noiseType: 'saunaNoise',
     bufferSeconds: 2,
-    spatialBus: "stove",
+    spatialBus: 'stove',
   },
   water: {
     filterSettings: {
-      type: "bandpass",
+      type: 'bandpass',
       frequency: 1200,
       Q: 0.6,
     },
     targetGain: 0.45,
     fadeInTimeConstant: 1.0,
-    noiseType: "saunaNoise",
+    noiseType: 'saunaNoise',
     bufferSeconds: 2,
-    spatialBus: "water",
+    spatialBus: 'water',
   },
   // ととのい誘発バイノーラルビート (A2: 110Hz と 112.5Hz)
   totonouBinaural: {
@@ -86,17 +86,17 @@ export const AUDIO_PRESETS: AudioPresets = {
   },
   totonouWind: {
     filterSettings: {
-      type: "lowpass",
+      type: 'lowpass',
       frequency: 200, // 低い風のささやき
     },
     baseGain: 0.04,
     lfoFrequency: 0.08, // 超低頻度 (約12.5秒周期)
     lfoGain: 0.03, // ゲインの揺れ幅
-    noiseType: "windNoise",
+    noiseType: 'windNoise',
     bufferSeconds: 3,
   },
   loyly: {
-    noiseType: "whiteNoise",
+    noiseType: 'whiteNoise',
     bufferSeconds: 2,
   },
 };
@@ -120,10 +120,7 @@ const resolvers = new Map<number, ResolverType>();
 const ongoingGenerations = new Map<string, Promise<Float32Array<ArrayBuffer>>>();
 
 // A wrapper to handle concurrent requests to the worker
-function generateBufferAsync(
-  type: NoiseType,
-  length: number,
-): Promise<Float32Array<ArrayBuffer>> {
+function generateBufferAsync(type: NoiseType, length: number): Promise<Float32Array<ArrayBuffer>> {
   const cacheKey = `${type}-${length}`;
   const existingPromise = ongoingGenerations.get(cacheKey);
   if (existingPromise) {
@@ -143,7 +140,7 @@ function generateBufferAsync(
         }
       };
       audioWorker.onerror = (e) => {
-        console.error("AudioWorker error:", e);
+        console.error('AudioWorker error:', e);
       };
     }
 
@@ -163,10 +160,7 @@ function generateBufferAsync(
   return promise;
 }
 
-function applyFilterSettings(
-  filter: BiquadFilterNode,
-  settings: AudioEffectSettings,
-) {
+function applyFilterSettings(filter: BiquadFilterNode, settings: AudioEffectSettings) {
   filter.type = settings.type;
   filter.frequency.value = settings.frequency;
   if (settings.Q !== undefined) filter.Q.value = settings.Q;
@@ -189,17 +183,14 @@ export function useAudioEngine(): AudioEngine {
     if (!ctxRef.current) {
       const AudioCtx =
         window.AudioContext ||
-        (
-          window as Window &
-            typeof globalThis & { webkitAudioContext?: typeof AudioContext }
-        ).webkitAudioContext;
+        (window as Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (!AudioCtx) {
-        console.error("AudioContext is not supported in this browser");
+        console.error('AudioContext is not supported in this browser');
         return;
       }
       ctxRef.current = new AudioCtx();
     }
-    if (ctxRef.current.state === "suspended") {
+    if (ctxRef.current.state === 'suspended') {
       ctxRef.current.resume();
     }
     if (!masterGainRef.current && ctxRef.current) {
@@ -253,7 +244,7 @@ export function useAudioEngine(): AudioEngine {
         gain.gain.cancelScheduledValues(now);
         gain.gain.setTargetAtTime(0, now, 0.4);
       } catch (e) {
-        console.error("Failed to fade out gain", e);
+        console.error('Failed to fade out gain', e);
       }
     });
 
@@ -267,7 +258,7 @@ export function useAudioEngine(): AudioEngine {
         try {
           src.stop();
         } catch (e) {
-          console.error("Failed to stop source", e);
+          console.error('Failed to stop source', e);
         }
       });
     }, 1200);
@@ -275,7 +266,7 @@ export function useAudioEngine(): AudioEngine {
 
   // サウナ・水風呂: フィルタを通したノイズのループを定位用バスへ流す
   const playNoiseAmbient = useCallback(
-    async (env: "sauna" | "water") => {
+    async (env: 'sauna' | 'water') => {
       if (!ctxRef.current || !masterGainRef.current) return;
       const ctx = ctxRef.current;
       const preset = AUDIO_PRESETS[env];
@@ -293,17 +284,11 @@ export function useAudioEngine(): AudioEngine {
 
       const gain = ctx.createGain();
       gain.gain.value = 0;
-      gain.gain.setTargetAtTime(
-        preset.targetGain,
-        now,
-        preset.fadeInTimeConstant,
-      );
+      gain.gain.setTargetAtTime(preset.targetGain, now, preset.fadeInTimeConstant);
 
       source.connect(filter);
       filter.connect(gain);
-      gain.connect(
-        spatialRef.current?.[preset.spatialBus] ?? masterGainRef.current,
-      );
+      gain.connect(spatialRef.current?.[preset.spatialBus] ?? masterGainRef.current);
       source.start();
 
       activeSourcesRef.current.push(source);
@@ -321,11 +306,11 @@ export function useAudioEngine(): AudioEngine {
 
     // 1. バイノーラルビート
     const oscL = ctx.createOscillator();
-    oscL.type = "sine";
+    oscL.type = 'sine';
     oscL.frequency.value = binaural.frequencyLeft;
 
     const oscR = ctx.createOscillator();
-    oscR.type = "sine";
+    oscR.type = 'sine';
     oscR.frequency.value = binaural.frequencyRight;
 
     const pannerL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
@@ -335,11 +320,7 @@ export function useAudioEngine(): AudioEngine {
 
     const humGain = ctx.createGain();
     humGain.gain.value = 0;
-    humGain.gain.setTargetAtTime(
-      binaural.targetGain,
-      now,
-      binaural.timeConstant,
-    );
+    humGain.gain.setTargetAtTime(binaural.targetGain, now, binaural.timeConstant);
 
     if (pannerL && pannerR) {
       oscL.connect(pannerL).connect(humGain);
@@ -356,7 +337,7 @@ export function useAudioEngine(): AudioEngine {
     humGain.connect(masterGainRef.current);
 
     // 2. そよ風ノイズ
-    const windBuffer = await getNoiseBuffer(ctx, wind, "wind noise", "totonou");
+    const windBuffer = await getNoiseBuffer(ctx, wind, 'wind noise', 'totonou');
     if (!windBuffer) return;
 
     const windSource = ctx.createBufferSource();
@@ -396,7 +377,7 @@ export function useAudioEngine(): AudioEngine {
       stopAmbient();
       currentEnvRef.current = env;
 
-      if (env === "totonou") {
+      if (env === 'totonou') {
         await playTotonou();
       } else {
         await playNoiseAmbient(env);
@@ -409,11 +390,7 @@ export function useAudioEngine(): AudioEngine {
     if (!ctxRef.current || !masterGainRef.current) return;
     const ctx = ctxRef.current;
 
-    const buffer = await getNoiseBuffer(
-      ctx,
-      AUDIO_PRESETS.loyly,
-      "loyly white noise",
-    );
+    const buffer = await getNoiseBuffer(ctx, AUDIO_PRESETS.loyly, 'loyly white noise');
     if (!buffer) return;
 
     const now = ctx.currentTime;
@@ -423,7 +400,7 @@ export function useAudioEngine(): AudioEngine {
     sourceSizzle.buffer = buffer;
 
     const filterSizzle = ctx.createBiquadFilter();
-    filterSizzle.type = "highpass";
+    filterSizzle.type = 'highpass';
     filterSizzle.frequency.setValueAtTime(3500, now);
     filterSizzle.frequency.exponentialRampToValueAtTime(7000, now + 0.6);
 
@@ -443,7 +420,7 @@ export function useAudioEngine(): AudioEngine {
     sourceSteam.buffer = buffer;
 
     const filterSteam = ctx.createBiquadFilter();
-    filterSteam.type = "bandpass";
+    filterSteam.type = 'bandpass';
     filterSteam.frequency.setValueAtTime(800, now);
     filterSteam.frequency.exponentialRampToValueAtTime(2500, now + 1.2);
     filterSteam.Q.value = 1.0;

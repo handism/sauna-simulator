@@ -14,7 +14,8 @@ export function createWaterEffects(definition: WaterDefinition) {
   const vertexShader = `varying vec2 vUv;
     void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
   const water = new THREE.ShaderMaterial({
-    uniforms: { time }, vertexShader,
+    uniforms: { time },
+    vertexShader,
     fragmentShader: `uniform float time; varying vec2 vUv;
       void main() {
         vec2 offset = (vUv - vec2(0.5, 1.0)) * vec2(2.65, 3.17);
@@ -27,14 +28,17 @@ export function createWaterEffects(definition: WaterDefinition) {
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
-    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
   });
   const surface = new THREE.Mesh(new THREE.PlaneGeometry(...definition.size), water);
   surface.rotation.x = -Math.PI / 2;
   surface.position.fromArray(definition.center);
   group.add(surface);
   const flow = new THREE.ShaderMaterial({
-    uniforms: { time }, vertexShader,
+    uniforms: { time },
+    vertexShader,
     fragmentShader: `uniform float time; varying vec2 vUv;
       void main() {
         float streak = 0.5 + 0.5 * sin(vUv.x * 110.0 + sin(vUv.y * 14.0 + time * 5.0));
@@ -43,13 +47,20 @@ export function createWaterEffects(definition: WaterDefinition) {
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
-    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
   });
   const height = definition.spout[1] - definition.inlet[1];
-  const cascade = new THREE.Mesh(new THREE.PlaneGeometry(.46, height), flow);
+  const cascade = new THREE.Mesh(new THREE.PlaneGeometry(0.46, height), flow);
   cascade.position.fromArray(definition.inlet);
   cascade.position.y += height / 2;
-  cascade.position.z += .015;
+  cascade.position.z += 0.015;
   group.add(cascade);
-  return { group, update: (seconds: number, reducedMotion: boolean) => { time.value = reducedMotion ? 0 : seconds; } };
+  return {
+    group,
+    update: (seconds: number, reducedMotion: boolean) => {
+      time.value = reducedMotion ? 0 : seconds;
+    },
+  };
 }

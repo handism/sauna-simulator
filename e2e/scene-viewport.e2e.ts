@@ -4,7 +4,7 @@ test.use({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
 
 test('narrow controls, keyboard look and resize preserve the loaded scene', async ({ page }, info) => {
   const errors: string[] = [];
-  page.on('pageerror', error => errors.push(error.message));
+  page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('?view=3d');
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
@@ -26,19 +26,32 @@ test('narrow controls, keyboard look and resize preserve the loaded scene', asyn
   await expect.poll(async () => (await canvas.screenshot()).equals(before)).toBe(false);
   await page.getByRole('button', { name: 'UI表示', exact: true }).click();
 
-  for (const [button, stage] of [['限界.. 水風呂へ 💧', 'water'], ['外気浴へ 🍃', 'totonou'], ['もう一度サウナへ 🔄', 'sauna']]) {
+  for (const [button, stage] of [
+    ['限界.. 水風呂へ 💧', 'water'],
+    ['外気浴へ 🍃', 'totonou'],
+    ['もう一度サウナへ 🔄', 'sauna'],
+  ]) {
     const next = page.getByRole('button', { name: button, exact: true });
     await expect(next).toBeInViewport({ ratio: 1 });
     await next.click();
     await expect(scene).toHaveAttribute('data-stage', stage);
   }
-  for (const size of [{ width: 844, height: 390 }, { width: 390, height: 844 }]) {
+  for (const size of [
+    { width: 844, height: 390 },
+    { width: 390, height: 844 },
+  ]) {
     await page.setViewportSize(size);
-    await expect.poll(() => canvas.evaluate(element => {
-      const rendered = element as HTMLCanvasElement;
-      return { width: rendered.width, height: rendered.height };
-    })).toEqual(size);
-    expect(await original!.evaluate(element => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(true);
+    await expect
+      .poll(() =>
+        canvas.evaluate((element) => {
+          const rendered = element as HTMLCanvasElement;
+          return { width: rendered.width, height: rendered.height };
+        }),
+      )
+      .toEqual(size);
+    expect(await original!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
+      true,
+    );
     await expect(page.getByRole('button', { name: '2Dに切り替え' })).toBeInViewport({ ratio: 1 });
   }
   await page.screenshot({ path: info.outputPath('narrow-sauna.png') });
