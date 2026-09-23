@@ -21,14 +21,20 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'input_modified_utc': datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(),
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
-                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) recorded in material extras for the browser shader',
+                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader',
                      'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'objects_beyond_courtyard': 0,
           'pillow_topology': [], 'lifted_pavers': 0}
 PAVER_LIFT = .003
+# Scene-linear luminance weights that Blender's RGB to BW node uses (OCIO config 'luma').
+LUMA = [float(v) for v in next(line for line in (Path(bpy.utils.resource_path('LOCAL')) / 'datafiles/colormanagement/config.ocio').read_text().splitlines()
+                               if line.startswith('luma:')).split('[')[1].rstrip(']').split(',')]
+RANDOM_ATTRIBUTE = 'SuiObjectRandom'
 report['paver_lift_m'] = PAVER_LIFT
 report['procedural_color'] = []
 noise_color = {}
+report['image_ramp'] = []
+image_ramp = {}
 
 def base_color_noise(m, principled):
     """Describe a Base Color driven by world-space FBM noise through a linear ramp, or None."""
@@ -54,6 +60,40 @@ def base_color_noise(m, principled):
             'roughness': value('Roughness'), 'lacunarity': value('Lacunarity'),
             'stops': [[e.position, *e.color[:3]] for e in ramp.color_ramp.elements]}
 
+def linked(socket):
+    return socket.links[0].from_node if socket.is_linked else None
+
+def linear_ramp(node):
+    assert node.color_ramp.interpolation == 'LINEAR' and node.color_ramp.color_mode == 'RGB', node.name
+    return [[e.position, *e.color[:3]] for e in node.color_ramp.elements]
+
+def base_color_image_ramp(m, principled):
+    """Describe Base Color = [mix to constant] of [wet multiply] of ramp(BW(diffuse)) * ramp(object random), or None."""
+    node = principled and linked(principled.inputs['Base Color'])
+    mix = wet = None
+    # Outer blend toward a flat color (plunge basalt, pool coping).
+    if node and node.type == 'MIX_RGB' and node.blend_type == 'MIX' and not node.inputs['Fac'].is_linked and not node.inputs[2].is_linked:
+        mix = {'factor': node.inputs['Fac'].default_value, 'color': list(node.inputs[2].default_value[:3])}
+        node = linked(node.inputs[1])
+    # Noise-masked darkening (wet patches) is omitted: its mask needs object coordinates of joined meshes.
+    if node and node.type == 'MIX_RGB' and node.blend_type == 'MULTIPLY' and node.inputs['Fac'].is_linked and not node.inputs[2].is_linked:
+        wet = {'color': list(node.inputs[2].default_value[:3])}
+        node = linked(node.inputs[1])
+    if not node or node.type != 'MIX_RGB' or node.blend_type != 'MULTIPLY' or node.inputs['Fac'].is_linked or node.inputs['Fac'].default_value != 1:
+        return None
+    ramp, tint = linked(node.inputs[1]), linked(node.inputs[2])
+    if not ramp or not tint or ramp.type != 'VALTORGB' or tint.type != 'VALTORGB':
+        return None
+    bw, info = linked(ramp.inputs['Fac']), linked(tint.inputs['Fac'])
+    image = bw and bw.type == 'RGBTOBW' and linked(bw.inputs['Color'])
+    if not image or image.type != 'TEX_IMAGE' or not info or info.type != 'OBJECT_INFO' or tint.inputs['Fac'].links[0].from_socket.name != 'Random':
+        return None
+    uv = image.inputs['Vector'].links[0] if image.inputs['Vector'].is_linked else None
+    assert not node.use_clamp and (uv is None or (uv.from_node.type == 'TEX_COORD' and uv.from_socket.name == 'UV')), m.name
+    assert 'Diffuse' in image.image.name, m.name
+    return {'image': image.image.name, 'luminance': LUMA, 'stops': linear_ramp(ramp), 'random': linear_ramp(tint),
+            'mix': mix}, wet
+
 # Rebuild materials into the subset glTF can represent. Keep source UVs and packed images.
 for m in bpy.data.materials:
     if not m.use_nodes:
@@ -72,6 +112,10 @@ for m in bpy.data.materials:
     normal = next((i for i in imgs if 'nor_gl' in i.name), None)
     report['materials'].append({'name':m.name,'images':[i.name for i in imgs], 'procedural_nodes':sum(n.type in {'TEX_NOISE','VALTORGB','MIX_RGB','BUMP'} for n in nodes)})
     # The browser evaluates the same noise per pixel; baking would need a huge texture for the terrain.
+    ramped = base_color_image_ramp(m, p)
+    if ramped:
+        image_ramp[m.name] = ramped[0]
+        report['image_ramp'].append({'material': m.name, **ramped[0], 'wet_mask_omitted': ramped[1]})
     noise = base_color_noise(m, p)
     if noise:
         noise_color[m.name] = noise
@@ -285,6 +329,25 @@ for entry in report['pillow_topology']:
     entry['triangles_after_reduction'] = sum(len(face.verts) - 2 for face in mesh.faces)
     assert entry['non_manifold_edges_after_reduction'] == 0, entry
     mesh.free()
+# Cycles' Object Info Random is lost when objects are joined. Carry one value per
+# source object in a color attribute; the browser maps it through the tint ramp.
+# The value is seeded by the object name and is not Cycles' own random number.
+report['image_ramp_objects'] = 0
+for o in bpy.context.selected_objects:
+    slots = [m.name if m else '' for m in o.data.materials]
+    if not any(name in image_ramp for name in slots):
+        continue
+    t = int(hashlib.sha256(o.name.encode()).hexdigest()[:8], 16) / 0xffffffff
+    # Linked duplicates would otherwise overwrite each other's value.
+    if o.data.users > 1: o.data = o.data.copy()
+    attribute = o.data.color_attributes.new(RANDOM_ATTRIBUTE, 'FLOAT_COLOR', 'CORNER')
+    # Faces of other materials keep a neutral vertex color.
+    for poly in o.data.polygons:
+        value = (t, t, t, 1) if slots and slots[poly.material_index] in image_ramp else (1, 1, 1, 1)
+        for loop in poly.loop_indices: attribute.data[loop].color = value
+    o.data.color_attributes.active_color = attribute
+    o.data.color_attributes.render_color_index = o.data.color_attributes.active_color_index
+    report['image_ramp_objects'] += 1
 report['export_objects_before_join']=len(bpy.context.selected_objects)
 report['triangles']=sum(sum(len(p.vertices)-2 for p in o.data.polygons) for o in bpy.context.selected_objects)
 # Join by material to make repeated boards and foliage inexpensive to submit.
@@ -302,19 +365,18 @@ report['export_meshes']=len([o for o in bpy.context.scene.objects if o.type=='ME
 # Compression hook: keep export settings together; Draco can be enabled after profiling.
 settings=dict(export_format='GLB',export_yup=True,export_cameras=False,export_lights=False,
               use_active_scene=True,export_animations=False,export_image_format='JPEG',export_jpeg_quality=82,
-              export_draco_mesh_compression_enable=False)
+              export_vertex_color='ACTIVE',export_draco_mesh_compression_enable=False)
 bpy.ops.export_scene.gltf(filepath=str(OUT/'sauna.glb'),**settings)
-# Restore tints that procedural color mixing previously supplied.
 path=OUT/'sauna.glb'
 data=path.read_bytes()
 json_size=struct.unpack_from('<I',data,12)[0]
 model=json.loads(data[20:20+json_size])
 for material in model.get('materials',[]):
-    name=material['name'].lower()
-    factor=None
-    if 'charcoal' in name or 'basalt' in name or 'quiet honed stone' in name: factor=[.15,.18,.17,1]
-    elif 'outdoor ash' in name or 'damp ash' in name: factor=[.48,.38,.27,1]
-    if factor: material['pbrMetallicRoughness']['baseColorFactor']=factor
+    if material['name'] in image_ramp:
+        # The browser shader replaces the texture color; keep the factor neutral.
+        material['pbrMetallicRoughness']['baseColorFactor']=[1,1,1,1]
+        assert 'baseColorTexture' in material['pbrMetallicRoughness'], material['name']
+        material['extras']={'suiImageRamp':{k:v for k,v in image_ramp[material['name']].items() if k!='image'}}
     if material['name'] in noise_color: material['extras']={'suiNoiseColor':noise_color[material['name']]}
     if material['name'].endswith(CARD_SUFFIX): material['extras']={'suiLeafCluster':{'leaves':CLUSTER_LEAVES}}
 # Cluster masks are sampled with the card UVs; every card primitive must carry them.
@@ -323,7 +385,12 @@ assert clusters and all('TEXCOORD_0' in p['attributes'] for mesh in model['meshe
 # Only card meshes may use card materials; any other user would sample the mask at arbitrary UVs.
 card_meshes={mesh['name'] for mesh in model['meshes'] if any(p.get('material') in clusters for p in mesh['primitives'])}
 assert len(card_meshes)==1 and all(p.get('material') in clusters for mesh in model['meshes'] if mesh['name'] in card_meshes for p in mesh['primitives']), card_meshes
-for entry in report['procedural_color']:
+# Every ramp primitive needs the per-object value, and only ramp meshes may carry colors.
+ramps={i for i,m in enumerate(model.get('materials',[])) if 'suiImageRamp' in m.get('extras',{})}
+assert ramps and all('COLOR_0' in p['attributes'] for mesh in model['meshes'] for p in mesh['primitives'] if p.get('material') in ramps)
+assert all(any(p.get('material') in ramps for p in mesh['primitives']) for mesh in model['meshes'] if any('COLOR_0' in p['attributes'] for p in mesh['primitives']))
+report['image_ramp_meshes']=sum(any(p.get('material') in ramps for p in mesh['primitives']) for mesh in model['meshes'])
+for entry in report['procedural_color'] + report['image_ramp']:
     entry['in_glb'] = any(m['name'] == entry['material'] for m in model.get('materials',[]))
 encoded=json.dumps(model,separators=(',',':')).encode()
 encoded+=b' '*((-len(encoded))%4)
