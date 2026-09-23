@@ -1,0 +1,403 @@
+{
+ "model_sha256": {
+  "sauna.glb": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
+  "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
+ },
+ "model_unchanged_since_dusk_light": true,
+ "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+ "source_unchanged": true,
+ "source_lights_daylight": {
+  "Late afternoon sunlight": "SUN 3.2, angle 0.085 rad",
+  "Sky softbox": "DISK 10 m, 1250 W (Blue hour 520 W), Blender (0,-2,9) dir (0,0.4061,-0.9138)",
+  "Sunlit courtyard": "DISK 5 m, 680 W (Blue hour 100 W), Blender (-6,-4,7) dir (0.5455,0.5455,-0.6364)",
+  "V9 lounge patch of sunlight": "DISK 1.25 m, 950 W"
+ },
+ "isolation_probe": {
+  "method": "Cycles 4.5.11 Daylight, cameras 02-05/07, 25% resolution, 48 samples, denoised, one light group at a time (world strength 0 unless the group is world), linear EXR luminance means per image region (600x400 coordinates). Browser: the same Cycles-camera captures with NoToneMapping and one light group (temporary build flags, removed), sRGB-decoded luminance. Cycles values include the bounce light of each group.",
+  "cycles_regions": {
+   "04 wall": {
+    "sun": 0.11615337418233282,
+    "softbox": 0.18123117961886306,
+    "courtyard": 0.036740097651065284,
+    "v9": 0.3399249333098634,
+    "interior": 0.0012074044564206903,
+    "v7strip": 0.08177614259004852,
+    "other": 0.0014494695016316068,
+    "world": 0.01580038726579242,
+    "all": 0.7737965582747676
+   },
+   "04 tub side": {
+    "sun": 0.02949301714130964,
+    "softbox": 0.021772491508418777,
+    "courtyard": 0.010830956260764944,
+    "v9": 0.04817562349426258,
+    "interior": 0.0019010580567849064,
+    "v7strip": 0.0035861081972677674,
+    "other": 0.0008715977440415689,
+    "world": 0.004300424919270543,
+    "all": 0.11979399983585402
+   },
+   "03 wall": {
+    "sun": 0.0037598407626469985,
+    "softbox": 0.07545935146578067,
+    "courtyard": 0.002542156368699619,
+    "v9": 0.18027899801378167,
+    "interior": 0.0026217098535331086,
+    "v7strip": 0.04162579483368464,
+    "other": 0.0023813376828314466,
+    "world": 0.010165557377475529,
+    "all": 0.2934250348342954
+   },
+   "03 tub face": {
+    "sun": 0.05468460773282095,
+    "softbox": 0.04277230835488227,
+    "courtyard": 0.022080812860384127,
+    "v9": 0.08348628102090326,
+    "interior": 0.0009768042210675173,
+    "v7strip": 0.008178708052880413,
+    "other": 0.0010518341059363148,
+    "world": 0.006454146616269716,
+    "all": 0.21428456955661282
+   },
+   "05 wall": {
+    "sun": 0.10915739905979213,
+    "softbox": 0.15120364038924547,
+    "courtyard": 0.04679780258042059,
+    "v9": 0.290648708792271,
+    "interior": 0.000796734037187836,
+    "v7strip": 0.06606023537554646,
+    "other": 0.001663584678486664,
+    "world": 0.013784622269797845,
+    "all": 0.6809160677477738
+   },
+   "05 deck": {
+    "sun": 0.057504911520621364,
+    "softbox": 0.04524410967660976,
+    "courtyard": 0.020352474265053697,
+    "v9": 0.09738890325695515,
+    "interior": 0.002198250825128485,
+    "v7strip": 0.006639626851283053,
+    "other": 0.007393040835011327,
+    "world": 0.007049459718174757,
+    "all": 0.2434598883660565
+   },
+   "07 deck": {
+    "sun": 0.036561729656617775,
+    "softbox": 0.041709311987415426,
+    "courtyard": 0.013880037459762741,
+    "v9": 0.11888115185962722,
+    "interior": 0.00018128222289547527,
+    "v7strip": 0.005327623360621716,
+    "other": 0.001186083632563819,
+    "world": 0.010310442533594895,
+    "all": 0.22674940572590474
+   },
+   "07 trees": {
+    "sun": 0.0042132706904598185,
+    "softbox": 0.007956714986840974,
+    "courtyard": 0.0016059611648734518,
+    "v9": 0.004510840276162431,
+    "interior": 2.3466074959079222e-05,
+    "v7strip": 0.00011492083341049789,
+    "other": 0.00016594758020208787,
+    "world": 0.06919853060575115,
+    "all": 0.08627709040794299
+   },
+   "07 hill": {
+    "sun": 0.008241653667244091,
+    "softbox": 0.0025304751055280003,
+    "courtyard": 0.0005963862786741729,
+    "v9": 0.0021567622386113256,
+    "interior": 2.790561833558496e-05,
+    "v7strip": 0.00011022883276608712,
+    "other": 0.00017290339070422456,
+    "world": 0.026936659976742185,
+    "all": 0.040480070931734606
+   },
+   "02 interior": {
+    "sun": 0.015565845436064957,
+    "softbox": 0.02170603740287963,
+    "courtyard": 0.006264179907736667,
+    "v9": 0.05183642131234848,
+    "interior": 0.0300958933293496,
+    "v7strip": 0.009202784851622873,
+    "other": 0.0012613974479123158,
+    "world": 0.00725127905142356,
+    "all": 0.1379166369693582
+   }
+  },
+  "cycles_regions_garden_interior": {
+   "05 lawn": {
+    "sun": 0.03872097851670374,
+    "softbox": 0.020069334158299812,
+    "courtyard": 0.0032164270074347577,
+    "v9": 0.04090328202458477,
+    "interior": 6.58905268642343e-05,
+    "v7strip": 0.0011630751280503641,
+    "other": 0.00024105071341943836,
+    "world": 0.008794554243828454,
+    "all": 0.1147686655034605
+   },
+   "05 ferns": {
+    "sun": 0.02809126710528,
+    "softbox": 0.013713315901431383,
+    "courtyard": 0.0016635623548063448,
+    "v9": 0.03165867583539464,
+    "interior": 8.930341933982453e-06,
+    "v7strip": 0.0007673781857739025,
+    "other": 7.27588166546319e-05,
+    "world": 0.006569819135622073,
+    "all": 0.08458827398085539
+   },
+   "07 grass": {
+    "sun": 0.02964625601501711,
+    "softbox": 0.007996883881436384,
+    "courtyard": 0.003749843961965256,
+    "v9": 0.0031989364593046736,
+    "interior": 5.432477026169128e-05,
+    "v7strip": 0.00017438421106756875,
+    "other": 0.00011523258902396446,
+    "world": 0.010410128332866277,
+    "all": 0.0555390334292666
+   },
+   "07 maple": {
+    "sun": 0.01253782435822091,
+    "softbox": 0.027867688439190675,
+    "courtyard": 0.005219078585439403,
+    "v9": 0.020599593202674682,
+    "interior": 6.217986642766378e-05,
+    "v7strip": 0.000420444005091685,
+    "other": 0.0005840627342199577,
+    "world": 0.03536690489195648,
+    "all": 0.0981528447031731
+   },
+   "02 floor": {
+    "sun": 0.0017881638433571924,
+    "softbox": 0.001831643443533053,
+    "courtyard": 0.0017543412408077056,
+    "v9": 0.008154329366315403,
+    "interior": 0.08770355029361619,
+    "v7strip": 0.0020138622799841604,
+    "other": 0.0017410524967100321,
+    "world": 0.0025190591902847638,
+    "all": 0.09061244851204495
+   },
+   "02 bench": {
+    "sun": 0.0017789948713064177,
+    "softbox": 0.0017698818301458954,
+    "courtyard": 0.0017417967558457914,
+    "v9": 0.0042435202914462705,
+    "interior": 0.08019210794461919,
+    "v7strip": 0.0017877333649338593,
+    "other": 0.001708061349353752,
+    "world": 0.002256677098692108,
+    "all": 0.07974316899337473
+   }
+  },
+  "findings": [
+   "Sun: walls, plunge and the camera 05 deck match within 3%. Camera 07 deck: web 4x (0.149 vs 0.037) although the deck is sunlit in both scenes (ray casts; hiding candidate occluders in Cycles changes nothing). The web deck materials carry roughness 0.5 and default specular while the source uses image/noise roughness 0.5-0.86 and Specular IOR Level 0.28, so the view toward the sun shows a sheen.",
+   "V9 with a 60 deg cone: plaster walls 0.58-0.65 of Cycles; with a 90 deg full-penumbra cone 0.9-1.1 in every measured region.",
+   "Sky softbox as one shadowed spot light: walls 0.12-0.37 of Cycles. Rays from the wall to the disk center are 82% blocked by V5 light filtering canopy and the web-only restored V5 overhead canopy bough, while the whole 10 m disk is 60-86% visible in both the source scene and the web GLB. Without those two objects in its shadow the spot is 1.3-1.8x Cycles (point light vs disk about 1.27x, remaining partial canopy occlusion).",
+   "Glass: Cycles glass passes no direct light. With glass casting shadows the sun and V9 no longer reach the sauna floor (web 0.014/0.020 -> 0.000, Cycles 0.002/0.008).",
+   "Sauna interior: Cycles floor and bench light is 88-100% from the interior area lights (under-bench washes etc.); the single web point light gives 0.18-0.25 of it, and raising it lights the cedar walls far above Cycles.",
+   "Camera 07 slope: self-shadowed in both scenes (sun below the local horizon); Cycles keeps it at L* 26 through bounce light, the web through the hemisphere light only."
+  ]
+ },
+ "candidates": [
+  {
+   "name": "before (dusk-light, committed)",
+   "source": {
+    "mean_dL": 0.21,
+    "mean_abs_dL": 1.91,
+    "mean_dC": 0.01,
+    "percentile_abs_dL_all": 3.28
+   },
+   "evening": {
+    "mean_dL": -1.19,
+    "mean_abs_dL": 1.59,
+    "mean_dC": 1.42,
+    "percentile_abs_dL_all": 2.74
+   }
+  },
+  {
+   "name": "PCSS only (sun, V9 60 deg)",
+   "source": {
+    "mean_dL": 0.65,
+    "mean_abs_dL": 1.64,
+    "mean_dC": 0.08,
+    "percentile_abs_dL_all": 3.32
+   },
+   "evening": {
+    "mean_dL": -1.14,
+    "mean_abs_dL": 1.65,
+    "mean_dC": 1.36,
+    "percentile_abs_dL_all": 2.79
+   }
+  },
+  {
+   "name": "+ Sky softbox and Sunlit courtyard as shadowed spots, all foliage in their shadows, hemisphere 0.3/0.2, V9 60 deg",
+   "source": {
+    "mean_dL": 2.83,
+    "mean_abs_dL": 3.22,
+    "mean_dC": -1.02,
+    "percentile_abs_dL_all": 3.97
+   },
+   "evening": {
+    "mean_dL": 1.34,
+    "mean_abs_dL": 2.17,
+    "mean_dC": 0.46,
+    "percentile_abs_dL_all": 3.61
+   }
+  },
+  {
+   "name": "+ fills (canopy and bough off fill shadows, softbox x0.6), V9 90 deg, glass shadows, interior 12, hemisphere 0.2/0.1, sun shadow +-30 m",
+   "source": {
+    "mean_dL": 2.76,
+    "mean_abs_dL": 2.76,
+    "mean_dC": -1.45,
+    "percentile_abs_dL_all": 3.63
+   },
+   "evening": {
+    "mean_dL": 1.41,
+    "mean_abs_dL": 1.41,
+    "mean_dC": 0.19,
+    "percentile_abs_dL_all": 3.18
+   }
+  },
+  {
+   "name": "same, fill range 30 m",
+   "source": {
+    "mean_dL": 2.65,
+    "mean_abs_dL": 2.65,
+    "mean_dC": -1.46,
+    "percentile_abs_dL_all": 3.59
+   },
+   "evening": {
+    "mean_dL": 1.27,
+    "mean_abs_dL": 1.27,
+    "mean_dC": 0.18,
+    "percentile_abs_dL_all": 3.13
+   }
+  },
+  {
+   "name": "same, hemisphere 0.35/0.1",
+   "source": {
+    "mean_dL": 3.46,
+    "mean_abs_dL": 3.46,
+    "mean_dC": -1.31,
+    "percentile_abs_dL_all": 3.88
+   },
+   "evening": {
+    "mean_dL": 1.38,
+    "mean_abs_dL": 1.38,
+    "mean_dC": 0.2,
+    "percentile_abs_dL_all": 3.18
+   }
+  },
+  {
+   "name": "same, hemisphere 0.5/0.1",
+   "source": {
+    "mean_dL": 4.07,
+    "mean_abs_dL": 4.07,
+    "mean_dC": -1.14,
+    "percentile_abs_dL_all": 4.23
+   },
+   "evening": {
+    "mean_dL": 1.43,
+    "mean_abs_dL": 1.43,
+    "mean_dC": 0.18,
+    "percentile_abs_dL_all": 3.2
+   }
+  },
+  {
+   "name": "no fills: PCSS, V9 90 deg, glass shadows, sun shadow +-30 m, hemisphere 0.7/0.4",
+   "source": {
+    "mean_dL": 1.39,
+    "mean_abs_dL": 1.91,
+    "mean_dC": 0.07,
+    "percentile_abs_dL_all": 2.99
+   },
+   "evening": {
+    "mean_dL": -0.85,
+    "mean_abs_dL": 1.73,
+    "mean_dC": 1.11,
+    "percentile_abs_dL_all": 2.9
+   }
+  },
+  {
+   "name": "adopted: no fills, hemisphere 0.6/0.45",
+   "source": {
+    "mean_dL": 1.15,
+    "mean_abs_dL": 1.54,
+    "mean_dC": -0.1,
+    "percentile_abs_dL_all": 2.94
+   },
+   "evening": {
+    "mean_dL": -0.23,
+    "mean_abs_dL": 1.31,
+    "mean_dC": 1.21,
+    "percentile_abs_dL_all": 2.74
+   }
+  },
+  {
+   "name": "no fills, hemisphere 0.7/0.4, sun shadow +-14 m",
+   "source": {
+    "mean_dL": 1.71,
+    "mean_abs_dL": 2.22,
+    "mean_dC": 0.12,
+    "percentile_abs_dL_all": 2.95
+   },
+   "evening": {
+    "mean_dL": -0.76,
+    "mean_abs_dL": 1.69,
+    "mean_dC": 1.09,
+    "percentile_abs_dL_all": 2.88
+   }
+  }
+ ],
+ "final": {
+  "summary": {
+   "source": {
+    "mean_dL": 1.26,
+    "mean_abs_dL": 1.49,
+    "mean_dC": -0.2,
+    "percentile_abs_dL_all": 2.85
+   },
+   "evening": {
+    "mean_dL": -0.15,
+    "mean_abs_dL": 1.37,
+    "mean_dC": 1.17,
+    "percentile_abs_dL_all": 2.8
+   }
+  },
+  "per_camera_mean_L_cycles_web": {
+   "01.png": "34.0/36.0",
+   "02.png": "29.0/29.9",
+   "bh-02": "25.5/26.6",
+   "03.png": "46.1/45.3",
+   "bh-03": "26.4/23.9",
+   "04.png": "47.8/49.0",
+   "bh-04": "28.6/30.9",
+   "05.png": "34.9/37.6",
+   "bh-05": "17.0/17.2",
+   "06.png": "14.4/14.4",
+   "07.png": "37.5/40.3",
+   "bh-07": "18.0/15.9"
+  }
+ },
+ "renderer": {
+  "shadow_type": "BasicShadowMap with a PCSS getShadow replacing the BasicShadowMap branch of three 0.186 shadowmap_pars_fragment (softShadows.ts): 16 blocker samples, 24 filter samples, receiver plane depth bias, search and filter radius capped at 0.02 shadow-map UV",
+  "sun": "shadow radius k = 2 tan(0.085/2) (far-near)/width; frustum +-30 m (was +-14 m, beyond which the garden and slope were unshadowed), far 110, light 50 m from the origin",
+  "v9": "cone 90 deg (was 60), penumbra 1, shadow focus 0.8 (144 deg frustum), k for a 1.25 m disk",
+  "glass": "casts shadows for all lights, receives none; water and steam cast none",
+  "hemisphere": "0.6 day / 0.45 evening (was 0.7 / 0.4)",
+  "interior_point_light": "10 (unchanged)",
+  "survey": "144 views: draw calls, triangles, textures and geometries identical to dusk-light in every view"
+ },
+ "rejected": {
+  "courtyard fill lights": "Sky softbox and Sunlit courtyard as shadowed spot lights (fixed 0.015 UV filter, 512/1024 px maps, an extra render with the canopy hidden) matched the walls within 1-2 L* but brightened the garden views by 4-7 L* (lawn albedo, foliage transmission and missing pebbles are not lighting), and cost two more shadow maps and per-pixel filtering; global stats worse (see candidates).",
+  "fill light range cutoff 30 m": "no measurable change",
+  "interior point light 45": "cedar walls far brighter than Cycles (02: mean L* 45.0 vs 29.0)"
+ },
+ "note": "Stats are whole-frame tone statistics of still captures, not an acceptance test. The pulsing .cooling-glow UI overlay of the water stage tints the frame edges of cameras 03/04 depending on capture timing."
+}

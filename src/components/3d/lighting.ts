@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { AmbientEnv } from '../../hooks/useAudioEngine';
+import { directionalPenumbra, spotPenumbra } from './softShadows';
 
 // AgX view exposure (stops) of the source Daylight and Blue hour scenes.
 const DAY_EXPOSURE = 0.15,
@@ -17,38 +18,44 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   scene.background = sky;
   const ambient = new THREE.HemisphereLight('#dceaff', '#826044', 0.9);
   const sun = new THREE.DirectionalLight('#fff1d5', 5.5);
-  sun.shadow.camera.left = -14;
-  sun.shadow.camera.right = 14;
-  sun.shadow.camera.top = 14;
-  sun.shadow.camera.bottom = -14;
+  // Covers the garden and the slope the Cycles cameras see; beyond it everything was sunlit.
+  sun.shadow.camera.left = -30;
+  sun.shadow.camera.right = 30;
+  sun.shadow.camera.top = 30;
+  sun.shadow.camera.bottom = -30;
   sun.shadow.camera.near = 0.1;
-  sun.shadow.camera.far = 60;
+  sun.shadow.camera.far = 110;
   sun.shadow.camera.updateProjectionMatrix();
   sun.shadow.bias = -0.00015;
   sun.shadow.normalBias = 0.035;
+  // Penumbra of the source sun's 0.085 rad disk (see softShadows.ts).
+  sun.shadow.radius = directionalPenumbra(sun.shadow.camera, 0.085);
   sun.shadow.autoUpdate = false;
   // Stands in for the sauna interior lights, which keep the same power in both source scenes.
   const warmth = new THREE.PointLight('#ffb96a', 10, 9, 2);
   warmth.position.set(-3.2, 2.9, -2.7);
   // Cycles 'V9 lounge patch of sunlight': a 950 W, 1.25 m disk above the lounge and plunge.
-  // A Lambertian disk emits P/π candela on its axis; the full-penumbra 60° cone approximates
-  // its cosine falloff. Its shadow is static, so it renders once per shadow size.
+  // A Lambertian disk emits P/π candela on its axis; a 90° cone with full penumbra approximates
+  // its cosine falloff (a 60° cone gave the plaster walls 35° off the axis only 0.65 of the
+  // Cycles light). Its shadow is static, so it renders once per shadow size.
   const lounge = new THREE.SpotLight(
     new THREE.Color().setRGB(1, 0.84, 0.62, THREE.LinearSRGBColorSpace),
     0,
     0,
-    Math.PI / 3,
+    Math.PI / 2,
     1,
     2,
   );
+  // A 180° shadow frustum is impossible; 144° covers the lit courtyard.
+  lounge.shadow.focus = 0.8;
   lounge.position.set(3.8, 6.8, 1.5);
   lounge.target.position.set(3.8 + 0.13 * 7.4, 6.8 - 0.9176 * 7.4, 1.5 - 0.3757 * 7.4);
   lounge.shadow.camera.near = 1;
   lounge.shadow.camera.far = 20;
   lounge.shadow.bias = -0.0004;
   lounge.shadow.normalBias = 0.03;
-  // Softens the edge toward the wide penumbra of the 1.25 m source.
-  lounge.shadow.radius = 4;
+  // Penumbra of the 1.25 m disk (see softShadows.ts).
+  lounge.shadow.radius = spotPenumbra(1, 20, 144, 1.25);
   lounge.shadow.autoUpdate = false;
   // Blue-hour accent lights of the source (Blender W, position, direction in glTF axes), all
   // 180° spread disks: P/π candela on the axis, and a 90° cone with full penumbra approximates
@@ -76,7 +83,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   for (const light of dusk) scene.add(light, light.target);
   // Both source scenes light the courtyard along the 'Late afternoon sunlight' direction; the
   // Blue hour one is a faint blue 0.045. A fixed direction keeps the cached shadow valid.
-  sun.position.set(-0.556, 0.6178, 0.556).multiplyScalar(20);
+  sun.position.set(-0.556, 0.6178, 0.556).multiplyScalar(50);
   // Displayed sky pixels of the Daylight (07.png) and Blue hour (06.png) Cycles renders.
   const daySky = new THREE.Color('#4f616c'),
     duskSky = new THREE.Color('#283d54');
@@ -114,7 +121,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
       // The unshadowed hemisphere light stands in for the remaining Cycles area lights and bounce
       // light; it and the interior light are balanced against the Cycles camera renders. The sun,
       // lounge and dusk accent lights use the source values of each scene.
-      ambient.intensity = THREE.MathUtils.lerp(0.7, 0.4, current);
+      ambient.intensity = THREE.MathUtils.lerp(0.6, 0.45, current);
       sun.color.copy(daySun).lerp(duskSun, current);
       sun.intensity = THREE.MathUtils.lerp(3.2, 0.045, current);
       lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, current);
