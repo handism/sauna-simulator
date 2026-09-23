@@ -87,8 +87,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     camera.rotation.order = 'YXZ';
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    // Same view transform as the source Cycles renders (AgX, look None).
+    renderer.toneMapping = THREE.AgXToneMapping;
     element.appendChild(renderer.domElement);
     const lighting = createLighting(scene, renderer);
     const geometry = new THREE.BufferGeometry();
