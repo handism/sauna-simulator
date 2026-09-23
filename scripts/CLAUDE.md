@@ -6,3 +6,4 @@
 - V6の枕は両極に未接続の重複頂点があるため、Web書き出し時に距離1e-6で結合してから簡略化する。対象は `V6 compressed linen pillow` のみ。結合後と簡略化後の閉じた形状を検査し、`export-report.json` の `pillow_topology` に記録する。元blendは保存しない。
 - 壁の施設名・案内・温度計は、書き出し時に描画対象の `FONT` を元の輪郭・厚み・配置・材質のままメッシュへ変換する。文字は小物の除外・Decimateの対象外。`export-report.json` の `text_meshes` に本文・フォント・三角形数を記録する。ブラウザ用フォントや文字画像は追加しない。
 - GLBは書き出し末尾の `scripts/compress_web_glb.mjs` で可逆の `EXT_meshopt_compression` に圧縮する（meshoptimizer 1.1.1、bitstream v0、頂点はATTRIBUTES、インデックスは順序を完全保持するINDICES、フィルターなし）。すべての圧縮領域を復号し、元のバイト列と一致することを出力前に検査する。材質extras・画像・ノード変換は維持し、量子化は採用しない。`docs/3d-export/` の `compression-report.json` と `export-report.json`（配信物に含めない）に圧縮前後のハッシュと容量を記録。書き出しにはNode.jsと `bun install` が必要。
+- 元のレンダーでブルーアワーは06（カメラ01）だけ。夕暮れの照明比較用に `scripts/blender_bluehour_reference.py`（`-S "SUI • Blue hour"` で起動）がカメラ02〜05・07をブルーアワーで描き、`blender/renders/web-bluehour/`（Git管理外）へ出力する。50%解像度・128サンプル・デノイズの参照用で、完成画像ではない。`cycles_tone_stats.py` はこれがあれば夕暮れの撮影と比較し、元の7枚とは別に集計する。元blendは保存しない。

@@ -117,6 +117,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       const preset = QUALITY[qualityRef.current];
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, preset.pixelRatio));
       lighting.setShadowSize(preset.shadowSize);
+      lighting.setDuskLights(preset.duskLights);
       resetMetrics();
       setData('quality', qualityRef.current);
       setData('pixelRatio', String(renderer.getPixelRatio()));
