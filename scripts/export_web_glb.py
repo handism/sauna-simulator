@@ -21,9 +21,11 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna and courtyard',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking',
-                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m'},
+                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'restored_bank_objects': 0,
-          'pillow_topology': []}
+          'pillow_topology': [], 'lifted_pavers': 0}
+PAVER_LIFT = .003
+report['paver_lift_m'] = PAVER_LIFT
 # Rebuild materials into the subset glTF can represent. Keep source UVs and packed images.
 for m in bpy.data.materials:
     if not m.use_nodes:
@@ -116,6 +118,30 @@ def sample_whole_leaves(obj, budget):
                                       'method': 'seeded whole-leaf selection; two-triangle planar silhouettes'})
     return True
 
+# Bark curves are the only support for several crowns. Mesh them before the
+# mesh-only filter so the canopies do not float. The V6 pass hid the overhead
+# bough, which Cycles cameras never framed; the web views look straight up.
+report['bark_curves'] = []
+depsgraph = bpy.context.evaluated_depsgraph_get()
+for o in list(bpy.context.scene.objects):
+    restored = o.name == 'V5 overhead canopy bough'
+    if o.type != 'CURVE' or (o.hide_render and not restored) or 'Tree bark' not in [m.name for m in o.data.materials if m]:
+        continue
+    o.data.bevel_resolution = min(o.data.bevel_resolution, 1)
+    o.hide_render = False
+    o.update_tag()
+    bpy.context.view_layer.update()
+    mesh = bpy.data.meshes.new_from_object(o.evaluated_get(depsgraph))
+    # Bark is untextured; curve UVs would add TEXCOORD_0 to every joined bark vertex.
+    while mesh.uv_layers: mesh.uv_layers.remove(mesh.uv_layers[0])
+    web = bpy.data.objects.new(o.name, mesh)
+    web.matrix_world = o.matrix_world.copy()
+    for collection in o.users_collection: collection.objects.link(web)
+    report['bark_curves'].append({'object': o.name, 'triangles': sum(len(p.vertices) - 2 for p in mesh.polygons),
+                                  'restored_hidden_render': restored})
+    bpy.data.objects.remove(o, do_unlink=True)
+    web.name = report['bark_curves'][-1]['object']
+
 selected=[]
 for o in list(bpy.context.scene.objects):
     # Courtyard and sauna only; retain larger silhouettes beyond the glazing.
@@ -131,6 +157,10 @@ for o in list(bpy.context.scene.objects):
         bpy.data.objects.remove(o, do_unlink=True)
         continue
     if bank: report['restored_bank_objects'] += 1
+    if o.name.startswith('Limestone terrace paver'):
+        # Pavers share the deck planks' 0.075 m top face; lift them so the rasterizer keeps stone on top.
+        o.location.z += PAVER_LIFT
+        report['lifted_pavers'] += 1
     if o.name.startswith('V6 compressed linen pillow'):
         # The parametric poles have coincident, disconnected vertices. Decimate
         # opens visible holes unless these are welded before simplification.
@@ -148,8 +178,10 @@ for o in list(bpy.context.scene.objects):
         if mod.type=='SUBSURF': o.modifiers.remove(mod)
     o.hide_set(False)
     o.hide_viewport=False
-    foliage = any(key in o.name.lower() for key in ('canopy', 'clustered tree leaves', 'clustered lobed foliage'))
-    sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, 700 if 'V11 maple' in o.name and not bank else 350)
+    foliage = any(key in o.name.lower() for key in ('canopy', 'clustered tree leaves', 'clustered lobed foliage', 'lobed maple leaves'))
+    # The overhead canopy already has one quad per leaf; sampling would only thin its twig clusters.
+    budget = 2 * len(o.data.polygons) if o.name == 'V5 light filtering canopy' else 700 if ('V11 maple' in o.name and not bank) or o.name == 'V7 lobed maple leaves' else 350
+    sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, budget)
     if len(o.data.polygons) > 500 and not sampled:
         mod=o.modifiers.new('Web reduction','DECIMATE'); mod.ratio=min(1, 350/len(o.data.polygons))
     selected.append(o)
