@@ -8,7 +8,7 @@
     "compression": "lossless EXT_meshopt_compression; no quantization",
     "texture_size": 1024,
     "scope": "sauna, courtyard and woodland horizon",
-    "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean",
+    "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean; image- and noise-driven roughness becomes its mean (image pixels, noise at 0.5); Specular IOR Level is kept (KHR_materials_specular)",
     "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; Fine canopy keeps every source leaf as a two-triangle silhouette; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks",
     "text": "render-visible FONT objects meshed with source outlines, extrusion, transforms and materials; no decimation or small-detail exclusion"
   },
@@ -7879,6 +7879,238 @@
       ]
     }
   ],
+  "roughness_mean": [
+    {
+      "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+      "unlinked": 0.5,
+      "mean": 0.789056594388249
+    },
+    {
+      "material": "V2 | mineral charcoal stone",
+      "unlinked": 0.5,
+      "mean": 0.789056594388249
+    },
+    {
+      "material": "V2 | outdoor ash / grain & wear",
+      "unlinked": 0.5,
+      "mean": 0.7019269590815395
+    },
+    {
+      "material": "V2 | pale mineral paving",
+      "unlinked": 0.5,
+      "mean": 0.8110463072819561
+    },
+    {
+      "material": "V2 | warm open-grain timber",
+      "unlinked": 0.5,
+      "mean": 0.6263178561767757
+    },
+    {
+      "material": "V2 | woven linen fibers",
+      "unlinked": 0.5,
+      "mean": 0.9590178610421012
+    },
+    {
+      "material": "V5 | soft oatmeal terry linen",
+      "unlinked": 0.9300000071525574,
+      "mean": 0.9590178610421012
+    },
+    {
+      "material": "V6 | fine soft linen",
+      "unlinked": 0.9300000071525574,
+      "mean": 0.9590178610421012
+    },
+    {
+      "material": "V7 | locally damp ash",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.001",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.002",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.003",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.004",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.005",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.006",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.007",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.008",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.009",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.010",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.011",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.012",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.013",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.014",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.015",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.016",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.017",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.018",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.019",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.020",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.021",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.022",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.023",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.024",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.025",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.026",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.027",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.028",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.029",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.030",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.031",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.032",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.033",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.034",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | locally damp ash.035",
+      "unlinked": 0.5,
+      "mean": 0.42052632528989325
+    },
+    {
+      "material": "V7 | oatmeal woven towel",
+      "unlinked": 0.9300000071525574,
+      "mean": 0.9590178610421012
+    },
+    {
+      "material": "V9 | quiet honed stone / V2 | wet and dry basalt / water splash",
+      "unlinked": 0.5,
+      "mean": 0.6900000009271806
+    }
+  ],
   "image_ramp": [
     {
       "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
@@ -10163,10 +10395,10 @@
     "extension": "EXT_meshopt_compression",
     "version": 0,
     "floatBits": null,
-    "inputBytes": 29438200,
-    "outputBytes": 16365068,
-    "inputSha256": "47ea5856dc1b4cf2f53a8324dc182dfd934764a822bc5bb73207a78d7b7d6f44",
-    "outputSha256": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
+    "inputBytes": 29442320,
+    "outputBytes": 16369196,
+    "inputSha256": "94b12a0c43da85314404e01f21ddf0c1cf8ee866c6adf78074d06a5b02f2ce11",
+    "outputSha256": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
     "verification": {
       "compressedViews": 362,
       "exactViews": 362,
@@ -10174,7 +10406,7 @@
       "maxAbsoluteError": {}
     }
   },
-  "output_bytes": 16365068,
-  "output_sha256": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
+  "output_bytes": 16369196,
+  "output_sha256": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
   "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }
