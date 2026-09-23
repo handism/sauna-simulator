@@ -9,7 +9,7 @@ export interface NoiseColor {
   detail: number;
   roughness: number;
   lacunarity: number;
-  stops: [number, number, number, number][];
+  stops: RampStop[];
 }
 
 export const NOISE_COLOR_MAX_STOPS = 4;
@@ -18,6 +18,18 @@ const MAX_DETAIL = 15;
 const COMMON_INCLUDE = '#include <common>';
 const PROJECT_INCLUDE = '#include <project_vertex>';
 const COLOR_INCLUDE = '#include <color_fragment>';
+
+// Blender's linear Color Ramp; positions ascend and are padded by repeating the last stop.
+export const RAMP_GLSL = `
+vec3 sui_ramp( float fac, vec4 stops[ ${NOISE_COLOR_MAX_STOPS} ], int count ) {
+	vec3 color = stops[ 0 ].yzw;
+	for ( int i = 1; i < ${NOISE_COLOR_MAX_STOPS}; i ++ ) {
+		if ( i >= count ) break;
+		color = mix( color, stops[ i ].yzw, clamp( ( fac - stops[ i - 1 ].x ) / max( stops[ i ].x - stops[ i - 1 ].x, 1e-6 ), 0.0, 1.0 ) );
+	}
+	return color;
+}
+`;
 
 // Port of Blender's shader-node Perlin noise (Jenkins lookup3 hash, quintic fade,
 // 0.982 scale) and normalized FBM, so the pattern matches the Cycles renders.
@@ -76,15 +88,7 @@ float sui_fbm( vec3 p, float detail, float roughness, float lacunarity, float fo
 	}
 	return 0.5 * sum / maxamp + 0.5;
 }
-vec3 sui_ramp( float fac, vec4 stops[ ${NOISE_COLOR_MAX_STOPS} ], int count ) {
-	vec3 color = stops[ 0 ].yzw;
-	for ( int i = 1; i < ${NOISE_COLOR_MAX_STOPS}; i ++ ) {
-		if ( i >= count ) break;
-		color = mix( color, stops[ i ].yzw, clamp( ( fac - stops[ i - 1 ].x ) / max( stops[ i ].x - stops[ i - 1 ].x, 1e-6 ), 0.0, 1.0 ) );
-	}
-	return color;
-}
-`;
+${RAMP_GLSL}`;
 
 const FRAGMENT_PARS = `
 varying vec3 vSuiNoisePosition;
@@ -102,14 +106,22 @@ const FRAGMENT_COLOR = `
 	float suiFootprint = max( length( dFdx( suiNoisePoint ) ), length( dFdy( suiNoisePoint ) ) );
 	diffuseColor.rgb = sui_ramp( sui_fbm( suiNoisePoint, suiNoiseDetail, suiNoiseRoughness, suiNoiseLacunarity, suiFootprint ), suiNoiseStops, suiNoiseStopCount );`;
 
+export type RampStop = [number, number, number, number];
+
+export function validRampStops(stops: unknown): stops is RampStop[] {
+  return Array.isArray(stops) && stops.length >= 1 && stops.length <= NOISE_COLOR_MAX_STOPS
+    && stops.every((stop, i) => Array.isArray(stop) && stop.length === 4 && stop.every(Number.isFinite) && (i === 0 || stop[0] >= stops[i - 1][0]));
+}
+
+export const rampUniform = (stops: RampStop[]) =>
+  Array.from({ length: NOISE_COLOR_MAX_STOPS }, (_, i) => new THREE.Vector4(...stops[Math.min(i, stops.length - 1)]));
+
 export function noiseColorOf(material: THREE.Material): NoiseColor | null {
   if (!(material instanceof THREE.MeshStandardMaterial)) return null;
   const value = material.userData.suiNoiseColor as NoiseColor | undefined;
   if (!value || value.space !== 'blender_world') return null;
   const finite = [value.scale, value.detail, value.roughness, value.lacunarity].every(Number.isFinite);
-  const stops = Array.isArray(value.stops) && value.stops.length >= 1 && value.stops.length <= NOISE_COLOR_MAX_STOPS
-    && value.stops.every((stop, i) => stop.length === 4 && stop.every(Number.isFinite) && (i === 0 || stop[0] >= value.stops[i - 1][0]));
-  if (!finite || !stops || value.detail < 0 || value.detail > MAX_DETAIL) throw Error(`Unsupported noise color on ${material.name}`);
+  if (!finite || !validRampStops(value.stops) || value.detail < 0 || value.detail > MAX_DETAIL) throw Error(`Unsupported noise color on ${material.name}`);
   return value;
 }
 
@@ -129,7 +141,7 @@ export function patchNoiseColorShader(shader: { vertexShader: string; fragmentSh
 
 // Composes with an earlier onBeforeCompile (fern foliage transmission).
 export function applyNoiseColor(material: THREE.MeshStandardMaterial, noise: NoiseColor) {
-  const stops = Array.from({ length: NOISE_COLOR_MAX_STOPS }, (_, i) => new THREE.Vector4(...noise.stops[Math.min(i, noise.stops.length - 1)]));
+  const stops = rampUniform(noise.stops);
   const previous = material.onBeforeCompile;
   const previousKey = material.customProgramCacheKey;
   material.onBeforeCompile = (shader, renderer) => {
