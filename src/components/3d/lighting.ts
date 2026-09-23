@@ -27,6 +27,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   sun.shadow.bias = -0.00015;
   sun.shadow.normalBias = 0.035;
   sun.shadow.autoUpdate = false;
+  // Stands in for the sauna interior lights, which keep the same power in both source scenes.
   const warmth = new THREE.PointLight('#ffb96a', 10, 9, 2);
   warmth.position.set(-3.2, 2.9, -2.7);
   // Cycles 'V9 lounge patch of sunlight': a 950 W, 1.25 m disk above the lounge and plunge.
@@ -49,19 +50,41 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   // Softens the edge toward the wide penumbra of the 1.25 m source.
   lounge.shadow.radius = 4;
   lounge.shadow.autoUpdate = false;
+  // Blue-hour accent lights of the source (Blender W, position, direction in glTF axes), all
+  // 180° spread disks: P/π candela on the axis, and a 90° cone with full penumbra approximates
+  // the cosine falloff. Unshadowed; the Daylight scene keeps them near zero.
+  const duskColor = new THREE.Color().setRGB(1, 0.7, 0.39, THREE.LinearSRGBColorSpace);
+  const dusk = (
+    [
+      // 'V10 lounge dusk fill': 2 m disk over the loungers.
+      [42, [5.9, 2.8, 1.4], [-0.3142, -0.6569, -0.6854]],
+      // 'V10 path grazing light 1/4/7': low disks beside the stepping stones.
+      [8, [-0.9754, -0.1338, 8.89], [0.9661, -0.1255, -0.2258]],
+      [8, [-0.7056, -0.0702, 7.06], [0.9661, -0.1255, -0.2258]],
+      [8, [-1.2998, -0.0486, 5.23], [0.9661, -0.1255, -0.2258]],
+      // 'V10 specimen uplight' under the garden maple.
+      [35, [0.5, 0.04, 5.7], [0.3186, 0.9344, 0.1593]],
+    ] as const
+  ).map(([watts, position, direction]) => {
+    const light = new THREE.SpotLight(duskColor, 0, 0, Math.PI / 2, 1, 2);
+    light.position.fromArray(position);
+    light.target.position.fromArray(direction).add(light.position);
+    light.userData.candela = watts / Math.PI;
+    return light;
+  });
   scene.add(ambient, sun, warmth, lounge, lounge.target);
-  // Sun direction of the Daylight scene's 'Late afternoon sunlight', and the earlier evening sun.
-  const daySunPosition = new THREE.Vector3(-0.556, 0.6178, 0.556).multiplyScalar(20),
-    duskSunPosition = new THREE.Vector3(-16, 6, 8);
+  for (const light of dusk) scene.add(light, light.target);
+  // Both source scenes light the courtyard along the 'Late afternoon sunlight' direction; the
+  // Blue hour one is a faint blue 0.045. A fixed direction keeps the cached shadow valid.
+  sun.position.set(-0.556, 0.6178, 0.556).multiplyScalar(20);
   // Displayed sky pixels of the Daylight (07.png) and Blue hour (06.png) Cycles renders.
   const daySky = new THREE.Color('#4f616c'),
     duskSky = new THREE.Color('#283d54');
   const dayAmbient = new THREE.Color('#dceaff'),
     duskAmbient = new THREE.Color('#a6b9ee');
   const daySun = new THREE.Color('#fff1d5'),
-    duskSun = new THREE.Color('#ffb477');
+    duskSun = new THREE.Color().setRGB(0.47, 0.62, 1, THREE.LinearSRGBColorSpace);
   let current = 0;
-  let shadowAmount = NaN;
   return {
     setShadowSize(size: number) {
       for (const light of [sun, lounge]) {
@@ -75,6 +98,10 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
         light.shadow.needsUpdate = true;
       }
     },
+    // Light count is part of every shader, so this recompiles; only the quality setting calls it.
+    setDuskLights(enabled: boolean) {
+      for (const light of dusk) light.visible = enabled;
+    },
     dispose() {
       sun.shadow.dispose();
       lounge.shadow.dispose();
@@ -85,21 +112,13 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
       sky.copy(daySky).lerp(duskSky, current);
       ambient.color.copy(dayAmbient).lerp(duskAmbient, current);
       // The unshadowed hemisphere light stands in for the remaining Cycles area lights and bounce
-      // light; only it is balanced against the Cycles camera renders. The daytime sun and lounge
-      // light use the source values; the Blue hour scene has no lounge light.
+      // light; it and the interior light are balanced against the Cycles camera renders. The sun,
+      // lounge and dusk accent lights use the source values of each scene.
       ambient.intensity = THREE.MathUtils.lerp(0.7, 0.4, current);
       sun.color.copy(daySun).lerp(duskSun, current);
-      sun.intensity = THREE.MathUtils.lerp(3.2, 0.7, current);
+      sun.intensity = THREE.MathUtils.lerp(3.2, 0.045, current);
       lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, current);
-      // Quantize only the sun direction so the cached shadow always matches it.
-      // Shadow rendering settles completely when the light stops changing.
-      const nextShadowAmount = Math.round(current * 100) / 100;
-      if (nextShadowAmount !== shadowAmount) {
-        shadowAmount = nextShadowAmount;
-        sun.position.lerpVectors(daySunPosition, duskSunPosition, shadowAmount);
-        sun.shadow.needsUpdate = true;
-      }
-      warmth.intensity = THREE.MathUtils.lerp(10, 25, current);
+      for (const light of dusk) light.intensity = light.userData.candela * current;
       renderer.toneMappingExposure = 2 ** THREE.MathUtils.lerp(DAY_EXPOSURE, EVENING_EXPOSURE, current);
     },
   };
