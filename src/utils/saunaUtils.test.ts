@@ -70,7 +70,7 @@ describe('saunaUtils', () => {
       // @ts-expect-error Simulate missing Web Crypto in an unsupported environment.
       delete globalThis.crypto;
 
-      expect(() => getSecureRandom()).toThrow("Web Crypto API is not available in this environment.");
+      expect(() => getSecureRandom()).toThrow('Web Crypto API is not available in this environment.');
 
       // Restore
       globalThis.crypto = originalCrypto;

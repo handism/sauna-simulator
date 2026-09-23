@@ -3,17 +3,32 @@ import * as THREE from 'three';
 import { applyFoliageTransmission } from './foliage';
 import { applyNoiseColor, noiseColorOf, patchNoiseColorShader, type NoiseColor } from './noiseColor';
 
-const moss: NoiseColor = { space: 'blender_world', scale: 1.05, detail: 3.5, roughness: .72, lacunarity: 2,
-  stops: [[.23, .014, .025, .008], [.51, .055, .088, .019], [.77, .15, .19, .047]] };
+const moss: NoiseColor = {
+  space: 'blender_world',
+  scale: 1.05,
+  detail: 3.5,
+  roughness: 0.72,
+  lacunarity: 2,
+  stops: [
+    [0.23, 0.014, 0.025, 0.008],
+    [0.51, 0.055, 0.088, 0.019],
+    [0.77, 0.15, 0.19, 0.047],
+  ],
+};
 const named = (name: string, suiNoiseColor?: unknown) =>
   Object.assign(new THREE.MeshStandardMaterial(), { name, userData: suiNoiseColor ? { suiNoiseColor } : {} });
-const physical = () => ({ vertexShader: THREE.ShaderLib.physical.vertexShader, fragmentShader: THREE.ShaderLib.physical.fragmentShader });
+const physical = () => ({
+  vertexShader: THREE.ShaderLib.physical.vertexShader,
+  fragmentShader: THREE.ShaderLib.physical.fragmentShader,
+});
 
 describe('noise color', () => {
   it('reads exported noise parameters and rejects malformed ones', () => {
     expect(noiseColorOf(named('V9 | layered living moss', moss))).toBe(moss);
     expect(noiseColorOf(named('Tree bark'))).toBeNull();
-    expect(noiseColorOf(Object.assign(new THREE.MeshBasicMaterial(), { userData: { suiNoiseColor: moss } }))).toBeNull();
+    expect(
+      noiseColorOf(Object.assign(new THREE.MeshBasicMaterial(), { userData: { suiNoiseColor: moss } })),
+    ).toBeNull();
     expect(() => noiseColorOf(named('bad', { ...moss, detail: 16 }))).toThrow();
     expect(() => noiseColorOf(named('bad', { ...moss, stops: [] }))).toThrow();
     expect(() => noiseColorOf(named('bad', { ...moss, stops: [moss.stops[1], moss.stops[0]] }))).toThrow();
@@ -24,12 +39,20 @@ describe('noise color', () => {
     patchNoiseColorShader(shader);
     expect(shader.vertexShader).toContain('vSuiNoisePosition = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;');
     expect(shader.fragmentShader).toContain('vec3( vSuiNoisePosition.x, - vSuiNoisePosition.z, vSuiNoisePosition.y )');
-    expect(shader.fragmentShader.indexOf('diffuseColor.rgb = sui_ramp')).toBeGreaterThan(shader.fragmentShader.indexOf('#include <color_fragment>'));
+    expect(shader.fragmentShader.indexOf('diffuseColor.rgb = sui_ramp')).toBeGreaterThan(
+      shader.fragmentShader.indexOf('#include <color_fragment>'),
+    );
     expect(() => patchNoiseColorShader({ vertexShader: 'void main() {}', fragmentShader: 'void main() {}' })).toThrow();
   });
 
   it('pads ramp stops into uniforms and composes with foliage transmission', () => {
-    const fern = named('V3 | fern 0', { ...moss, stops: [[0, .01, .03, .007], [1, .07, .16, .028]] });
+    const fern = named('V3 | fern 0', {
+      ...moss,
+      stops: [
+        [0, 0.01, 0.03, 0.007],
+        [1, 0.07, 0.16, 0.028],
+      ],
+    });
     applyFoliageTransmission(fern);
     applyNoiseColor(fern, noiseColorOf(fern)!);
     const shader = { ...physical(), uniforms: {} as Record<string, THREE.IUniform> };

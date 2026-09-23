@@ -4,7 +4,7 @@ const chunkPath = /\/assets\/SaunaScene-[^/]+\.js$/;
 
 test('a failed 3D module explains restart and recovers after explicit reload', async ({ page }, info) => {
   let attempts = 0;
-  await page.route(chunkPath, async route => {
+  await page.route(chunkPath, async (route) => {
     attempts++;
     if (attempts === 1) await route.abort('failed');
     else await route.continue();
@@ -30,34 +30,43 @@ test('a failed 3D module explains restart and recovers after explicit reload', a
   await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(attempts).toBe(2);
   await expect(page.getByRole('button', { name: '最初から再読み込み', exact: true })).toHaveCount(0);
-  await info.attach('module-reload', { body: JSON.stringify({ browser: page.context().browser()?.version(), attempts, recoveredStage: 'sauna' }), contentType: 'application/json' });
+  await info.attach('module-reload', {
+    body: JSON.stringify({ browser: page.context().browser()?.version(), attempts, recoveredStage: 'sauna' }),
+    contentType: 'application/json',
+  });
 });
 
 test('2D entry does not request the 3D module or model', async ({ page }) => {
   const requests: string[] = [];
-  page.on('request', request => requests.push(new URL(request.url()).pathname));
+  page.on('request', (request) => requests.push(new URL(request.url()).pathname));
   await page.goto('./');
   await page.getByRole('button', { name: '静かに入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
   await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
-  expect(requests.filter(path => chunkPath.test(path) || path.includes('/models/'))).toEqual([]);
+  expect(requests.filter((path) => chunkPath.test(path) || path.includes('/models/'))).toEqual([]);
   await expect(page.locator('.sauna-3d-canvas')).toHaveCount(0);
 });
 
 test('a stalled 3D module times out before mounting and can recover after arrival', async ({ page }, info) => {
   const errors: string[] = [];
   const modelRequests: string[] = [];
-  page.on('pageerror', error => errors.push(error.message));
-  page.on('request', request => {
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('request', (request) => {
     if (new URL(request.url()).pathname.includes('/models/')) modelRequests.push(request.url());
   });
   let release!: () => void;
-  const held = new Promise<void>(resolve => { release = resolve; });
-  await page.route(chunkPath, async route => {
-    await held;
-    await route.continue();
-  }, { times: 1 });
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route(
+    chunkPath,
+    async (route) => {
+      await held;
+      await route.continue();
+    },
+    { times: 1 },
+  );
   try {
     await page.goto('?view=3d');
     const requested = page.waitForRequest(chunkPath);
@@ -86,9 +95,19 @@ test('a stalled 3D module times out before mounting and can recover after arriva
     await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
     await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-stage', 'totonou');
     await expect(page.locator('.sauna-3d-canvas canvas')).toHaveCount(1);
-    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
     expect(errors).toEqual([]);
-    await info.attach('chunk-recovery', { body: JSON.stringify({ browser: page.context().browser()?.version(), viewport: page.viewportSize(), elapsedMs, errors }, null, 2), contentType: 'application/json' });
+    await info.attach('chunk-recovery', {
+      body: JSON.stringify(
+        { browser: page.context().browser()?.version(), viewport: page.viewportSize(), elapsedMs, errors },
+        null,
+        2,
+      ),
+      contentType: 'application/json',
+    });
   } finally {
     release();
   }

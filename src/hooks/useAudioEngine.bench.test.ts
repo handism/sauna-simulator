@@ -5,8 +5,15 @@ import { useAudioEngine } from './useAudioEngine';
 // Make sure mocked objects chain properly
 const createMockGain = () => {
   const gain = {
-    gain: { value: 1, setTargetAtTime: vi.fn(), cancelScheduledValues: vi.fn(), setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
-    connect: vi.fn((node) => node)
+    gain: {
+      value: 1,
+      setTargetAtTime: vi.fn(),
+      cancelScheduledValues: vi.fn(),
+      setValueAtTime: vi.fn(),
+      linearRampToValueAtTime: vi.fn(),
+      exponentialRampToValueAtTime: vi.fn(),
+    },
+    connect: vi.fn((node) => node),
   };
   return gain;
 };
@@ -17,22 +24,22 @@ const mockCreateBiquadFilter = vi.fn(() => ({
   connect: vi.fn((node) => node),
   frequency: { value: 1, setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
   Q: { value: 1 },
-  type: 'lowpass'
+  type: 'lowpass',
 }));
 const mockCreateOscillator = vi.fn(() => ({
   connect: vi.fn((node) => node),
   start: vi.fn(),
-  frequency: { value: 1 }
+  frequency: { value: 1 },
 }));
 const mockCreateStereoPanner = vi.fn(() => ({ pan: { value: 1 } }));
 const mockCreateBufferSource = vi.fn(() => ({
   connect: vi.fn((node) => node),
   start: vi.fn(),
   stop: vi.fn(),
-  buffer: null
+  buffer: null,
 }));
 const mockCreateBuffer = vi.fn((_channels, _length, _sampleRate) => ({
-  copyToChannel: vi.fn()
+  copyToChannel: vi.fn(),
 }));
 
 class MockAudioContext {
@@ -96,7 +103,9 @@ describe('useAudioEngine performance', () => {
 
   it('should not spawn multiple worker tasks for the same buffer concurrently', async () => {
     const { result } = renderHook(() => useAudioEngine());
-    act(() => { result.current.init(); });
+    act(() => {
+      result.current.init();
+    });
 
     // Trigger multiple playLoyly which needs whiteNoise buffer
     await act(async () => {

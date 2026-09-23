@@ -6,7 +6,7 @@ import { readFile } from 'node:fs/promises';
 // review artifacts, not golden-image assertions or a visual-quality pass.
 test('capture all seated views for manual geometry and lighting review', async ({ page, browser }, info) => {
   const errors: string[] = [];
-  page.on('pageerror', error => errors.push(error.message));
+  page.on('pageerror', (error) => errors.push(error.message));
   const samples: object[] = [];
   await page.goto('?view=3d');
   await page.getByRole('button', { name: '静かに入室する' }).click();
@@ -41,26 +41,55 @@ test('capture all seated views for manual geometry and lighting review', async (
           if (pitch === 'up') await press('ArrowUp', 32);
           const file = `${stage}-${lighting}-${heading}-${pitch}.jpg`;
           await canvas.screenshot({ path: info.outputPath(file), type: 'jpeg', quality: 85 });
-          samples.push({ stage, lighting, file, headingDegrees: heading * .8 * 180 / Math.PI,
-            pitchRadians: pitch === 'down' ? -.85 : pitch === 'up' ? .85 : -.01,
-            metrics: await scene.evaluate(element => ({ ...(element as HTMLElement).dataset })) });
+          samples.push({
+            stage,
+            lighting,
+            file,
+            headingDegrees: (heading * 0.8 * 180) / Math.PI,
+            pitchRadians: pitch === 'down' ? -0.85 : pitch === 'up' ? 0.85 : -0.01,
+            metrics: await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })),
+          });
         }
         await press('ArrowRight', 10);
       }
       // Restore the exact initial heading before the second lighting pass.
       await press('ArrowLeft', 80);
     }
-    expect(await original!.evaluate(element => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(true);
+    expect(await original!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
+      true,
+    );
     await page.getByRole('button', { name: 'UI表示', exact: true }).click();
     await page.getByRole('button', { name: next, exact: true }).click();
   }
   await expect(scene).toHaveAttribute('data-stage', 'sauna');
   expect(errors).toEqual([]);
-  const hashes = Object.fromEntries(await Promise.all(['sauna.glb', 'sauna.scene.json'].map(async file =>
-    [file, createHash('sha256').update(await readFile(`public/models/${file}`)).digest('hex')])));
-  await info.attach('survey', { contentType: 'application/json', body: JSON.stringify({
-    browser: browser.version(), viewport: page.viewportSize(), deviceScaleFactor: 1,
-    quality: 'standard', reducedMotion: true, muted: true, hashes, errors, samples,
-    note: 'Manual visual review required. Angles are relative to each initial seated heading. No performance or Cycles equivalence claim.',
-  }, null, 2) });
+  const hashes = Object.fromEntries(
+    await Promise.all(
+      ['sauna.glb', 'sauna.scene.json'].map(async (file) => [
+        file,
+        createHash('sha256')
+          .update(await readFile(`public/models/${file}`))
+          .digest('hex'),
+      ]),
+    ),
+  );
+  await info.attach('survey', {
+    contentType: 'application/json',
+    body: JSON.stringify(
+      {
+        browser: browser.version(),
+        viewport: page.viewportSize(),
+        deviceScaleFactor: 1,
+        quality: 'standard',
+        reducedMotion: true,
+        muted: true,
+        hashes,
+        errors,
+        samples,
+        note: 'Manual visual review required. Angles are relative to each initial seated heading. No performance or Cycles equivalence claim.',
+      },
+      null,
+      2,
+    ),
+  });
 });

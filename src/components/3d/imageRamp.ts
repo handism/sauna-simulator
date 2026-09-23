@@ -47,8 +47,12 @@ export function imageRampOf(material: THREE.Material): ImageRamp | null {
 
 export function patchImageRampShader(shader: { fragmentShader: string }) {
   const { fragmentShader } = shader;
-  if (!fragmentShader.includes(COMMON_INCLUDE) || !fragmentShader.includes(MAP_INCLUDE) || !fragmentShader.includes(COLOR_INCLUDE)
-    || fragmentShader.indexOf(MAP_INCLUDE) > fragmentShader.indexOf(COLOR_INCLUDE)) {
+  if (
+    !fragmentShader.includes(COMMON_INCLUDE) ||
+    !fragmentShader.includes(MAP_INCLUDE) ||
+    !fragmentShader.includes(COLOR_INCLUDE) ||
+    fragmentShader.indexOf(MAP_INCLUDE) > fragmentShader.indexOf(COLOR_INCLUDE)
+  ) {
     throw Error('Unsupported three.js shader chunks for image ramp');
   }
   shader.fragmentShader = fragmentShader
@@ -58,17 +62,22 @@ export function patchImageRampShader(shader: { fragmentShader: string }) {
 
 // Needs the base color texture and the exported per-object vertex color.
 export function applyImageRamp(material: THREE.MeshStandardMaterial, ramp: ImageRamp) {
-  if (!material.map || !material.vertexColors) throw Error(`Image ramp needs a map and vertex colors on ${material.name}`);
+  if (!material.map || !material.vertexColors)
+    throw Error(`Image ramp needs a map and vertex colors on ${material.name}`);
   const previous = material.onBeforeCompile;
   const previousKey = material.customProgramCacheKey;
   material.onBeforeCompile = (shader, renderer) => {
     previous.call(material, shader, renderer);
     Object.assign(shader.uniforms, {
       suiRampLuminance: { value: new THREE.Vector3(...ramp.luminance) },
-      suiRampStops: { value: rampUniform(ramp.stops) }, suiRampStopCount: { value: ramp.stops.length },
-      suiRandomStops: { value: rampUniform(ramp.random) }, suiRandomStopCount: { value: ramp.random.length },
+      suiRampStops: { value: rampUniform(ramp.stops) },
+      suiRampStopCount: { value: ramp.stops.length },
+      suiRandomStops: { value: rampUniform(ramp.random) },
+      suiRandomStopCount: { value: ramp.random.length },
       // Vector4 defaults w to 1, which would mix fully toward black.
-      suiRampMix: { value: ramp.mix ? new THREE.Vector4(...ramp.mix.color, ramp.mix.factor) : new THREE.Vector4(0, 0, 0, 0) },
+      suiRampMix: {
+        value: ramp.mix ? new THREE.Vector4(...ramp.mix.color, ramp.mix.factor) : new THREE.Vector4(0, 0, 0, 0),
+      },
     });
     patchImageRampShader(shader);
   };

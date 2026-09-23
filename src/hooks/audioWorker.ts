@@ -4,7 +4,7 @@ const maxElements = 16384;
 
 const randomValues = new Uint32Array(maxElements);
 
-self.onmessage = function(e: MessageEvent) {
+self.onmessage = function (e: MessageEvent) {
   const { id, type, length } = e.data;
   const data = new Float32Array(length);
 
@@ -17,7 +17,7 @@ self.onmessage = function(e: MessageEvent) {
       self.crypto.getRandomValues(chunk);
       for (let j = 0; j < chunkLength; j++) {
         const white = chunk[j] * multiplier - 1;
-        data[i + j] = (lastOut + (0.02 * white)) / 1.02;
+        data[i + j] = (lastOut + 0.02 * white) / 1.02;
         lastOut = data[i + j];
         data[i + j] *= 3.5;
       }
@@ -29,7 +29,7 @@ self.onmessage = function(e: MessageEvent) {
       self.crypto.getRandomValues(chunk);
       for (let j = 0; j < chunkLength; j++) {
         const white = chunk[j] * multiplier - 1;
-        data[i + j] = (lastOut + (0.015 * white)) / 1.015;
+        data[i + j] = (lastOut + 0.015 * white) / 1.015;
         lastOut = data[i + j];
         data[i + j] *= 5.0;
       }
@@ -49,4 +49,3 @@ self.onmessage = function(e: MessageEvent) {
 };
 
 export {};
-

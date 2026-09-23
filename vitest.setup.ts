@@ -10,7 +10,7 @@ class MockWorker {
       if (this.onmessage) {
         const data = new Float32Array(length);
         this.onmessage({
-          data: { id, data }
+          data: { id, data },
         } as MessageEvent);
       }
     });
@@ -32,4 +32,3 @@ if (typeof window !== 'undefined') {
     };
   }
 }
-

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('five minutes of effects, stages, quality and mode changes remain usable', async ({ page }, info) => {
   const errors: string[] = [];
-  page.on('pageerror', error => errors.push(error.message));
+  page.on('pageerror', (error) => errors.push(error.message));
   const samples: { cycle: number; elapsedMs: number; data: Record<string, string | undefined> }[] = [];
   const baselines = new Map<string, { textures: string | undefined; geometries: string | undefined }>();
   const started = Date.now();
@@ -14,7 +14,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
   };
   const sample = async () => {
     await expect(scene).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: 15_000 });
-    const data = await scene.evaluate(element => ({ ...(element as HTMLElement).dataset }));
+    const data = await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset }));
     samples.push({ cycle, elapsedMs: Date.now() - started, data });
     const key = `${data.stage}/${data.quality}`;
     const resources = { textures: data.textures, geometries: data.geometries };
@@ -22,7 +22,10 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     expect(Number(resources.geometries)).toBeGreaterThan(0);
     if (baselines.has(key)) expect(resources, `renderer resources for ${key}`).toEqual(baselines.get(key));
     else baselines.set(key, resources);
-    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
     expect(errors).toEqual([]);
   };
   try {
@@ -43,11 +46,17 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       // Let the entire six-second steam lifetime elapse before resource comparison.
       await page.waitForTimeout(6500);
       await sample();
-      for (const [button, stage] of [['限界.. 水風呂へ 💧', 'water'], ['外気浴へ 🍃', 'totonou'], ['もう一度サウナへ 🔄', 'sauna']]) {
+      for (const [button, stage] of [
+        ['限界.. 水風呂へ 💧', 'water'],
+        ['外気浴へ 🍃', 'totonou'],
+        ['もう一度サウナへ 🔄', 'sauna'],
+      ]) {
         await page.getByRole('button', { name: button, exact: true }).click();
         await expect(scene).toHaveAttribute('data-stage', stage);
         await sample();
-        expect(await canvas!.evaluate(element => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(true);
+        expect(await canvas!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
+          true,
+        );
       }
       await canvas!.dispose();
       await page.getByRole('button', { name: '2Dに切り替え' }).click();
@@ -69,9 +78,20 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     expect(errors).toEqual([]);
   } finally {
     await info.attach('stability-samples', {
-      body: JSON.stringify({ browser: page.context().browser()?.version(), viewport: page.viewportSize(),
-        elapsedMs: Date.now() - started, cycles: cycle, samples, errors,
-        limitations: 'Renderer resource counts only; not total GPU memory, audio-node counts, real-device performance or proof of leak absence.' }, null, 2),
+      body: JSON.stringify(
+        {
+          browser: page.context().browser()?.version(),
+          viewport: page.viewportSize(),
+          elapsedMs: Date.now() - started,
+          cycles: cycle,
+          samples,
+          errors,
+          limitations:
+            'Renderer resource counts only; not total GPU memory, audio-node counts, real-device performance or proof of leak absence.',
+        },
+        null,
+        2,
+      ),
       contentType: 'application/json',
     });
   }

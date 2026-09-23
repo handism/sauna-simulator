@@ -45,7 +45,7 @@ describe('audioWorker', () => {
         id: 'test-sauna-1',
         type: 'saunaNoise',
         length: 100,
-      }
+      },
     } as MessageEvent;
 
     onmessage!(mockEvent);
@@ -72,7 +72,7 @@ describe('audioWorker', () => {
         id: 'test-sauna-2',
         type: 'saunaNoise',
         length: length,
-      }
+      },
     } as MessageEvent;
 
     onmessage!(mockEvent);
@@ -101,7 +101,7 @@ describe('audioWorker', () => {
         id: 'test-wind-1',
         type: 'windNoise',
         length: length,
-      }
+      },
     } as MessageEvent;
 
     onmessage!(mockEvent);
@@ -129,7 +129,7 @@ describe('audioWorker', () => {
         id: 'test-default-1',
         type: 'unknownNoise',
         length: 50,
-      }
+      },
     } as MessageEvent;
 
     onmessage!(mockEvent);
@@ -143,4 +143,3 @@ describe('audioWorker', () => {
     expect(Number.isNaN(payload.data[0])).toBe(false);
   });
 });
-

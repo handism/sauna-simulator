@@ -19,7 +19,7 @@ export function createSpatialAudio(ctx: AudioContext, master: GainNode) {
     panner.distanceModel = 'inverse';
     // Seated views retain their level; attenuation matters beyond the room.
     panner.refDistance = 5;
-    panner.rolloffFactor = .5;
+    panner.rolloffFactor = 0.5;
     dry.gain.value = 1;
     wet.gain.value = 0;
     input.connect(dry).connect(master);
@@ -30,7 +30,9 @@ export function createSpatialAudio(ctx: AudioContext, master: GainNode) {
   const water = createBus();
   let enabled = false;
   const vector = (params: AudioParam[], values: readonly number[]) => {
-    params.forEach((param, index) => { param.value = values[index]; });
+    params.forEach((param, index) => {
+      param.value = values[index];
+    });
   };
   return {
     stove: stove.input,
@@ -41,7 +43,10 @@ export function createSpatialAudio(ctx: AudioContext, master: GainNode) {
         vector([listener.positionX, listener.positionY, listener.positionZ], pose.position);
         vector([listener.forwardX, listener.forwardY, listener.forwardZ], pose.forward);
         vector([listener.upX, listener.upY, listener.upZ], pose.up);
-        for (const [bus, position] of [[stove, pose.stove], [water, pose.water]] as const) {
+        for (const [bus, position] of [
+          [stove, pose.stove],
+          [water, pose.water],
+        ] as const) {
           vector([bus.panner.positionX, bus.panner.positionY, bus.panner.positionZ], position);
         }
       }
@@ -49,8 +54,8 @@ export function createSpatialAudio(ctx: AudioContext, master: GainNode) {
       enabled = !!pose;
       // Complementary gains, with identical time constants, also tolerate rapid toggles.
       for (const bus of [stove, water]) {
-        bus.dry.gain.setTargetAtTime(enabled ? 0 : 1, ctx.currentTime, .08);
-        bus.wet.gain.setTargetAtTime(enabled ? 1 : 0, ctx.currentTime, .08);
+        bus.dry.gain.setTargetAtTime(enabled ? 0 : 1, ctx.currentTime, 0.08);
+        bus.wet.gain.setTargetAtTime(enabled ? 1 : 0, ctx.currentTime, 0.08);
       }
     },
   };

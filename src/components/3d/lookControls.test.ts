@@ -19,24 +19,24 @@ describe('attachLookControls', () => {
     element.dispatchEvent(pointer('pointerdown', 1, 100, 100));
     element.dispatchEvent(pointer('pointerup', 2, 100, 100, false));
     element.dispatchEvent(pointer('pointermove', 1, 50, 100));
-    expect(camera.rotation.y).toBeCloseTo(.2);
+    expect(camera.rotation.y).toBeCloseTo(0.2);
     element.dispatchEvent(pointer('pointercancel', 1, 50, 100));
     element.dispatchEvent(pointer('pointermove', 1, 0, 100));
-    expect(camera.rotation.y).toBeCloseTo(.2);
+    expect(camera.rotation.y).toBeCloseTo(0.2);
   });
 
   it('clamps the pitch, supports arrow keys and stops after dispose or cancel', () => {
     const { element, camera, controls } = setup();
     for (let i = 0; i < 30; i++) element.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
-    expect(camera.rotation.x).toBeCloseTo(.85);
+    expect(camera.rotation.x).toBeCloseTo(0.85);
     element.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
-    expect(camera.rotation.y).toBeCloseTo(.08);
+    expect(camera.rotation.y).toBeCloseTo(0.08);
     element.dispatchEvent(pointer('pointerdown', 1, 0, 0));
     controls.cancel();
     element.dispatchEvent(pointer('pointermove', 1, 100, 0));
-    expect(camera.rotation.y).toBeCloseTo(.08);
+    expect(camera.rotation.y).toBeCloseTo(0.08);
     controls.dispose();
     element.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
-    expect(camera.rotation.y).toBeCloseTo(.08);
+    expect(camera.rotation.y).toBeCloseTo(0.08);
   });
 });
