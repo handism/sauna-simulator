@@ -1,0 +1,59 @@
+{
+  "input_unchanged": true,
+  "hashes_match": true,
+  "build_copy_matches": true,
+  "output_bytes": 17785588,
+  "previous_output_bytes": 17784168,
+  "triangles": 361038,
+  "meshes": 71,
+  "noise_color_materials": [
+    "V9 | layered living moss",
+    "V3 | fern 0",
+    "V3 | fern 1",
+    "V3 | fern 2",
+    "V3 | moss and woodland earth"
+  ],
+  "changed_materials": [
+    {
+      "material": "V7 | shaded moss garden",
+      "baseColorFactor": [
+        [
+          0.054999999701976776,
+          0.0949999988079071,
+          0.02500000037252903,
+          1
+        ],
+        [
+          0.07000000029802322,
+          0.10499999672174454,
+          0.026000000536441803,
+          1
+        ]
+      ]
+    }
+  ],
+  "gltf_json_outside_materials_identical": true,
+  "binary_chunk_bytes_same_length": true,
+  "binary_changed_buffer_views_are_uv_only": true,
+  "binary_changed_uv_max_abs": 4.76837158203125e-07,
+  "survey_vs_maple_fix": {
+    "views": 144,
+    "unchanged_views": {
+      "drawCalls": 144,
+      "triangles": 144,
+      "textures": 144,
+      "geometries": 144,
+      "foliageMaterials": 144
+    },
+    "noiseColorMaterials": [
+      "5"
+    ]
+  },
+  "glsl_vs_blender_max_abs": {
+    "perlin scale 1 detail 0": 2.38e-07,
+    "V9 moss scale 1.05 detail 3.5 roughness 0.72": 8.94e-08,
+    "V3 scale 18 detail 4": 5.96e-08
+  },
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "output_sha256": "4d14896d4b61ffe96a4da7c2792236e62cf22fa0fc39817df51aa10225473e50"
+}

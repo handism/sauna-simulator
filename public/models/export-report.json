@@ -8,7 +8,7 @@
     "compression": "none",
     "texture_size": 1024,
     "scope": "sauna and courtyard",
-    "materials": "simplified PBR; image diffuse/normal; no procedural baking",
+    "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) recorded in material extras for the browser shader",
     "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks"
   },
   "materials": [
@@ -7308,6 +7308,158 @@
   ],
   "lifted_pavers": 70,
   "paver_lift_m": 0.003,
+  "procedural_color": [
+    {
+      "material": "V3 | fallen copper leaves",
+      "space": "blender_world",
+      "scale": 18.0,
+      "detail": 4.0,
+      "roughness": 0.5,
+      "lacunarity": 2.0,
+      "stops": [
+        [
+          0.0,
+          0.06499999761581421,
+          0.028999999165534973,
+          0.008999999612569809
+        ],
+        [
+          1.0,
+          0.23999999463558197,
+          0.11999999731779099,
+          0.03500000014901161
+        ]
+      ],
+      "bump_omitted": true,
+      "in_glb": false
+    },
+    {
+      "material": "V3 | fern 0",
+      "space": "blender_world",
+      "scale": 18.0,
+      "detail": 4.0,
+      "roughness": 0.5,
+      "lacunarity": 2.0,
+      "stops": [
+        [
+          0.0,
+          0.012000000104308128,
+          0.03500000014901161,
+          0.007000000216066837
+        ],
+        [
+          1.0,
+          0.07000000029802322,
+          0.1599999964237213,
+          0.02800000086426735
+        ]
+      ],
+      "bump_omitted": true,
+      "in_glb": true
+    },
+    {
+      "material": "V3 | fern 1",
+      "space": "blender_world",
+      "scale": 18.0,
+      "detail": 4.0,
+      "roughness": 0.5,
+      "lacunarity": 2.0,
+      "stops": [
+        [
+          0.0,
+          0.017000000923871994,
+          0.04399999976158142,
+          0.007000000216066837
+        ],
+        [
+          1.0,
+          0.08500000089406967,
+          0.1850000023841858,
+          0.02800000086426735
+        ]
+      ],
+      "bump_omitted": true,
+      "in_glb": true
+    },
+    {
+      "material": "V3 | fern 2",
+      "space": "blender_world",
+      "scale": 18.0,
+      "detail": 4.0,
+      "roughness": 0.5,
+      "lacunarity": 2.0,
+      "stops": [
+        [
+          0.0,
+          0.02199999988079071,
+          0.05299999937415123,
+          0.007000000216066837
+        ],
+        [
+          1.0,
+          0.10000000149011612,
+          0.20999999344348907,
+          0.02800000086426735
+        ]
+      ],
+      "bump_omitted": true,
+      "in_glb": true
+    },
+    {
+      "material": "V3 | moss and woodland earth",
+      "space": "blender_world",
+      "scale": 18.0,
+      "detail": 4.0,
+      "roughness": 0.5,
+      "lacunarity": 2.0,
+      "stops": [
+        [
+          0.0,
+          0.023000000044703484,
+          0.03099999949336052,
+          0.012000000104308128
+        ],
+        [
+          1.0,
+          0.11999999731779099,
+          0.1599999964237213,
+          0.04399999976158142
+        ]
+      ],
+      "bump_omitted": true,
+      "in_glb": true
+    },
+    {
+      "material": "V9 | layered living moss",
+      "space": "blender_world",
+      "scale": 1.0499999523162842,
+      "detail": 3.5,
+      "roughness": 0.7200000286102295,
+      "lacunarity": 2.0,
+      "stops": [
+        [
+          0.23000000417232513,
+          0.014000000432133675,
+          0.02500000037252903,
+          0.00800000037997961
+        ],
+        [
+          0.5099999904632568,
+          0.054999999701976776,
+          0.08799999952316284,
+          0.01899999938905239
+        ],
+        [
+          0.7699999809265137,
+          0.15000000596046448,
+          0.1899999976158142,
+          0.04699999839067459
+        ]
+      ],
+      "bump_omitted": true,
+      "in_glb": true
+    }
+  ],
   "bark_curves": [
     {
       "object": "V5 overhead canopy bough",
@@ -7479,7 +7631,7 @@
     "export_jpeg_quality": 82,
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 17784168,
-  "output_sha256": "433e52cd83fb0364a1d324b5b289e0bc797aba63fc7759d525ce359b5400a3eb",
+  "output_bytes": 17785588,
+  "output_sha256": "4d14896d4b61ffe96a4da7c2792236e62cf22fa0fc39817df51aa10225473e50",
   "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }

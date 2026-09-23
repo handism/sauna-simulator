@@ -8,6 +8,7 @@ import { createLighting, eveningAmount, type LightingMode } from './lighting';
 import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
 import { applyFoliageTransmission, isFoliageMaterial } from './foliage';
+import { applyNoiseColor, noiseColorOf, type NoiseColor } from './noiseColor';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -158,17 +159,24 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         // Replace the exported closed water volume with the bounded realtime surface.
         // Drawing both creates a milky double layer when the viewer sits in the pool.
         const foliage = new Set<THREE.MeshStandardMaterial>();
+        const noiseColors = new Map<THREE.MeshStandardMaterial, NoiseColor>();
         gltf.scene.traverse((object) => {
           if (!(object instanceof THREE.Mesh)) return;
           const materials = Array.isArray(object.material) ? object.material : [object.material];
-          for (const material of materials) if (isFoliageMaterial(material)) foliage.add(material);
+          for (const material of materials) {
+            if (isFoliageMaterial(material)) foliage.add(material);
+            const noise = noiseColorOf(material);
+            if (noise) noiseColors.set(material as THREE.MeshStandardMaterial, noise);
+          }
           // Glass and water must not cast opaque silhouettes onto the garden.
           object.castShadow = materials.every(material => !material.transparent);
           object.receiveShadow = object.castShadow;
           if (materials.every(material => material.name === 'V4 | clear spring water')) object.visible = false;
         });
         foliage.forEach(applyFoliageTransmission);
+        noiseColors.forEach((noise, material) => applyNoiseColor(material, noise));
         element.dataset.foliageMaterials = String(foliage.size);
+        element.dataset.noiseColorMaterials = String(noiseColors.size);
         scene.add(gltf.scene);
         const waterEffects = createWaterEffects(definition.water);
         scene.add(waterEffects.group);
