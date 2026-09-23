@@ -24,6 +24,8 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   // The exported moss ground and ferns carry Blender noise colors; losing them flattens the garden.
   await expect(scene).toHaveAttribute('data-noise-color-materials', /^[1-9]\d*$/);
+  // Stone, linen and timber colors come from image-luminance ramps; without them the raw texture hues show.
+  await expect(scene).toHaveAttribute('data-image-ramp-materials', /^[1-9]\d*$/);
   await expect(aurora).toBeHidden();
   const canvas = scene.locator('canvas');
   const original = await canvas.elementHandle();

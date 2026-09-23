@@ -81,3 +81,5 @@
 - 葉の逆光対策は `foliage.ts`。名前が leaf／foliage／fern の `MeshStandardMaterial`（落ち葉 `leaves`・苔・樹皮は対象外）だけ `onBeforeCompile` で裏面からの直接光と反対側の半球光を拡散色の0.6倍で透過させる。Three.jsの `lights_fragment_begin`・`lights_physical_pars_fragment` に依存し、想定外のチャンクでは例外にする。Three.js更新時は `foliage.test.ts` と全周撮影で確認する。`data-foliage-materials` に対象材質数を記録する。
 
 - 地面の苔・シダの色は `noiseColor.ts`。`export_web_glb.py` が元材質のワールド／オブジェクト座標fBmノイズ→線形カラーランプの設定を材質 `extras.suiNoiseColor` に記録し、BlenderのPerlin（Jenkinsハッシュ）とfBmのGLSL移植で画素ごとに評価する。画素より細かいオクターブは平均へフェード。バンプは省略。Three.jsの `common`・`project_vertex`・`color_fragment` チャンクに依存。移植は `noise-color.e2e.ts` がBlender基準値（`scripts/blender_noise_reference.py` → `e2e/fixtures/blender-noise.json`）と比較する。名前による苔・シダの単色上書きはBase Colorが接続された材質だけ。
+
+- 石・布・木材の色は `imageRamp.ts`。`export_web_glb.py` の `base_color_image_ramp()` が「画像→RGBのBW化→線形ランプ × Object Info Randomのランプ（→一定色へ混合）」を材質 `extras.suiImageRamp` に記録し、結合前のオブジェクトごとの乱数を色属性 `SuiObjectRandom`→`COLOR_0` で渡す（名前seedの一様乱数でCyclesの値ではない）。濡れ跡のノイズは省略。輝度係数はBlenderのOCIO設定の `luma`。Three.jsの `common`・`map_fragment`・`color_fragment` チャンクに依存。`data-image-ramp-materials` に対象材質数を記録する。書き出しはUVの最下位ビットが実行ごとに揺らぐため、GLBのハッシュは再実行で変わる。

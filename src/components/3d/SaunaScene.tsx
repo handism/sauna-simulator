@@ -9,6 +9,7 @@ import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
 import { applyFoliageTransmission, isFoliageMaterial } from './foliage';
 import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
+import { applyImageRamp, imageRampOf, type ImageRamp } from './imageRamp';
 import { applyNoiseColor, noiseColorOf, type NoiseColor } from './noiseColor';
 
 interface SceneDefinition {
@@ -161,6 +162,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         // Drawing both creates a milky double layer when the viewer sits in the pool.
         const foliage = new Set<THREE.MeshStandardMaterial>();
         const noiseColors = new Map<THREE.MeshStandardMaterial, NoiseColor>();
+        const imageRamps = new Map<THREE.MeshStandardMaterial, ImageRamp>();
         const leafClusters = new Map<number, THREE.DataTexture>();
         let leafClusterMaterials = 0;
         gltf.scene.traverse((object) => {
@@ -170,6 +172,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
             if (isFoliageMaterial(material)) foliage.add(material);
             const noise = noiseColorOf(material);
             if (noise) noiseColors.set(material as THREE.MeshStandardMaterial, noise);
+            const ramp = imageRampOf(material);
+            if (ramp) imageRamps.set(material as THREE.MeshStandardMaterial, ramp);
             const cluster = leafClusterOf(material);
             if (cluster && material instanceof THREE.MeshStandardMaterial && !material.alphaMap) {
               // One mask per leaf count; disposeTree releases it with the materials.
@@ -185,8 +189,10 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         });
         foliage.forEach(applyFoliageTransmission);
         noiseColors.forEach((noise, material) => applyNoiseColor(material, noise));
+        imageRamps.forEach((ramp, material) => applyImageRamp(material, ramp));
         element.dataset.foliageMaterials = String(foliage.size);
         element.dataset.noiseColorMaterials = String(noiseColors.size);
+        element.dataset.imageRampMaterials = String(imageRamps.size);
         element.dataset.leafClusterMaterials = String(leafClusterMaterials);
         scene.add(gltf.scene);
         const waterEffects = createWaterEffects(definition.water);
