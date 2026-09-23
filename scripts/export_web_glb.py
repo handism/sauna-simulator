@@ -21,7 +21,7 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna and courtyard',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking',
-                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
+                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'restored_bank_objects': 0,
           'pillow_topology': [], 'lifted_pavers': 0}
 PAVER_LIFT = .003
@@ -67,8 +67,8 @@ for m in bpy.data.materials:
         p.inputs['Emission Color'].default_value=(1,.45,.12,1)
         p.inputs['Emission Strength'].default_value=2
 
-def sample_whole_leaves(obj, budget):
-    """Sample disconnected leaves and preserve their footprint with planar silhouettes."""
+def sample_whole_leaves(obj, leaves, keep_outline=False):
+    """Sample disconnected leaves. Keep each source outline, or reduce it to a planar silhouette."""
     mesh = obj.data
     parent = list(range(len(mesh.vertices)))
     def root(i):
@@ -87,10 +87,23 @@ def sample_whole_leaves(obj, budget):
         return False
     groups = list(islands.values())
     random.Random(obj.name).shuffle(groups)
-    vertices, faces, material_indices = [], [], []
-    # Each complete leaf becomes a broad two-triangle diamond in its own plane.
-    # This preserves its size and orientation while allowing more leaves per budget.
-    for group in groups[:budget // 2]:
+    vertices, faces, material_indices, smooth = [], [], [], []
+    for group in groups[:leaves]:
+        if keep_outline:
+            # Lobed maple leaves lose their outline as diamonds; copy the source fan.
+            remap = {}
+            for f in group:
+                polygon = mesh.polygons[f]
+                for i in polygon.vertices:
+                    if i not in remap:
+                        remap[i] = len(vertices)
+                        vertices.append(mesh.vertices[i].co.copy())
+                faces.append(tuple(remap[i] for i in polygon.vertices))
+                material_indices.append(polygon.material_index)
+                smooth.append(polygon.use_smooth)
+            continue
+        # Each complete leaf becomes a broad two-triangle diamond in its own plane.
+        # This preserves its size and orientation while allowing more leaves per budget.
         points = [mesh.vertices[i].co.copy() for i in sorted({v for f in group for v in mesh.polygons[f].vertices})]
         center = sum(points, Vector()) / len(points)
         normal = mesh.polygons[group[0]].normal.normalized()
@@ -105,17 +118,22 @@ def sample_whole_leaves(obj, budget):
         vertices.extend([center+major*max(u), center+minor*max(v), center+major*min(u), center+minor*min(v)])
         faces.append((start, start+1, start+2, start+3))
         material_indices.append(mesh.polygons[group[0]].material_index)
+        smooth.append(False)
     if not faces:
         return False
     simplified = bpy.data.meshes.new(obj.name + ' web leaves')
     simplified.from_pydata(vertices, [], faces)
     for material in mesh.materials: simplified.materials.append(material)
-    for polygon, material_index in zip(simplified.polygons, material_indices): polygon.material_index = material_index
+    # Source maple leaves are smooth-shaded, which also lets glTF share each fan's vertices.
+    for polygon, material_index, use_smooth in zip(simplified.polygons, material_indices, smooth):
+        polygon.material_index = material_index
+        polygon.use_smooth = use_smooth
     simplified.update()
     obj.data = simplified
     report['foliage_sampling'].append({'object': obj.name, 'input_faces': len(mesh.polygons),
                                       'output_faces': len(obj.data.polygons), 'islands': len(islands),
-                                      'method': 'seeded whole-leaf selection; two-triangle planar silhouettes'})
+                                      'output_leaves': min(leaves, len(groups)),
+                                      'method': 'seeded whole-leaf selection; ' + ('source leaf outlines' if keep_outline else 'two-triangle planar silhouettes')})
     return True
 
 # Bark curves are the only support for several crowns. Mesh them before the
@@ -180,8 +198,10 @@ for o in list(bpy.context.scene.objects):
     o.hide_viewport=False
     foliage = any(key in o.name.lower() for key in ('canopy', 'clustered tree leaves', 'clustered lobed foliage', 'lobed maple leaves'))
     # The overhead canopy already has one quad per leaf; sampling would only thin its twig clusters.
-    budget = 2 * len(o.data.polygons) if o.name == 'V5 light filtering canopy' else 700 if ('V11 maple' in o.name and not bank) or o.name == 'V7 lobed maple leaves' else 350
-    sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, budget)
+    near_maple = ('V11 maple' in o.name and not bank) or o.name == 'V7 lobed maple leaves'
+    # Near maples keep every horizontal source leaf; their layered crowns thin out visibly when sampled.
+    leaves = len(o.data.polygons) if o.name == 'V5 light filtering canopy' or near_maple else 175
+    sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, leaves, keep_outline=near_maple)
     if len(o.data.polygons) > 500 and not sampled:
         mod=o.modifiers.new('Web reduction','DECIMATE'); mod.ratio=min(1, 350/len(o.data.polygons))
     selected.append(o)

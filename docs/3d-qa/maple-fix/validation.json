@@ -1,0 +1,68 @@
+{
+  "input_unchanged": true,
+  "hashes_match": true,
+  "build_copy_matches": true,
+  "finite_positions": true,
+  "indices_in_range": true,
+  "triangles": 361038,
+  "report_triangles": 361038,
+  "previous_triangles": 338298,
+  "output_bytes": 17784168,
+  "previous_output_bytes": 16989992,
+  "meshes": 71,
+  "outline_leaves": [
+    {
+      "object": "V7 lobed maple leaves",
+      "input_faces": 4420,
+      "output_faces": 4420,
+      "islands": 442,
+      "output_leaves": 442
+    },
+    {
+      "object": "V11 maple clustered lobed foliage 0",
+      "input_faces": 6970,
+      "output_faces": 6970,
+      "islands": 697,
+      "output_leaves": 697
+    },
+    {
+      "object": "V11 maple clustered lobed foliage 1",
+      "input_faces": 6880,
+      "output_faces": 6880,
+      "islands": 688,
+      "output_leaves": 688
+    },
+    {
+      "object": "V11 maple clustered lobed foliage 2",
+      "input_faces": 7270,
+      "output_faces": 7270,
+      "islands": 727,
+      "output_leaves": 727
+    }
+  ],
+  "survey_vs_foliage_fix": {
+    "views": 144,
+    "unchanged_views": {
+      "drawCalls": 142,
+      "textures": 144,
+      "geometries": 144,
+      "foliageMaterials": 144
+    },
+    "rendered_triangle_delta_by_stage": {
+      "sauna": [
+        19020,
+        23440
+      ],
+      "water": [
+        19020,
+        22740
+      ],
+      "totonou": [
+        19020,
+        22740
+      ]
+    }
+  },
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "output_sha256": "433e52cd83fb0364a1d324b5b289e0bc797aba63fc7759d525ce359b5400a3eb"
+}
