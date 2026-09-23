@@ -1,0 +1,146 @@
+{
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "input_unchanged": true,
+  "output_sha256": "513c99164ce173fb2a0cb5f436666085f8d41a57be999a2094cff08af93e4b56",
+  "hashes_match": true,
+  "scene_definition_unchanged": true,
+  "build_copy_matches": true,
+  "output_bytes": 22289656,
+  "previous_output_bytes": 17785588,
+  "triangles": 448788,
+  "previous_triangles": 361038,
+  "report_triangles": 448788,
+  "meshes": 72,
+  "previous_meshes": 71,
+  "finite_positions": true,
+  "indices_in_range": true,
+  "cluster_materials": [
+    "V6 woodland leaf 0 card",
+    "V6 woodland leaf 1 card",
+    "V6 woodland leaf 2 card",
+    "V6 woodland leaf 3 card",
+    "V6 woodland leaf 4 card"
+  ],
+  "cluster_extras": {
+    "V6 woodland leaf 0 card": {
+      "suiLeafCluster": {
+        "leaves": 20
+      }
+    },
+    "V6 woodland leaf 1 card": {
+      "suiLeafCluster": {
+        "leaves": 20
+      }
+    },
+    "V6 woodland leaf 2 card": {
+      "suiLeafCluster": {
+        "leaves": 20
+      }
+    },
+    "V6 woodland leaf 3 card": {
+      "suiLeafCluster": {
+        "leaves": 20
+      }
+    },
+    "V6 woodland leaf 4 card": {
+      "suiLeafCluster": {
+        "leaves": 20
+      }
+    }
+  },
+  "cards": 38500,
+  "card_uv_corners_only": true,
+  "card_trees": 189,
+  "card_source_leaves": 770000,
+  "card_scale_range": [
+    4.4721,
+    4.4721
+  ],
+  "objects_beyond_courtyard": 1209,
+  "excluded_objects": 3088,
+  "largest_mesh_byte_changes": [
+    {
+      "mesh": "V6 clustered tree leaves web leaves",
+      "bytes": 3667028
+    },
+    {
+      "mesh": "V5 overhead canopy bough",
+      "bytes": 790968
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "bytes": 40872
+    },
+    {
+      "mesh": "立方体.011",
+      "bytes": 0
+    }
+  ],
+  "survey_vs_ground_fix": {
+    "views": 144,
+    "metric_deltas": {
+      "drawCalls": [
+        0,
+        4,
+        5
+      ],
+      "triangles": [
+        87226,
+        87633,
+        87750
+      ],
+      "textures": [
+        1
+      ],
+      "geometries": [
+        5
+      ],
+      "foliageMaterials": [
+        5
+      ],
+      "noiseColorMaterials": [
+        0
+      ]
+    },
+    "leafClusterMaterials": [
+      "5"
+    ],
+    "note": "drawCalls +4/+5 and geometries +5: V8 selective low grass is no longer joined with the woodland leaves (it keeps the uncarded materials)."
+  },
+  "soak": {
+    "status": "passed",
+    "duration_ms": 305125,
+    "samples": 50,
+    "cycles": 10,
+    "counts_by_stage_quality": {
+      "sauna/high": [
+        "textures 11, geometries 91"
+      ],
+      "sauna/low": [
+        "textures 9, geometries 91"
+      ],
+      "sauna/standard": [
+        "textures 11, geometries 91"
+      ],
+      "totonou/high": [
+        "textures 11, geometries 91"
+      ],
+      "totonou/low": [
+        "textures 9, geometries 91"
+      ],
+      "totonou/standard": [
+        "textures 11, geometries 91"
+      ],
+      "water/high": [
+        "textures 11, geometries 91"
+      ],
+      "water/low": [
+        "textures 9, geometries 91"
+      ],
+      "water/standard": [
+        "textures 11, geometries 91"
+      ]
+    },
+    "note": "Resource counts only; not GPU memory or a leak-free proof."
+  }
+}

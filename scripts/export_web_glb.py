@@ -5,6 +5,7 @@ import bpy
 import bmesh
 import random
 import hashlib
+import math
 import json
 import struct
 from pathlib import Path
@@ -19,10 +20,10 @@ source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
 report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_hash,
           'input_modified_utc': datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(),
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
-          'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna and courtyard',
+          'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) recorded in material extras for the browser shader',
-                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
-          'materials': [], 'excluded': [], 'foliage_sampling': [], 'restored_bank_objects': 0,
+                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
+          'materials': [], 'excluded': [], 'foliage_sampling': [], 'objects_beyond_courtyard': 0,
           'pillow_topology': [], 'lifted_pavers': 0}
 PAVER_LIFT = .003
 report['paver_lift_m'] = PAVER_LIFT
@@ -101,8 +102,22 @@ for m in bpy.data.materials:
         p.inputs['Emission Color'].default_value=(1,.45,.12,1)
         p.inputs['Emission Strength'].default_value=2
 
-def sample_whole_leaves(obj, leaves, keep_outline=False):
-    """Sample disconnected leaves. Keep each source outline, or reduce it to a planar silhouette."""
+# Source leaves drawn on one alpha-tested woodland card; the browser generates the
+# matching mask (src/components/3d/leafCluster.ts) from material extras.
+CLUSTER_LEAVES = 20
+report['leaf_cluster_leaves'] = CLUSTER_LEAVES
+CARD_SUFFIX = ' card'
+
+def card_material(material):
+    """Cards need their own materials: V8 low grass shares the V6 leaf colors but has no card UVs."""
+    name = material.name + CARD_SUFFIX
+    if name not in bpy.data.materials:
+        material.copy().name = name
+    return bpy.data.materials[name]
+
+def sample_whole_leaves(obj, leaves, style='diamond'):
+    """Sample disconnected leaves. Keep each source outline ('outline'), reduce it to a planar
+    silhouette ('diamond'), or replace CLUSTER_LEAVES leaves with one textured card ('cluster')."""
     mesh = obj.data
     parent = list(range(len(mesh.vertices)))
     def root(i):
@@ -121,9 +136,15 @@ def sample_whole_leaves(obj, leaves, keep_outline=False):
         return False
     groups = list(islands.values())
     random.Random(obj.name).shuffle(groups)
-    vertices, faces, material_indices, smooth = [], [], [], []
+    if style == 'cluster':
+        leaves = math.ceil(len(groups) / CLUSTER_LEAVES)
+    vertices, faces, material_indices, smooth, uvs = [], [], [], [], []
+    # A card keeps the leaf area of the source leaves it replaces; its mask covers half the card,
+    # as a diamond covers half of its bounding rectangle.
+    grow = math.sqrt(len(groups) / min(leaves, len(groups))) if style == 'cluster' else 1
+    turns = random.Random(obj.name + ' cards')
     for group in groups[:leaves]:
-        if keep_outline:
+        if style == 'outline':
             # Lobed maple leaves lose their outline as diamonds; copy the source fan.
             remap = {}
             for f in group:
@@ -136,7 +157,7 @@ def sample_whole_leaves(obj, leaves, keep_outline=False):
                 material_indices.append(polygon.material_index)
                 smooth.append(polygon.use_smooth)
             continue
-        # Each complete leaf becomes a broad two-triangle diamond in its own plane.
+        # Each complete leaf becomes a broad two-triangle diamond (or card) in its own plane.
         # This preserves its size and orientation while allowing more leaves per budget.
         points = [mesh.vertices[i].co.copy() for i in sorted({v for f in group for v in mesh.polygons[f].vertices})]
         center = sum(points, Vector()) / len(points)
@@ -146,10 +167,18 @@ def sample_whole_leaves(obj, leaves, keep_outline=False):
         minor = normal.cross(major).normalized()
         if major.length < .5 or minor.length < .5:
             continue
-        u = [(point-center).dot(major) for point in points]
-        v = [(point-center).dot(minor) for point in points]
+        u = [(point-center).dot(major) * grow for point in points]
+        v = [(point-center).dot(minor) * grow for point in points]
         start = len(vertices)
-        vertices.extend([center+major*max(u), center+minor*max(v), center+major*min(u), center+minor*min(v)])
+        if style == 'cluster':
+            vertices.extend([center+major*max(u)+minor*max(v), center+major*min(u)+minor*max(v),
+                             center+major*min(u)+minor*min(v), center+major*max(u)+minor*min(v)])
+            # Quarter turns keep neighbouring cards from repeating the same leaf pattern.
+            turn = turns.randrange(4)
+            corners = [(1, 1), (0, 1), (0, 0), (1, 0)]
+            uvs.append(corners[turn:] + corners[:turn])
+        else:
+            vertices.extend([center+major*max(u), center+minor*max(v), center+major*min(u), center+minor*min(v)])
         faces.append((start, start+1, start+2, start+3))
         material_indices.append(mesh.polygons[group[0]].material_index)
         smooth.append(False)
@@ -157,7 +186,12 @@ def sample_whole_leaves(obj, leaves, keep_outline=False):
         return False
     simplified = bpy.data.meshes.new(obj.name + ' web leaves')
     simplified.from_pydata(vertices, [], faces)
-    for material in mesh.materials: simplified.materials.append(material)
+    for material in mesh.materials: simplified.materials.append(card_material(material) if style == 'cluster' else material)
+    if uvs:
+        layer = simplified.uv_layers.new(name='UVMap')
+        for polygon, corners in zip(simplified.polygons, uvs):
+            for loop, uv in zip(polygon.loop_indices, corners):
+                layer.data[loop].uv = uv
     # Source maple leaves are smooth-shaded, which also lets glTF share each fan's vertices.
     for polygon, material_index, use_smooth in zip(simplified.polygons, material_indices, smooth):
         polygon.material_index = material_index
@@ -166,8 +200,10 @@ def sample_whole_leaves(obj, leaves, keep_outline=False):
     obj.data = simplified
     report['foliage_sampling'].append({'object': obj.name, 'input_faces': len(mesh.polygons),
                                       'output_faces': len(obj.data.polygons), 'islands': len(islands),
-                                      'output_leaves': min(leaves, len(groups)),
-                                      'method': 'seeded whole-leaf selection; ' + ('source leaf outlines' if keep_outline else 'two-triangle planar silhouettes')})
+                                      'output_leaves': min(leaves, len(groups)), 'card_scale': round(grow, 4),
+                                      'method': 'seeded whole-leaf selection; ' + {'outline': 'source leaf outlines',
+                                                'diamond': 'two-triangle planar silhouettes',
+                                                'cluster': f'alpha-tested cards, one per {CLUSTER_LEAVES} source leaves'}[style]})
     return True
 
 # Bark curves are the only support for several crowns. Mesh them before the
@@ -196,19 +232,17 @@ for o in list(bpy.context.scene.objects):
 
 selected=[]
 for o in list(bpy.context.scene.objects):
-    # Courtyard and sauna only; retain larger silhouettes beyond the glazing.
-    corners=[o.matrix_world @ Vector(v) for v in o.bound_box] if o.type=='MESH' else []
-    size=max(o.dimensions) if corners else 0
-    bank = o.name.startswith('V11 bank leaf group') and -20 <= o.location.y < -13 and abs(o.location.x) <= 23
+    # Omit small garden detail. Render-visible objects beyond the courtyard are
+    # only woodland trees, which form the horizon in the Cycles views.
+    size=max(o.dimensions) if o.type=='MESH' else 0
     exclude=(o.type!='MESH' or o.hide_render or 'steam' in o.name.lower()
              or 'droplet' in o.name.lower()
-             or (o.location.y < 0 and size < .35)
-             or (not bank and (o.location.y < -13 or abs(o.location.x)>15)))
+             or (o.location.y < 0 and size < .35))
     if exclude:
         report['excluded'].append(o.name)
         bpy.data.objects.remove(o, do_unlink=True)
         continue
-    if bank: report['restored_bank_objects'] += 1
+    if o.location.y < -13 or abs(o.location.x) > 15: report['objects_beyond_courtyard'] += 1
     if o.name.startswith('Limestone terrace paver'):
         # Pavers share the deck planks' 0.075 m top face; lift them so the rasterizer keeps stone on top.
         o.location.z += PAVER_LIFT
@@ -232,10 +266,12 @@ for o in list(bpy.context.scene.objects):
     o.hide_viewport=False
     foliage = any(key in o.name.lower() for key in ('canopy', 'clustered tree leaves', 'clustered lobed foliage', 'lobed maple leaves'))
     # The overhead canopy already has one quad per leaf; sampling would only thin its twig clusters.
-    near_maple = ('V11 maple' in o.name and not bank) or o.name == 'V7 lobed maple leaves'
+    near_maple = ('V11 maple' in o.name and not o.name.startswith('V11 bank leaf group')) or o.name == 'V7 lobed maple leaves'
     # Near maples keep every horizontal source leaf; their layered crowns thin out visibly when sampled.
     leaves = len(o.data.polygons) if o.name == 'V5 light filtering canopy' or near_maple else 175
-    sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, leaves, keep_outline=near_maple)
+    # V6 woodland crowns have about 4,000 leaves; 175 of them read as bare branches.
+    style = 'outline' if near_maple else 'cluster' if 'V6 clustered tree leaves' in o.name else 'diamond'
+    sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, leaves, style)
     if len(o.data.polygons) > 500 and not sampled:
         mod=o.modifiers.new('Web reduction','DECIMATE'); mod.ratio=min(1, 350/len(o.data.polygons))
     selected.append(o)
@@ -280,6 +316,13 @@ for material in model.get('materials',[]):
     elif 'outdoor ash' in name or 'damp ash' in name: factor=[.48,.38,.27,1]
     if factor: material['pbrMetallicRoughness']['baseColorFactor']=factor
     if material['name'] in noise_color: material['extras']={'suiNoiseColor':noise_color[material['name']]}
+    if material['name'].endswith(CARD_SUFFIX): material['extras']={'suiLeafCluster':{'leaves':CLUSTER_LEAVES}}
+# Cluster masks are sampled with the card UVs; every card primitive must carry them.
+clusters={i for i,m in enumerate(model.get('materials',[])) if 'suiLeafCluster' in m.get('extras',{})}
+assert clusters and all('TEXCOORD_0' in p['attributes'] for mesh in model['meshes'] for p in mesh['primitives'] if p.get('material') in clusters)
+# Only card meshes may use card materials; any other user would sample the mask at arbitrary UVs.
+card_meshes={mesh['name'] for mesh in model['meshes'] if any(p.get('material') in clusters for p in mesh['primitives'])}
+assert len(card_meshes)==1 and all(p.get('material') in clusters for mesh in model['meshes'] if mesh['name'] in card_meshes for p in mesh['primitives']), card_meshes
 for entry in report['procedural_color']:
     entry['in_glb'] = any(m['name'] == entry['material'] for m in model.get('materials',[]))
 encoded=json.dumps(model,separators=(',',':')).encode()
