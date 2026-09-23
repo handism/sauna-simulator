@@ -83,3 +83,5 @@
 - 地面の苔・シダの色は `noiseColor.ts`。`export_web_glb.py` が元材質のワールド／オブジェクト座標fBmノイズ→線形カラーランプの設定を材質 `extras.suiNoiseColor` に記録し、BlenderのPerlin（Jenkinsハッシュ）とfBmのGLSL移植で画素ごとに評価する。画素より細かいオクターブは平均へフェード。バンプは省略。Three.jsの `common`・`project_vertex`・`color_fragment` チャンクに依存。移植は `noise-color.e2e.ts` がBlender基準値（`scripts/blender_noise_reference.py` → `e2e/fixtures/blender-noise.json`）と比較する。名前による苔・シダの単色上書きはBase Colorが接続された材質だけ。
 
 - 石・布・木材の色は `imageRamp.ts`。`export_web_glb.py` の `base_color_image_ramp()` が「画像→RGBのBW化→線形ランプ × Object Info Randomのランプ（→一定色へ混合）」を材質 `extras.suiImageRamp` に記録し、結合前のオブジェクトごとの乱数を色属性 `SuiObjectRandom`→`COLOR_0` で渡す（名前seedの一様乱数でCyclesの値ではない）。濡れ跡のノイズは省略。輝度係数はBlenderのOCIO設定の `luma`。Three.jsの `common`・`map_fragment`・`color_fragment` チャンクに依存。`data-image-ramp-materials` に対象材質数を記録する。書き出しはUVの最下位ビットが実行ごとに揺らぐため、GLBのハッシュは再実行で変わる。
+
+- 壁の施設名・案内・温度計は、書き出し時に描画対象の `FONT` を元の輪郭・厚み・配置・材質のままメッシュへ変換する。文字は小物の除外・Decimateの対象外。`export-report.json` の `text_meshes` に本文・フォント・三角形数を記録する。ブラウザ用フォントや文字画像は追加しない。
