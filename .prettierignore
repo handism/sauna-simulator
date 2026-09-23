@@ -1,0 +1,9 @@
+dist
+blender
+test-results
+playwright-report
+public
+docs
+*.md
+*.json
+bun.lock

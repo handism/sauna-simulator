@@ -2,8 +2,9 @@
 
 ## コマンド
 
-- パッケージマネージャは **bun**（`package-lock.json` が残っているが使わない）
-- `vitest.bench.config.ts` は現状どこからも使われていない。`src/hooks/useAudioEngine.bench.test.ts` は名前に反して `describe`/`it` による通常のテストで、`bun run test` の対象に含まれる（`vitest bench` の対象ではない）
+- パッケージマネージャは **bun**
+- Vitest の設定は `vite.config.ts` の `test` に一本化している。`src/hooks/useAudioEngine.bench.test.ts` は名前に反して `describe`/`it` による通常のテストで、`bun run test` の対象に含まれる（`vitest bench` の対象ではない）
+- 整形は Prettier（`bun run format` / `bun run format:check`、CIで検査）。Markdown・JSON・`docs/`・`public/` は対象外
 
 ## アーキテクチャ
 
@@ -11,7 +12,7 @@
 
 ステージは `start → sauna → water → totonou` の順に進み、`totonou` から `sauna` に戻るループ構造になっている。
 
-- セッション状態は `src/hooks/useSaunaSession.ts` が保持し、`SaunaProvider` / `useSaunaContext`（`src/context/SaunaContext.tsx`）経由で配布する。`App.tsx` はセッション値をcontextから読み、ロウリュ通知用の `EventTarget` だけを保持する
+- セッション状態と各ステージ完了時の操作（`completeSauna` など。setterは公開しない）は `src/hooks/useSaunaSession.ts` が保持し、`SaunaProvider` / `useSaunaContext`（`src/context/SaunaContext.tsx`）経由で配布する。`App.tsx` はセッション値をcontextから読み、ロウリュ通知用の `EventTarget` だけを保持する
 - ステージ遷移は `changeStage()` が単一の1秒タイマーで管理する。`pendingStage` を設定してUIと背景を暗転し、1秒後にステージ・環境音を同時に切り替えてフェードインする。遷移中の二重操作は拒否し、ステージUIには `inert` を付ける
 - 2D背景は現在のステージの1枚のみ描画する（`public/sauna_bg.png`, `water_bg.png`, `totonou_bg.png`）。背景専用タイマーは持たず、3Dレイヤー・UIと同じ `opacity` で遷移する
 
@@ -38,8 +39,8 @@
 - Three.js 0.186.0を直接ラップした `src/components/3d/SaunaScene.tsx` は `React.lazy` で遅延ロードする。3D専用チャンクは通常の2D利用時に取得しない。
 - `App` が所有する `EventTarget` に `SaunaRoom.onLoyly` から押下を通知。音は従来の `audio.playLoyly()` で一度だけ再生。3Dはロード完了後の通知だけを消費し、過去の通知は保存しない。
 - 見回しはPointer Events／矢印キー。3DはUI外で入力を受け、UI復帰・モード切り替えは常に残す。モデル失敗・30秒タイムアウト・WebGLコンテキスト喪失時は3Dを解放し2D表示を継続。
-- Blender元データは `blender/` に置くがGit管理外。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`。入力を保存しない。再実行方法・未完了事項は `docs/3d-sauna-progress.md`。
-- `bunx tsc -b` / `bun run test` / `bun run lint` / `bun run build` を検証する。ESLintはTS/TSXも対象。既存テストの段階的移行のため `no-explicit-any` は無効。
+- Blender元データは `blender/` に置くがGit管理外。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`、書き出しレポート（配信しない）は `docs/3d-export/`。入力を保存しない。再実行方法・未完了事項は `docs/3d-sauna-progress.md`。
+- `bunx tsc -b` / `bun run test` / `bun run lint` / `bun run format:check` / `bun run build` を検証する。ESLintはTS/TSXも対象（react-hooks・react-refreshルールを含む）。既存テストの段階的移行のため `no-explicit-any` は無効。
 - 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual`）は `e2e/CLAUDE.md`。
 
 - 空間音響は `src/hooks/spatialAudio.ts`。既存AudioContextの2本の固定バスでストーブ（サウナ環境音・ロウリュ）と注水口（水風呂音）をHRTF定位する。風・バイノーラル音は従来の経路を維持。

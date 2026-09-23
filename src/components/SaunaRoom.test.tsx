@@ -70,6 +70,27 @@ describe('SaunaRoom', () => {
     expect(screen.getByText('40%')).toBeInTheDocument();
   });
 
+  it('removes every steam particle after rapid Loyly presses', () => {
+    const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    const loylyBtn = screen.getByRole('button', { name: /ロウリュ \(Löyly\)/i });
+
+    // Same millisecond, then a second press before the first particle expires.
+    act(() => {
+      fireEvent.click(loylyBtn);
+      fireEvent.click(loylyBtn);
+    });
+    act(() => {
+      vi.advanceTimersByTime(1000);
+      fireEvent.click(loylyBtn);
+    });
+    expect(container.querySelectorAll('.sauna-steam-particle')).toHaveLength(3);
+
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    expect(container.querySelectorAll('.sauna-steam-particle')).toHaveLength(0);
+  });
+
   it('handles leave button interaction and passes correct stats', () => {
     render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
 

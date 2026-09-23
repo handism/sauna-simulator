@@ -91,22 +91,6 @@ describe("SaunaContext", () => {
     expect(result.current.isMuted).toBe(true);
   });
 
-  it("updates state setters", () => {
-    const { result } = renderHook(() => useSaunaContext(), { wrapper });
-
-    act(() => {
-      result.current.setHeartRate(110);
-      result.current.setSaunaTime(300);
-      result.current.setLoylyCount(2);
-      result.current.setWaterTime(60);
-    });
-
-    expect(result.current.heartRate).toBe(110);
-    expect(result.current.saunaTime).toBe(300);
-    expect(result.current.loylyCount).toBe(2);
-    expect(result.current.waterTime).toBe(60);
-  });
-
   it("toggleMute toggles mute state", () => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
 

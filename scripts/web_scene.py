@@ -9,7 +9,7 @@ def web(v):
 def view(position, target, fov):
     return {'position': web(position), 'target': web(target), 'fov': fov}
 
-def write_definition(out):
+def write_definition(out, reports=None):
     definition = {
         'units': 'meters', 'coordinateSystem': 'right-handed Y-up',
         'views': {
@@ -23,11 +23,12 @@ def write_definition(out):
     }
     scene_path = out / 'sauna.scene.json'
     scene_path.write_text(json.dumps(definition, indent=2) + '\n')
-    report_path = out / 'export-report.json'
+    report_path = (reports or out) / 'export-report.json'
     if report_path.exists():
         report = json.loads(report_path.read_text())
         report['scene_definition_sha256'] = hashlib.sha256(scene_path.read_bytes()).hexdigest()
         report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
 
 if __name__ == '__main__':
-    write_definition(Path(__file__).resolve().parents[1] / 'public/models')
+    root = Path(__file__).resolve().parents[1]
+    write_definition(root / 'public/models', root / 'docs/3d-export')

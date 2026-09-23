@@ -34,3 +34,7 @@ blender/
 # Browser regression artifacts
 test-results/
 playwright-report/
+
+# Python bytecode
+__pycache__/
+*.pyc

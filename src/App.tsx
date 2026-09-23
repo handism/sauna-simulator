@@ -7,28 +7,24 @@ import TotonouSpace from "./components/TotonouSpace";
 import { useSaunaContext, type Stage } from "./context/SaunaContext";
 
 interface BackgroundConfig {
-  stage: Stage;
   gradient: string;
   image: string;
 }
 
-const BACKGROUNDS: BackgroundConfig[] = [
-  {
-    stage: "sauna",
+const BACKGROUNDS: Record<Exclude<Stage, "start">, BackgroundConfig> = {
+  sauna: {
     gradient: "rgba(0,0,0,0.45), rgba(0,0,0,0.75)",
     image: "sauna_bg.png",
   },
-  {
-    stage: "water",
+  water: {
     gradient: "rgba(0,0,0,0.25), rgba(0,0,0,0.65)",
     image: "water_bg.png",
   },
-  {
-    stage: "totonou",
+  totonou: {
     gradient: "rgba(0,0,0,0.55), rgba(0,0,0,0.85)",
     image: "totonou_bg.png",
   },
-];
+};
 
 function UiToggleButton({
   isUiHidden,
@@ -150,6 +146,7 @@ function App() {
   } = useSaunaContext();
 
   const [loylyEvents] = useState(() => new EventTarget());
+  const background = stage === "start" ? null : BACKGROUNDS[stage];
 
   return (
     <div
@@ -157,19 +154,15 @@ function App() {
       style={{ background: "#000" }}
     >
       <div className="background-stack" style={{ opacity }}>
-        {BACKGROUNDS.filter(({ stage: s }) => s === stage).map(
-          ({ stage: s, gradient, image }) => (
-            <div
-              key={s}
-              className="app-bg-layer"
-              style={{
-                opacity: stage === s ? 1 : 0,
-                backgroundImage: `linear-gradient(${gradient}), url(${import.meta.env.BASE_URL}${image})`,
-              }}
-            />
-          ),
+        {background && (
+          <div
+            key={stage}
+            className="app-bg-layer"
+            style={{
+              backgroundImage: `linear-gradient(${background.gradient}), url(${import.meta.env.BASE_URL}${background.image})`,
+            }}
+          />
         )}
-
       </div>
       <SceneMode audio={audio} stage={stage} opacity={opacity} loylyEvents={loylyEvents} />
       <div className="app-main-ui-container">
@@ -214,9 +207,7 @@ function App() {
             <SaunaRoom
               audio={audio}
               onLoyly={() => loylyEvents.dispatchEvent(new Event("loyly"))}
-              onNext={(finalHeartRate, duration, loylys) => {
-                completeSauna(finalHeartRate, duration, loylys);
-              }}
+              onNext={completeSauna}
             />
           </div>
         )}
@@ -225,9 +216,7 @@ function App() {
           <div className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
             <CoolingBath
               initialHeartRate={heartRate}
-              onNext={(finalHeartRate, duration) => {
-                completeWater(finalHeartRate, duration);
-              }}
+              onNext={completeWater}
             />
           </div>
         )}
@@ -238,9 +227,7 @@ function App() {
               saunaTime={saunaTime}
               waterTime={waterTime}
               loylyCount={loylyCount}
-              onNext={() => {
-                completeTotonou();
-              }}
+              onNext={completeTotonou}
             />
           </div>
         )}

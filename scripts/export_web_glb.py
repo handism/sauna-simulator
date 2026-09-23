@@ -21,6 +21,11 @@ if NODE is None:
     raise RuntimeError('Node.js is required for meshopt compression; run bun install first')
 OUT = Path(os.environ.get('SUI_WEB_EXPORT_DIR', ROOT / 'public/models')).resolve()
 OUT.mkdir(parents=True, exist_ok=True)
+# Reports are records, not served assets. A comparison export (SUI_WEB_EXPORT_DIR) keeps
+# its reports beside its model so it never overwrites the tracked records.
+REPORTS = Path(os.environ.get('SUI_WEB_REPORT_DIR',
+                              OUT if 'SUI_WEB_EXPORT_DIR' in os.environ else ROOT / 'docs/3d-export')).resolve()
+REPORTS.mkdir(parents=True, exist_ok=True)
 source = Path(bpy.data.filepath)
 source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
 report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_hash,
@@ -441,14 +446,14 @@ tail=data[20+json_size:]
 path.write_bytes(struct.pack('<III',0x46546C67,2,20+len(encoded)+len(tail))+struct.pack('<II',len(encoded),0x4E4F534A)+encoded+tail)
 report['export_settings']=settings
 subprocess.run([NODE, str(ROOT/'scripts/compress_web_glb.mjs'), str(path), str(path),
-                str(OUT/'compression-report.json')], cwd=ROOT, check=True)
-report['compression'] = json.loads((OUT/'compression-report.json').read_text())
+                str(REPORTS/'compression-report.json')], cwd=ROOT, check=True)
+report['compression'] = json.loads((REPORTS/'compression-report.json').read_text())
 report['output_bytes']=(OUT/'sauna.glb').stat().st_size
 report['output_sha256']=hashlib.sha256((OUT/'sauna.glb').read_bytes()).hexdigest()
 assert source_hash == hashlib.sha256(source.read_bytes()).hexdigest()
-(OUT/'export-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+(REPORTS/'export-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
 import sys
 sys.path.insert(0, str(ROOT / 'scripts'))
 from web_scene import write_definition
-write_definition(OUT)
+write_definition(OUT, REPORTS)
 print('WEB_EXPORT',report['output_bytes'],report['triangles'],report['export_meshes'],flush=True)
