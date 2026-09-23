@@ -56,6 +56,30 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe('3D scene load and teardown', () => {
+  it.each(['pointerup', 'pointercancel', 'lostpointercapture'])('keeps dragging when a second pointer emits %s', async ending => {
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene(); await flush();
+    const element = view.container.querySelector('.sauna-3d-canvas') as HTMLElement;
+    element.setPointerCapture = vi.fn();
+    const camera = mocks.renderers[0].render.mock.calls[0][1] as THREE.PerspectiveCamera;
+    const send = (type: string, id: number, x: number) => {
+      const event = new Event(type);
+      Object.assign(event, { pointerId: id, isPrimary: id === 1, button: 0, clientX: x, clientY: 200 });
+      element.dispatchEvent(event);
+    };
+    send('pointerdown', 1, 100);
+    send('pointerdown', 2, 200);
+    const initial = camera.rotation.y;
+    send('pointermove', 2, 250);
+    expect(camera.rotation.y).toBe(initial);
+    send(ending, 2, 250);
+    send('pointermove', 1, 150);
+    expect(camera.rotation.y).toBeCloseTo(initial - .2);
+    send(ending, 1, 150);
+    send('pointermove', 1, 200);
+    expect(camera.rotation.y).toBeCloseTo(initial - .2);
+  });
+
   it('aborts pending downloads on exit and does not parse their late result', async () => {
     const response = deferred<any>();
     vi.mocked(fetch).mockReturnValue(response.promise);
