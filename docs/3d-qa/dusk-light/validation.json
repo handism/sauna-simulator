@@ -1,0 +1,475 @@
+{
+ "model_sha256": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
+ "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+ "model_unchanged_since_lounge_light": true,
+ "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+ "source_unchanged": true,
+ "bluehour_references": {
+  "script": "scripts/blender_bluehour_reference.py",
+  "method": "Cycles 4.5.11, Blue hour scene, cameras 02/03/04/05/07, 50% resolution (1050x700), 128 samples, denoised, Metal GPU. Written to blender/renders/web-bluehour/ (not tracked). The source renders only show camera 01 at blue hour (06.png).",
+  "sha256": {
+   "02.png": "b0b0d133f99e87298d97260d87fada7a065a225a8ab0f3d84e1b0d8167809aa1",
+   "03.png": "d89d4521a8c55780134cbbd5fbd3a849038b4fa61a1b68e50024934524b3ffbc",
+   "04.png": "441ade9cbb337d5599c8610e36fca79be9ada611e9cf3a173aef584636c2dc31",
+   "05.png": "f8f175f9222c68aeb9d101c9401d60c913f87fb87fcedc872f2db607d7fe53fb",
+   "07.png": "73fb6780aef47e064cfc3aabe602f91b1f83234d8dadf1b9189a2bda377bd789"
+  }
+ },
+ "source_lights_probe": {
+  "method": "Cycles 4.5.11, Blue hour scene, 25% resolution, 48 samples, denoised; change of mean CIELAB L* when one light group is hidden. Not saved to the blend.",
+  "mean_L_all": {
+   "01": 14.7,
+   "04": 28.5,
+   "05": 17.0,
+   "07": 18.0
+  },
+  "delta_L_without": {
+   "sun (0.045, blue)": {
+    "01": -0.1,
+    "04": -0.1,
+    "05": -0.1,
+    "07": 0.0
+   },
+   "Sky softbox + Sunlit courtyard (520 W / 100 W, blue)": {
+    "01": -4.3,
+    "04": -4.9,
+    "05": -4.3,
+    "07": -3.5
+   },
+   "world (0.2)": {
+    "01": -3.6,
+    "04": -1.0,
+    "05": -3.2,
+    "07": -9.8
+   },
+   "V10 path grazing 1/4/7 + specimen uplight": {
+    "01": -0.8,
+    "04": -0.3,
+    "05": -0.8,
+    "07": -0.7
+   },
+   "V10 concealed deck edge x3": {
+    "01": -0.2,
+    "04": 0.0,
+    "05": -0.2,
+    "07": -0.2
+   },
+   "V10 lounge dusk fill": {
+    "01": -1.1,
+    "04": -5.8,
+    "05": -1.5,
+    "07": -1.2
+   },
+   "Garden lantern glow x4": {
+    "01": -0.2,
+    "04": -0.7,
+    "05": -0.3,
+    "07": -0.1
+   },
+   "V8 maple garden grazing": {
+    "01": -0.2,
+    "04": -0.2,
+    "05": -0.1,
+    "07": 0.0
+   },
+   "sauna interior (under-bench x2, ceiling, wall wash, steam backlight, V7 backrest)": {
+    "01": -1.1,
+    "04": -2.1,
+    "05": -2.2,
+    "07": -0.2
+   },
+   "V7 water reflection soft strip": {
+    "01": -1.3,
+    "04": -3.9,
+    "05": -1.7,
+    "07": -0.8
+   },
+   "all area lights": {
+    "01": -10.9,
+    "04": -25.5,
+    "05": -13.4,
+    "07": -7.8
+   }
+  },
+  "note": "Path and uplight pools are local; their mean L* change is small but they are the visible accents from the totonou seat."
+ },
+ "renderer": {
+  "sun": "direction fixed at the source 'Late afternoon sunlight' (both scenes); 3.2 warm -> 0.045 linear (0.47,0.62,1.0) at dusk (was 0.7 warm from glTF (-16,6,8)). Sun shadow no longer re-renders during lighting changes.",
+  "dusk_accent_lights": "5 unshadowed SpotLights, P/pi cd, 90 deg cone, penumbra 1, decay 2, color linear (1,0.7,0.39), intensity x evening amount: V10 lounge dusk fill 42 W, V10 path grazing 1/4/7 8 W each, V10 specimen uplight 35 W. Hidden (not in shaders) at low quality.",
+  "sauna_point_light": "10 in both (was 10 -> 25)",
+  "hemisphere": "unchanged 0.7 -> 0.4"
+ },
+ "cycles_camera_stats": {
+  "before": {
+   "per_camera": {
+    "01.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      34.0,
+      34.0
+     ],
+     "mean_C_cycles_web": [
+      16.5,
+      17.1
+     ]
+    },
+    "02.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      29.0,
+      32.6
+     ],
+     "mean_C_cycles_web": [
+      21.3,
+      21.3
+     ]
+    },
+    "bh-02": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      25.5,
+      35.2
+     ],
+     "mean_C_cycles_web": [
+      22.2,
+      26.0
+     ]
+    },
+    "03.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      46.1,
+      42.9
+     ],
+     "mean_C_cycles_web": [
+      11.5,
+      10.8
+     ]
+    },
+    "bh-03": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      26.4,
+      21.6
+     ],
+     "mean_C_cycles_web": [
+      10.6,
+      10.9
+     ]
+    },
+    "04.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      47.8,
+      46.9
+     ],
+     "mean_C_cycles_web": [
+      12.7,
+      11.1
+     ]
+    },
+    "bh-04": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      28.6,
+      22.3
+     ],
+     "mean_C_cycles_web": [
+      8.8,
+      11.4
+     ]
+    },
+    "05.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      34.9,
+      34.5
+     ],
+     "mean_C_cycles_web": [
+      14.5,
+      15.6
+     ]
+    },
+    "bh-05": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      17.0,
+      15.7
+     ],
+     "mean_C_cycles_web": [
+      8.8,
+      11.8
+     ]
+    },
+    "06.png": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      14.4,
+      13.6
+     ],
+     "mean_C_cycles_web": [
+      7.5,
+      10.6
+     ]
+    },
+    "07.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      37.5,
+      41.4
+     ],
+     "mean_C_cycles_web": [
+      14.3,
+      12.1
+     ]
+    },
+    "bh-07": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      18.0,
+      18.6
+     ],
+     "mean_C_cycles_web": [
+      9.5,
+      12.7
+     ]
+    }
+   },
+   "summary": {
+    "source": {
+     "mean_dL": 0.32,
+     "mean_abs_dL": 1.8,
+     "mean_dC": 0.04,
+     "percentile_abs_dL_L10_L50_L90": [
+      2.75,
+      1.36,
+      5.9
+     ],
+     "percentile_abs_dL_all": 3.34,
+     "green_abs_dC": 1.94
+    },
+    "evening": {
+     "mean_dL": -0.44,
+     "mean_abs_dL": 3.9,
+     "mean_dC": 2.66,
+     "percentile_abs_dL_L10_L50_L90": [
+      3.3,
+      3.53,
+      6.4
+     ],
+     "percentile_abs_dL_all": 4.41,
+     "green_abs_dC": 0.5
+    }
+   }
+  },
+  "candidates_evening_summary": [
+   {
+    "name": "sun 0.045 + 5 accent lights, interior 25 at dusk",
+    "percentile_abs_dL_all": 4.3,
+    "mean_abs_dL": 3.11,
+    "mean_dC": 2.61
+   },
+   {
+    "name": "+ interior 10 at dusk (adopted)",
+    "percentile_abs_dL_all": 2.76,
+    "mean_abs_dL": 1.61,
+    "mean_dC": 1.44
+   },
+   {
+    "name": "adopted + hemisphere 0.5 at dusk (rejected: shadows lifted)",
+    "percentile_abs_dL_all": 2.93,
+    "mean_abs_dL": 1.63,
+    "mean_dC": 1.61
+   },
+   {
+    "name": "adopted + V7 water strip 65 W as unshadowed spot (rejected: 04 +7.4 L*)",
+    "percentile_abs_dL_all": 3.72,
+    "mean_abs_dL": 3.47,
+    "mean_dC": 0.27
+   }
+  ],
+  "final": {
+   "per_camera": {
+    "01.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      34.0,
+      34.0
+     ],
+     "mean_C_cycles_web": [
+      16.5,
+      17.1
+     ]
+    },
+    "02.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      29.0,
+      32.6
+     ],
+     "mean_C_cycles_web": [
+      21.3,
+      21.3
+     ]
+    },
+    "bh-02": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      25.5,
+      26.3
+     ],
+     "mean_C_cycles_web": [
+      22.2,
+      22.0
+     ]
+    },
+    "03.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      46.1,
+      42.9
+     ],
+     "mean_C_cycles_web": [
+      11.5,
+      10.7
+     ]
+    },
+    "bh-03": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      26.4,
+      21.6
+     ],
+     "mean_C_cycles_web": [
+      10.6,
+      9.3
+     ]
+    },
+    "04.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      47.8,
+      46.1
+     ],
+     "mean_C_cycles_web": [
+      12.7,
+      11.9
+     ]
+    },
+    "bh-04": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      28.6,
+      29.0
+     ],
+     "mean_C_cycles_web": [
+      8.8,
+      12.6
+     ]
+    },
+    "05.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      34.9,
+      34.5
+     ],
+     "mean_C_cycles_web": [
+      14.5,
+      15.6
+     ]
+    },
+    "bh-05": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      17.0,
+      16.5
+     ],
+     "mean_C_cycles_web": [
+      8.8,
+      11.5
+     ]
+    },
+    "06.png": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      14.4,
+      13.7
+     ],
+     "mean_C_cycles_web": [
+      7.5,
+      9.7
+     ]
+    },
+    "07.png": {
+     "lighting": "day",
+     "mean_L_cycles_web": [
+      37.5,
+      41.4
+     ],
+     "mean_C_cycles_web": [
+      14.3,
+      12.1
+     ]
+    },
+    "bh-07": {
+     "lighting": "evening",
+     "mean_L_cycles_web": [
+      18.0,
+      15.5
+     ],
+     "mean_C_cycles_web": [
+      9.5,
+      10.9
+     ]
+    }
+   },
+   "summary": {
+    "source": {
+     "mean_dL": 0.21,
+     "mean_abs_dL": 1.91,
+     "mean_dC": 0.01,
+     "percentile_abs_dL_L10_L50_L90": [
+      2.46,
+      1.61,
+      5.79
+     ],
+     "percentile_abs_dL_all": 3.28,
+     "green_abs_dC": 2.25
+    },
+    "evening": {
+     "mean_dL": -1.19,
+     "mean_abs_dL": 1.59,
+     "mean_dC": 1.42,
+     "percentile_abs_dL_L10_L50_L90": [
+      1.76,
+      2.42,
+      4.06
+     ],
+     "percentile_abs_dL_all": 2.74,
+     "green_abs_dC": 1.61
+    }
+   }
+  },
+  "note": "'evening' = 06 plus the five blue-hour references; 'source' = the seven source renders (06 is the only evening one)."
+ },
+ "survey": {
+  "views": 144,
+  "errors": [],
+  "metrics_identical_to_lounge_light": true,
+  "browser": "154.0.8037.57"
+ },
+ "checks": {
+  "typecheck": "pass",
+  "unit_tests": "21 files, 114 tests",
+  "lint": "pass",
+  "format": "pass",
+  "browser_regression": "11 passed, 0 skipped, 0 flaky, 138 s",
+  "visual_survey": "2 passed"
+ },
+ "bundle": {
+  "main_kb": 217.62,
+  "main_gzip_kb": 69.24,
+  "scene_chunk_kb": 657.11,
+  "scene_chunk_gzip_kb": 168.58
+ }
+}

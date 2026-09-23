@@ -25,8 +25,8 @@ describe('3D lighting', () => {
     expect(renderer.toneMappingExposure).toBeLessThan(2 ** 0.55);
     lighting.update(1, 0, true);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.55);
-    // Hemisphere, sun, sauna point light, lounge spot light and its target.
-    expect(scene.children).toHaveLength(5);
+    // Hemisphere, sun, sauna point light, lounge spot light, five dusk spot lights, and targets.
+    expect(scene.children).toHaveLength(15);
     expect(scene.fog).toBeNull();
     expect((scene.background as THREE.Color).getHexString(THREE.SRGBColorSpace)).toBe('283d54');
   });
@@ -51,8 +51,38 @@ describe('Cycles lounge light', () => {
   });
 });
 
+describe('Cycles Blue hour lights', () => {
+  it('dims the sun to the source value and brings up the unshadowed accent lights', () => {
+    const scene = new THREE.Scene();
+    const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
+    const [lounge, ...dusk] = scene.children.filter((child) => child instanceof THREE.SpotLight);
+    expect(dusk).toHaveLength(5);
+    lighting.update(0, 0, true);
+    for (const light of dusk) expect(light.intensity).toBe(0);
+    lighting.update(1, 0, true);
+    expect(sun.intensity).toBeCloseTo(0.045);
+    expect(lounge.intensity).toBe(0);
+    // Source watts over π on the axis: lounge fill, three path lights and the maple uplight.
+    expect(dusk.map((light) => +(light.intensity * Math.PI).toFixed(3))).toEqual([42, 8, 8, 8, 35]);
+    // 'V10 lounge dusk fill' points along Blender (-0.3142, 0.6854, -0.6569).
+    const direction = dusk[0].target.position.clone().sub(dusk[0].position).normalize();
+    expect(direction.toArray().map((v) => +v.toFixed(3))).toEqual([-0.314, -0.657, -0.685]);
+    for (const light of dusk) {
+      expect(light.angle).toBeCloseTo(Math.PI / 2);
+      expect(light.penumbra).toBe(1);
+      expect(light.castShadow).toBe(false);
+    }
+    // The low quality setting leaves them out of every shader.
+    lighting.setDuskLights(false);
+    expect(dusk.every((light) => !light.visible)).toBe(true);
+    lighting.setDuskLights(true);
+    expect(dusk.every((light) => light.visible)).toBe(true);
+  });
+});
+
 describe('cached shadows', () => {
-  it('updates only when the sun direction or quality changes and releases shadow targets', () => {
+  it('updates only when quality changes and releases shadow targets', () => {
     const scene = new THREE.Scene();
     const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
     const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
@@ -67,10 +97,10 @@ describe('cached shadows', () => {
     }
     lighting.update(0, 0.016, false);
     expect(sun.shadow.needsUpdate).toBe(false);
+    // Neither shadowed light moves, so lighting changes keep both cached shadows.
     lighting.update(1, 0, true);
-    expect(sun.shadow.needsUpdate).toBe(true);
-    expect(sun.position.y).toBe(6);
-    // The lounge light never moves, so lighting changes keep its cached shadow.
+    lighting.update(0.5, 0.016, false);
+    expect(sun.shadow.needsUpdate).toBe(false);
     expect(lounge.shadow.needsUpdate).toBe(false);
     lighting.setShadowSize(2048);
     expect(sun.shadow.mapSize.x).toBe(2048);
