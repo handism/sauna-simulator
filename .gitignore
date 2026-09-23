@@ -30,3 +30,7 @@ dist-ssr
 blender/
 *.blend1
 *.tsbuildinfo
+
+# Browser regression artifacts
+test-results/
+playwright-report/

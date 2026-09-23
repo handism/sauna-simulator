@@ -6,6 +6,7 @@ import type { AmbientEnv, AudioEngine } from '../../hooks/useAudioEngine';
 import { QUALITY, type QualityMode } from './quality';
 import { createLighting, eveningAmount, type LightingMode } from './lighting';
 import { createWaterEffects, type WaterDefinition } from './waterEffects';
+import { updateSteamPositions } from './steam';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -222,12 +223,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           waterEffects.update(now / 1000, reducedMotion.matches);
           if (steam.visible) {
             material.opacity = .24 * Math.sin(Math.min(1, age / 6) * Math.PI);
-            for (let i = 0; i < 90; i++) {
-              const rise = (age * .35 + i / 90 * 1.6) % 2;
-              positions[i * 3] = Math.sin(i * 2.4) * (.15 + rise * .3);
-              positions[i * 3 + 1] = reducedMotion.matches ? i / 45 : rise;
-              positions[i * 3 + 2] = Math.cos(i * 2.4) * (.15 + rise * .3);
-            }
+            updateSteamPositions(positions, age, reducedMotion.matches);
             geometry.attributes.position.needsUpdate = true;
           }
           renderer.render(scene, camera);

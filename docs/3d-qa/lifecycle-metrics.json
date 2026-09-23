@@ -1,0 +1,117 @@
+{
+  "date": "2026-09-23",
+  "environment": "macOS, installed Google Chrome headless, localhost production preview, 1280x800 CSS px, DPR1, standard quality; no bandwidth throttling",
+  "stats": {
+    "startTime": "2026-09-23T02:36:58.781Z",
+    "duration": 74127.549,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "repeated modes, stages and real context loss preserve the session",
+      "status": "passed",
+      "durationMs": 32856
+    },
+    {
+      "title": "switching to 2D during a pending model request allows a clean retry",
+      "status": "passed",
+      "durationMs": 2495
+    },
+    {
+      "title": "a real 30-second load timeout falls back and permits retry",
+      "status": "passed",
+      "durationMs": 32637
+    }
+  ],
+  "resources": {
+    "browser": "153.0.8010.53",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "samples": [
+      {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "1176",
+        "lighting": "auto",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "22.22",
+        "frameMaxMs": "1016.60"
+      },
+      {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "425",
+        "lighting": "auto",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "17.04",
+        "frameMaxMs": "83.31"
+      },
+      {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "134",
+        "lighting": "auto",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.57",
+        "frameMaxMs": "16.80"
+      },
+      {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "137",
+        "lighting": "auto",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.57",
+        "frameMaxMs": "16.80"
+      },
+      {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "131",
+        "lighting": "auto",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.57",
+        "frameMaxMs": "16.80"
+      },
+      {
+        "quality": "standard",
+        "pixelRatio": "1",
+        "stage": "sauna",
+        "triangles": "335292",
+        "drawCalls": "87",
+        "loadMs": "135",
+        "lighting": "auto",
+        "textures": "9",
+        "geometries": "85",
+        "frameMeanMs": "16.76",
+        "frameMaxMs": "33.40"
+      }
+    ],
+    "errors": []
+  }
+}
