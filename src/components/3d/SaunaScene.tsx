@@ -131,7 +131,9 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x - (event.clientY - pointer.y) * .004, -.85, .85);
       pointer.x = event.clientX; pointer.y = event.clientY;
     };
-    const up = () => { pointer = null; };
+    const up = (event: PointerEvent) => {
+      if (pointer?.id === event.pointerId) pointer = null;
+    };
     const key = (event: KeyboardEvent) => {
       if (!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)) return;
       event.preventDefault();
