@@ -9,7 +9,7 @@
     "texture_size": 1024,
     "scope": "sauna and courtyard",
     "materials": "simplified PBR; image diffuse/normal; no procedural baking",
-    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m"
+    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling with two-triangle silhouettes; V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks"
   },
   "materials": [
     {
@@ -2210,23 +2210,6 @@
     "V5 branching silhouette.878",
     "V5 branching silhouette.879",
     "V5 layered foliage.079",
-    "V5 overhead canopy bough",
-    "V5 canopy twig",
-    "V5 canopy twig.001",
-    "V5 canopy twig.002",
-    "V5 canopy twig.003",
-    "V5 canopy twig.004",
-    "V5 canopy twig.005",
-    "V5 canopy twig.006",
-    "V5 canopy twig.007",
-    "V5 canopy twig.008",
-    "V5 canopy twig.009",
-    "V5 canopy twig.010",
-    "V5 canopy twig.011",
-    "V5 canopy twig.012",
-    "V5 canopy twig.013",
-    "V5 canopy twig.014",
-    "V5 canopy twig.015",
     "V5 softly rumpled towel 0",
     "V5 fine towel hem",
     "V5 softly rumpled towel 1",
@@ -2341,20 +2324,6 @@
     "V6 irregular limb.253",
     "V6 clustered tree leaves.023",
     "V6 clustered bent woodland grass",
-    "V7 maple trunk",
-    "V7 maple fine branch",
-    "V7 maple fine branch.001",
-    "V7 maple fine branch.002",
-    "V7 maple fine branch.003",
-    "V7 maple fine branch.004",
-    "V7 maple fine branch.005",
-    "V7 maple fine branch.006",
-    "V7 maple fine branch.007",
-    "V7 maple fine branch.008",
-    "V7 maple fine branch.009",
-    "V7 maple fine branch.010",
-    "V7 maple fine branch.011",
-    "V7 maple fine branch.012",
     "V7 impact droplets",
     "V7 impact droplets.001",
     "V7 impact droplets.002",
@@ -5782,7 +5751,7 @@
     {
       "object": "V5 light filtering canopy",
       "input_faces": 960,
-      "output_faces": 175,
+      "output_faces": 960,
       "islands": 960,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
@@ -6372,6 +6341,13 @@
       "input_faces": 20800,
       "output_faces": 175,
       "islands": 5200,
+      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+    },
+    {
+      "object": "V7 lobed maple leaves",
+      "input_faces": 4420,
+      "output_faces": 350,
+      "islands": 442,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6996,8 +6972,167 @@
       "triangles_after_reduction": 682
     }
   ],
-  "export_objects_before_join": 3114,
-  "triangles": 335790,
+  "lifted_pavers": 70,
+  "paver_lift_m": 0.003,
+  "bark_curves": [
+    {
+      "object": "V5 overhead canopy bough",
+      "triangles": 36,
+      "restored_hidden_render": true
+    },
+    {
+      "object": "V5 canopy twig",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.001",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.002",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.003",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.004",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.005",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.006",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.007",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.008",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.009",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.010",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.011",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.012",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.013",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.014",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V5 canopy twig.015",
+      "triangles": 12,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple trunk",
+      "triangles": 48,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.001",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.002",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.003",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.004",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.005",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.006",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.007",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.008",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.009",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.010",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.011",
+      "triangles": 24,
+      "restored_hidden_render": false
+    },
+    {
+      "object": "V7 maple fine branch.012",
+      "triangles": 24,
+      "restored_hidden_render": false
+    }
+  ],
+  "export_objects_before_join": 3145,
+  "triangles": 338298,
   "export_meshes": 71,
   "export_settings": {
     "export_format": "GLB",
@@ -7010,7 +7145,7 @@
     "export_jpeg_quality": 82,
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 16878600,
-  "output_sha256": "517de808fa0ccec59c938fdea7868e05cc7c8747777d490815c36e2ee206921d",
+  "output_bytes": 16989992,
+  "output_sha256": "8c7f54d453d4722fb36615a8287ac88e427344e45fe828e32845d1290629f45b",
   "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }
