@@ -15,12 +15,12 @@ describe('3D lighting', () => {
     const renderer = { toneMappingExposure: 0 } as THREE.WebGLRenderer;
     const lighting = createLighting(scene, renderer);
     lighting.update(0, 0, true);
-    expect(renderer.toneMappingExposure).toBe(1.2);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** .15);
     lighting.update(1, .1, false);
-    expect(renderer.toneMappingExposure).toBeGreaterThan(1.1);
-    expect(renderer.toneMappingExposure).toBeLessThan(1.2);
+    expect(renderer.toneMappingExposure).toBeGreaterThan(2 ** .15);
+    expect(renderer.toneMappingExposure).toBeLessThan(2 ** .55);
     lighting.update(1, 0, true);
-    expect(renderer.toneMappingExposure).toBe(1.1);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** .55);
     expect(scene.children).toHaveLength(3);
     expect(scene.fog).toBeNull();
     expect((scene.background as THREE.Color).getHexString(THREE.SRGBColorSpace)).toBe('283d54');
