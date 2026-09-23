@@ -61,9 +61,21 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
     catch { onError(); return; }
     let disposed = false;
+    let failed = false;
     let ready = false;
     let steamStarted = -Infinity;
     const abort = new AbortController();
+    const fail = () => {
+      if (disposed || failed) return;
+      failed = true;
+      ready = false;
+      abort.abort();
+      clearTimeout(timeout);
+      renderer.setAnimationLoop(null);
+      audio.setSpatialPose(null);
+      onError();
+    };
+    const timeout = window.setTimeout(fail, 30000);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(65, 1, .05, 80);
     camera.rotation.order = 'YXZ';
@@ -104,7 +116,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       camera.aspect = width / Math.max(1, height); camera.updateProjectionMatrix();
     };
     const observer = new ResizeObserver(resize); observer.observe(element); resize();
-    const lost = (event: Event) => { event.preventDefault(); onError(); };
+    const lost = (event: Event) => { event.preventDefault(); fail(); };
     renderer.domElement.addEventListener('webglcontextlost', lost);
     let pointer: { id: number; x: number; y: number } | null = null;
     const down = (event: PointerEvent) => {
@@ -129,7 +141,6 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     element.addEventListener('pointerup', up); element.addEventListener('pointercancel', up);
     element.addEventListener('lostpointercapture', up); element.addEventListener('keydown', key);
     const start = performance.now();
-    const timeout = window.setTimeout(onError, 30000);
     async function load() {
       try {
         const base = `${import.meta.env.BASE_URL}models/`;
@@ -137,8 +148,9 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           fetch(`${base}sauna.scene.json`, { signal: abort.signal }).then(r => { if (!r.ok) throw Error('scene'); return r.json(); }),
           fetch(`${base}sauna.glb`, { signal: abort.signal }).then(r => { if (!r.ok) throw Error('model'); return r.arrayBuffer(); }),
         ]);
+        if (disposed || failed) return;
         const gltf = await new GLTFLoader().parseAsync(binary, base);
-        if (disposed) { disposeTree(gltf.scene); return; }
+        if (disposed || failed) { disposeTree(gltf.scene); return; }
         // Replace the exported closed water volume with the bounded realtime surface.
         // Drawing both creates a milky double layer when the viewer sits in the pool.
         gltf.scene.traverse((object) => {
@@ -224,7 +236,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           element.dataset.textures = String(renderer.info.memory.textures);
           element.dataset.geometries = String(renderer.info.memory.geometries);
         });
-      } catch { if (!disposed) onError(); }
+      } catch { fail(); }
     }
     void load();
     return () => {
