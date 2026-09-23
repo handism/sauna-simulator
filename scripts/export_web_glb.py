@@ -22,7 +22,7 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader',
-                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
+                     'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; Fine canopy keeps every source leaf as a two-triangle silhouette; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'objects_beyond_courtyard': 0,
           'pillow_topology': [], 'lifted_pavers': 0}
 PAVER_LIFT = .003
@@ -331,8 +331,10 @@ for o in list(bpy.context.scene.objects):
     foliage = any(key in o.name.lower() for key in ('canopy', 'clustered tree leaves', 'clustered lobed foliage', 'lobed maple leaves'))
     # The overhead canopy already has one quad per leaf; sampling would only thin its twig clusters.
     near_maple = ('V11 maple' in o.name and not o.name.startswith('V11 bank leaf group')) or o.name == 'V7 lobed maple leaves'
-    # Near maples keep every horizontal source leaf; their layered crowns thin out visibly when sampled.
-    leaves = len(o.data.polygons) if o.name == 'V5 light filtering canopy' or near_maple else 175
+    # Fine canopy has 480 leaves per crown; the generic 175-leaf cap leaves visible gaps.
+    # Keep its density while retaining the two-triangle simplification for each leaf.
+    fine_canopy = o.name == 'Fine canopy leaves' or o.name.startswith('Fine canopy leaves.')
+    leaves = len(o.data.polygons) if o.name == 'V5 light filtering canopy' or near_maple or fine_canopy else 175
     # V6 woodland crowns have about 4,000 leaves; 175 of them read as bare branches.
     style = 'outline' if near_maple else 'cluster' if 'V6 clustered tree leaves' in o.name else 'diamond'
     sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, leaves, style)
