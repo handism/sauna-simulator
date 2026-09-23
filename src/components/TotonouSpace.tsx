@@ -14,7 +14,6 @@ const TotonouSpace = ({
   loylyCount,
   onNext,
 }: TotonouSpaceProps) => {
-  const [breathText, setBreathText] = useState<string>("吸って...");
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
@@ -29,11 +28,7 @@ const TotonouSpace = ({
   // 呼吸の切り替えサイクル (4秒吸って、4秒吐く)
   useEffect(() => {
     const breathInterval = setInterval(() => {
-      setIsInhaling((prev) => {
-        const next = !prev;
-        setBreathText(next ? "吸って..." : "吐いて...");
-        return next;
-      });
+      setIsInhaling((prev) => !prev);
     }, 4000);
 
     return () => clearInterval(breathInterval);
@@ -152,7 +147,7 @@ const TotonouSpace = ({
             marginLeft: "4px", // letterSpacingによる右寄り解消
           }}
         >
-          {breathText}
+          {isInhaling ? "吸って..." : "吐いて..."}
         </div>
       </div>
 

@@ -3,19 +3,22 @@ import type { AudioEngine } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
 import type { LightingMode } from './3d/lighting';
 import type { Stage } from '../context/SaunaContext';
+import { readPreference, writePreference } from '../utils/preferences';
 
 class SceneModuleError extends Error {}
 const SaunaScene = lazy(() => import('./3d/SaunaScene').catch(() => {
   throw new SceneModuleError('The 3D module could not be loaded');
 }));
 const STORAGE_KEY = 'sui-view-mode';
-export function initialSceneMode(): boolean {
+const LIGHTING_KEY = 'sui-lighting-mode';
+const QUALITY_KEY = 'sui-quality';
+function initialSceneMode(): boolean {
   const query = new URLSearchParams(window.location.search).get('view');
   if (query === '3d' || query === '2d') {
-    try { localStorage.setItem(STORAGE_KEY, query); } catch { /* Storage can be disabled. */ }
+    writePreference(STORAGE_KEY, query);
     return query === '3d';
   }
-  try { return localStorage.getItem(STORAGE_KEY) === '3d'; } catch { return false; }
+  return readPreference(STORAGE_KEY, ['2d', '3d'], '2d') === '3d';
 }
 class SceneBoundary extends Component<{ children: ReactNode; onError: (error: Error) => void }, { failed: boolean }> {
   state = { failed: false };
@@ -52,20 +55,12 @@ function ActiveScene({ stage, opacity, loylyEvents, lightingMode, quality, audio
   </>;
 }
 export default function SceneMode({ stage, opacity = 1, loylyEvents, audio }: { audio: AudioEngine; stage: Stage; opacity?: number; loylyEvents: EventTarget }) {
-  const [lightingMode, setLightingMode] = useState<LightingMode>(() => {
-    try {
-      const saved = localStorage.getItem('sui-lighting-mode');
-      return saved === 'day' || saved === 'evening' ? saved : 'auto';
-    } catch { return 'auto'; }
-  });
-  const [quality, setQuality] = useState<QualityMode>(() => {
-    try { const saved = localStorage.getItem('sui-quality'); return saved === 'low' || saved === 'high' ? saved : 'standard'; }
-    catch { return 'standard'; }
-  });
+  const [lightingMode, setLightingMode] = useState<LightingMode>(() => readPreference(LIGHTING_KEY, ['auto', 'day', 'evening'], 'auto'));
+  const [quality, setQuality] = useState<QualityMode>(() => readPreference(QUALITY_KEY, ['low', 'standard', 'high'], 'standard'));
   const [enabled, setEnabled] = useState(initialSceneMode);
   const toggle = () => {
     const next = !enabled; setEnabled(next);
-    try { localStorage.setItem(STORAGE_KEY, next ? '3d' : '2d'); } catch { /* Optional preference. */ }
+    writePreference(STORAGE_KEY, next ? '3d' : '2d');
     // Keep an explicit URL choice consistent with the switch, including reloads.
     const url = new URL(window.location.href);
     if (url.searchParams.has('view')) { url.searchParams.set('view', next ? '3d' : '2d'); window.history.replaceState(null, '', url); }
@@ -78,7 +73,7 @@ export default function SceneMode({ stage, opacity = 1, loylyEvents, audio }: { 
         <select aria-label="3Dの時間帯" value={lightingMode} onChange={event => {
           const next = event.target.value as LightingMode;
           setLightingMode(next);
-          try { localStorage.setItem('sui-lighting-mode', next); } catch { /* Optional preference. */ }
+          writePreference(LIGHTING_KEY, next);
         }}>
           <option value="auto">自動</option><option value="day">昼</option><option value="evening">夕暮れ</option>
         </select>
@@ -87,7 +82,7 @@ export default function SceneMode({ stage, opacity = 1, loylyEvents, audio }: { 
         <select aria-label="3Dの画質" value={quality} onChange={event => {
           const next = event.target.value as QualityMode;
           setQuality(next);
-          try { localStorage.setItem('sui-quality', next); } catch { /* Optional preference. */ }
+          writePreference(QUALITY_KEY, next);
         }}>
           <option value="low">軽量</option><option value="standard">標準</option><option value="high">高精細</option>
         </select>

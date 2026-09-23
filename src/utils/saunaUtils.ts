@@ -27,7 +27,7 @@ export const getSecureRandom = (): number => {
 };
 
 export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
-  // サウナスコア (最大55点): 50秒以上滞在で満点、ロウリュ1回につき+5点
+  // サウナスコア (最大60点): 50秒以上滞在で50点、ロウリュ1回につき+5点 (上限10点)
   const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
   // 水風呂スコア (最大40点): 20秒以上滞在で満点
   const waterScore = Math.min(waterTime / 20, 1.0) * 40;

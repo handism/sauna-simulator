@@ -18,7 +18,6 @@ export interface SaunaRoomProps {
 }
 
 const SAUNA_CONFIG = {
-  // ...existing code...
   INITIAL_TEMP: 90,
   INITIAL_HUMIDITY: 15,
   INITIAL_HEART_RATE: 75,
@@ -53,24 +52,24 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
 
   const secondsRef = useRef<number>(0);
   const loylyCountRef = useRef<number>(0);
+  const steamIdRef = useRef<number>(0);
   const steamTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const steamResetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
-  const steamParticleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
+  // 蒸気パーティクルは連打で複数同時に存在するため、個別に削除タイマーを持つ
+  const steamParticleTimeoutsRef = useRef(
+    new Set<ReturnType<typeof setTimeout>>(),
   );
-  const isMountedRef = useRef<boolean>(true);
 
   useEffect(() => {
-    isMountedRef.current = true;
+    const particleTimeouts = steamParticleTimeoutsRef.current;
     return () => {
-      isMountedRef.current = false;
       if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
       if (steamResetTimeoutRef.current)
         clearTimeout(steamResetTimeoutRef.current);
-      if (steamParticleTimeoutRef.current)
-        clearTimeout(steamParticleTimeoutRef.current);
+      particleTimeouts.forEach(clearTimeout);
+      particleTimeouts.clear();
     };
   }, []);
 
@@ -99,33 +98,27 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
       clearTimeout(steamResetTimeoutRef.current);
     steamResetTimeoutRef.current = setTimeout(() => {
       steamResetTimeoutRef.current = null;
-      if (isMountedRef.current) {
-        setIsSteaming(true);
-      }
+      setIsSteaming(true);
     }, 10);
 
     if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
     steamTimeoutRef.current = setTimeout(() => {
       steamTimeoutRef.current = null;
-      if (isMountedRef.current) {
-        setIsSteaming(false);
-      }
+      setIsSteaming(false);
     }, SAUNA_CONFIG.STEAM_DURATION_MS); // index.css の steam-blur-fade アニメーション長と同期
 
     // サウナストーンからの蒸気パーティクル
     const newSteam: Steam = {
-      id: Date.now(),
+      id: steamIdRef.current++,
       left: getSecureRandom() * 60 + 20 + "%",
     };
     setSteams((prev) => [...prev, newSteam]);
-    if (steamParticleTimeoutRef.current)
-      clearTimeout(steamParticleTimeoutRef.current);
-    steamParticleTimeoutRef.current = setTimeout(() => {
-      steamParticleTimeoutRef.current = null;
-      if (isMountedRef.current) {
-        setSteams((prev) => prev.filter((s) => s.id !== newSteam.id));
-      }
+    const particleTimeouts = steamParticleTimeoutsRef.current;
+    const particleTimeout = setTimeout(() => {
+      particleTimeouts.delete(particleTimeout);
+      setSteams((prev) => prev.filter((s) => s.id !== newSteam.id));
     }, SAUNA_CONFIG.STEAM_PARTICLE_DURATION_MS);
+    particleTimeouts.add(particleTimeout);
   };
 
   // メインシミュレーションループ (1秒ごと)
@@ -166,10 +159,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
       });
     }, 1000);
 
-    return () => {
-      clearInterval(interval);
-      if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
-    };
+    return () => clearInterval(interval);
   }, []);
 
   // 体感温度のリアルタイム計算

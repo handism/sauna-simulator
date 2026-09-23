@@ -1,7 +1,21 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { AmbientEnv, useAudioEngine } from "./useAudioEngine";
 
 export type Stage = "start" | AmbientEnv;
+
+interface SessionResults {
+  heartRate: number;
+  saunaTime: number;
+  loylyCount: number;
+  waterTime: number;
+}
+
+const INITIAL_RESULTS: SessionResults = {
+  heartRate: 75,
+  saunaTime: 0,
+  loylyCount: 0,
+  waterTime: 0,
+};
 
 export function useSaunaSession() {
   const [stage, setStage] = useState<Stage>("start");
@@ -9,11 +23,7 @@ export function useSaunaSession() {
   const opacity = pendingStage === null ? 1 : 0;
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
-
-  const [heartRate, setHeartRate] = useState<number>(75);
-  const [saunaTime, setSaunaTime] = useState<number>(0);
-  const [loylyCount, setLoylyCount] = useState<number>(0);
-  const [waterTime, setWaterTime] = useState<number>(0);
+  const [results, setResults] = useState<SessionResults>(INITIAL_RESULTS);
 
   const audio = useAudioEngine();
   const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
@@ -47,14 +57,31 @@ export function useSaunaSession() {
       audio.init();
       setIsMuted(!withSound);
       audio.setMuted(!withSound);
-
-      setHeartRate(75);
-      setSaunaTime(0);
-      setLoylyCount(0);
-      setWaterTime(0);
+      setResults(INITIAL_RESULTS);
     },
     [audio, changeStage],
   );
+
+  // 遷移が受け付けられたときだけ結果を記録する（遷移中の二重操作で上書きしない）
+  const completeSauna = useCallback(
+    (heartRate: number, saunaTime: number, loylyCount: number) => {
+      if (!changeStage("water")) return;
+      setResults((prev) => ({ ...prev, heartRate, saunaTime, loylyCount }));
+    },
+    [changeStage],
+  );
+
+  const completeWater = useCallback(
+    (heartRate: number, waterTime: number) => {
+      if (!changeStage("totonou")) return;
+      setResults((prev) => ({ ...prev, heartRate, waterTime }));
+    },
+    [changeStage],
+  );
+
+  const completeTotonou = useCallback(() => {
+    changeStage("sauna");
+  }, [changeStage]);
 
   const toggleMute = useCallback(() => {
     setIsMuted((prev) => {
@@ -68,24 +95,38 @@ export function useSaunaSession() {
     setIsUiHidden((prev) => !prev);
   }, []);
 
-  return {
-    stage,
-    pendingStage,
-    opacity,
-    isMuted,
-    isUiHidden,
-    heartRate,
-    setHeartRate,
-    saunaTime,
-    setSaunaTime,
-    loylyCount,
-    setLoylyCount,
-    waterTime,
-    setWaterTime,
-    audio,
-    changeStage,
-    handleStart,
-    toggleMute,
-    toggleUiVisibility,
-  };
+  return useMemo(
+    () => ({
+      stage,
+      pendingStage,
+      opacity,
+      isMuted,
+      isUiHidden,
+      ...results,
+      audio,
+      handleStart,
+      toggleMute,
+      toggleUiVisibility,
+      completeSauna,
+      completeWater,
+      completeTotonou,
+    }),
+    [
+      stage,
+      pendingStage,
+      opacity,
+      isMuted,
+      isUiHidden,
+      results,
+      audio,
+      handleStart,
+      toggleMute,
+      toggleUiVisibility,
+      completeSauna,
+      completeWater,
+      completeTotonou,
+    ],
+  );
 }
+
+export type SaunaSession = ReturnType<typeof useSaunaSession>;
