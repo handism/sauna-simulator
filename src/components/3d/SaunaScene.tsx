@@ -81,7 +81,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     };
     const timeout = window.setTimeout(fail, 30000);
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(65, 1, .05, 80);
+    const camera = new THREE.PerspectiveCamera(65, 1, .05, 250);
     camera.rotation.order = 'YXZ';
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;

@@ -9,10 +9,9 @@ export function eveningAmount(mode: LightingMode, stage: AmbientEnv): number {
 }
 
 export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer) {
+  // Cycles renders the courtyard without mist, so distant trees keep their color.
   const sky = new THREE.Color();
   scene.background = sky;
-  const fog = new THREE.Fog('#bac8c6', 18, 45);
-  scene.fog = fog;
   const ambient = new THREE.HemisphereLight('#dceaff', '#826044', 2);
   const sun = new THREE.DirectionalLight('#fff1d5', 3);
   sun.shadow.camera.left = -14; sun.shadow.camera.right = 14;
@@ -25,7 +24,8 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   const warmth = new THREE.PointLight('#ffb96a', 25, 9, 2);
   warmth.position.set(-3.2, 2.9, -2.7);
   scene.add(ambient, sun, warmth);
-  const daySky = new THREE.Color('#bac8c6'), duskSky = new THREE.Color('#7a849c');
+  // Displayed sky pixels of the Daylight (07.png) and Blue hour (06.png) Cycles renders.
+  const daySky = new THREE.Color('#4f616c'), duskSky = new THREE.Color('#283d54');
   const dayAmbient = new THREE.Color('#dceaff'), duskAmbient = new THREE.Color('#a6b9ee');
   const daySun = new THREE.Color('#fff1d5'), duskSun = new THREE.Color('#ffb477');
   let current = 0;
@@ -42,7 +42,6 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
       // Exponential smoothing is independent of frame rate; reduced motion snaps.
       current = immediate ? target : THREE.MathUtils.lerp(current, target, 1 - Math.exp(-delta / 1.4));
       sky.copy(daySky).lerp(duskSky, current);
-      fog.color.copy(sky);
       ambient.color.copy(dayAmbient).lerp(duskAmbient, current);
       ambient.intensity = THREE.MathUtils.lerp(2, 1.05, current);
       sun.color.copy(daySun).lerp(duskSun, current);
