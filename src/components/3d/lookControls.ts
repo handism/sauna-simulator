@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const PITCH_LIMIT = .85;
+const PITCH_LIMIT = 0.85;
 const ARROW_KEYS = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
 /**
@@ -19,9 +19,10 @@ export function attachLookControls(element: HTMLElement, camera: THREE.Perspecti
   };
   const move = (event: PointerEvent) => {
     if (!pointer || pointer.id !== event.pointerId) return;
-    camera.rotation.y -= (event.clientX - pointer.x) * .004;
-    pitch(-(event.clientY - pointer.y) * .004);
-    pointer.x = event.clientX; pointer.y = event.clientY;
+    camera.rotation.y -= (event.clientX - pointer.x) * 0.004;
+    pitch(-(event.clientY - pointer.y) * 0.004);
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
   };
   const up = (event: PointerEvent) => {
     if (pointer?.id === event.pointerId) pointer = null;
@@ -29,17 +30,23 @@ export function attachLookControls(element: HTMLElement, camera: THREE.Perspecti
   const key = (event: KeyboardEvent) => {
     if (!ARROW_KEYS.includes(event.key)) return;
     event.preventDefault();
-    camera.rotation.y += event.key === 'ArrowLeft' ? .08 : event.key === 'ArrowRight' ? -.08 : 0;
-    pitch(event.key === 'ArrowUp' ? .06 : event.key === 'ArrowDown' ? -.06 : 0);
+    camera.rotation.y += event.key === 'ArrowLeft' ? 0.08 : event.key === 'ArrowRight' ? -0.08 : 0;
+    pitch(event.key === 'ArrowUp' ? 0.06 : event.key === 'ArrowDown' ? -0.06 : 0);
   };
   const listeners = [
-    ['pointerdown', down], ['pointermove', move], ['pointerup', up],
-    ['pointercancel', up], ['lostpointercapture', up], ['keydown', key],
+    ['pointerdown', down],
+    ['pointermove', move],
+    ['pointerup', up],
+    ['pointercancel', up],
+    ['lostpointercapture', up],
+    ['keydown', key],
   ] as const;
   for (const [type, listener] of listeners) element.addEventListener(type, listener as EventListener);
   return {
     /** Drop an in-progress drag, e.g. when the view jumps to another stage. */
-    cancel() { pointer = null; },
+    cancel() {
+      pointer = null;
+    },
     dispose() {
       for (const [type, listener] of listeners) element.removeEventListener(type, listener as EventListener);
     },

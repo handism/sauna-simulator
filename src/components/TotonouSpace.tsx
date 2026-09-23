@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo, useRef } from "react";
-import { calculateTotonouScore } from "../utils/saunaUtils";
+import { useState, useEffect, useMemo, useRef } from 'react';
+import { calculateTotonouScore } from '../utils/saunaUtils';
 
 export interface TotonouSpaceProps {
   saunaTime: number;
@@ -8,12 +8,7 @@ export interface TotonouSpaceProps {
   onNext: () => void;
 }
 
-const TotonouSpace = ({
-  saunaTime,
-  waterTime,
-  loylyCount,
-  onNext,
-}: TotonouSpaceProps) => {
+const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpaceProps) => {
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
@@ -61,8 +56,7 @@ const TotonouSpace = ({
         // 徐々に減速しながら目標値に近づくイージング (deltaTimeを用いて補正)
         // 元の100ms間隔に合わせたステップ幅の補正
         const timeScale = deltaTime / 100;
-        const step =
-          Math.max((currentMaxTotonou - currentLevel) * 0.05, 0.2) * timeScale;
+        const step = Math.max((currentMaxTotonou - currentLevel) * 0.05, 0.2) * timeScale;
         currentLevel = Math.min(currentLevel + step, currentMaxTotonou);
       }
 
@@ -72,11 +66,11 @@ const TotonouSpace = ({
         totonouTextRef.current.textContent = `${rounded}%`;
         // 色の更新
         if (rounded >= 90) {
-          totonouTextRef.current.style.color = "#34d399";
+          totonouTextRef.current.style.color = '#34d399';
         } else if (rounded >= 60) {
-          totonouTextRef.current.style.color = "#60a5fa";
+          totonouTextRef.current.style.color = '#60a5fa';
         } else {
-          totonouTextRef.current.style.color = "#a78bfa";
+          totonouTextRef.current.style.color = '#a78bfa';
         }
       }
 
@@ -107,7 +101,7 @@ const TotonouSpace = ({
         className="aurora-container"
         style={{
           opacity: isInhaling ? 0.75 : 0.45,
-          transition: "opacity 4s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: 'opacity 4s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
         <div className="aurora-blob one" />
@@ -124,30 +118,28 @@ const TotonouSpace = ({
       <div
         className="breathing-circle-premium"
         style={{
-          transform: isInhaling ? "scale(1.15)" : "scale(0.92)",
+          transform: isInhaling ? 'scale(1.15)' : 'scale(0.92)',
           boxShadow: isInhaling
-            ? "0 0 50px rgba(6, 182, 212, 0.15), inset 0 0 40px rgba(6, 182, 212, 0.1)"
-            : "0 0 30px rgba(139, 92, 246, 0.08), inset 0 0 20px rgba(139, 92, 246, 0.05)",
+            ? '0 0 50px rgba(6, 182, 212, 0.15), inset 0 0 40px rgba(6, 182, 212, 0.1)'
+            : '0 0 30px rgba(139, 92, 246, 0.08), inset 0 0 20px rgba(139, 92, 246, 0.05)',
           background: isInhaling
-            ? "radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.01) 60%, transparent 80%)"
-            : "radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, rgba(139, 92, 246, 0.01) 60%, transparent 80%)",
-          borderColor: isInhaling
-            ? "rgba(6, 182, 212, 0.25)"
-            : "rgba(139, 92, 246, 0.15)",
+            ? 'radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.01) 60%, transparent 80%)'
+            : 'radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, rgba(139, 92, 246, 0.01) 60%, transparent 80%)',
+          borderColor: isInhaling ? 'rgba(6, 182, 212, 0.25)' : 'rgba(139, 92, 246, 0.15)',
         }}
       >
         <div
           style={{
-            fontSize: "1.4rem",
+            fontSize: '1.4rem',
             fontWeight: 300,
-            letterSpacing: "6px",
-            color: isInhaling ? "#a5f3fc" : "#ddd6fe",
+            letterSpacing: '6px',
+            color: isInhaling ? '#a5f3fc' : '#ddd6fe',
             zIndex: 10,
-            transition: "color 4s ease",
-            marginLeft: "4px", // letterSpacingによる右寄り解消
+            transition: 'color 4s ease',
+            marginLeft: '4px', // letterSpacingによる右寄り解消
           }}
         >
-          {isInhaling ? "吸って..." : "吐いて..."}
+          {isInhaling ? '吸って...' : '吐いて...'}
         </div>
       </div>
 
@@ -155,22 +147,14 @@ const TotonouSpace = ({
       <div className="glass-panel totonou-info-panel">
         <div className="totonou-info-row">
           <span className="totonou-info-label">ととのい度:</span>
-          <span
-            ref={totonouTextRef}
-            className="dashboard-value totonou-progress-val"
-            style={{ color: "#a78bfa" }}
-          >
+          <span ref={totonouTextRef} className="dashboard-value totonou-progress-val" style={{ color: '#a78bfa' }}>
             0%
           </span>
         </div>
 
         {/* プログレスバー */}
         <div className="totonou-progress-bg">
-          <div
-            ref={totonouBarRef}
-            className="totonou-progress-bar"
-            style={{ width: "0%" }}
-          />
+          <div ref={totonouBarRef} className="totonou-progress-bar" style={{ width: '0%' }} />
         </div>
 
         {/* フィードバックコメント */}

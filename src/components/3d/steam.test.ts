@@ -6,7 +6,7 @@ describe('steam motion preference', () => {
     const positions = new Float32Array(270);
     updateSteamPositions(positions, 0, true);
     const initial = positions.slice();
-    for (const age of [.5, 2, 4, 5.9]) {
+    for (const age of [0.5, 2, 4, 5.9]) {
       updateSteamPositions(positions, age, true);
       expect(positions).toEqual(initial);
     }

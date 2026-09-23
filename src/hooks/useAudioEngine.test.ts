@@ -147,12 +147,32 @@ describe('useAudioEngine', () => {
   it('routes sauna and loyly to the stove, water to the spout, and keeps wind and beats unpositioned', async () => {
     const panners: MockGainNode[] = [];
     class SpatialContext extends MockAudioContext {
-      createBufferSource = vi.fn(() => { const node = mockCreateBufferSource(); node.connect.mockImplementation(target => target); return node; });
-      createBiquadFilter = vi.fn(() => { const node = mockCreateBiquadFilter(); node.connect.mockImplementation(target => target); return node; });
-      createGain = vi.fn(() => { const node = mockCreateGain(); node.connect.mockImplementation(target => target); return node; });
-      listener = Object.fromEntries(['position', 'forward', 'up'].flatMap(prefix => ['X', 'Y', 'Z'].map(axis => [prefix + axis, new MockAudioParam()])));
+      createBufferSource = vi.fn(() => {
+        const node = mockCreateBufferSource();
+        node.connect.mockImplementation((target) => target);
+        return node;
+      });
+      createBiquadFilter = vi.fn(() => {
+        const node = mockCreateBiquadFilter();
+        node.connect.mockImplementation((target) => target);
+        return node;
+      });
+      createGain = vi.fn(() => {
+        const node = mockCreateGain();
+        node.connect.mockImplementation((target) => target);
+        return node;
+      });
+      listener = Object.fromEntries(
+        ['position', 'forward', 'up'].flatMap((prefix) =>
+          ['X', 'Y', 'Z'].map((axis) => [prefix + axis, new MockAudioParam()]),
+        ),
+      );
       createPanner = vi.fn(() => {
-        const panner = Object.assign(new MockGainNode(), { positionX: new MockAudioParam(), positionY: new MockAudioParam(), positionZ: new MockAudioParam() });
+        const panner = Object.assign(new MockGainNode(), {
+          positionX: new MockAudioParam(),
+          positionY: new MockAudioParam(),
+          positionZ: new MockAudioParam(),
+        });
         panners.push(panner);
         return panner;
       });
@@ -160,24 +180,43 @@ describe('useAudioEngine', () => {
     window.AudioContext = SpatialContext as unknown as typeof AudioContext;
     const { result } = renderHook(() => useAudioEngine());
     act(() => result.current.init());
-    const [master, stove, , , water] = mockCreateGain.mock.results.map(entry => entry.value);
-    act(() => result.current.setSpatialPose({ position: [0, 1, 0], forward: [0, 0, -1], up: [0, 1, 0], stove: [2, 1, 0], water: [-2, 1, 0] }));
+    const [master, stove, , , water] = mockCreateGain.mock.results.map((entry) => entry.value);
+    act(() =>
+      result.current.setSpatialPose({
+        position: [0, 1, 0],
+        forward: [0, 0, -1],
+        up: [0, 1, 0],
+        stove: [2, 1, 0],
+        water: [-2, 1, 0],
+      }),
+    );
     mockCreateGain.mockClear();
-    await act(async () => { await result.current.playAmbient('sauna'); });
+    await act(async () => {
+      await result.current.playAmbient('sauna');
+    });
     expect(mockCreateGain.mock.results[0].value.connect).toHaveBeenCalledWith(stove);
     mockCreateGain.mockClear();
-    await act(async () => { await result.current.playLoyly(); });
+    await act(async () => {
+      await result.current.playLoyly();
+    });
     expect(mockCreateGain.mock.results).toHaveLength(2);
     for (const entry of mockCreateGain.mock.results) expect(entry.value.connect).toHaveBeenCalledWith(stove);
     mockCreateGain.mockClear();
-    await act(async () => { await result.current.playAmbient('water'); });
+    await act(async () => {
+      await result.current.playAmbient('water');
+    });
     expect(mockCreateGain.mock.results[0].value.connect).toHaveBeenCalledWith(water);
     mockCreateGain.mockClear();
-    await act(async () => { await result.current.playAmbient('totonou'); });
+    await act(async () => {
+      await result.current.playAmbient('totonou');
+    });
     expect(mockCreateGain.mock.results[0].value.connect).toHaveBeenCalledWith(master);
     expect(mockCreateGain.mock.results[1].value.connect).toHaveBeenCalledWith(master);
     const sourceCount = mockCreateBufferSource.mock.calls.length;
-    act(() => { result.current.setSpatialPose(null); result.current.setSpatialPose(null); });
+    act(() => {
+      result.current.setSpatialPose(null);
+      result.current.setSpatialPose(null);
+    });
     expect(mockCreateBufferSource).toHaveBeenCalledTimes(sourceCount);
     expect(panners).toHaveLength(2);
   });
@@ -427,7 +466,7 @@ describe('useAudioEngine', () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Failed to generate sauna noise buffer',
-      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') }),
     );
 
     (window as any).Worker.prototype.postMessage = originalPostMessage;
@@ -453,7 +492,7 @@ describe('useAudioEngine', () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Failed to generate water noise buffer',
-      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') }),
     );
 
     (window as any).Worker.prototype.postMessage = originalPostMessage;
@@ -479,7 +518,7 @@ describe('useAudioEngine', () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Failed to generate wind noise buffer',
-      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') }),
     );
 
     (window as any).Worker.prototype.postMessage = originalPostMessage;
@@ -505,7 +544,7 @@ describe('useAudioEngine', () => {
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Failed to generate loyly white noise buffer',
-      expect.objectContaining({ message: expect.stringContaining('Worker timeout') })
+      expect.objectContaining({ message: expect.stringContaining('Worker timeout') }),
     );
 
     (window as any).Worker.prototype.postMessage = originalPostMessage;
@@ -522,11 +561,13 @@ describe('useAudioEngine', () => {
     // However in our setup `Worker` is stubbed in setup.js, so we mock `Worker.prototype.postMessage`
     // to simulate `onerror`
     const originalPostMessage = (window as any).Worker.prototype.postMessage;
-    (window as any).Worker.prototype.postMessage = function(this: Worker, _msg: any) {
+    (window as any).Worker.prototype.postMessage = function (this: Worker, _msg: any) {
       if (this.onerror) {
-        this.onerror(new ErrorEvent('error', {
-          error: new Error('Simulated Worker Error')
-        }));
+        this.onerror(
+          new ErrorEvent('error', {
+            error: new Error('Simulated Worker Error'),
+          }),
+        );
       }
     };
 
@@ -538,15 +579,12 @@ describe('useAudioEngine', () => {
     });
 
     act(() => {
-        vi.advanceTimersByTime(10000);
+      vi.advanceTimersByTime(10000);
     });
 
     await playPromise;
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'AudioWorker error:',
-      expect.any(ErrorEvent)
-    );
+    expect(consoleErrorSpy).toHaveBeenCalledWith('AudioWorker error:', expect.any(ErrorEvent));
 
     (window as any).Worker.prototype.postMessage = originalPostMessage;
   });

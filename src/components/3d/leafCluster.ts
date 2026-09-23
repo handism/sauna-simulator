@@ -4,11 +4,13 @@ import * as THREE from 'three';
 // of source leaves (scripts/export_web_glb.py records it in the material extras). The
 // card keeps their total leaf area: leaves cover half of the card, as each source
 // diamond covers half of its bounding rectangle.
-export interface LeafCluster { leaves: number }
+export interface LeafCluster {
+  leaves: number;
+}
 
 export const LEAF_CLUSTER_SIZE = 64;
 const SUPERSAMPLE = 4;
-const CUTOFF = .5;
+const CUTOFF = 0.5;
 
 export function leafClusterOf(material: THREE.Material): LeafCluster | null {
   const value = material.userData?.suiLeafCluster;
@@ -36,9 +38,9 @@ export function leafClusterCoverage(leaves: number, size = LEAF_CLUSTER_SIZE): F
     const column = index % columns;
     const row = Math.floor(index / columns);
     // Keep whole leaves inside the card; a rotated diamond never extends past r.
-    const x = r + (column + next()) / columns * (1 - 2 * r);
-    const y = r + (row + next()) / rows * (1 - 2 * r);
-    const angle = next() * Math.PI / 2;
+    const x = r + ((column + next()) / columns) * (1 - 2 * r);
+    const y = r + ((row + next()) / rows) * (1 - 2 * r);
+    const angle = (next() * Math.PI) / 2;
     return { x, y, cos: Math.cos(angle), sin: Math.sin(angle) };
   });
   const coverage = new Float32Array(size * size);
@@ -47,12 +49,16 @@ export function leafClusterCoverage(leaves: number, size = LEAF_CLUSTER_SIZE): F
       let hits = 0;
       for (let sy = 0; sy < SUPERSAMPLE; sy++) {
         for (let sx = 0; sx < SUPERSAMPLE; sx++) {
-          const u = (px + (sx + .5) / SUPERSAMPLE) / size;
-          const v = (py + (sy + .5) / SUPERSAMPLE) / size;
-          if (shapes.some(({ x, y, cos, sin }) => {
-            const du = u - x, dv = v - y;
-            return Math.abs(du * cos + dv * sin) + Math.abs(dv * cos - du * sin) <= r;
-          })) hits++;
+          const u = (px + (sx + 0.5) / SUPERSAMPLE) / size;
+          const v = (py + (sy + 0.5) / SUPERSAMPLE) / size;
+          if (
+            shapes.some(({ x, y, cos, sin }) => {
+              const du = u - x,
+                dv = v - y;
+              return Math.abs(du * cos + dv * sin) + Math.abs(dv * cos - du * sin) <= r;
+            })
+          )
+            hits++;
         }
       }
       coverage[py * size + px] = hits / SUPERSAMPLE ** 2;
@@ -81,14 +87,16 @@ export function leafClusterMips(base: Float32Array, size: number): Float32Array[
         level[y * width + x] = (at(0, 0) + at(1, 0) + at(0, 1) + at(1, 1)) / 4;
       }
     }
-    let low = 0, high = 1 / CUTOFF / Math.max(Math.min(...level.filter(value => value > 0)), 1e-6);
+    let low = 0,
+      high = 1 / CUTOFF / Math.max(Math.min(...level.filter((value) => value > 0)), 1e-6);
     for (let step = 0; step < 24; step++) {
       const middle = (low + high) / 2;
-      if (covered(level, middle) < target) low = middle; else high = middle;
+      if (covered(level, middle) < target) low = middle;
+      else high = middle;
     }
     // Choose the scale whose coverage is nearest to the base coverage.
     const scale = Math.abs(covered(level, low) - target) < Math.abs(covered(level, high) - target) ? low : high;
-    levels.push(level.map(value => Math.min(1, value * scale)));
+    levels.push(level.map((value) => Math.min(1, value * scale)));
   }
   return levels;
 }

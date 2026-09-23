@@ -109,8 +109,18 @@ const FRAGMENT_COLOR = `
 export type RampStop = [number, number, number, number];
 
 export function validRampStops(stops: unknown): stops is RampStop[] {
-  return Array.isArray(stops) && stops.length >= 1 && stops.length <= NOISE_COLOR_MAX_STOPS
-    && stops.every((stop, i) => Array.isArray(stop) && stop.length === 4 && stop.every(Number.isFinite) && (i === 0 || stop[0] >= stops[i - 1][0]));
+  return (
+    Array.isArray(stops) &&
+    stops.length >= 1 &&
+    stops.length <= NOISE_COLOR_MAX_STOPS &&
+    stops.every(
+      (stop, i) =>
+        Array.isArray(stop) &&
+        stop.length === 4 &&
+        stop.every(Number.isFinite) &&
+        (i === 0 || stop[0] >= stops[i - 1][0]),
+    )
+  );
 }
 
 export const rampUniform = (stops: RampStop[]) =>
@@ -121,19 +131,27 @@ export function noiseColorOf(material: THREE.Material): NoiseColor | null {
   const value = material.userData.suiNoiseColor as NoiseColor | undefined;
   if (!value || value.space !== 'blender_world') return null;
   const finite = [value.scale, value.detail, value.roughness, value.lacunarity].every(Number.isFinite);
-  if (!finite || !validRampStops(value.stops) || value.detail < 0 || value.detail > MAX_DETAIL) throw Error(`Unsupported noise color on ${material.name}`);
+  if (!finite || !validRampStops(value.stops) || value.detail < 0 || value.detail > MAX_DETAIL)
+    throw Error(`Unsupported noise color on ${material.name}`);
   return value;
 }
 
 export function patchNoiseColorShader(shader: { vertexShader: string; fragmentShader: string }) {
   const { vertexShader, fragmentShader } = shader;
-  if (!vertexShader.includes(COMMON_INCLUDE) || !vertexShader.includes(PROJECT_INCLUDE)
-    || !fragmentShader.includes(COMMON_INCLUDE) || !fragmentShader.includes(COLOR_INCLUDE)) {
+  if (
+    !vertexShader.includes(COMMON_INCLUDE) ||
+    !vertexShader.includes(PROJECT_INCLUDE) ||
+    !fragmentShader.includes(COMMON_INCLUDE) ||
+    !fragmentShader.includes(COLOR_INCLUDE)
+  ) {
     throw Error('Unsupported three.js shader chunks for noise color');
   }
   shader.vertexShader = vertexShader
     .replace(COMMON_INCLUDE, `${COMMON_INCLUDE}\nvarying vec3 vSuiNoisePosition;`)
-    .replace(PROJECT_INCLUDE, `${PROJECT_INCLUDE}\n\tvSuiNoisePosition = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;`);
+    .replace(
+      PROJECT_INCLUDE,
+      `${PROJECT_INCLUDE}\n\tvSuiNoisePosition = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;`,
+    );
   shader.fragmentShader = fragmentShader
     .replace(COMMON_INCLUDE, `${COMMON_INCLUDE}${FRAGMENT_PARS}`)
     .replace(COLOR_INCLUDE, `${COLOR_INCLUDE}${FRAGMENT_COLOR}`);
@@ -147,9 +165,12 @@ export function applyNoiseColor(material: THREE.MeshStandardMaterial, noise: Noi
   material.onBeforeCompile = (shader, renderer) => {
     previous.call(material, shader, renderer);
     Object.assign(shader.uniforms, {
-      suiNoiseScale: { value: noise.scale }, suiNoiseDetail: { value: noise.detail },
-      suiNoiseRoughness: { value: noise.roughness }, suiNoiseLacunarity: { value: noise.lacunarity },
-      suiNoiseStops: { value: stops }, suiNoiseStopCount: { value: noise.stops.length },
+      suiNoiseScale: { value: noise.scale },
+      suiNoiseDetail: { value: noise.detail },
+      suiNoiseRoughness: { value: noise.roughness },
+      suiNoiseLacunarity: { value: noise.lacunarity },
+      suiNoiseStops: { value: stops },
+      suiNoiseStopCount: { value: noise.stops.length },
     });
     patchNoiseColorShader(shader);
   };
