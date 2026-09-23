@@ -2,7 +2,9 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import type { AmbientEnv } from '../../hooks/useAudioEngine';
+import type { AmbientEnv, AudioEngine } from '../../hooks/useAudioEngine';
+import { QUALITY, type QualityMode } from './quality';
+import { createLighting, eveningAmount, type LightingMode } from './lighting';
 import { createWaterEffects, type WaterDefinition } from './waterEffects';
 
 interface SceneDefinition {
@@ -12,7 +14,10 @@ interface SceneDefinition {
 }
 
 export interface SceneProps {
+  audio: AudioEngine;
+  quality: QualityMode;
   stage: AmbientEnv;
+  lightingMode: LightingMode;
   loylyEvents: EventTarget;
   onReady: () => void;
   onError: () => void;
@@ -37,9 +42,14 @@ function disposeTree(root: THREE.Object3D) {
   for (const material of materials) material.dispose();
 }
 
-export default function SaunaScene({ stage, loylyEvents, onReady, onError }: SceneProps) {
+export default function SaunaScene({ quality, audio, stage, lightingMode, loylyEvents, onReady, onError }: SceneProps) {
   const host = useRef<HTMLDivElement>(null);
+  const qualityRef = useRef(quality);
+  const applyQualityRef = useRef<(() => void) | null>(null);
+  useLayoutEffect(() => { qualityRef.current = quality; applyQualityRef.current?.(); }, [quality]);
   const stageRef = useRef(stage);
+  const lightingRef = useRef(lightingMode);
+  useLayoutEffect(() => { lightingRef.current = lightingMode; }, [lightingMode]);
   const setViewRef = useRef<((next: AmbientEnv) => void) | null>(null);
   useLayoutEffect(() => {
     stageRef.current = stage;
@@ -55,19 +65,14 @@ export default function SaunaScene({ stage, loylyEvents, onReady, onError }: Sce
     let steamStarted = -Infinity;
     const abort = new AbortController();
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#bac8c6');
-    scene.fog = new THREE.Fog('#bac8c6', 18, 45);
     const camera = new THREE.PerspectiveCamera(65, 1, .05, 80);
     camera.rotation.order = 'YXZ';
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     element.appendChild(renderer.domElement);
-    scene.add(new THREE.HemisphereLight('#dceaff', '#826044', 2));
-    const sun = new THREE.DirectionalLight('#fff1d5', 3);
-    sun.position.set(-3, 10, 4); scene.add(sun);
-    const warmth = new THREE.PointLight('#ffb96a', 25, 9, 2);
-    warmth.position.set(-3.2, 2.9, -2.7); scene.add(warmth);
+    const lighting = createLighting(scene, renderer);
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(90 * 3);
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -82,6 +87,17 @@ export default function SaunaScene({ stage, loylyEvents, onReady, onError }: Sce
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onLoyly = () => { if (ready && stageRef.current === 'sauna') steamStarted = performance.now(); };
     loylyEvents.addEventListener('loyly', onLoyly);
+    let resetMetrics = () => {};
+    const applyQuality = () => {
+      const preset = QUALITY[qualityRef.current];
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, preset.pixelRatio));
+      lighting.setShadowSize(preset.shadowSize);
+      resetMetrics();
+      element.dataset.quality = qualityRef.current;
+      element.dataset.pixelRatio = String(renderer.getPixelRatio());
+    };
+    applyQualityRef.current = applyQuality;
+    applyQuality();
     const resize = () => {
       const { width, height } = element.getBoundingClientRect();
       renderer.setSize(width, height);
@@ -128,23 +144,40 @@ export default function SaunaScene({ stage, loylyEvents, onReady, onError }: Sce
         gltf.scene.traverse((object) => {
           if (!(object instanceof THREE.Mesh)) return;
           const materials = Array.isArray(object.material) ? object.material : [object.material];
+          // Glass and water must not cast opaque silhouettes onto the garden.
+          object.castShadow = materials.every(material => !material.transparent);
+          object.receiveShadow = object.castShadow;
           if (materials.every(material => material.name === 'V4 | clear spring water')) object.visible = false;
         });
         scene.add(gltf.scene);
         const waterEffects = createWaterEffects(definition.water);
         scene.add(waterEffects.group);
+        const forward = new THREE.Vector3();
+        const upVector = new THREE.Vector3();
+        const pose = { position: [0, 0, 0], forward: [0, 0, -1], up: [0, 1, 0], stove: definition.stove, water: definition.water.spout };
+        const updateAudio = () => {
+          camera.position.toArray(pose.position);
+          camera.getWorldDirection(forward).toArray(pose.forward);
+          upVector.set(0, 1, 0).applyQuaternion(camera.quaternion).toArray(pose.up);
+          audio.setSpatialPose(pose);
+        };
         let previous = 0;
         let recorded = false;
         const frameTimes: number[] = [];
+        resetMetrics = () => {
+          previous = 0; recorded = false; frameTimes.length = 0;
+          delete element.dataset.frameMeanMs; delete element.dataset.frameMaxMs;
+        };
         const setView = (next: AmbientEnv) => {
           const view = definition.views[next];
           camera.position.fromArray(view.position);
           camera.lookAt(new THREE.Vector3().fromArray(view.target));
+          updateAudio();
           camera.fov = view.fov; camera.updateProjectionMatrix();
           steamStarted = -Infinity; steam.visible = false; pointer = null;
-          previous = 0; recorded = false; frameTimes.length = 0;
+          resetMetrics();
           element.dataset.stage = next;
-          delete element.dataset.frameMeanMs; delete element.dataset.frameMaxMs;
+          lighting.update(eveningAmount(lightingRef.current, next), 0, true);
           renderer.render(scene, camera);
           element.dataset.triangles = String(renderer.info.render.triangles);
           element.dataset.drawCalls = String(renderer.info.render.calls);
@@ -161,6 +194,10 @@ export default function SaunaScene({ stage, loylyEvents, onReady, onError }: Sce
         onReady();
         renderer.setAnimationLoop((now) => {
           if (document.hidden) { previous = 0; return; }
+          updateAudio();
+          const delta = previous ? Math.min((now - previous) / 1000, .1) : 0;
+          lighting.update(eveningAmount(lightingRef.current, stageRef.current), delta, reducedMotion.matches);
+          element.dataset.lighting = lightingRef.current;
           if (previous && frameTimes.length < 180) frameTimes.push(now - previous);
           previous = now;
           if (frameTimes.length === 180 && !recorded) {
@@ -182,12 +219,17 @@ export default function SaunaScene({ stage, loylyEvents, onReady, onError }: Sce
             geometry.attributes.position.needsUpdate = true;
           }
           renderer.render(scene, camera);
+          element.dataset.drawCalls = String(renderer.info.render.calls);
+          element.dataset.triangles = String(renderer.info.render.triangles);
+          element.dataset.textures = String(renderer.info.memory.textures);
+          element.dataset.geometries = String(renderer.info.memory.geometries);
         });
       } catch { if (!disposed) onError(); }
     }
     void load();
     return () => {
-      disposed = true; setViewRef.current = null; abort.abort(); clearTimeout(timeout); observer.disconnect();
+      audio.setSpatialPose(null);
+      disposed = true; applyQualityRef.current = null; lighting.dispose(); setViewRef.current = null; abort.abort(); clearTimeout(timeout); observer.disconnect();
       renderer.setAnimationLoop(null);
       loylyEvents.removeEventListener('loyly', onLoyly);
       element.removeEventListener('pointerdown', down); element.removeEventListener('pointermove', move);
@@ -196,6 +238,6 @@ export default function SaunaScene({ stage, loylyEvents, onReady, onError }: Sce
       renderer.domElement.removeEventListener('webglcontextlost', lost);
       disposeTree(scene); renderer.dispose(); renderer.domElement.remove();
     };
-  }, [loylyEvents, onReady, onError]);
+  }, [audio, loylyEvents, onReady, onError]);
   return <div ref={host} className="sauna-3d-canvas" tabIndex={0} role="region" aria-label={`${stage === 'sauna' ? 'サウナ' : stage === 'water' ? '水風呂' : '外気浴'}の3D視点。ドラッグ、スワイプ、矢印キーで見回す`} />;
 }

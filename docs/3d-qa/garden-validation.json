@@ -1,0 +1,12 @@
+{
+  "input_unchanged": true,
+  "hashes_match": true,
+  "finite_positions": true,
+  "indices_in_range": true,
+  "triangles": 335824,
+  "output_bytes": 16879316,
+  "restored_bank_objects": 343,
+  "sampled_foliage_objects": 333,
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "output_sha256": "e01055d2d30158e36558dd0fcddce5497795ac89fb538e7c5ddc5e5488588ae4"
+}
