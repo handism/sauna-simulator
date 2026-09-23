@@ -1,0 +1,33 @@
+{
+  "checks": {
+    "typecheck": "passed",
+    "unit_tests": 107,
+    "unit_files": 18,
+    "lint": "passed",
+    "build": "passed"
+  },
+  "playwright": {
+    "browser": {
+      "startTime": "2026-09-23T14:07:14.009Z",
+      "duration": 133397.074,
+      "expected": 10,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "visual": {
+      "startTime": "2026-09-23T14:04:42.804Z",
+      "duration": 46427.613,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "model_sha256": "db1246eb923a180eaeb7b93b02a0b398252a29797d429d21244d133ddd9de81f",
+  "soak": "not rerun",
+  "limitations": [
+    "headless desktop Chrome; no mobile hardware or listening test",
+    "existing 3D chunk warning above 500 KB remains"
+  ]
+}

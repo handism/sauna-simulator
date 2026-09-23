@@ -9,7 +9,8 @@
     "texture_size": 1024,
     "scope": "sauna, courtyard and woodland horizon",
     "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader",
-    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks"
+    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks",
+    "text": "render-visible FONT objects meshed with source outlines, extrusion, transforms and materials; no decimation or small-detail exclusion"
   },
   "materials": [
     {
@@ -667,12 +668,8 @@
     "V10 concealed deck edge 4.4 / day",
     "V10 lounge dusk fill / day",
     "05 • Garden / seated eye level",
-    "Spa signature",
-    "Ritual words",
     "Lantern diffuser",
     "Lantern diffuser.001",
-    "Thermometer numerals",
-    "Sauna room plaque",
     "Water volume",
     "Thin spring water cascade",
     "Linen head pillow",
@@ -10064,10 +10061,36 @@
       "restored_hidden_render": false
     }
   ],
+  "text_meshes": [
+    {
+      "object": "Spa signature",
+      "body": "S U I   /   R E T R E A T",
+      "font": "Bfont Regular",
+      "triangles": 1756
+    },
+    {
+      "object": "Ritual words",
+      "body": "H E A T   /   C O L D   /   R E S T",
+      "font": "Bfont Regular",
+      "triangles": 2124
+    },
+    {
+      "object": "Thermometer numerals",
+      "body": "90",
+      "font": "Bfont Regular",
+      "triangles": 916
+    },
+    {
+      "object": "Sauna room plaque",
+      "body": "S A U N A",
+      "font": "Bfont Regular",
+      "triangles": 916
+    }
+  ],
   "image_ramp_objects": 753,
-  "export_objects_before_join": 4011,
-  "triangles": 448788,
-  "export_meshes": 72,
+  "export_objects_before_join": 4015,
+  "triangles": 454500,
+  "export_meshes": 73,
   "image_ramp_meshes": 45,
   "export_settings": {
     "export_format": "GLB",
@@ -10081,7 +10104,7 @@
     "export_vertex_color": "ACTIVE",
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 22826596,
-  "output_sha256": "eb5db057be52eb12342e1f324f8922893f13c1a5da1782d02fe7b5264bc5e82c",
+  "output_bytes": 23168796,
+  "output_sha256": "db1246eb923a180eaeb7b93b02a0b398252a29797d429d21244d133ddd9de81f",
   "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }
