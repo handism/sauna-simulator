@@ -773,6 +773,8 @@ p {
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .cooling-ripple-effect,
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .sauna-steam-particle,
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .steam-overlay { display: none; }
+/* The 2D aurora backdrop would tint and darken the whole lit 3D garden. */
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .aurora-container { display: none; }
 
 .scene-lighting-control { display: flex; align-items: center; gap: 6px; color: #fff; }
 .scene-lighting-control select { font: inherit; color: #fff; background: #18221c; border: 1px solid #ffffff40; border-radius: 16px; padding: 8px; }

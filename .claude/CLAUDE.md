@@ -72,3 +72,5 @@
 - 3D用JavaScriptのimport拒否は `SceneModuleError` で通常のモデル／WebGL失敗と区別する。`React.lazy` とブラウザが失敗を保持するため、モードの再選択で復帰できるとは案内しない。2Dを継続しつつ「最初から再読み込み」を表示し、体験が初期化されることを明示する。ページ更新は利用者の押下時だけ。取得保留・タイムアウト・モデル失敗にはこの案内を出さず、従来の再試行を維持する。
 
 - 全周の目視確認用画像は `bun run test:browser:visual --reporter=json > /tmp/sauna-visual-check.json`。専用configで `e2e/*.visual.ts` のみ実行し、3ステージ×昼夕×8方向×上下・水平の144枚を `test-results/visual/` に保存する。標準画質・動作抑制・1280×800・DPR1のChrome。`python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-qa/survey`（Pillow必要）で6枚の一覧画像とモデルハッシュ付きJSONを生成する。テストの成功は撮影・操作の成功であり、画質の合格判定ではない。画質所見は進捗記録へ残す。
+
+- 外気浴の2D用 `.aurora-container` は、3Dの `data-load-ms` が付いた準備完了時だけ非表示にする。昼夕の3D照明を濃紺の全画面背景で覆わない。読み込み中・2D切り替え・失敗後は従来の背景へ戻す。`scene-aurora.e2e.ts` でこの境界と実コンテキスト喪失後の操作継続を検証する。
