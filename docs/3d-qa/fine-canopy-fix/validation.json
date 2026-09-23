@@ -1,0 +1,68 @@
+{
+  "model_sha256": "f96f8729f0064417b7cc130d8a6c3444c1f21d9e941aa151b5a79f2f1793cf6e",
+  "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "source_unchanged": true,
+  "dist_hash_matches": true,
+  "scene_definition_unchanged": true,
+  "finite_positions_and_valid_indices": true,
+  "changed_foliage_groups": 162,
+  "before": {
+    "output_bytes": 23168796,
+    "triangles": 454500,
+    "export_meshes": 73
+  },
+  "after": {
+    "output_bytes": 29438216,
+    "triangles": 553320,
+    "export_meshes": 73
+  },
+  "survey_metric_deltas": {
+    "triangles": {
+      "min": 98820,
+      "max": 98820
+    },
+    "drawCalls": {
+      "min": 0,
+      "max": 0
+    },
+    "textures": {
+      "min": 0,
+      "max": 0
+    },
+    "geometries": {
+      "min": 0,
+      "max": 0
+    }
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unit_tests": 107,
+    "unit_files": 18,
+    "lint": "passed",
+    "build": "passed",
+    "diff_check": "passed"
+  },
+  "soak": "not rerun",
+  "limitations": [
+    "Headless desktop Chrome; no mobile hardware, GPU timing, slow-network or listening test",
+    "Existing 3D chunk warning above 500 KB remains"
+  ],
+  "playwright": {
+    "browser": {
+      "startTime": "2026-09-23T14:16:02.476Z",
+      "duration": 133798.028,
+      "expected": 10,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "visual": {
+      "startTime": "2026-09-23T14:13:41.804Z",
+      "duration": 46910.308000000005,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  }
+}
