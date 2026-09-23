@@ -1,0 +1,163 @@
+{
+ "model_sha256": {
+  "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+  "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
+ },
+ "previous_model_sha256": {
+  "sauna.glb": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf"
+ },
+ "scene_json_unchanged": true,
+ "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+ "source_unchanged": true,
+ "source_surface": {
+  "image_roughness": "Roughness = linear grey ramp of a Non-Color *_Rough.jpg (stone 0.58-0.91 / 0.64-0.91, cleanwood 0.50-0.86 / 0.43-0.78, linen 0.88-0.99); exported as the mean over all pixels (exact for these ramps)",
+  "noise_roughness": "V7 locally damp ash: Map Range 0.49->0.16 of a noise mask ramp (0.46-0.65, FBM scale 5.5); V9 wet and dry basalt: ramp 0.79->0.19 of a mask ramp (0.47-0.65, FBM scale 3.5); evaluated with the noise at its mean 0.5, like procedural_flat_color",
+  "specular_ior_level": "0.28 on every material with image/noise roughness (unlinked); exported by Blender glTF as KHR_materials_specular specularFactor = 2 x 0.28 = 0.56; three GLTFLoader makes these MeshPhysicalMaterial with specularIntensity 0.56 (F0 0.04 -> 0.0224)",
+  "not_exported": "roughness variation within a material, sheen 0.4 of linen/towel, wet-patch masks"
+ },
+ "roughness_mean": [
+  {
+   "mean": 0.4205,
+   "materials": [
+    "V7 | locally damp ash",
+    "V7 | locally damp ash.001-.035"
+   ]
+  },
+  {
+   "mean": 0.6263,
+   "materials": [
+    "V2 | warm open-grain timber"
+   ]
+  },
+  {
+   "mean": 0.69,
+   "materials": [
+    "V9 | quiet honed stone / V2 | wet and dry basalt / water splash"
+   ]
+  },
+  {
+   "mean": 0.7019,
+   "materials": [
+    "V2 | outdoor ash / grain & wear"
+   ]
+  },
+  {
+   "mean": 0.7891,
+   "materials": [
+    "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+    "V2 | mineral charcoal stone"
+   ]
+  },
+  {
+   "mean": 0.811,
+   "materials": [
+    "V2 | pale mineral paving"
+   ]
+  },
+  {
+   "mean": 0.959,
+   "materials": [
+    "V2 | woven linen fibers",
+    "V5 | soft oatmeal terry linen",
+    "V6 | fine soft linen",
+    "V7 | oatmeal woven towel"
+   ]
+  }
+ ],
+ "glb_diff": "materials only: 44 materials change roughnessFactor (0.5 or 0.93 before) and gain KHR_materials_specular 0.56; extensionsUsed adds KHR_materials_specular. 73 meshes, 362 accessors, 368 buffer views, 6 images, 88 textures unchanged. 16,365,068 -> 16,369,196 bytes.",
+ "survey_metrics_unchanged_since_soft_shadow": "drawCalls, triangles, textures, geometries and material counters identical in all 144 views",
+ "cycles_tone_stats": {
+  "method": "scripts/cycles_tone_stats.py, 600x400 CIELAB; day = the 7 source renders, evening = 06 + 5 blue-hour references",
+  "before_soft_shadow_final_build": {
+   "day": {
+    "percentile_all": 2.85,
+    "mean_abs_dL": 1.49,
+    "mean_dC": -0.2
+   },
+   "evening": {
+    "percentile_all": 2.8,
+    "mean_abs_dL": 1.37,
+    "mean_dC": 1.17
+   }
+  },
+  "after": {
+   "day": {
+    "percentile_all": 2.62,
+    "mean_abs_dL": 1.17,
+    "mean_dC": -0.02
+   },
+   "evening": {
+    "percentile_all": 2.9,
+    "mean_abs_dL": 1.33,
+    "mean_dC": 1.19
+   }
+  },
+  "mean_L_day_cycles_before_after": {
+   "01": [
+    34.0,
+    36.0,
+    35.8
+   ],
+   "02": [
+    29.0,
+    29.9,
+    29.6
+   ],
+   "03": [
+    46.1,
+    45.2,
+    45.2
+   ],
+   "04": [
+    47.8,
+    48.9,
+    48.6
+   ],
+   "05": [
+    34.9,
+    37.6,
+    37.3
+   ],
+   "07": [
+    37.5,
+    40.3,
+    39.0
+   ]
+  }
+ },
+ "region_mean_L": {
+  "method": "same crop of the Cycles-camera comparison images (900x600 halves), sRGB -> L*",
+  "07 deck": [
+   48.1,
+   60.9,
+   55.5
+  ],
+  "07 stepping stones and stones": [
+   42.5,
+   48.0,
+   44.6
+  ],
+  "05 deck": [
+   35.2,
+   39.9,
+   39.5
+  ],
+  "04 deck": [
+   51.9,
+   53.4,
+   53.5
+  ],
+  "order": "Cycles / before / after"
+ },
+ "verification": {
+  "tsc": "pass",
+  "unit": "23 files, 118 tests pass",
+  "lint": "pass",
+  "format": "pass",
+  "build": "pass; 2D main 217.62 KB (gzip 69.24 KB), 3D chunk 660.25 KB (gzip 169.77 KB), existing >500 KB warning",
+  "browser_regression": "11 passed (2.3 min)",
+  "visual": "2 passed (49 s)",
+  "browser": "Chrome 154.0.8037.57 / macOS, headless, localhost, production build, standard quality, DPR 1, reduced motion, muted",
+  "not_run": "5-minute soak; GPU time; mobile devices"
+ }
+}

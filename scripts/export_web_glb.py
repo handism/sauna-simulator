@@ -32,7 +32,7 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'input_modified_utc': datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(),
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'lossless EXT_meshopt_compression; no quantization', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
-                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean',
+                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean; image- and noise-driven roughness becomes its mean (image pixels, noise at 0.5); Specular IOR Level is kept (KHR_materials_specular)',
                      'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; Fine canopy keeps every source leaf as a two-triangle silhouette; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'objects_beyond_courtyard': 0,
           'pillow_topology': [], 'lifted_pavers': 0}
@@ -44,6 +44,7 @@ RANDOM_ATTRIBUTE = 'SuiObjectRandom'
 report['paver_lift_m'] = PAVER_LIFT
 report['procedural_color'] = []
 report['procedural_flat_color'] = []
+report['roughness_mean'] = []
 noise_color = {}
 report['image_ramp'] = []
 image_ramp = {}
@@ -84,6 +85,34 @@ def base_color_noise_mean(principled):
 
 def linked(socket):
     return socket.links[0].from_node if socket.is_linked else None
+
+def scalar_samples(socket):
+    """Samples of a grey scalar chain: every pixel of a Non-Color image, normalized FBM noise at its mean 0.5."""
+    import numpy as np
+    node = linked(socket)
+    if node is None:
+        return np.array([socket.default_value], dtype=np.float64)
+    if node.type == 'VALTORGB':
+        assert socket.links[0].from_socket.name == 'Color' and node.color_ramp.interpolation == 'LINEAR', node.name
+        stops = node.color_ramp.elements
+        assert all(abs(e.color[0] - e.color[1]) < 1e-6 and abs(e.color[0] - e.color[2]) < 1e-6 for e in stops), node.name
+        return np.interp(scalar_samples(node.inputs['Fac']), [e.position for e in stops], [e.color[0] for e in stops])
+    if node.type == 'MAP_RANGE':
+        assert node.data_type == 'FLOAT' and node.interpolation_type == 'LINEAR', node.name
+        value = lambda name: node.inputs[name].default_value
+        assert not any(node.inputs[name].is_linked for name in ('From Min', 'From Max', 'To Min', 'To Max')), node.name
+        t = (scalar_samples(node.inputs['Value']) - value('From Min')) / (value('From Max') - value('From Min'))
+        return value('To Min') + (np.clip(t, 0, 1) if node.clamp else t) * (value('To Max') - value('To Min'))
+    if node.type == 'TEX_NOISE':
+        assert node.noise_type == 'FBM' and node.normalize, node.name
+        return np.array([.5])
+    if node.type == 'TEX_IMAGE':
+        image = node.image
+        assert image.colorspace_settings.name == 'Non-Color', image.name
+        pixels = np.empty(len(image.pixels), dtype=np.float32)
+        image.pixels.foreach_get(pixels)
+        return pixels.reshape(-1, image.channels)[:, :3].astype(np.float64) @ np.array(LUMA)
+    raise AssertionError(f'unsupported scalar node {node.type} ({node.name})')
 
 def linear_ramp(node):
     assert node.color_ramp.interpolation == 'LINEAR' and node.color_ramp.color_mode == 'RGB', node.name
@@ -128,6 +157,13 @@ for m in bpy.data.materials:
     if procedural and 'moss' in m.name.lower(): color=(.055,.095,.025,1)
     if procedural and 'fern' in m.name.lower(): color=(.075,.14,.035,1)
     roughness = p.inputs['Roughness'].default_value if p else .85
+    # Image-driven roughness (timber, stone, linen) and noise masks (damp ash, wet basalt)
+    # become their mean; the unlinked default is only a placeholder in the source.
+    if p and p.inputs['Roughness'].is_linked:
+        roughness = float(scalar_samples(p.inputs['Roughness']).mean())
+        report['roughness_mean'].append({'material': m.name, 'unlinked': p.inputs['Roughness'].default_value, 'mean': roughness})
+    assert not p or not p.inputs['Specular IOR Level'].is_linked, m.name
+    specular = p.inputs['Specular IOR Level'].default_value if p else .5
     metallic = p.inputs['Metallic'].default_value if p else 0
     imgs = [n.image for n in nodes if n.type == 'TEX_IMAGE' and n.image]
     diffuse = next((i for i in imgs if 'Diffuse' in i.name), None)
@@ -151,6 +187,8 @@ for m in bpy.data.materials:
     p.inputs['Base Color'].default_value = color
     p.inputs['Roughness'].default_value = max(.3,roughness)
     p.inputs['Metallic'].default_value = metallic
+    # Exported as KHR_materials_specular (factor = 2 x level) when it differs from 0.5.
+    p.inputs['Specular IOR Level'].default_value = specular
     output = nodes.new('ShaderNodeOutputMaterial')
     m.node_tree.links.new(p.outputs['BSDF'], output.inputs['Surface'])
     for img, socket in [(diffuse,'Base Color'), (normal,'Normal')]:
