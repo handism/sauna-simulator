@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:browser": "bun run build && playwright test"
+    "test:browser": "bun run build && playwright test",
+    "test:browser:soak": "bun run build && playwright test --config playwright.soak.config.ts"
   },
   "dependencies": {
     "react": "^19.2.4",
