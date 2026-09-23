@@ -80,7 +80,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     const camera = new THREE.PerspectiveCamera(65, 1, 0.05, 250);
     camera.rotation.order = 'YXZ';
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
+    // Raw depth for the soft shadow filter in softShadows.ts.
+    renderer.shadowMap.type = THREE.BasicShadowMap;
     // Same view transform as the source Cycles renders (AgX, look None).
     renderer.toneMapping = THREE.AgXToneMapping;
     element.appendChild(renderer.domElement);

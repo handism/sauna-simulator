@@ -57,9 +57,10 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
         leafClusterMaterials++;
       }
     }
-    // Glass and water must not cast opaque silhouettes onto the garden.
-    object.castShadow = materials.every((material) => !material.transparent);
-    object.receiveShadow = object.castShadow;
+    // Water and steam cast no shadow. Cycles glass passes no direct light (only refracted view
+    // rays), so glass shadows every light but receives none.
+    object.receiveShadow = materials.every((material) => !material.transparent);
+    object.castShadow = object.receiveShadow || materials.some((material) => /glass/i.test(material.name));
     // Replace the exported closed water volume with the bounded realtime surface.
     // Drawing both creates a milky double layer when the viewer sits in the pool.
     if (materials.every((material) => material.name === 'V4 | clear spring water')) object.visible = false;

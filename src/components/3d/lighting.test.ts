@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { createLighting, eveningAmount } from './lighting';
+import { directionalPenumbra, spotPenumbra } from './softShadows';
 
 describe('3D lighting', () => {
   it('repeats the automatic progression and honors fixed choices in every stage', () => {
@@ -48,6 +49,21 @@ describe('Cycles lounge light', () => {
     expect(toSun.toArray().map((v) => +v.toFixed(3))).toEqual([-0.556, 0.618, 0.556]);
     lighting.update(1, 0, true);
     expect(lounge.intensity).toBe(0);
+    // A 90° full-penumbra cone approximates the disk's cosine falloff.
+    expect(lounge.angle).toBeCloseTo(Math.PI / 2);
+    expect(lounge.penumbra).toBe(1);
+  });
+
+  it('sizes the soft shadows from the source sun angle and lounge disk', () => {
+    const scene = new THREE.Scene();
+    createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    const lounge = scene.children.find((child) => child instanceof THREE.SpotLight) as THREE.SpotLight;
+    const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
+    expect(sun.shadow.radius).toBeCloseTo(directionalPenumbra(sun.shadow.camera, 0.085));
+    expect(lounge.shadow.focus * 2 * THREE.MathUtils.radToDeg(lounge.angle)).toBeCloseTo(144);
+    expect(lounge.shadow.radius).toBeCloseTo(spotPenumbra(1, 20, 144, 1.25));
+    // The sun shadow covers the garden the Cycles cameras frame.
+    expect(sun.shadow.camera.right - sun.shadow.camera.left).toBe(60);
   });
 });
 
