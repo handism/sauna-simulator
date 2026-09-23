@@ -1,0 +1,353 @@
+{
+ "model_sha256": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
+ "model_unchanged_since_tone_fix": true,
+ "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+ "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+ "source_unchanged": true,
+ "dist_hash_matches": true,
+ "capture_hash_matches": true,
+ "source_lights_probe": {
+  "method": "Cycles 4.5.11, Daylight scene, 25% resolution, 48 samples, denoised; mean CIELAB L* with one light group hidden at a time. Not saved to the blend.",
+  "mean_L_all_and_without": {
+   "01": {
+    "all": 35.0,
+    "no_sun": 29.4,
+    "no_sky_softbox": 31.6,
+    "no_sunlit_courtyard": 33.5,
+    "no_v9_lounge": 29.9,
+    "no_v7_strip": 34.7,
+    "no_area_lights": 20.0,
+    "no_world": 30.4
+   },
+   "03": {
+    "all": 46.2,
+    "no_sun": 44.2,
+    "no_sky_softbox": 42.7,
+    "no_sunlit_courtyard": 45.6,
+    "no_v9_lounge": 35.4,
+    "no_v7_strip": 45.4,
+    "no_area_lights": 14.8,
+    "no_world": 45.7
+   },
+   "04": {
+    "all": 48.2,
+    "no_sun": 44.9,
+    "no_sky_softbox": 45.2,
+    "no_sunlit_courtyard": 47.3,
+    "no_v9_lounge": 38.3,
+    "no_v7_strip": 47.5,
+    "no_area_lights": 22.7,
+    "no_world": 47.2
+   },
+   "05": {
+    "all": 35.8,
+    "no_sun": 31.6,
+    "no_sky_softbox": 32.6,
+    "no_sunlit_courtyard": 34.7,
+    "no_v9_lounge": 29.5,
+    "no_v7_strip": 35.4,
+    "no_area_lights": 18.2,
+    "no_world": 31.4
+   },
+   "07": {
+    "all": 38.1,
+    "no_sun": 34.7,
+    "no_sky_softbox": 35.7,
+    "no_sunlit_courtyard": 37.2,
+    "no_v9_lounge": 33.1,
+    "no_v7_strip": 37.9,
+    "no_area_lights": 26.1,
+    "no_world": 23.1
+   }
+  },
+  "v9_lounge_patch": {
+   "type": "AREA DISK",
+   "power_w": 950,
+   "size_m": 1.25,
+   "location_blender": [
+    3.8,
+    -1.5,
+    6.8
+   ],
+   "direction_blender": [
+    0.13,
+    0.3757,
+    -0.9176
+   ],
+   "color_linear": [
+    1,
+    0.84,
+    0.62
+   ]
+  },
+  "late_afternoon_sun": {
+   "strength": 3.2,
+   "direction_blender": [
+    0.556,
+    0.556,
+    -0.6178
+   ],
+   "angle_rad": 0.085,
+   "color_linear": [
+    1,
+    0.86,
+    0.69
+   ]
+  },
+  "water_material": "V4 | clear spring water: Principled transmission 1, IOR 1.333, roughness 0.018, base (0.93,0.985,0.975), volume absorption (0.57,0.84,0.78) density 0.12",
+  "pool_tile": "V10 | submerged light / Teal glazed pool tile: base (0.12,0.32,0.28), roughness 0.3, procedural caustic emission (not exported)"
+ },
+ "renderer": {
+  "lounge_spot_light": "new: SpotLight at the V9 position/direction, 950/pi cd, 60 deg cone with penumbra 1, decay 2, shadow radius 4 with the sun shadow size, cached; 0 at dusk",
+  "sun_direction_day": "Blender (0.556,0.556,-0.6178) (was glTF position (-6,20,8)); dusk end unchanged (-16,6,8)",
+  "sun": "3.2 -> 0.7 (was 5.5 -> 0.7)",
+  "hemisphere": "0.7 -> 0.4 (was 0.9 -> 0.4)",
+  "sauna_point_light": "unchanged 10 -> 25",
+  "water_surface": "Fresnel (Schlick F0 0.02) reflection of the untonemapped sky over the tiles, ripple highlight; was unlit teal overlay (0.08,0.31,0.29) at alpha 0.38"
+ },
+ "cycles_camera_stats": {
+  "before_tone_fix": {
+   "percentile_abs_dL_all": 3.96,
+   "mean_abs_dL": 4.26,
+   "mean_dC": 0.15,
+   "green_abs_dC": 1.91
+  },
+  "candidates": [
+   {
+    "name": "water surface only",
+    "percentile_abs_dL_all": 4.01,
+    "mean_abs_dL": 4.39,
+    "mean_dC": 0.11
+   },
+   {
+    "name": "+ V9 950/pi cd unshadowed, lighting unchanged",
+    "percentile_abs_dL_all": 4.85,
+    "mean_abs_dL": 5.41,
+    "mean_dC": 0.68
+   },
+   {
+    "name": "+ source sun direction",
+    "percentile_abs_dL_all": 5.2,
+    "mean_abs_dL": 5.38,
+    "mean_dC": 0.45
+   },
+   {
+    "name": "unshadowed V9, hemisphere 0.6, sun 3.5",
+    "percentile_abs_dL_all": 3.64,
+    "mean_abs_dL": 2.42,
+    "mean_dC": 0.29
+   },
+   {
+    "name": "shadowed V9, hemisphere 0.7, sun 3.5",
+    "percentile_abs_dL_all": 3.22,
+    "mean_abs_dL": 1.92,
+    "mean_dC": 0.16
+   },
+   {
+    "name": "shadowed V9 + water casts shadows (rejected: pool walls turn dark)",
+    "percentile_abs_dL_all": 3.42,
+    "mean_abs_dL": 2.16,
+    "mean_dC": 0.15
+   },
+   {
+    "name": "shadowed V9, hemisphere 0.7, sun 3.2 (adopted)",
+    "percentile_abs_dL_all": 3.19,
+    "mean_abs_dL": 1.83,
+    "mean_dC": 0.16
+   },
+   {
+    "name": "shadowed V9, hemisphere 0.8, sun 3.2",
+    "percentile_abs_dL_all": 3.33,
+    "mean_abs_dL": 1.91,
+    "mean_dC": 0.19
+   },
+   {
+    "name": "adopted with a 256 px lounge shadow map (rejected: stripes stay, lounge darker)",
+    "percentile_abs_dL_all": 3.86,
+    "mean_abs_dL": 2.26,
+    "mean_dC": 0.1
+   }
+  ],
+  "final": {
+   "per_camera": {
+    "01.png": {
+     "mean_L_cycles_web": [
+      34.0,
+      34.0
+     ],
+     "mean_C_cycles_web": [
+      16.5,
+      17.1
+     ],
+     "L10_50_90_cycles": [
+      11,
+      35,
+      56
+     ],
+     "L10_50_90_web": [
+      15,
+      35,
+      50
+     ]
+    },
+    "02.png": {
+     "mean_L_cycles_web": [
+      29.0,
+      32.6
+     ],
+     "mean_C_cycles_web": [
+      21.3,
+      21.3
+     ],
+     "L10_50_90_cycles": [
+      6,
+      29,
+      52
+     ],
+     "L10_50_90_web": [
+      8,
+      33,
+      54
+     ]
+    },
+    "03.png": {
+     "mean_L_cycles_web": [
+      46.1,
+      43.0
+     ],
+     "mean_C_cycles_web": [
+      11.5,
+      10.7
+     ],
+     "L10_50_90_cycles": [
+      20,
+      48,
+      70
+     ],
+     "L10_50_90_web": [
+      16,
+      45,
+      63
+     ]
+    },
+    "04.png": {
+     "mean_L_cycles_web": [
+      47.8,
+      46.1
+     ],
+     "mean_C_cycles_web": [
+      12.7,
+      11.9
+     ],
+     "L10_50_90_cycles": [
+      14,
+      50,
+      79
+     ],
+     "L10_50_90_web": [
+      14,
+      48,
+      72
+     ]
+    },
+    "05.png": {
+     "mean_L_cycles_web": [
+      34.9,
+      34.5
+     ],
+     "mean_C_cycles_web": [
+      14.5,
+      15.6
+     ],
+     "L10_50_90_cycles": [
+      11,
+      34,
+      61
+     ],
+     "L10_50_90_web": [
+      12,
+      35,
+      55
+     ]
+    },
+    "06.png": {
+     "mean_L_cycles_web": [
+      14.4,
+      13.6
+     ],
+     "mean_C_cycles_web": [
+      7.5,
+      10.6
+     ],
+     "L10_50_90_cycles": [
+      2,
+      11,
+      29
+     ],
+     "L10_50_90_web": [
+      4,
+      11,
+      26
+     ]
+    },
+    "07.png": {
+     "mean_L_cycles_web": [
+      37.5,
+      41.4
+     ],
+     "mean_C_cycles_web": [
+      14.3,
+      12.1
+     ],
+     "L10_50_90_cycles": [
+      17,
+      40,
+      56
+     ],
+     "L10_50_90_web": [
+      13,
+      40,
+      66
+     ]
+    }
+   },
+   "percentile_abs_dL_all": 3.3,
+   "mean_abs_dL": 1.91,
+   "mean_dC": 0.14,
+   "green_abs_dC": 2.0,
+   "note": "Final build rerun; the adopted candidate measured 3.19 with the V9 direction rounded to (0.13,0.38,-0.92)."
+  }
+ },
+ "stats_method": "python3 scripts/cycles_tone_stats.py on the Cycles-camera captures (600x400 box resize, CIELAB).",
+ "survey_metric_deltas_vs_tone_fix": {
+  "drawCalls": {
+   "0": 144
+  },
+  "triangles": {
+   "0": 144
+  },
+  "textures": {
+   "2": 144
+  },
+  "geometries": {
+   "0": 144
+  }
+ },
+ "checks": {
+  "tsc": "passed",
+  "unit_tests": "21 files, 113 tests passed",
+  "lint": "passed",
+  "format_check": "passed",
+  "build": "passed",
+  "browser_regression": "11 passed (2.3 min)",
+  "visual_captures": "2 passed (45 s)",
+  "soak": "not rerun",
+  "bundle": {
+   "main_kb": 217.62,
+   "main_gzip_kb": 69.25,
+   "scene_chunk_kb": 656.62,
+   "scene_chunk_gzip_kb": 168.4
+  },
+  "conditions": "Chrome/macOS headless, localhost, production build, standard quality, DPR 1, reduced motion, muted"
+ }
+}
