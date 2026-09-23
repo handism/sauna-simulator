@@ -1,0 +1,19 @@
+{
+  "codec": "meshoptimizer 1.1.1",
+  "extension": "EXT_meshopt_compression",
+  "version": 0,
+  "floatBits": 20,
+  "inputBytes": 29438216,
+  "outputBytes": 14402044,
+  "inputSha256": "f96f8729f0064417b7cc130d8a6c3444c1f21d9e941aa151b5a79f2f1793cf6e",
+  "outputSha256": "b38c2eaa160ad3f9ed50107bc02c66819cac20b7229ade43f4ec446ce2261698",
+  "verification": {
+    "compressedViews": 362,
+    "exactViews": 114,
+    "imageViews": 6,
+    "maxAbsoluteError": {
+      "VEC3": 0.00079345703125,
+      "VEC2": 0.000005245208740234375
+    }
+  }
+}

@@ -8,19 +8,25 @@ import hashlib
 import math
 import json
 import struct
+import shutil
+import subprocess
+import os
 from pathlib import Path
 from datetime import datetime, timezone
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'public/models'
+NODE = shutil.which('node')
+if NODE is None:
+    raise RuntimeError('Node.js is required for meshopt compression; run bun install first')
+OUT = Path(os.environ.get('SUI_WEB_EXPORT_DIR', ROOT / 'public/models')).resolve()
 OUT.mkdir(parents=True, exist_ok=True)
 source = Path(bpy.data.filepath)
 source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
 report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_hash,
           'input_modified_utc': datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(),
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
-          'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
+          'policy': {'compression': 'lossless EXT_meshopt_compression; no quantization', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader',
                      'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; Fine canopy keeps every source leaf as a two-triangle silhouette; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'objects_beyond_courtyard': 0,
@@ -384,7 +390,7 @@ for objects in groups.values():
     if len(objects)>1: bpy.ops.object.join()
     bpy.ops.object.select_all(action='DESELECT')
 report['export_meshes']=len([o for o in bpy.context.scene.objects if o.type=='MESH'])
-# Compression hook: keep export settings together; Draco can be enabled after profiling.
+# Export ordinary GLB first; the verified lossless meshopt pass runs after metadata injection.
 settings=dict(export_format='GLB',export_yup=True,export_cameras=False,export_lights=False,
               use_active_scene=True,export_animations=False,export_image_format='JPEG',export_jpeg_quality=82,
               export_vertex_color='ACTIVE',export_draco_mesh_compression_enable=False)
@@ -419,6 +425,9 @@ encoded+=b' '*((-len(encoded))%4)
 tail=data[20+json_size:]
 path.write_bytes(struct.pack('<III',0x46546C67,2,20+len(encoded)+len(tail))+struct.pack('<II',len(encoded),0x4E4F534A)+encoded+tail)
 report['export_settings']=settings
+subprocess.run([NODE, str(ROOT/'scripts/compress_web_glb.mjs'), str(path), str(path),
+                str(OUT/'compression-report.json')], cwd=ROOT, check=True)
+report['compression'] = json.loads((OUT/'compression-report.json').read_text())
 report['output_bytes']=(OUT/'sauna.glb').stat().st_size
 report['output_sha256']=hashlib.sha256((OUT/'sauna.glb').read_bytes()).hexdigest()
 assert source_hash == hashlib.sha256(source.read_bytes()).hexdigest()

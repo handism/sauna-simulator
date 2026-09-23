@@ -5,7 +5,7 @@
   "blender": "4.5.11 LTS",
   "source_objects": 7099,
   "policy": {
-    "compression": "none",
+    "compression": "lossless EXT_meshopt_compression; no quantization",
     "texture_size": 1024,
     "scope": "sauna, courtyard and woodland horizon",
     "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader",
@@ -10104,7 +10104,23 @@
     "export_vertex_color": "ACTIVE",
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 29438216,
-  "output_sha256": "f96f8729f0064417b7cc130d8a6c3444c1f21d9e941aa151b5a79f2f1793cf6e",
-  "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
+  "output_bytes": 16365104,
+  "output_sha256": "64ea5acff44f865e2ee26e69860eb8100debdd82b65d5d94b2e1273c62110ab3",
+  "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+  "compression": {
+    "codec": "meshoptimizer 1.1.1",
+    "extension": "EXT_meshopt_compression",
+    "version": 0,
+    "floatBits": null,
+    "inputBytes": 29438216,
+    "outputBytes": 16365104,
+    "inputSha256": "f96f8729f0064417b7cc130d8a6c3444c1f21d9e941aa151b5a79f2f1793cf6e",
+    "outputSha256": "64ea5acff44f865e2ee26e69860eb8100debdd82b65d5d94b2e1273c62110ab3",
+    "verification": {
+      "compressedViews": 362,
+      "exactViews": 362,
+      "imageViews": 6,
+      "maxAbsoluteError": {}
+    }
+  }
 }

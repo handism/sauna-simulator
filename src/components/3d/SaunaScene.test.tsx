@@ -17,7 +17,10 @@ vi.mock('three', async importOriginal => {
     constructor() { mocks.renderers.push(this); }
   } };
 });
-vi.mock('three/addons/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = mocks.parse; } }));
+vi.mock('three/addons/loaders/GLTFLoader.js', () => ({ GLTFLoader: class {
+  setMeshoptDecoder() { return this; }
+  parseAsync = mocks.parse;
+} }));
 
 function deferred<T>() {
   let resolve!: (value: T) => void;

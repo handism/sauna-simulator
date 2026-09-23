@@ -34,6 +34,7 @@ UI非表示中も右上の復帰ボタン、左上のモード切り替えを利
 入力の識別子は [export-report.json](../public/models/export-report.json) のファイル名・更新日時・SHA-256を照合する。異なるハッシュの入力は別バージョンとして扱う。
 
 ```sh
+bun install
 /Applications/Blender.app/Contents/MacOS/Blender \
   -b blender/scene/SUI_Retreat.blend \
   --python-exit-code 1 --python scripts/export_web_glb.py
@@ -43,9 +44,10 @@ bun run build
 
 Blender 4.5.11 LTSで実行。別OSではBlender実行ファイルだけ置き換える。
 スクリプトは自身の場所からリポジトリを解決する。元のblendを上書きしない。
-`public/models/sauna.glb`、`sauna.scene.json`、`export-report.json`を生成する。
+比較用の別出力先は `SUI_WEB_EXPORT_DIR=/tmp/sui-web-export` のように指定できる（既定は `public/models/`）。
+`public/models/sauna.glb`、`sauna.scene.json`、`export-report.json`、`compression-report.json`を生成する。Node.jsもPATH上に必要。
 座標はBlender `(x,y,z)` → glTF `(x,z,-y)`、単位メートル。
-圧縮設定はスクリプト末尾にまとめてあり、Dracoは未適用。
+書き出し末尾で `scripts/compress_web_glb.mjs` を呼び、可逆のmeshopt圧縮と復号一致検査を行う。Draco・量子化は未適用。
 元シーン内に複数シーンがあるため `use_active_scene=True` は外さない。
 
 材質はベイクしていない。木目／法線画像と簡略化PBRへ置換し、苔・シダ・石・デッキの色を明示補正した。地面の苔・シダの座標ノイズの色調ランプだけは設定を記録し、ブラウザで再現する（「庭の地面の模様」参照）。その他の色調ランプ、濡れ、体積蒸気、間接照明は再現していない。省略したオブジェクトと手直し対象のプロシージャルノード数も出力記録に含む。
