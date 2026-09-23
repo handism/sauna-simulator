@@ -20,12 +20,39 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'input_modified_utc': datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(),
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'none', 'texture_size': 1024, 'scope': 'sauna and courtyard',
-                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking',
+                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) recorded in material extras for the browser shader',
                      'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'restored_bank_objects': 0,
           'pillow_topology': [], 'lifted_pavers': 0}
 PAVER_LIFT = .003
 report['paver_lift_m'] = PAVER_LIFT
+report['procedural_color'] = []
+noise_color = {}
+
+def base_color_noise(m, principled):
+    """Describe a Base Color driven by world-space FBM noise through a linear ramp, or None."""
+    link = principled.inputs['Base Color'].links[0] if principled and principled.inputs['Base Color'].is_linked else None
+    ramp = link and link.from_node
+    if not ramp or ramp.type != 'VALTORGB' or not ramp.inputs['Fac'].is_linked:
+        return None
+    noise = ramp.inputs['Fac'].links[0].from_node
+    if noise.type != 'TEX_NOISE' or not noise.inputs['Vector'].is_linked:
+        return None
+    source = noise.inputs['Vector'].links[0]
+    world = source.from_node.type == 'NEW_GEOMETRY' and source.from_socket.name == 'Position'
+    # Object coordinates equal world coordinates only on untransformed users.
+    local = source.from_node.type == 'TEX_COORD' and source.from_socket.name == 'Object' and all(
+        o.matrix_world == o.matrix_world.Identity(4) for o in bpy.data.objects
+        if o.type == 'MESH' and m.name in [x.name for x in o.data.materials if x])
+    value = lambda name: noise.inputs[name].default_value
+    assert not any(noise.inputs[name].is_linked for name in ('Scale', 'Detail', 'Roughness', 'Lacunarity', 'Distortion')), m.name
+    if not (world or local) or noise.noise_dimensions != '3D' or noise.noise_type != 'FBM' or not noise.normalize or value('Distortion') != 0:
+        return None
+    assert ramp.color_ramp.interpolation == 'LINEAR' and ramp.color_ramp.color_mode == 'RGB', m.name
+    return {'space': 'blender_world', 'scale': value('Scale'), 'detail': value('Detail'),
+            'roughness': value('Roughness'), 'lacunarity': value('Lacunarity'),
+            'stops': [[e.position, *e.color[:3]] for e in ramp.color_ramp.elements]}
+
 # Rebuild materials into the subset glTF can represent. Keep source UVs and packed images.
 for m in bpy.data.materials:
     if not m.use_nodes:
@@ -33,14 +60,21 @@ for m in bpy.data.materials:
     nodes = m.node_tree.nodes
     p = next((n for n in nodes if n.type == 'BSDF_PRINCIPLED'), None)
     color = tuple(p.inputs['Base Color'].default_value) if p else (.2,.25,.15,1)
-    if 'moss' in m.name.lower(): color=(.055,.095,.025,1)
-    if 'fern' in m.name.lower(): color=(.075,.14,.035,1)
+    # Fallback tints for procedurally colored moss and ferns; flat source colors are kept.
+    procedural = p is not None and p.inputs['Base Color'].is_linked
+    if procedural and 'moss' in m.name.lower(): color=(.055,.095,.025,1)
+    if procedural and 'fern' in m.name.lower(): color=(.075,.14,.035,1)
     roughness = p.inputs['Roughness'].default_value if p else .85
     metallic = p.inputs['Metallic'].default_value if p else 0
     imgs = [n.image for n in nodes if n.type == 'TEX_IMAGE' and n.image]
     diffuse = next((i for i in imgs if 'Diffuse' in i.name), None)
     normal = next((i for i in imgs if 'nor_gl' in i.name), None)
     report['materials'].append({'name':m.name,'images':[i.name for i in imgs], 'procedural_nodes':sum(n.type in {'TEX_NOISE','VALTORGB','MIX_RGB','BUMP'} for n in nodes)})
+    # The browser evaluates the same noise per pixel; baking would need a huge texture for the terrain.
+    noise = base_color_noise(m, p)
+    if noise:
+        noise_color[m.name] = noise
+        report['procedural_color'].append({'material': m.name, **noise, 'bump_omitted': any(n.type == 'BUMP' for n in nodes)})
     nodes.clear()
     p = nodes.new('ShaderNodeBsdfPrincipled')
     p.inputs['Base Color'].default_value = color
@@ -245,6 +279,9 @@ for material in model.get('materials',[]):
     if 'charcoal' in name or 'basalt' in name or 'quiet honed stone' in name: factor=[.15,.18,.17,1]
     elif 'outdoor ash' in name or 'damp ash' in name: factor=[.48,.38,.27,1]
     if factor: material['pbrMetallicRoughness']['baseColorFactor']=factor
+    if material['name'] in noise_color: material['extras']={'suiNoiseColor':noise_color[material['name']]}
+for entry in report['procedural_color']:
+    entry['in_glb'] = any(m['name'] == entry['material'] for m in model.get('materials',[]))
 encoded=json.dumps(model,separators=(',',':')).encode()
 encoded+=b' '*((-len(encoded))%4)
 tail=data[20+json_size:]

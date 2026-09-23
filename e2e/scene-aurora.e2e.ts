@@ -22,6 +22,8 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   release();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+  // The exported moss ground and ferns carry Blender noise colors; losing them flattens the garden.
+  await expect(scene).toHaveAttribute('data-noise-color-materials', /^[1-9]\d*$/);
   await expect(aurora).toBeHidden();
   const canvas = scene.locator('canvas');
   const original = await canvas.elementHandle();
