@@ -784,3 +784,6 @@ p {
   .scene-mode-controls > a, .scene-mode-controls > span { grid-column: 1 / -1; }
   .app-container:has(.scene-lighting-control) .totonou-title-container { top: 145px; }
 }
+
+.scene-status button { pointer-events: auto; margin-left: 8px; padding: 6px 10px; border: 1px solid #ffffff80; border-radius: 6px; background: #172625; color: #fff; cursor: pointer; }
+.ui-hidden .scene-status button { visibility: hidden; }
