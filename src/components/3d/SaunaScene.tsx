@@ -164,7 +164,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         setData('imageRampMaterials', String(stats.imageRampMaterials));
         setData('leafClusterMaterials', String(stats.leafClusterMaterials));
         scene.add(gltf.scene);
-        const waterEffects = createWaterEffects(definition.water);
+        const waterEffects = createWaterEffects(definition.water, scene.background as THREE.Color);
         scene.add(waterEffects.group);
         const forward = new THREE.Vector3();
         const upVector = new THREE.Vector3();
