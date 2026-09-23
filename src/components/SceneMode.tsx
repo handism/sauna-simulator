@@ -4,7 +4,10 @@ import type { QualityMode } from './3d/quality';
 import type { LightingMode } from './3d/lighting';
 import type { Stage } from '../context/SaunaContext';
 
-const SaunaScene = lazy(() => import('./3d/SaunaScene'));
+class SceneModuleError extends Error {}
+const SaunaScene = lazy(() => import('./3d/SaunaScene').catch(() => {
+  throw new SceneModuleError('The 3D module could not be loaded');
+}));
 const STORAGE_KEY = 'sui-view-mode';
 export function initialSceneMode(): boolean {
   const query = new URLSearchParams(window.location.search).get('view');
@@ -14,16 +17,19 @@ export function initialSceneMode(): boolean {
   }
   try { return localStorage.getItem(STORAGE_KEY) === '3d'; } catch { return false; }
 }
-class SceneBoundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
+class SceneBoundary extends Component<{ children: ReactNode; onError: (error: Error) => void }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
-  componentDidCatch() { this.props.onError(); }
+  componentDidCatch(error: Error) { this.props.onError(error); }
   render() { return this.state.failed ? null : this.props.children; }
 }
 function ActiveScene({ stage, opacity, loylyEvents, lightingMode, quality, audio }: { quality: QualityMode; audio: AudioEngine; lightingMode: LightingMode; stage: Exclude<Stage, 'start'>; opacity: number; loylyEvents: EventTarget }) {
-  const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const [status, setStatus] = useState<'loading' | 'ready' | 'failed' | 'reload-required'>('loading');
   const ready = useCallback(() => setStatus(current => current === 'loading' ? 'ready' : current), []);
   const failed = useCallback(() => setStatus('failed'), []);
+  const boundaryFailed = useCallback((error: Error) => {
+    setStatus(error instanceof SceneModuleError ? 'reload-required' : 'failed');
+  }, []);
   // Cover the lazy JavaScript download as well as the scene/model load.
   // Stage and setting changes must not extend the deadline.
   useEffect(() => {
@@ -33,12 +39,15 @@ function ActiveScene({ stage, opacity, loylyEvents, lightingMode, quality, audio
   }, [status, failed]);
   return <>
     <div className="scene-3d-layer" style={{ opacity }}>
-    {status !== 'failed' && <SceneBoundary onError={failed}><Suspense fallback={null}>
+    {(status === 'loading' || status === 'ready') && <SceneBoundary onError={boundaryFailed}><Suspense fallback={null}>
       <SaunaScene quality={quality} audio={audio} lightingMode={lightingMode} stage={stage} loylyEvents={loylyEvents} onReady={ready} onError={failed} />
     </Suspense></SceneBoundary>}
     </div>
     <div className="scene-status" role="status">
-      {status === 'loading' ? '3Dを読み込み中 · 2Dで体験を続けられます' : status === 'failed' ? '3Dを表示できないため、2Dで続けています' : 'ドラッグ / スワイプで見回す'}
+      {status === 'loading' ? '3Dを読み込み中 · 2Dで体験を続けられます' : status === 'reload-required' ? <>
+        3Dの読み込みに失敗したため、2Dで続けています。3Dを再試行するには再読み込みが必要です。体験は最初からになります。
+        <button type="button" onClick={() => window.location.reload()}>最初から再読み込み</button>
+      </> : status === 'failed' ? '3Dを表示できないため、2Dで続けています' : 'ドラッグ / スワイプで見回す'}
     </div>
   </>;
 }
