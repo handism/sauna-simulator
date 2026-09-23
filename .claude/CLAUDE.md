@@ -77,3 +77,5 @@
 - 外気浴の2D用 `.aurora-container` は、3Dの `data-load-ms` が付いた準備完了時だけ非表示にする。昼夕の3D照明を濃紺の全画面背景で覆わない。読み込み中・2D切り替え・失敗後は従来の背景へ戻す。`scene-aurora.e2e.ts` でこの境界と実コンテキスト喪失後の操作継続を検証する。
 
 - 葉の逆光対策は `foliage.ts`。名前が leaf／foliage／fern の `MeshStandardMaterial`（落ち葉 `leaves`・苔・樹皮は対象外）だけ `onBeforeCompile` で裏面からの直接光と反対側の半球光を拡散色の0.6倍で透過させる。Three.jsの `lights_fragment_begin`・`lights_physical_pars_fragment` に依存し、想定外のチャンクでは例外にする。Three.js更新時は `foliage.test.ts` と全周撮影で確認する。`data-foliage-materials` に対象材質数を記録する。
+
+- 地面の苔・シダの色は `noiseColor.ts`。`export_web_glb.py` が元材質のワールド／オブジェクト座標fBmノイズ→線形カラーランプの設定を材質 `extras.suiNoiseColor` に記録し、BlenderのPerlin（Jenkinsハッシュ）とfBmのGLSL移植で画素ごとに評価する。画素より細かいオクターブは平均へフェード。バンプは省略。Three.jsの `common`・`project_vertex`・`color_fragment` チャンクに依存。移植は `noise-color.e2e.ts` がBlender基準値（`scripts/blender_noise_reference.py` → `e2e/fixtures/blender-noise.json`）と比較する。名前による苔・シダの単色上書きはBase Colorが接続された材質だけ。
