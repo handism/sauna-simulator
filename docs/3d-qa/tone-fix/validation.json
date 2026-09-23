@@ -1,0 +1,412 @@
+{
+  "model_sha256": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
+  "model_bytes": 16365068,
+  "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "source_unchanged": true,
+  "dist_hash_matches": true,
+  "capture_hash_matches": true,
+  "scene_definition_unchanged": true,
+  "compression_views_exact": {
+    "compressedViews": 362,
+    "exactViews": 362,
+    "imageViews": 6,
+    "maxAbsoluteError": {}
+  },
+  "glb_material_changes": [
+    {
+      "material": "Fine garden gravel",
+      "unlinked": [
+        0.10999999940395355,
+        0.12999999523162842,
+        0.10000000149011612
+      ],
+      "ramp_at_mean": [
+        0.19499999284744263,
+        0.2150000035762787,
+        0.17499999701976776
+      ]
+    },
+    {
+      "material": "Tree bark",
+      "unlinked": [
+        0.05999999865889549,
+        0.04800000041723251,
+        0.03400000184774399
+      ],
+      "ramp_at_mean": [
+        0.11500000208616257,
+        0.08399999886751175,
+        0.05350000038743019
+      ]
+    },
+    {
+      "material": "Unbleached linen",
+      "unlinked": [
+        0.5199999809265137,
+        0.49000000953674316,
+        0.4000000059604645
+      ],
+      "ramp_at_mean": [
+        0.6599999666213989,
+        0.625,
+        0.5249999761581421
+      ]
+    },
+    {
+      "material": "Warm limestone plaster",
+      "unlinked": [
+        0.3199999928474426,
+        0.3100000023841858,
+        0.25999999046325684
+      ],
+      "ramp_at_mean": [
+        0.42499998211860657,
+        0.4099999964237213,
+        0.3449999988079071
+      ]
+    }
+  ],
+  "renderer": {
+    "tone_mapping": "AgXToneMapping (was ACESFilmicToneMapping)",
+    "exposure": "2**lerp(0.15, 0.55) (was lerp(1.2, 1.1))",
+    "hemisphere": "0.9 -> 0.4 (was 2 -> 1.05)",
+    "sun": "5.5 -> 0.7 (was 3 -> 1.35)",
+    "sauna_point_light": "10 -> 25 (was 25 -> 38)"
+  },
+  "cycles_camera_stats": {
+    "before_aces": {
+      "per_camera": {
+        "01.png": {
+          "mean_L_cycles_web": [
+            34.0,
+            38.5
+          ],
+          "mean_C_cycles_web": [
+            16.5,
+            22.7
+          ],
+          "L10_50_90_cycles": [
+            11,
+            35,
+            56
+          ],
+          "L10_50_90_web": [
+            20,
+            40,
+            55
+          ]
+        },
+        "02.png": {
+          "mean_L_cycles_web": [
+            29.0,
+            40.2
+          ],
+          "mean_C_cycles_web": [
+            21.3,
+            28.7
+          ],
+          "L10_50_90_cycles": [
+            6,
+            29,
+            52
+          ],
+          "L10_50_90_web": [
+            13,
+            41,
+            65
+          ]
+        },
+        "03.png": {
+          "mean_L_cycles_web": [
+            46.1,
+            40.7
+          ],
+          "mean_C_cycles_web": [
+            11.5,
+            12.1
+          ],
+          "L10_50_90_cycles": [
+            20,
+            48,
+            70
+          ],
+          "L10_50_90_web": [
+            17,
+            40,
+            61
+          ]
+        },
+        "04.png": {
+          "mean_L_cycles_web": [
+            47.8,
+            44.3
+          ],
+          "mean_C_cycles_web": [
+            12.7,
+            13.2
+          ],
+          "L10_50_90_cycles": [
+            14,
+            50,
+            79
+          ],
+          "L10_50_90_web": [
+            17,
+            43,
+            71
+          ]
+        },
+        "05.png": {
+          "mean_L_cycles_web": [
+            34.9,
+            37.5
+          ],
+          "mean_C_cycles_web": [
+            14.5,
+            20.2
+          ],
+          "L10_50_90_cycles": [
+            11,
+            34,
+            61
+          ],
+          "L10_50_90_web": [
+            16,
+            39,
+            58
+          ]
+        },
+        "06.png": {
+          "mean_L_cycles_web": [
+            14.4,
+            13.6
+          ],
+          "mean_C_cycles_web": [
+            7.5,
+            10.9
+          ],
+          "L10_50_90_cycles": [
+            2,
+            11,
+            29
+          ],
+          "L10_50_90_web": [
+            4,
+            11,
+            25
+          ]
+        },
+        "07.png": {
+          "mean_L_cycles_web": [
+            37.5,
+            39.9
+          ],
+          "mean_C_cycles_web": [
+            14.3,
+            17.4
+          ],
+          "L10_50_90_cycles": [
+            17,
+            40,
+            56
+          ],
+          "L10_50_90_web": [
+            20,
+            40,
+            52
+          ]
+        }
+      },
+      "summary": "mean dL* 1.57 mean |dL*| 4.33 mean dC* 3.83 | percentile |dL| L10/L50/L90 [4.83 5.31 5.85] all 5.33 | green |dC| 5.88"
+    },
+    "after_agx": {
+      "per_camera": {
+        "01.png": {
+          "mean_L_cycles_web": [
+            34.0,
+            38.8
+          ],
+          "mean_C_cycles_web": [
+            16.5,
+            17.7
+          ],
+          "L10_50_90_cycles": [
+            11,
+            35,
+            56
+          ],
+          "L10_50_90_web": [
+            16,
+            40,
+            56
+          ]
+        },
+        "02.png": {
+          "mean_L_cycles_web": [
+            29.0,
+            31.2
+          ],
+          "mean_C_cycles_web": [
+            21.3,
+            21.0
+          ],
+          "L10_50_90_cycles": [
+            6,
+            29,
+            52
+          ],
+          "L10_50_90_web": [
+            8,
+            31,
+            51
+          ]
+        },
+        "03.png": {
+          "mean_L_cycles_web": [
+            46.1,
+            37.2
+          ],
+          "mean_C_cycles_web": [
+            11.5,
+            9.6
+          ],
+          "L10_50_90_cycles": [
+            20,
+            48,
+            70
+          ],
+          "L10_50_90_web": [
+            12,
+            38,
+            63
+          ]
+        },
+        "04.png": {
+          "mean_L_cycles_web": [
+            47.8,
+            41.1
+          ],
+          "mean_C_cycles_web": [
+            12.7,
+            10.7
+          ],
+          "L10_50_90_cycles": [
+            14,
+            50,
+            79
+          ],
+          "L10_50_90_web": [
+            13,
+            41,
+            65
+          ]
+        },
+        "05.png": {
+          "mean_L_cycles_web": [
+            34.9,
+            36.9
+          ],
+          "mean_C_cycles_web": [
+            14.5,
+            16.1
+          ],
+          "L10_50_90_cycles": [
+            11,
+            34,
+            61
+          ],
+          "L10_50_90_web": [
+            13,
+            39,
+            58
+          ]
+        },
+        "06.png": {
+          "mean_L_cycles_web": [
+            14.4,
+            13.6
+          ],
+          "mean_C_cycles_web": [
+            7.5,
+            10.6
+          ],
+          "L10_50_90_cycles": [
+            2,
+            11,
+            29
+          ],
+          "L10_50_90_web": [
+            4,
+            11,
+            26
+          ]
+        },
+        "07.png": {
+          "mean_L_cycles_web": [
+            37.5,
+            42.0
+          ],
+          "mean_C_cycles_web": [
+            14.3,
+            13.6
+          ],
+          "L10_50_90_cycles": [
+            17,
+            40,
+            56
+          ],
+          "L10_50_90_web": [
+            15,
+            41,
+            57
+          ]
+        }
+      },
+      "summary": "mean dL* -0.41 mean |dL*| 4.26 mean dC* 0.15 | percentile |dL| L10/L50/L90 [3.22 4.52 4.14] all 3.96 | green |dC| 1.9"
+    }
+  },
+  "stats_method": "CIELAB L*/C*ab of 600x400 downsamples, whole frame; green = hue 90-150 deg and C*>12. Blender renders vs browser captures at the Cycles cameras. Lighting differs; this is a calibration aid, not an equivalence test.",
+  "survey_metric_deltas": {
+    "triangles": {
+      "min": 0,
+      "max": 0
+    },
+    "drawCalls": {
+      "min": 0,
+      "max": 0
+    },
+    "textures": {
+      "min": 0,
+      "max": 0
+    },
+    "geometries": {
+      "min": 0,
+      "max": 0
+    }
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unit_tests": 107,
+    "unit_files": 18,
+    "lint": "passed",
+    "build": "passed",
+    "browser": {
+      "startTime": "2026-09-23T14:48:36.238Z",
+      "duration": 139336.143,
+      "expected": 11,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "visual": {
+      "startTime": "2026-09-23T14:50:56.416Z",
+      "duration": 46103.697,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "soak": "not rerun",
+    "mobile_real_device": "not run"
+  }
+}

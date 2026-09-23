@@ -27,7 +27,7 @@ report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_h
           'input_modified_utc': datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(),
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
           'policy': {'compression': 'lossless EXT_meshopt_compression; no quantization', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
-                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader',
+                     'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean',
                      'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; Fine canopy keeps every source leaf as a two-triangle silhouette; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'objects_beyond_courtyard': 0,
           'pillow_topology': [], 'lifted_pavers': 0}
@@ -38,6 +38,7 @@ LUMA = [float(v) for v in next(line for line in (Path(bpy.utils.resource_path('L
 RANDOM_ATTRIBUTE = 'SuiObjectRandom'
 report['paver_lift_m'] = PAVER_LIFT
 report['procedural_color'] = []
+report['procedural_flat_color'] = []
 noise_color = {}
 report['image_ramp'] = []
 image_ramp = {}
@@ -65,6 +66,16 @@ def base_color_noise(m, principled):
     return {'space': 'blender_world', 'scale': value('Scale'), 'detail': value('Detail'),
             'roughness': value('Roughness'), 'lacunarity': value('Lacunarity'),
             'stops': [[e.position, *e.color[:3]] for e in ramp.color_ramp.elements]}
+
+def base_color_noise_mean(principled):
+    """Ramp color at the mean (0.5) of normalized FBM noise, for noise ramps the browser does not evaluate."""
+    ramp = principled and linked(principled.inputs['Base Color'])
+    noise = ramp and ramp.type == 'VALTORGB' and linked(ramp.inputs['Fac'])
+    if not noise or noise.type != 'TEX_NOISE' or noise.noise_type != 'FBM' or not noise.normalize:
+        return None
+    # The unlinked Base Color is usually the darkest stop; the average surface is the ramp midpoint.
+    assert ramp.color_ramp.interpolation == 'LINEAR', ramp.name
+    return tuple(ramp.color_ramp.evaluate(.5)[:3])
 
 def linked(socket):
     return socket.links[0].from_node if socket.is_linked else None
@@ -126,6 +137,10 @@ for m in bpy.data.materials:
     if noise:
         noise_color[m.name] = noise
         report['procedural_color'].append({'material': m.name, **noise, 'bump_omitted': any(n.type == 'BUMP' for n in nodes)})
+    flat = not ramped and not noise and base_color_noise_mean(p)
+    if flat:
+        report['procedural_flat_color'].append({'material': m.name, 'unlinked': list(color[:3]), 'ramp_at_mean': list(flat)})
+        color = (*flat, 1)
     nodes.clear()
     p = nodes.new('ShaderNodeBsdfPrincipled')
     p.inputs['Base Color'].default_value = color

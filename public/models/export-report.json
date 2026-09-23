@@ -8,7 +8,7 @@
     "compression": "lossless EXT_meshopt_compression; no quantization",
     "texture_size": 1024,
     "scope": "sauna, courtyard and woodland horizon",
-    "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader",
+    "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean",
     "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; Fine canopy keeps every source leaf as a two-triangle silhouette; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks",
     "text": "render-visible FONT objects meshed with source outlines, extrusion, transforms and materials; no decimation or small-detail exclusion"
   },
@@ -7825,6 +7825,60 @@
       "in_glb": true
     }
   ],
+  "procedural_flat_color": [
+    {
+      "material": "Fine garden gravel",
+      "unlinked": [
+        0.10999999940395355,
+        0.12999999523162842,
+        0.10000000149011612
+      ],
+      "ramp_at_mean": [
+        0.19499999284744263,
+        0.2150000035762787,
+        0.17499999701976776
+      ]
+    },
+    {
+      "material": "Tree bark",
+      "unlinked": [
+        0.05999999865889549,
+        0.04800000041723251,
+        0.03400000184774399
+      ],
+      "ramp_at_mean": [
+        0.11500000208616257,
+        0.08399999886751175,
+        0.05350000038743019
+      ]
+    },
+    {
+      "material": "Unbleached linen",
+      "unlinked": [
+        0.5199999809265137,
+        0.49000000953674316,
+        0.4000000059604645
+      ],
+      "ramp_at_mean": [
+        0.6599999666213989,
+        0.625,
+        0.5249999761581421
+      ]
+    },
+    {
+      "material": "Warm limestone plaster",
+      "unlinked": [
+        0.3199999928474426,
+        0.3100000023841858,
+        0.25999999046325684
+      ],
+      "ramp_at_mean": [
+        0.42499998211860657,
+        0.4099999964237213,
+        0.3449999988079071
+      ]
+    }
+  ],
   "image_ramp": [
     {
       "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
@@ -10104,23 +10158,23 @@
     "export_vertex_color": "ACTIVE",
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 16365104,
-  "output_sha256": "64ea5acff44f865e2ee26e69860eb8100debdd82b65d5d94b2e1273c62110ab3",
-  "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
   "compression": {
     "codec": "meshoptimizer 1.1.1",
     "extension": "EXT_meshopt_compression",
     "version": 0,
     "floatBits": null,
-    "inputBytes": 29438216,
-    "outputBytes": 16365104,
-    "inputSha256": "f96f8729f0064417b7cc130d8a6c3444c1f21d9e941aa151b5a79f2f1793cf6e",
-    "outputSha256": "64ea5acff44f865e2ee26e69860eb8100debdd82b65d5d94b2e1273c62110ab3",
+    "inputBytes": 29438200,
+    "outputBytes": 16365068,
+    "inputSha256": "47ea5856dc1b4cf2f53a8324dc182dfd934764a822bc5bb73207a78d7b7d6f44",
+    "outputSha256": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
     "verification": {
       "compressedViews": 362,
       "exactViews": 362,
       "imageViews": 6,
       "maxAbsoluteError": {}
     }
-  }
+  },
+  "output_bytes": 16365068,
+  "output_sha256": "ffc43119e8eee41ba6d09e5cf2faae7750935a3d48c19c47d643d4cfece9ffaf",
+  "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }
