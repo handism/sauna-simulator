@@ -133,6 +133,23 @@ describe('3D scene load and teardown', () => {
     expect(renderer.domElement.isConnected).toBe(false);
   });
 
+  it('shares one woodland leaf mask between cluster materials and releases it on exit', async () => {
+    const loaded = model();
+    const cards = ['V6 woodland leaf 0', 'V6 woodland leaf 1'].map(name => Object.assign(new THREE.MeshStandardMaterial(),
+      { name, userData: { suiLeafCluster: { leaves: 20 } } }));
+    loaded.scene.add(new THREE.Mesh(new THREE.PlaneGeometry(), cards[0]), new THREE.Mesh(new THREE.PlaneGeometry(), cards[1]));
+    mocks.parse.mockResolvedValue(loaded);
+    const view = mountScene(); await flush();
+    const element = view.container.querySelector('.sauna-3d-canvas') as HTMLElement;
+    expect(element.dataset.leafClusterMaterials).toBe('2');
+    const mask = cards[0].alphaMap!;
+    expect(cards[1].alphaMap).toBe(mask);
+    expect(cards.every(card => card.alphaToCoverage && card.side === THREE.DoubleSide)).toBe(true);
+    const release = vi.spyOn(mask, 'dispose');
+    view.unmount();
+    expect(release).toHaveBeenCalledOnce();
+  });
+
   it('aborts the other request when one asset fails', async () => {
     vi.mocked(fetch).mockResolvedValue({ ok: false } as Response);
     const view = mountScene(); await flush();

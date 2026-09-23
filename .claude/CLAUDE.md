@@ -54,7 +54,7 @@
 - 日光だけが影を描く。ガラス・水・蒸気は影を投射しない。日光方向を補間量0.01刻みにし、その方向・影解像度の変更時だけシャドウマップを更新。軽量切り替え・シーン解放時に影のGPUリソースを解放する。これはベイクではない。
 - `SaunaScene` は描画数・三角形数・テクスチャ数・ジオメトリ数もDOM属性へ記録。描画数は最新フレームの値なので、照明補間中の影パスを含む値と、安定後の値を区別する。
 
-- 葉の書き出しは `export_web_glb.py` の `sample_whole_leaves()`。接続成分を葉として名前をseedに選ぶ。近景V11 maple 3体とV7 mapleは全枚数を元の5裂の輪郭・水平の向き・元の面のスムーズ設定のまま残す（元形状は1枚10三角形）。それ以外は1オブジェクト175枚を上限に、元の位置・向き・広がりを近似した2三角形の平面へ変換する（V5/V6の葉は元から菱形）。建物のDecimateとは分離。V11の奥の植栽帯はBlender座標 `abs(x)<=23, -20<=y<-13` の範囲を復元し、材質別に結合する。奥の植栽帯のモミジは菱形のまま。
+- 葉の書き出しは `export_web_glb.py` の `sample_whole_leaves()`。接続成分を葉として名前をseedに選ぶ。近景V11 maple 3体とV7 mapleは全枚数を元の5裂の輪郭・水平の向き・元の面のスムーズ設定のまま残す（元形状は1枚10三角形）。V6林の葉（`V6 clustered tree leaves`、1本約4,000枚）は元の葉20枚につき1枚の切り抜きカード（元の葉の面積を保つ長方形、UVは4隅・90度単位の回転）へ置換する。カードは複製した専用材質（名前末尾 ` card`）を使い、その `extras.suiLeafCluster` に枚数を記録する（同じ色材質を使う `V8 selective low grass` にはカードUVがないため共有しない）。それ以外は1オブジェクト175枚を上限に、元の位置・向き・広がりを近似した2三角形の平面へ変換する（V5/V6の葉は元から菱形）。建物のDecimateとは分離。中庭外の距離による除外はしない（該当する表示対象は林・植栽帯の木だけで、Cyclesの視点に写る）。奥の植栽帯のモミジは菱形のまま。
 - 樹皮（`Tree bark`）のカーブは書き出し時にメッシュ化する（断面分割1、UV削除）。元blendで `hide_render` の `V5 overhead canopy bough` は、見上げ可能なWeb用に限り復元する。V5頭上キャノピーの葉は間引かず全960枚。`Limestone terrace paver` はデッキ材と上面が一致するため書き出し時に3mm持ち上げる。
 - V6の枕は両極に未接続の重複頂点があるため、Web書き出し時に距離1e-6で結合してから簡略化する。対象は `V6 compressed linen pillow` のみ。結合後と簡略化後の閉じた形状を検査し、`export-report.json` の `pillow_topology` に記録する。元blendは保存しない。
 
@@ -73,9 +73,11 @@
 - 3D用JavaScriptのimport拒否は `SceneModuleError` で通常のモデル／WebGL失敗と区別する。`React.lazy` とブラウザが失敗を保持するため、モードの再選択で復帰できるとは案内しない。2Dを継続しつつ「最初から再読み込み」を表示し、体験が初期化されることを明示する。ページ更新は利用者の押下時だけ。取得保留・タイムアウト・モデル失敗にはこの案内を出さず、従来の再試行を維持する。
 
 - 全周の目視確認用画像は `bun run test:browser:visual --reporter=json > /tmp/sauna-visual-check.json`。専用configで `e2e/*.visual.ts` のみ実行し、3ステージ×昼夕×8方向×上下・水平の144枚を `test-results/visual/` に保存する。標準画質・動作抑制・1280×800・DPR1のChrome。`python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-qa/survey`（Pillow必要）で6枚の一覧画像とモデルハッシュ付きJSONを生成する。テストの成功は撮影・操作の成功であり、画質の合格判定ではない。画質所見は進捗記録へ残す。
+- 同じ実行で `e2e/cycles-compare.visual.ts` が元Cyclesのカメラ（`e2e/fixtures/cycles-cameras.json`、`scripts/blender_camera_reference.py` で元blendから生成）の位置・向き・垂直画角で撮影する。`sauna.scene.json` の取得をテスト内で差し替えるだけで、アプリにテスト用APIはない。`python3 scripts/summarize_cycles_compare.py /tmp/sauna-visual-check.json <出力先>` が `blender/renders/` と対にした比較画像を作る。照明・露出・霧・材質は一致させていない。
 
 - 外気浴の2D用 `.aurora-container` は、3Dの `data-load-ms` が付いた準備完了時だけ非表示にする。昼夕の3D照明を濃紺の全画面背景で覆わない。読み込み中・2D切り替え・失敗後は従来の背景へ戻す。`scene-aurora.e2e.ts` でこの境界と実コンテキスト喪失後の操作継続を検証する。
 
+- 林のカードは `leafCluster.ts`。20枚の菱形の葉のマスクを決定的に生成し（カードの半分を覆う）、アルファテストの被覆率を保つよう各ミップを自前で補正、`alphaToCoverage` で描く。マスクは枚数ごとに1枚を共有し、材質とともに解放する。`data-leaf-cluster-materials` に対象材質数を記録する。
 - 葉の逆光対策は `foliage.ts`。名前が leaf／foliage／fern の `MeshStandardMaterial`（落ち葉 `leaves`・苔・樹皮は対象外）だけ `onBeforeCompile` で裏面からの直接光と反対側の半球光を拡散色の0.6倍で透過させる。Three.jsの `lights_fragment_begin`・`lights_physical_pars_fragment` に依存し、想定外のチャンクでは例外にする。Three.js更新時は `foliage.test.ts` と全周撮影で確認する。`data-foliage-materials` に対象材質数を記録する。
 
 - 地面の苔・シダの色は `noiseColor.ts`。`export_web_glb.py` が元材質のワールド／オブジェクト座標fBmノイズ→線形カラーランプの設定を材質 `extras.suiNoiseColor` に記録し、BlenderのPerlin（Jenkinsハッシュ）とfBmのGLSL移植で画素ごとに評価する。画素より細かいオクターブは平均へフェード。バンプは省略。Three.jsの `common`・`project_vertex`・`color_fragment` チャンクに依存。移植は `noise-color.e2e.ts` がBlender基準値（`scripts/blender_noise_reference.py` → `e2e/fixtures/blender-noise.json`）と比較する。名前による苔・シダの単色上書きはBase Colorが接続された材質だけ。

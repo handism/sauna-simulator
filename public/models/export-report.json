@@ -7,9 +7,9 @@
   "policy": {
     "compression": "none",
     "texture_size": 1024,
-    "scope": "sauna and courtyard",
+    "scope": "sauna, courtyard and woodland horizon",
     "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) recorded in material extras for the browser shader",
-    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); V11 bank restored at abs(x)<=23m and -20m<=y<-13m; tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks"
+    "geometry": "visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks"
   },
   "materials": [
     {
@@ -2397,574 +2397,19 @@
     "V10 garden specimen / V7 maple fine branch.011",
     "V10 garden specimen / V7 maple fine branch.012",
     "V10 garden specimen / V7 lobed maple leaves",
-    "V10 garden woodland 00 / V6 tapering tree trunk",
-    "V10 garden woodland 00 / V6 clustered tree leaves",
-    "V10 garden woodland 00 / V6 irregular limb",
-    "V10 garden woodland 00 / V6 irregular limb.001",
-    "V10 garden woodland 00 / V6 irregular limb.002",
-    "V10 garden woodland 00 / V6 irregular limb.003",
-    "V10 garden woodland 00 / V6 irregular limb.004",
-    "V10 garden woodland 00 / V6 irregular limb.005",
-    "V10 garden woodland 00 / V6 irregular limb.006",
-    "V10 garden woodland 00 / V6 irregular limb.007",
-    "V10 garden woodland 00 / V6 irregular limb.008",
-    "V10 garden woodland 00 / V6 irregular limb.009",
-    "V10 garden woodland 01 / V6 tapering tree trunk.007",
-    "V10 garden woodland 01 / V6 clustered tree leaves.007",
-    "V10 garden woodland 01 / V6 irregular limb.068",
-    "V10 garden woodland 01 / V6 irregular limb.069",
-    "V10 garden woodland 01 / V6 irregular limb.070",
-    "V10 garden woodland 01 / V6 irregular limb.071",
-    "V10 garden woodland 01 / V6 irregular limb.072",
-    "V10 garden woodland 01 / V6 irregular limb.073",
-    "V10 garden woodland 01 / V6 irregular limb.074",
-    "V10 garden woodland 01 / V6 irregular limb.075",
-    "V10 garden woodland 01 / V6 irregular limb.076",
-    "V10 garden woodland 01 / V6 irregular limb.077",
-    "V10 garden woodland 01 / V6 irregular limb.078",
-    "V10 garden woodland 01 / V6 irregular limb.079",
-    "V10 garden woodland 02 / V6 tapering tree trunk.014",
-    "V10 garden woodland 02 / V6 clustered tree leaves.014",
-    "V10 garden woodland 02 / V6 irregular limb.143",
-    "V10 garden woodland 02 / V6 irregular limb.144",
-    "V10 garden woodland 02 / V6 irregular limb.145",
-    "V10 garden woodland 02 / V6 irregular limb.146",
-    "V10 garden woodland 02 / V6 irregular limb.147",
-    "V10 garden woodland 02 / V6 irregular limb.148",
-    "V10 garden woodland 02 / V6 irregular limb.149",
-    "V10 garden woodland 02 / V6 irregular limb.150",
-    "V10 garden woodland 02 / V6 irregular limb.151",
-    "V10 garden woodland 03 / V6 tapering tree trunk.021",
-    "V10 garden woodland 03 / V6 clustered tree leaves.021",
-    "V10 garden woodland 03 / V6 irregular limb.218",
-    "V10 garden woodland 03 / V6 irregular limb.219",
-    "V10 garden woodland 03 / V6 irregular limb.220",
-    "V10 garden woodland 03 / V6 irregular limb.221",
-    "V10 garden woodland 03 / V6 irregular limb.222",
-    "V10 garden woodland 03 / V6 irregular limb.223",
-    "V10 garden woodland 03 / V6 irregular limb.224",
-    "V10 garden woodland 03 / V6 irregular limb.225",
-    "V10 garden woodland 03 / V6 irregular limb.226",
-    "V10 garden woodland 03 / V6 irregular limb.227",
-    "V10 garden woodland 03 / V6 irregular limb.228",
-    "V10 garden woodland 03 / V6 irregular limb.229",
-    "V10 garden woodland 04 / V6 tapering tree trunk.028",
-    "V10 garden woodland 04 / V6 clustered tree leaves.028",
-    "V10 garden woodland 04 / V6 irregular limb.290",
-    "V10 garden woodland 04 / V6 irregular limb.291",
-    "V10 garden woodland 04 / V6 irregular limb.292",
-    "V10 garden woodland 04 / V6 irregular limb.293",
-    "V10 garden woodland 04 / V6 irregular limb.294",
-    "V10 garden woodland 04 / V6 irregular limb.295",
-    "V10 garden woodland 04 / V6 irregular limb.296",
-    "V10 garden woodland 04 / V6 irregular limb.297",
-    "V10 garden woodland 04 / V6 irregular limb.298",
-    "V10 garden woodland 04 / V6 irregular limb.299",
-    "V10 garden woodland 04 / V6 irregular limb.300",
-    "V10 garden woodland 04 / V6 irregular limb.301",
-    "V10 garden woodland 04 / V6 irregular limb.302",
-    "V10 garden woodland 06 / V6 tapering tree trunk.042",
-    "V10 garden woodland 06 / V6 clustered tree leaves.042",
-    "V10 garden woodland 06 / V6 irregular limb.439",
-    "V10 garden woodland 06 / V6 irregular limb.440",
-    "V10 garden woodland 06 / V6 irregular limb.441",
-    "V10 garden woodland 06 / V6 irregular limb.442",
-    "V10 garden woodland 06 / V6 irregular limb.443",
-    "V10 garden woodland 06 / V6 irregular limb.444",
-    "V10 garden woodland 06 / V6 irregular limb.445",
-    "V10 garden woodland 06 / V6 irregular limb.446",
-    "V10 garden woodland 07 / V6 tapering tree trunk.049",
-    "V10 garden woodland 07 / V6 clustered tree leaves.049",
-    "V10 garden woodland 07 / V6 irregular limb.506",
-    "V10 garden woodland 07 / V6 irregular limb.507",
-    "V10 garden woodland 07 / V6 irregular limb.508",
-    "V10 garden woodland 07 / V6 irregular limb.509",
-    "V10 garden woodland 07 / V6 irregular limb.510",
-    "V10 garden woodland 07 / V6 irregular limb.511",
-    "V10 garden woodland 07 / V6 irregular limb.512",
-    "V10 garden woodland 07 / V6 irregular limb.513",
-    "V10 garden woodland 07 / V6 irregular limb.514",
-    "V10 garden woodland 07 / V6 irregular limb.515",
-    "V10 garden woodland 07 / V6 irregular limb.516",
-    "V10 garden woodland 07 / V6 irregular limb.517",
-    "V10 garden woodland 08 / V6 tapering tree trunk.056",
-    "V10 garden woodland 08 / V6 clustered tree leaves.056",
-    "V10 garden woodland 08 / V6 irregular limb.518",
-    "V10 garden woodland 08 / V6 irregular limb.584",
-    "V10 garden woodland 08 / V6 irregular limb.585",
-    "V10 garden woodland 08 / V6 irregular limb.586",
-    "V10 garden woodland 08 / V6 irregular limb.587",
-    "V10 garden woodland 08 / V6 irregular limb.588",
-    "V10 garden woodland 08 / V6 irregular limb.589",
-    "V10 garden woodland 08 / V6 irregular limb.590",
-    "V10 garden woodland 08 / V6 irregular limb.591",
-    "V10 garden woodland 08 / V6 irregular limb.592",
-    "V10 garden woodland 08 / V6 irregular limb.593",
-    "V10 garden woodland 08 / V6 irregular limb.594",
-    "V10 garden woodland 08 / V6 irregular limb.595",
-    "V10 garden woodland 09 / V6 tapering tree trunk.063",
-    "V10 garden woodland 09 / V6 clustered tree leaves.063",
-    "V10 garden woodland 09 / V6 irregular limb.657",
-    "V10 garden woodland 09 / V6 irregular limb.658",
-    "V10 garden woodland 09 / V6 irregular limb.659",
-    "V10 garden woodland 09 / V6 irregular limb.660",
-    "V10 garden woodland 09 / V6 irregular limb.661",
-    "V10 garden woodland 09 / V6 irregular limb.662",
-    "V10 garden woodland 09 / V6 irregular limb.663",
-    "V10 garden woodland 09 / V6 irregular limb.664",
-    "V10 garden woodland 09 / V6 irregular limb.665",
-    "V10 garden woodland 10 / V6 tapering tree trunk.070",
-    "V10 garden woodland 10 / V6 clustered tree leaves.070",
-    "V10 garden woodland 10 / V6 irregular limb.721",
-    "V10 garden woodland 10 / V6 irregular limb.722",
-    "V10 garden woodland 10 / V6 irregular limb.723",
-    "V10 garden woodland 10 / V6 irregular limb.724",
-    "V10 garden woodland 10 / V6 irregular limb.725",
-    "V10 garden woodland 10 / V6 irregular limb.726",
-    "V10 garden woodland 10 / V6 irregular limb.727",
-    "V10 garden woodland 10 / V6 irregular limb.728",
-    "V10 garden woodland 10 / V6 irregular limb.729",
-    "V10 garden woodland 10 / V6 irregular limb.730",
-    "V10 garden woodland 10 / V6 irregular limb.731",
-    "V10 garden woodland 11 / V6 tapering tree trunk.077",
-    "V10 garden woodland 11 / V6 clustered tree leaves.077",
-    "V10 garden woodland 11 / V6 irregular limb.793",
-    "V10 garden woodland 11 / V6 irregular limb.794",
-    "V10 garden woodland 11 / V6 irregular limb.795",
-    "V10 garden woodland 11 / V6 irregular limb.796",
-    "V10 garden woodland 11 / V6 irregular limb.797",
-    "V10 garden woodland 11 / V6 irregular limb.798",
-    "V10 garden woodland 11 / V6 irregular limb.799",
-    "V10 garden woodland 11 / V6 irregular limb.800",
-    "V10 garden woodland 11 / V6 irregular limb.801",
-    "V10 garden woodland 11 / V6 irregular limb.802",
-    "V10 garden woodland 11 / V6 irregular limb.803",
-    "V10 garden woodland 11 / V6 irregular limb.804",
-    "V10 garden woodland 11 / V6 irregular limb.805",
-    "V10 garden woodland 12 / V6 tapering tree trunk.084",
-    "V10 garden woodland 12 / V6 clustered tree leaves.084",
-    "V10 garden woodland 12 / V6 irregular limb.864",
-    "V10 garden woodland 12 / V6 irregular limb.865",
-    "V10 garden woodland 12 / V6 irregular limb.866",
-    "V10 garden woodland 12 / V6 irregular limb.867",
-    "V10 garden woodland 12 / V6 irregular limb.868",
-    "V10 garden woodland 12 / V6 irregular limb.869",
-    "V10 garden woodland 12 / V6 irregular limb.870",
-    "V10 garden woodland 12 / V6 irregular limb.871",
-    "V10 garden woodland 12 / V6 irregular limb.872",
-    "V10 garden woodland 13 / V6 tapering tree trunk.091",
-    "V10 garden woodland 13 / V6 clustered tree leaves.091",
-    "V10 garden woodland 13 / V6 irregular limb.934",
-    "V10 garden woodland 13 / V6 irregular limb.935",
-    "V10 garden woodland 13 / V6 irregular limb.936",
-    "V10 garden woodland 13 / V6 irregular limb.937",
-    "V10 garden woodland 13 / V6 irregular limb.938",
-    "V10 garden woodland 13 / V6 irregular limb.939",
-    "V10 garden woodland 13 / V6 irregular limb.940",
-    "V10 garden woodland 13 / V6 irregular limb.941",
-    "V10 garden woodland 13 / V6 irregular limb.942",
-    "V10 garden woodland 13 / V6 irregular limb.943",
-    "V10 garden woodland 13 / V6 irregular limb.944",
-    "V10 garden woodland 13 / V6 irregular limb.945",
-    "V10 garden woodland 13 / V6 irregular limb.946",
-    "V10 garden woodland 14 / V6 tapering tree trunk.006",
-    "V10 garden woodland 14 / V6 clustered tree leaves.006",
-    "V10 garden woodland 14 / V6 irregular limb.055",
-    "V10 garden woodland 14 / V6 irregular limb.056",
-    "V10 garden woodland 14 / V6 irregular limb.057",
-    "V10 garden woodland 14 / V6 irregular limb.058",
-    "V10 garden woodland 14 / V6 irregular limb.059",
-    "V10 garden woodland 14 / V6 irregular limb.060",
-    "V10 garden woodland 14 / V6 irregular limb.061",
-    "V10 garden woodland 14 / V6 irregular limb.062",
-    "V10 garden woodland 14 / V6 irregular limb.063",
-    "V10 garden woodland 14 / V6 irregular limb.064",
-    "V10 garden woodland 14 / V6 irregular limb.065",
-    "V10 garden woodland 14 / V6 irregular limb.066",
-    "V10 garden woodland 14 / V6 irregular limb.067",
-    "V10 garden woodland 15 / V6 tapering tree trunk.013",
-    "V10 garden woodland 15 / V6 clustered tree leaves.013",
-    "V10 garden woodland 15 / V6 irregular limb.131",
-    "V10 garden woodland 15 / V6 irregular limb.132",
-    "V10 garden woodland 15 / V6 irregular limb.133",
-    "V10 garden woodland 15 / V6 irregular limb.134",
-    "V10 garden woodland 15 / V6 irregular limb.135",
-    "V10 garden woodland 15 / V6 irregular limb.136",
-    "V10 garden woodland 15 / V6 irregular limb.137",
-    "V10 garden woodland 15 / V6 irregular limb.138",
-    "V10 garden woodland 15 / V6 irregular limb.139",
-    "V10 garden woodland 15 / V6 irregular limb.140",
-    "V10 garden woodland 15 / V6 irregular limb.141",
-    "V10 garden woodland 15 / V6 irregular limb.142",
-    "V10 garden woodland 16 / V6 tapering tree trunk.020",
-    "V10 garden woodland 16 / V6 clustered tree leaves.020",
-    "V10 garden woodland 16 / V6 irregular limb.206",
-    "V10 garden woodland 16 / V6 irregular limb.207",
-    "V10 garden woodland 16 / V6 irregular limb.208",
-    "V10 garden woodland 16 / V6 irregular limb.209",
-    "V10 garden woodland 16 / V6 irregular limb.210",
-    "V10 garden woodland 16 / V6 irregular limb.211",
-    "V10 garden woodland 16 / V6 irregular limb.212",
-    "V10 garden woodland 16 / V6 irregular limb.213",
-    "V10 garden woodland 16 / V6 irregular limb.214",
-    "V10 garden woodland 16 / V6 irregular limb.215",
-    "V10 garden woodland 16 / V6 irregular limb.216",
-    "V10 garden woodland 16 / V6 irregular limb.217",
-    "V10 garden woodland 17 / V6 tapering tree trunk.027",
-    "V10 garden woodland 17 / V6 clustered tree leaves.027",
-    "V10 garden woodland 17 / V6 irregular limb.282",
-    "V10 garden woodland 17 / V6 irregular limb.283",
-    "V10 garden woodland 17 / V6 irregular limb.284",
-    "V10 garden woodland 17 / V6 irregular limb.285",
-    "V10 garden woodland 17 / V6 irregular limb.286",
-    "V10 garden woodland 17 / V6 irregular limb.287",
-    "V10 garden woodland 17 / V6 irregular limb.288",
-    "V10 garden woodland 17 / V6 irregular limb.289",
-    "V10 garden woodland 18 / V6 tapering tree trunk.034",
-    "V10 garden woodland 18 / V6 clustered tree leaves.034",
-    "V10 garden woodland 18 / V6 irregular limb.356",
-    "V10 garden woodland 18 / V6 irregular limb.357",
-    "V10 garden woodland 18 / V6 irregular limb.358",
-    "V10 garden woodland 18 / V6 irregular limb.359",
-    "V10 garden woodland 18 / V6 irregular limb.360",
-    "V10 garden woodland 18 / V6 irregular limb.361",
-    "V10 garden woodland 18 / V6 irregular limb.362",
-    "V10 garden woodland 18 / V6 irregular limb.363",
-    "V10 garden woodland 19 / V6 tapering tree trunk.041",
-    "V10 garden woodland 19 / V6 clustered tree leaves.041",
-    "V10 garden woodland 19 / V6 irregular limb.428",
-    "V10 garden woodland 19 / V6 irregular limb.431",
-    "V10 garden woodland 19 / V6 irregular limb.434",
-    "V10 garden woodland 19 / V6 irregular limb.435",
-    "V10 garden woodland 19 / V6 irregular limb.436",
-    "V10 garden woodland 19 / V6 irregular limb.437",
-    "V10 garden woodland 20 / V6 tapering tree trunk.048",
-    "V10 garden woodland 20 / V6 clustered tree leaves.048",
-    "V10 garden woodland 20 / V6 irregular limb.497",
-    "V10 garden woodland 20 / V6 irregular limb.498",
-    "V10 garden woodland 20 / V6 irregular limb.499",
-    "V10 garden woodland 20 / V6 irregular limb.500",
-    "V10 garden woodland 20 / V6 irregular limb.501",
-    "V10 garden woodland 20 / V6 irregular limb.502",
-    "V10 garden woodland 20 / V6 irregular limb.503",
-    "V10 garden woodland 20 / V6 irregular limb.504",
-    "V10 garden woodland 20 / V6 irregular limb.505",
-    "V10 garden woodland 21 / V6 tapering tree trunk.055",
-    "V10 garden woodland 21 / V6 clustered tree leaves.055",
-    "V10 garden woodland 21 / V6 irregular limb.574",
-    "V10 garden woodland 21 / V6 irregular limb.575",
-    "V10 garden woodland 21 / V6 irregular limb.576",
-    "V10 garden woodland 21 / V6 irregular limb.577",
-    "V10 garden woodland 21 / V6 irregular limb.578",
-    "V10 garden woodland 21 / V6 irregular limb.579",
-    "V10 garden woodland 21 / V6 irregular limb.580",
-    "V10 garden woodland 21 / V6 irregular limb.581",
-    "V10 garden woodland 21 / V6 irregular limb.582",
-    "V10 garden woodland 21 / V6 irregular limb.583",
-    "V10 garden woodland 22 / V6 tapering tree trunk.062",
-    "V10 garden woodland 22 / V6 clustered tree leaves.062",
-    "V10 garden woodland 22 / V6 irregular limb.647",
-    "V10 garden woodland 22 / V6 irregular limb.648",
-    "V10 garden woodland 22 / V6 irregular limb.649",
-    "V10 garden woodland 22 / V6 irregular limb.650",
-    "V10 garden woodland 22 / V6 irregular limb.651",
-    "V10 garden woodland 22 / V6 irregular limb.652",
-    "V10 garden woodland 22 / V6 irregular limb.653",
-    "V10 garden woodland 22 / V6 irregular limb.654",
-    "V10 garden woodland 22 / V6 irregular limb.655",
-    "V10 garden woodland 22 / V6 irregular limb.656",
-    "V10 garden woodland 23 / V6 tapering tree trunk.069",
-    "V10 garden woodland 23 / V6 clustered tree leaves.069",
-    "V10 garden woodland 23 / V6 irregular limb.710",
-    "V10 garden woodland 23 / V6 irregular limb.711",
-    "V10 garden woodland 23 / V6 irregular limb.712",
-    "V10 garden woodland 23 / V6 irregular limb.713",
-    "V10 garden woodland 23 / V6 irregular limb.714",
-    "V10 garden woodland 23 / V6 irregular limb.715",
-    "V10 garden woodland 23 / V6 irregular limb.716",
-    "V10 garden woodland 23 / V6 irregular limb.717",
-    "V10 garden woodland 23 / V6 irregular limb.718",
-    "V10 garden woodland 23 / V6 irregular limb.719",
-    "V10 garden woodland 23 / V6 irregular limb.720",
-    "V10 garden woodland 24 / V6 tapering tree trunk.076",
-    "V10 garden woodland 24 / V6 clustered tree leaves.076",
-    "V10 garden woodland 24 / V6 irregular limb.780",
-    "V10 garden woodland 24 / V6 irregular limb.781",
-    "V10 garden woodland 24 / V6 irregular limb.782",
-    "V10 garden woodland 24 / V6 irregular limb.783",
-    "V10 garden woodland 24 / V6 irregular limb.784",
-    "V10 garden woodland 24 / V6 irregular limb.785",
-    "V10 garden woodland 24 / V6 irregular limb.786",
-    "V10 garden woodland 24 / V6 irregular limb.787",
-    "V10 garden woodland 24 / V6 irregular limb.788",
-    "V10 garden woodland 24 / V6 irregular limb.789",
-    "V10 garden woodland 24 / V6 irregular limb.790",
-    "V10 garden woodland 24 / V6 irregular limb.791",
-    "V10 garden woodland 24 / V6 irregular limb.792",
-    "V10 garden woodland 25 / V6 tapering tree trunk.083",
-    "V10 garden woodland 25 / V6 clustered tree leaves.083",
-    "V10 garden woodland 25 / V6 irregular limb.855",
-    "V10 garden woodland 25 / V6 irregular limb.856",
-    "V10 garden woodland 25 / V6 irregular limb.857",
-    "V10 garden woodland 25 / V6 irregular limb.858",
-    "V10 garden woodland 25 / V6 irregular limb.859",
-    "V10 garden woodland 25 / V6 irregular limb.860",
-    "V10 garden woodland 25 / V6 irregular limb.861",
-    "V10 garden woodland 25 / V6 irregular limb.862",
-    "V10 garden woodland 25 / V6 irregular limb.863",
-    "V10 garden woodland 26 / V6 tapering tree trunk.090",
-    "V10 garden woodland 26 / V6 clustered tree leaves.090",
-    "V10 garden woodland 26 / V6 irregular limb.924",
-    "V10 garden woodland 26 / V6 irregular limb.925",
-    "V10 garden woodland 26 / V6 irregular limb.926",
-    "V10 garden woodland 26 / V6 irregular limb.927",
-    "V10 garden woodland 26 / V6 irregular limb.928",
-    "V10 garden woodland 26 / V6 irregular limb.929",
-    "V10 garden woodland 26 / V6 irregular limb.930",
-    "V10 garden woodland 26 / V6 irregular limb.931",
-    "V10 garden woodland 26 / V6 irregular limb.932",
-    "V10 garden woodland 26 / V6 irregular limb.933",
-    "V10 garden woodland 27 / V6 tapering tree trunk.005",
-    "V10 garden woodland 27 / V6 clustered tree leaves.005",
-    "V10 garden woodland 27 / V6 irregular limb.047",
-    "V10 garden woodland 27 / V6 irregular limb.048",
-    "V10 garden woodland 27 / V6 irregular limb.049",
-    "V10 garden woodland 27 / V6 irregular limb.050",
-    "V10 garden woodland 27 / V6 irregular limb.051",
-    "V10 garden woodland 27 / V6 irregular limb.052",
-    "V10 garden woodland 27 / V6 irregular limb.053",
-    "V10 garden woodland 27 / V6 irregular limb.054",
-    "V10 garden woodland 28 / V6 tapering tree trunk.012",
-    "V10 garden woodland 28 / V6 clustered tree leaves.012",
-    "V10 garden woodland 28 / V6 irregular limb.121",
-    "V10 garden woodland 28 / V6 irregular limb.122",
-    "V10 garden woodland 28 / V6 irregular limb.123",
-    "V10 garden woodland 28 / V6 irregular limb.124",
-    "V10 garden woodland 28 / V6 irregular limb.125",
-    "V10 garden woodland 28 / V6 irregular limb.126",
-    "V10 garden woodland 28 / V6 irregular limb.127",
-    "V10 garden woodland 28 / V6 irregular limb.128",
-    "V10 garden woodland 28 / V6 irregular limb.129",
-    "V10 garden woodland 28 / V6 irregular limb.130",
-    "V10 garden woodland 29 / V6 tapering tree trunk.019",
-    "V10 garden woodland 29 / V6 clustered tree leaves.019",
-    "V10 garden woodland 29 / V6 irregular limb.195",
-    "V10 garden woodland 29 / V6 irregular limb.196",
-    "V10 garden woodland 29 / V6 irregular limb.197",
-    "V10 garden woodland 29 / V6 irregular limb.198",
-    "V10 garden woodland 29 / V6 irregular limb.199",
-    "V10 garden woodland 29 / V6 irregular limb.200",
-    "V10 garden woodland 29 / V6 irregular limb.201",
-    "V10 garden woodland 29 / V6 irregular limb.202",
-    "V10 garden woodland 29 / V6 irregular limb.203",
-    "V10 garden woodland 29 / V6 irregular limb.204",
-    "V10 garden woodland 29 / V6 irregular limb.205",
-    "V10 garden understory 00 / V6 tapering tree trunk",
-    "V10 garden understory 00 / V6 clustered tree leaves",
-    "V10 garden understory 00 / V6 irregular limb",
-    "V10 garden understory 00 / V6 irregular limb.001",
-    "V10 garden understory 00 / V6 irregular limb.002",
-    "V10 garden understory 00 / V6 irregular limb.003",
     "V10 garden understory 00 / V6 irregular limb.004",
     "V10 garden understory 00 / V6 irregular limb.005",
-    "V10 garden understory 00 / V6 irregular limb.006",
-    "V10 garden understory 00 / V6 irregular limb.007",
-    "V10 garden understory 00 / V6 irregular limb.008",
-    "V10 garden understory 00 / V6 irregular limb.009",
-    "V10 garden understory 01 / V6 tapering tree trunk.003",
-    "V10 garden understory 01 / V6 clustered tree leaves.003",
-    "V10 garden understory 01 / V6 irregular limb.027",
-    "V10 garden understory 01 / V6 irregular limb.028",
     "V10 garden understory 01 / V6 irregular limb.029",
-    "V10 garden understory 01 / V6 irregular limb.030",
-    "V10 garden understory 01 / V6 irregular limb.031",
-    "V10 garden understory 01 / V6 irregular limb.032",
-    "V10 garden understory 01 / V6 irregular limb.033",
-    "V10 garden understory 01 / V6 irregular limb.034",
-    "V10 garden understory 01 / V6 irregular limb.035",
-    "V10 garden understory 02 / V6 tapering tree trunk.006",
-    "V10 garden understory 02 / V6 clustered tree leaves.006",
-    "V10 garden understory 02 / V6 irregular limb.055",
-    "V10 garden understory 02 / V6 irregular limb.056",
-    "V10 garden understory 02 / V6 irregular limb.057",
-    "V10 garden understory 02 / V6 irregular limb.058",
-    "V10 garden understory 02 / V6 irregular limb.059",
-    "V10 garden understory 02 / V6 irregular limb.060",
-    "V10 garden understory 02 / V6 irregular limb.061",
-    "V10 garden understory 02 / V6 irregular limb.062",
-    "V10 garden understory 02 / V6 irregular limb.063",
-    "V10 garden understory 02 / V6 irregular limb.064",
-    "V10 garden understory 02 / V6 irregular limb.065",
-    "V10 garden understory 02 / V6 irregular limb.066",
-    "V10 garden understory 02 / V6 irregular limb.067",
-    "V10 garden understory 03 / V6 tapering tree trunk.009",
-    "V10 garden understory 03 / V6 clustered tree leaves.009",
-    "V10 garden understory 03 / V6 irregular limb.092",
-    "V10 garden understory 03 / V6 irregular limb.093",
-    "V10 garden understory 03 / V6 irregular limb.094",
-    "V10 garden understory 03 / V6 irregular limb.095",
-    "V10 garden understory 03 / V6 irregular limb.096",
-    "V10 garden understory 03 / V6 irregular limb.097",
-    "V10 garden understory 03 / V6 irregular limb.098",
-    "V10 garden understory 03 / V6 irregular limb.099",
-    "V10 garden understory 03 / V6 irregular limb.100",
-    "V10 garden understory 04 / V6 tapering tree trunk.012",
-    "V10 garden understory 04 / V6 clustered tree leaves.012",
-    "V10 garden understory 04 / V6 irregular limb.121",
-    "V10 garden understory 04 / V6 irregular limb.122",
-    "V10 garden understory 04 / V6 irregular limb.123",
-    "V10 garden understory 04 / V6 irregular limb.124",
-    "V10 garden understory 04 / V6 irregular limb.125",
-    "V10 garden understory 04 / V6 irregular limb.126",
-    "V10 garden understory 04 / V6 irregular limb.127",
-    "V10 garden understory 04 / V6 irregular limb.128",
-    "V10 garden understory 04 / V6 irregular limb.129",
-    "V10 garden understory 04 / V6 irregular limb.130",
-    "V10 garden understory 05 / V6 tapering tree trunk.015",
-    "V10 garden understory 05 / V6 clustered tree leaves.015",
-    "V10 garden understory 05 / V6 irregular limb.152",
-    "V10 garden understory 05 / V6 irregular limb.153",
-    "V10 garden understory 05 / V6 irregular limb.154",
-    "V10 garden understory 05 / V6 irregular limb.155",
-    "V10 garden understory 05 / V6 irregular limb.156",
-    "V10 garden understory 05 / V6 irregular limb.157",
-    "V10 garden understory 05 / V6 irregular limb.158",
-    "V10 garden understory 05 / V6 irregular limb.159",
-    "V10 garden understory 05 / V6 irregular limb.160",
-    "V10 garden understory 05 / V6 irregular limb.161",
-    "V10 garden understory 05 / V6 irregular limb.162",
-    "V10 garden understory 05 / V6 irregular limb.163",
-    "V10 garden understory 06 / V6 tapering tree trunk.018",
-    "V10 garden understory 06 / V6 clustered tree leaves.018",
-    "V10 garden understory 06 / V6 irregular limb.187",
-    "V10 garden understory 06 / V6 irregular limb.188",
-    "V10 garden understory 06 / V6 irregular limb.189",
-    "V10 garden understory 06 / V6 irregular limb.190",
-    "V10 garden understory 06 / V6 irregular limb.191",
-    "V10 garden understory 06 / V6 irregular limb.192",
-    "V10 garden understory 06 / V6 irregular limb.193",
-    "V10 garden understory 06 / V6 irregular limb.194",
-    "V10 garden understory 07 / V6 tapering tree trunk.021",
-    "V10 garden understory 07 / V6 clustered tree leaves.021",
-    "V10 garden understory 07 / V6 irregular limb.218",
-    "V10 garden understory 07 / V6 irregular limb.219",
-    "V10 garden understory 07 / V6 irregular limb.220",
-    "V10 garden understory 07 / V6 irregular limb.221",
-    "V10 garden understory 07 / V6 irregular limb.222",
-    "V10 garden understory 07 / V6 irregular limb.223",
-    "V10 garden understory 07 / V6 irregular limb.224",
-    "V10 garden understory 07 / V6 irregular limb.225",
-    "V10 garden understory 07 / V6 irregular limb.226",
-    "V10 garden understory 07 / V6 irregular limb.227",
-    "V10 garden understory 07 / V6 irregular limb.228",
-    "V10 garden understory 07 / V6 irregular limb.229",
-    "V10 garden understory 08 / V6 tapering tree trunk.024",
-    "V10 garden understory 08 / V6 clustered tree leaves.024",
-    "V10 garden understory 08 / V6 irregular limb.254",
-    "V10 garden understory 08 / V6 irregular limb.255",
-    "V10 garden understory 08 / V6 irregular limb.256",
-    "V10 garden understory 08 / V6 irregular limb.257",
-    "V10 garden understory 08 / V6 irregular limb.258",
-    "V10 garden understory 08 / V6 irregular limb.259",
-    "V10 garden understory 08 / V6 irregular limb.260",
-    "V10 garden understory 08 / V6 irregular limb.261",
-    "V10 garden understory 08 / V6 irregular limb.262",
-    "V10 garden understory 09 / V6 tapering tree trunk.027",
-    "V10 garden understory 09 / V6 clustered tree leaves.027",
-    "V10 garden understory 09 / V6 irregular limb.282",
-    "V10 garden understory 09 / V6 irregular limb.283",
-    "V10 garden understory 09 / V6 irregular limb.284",
-    "V10 garden understory 09 / V6 irregular limb.285",
-    "V10 garden understory 09 / V6 irregular limb.286",
-    "V10 garden understory 09 / V6 irregular limb.287",
-    "V10 garden understory 09 / V6 irregular limb.288",
-    "V10 garden understory 09 / V6 irregular limb.289",
-    "V10 garden understory 10 / V6 tapering tree trunk.030",
-    "V10 garden understory 10 / V6 clustered tree leaves.030",
-    "V10 garden understory 10 / V6 irregular limb.316",
-    "V10 garden understory 10 / V6 irregular limb.317",
-    "V10 garden understory 10 / V6 irregular limb.318",
-    "V10 garden understory 10 / V6 irregular limb.319",
-    "V10 garden understory 10 / V6 irregular limb.320",
-    "V10 garden understory 10 / V6 irregular limb.321",
-    "V10 garden understory 10 / V6 irregular limb.322",
-    "V10 garden understory 10 / V6 irregular limb.323",
-    "V10 garden understory 11 / V6 tapering tree trunk.033",
-    "V10 garden understory 11 / V6 clustered tree leaves.033",
-    "V10 garden understory 11 / V6 irregular limb.345",
-    "V10 garden understory 11 / V6 irregular limb.346",
-    "V10 garden understory 11 / V6 irregular limb.347",
-    "V10 garden understory 11 / V6 irregular limb.348",
-    "V10 garden understory 11 / V6 irregular limb.349",
-    "V10 garden understory 11 / V6 irregular limb.350",
-    "V10 garden understory 11 / V6 irregular limb.351",
-    "V10 garden understory 11 / V6 irregular limb.352",
-    "V10 garden understory 11 / V6 irregular limb.353",
-    "V10 garden understory 11 / V6 irregular limb.354",
-    "V10 garden understory 11 / V6 irregular limb.355",
-    "V10 garden understory 12 / V6 tapering tree trunk.036",
-    "V10 garden understory 12 / V6 clustered tree leaves.036",
-    "V10 garden understory 12 / V6 irregular limb.376",
-    "V10 garden understory 12 / V6 irregular limb.377",
-    "V10 garden understory 12 / V6 irregular limb.378",
-    "V10 garden understory 12 / V6 irregular limb.379",
-    "V10 garden understory 12 / V6 irregular limb.380",
-    "V10 garden understory 12 / V6 irregular limb.381",
-    "V10 garden understory 12 / V6 irregular limb.382",
-    "V10 garden understory 12 / V6 irregular limb.383",
-    "V10 garden understory 12 / V6 irregular limb.384",
-    "V10 garden understory 13 / V6 tapering tree trunk.039",
-    "V10 garden understory 13 / V6 clustered tree leaves.039",
-    "V10 garden understory 13 / V6 irregular limb.405",
-    "V10 garden understory 13 / V6 irregular limb.406",
-    "V10 garden understory 13 / V6 irregular limb.407",
-    "V10 garden understory 13 / V6 irregular limb.408",
-    "V10 garden understory 13 / V6 irregular limb.409",
-    "V10 garden understory 13 / V6 irregular limb.410",
-    "V10 garden understory 13 / V6 irregular limb.411",
-    "V10 garden understory 13 / V6 irregular limb.412",
-    "V10 garden understory 13 / V6 irregular limb.413",
-    "V10 garden understory 13 / V6 irregular limb.414",
-    "V10 garden understory 14 / V6 tapering tree trunk.042",
-    "V10 garden understory 14 / V6 clustered tree leaves.042",
-    "V10 garden understory 14 / V6 irregular limb.439",
-    "V10 garden understory 14 / V6 irregular limb.440",
-    "V10 garden understory 14 / V6 irregular limb.441",
-    "V10 garden understory 14 / V6 irregular limb.442",
-    "V10 garden understory 14 / V6 irregular limb.443",
-    "V10 garden understory 14 / V6 irregular limb.444",
-    "V10 garden understory 14 / V6 irregular limb.445",
-    "V10 garden understory 14 / V6 irregular limb.446",
-    "V10 garden understory 15 / V6 tapering tree trunk.045",
-    "V10 garden understory 15 / V6 clustered tree leaves.045",
-    "V10 garden understory 15 / V6 irregular limb.464",
-    "V10 garden understory 15 / V6 irregular limb.465",
-    "V10 garden understory 15 / V6 irregular limb.466",
-    "V10 garden understory 15 / V6 irregular limb.467",
-    "V10 garden understory 15 / V6 irregular limb.468",
-    "V10 garden understory 15 / V6 irregular limb.469",
-    "V10 garden understory 15 / V6 irregular limb.470",
-    "V10 garden understory 15 / V6 irregular limb.471",
-    "V10 garden understory 15 / V6 irregular limb.472",
-    "V10 garden understory 15 / V6 irregular limb.473",
-    "V10 garden understory 16 / V6 tapering tree trunk.048",
-    "V10 garden understory 16 / V6 clustered tree leaves.048",
     "V10 garden understory 16 / V6 irregular limb.497",
     "V10 garden understory 16 / V6 irregular limb.498",
-    "V10 garden understory 16 / V6 irregular limb.499",
     "V10 garden understory 16 / V6 irregular limb.500",
     "V10 garden understory 16 / V6 irregular limb.501",
-    "V10 garden understory 16 / V6 irregular limb.502",
     "V10 garden understory 16 / V6 irregular limb.503",
     "V10 garden understory 16 / V6 irregular limb.504",
     "V10 garden understory 16 / V6 irregular limb.505",
-    "V10 garden understory 17 / V6 tapering tree trunk.051",
-    "V10 garden understory 17 / V6 clustered tree leaves.051",
-    "V10 garden understory 17 / V6 irregular limb.530",
     "V10 garden understory 17 / V6 irregular limb.531",
     "V10 garden understory 17 / V6 irregular limb.532",
     "V10 garden understory 17 / V6 irregular limb.533",
-    "V10 garden understory 17 / V6 irregular limb.534",
     "V10 garden understory 17 / V6 irregular limb.535",
     "V10 garden understory 17 / V6 irregular limb.536",
     "V10 garden understory 17 / V6 irregular limb.537",
@@ -2973,11 +2418,8 @@
     "V10 garden understory 17 / V6 irregular limb.540",
     "V10 garden understory 17 / V6 irregular limb.541",
     "V10 garden understory 17 / V6 irregular limb.542",
-    "V10 garden understory 18 / V6 tapering tree trunk.054",
-    "V10 garden understory 18 / V6 clustered tree leaves.054",
     "V10 garden understory 18 / V6 irregular limb.564",
     "V10 garden understory 18 / V6 irregular limb.565",
-    "V10 garden understory 18 / V6 irregular limb.566",
     "V10 garden understory 18 / V6 irregular limb.567",
     "V10 garden understory 18 / V6 irregular limb.568",
     "V10 garden understory 18 / V6 irregular limb.569",
@@ -2985,31 +2427,8 @@
     "V10 garden understory 18 / V6 irregular limb.571",
     "V10 garden understory 18 / V6 irregular limb.572",
     "V10 garden understory 18 / V6 irregular limb.573",
-    "V10 garden understory 19 / V6 tapering tree trunk.057",
-    "V10 garden understory 19 / V6 clustered tree leaves.057",
-    "V10 garden understory 19 / V6 irregular limb.036",
-    "V10 garden understory 19 / V6 irregular limb.037",
-    "V10 garden understory 19 / V6 irregular limb.039",
-    "V10 garden understory 19 / V6 irregular limb.040",
-    "V10 garden understory 19 / V6 irregular limb.041",
-    "V10 garden understory 19 / V6 irregular limb.042",
-    "V10 garden understory 19 / V6 irregular limb.043",
-    "V10 garden understory 19 / V6 irregular limb.044",
-    "V10 garden understory 19 / V6 irregular limb.045",
-    "V10 garden understory 19 / V6 irregular limb.046",
-    "V10 garden understory 19 / V6 irregular limb.596",
     "V10 garden understory 19 / V6 irregular limb.597",
-    "V10 garden understory 19 / V6 irregular limb.598",
-    "V10 garden understory 19 / V6 irregular limb.599",
     "V10 garden understory 19 / V6 irregular limb.600",
-    "V10 garden understory 19 / V6 irregular limb.601",
-    "V10 garden understory 19 / V6 irregular limb.602",
-    "V10 garden understory 19 / V6 irregular limb.603",
-    "V10 garden understory 19 / V6 irregular limb.604",
-    "V10 garden understory 19 / V6 irregular limb.605",
-    "V10 garden understory 19 / V6 irregular limb.606",
-    "V10 garden understory 20 / V6 tapering tree trunk.060",
-    "V10 garden understory 20 / V6 clustered tree leaves.060",
     "V10 garden understory 20 / V6 irregular limb.628",
     "V10 garden understory 20 / V6 irregular limb.629",
     "V10 garden understory 20 / V6 irregular limb.630",
@@ -3019,19 +2438,8 @@
     "V10 garden understory 20 / V6 irregular limb.634",
     "V10 garden understory 20 / V6 irregular limb.635",
     "V10 garden understory 20 / V6 irregular limb.636",
-    "V10 garden understory 21 / V6 tapering tree trunk.063",
-    "V10 garden understory 21 / V6 clustered tree leaves.063",
-    "V10 garden understory 21 / V6 irregular limb.657",
-    "V10 garden understory 21 / V6 irregular limb.658",
-    "V10 garden understory 21 / V6 irregular limb.659",
     "V10 garden understory 21 / V6 irregular limb.660",
-    "V10 garden understory 21 / V6 irregular limb.661",
-    "V10 garden understory 21 / V6 irregular limb.662",
-    "V10 garden understory 21 / V6 irregular limb.663",
-    "V10 garden understory 21 / V6 irregular limb.664",
     "V10 garden understory 21 / V6 irregular limb.665",
-    "V10 garden understory 22 / V6 tapering tree trunk.066",
-    "V10 garden understory 22 / V6 clustered tree leaves.066",
     "V10 garden understory 22 / V6 irregular limb.682",
     "V10 garden understory 22 / V6 irregular limb.683",
     "V10 garden understory 22 / V6 irregular limb.684",
@@ -3040,259 +2448,37 @@
     "V10 garden understory 22 / V6 irregular limb.687",
     "V10 garden understory 22 / V6 irregular limb.688",
     "V10 garden understory 22 / V6 irregular limb.689",
-    "V10 garden understory 23 / V6 tapering tree trunk.069",
-    "V10 garden understory 23 / V6 clustered tree leaves.069",
     "V10 garden understory 23 / V6 irregular limb.710",
     "V10 garden understory 23 / V6 irregular limb.711",
-    "V10 garden understory 23 / V6 irregular limb.712",
     "V10 garden understory 23 / V6 irregular limb.713",
-    "V10 garden understory 23 / V6 irregular limb.714",
     "V10 garden understory 23 / V6 irregular limb.715",
     "V10 garden understory 23 / V6 irregular limb.716",
-    "V10 garden understory 23 / V6 irregular limb.717",
     "V10 garden understory 23 / V6 irregular limb.718",
     "V10 garden understory 23 / V6 irregular limb.719",
     "V10 garden understory 23 / V6 irregular limb.720",
-    "V10 garden understory 24 / V6 tapering tree trunk.072",
-    "V10 garden understory 24 / V6 clustered tree leaves.072",
-    "V10 garden understory 24 / V6 irregular limb.741",
-    "V10 garden understory 24 / V6 irregular limb.742",
-    "V10 garden understory 24 / V6 irregular limb.743",
-    "V10 garden understory 24 / V6 irregular limb.744",
-    "V10 garden understory 24 / V6 irregular limb.745",
-    "V10 garden understory 24 / V6 irregular limb.746",
-    "V10 garden understory 24 / V6 irregular limb.747",
-    "V10 garden understory 24 / V6 irregular limb.748",
-    "V10 garden understory 25 / V6 tapering tree trunk.075",
-    "V10 garden understory 25 / V6 clustered tree leaves.075",
-    "V10 garden understory 25 / V6 irregular limb.771",
-    "V10 garden understory 25 / V6 irregular limb.772",
-    "V10 garden understory 25 / V6 irregular limb.773",
-    "V10 garden understory 25 / V6 irregular limb.774",
-    "V10 garden understory 25 / V6 irregular limb.775",
-    "V10 garden understory 25 / V6 irregular limb.776",
-    "V10 garden understory 25 / V6 irregular limb.777",
-    "V10 garden understory 25 / V6 irregular limb.778",
-    "V10 garden understory 25 / V6 irregular limb.779",
-    "V10 garden understory 26 / V6 tapering tree trunk.078",
-    "V10 garden understory 26 / V6 clustered tree leaves.078",
-    "V10 garden understory 26 / V6 irregular limb.806",
     "V10 garden understory 26 / V6 irregular limb.807",
-    "V10 garden understory 26 / V6 irregular limb.808",
-    "V10 garden understory 26 / V6 irregular limb.809",
     "V10 garden understory 26 / V6 irregular limb.810",
     "V10 garden understory 26 / V6 irregular limb.811",
-    "V10 garden understory 26 / V6 irregular limb.812",
     "V10 garden understory 26 / V6 irregular limb.813",
     "V10 garden understory 26 / V6 irregular limb.814",
-    "V10 garden understory 27 / V6 tapering tree trunk.081",
-    "V10 garden understory 27 / V6 clustered tree leaves.081",
-    "V10 garden understory 27 / V6 irregular limb.836",
     "V10 garden understory 27 / V6 irregular limb.837",
-    "V10 garden understory 27 / V6 irregular limb.838",
-    "V10 garden understory 27 / V6 irregular limb.839",
-    "V10 garden understory 27 / V6 irregular limb.840",
-    "V10 garden understory 27 / V6 irregular limb.841",
-    "V10 garden understory 27 / V6 irregular limb.842",
-    "V10 garden understory 27 / V6 irregular limb.843",
-    "V10 garden understory 28 / V6 tapering tree trunk.084",
-    "V10 garden understory 28 / V6 clustered tree leaves.084",
     "V10 garden understory 28 / V6 irregular limb.864",
     "V10 garden understory 28 / V6 irregular limb.865",
-    "V10 garden understory 28 / V6 irregular limb.866",
     "V10 garden understory 28 / V6 irregular limb.867",
     "V10 garden understory 28 / V6 irregular limb.868",
     "V10 garden understory 28 / V6 irregular limb.869",
     "V10 garden understory 28 / V6 irregular limb.870",
     "V10 garden understory 28 / V6 irregular limb.871",
     "V10 garden understory 28 / V6 irregular limb.872",
-    "V10 garden understory 29 / V6 tapering tree trunk.087",
-    "V10 garden understory 29 / V6 clustered tree leaves.087",
-    "V10 garden understory 29 / V6 irregular limb.894",
-    "V10 garden understory 29 / V6 irregular limb.895",
-    "V10 garden understory 29 / V6 irregular limb.896",
     "V10 garden understory 29 / V6 irregular limb.897",
     "V10 garden understory 29 / V6 irregular limb.898",
-    "V10 garden understory 29 / V6 irregular limb.899",
-    "V10 garden understory 29 / V6 irregular limb.900",
-    "V10 garden understory 29 / V6 irregular limb.901",
-    "V10 garden understory 29 / V6 irregular limb.902",
-    "V10 garden understory 30 / V6 tapering tree trunk.090",
-    "V10 garden understory 30 / V6 clustered tree leaves.090",
-    "V10 garden understory 30 / V6 irregular limb.924",
-    "V10 garden understory 30 / V6 irregular limb.925",
     "V10 garden understory 30 / V6 irregular limb.926",
     "V10 garden understory 30 / V6 irregular limb.927",
     "V10 garden understory 30 / V6 irregular limb.928",
     "V10 garden understory 30 / V6 irregular limb.929",
     "V10 garden understory 30 / V6 irregular limb.930",
-    "V10 garden understory 30 / V6 irregular limb.931",
     "V10 garden understory 30 / V6 irregular limb.932",
     "V10 garden understory 30 / V6 irregular limb.933",
-    "V10 garden understory 31 / V6 tapering tree trunk.001",
-    "V10 garden understory 31 / V6 clustered tree leaves.001",
-    "V10 garden understory 31 / V6 irregular limb.010",
-    "V10 garden understory 31 / V6 irregular limb.011",
-    "V10 garden understory 31 / V6 irregular limb.012",
-    "V10 garden understory 31 / V6 irregular limb.013",
-    "V10 garden understory 31 / V6 irregular limb.014",
-    "V10 garden understory 31 / V6 irregular limb.015",
-    "V10 garden understory 31 / V6 irregular limb.016",
-    "V10 garden understory 31 / V6 irregular limb.017",
-    "V10 garden understory 32 / V6 tapering tree trunk.004",
-    "V10 garden understory 32 / V6 clustered tree leaves.004",
-    "V10 garden understory 32 / V6 irregular limb.038",
-    "V10 garden understory 33 / V6 tapering tree trunk.007",
-    "V10 garden understory 33 / V6 clustered tree leaves.007",
-    "V10 garden understory 33 / V6 irregular limb.068",
-    "V10 garden understory 33 / V6 irregular limb.069",
-    "V10 garden understory 33 / V6 irregular limb.070",
-    "V10 garden understory 33 / V6 irregular limb.071",
-    "V10 garden understory 33 / V6 irregular limb.072",
-    "V10 garden understory 33 / V6 irregular limb.073",
-    "V10 garden understory 33 / V6 irregular limb.074",
-    "V10 garden understory 33 / V6 irregular limb.075",
-    "V10 garden understory 33 / V6 irregular limb.076",
-    "V10 garden understory 33 / V6 irregular limb.077",
-    "V10 garden understory 33 / V6 irregular limb.078",
-    "V10 garden understory 33 / V6 irregular limb.079",
-    "V10 garden understory 34 / V6 tapering tree trunk.010",
-    "V10 garden understory 34 / V6 clustered tree leaves.010",
-    "V10 garden understory 34 / V6 irregular limb.101",
-    "V10 garden understory 34 / V6 irregular limb.102",
-    "V10 garden understory 34 / V6 irregular limb.103",
-    "V10 garden understory 34 / V6 irregular limb.104",
-    "V10 garden understory 34 / V6 irregular limb.105",
-    "V10 garden understory 34 / V6 irregular limb.106",
-    "V10 garden understory 34 / V6 irregular limb.107",
-    "V10 garden understory 34 / V6 irregular limb.108",
-    "V10 garden understory 34 / V6 irregular limb.109",
-    "V10 garden understory 34 / V6 irregular limb.110",
-    "V10 garden understory 35 / V6 tapering tree trunk.013",
-    "V10 garden understory 35 / V6 clustered tree leaves.013",
-    "V10 garden understory 35 / V6 irregular limb.131",
-    "V10 garden understory 35 / V6 irregular limb.132",
-    "V10 garden understory 35 / V6 irregular limb.133",
-    "V10 garden understory 35 / V6 irregular limb.134",
-    "V10 garden understory 35 / V6 irregular limb.135",
-    "V10 garden understory 35 / V6 irregular limb.136",
-    "V10 garden understory 35 / V6 irregular limb.137",
-    "V10 garden understory 35 / V6 irregular limb.138",
-    "V10 garden understory 35 / V6 irregular limb.139",
-    "V10 garden understory 35 / V6 irregular limb.140",
-    "V10 garden understory 35 / V6 irregular limb.141",
-    "V10 garden understory 35 / V6 irregular limb.142",
-    "V10 garden understory 36 / V6 tapering tree trunk.016",
-    "V10 garden understory 36 / V6 clustered tree leaves.016",
-    "V10 garden understory 36 / V6 irregular limb.164",
-    "V10 garden understory 36 / V6 irregular limb.165",
-    "V10 garden understory 36 / V6 irregular limb.166",
-    "V10 garden understory 36 / V6 irregular limb.167",
-    "V10 garden understory 36 / V6 irregular limb.168",
-    "V10 garden understory 36 / V6 irregular limb.169",
-    "V10 garden understory 36 / V6 irregular limb.170",
-    "V10 garden understory 36 / V6 irregular limb.171",
-    "V10 garden understory 36 / V6 irregular limb.172",
-    "V10 garden understory 36 / V6 irregular limb.173",
-    "V10 garden understory 36 / V6 irregular limb.174",
-    "V10 garden understory 36 / V6 irregular limb.175",
-    "V10 garden understory 37 / V6 tapering tree trunk.019",
-    "V10 garden understory 37 / V6 clustered tree leaves.019",
-    "V10 garden understory 37 / V6 irregular limb.195",
-    "V10 garden understory 37 / V6 irregular limb.196",
-    "V10 garden understory 37 / V6 irregular limb.197",
-    "V10 garden understory 37 / V6 irregular limb.198",
-    "V10 garden understory 37 / V6 irregular limb.199",
-    "V10 garden understory 37 / V6 irregular limb.200",
-    "V10 garden understory 37 / V6 irregular limb.201",
-    "V10 garden understory 37 / V6 irregular limb.202",
-    "V10 garden understory 37 / V6 irregular limb.203",
-    "V10 garden understory 37 / V6 irregular limb.204",
-    "V10 garden understory 37 / V6 irregular limb.205",
-    "V10 garden understory 38 / V6 tapering tree trunk.022",
-    "V10 garden understory 38 / V6 clustered tree leaves.022",
-    "V10 garden understory 38 / V6 irregular limb.230",
-    "V10 garden understory 38 / V6 irregular limb.231",
-    "V10 garden understory 38 / V6 irregular limb.232",
-    "V10 garden understory 38 / V6 irregular limb.233",
-    "V10 garden understory 38 / V6 irregular limb.234",
-    "V10 garden understory 38 / V6 irregular limb.235",
-    "V10 garden understory 38 / V6 irregular limb.236",
-    "V10 garden understory 38 / V6 irregular limb.237",
-    "V10 garden understory 38 / V6 irregular limb.238",
-    "V10 garden understory 38 / V6 irregular limb.239",
-    "V10 garden understory 38 / V6 irregular limb.240",
-    "V10 garden understory 39 / V6 tapering tree trunk.025",
-    "V10 garden understory 39 / V6 clustered tree leaves.025",
-    "V10 garden understory 39 / V6 irregular limb.263",
-    "V10 garden understory 39 / V6 irregular limb.264",
-    "V10 garden understory 39 / V6 irregular limb.265",
-    "V10 garden understory 39 / V6 irregular limb.266",
-    "V10 garden understory 39 / V6 irregular limb.267",
-    "V10 garden understory 39 / V6 irregular limb.268",
-    "V10 garden understory 39 / V6 irregular limb.269",
-    "V10 garden understory 39 / V6 irregular limb.270",
-    "V10 garden understory 40 / V6 tapering tree trunk.028",
-    "V10 garden understory 40 / V6 clustered tree leaves.028",
-    "V10 garden understory 40 / V6 irregular limb.290",
-    "V10 garden understory 40 / V6 irregular limb.291",
-    "V10 garden understory 40 / V6 irregular limb.292",
-    "V10 garden understory 40 / V6 irregular limb.293",
-    "V10 garden understory 40 / V6 irregular limb.294",
-    "V10 garden understory 40 / V6 irregular limb.295",
-    "V10 garden understory 40 / V6 irregular limb.296",
-    "V10 garden understory 40 / V6 irregular limb.297",
-    "V10 garden understory 40 / V6 irregular limb.298",
-    "V10 garden understory 40 / V6 irregular limb.299",
-    "V10 garden understory 40 / V6 irregular limb.300",
-    "V10 garden understory 40 / V6 irregular limb.301",
-    "V10 garden understory 40 / V6 irregular limb.302",
-    "V10 garden understory 41 / V6 tapering tree trunk.031",
-    "V10 garden understory 41 / V6 clustered tree leaves.031",
-    "V10 garden understory 41 / V6 irregular limb.324",
-    "V10 garden understory 41 / V6 irregular limb.325",
-    "V10 garden understory 41 / V6 irregular limb.326",
-    "V10 garden understory 41 / V6 irregular limb.327",
-    "V10 garden understory 41 / V6 irregular limb.328",
-    "V10 garden understory 41 / V6 irregular limb.329",
-    "V10 garden understory 41 / V6 irregular limb.330",
-    "V10 garden understory 41 / V6 irregular limb.331",
-    "V10 garden understory 41 / V6 irregular limb.332",
-    "V10 garden understory 41 / V6 irregular limb.333",
-    "V10 garden understory 42 / V6 tapering tree trunk.034",
-    "V10 garden understory 42 / V6 clustered tree leaves.034",
-    "V10 garden understory 42 / V6 irregular limb.356",
-    "V10 garden understory 42 / V6 irregular limb.357",
-    "V10 garden understory 42 / V6 irregular limb.358",
-    "V10 garden understory 42 / V6 irregular limb.359",
-    "V10 garden understory 42 / V6 irregular limb.360",
-    "V10 garden understory 42 / V6 irregular limb.361",
-    "V10 garden understory 42 / V6 irregular limb.362",
-    "V10 garden understory 42 / V6 irregular limb.363",
-    "V10 garden understory 43 / V6 tapering tree trunk.037",
-    "V10 garden understory 43 / V6 clustered tree leaves.037",
-    "V10 garden understory 43 / V6 irregular limb.385",
-    "V10 garden understory 43 / V6 irregular limb.386",
-    "V10 garden understory 43 / V6 irregular limb.387",
-    "V10 garden understory 43 / V6 irregular limb.388",
-    "V10 garden understory 43 / V6 irregular limb.389",
-    "V10 garden understory 43 / V6 irregular limb.390",
-    "V10 garden understory 43 / V6 irregular limb.391",
-    "V10 garden understory 43 / V6 irregular limb.392",
-    "V10 garden understory 44 / V6 tapering tree trunk.040",
-    "V10 garden understory 44 / V6 clustered tree leaves.040",
-    "V10 garden understory 44 / V6 irregular limb.415",
-    "V10 garden understory 44 / V6 irregular limb.416",
-    "V10 garden understory 44 / V6 irregular limb.417",
-    "V10 garden understory 44 / V6 irregular limb.418",
-    "V10 garden understory 44 / V6 irregular limb.419",
-    "V10 garden understory 44 / V6 irregular limb.420",
-    "V10 garden understory 44 / V6 irregular limb.421",
-    "V10 garden understory 44 / V6 irregular limb.422",
-    "V10 garden understory 44 / V6 irregular limb.423",
-    "V10 garden understory 44 / V6 irregular limb.424",
-    "V10 garden understory 44 / V6 irregular limb.425",
-    "V10 garden understory 44 / V6 irregular limb.426",
     "V11 layered garden shrub 00 / V6 tapering tree trunk",
     "V11 layered garden shrub 00 / V6 clustered tree leaves",
     "V11 layered garden shrub 01 / V6 tapering tree trunk.007",
@@ -3357,24 +2543,10 @@
     "V11 layered garden shrub 30 / V6 clustered tree leaves.026",
     "V11 layered garden shrub 31 / V6 tapering tree trunk.033",
     "V11 layered garden shrub 31 / V6 clustered tree leaves.033",
-    "V11 layered garden shrub 32 / V6 tapering tree trunk.040",
-    "V11 layered garden shrub 32 / V6 clustered tree leaves.040",
     "V11 layered garden shrub 33 / V6 tapering tree trunk.047",
     "V11 layered garden shrub 33 / V6 clustered tree leaves.047",
-    "V11 layered garden shrub 34 / V6 tapering tree trunk.054",
-    "V11 layered garden shrub 34 / V6 clustered tree leaves.054",
-    "V11 layered garden shrub 35 / V6 tapering tree trunk.061",
-    "V11 layered garden shrub 35 / V6 clustered tree leaves.061",
-    "V11 layered garden shrub 36 / V6 tapering tree trunk.068",
-    "V11 layered garden shrub 36 / V6 clustered tree leaves.068",
     "V11 layered garden shrub 37 / V6 tapering tree trunk.075",
     "V11 layered garden shrub 37 / V6 clustered tree leaves.075",
-    "V11 layered garden shrub 38 / V6 tapering tree trunk.082",
-    "V11 layered garden shrub 38 / V6 clustered tree leaves.082",
-    "V11 layered garden shrub 39 / V6 tapering tree trunk.089",
-    "V11 layered garden shrub 39 / V6 clustered tree leaves.089",
-    "V11 layered garden shrub 40 / V6 tapering tree trunk.004",
-    "V11 layered garden shrub 40 / V6 clustered tree leaves.004",
     "V11 layered garden shrub 41 / V6 tapering tree trunk.011",
     "V11 layered garden shrub 41 / V6 clustered tree leaves.011",
     "V11 layered garden shrub 42 / V6 tapering tree trunk.018",
@@ -3383,44 +2555,6 @@
     "V11 layered garden shrub 43 / V6 clustered tree leaves.025",
     "V11 layered garden shrub 44 / V6 tapering tree trunk.032",
     "V11 layered garden shrub 44 / V6 clustered tree leaves.032",
-    "V11 layered garden shrub 45 / V6 tapering tree trunk.039",
-    "V11 layered garden shrub 45 / V6 clustered tree leaves.039",
-    "V11 layered garden shrub 46 / V6 tapering tree trunk.046",
-    "V11 layered garden shrub 46 / V6 clustered tree leaves.046",
-    "V11 layered garden shrub 47 / V6 tapering tree trunk.053",
-    "V11 layered garden shrub 47 / V6 clustered tree leaves.053",
-    "V11 layered garden shrub 48 / V6 tapering tree trunk.060",
-    "V11 layered garden shrub 48 / V6 clustered tree leaves.060",
-    "V11 layered garden shrub 49 / V6 tapering tree trunk.067",
-    "V11 layered garden shrub 49 / V6 clustered tree leaves.067",
-    "V11 layered garden shrub 50 / V6 tapering tree trunk.074",
-    "V11 layered garden shrub 50 / V6 clustered tree leaves.074",
-    "V11 layered garden shrub 51 / V6 tapering tree trunk.081",
-    "V11 layered garden shrub 51 / V6 clustered tree leaves.081",
-    "V11 layered garden shrub 52 / V6 tapering tree trunk.088",
-    "V11 layered garden shrub 52 / V6 clustered tree leaves.088",
-    "V11 layered garden shrub 53 / V6 tapering tree trunk.003",
-    "V11 layered garden shrub 53 / V6 clustered tree leaves.003",
-    "V11 layered garden shrub 54 / V6 tapering tree trunk.010",
-    "V11 layered garden shrub 54 / V6 clustered tree leaves.010",
-    "V11 layered garden shrub 55 / V6 tapering tree trunk.017",
-    "V11 layered garden shrub 55 / V6 clustered tree leaves.017",
-    "V11 layered garden shrub 56 / V6 tapering tree trunk.024",
-    "V11 layered garden shrub 56 / V6 clustered tree leaves.024",
-    "V11 layered garden shrub 57 / V6 tapering tree trunk.031",
-    "V11 layered garden shrub 57 / V6 clustered tree leaves.031",
-    "V11 layered garden shrub 58 / V6 tapering tree trunk.038",
-    "V11 layered garden shrub 58 / V6 clustered tree leaves.038",
-    "V11 layered garden shrub 59 / V6 tapering tree trunk.045",
-    "V11 layered garden shrub 59 / V6 clustered tree leaves.045",
-    "V11 layered garden shrub 60 / V6 tapering tree trunk.052",
-    "V11 layered garden shrub 60 / V6 clustered tree leaves.052",
-    "V11 layered garden shrub 61 / V6 tapering tree trunk.059",
-    "V11 layered garden shrub 61 / V6 clustered tree leaves.059",
-    "V11 layered garden shrub 62 / V6 tapering tree trunk.066",
-    "V11 layered garden shrub 62 / V6 clustered tree leaves.066",
-    "V11 layered garden shrub 63 / V6 tapering tree trunk.073",
-    "V11 layered garden shrub 63 / V6 clustered tree leaves.073",
     "V11 bank leaf group 00 / V11 maple fine twig",
     "V11 bank leaf group 00 / V11 maple fine twig.001",
     "V11 bank leaf group 00 / V11 maple fine twig.002",
@@ -4620,6 +3754,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4628,6 +3763,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4636,6 +3772,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4644,6 +3781,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4652,6 +3790,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4660,6 +3799,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4668,6 +3808,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4676,6 +3817,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4684,6 +3826,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4692,6 +3835,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4700,6 +3844,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4708,6 +3853,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4716,6 +3862,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4724,6 +3871,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4732,6 +3880,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4740,6 +3889,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4748,6 +3898,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4756,6 +3907,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4764,6 +3916,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4772,6 +3925,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4780,6 +3934,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4788,6 +3943,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4796,6 +3952,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4804,6 +3961,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4812,6 +3970,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4820,6 +3979,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4828,6 +3988,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4836,6 +3997,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4844,6 +4006,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4852,6 +4015,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4860,6 +4024,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4868,6 +4033,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4876,6 +4042,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4884,6 +4051,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4892,6 +4060,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4900,6 +4069,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4908,6 +4078,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4916,6 +4087,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4924,6 +4096,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4932,6 +4105,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4940,6 +4114,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4948,6 +4123,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4956,6 +4132,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4964,6 +4141,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4972,6 +4150,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4980,6 +4159,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4988,6 +4168,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -4996,6 +4177,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5004,6 +4186,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5012,6 +4195,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5020,6 +4204,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5028,6 +4213,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5036,6 +4222,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5044,6 +4231,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5052,6 +4240,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5060,6 +4249,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5068,6 +4258,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5076,6 +4267,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5084,6 +4276,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5092,6 +4285,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5100,6 +4294,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5108,6 +4303,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5116,6 +4312,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5124,6 +4321,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5132,6 +4330,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5140,6 +4339,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5148,6 +4348,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5156,6 +4357,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5164,6 +4366,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5172,6 +4375,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5180,6 +4384,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5188,6 +4393,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5196,6 +4402,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5204,6 +4411,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5212,6 +4420,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5220,6 +4429,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5228,6 +4438,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5236,6 +4447,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5244,6 +4456,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5252,6 +4465,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5260,6 +4474,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5268,6 +4483,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5276,6 +4492,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5284,6 +4501,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5292,6 +4510,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5300,6 +4519,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5308,6 +4528,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5316,6 +4537,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5324,6 +4546,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5332,6 +4555,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5340,6 +4564,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5348,6 +4573,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5356,6 +4582,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5364,6 +4591,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5372,6 +4600,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5380,6 +4609,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5388,6 +4618,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5396,6 +4627,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5404,6 +4636,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5412,6 +4645,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5420,6 +4654,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5428,6 +4663,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5436,6 +4672,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5444,6 +4681,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5452,6 +4690,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5460,6 +4699,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5468,6 +4708,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5476,6 +4717,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5484,6 +4726,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5492,6 +4735,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5500,6 +4744,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5508,6 +4753,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5516,6 +4762,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5524,6 +4771,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5532,6 +4780,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5540,6 +4789,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5548,6 +4798,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5556,6 +4807,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5564,6 +4816,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5572,6 +4825,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5580,6 +4834,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5588,6 +4843,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5596,6 +4852,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5604,6 +4861,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5612,6 +4870,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5620,6 +4879,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5628,6 +4888,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5636,6 +4897,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5644,6 +4906,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5652,6 +4915,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5660,6 +4924,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5668,6 +4933,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5676,6 +4942,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5684,6 +4951,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5692,6 +4960,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5700,6 +4969,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5708,6 +4978,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5716,6 +4987,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5724,6 +4996,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5732,6 +5005,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5740,6 +5014,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5748,6 +5023,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5756,6 +5032,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5764,6 +5041,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5772,6 +5050,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5780,6 +5059,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5788,6 +5068,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5796,6 +5077,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5804,6 +5086,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5812,6 +5095,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5820,6 +5104,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5828,6 +5113,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5836,6 +5122,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5844,6 +5131,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5852,6 +5140,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5860,6 +5149,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5868,6 +5158,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5876,6 +5167,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5884,6 +5176,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5892,6 +5185,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5900,6 +5194,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5908,6 +5203,7 @@
       "output_faces": 175,
       "islands": 480,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -5916,679 +5212,764 @@
       "output_faces": 960,
       "islands": 960,
       "output_leaves": 960,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
       "object": "V6 clustered tree leaves",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.001",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.002",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.003",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.004",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.006",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.009",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.010",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.012",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.013",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.015",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.016",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.017",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.018",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.019",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.021",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.024",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.025",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.026",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.027",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.028",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.029",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.030",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.031",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.032",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.033",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.034",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.035",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.036",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.037",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.038",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.039",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.040",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.041",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.042",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.043",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.044",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.045",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.046",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.047",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.048",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.049",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.050",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.051",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.052",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.053",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.054",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.055",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.056",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.057",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.058",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.059",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.060",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.061",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.062",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.063",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.064",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.065",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.066",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.067",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.068",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.069",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.070",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.071",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.072",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.073",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.074",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.075",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.076",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.077",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.078",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.079",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.080",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.081",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.082",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.083",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.084",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.085",
       "input_faces": 17600,
-      "output_faces": 175,
+      "output_faces": 220,
       "islands": 4400,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.086",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.087",
       "input_faces": 14400,
-      "output_faces": 175,
+      "output_faces": 180,
       "islands": 3600,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.088",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.089",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.090",
       "input_faces": 16000,
-      "output_faces": 175,
+      "output_faces": 200,
       "islands": 4000,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V6 clustered tree leaves.091",
       "input_faces": 20800,
-      "output_faces": 175,
+      "output_faces": 260,
       "islands": 5200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V7 lobed maple leaves",
@@ -6596,47 +5977,953 @@
       "output_faces": 4420,
       "islands": 442,
       "output_leaves": 442,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
       "object": "V9 seated woodland 0 / V6 clustered tree leaves.001",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V9 seated woodland 1 / V6 clustered tree leaves.001",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V9 seated woodland 2 / V6 clustered tree leaves.001",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V9 seated woodland 3 / V6 clustered tree leaves.001",
       "input_faces": 12800,
-      "output_faces": 175,
+      "output_faces": 160,
       "islands": 3200,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 00 / V6 clustered tree leaves",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 01 / V6 clustered tree leaves.007",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 02 / V6 clustered tree leaves.014",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 03 / V6 clustered tree leaves.021",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 04 / V6 clustered tree leaves.028",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V10 garden woodland 05 / V6 clustered tree leaves.035",
       "input_faces": 19200,
-      "output_faces": 175,
+      "output_faces": 240,
       "islands": 4800,
-      "output_leaves": 175,
-      "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 06 / V6 clustered tree leaves.042",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 07 / V6 clustered tree leaves.049",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 08 / V6 clustered tree leaves.056",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 09 / V6 clustered tree leaves.063",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 10 / V6 clustered tree leaves.070",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 11 / V6 clustered tree leaves.077",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 12 / V6 clustered tree leaves.084",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 13 / V6 clustered tree leaves.091",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 14 / V6 clustered tree leaves.006",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 15 / V6 clustered tree leaves.013",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 16 / V6 clustered tree leaves.020",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 17 / V6 clustered tree leaves.027",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 18 / V6 clustered tree leaves.034",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 19 / V6 clustered tree leaves.041",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 20 / V6 clustered tree leaves.048",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 21 / V6 clustered tree leaves.055",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 22 / V6 clustered tree leaves.062",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 23 / V6 clustered tree leaves.069",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 24 / V6 clustered tree leaves.076",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 25 / V6 clustered tree leaves.083",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 26 / V6 clustered tree leaves.090",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 27 / V6 clustered tree leaves.005",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 28 / V6 clustered tree leaves.012",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden woodland 29 / V6 clustered tree leaves.019",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 00 / V6 clustered tree leaves",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 01 / V6 clustered tree leaves.003",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 02 / V6 clustered tree leaves.006",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 03 / V6 clustered tree leaves.009",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 04 / V6 clustered tree leaves.012",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 05 / V6 clustered tree leaves.015",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 06 / V6 clustered tree leaves.018",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 07 / V6 clustered tree leaves.021",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 08 / V6 clustered tree leaves.024",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 09 / V6 clustered tree leaves.027",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 10 / V6 clustered tree leaves.030",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 11 / V6 clustered tree leaves.033",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 12 / V6 clustered tree leaves.036",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 13 / V6 clustered tree leaves.039",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 14 / V6 clustered tree leaves.042",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 15 / V6 clustered tree leaves.045",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 16 / V6 clustered tree leaves.048",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 17 / V6 clustered tree leaves.051",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 18 / V6 clustered tree leaves.054",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 19 / V6 clustered tree leaves.057",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 20 / V6 clustered tree leaves.060",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 21 / V6 clustered tree leaves.063",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 22 / V6 clustered tree leaves.066",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 23 / V6 clustered tree leaves.069",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 24 / V6 clustered tree leaves.072",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 25 / V6 clustered tree leaves.075",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 26 / V6 clustered tree leaves.078",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 27 / V6 clustered tree leaves.081",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 28 / V6 clustered tree leaves.084",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 29 / V6 clustered tree leaves.087",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 30 / V6 clustered tree leaves.090",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 31 / V6 clustered tree leaves.001",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 32 / V6 clustered tree leaves.004",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 33 / V6 clustered tree leaves.007",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 34 / V6 clustered tree leaves.010",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 35 / V6 clustered tree leaves.013",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 36 / V6 clustered tree leaves.016",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 37 / V6 clustered tree leaves.019",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 38 / V6 clustered tree leaves.022",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 39 / V6 clustered tree leaves.025",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 40 / V6 clustered tree leaves.028",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 41 / V6 clustered tree leaves.031",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 42 / V6 clustered tree leaves.034",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 43 / V6 clustered tree leaves.037",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V10 garden understory 44 / V6 clustered tree leaves.040",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 32 / V6 clustered tree leaves.040",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 34 / V6 clustered tree leaves.054",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 35 / V6 clustered tree leaves.061",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 36 / V6 clustered tree leaves.068",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 38 / V6 clustered tree leaves.082",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 39 / V6 clustered tree leaves.089",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 40 / V6 clustered tree leaves.004",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 45 / V6 clustered tree leaves.039",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 46 / V6 clustered tree leaves.046",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 47 / V6 clustered tree leaves.053",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 48 / V6 clustered tree leaves.060",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 49 / V6 clustered tree leaves.067",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 50 / V6 clustered tree leaves.074",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 51 / V6 clustered tree leaves.081",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 52 / V6 clustered tree leaves.088",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 53 / V6 clustered tree leaves.003",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 54 / V6 clustered tree leaves.010",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 55 / V6 clustered tree leaves.017",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 56 / V6 clustered tree leaves.024",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 57 / V6 clustered tree leaves.031",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 58 / V6 clustered tree leaves.038",
+      "input_faces": 19200,
+      "output_faces": 240,
+      "islands": 4800,
+      "output_leaves": 240,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 59 / V6 clustered tree leaves.045",
+      "input_faces": 16000,
+      "output_faces": 200,
+      "islands": 4000,
+      "output_leaves": 200,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 60 / V6 clustered tree leaves.052",
+      "input_faces": 14400,
+      "output_faces": 180,
+      "islands": 3600,
+      "output_leaves": 180,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 61 / V6 clustered tree leaves.059",
+      "input_faces": 17600,
+      "output_faces": 220,
+      "islands": 4400,
+      "output_leaves": 220,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 62 / V6 clustered tree leaves.066",
+      "input_faces": 12800,
+      "output_faces": 160,
+      "islands": 3200,
+      "output_leaves": 160,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
+    },
+    {
+      "object": "V11 layered garden shrub 63 / V6 clustered tree leaves.073",
+      "input_faces": 20800,
+      "output_faces": 260,
+      "islands": 5200,
+      "output_leaves": 260,
+      "card_scale": 4.4721,
+      "method": "seeded whole-leaf selection; alpha-tested cards, one per 20 source leaves"
     },
     {
       "object": "V11 maple clustered lobed foliage 0",
@@ -6644,6 +6931,7 @@
       "output_faces": 6970,
       "islands": 697,
       "output_leaves": 697,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
@@ -6652,6 +6940,7 @@
       "output_faces": 6880,
       "islands": 688,
       "output_leaves": 688,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
@@ -6660,6 +6949,7 @@
       "output_faces": 7270,
       "islands": 727,
       "output_leaves": 727,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; source leaf outlines"
     },
     {
@@ -6668,6 +6958,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6676,6 +6967,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6684,6 +6976,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6692,6 +6985,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6700,6 +6994,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6708,6 +7003,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6716,6 +7012,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6724,6 +7021,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6732,6 +7030,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6740,6 +7039,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6748,6 +7048,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6756,6 +7057,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6764,6 +7066,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6772,6 +7075,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6780,6 +7084,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6788,6 +7093,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6796,6 +7102,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6804,6 +7111,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6812,6 +7120,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6820,6 +7129,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6828,6 +7138,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6836,6 +7147,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6844,6 +7156,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6852,6 +7165,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6860,6 +7174,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6868,6 +7183,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6876,6 +7192,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6884,6 +7201,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6892,6 +7210,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6900,6 +7219,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6908,6 +7228,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6916,6 +7237,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6924,6 +7246,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6932,6 +7255,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6940,6 +7264,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6948,6 +7273,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6956,6 +7282,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6964,6 +7291,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6972,6 +7300,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6980,6 +7309,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6988,6 +7318,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -6996,6 +7327,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7004,6 +7336,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7012,6 +7345,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7020,6 +7354,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7028,6 +7363,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7036,6 +7372,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7044,6 +7381,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7052,6 +7390,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7060,6 +7399,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7068,6 +7408,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7076,6 +7417,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7084,6 +7426,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7092,6 +7435,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7100,6 +7444,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7108,6 +7453,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7116,6 +7462,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7124,6 +7471,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7132,6 +7480,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7140,6 +7489,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7148,6 +7498,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7156,6 +7507,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7164,6 +7516,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7172,6 +7525,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7180,6 +7534,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7188,6 +7543,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7196,6 +7552,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7204,6 +7561,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7212,6 +7570,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7220,6 +7579,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7228,6 +7588,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7236,6 +7597,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7244,6 +7606,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7252,6 +7615,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7260,6 +7624,7 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7268,6 +7633,7 @@
       "output_faces": 175,
       "islands": 697,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7276,6 +7642,7 @@
       "output_faces": 175,
       "islands": 688,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     },
     {
@@ -7284,10 +7651,11 @@
       "output_faces": 175,
       "islands": 727,
       "output_leaves": 175,
+      "card_scale": 1,
       "method": "seeded whole-leaf selection; two-triangle planar silhouettes"
     }
   ],
-  "restored_bank_objects": 343,
+  "objects_beyond_courtyard": 1209,
   "pillow_topology": [
     {
       "object": "V6 compressed linen pillow 0",
@@ -7460,6 +7828,7 @@
       "in_glb": true
     }
   ],
+  "leaf_cluster_leaves": 20,
   "bark_curves": [
     {
       "object": "V5 overhead canopy bough",
@@ -7617,9 +7986,9 @@
       "restored_hidden_render": false
     }
   ],
-  "export_objects_before_join": 3145,
-  "triangles": 361038,
-  "export_meshes": 71,
+  "export_objects_before_join": 4011,
+  "triangles": 448788,
+  "export_meshes": 72,
   "export_settings": {
     "export_format": "GLB",
     "export_yup": true,
@@ -7631,7 +8000,7 @@
     "export_jpeg_quality": 82,
     "export_draco_mesh_compression_enable": false
   },
-  "output_bytes": 17785588,
-  "output_sha256": "4d14896d4b61ffe96a4da7c2792236e62cf22fa0fc39817df51aa10225473e50",
+  "output_bytes": 22289656,
+  "output_sha256": "513c99164ce173fb2a0cb5f436666085f8d41a57be999a2094cff08af93e4b56",
   "scene_definition_sha256": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
 }
