@@ -1,4 +1,5 @@
 import { useRef, useCallback, useMemo } from "react";
+import { createSpatialAudio, type SpatialPose } from "./spatialAudio";
 import AudioWorker from "./audioWorker?worker";
 
 export type AmbientEnv = "sauna" | "water" | "totonou";
@@ -77,6 +78,7 @@ export const AUDIO_PRESETS: AudioPresets = {
 };
 
 export interface AudioEngine {
+  setSpatialPose: (pose: SpatialPose | null) => void;
   init: () => void;
   playAmbient: (env: AmbientEnv) => void;
   playLoyly: () => void;
@@ -139,6 +141,7 @@ function generateBufferAsync(
 
 export function useAudioEngine(): AudioEngine {
   const ctxRef = useRef<AudioContext | null>(null);
+  const spatialRef = useRef<ReturnType<typeof createSpatialAudio>>(null);
   const masterGainRef = useRef<GainNode | null>(null);
 
   // 稼働中のソースとゲインを追跡し、フェードアウト後に安全に停止する
@@ -172,6 +175,7 @@ export function useAudioEngine(): AudioEngine {
       master.gain.value = 0; // デフォルトミュート
       master.connect(ctxRef.current.destination);
       masterGainRef.current = master;
+      spatialRef.current = createSpatialAudio(ctxRef.current, master);
     }
   }, []);
 
@@ -245,7 +249,7 @@ export function useAudioEngine(): AudioEngine {
 
     source.connect(filter);
     filter.connect(gain);
-    gain.connect(masterGainRef.current);
+    gain.connect(spatialRef.current?.stove ?? masterGainRef.current);
     source.start();
 
     activeSourcesRef.current.push(source);
@@ -290,7 +294,7 @@ export function useAudioEngine(): AudioEngine {
 
     source.connect(filter);
     filter.connect(gain);
-    gain.connect(masterGainRef.current);
+    gain.connect(spatialRef.current?.water ?? masterGainRef.current);
     source.start();
 
     activeSourcesRef.current.push(source);
@@ -444,7 +448,7 @@ export function useAudioEngine(): AudioEngine {
     sourceSizzle
       .connect(filterSizzle)
       .connect(gainSizzle)
-      .connect(masterGainRef.current);
+      .connect(spatialRef.current?.stove ?? masterGainRef.current);
     sourceSizzle.start(now);
     sourceSizzle.stop(now + 0.8);
 
@@ -467,7 +471,7 @@ export function useAudioEngine(): AudioEngine {
     sourceSteam
       .connect(filterSteam)
       .connect(gainSteam)
-      .connect(masterGainRef.current);
+      .connect(spatialRef.current?.stove ?? masterGainRef.current);
     sourceSteam.start(now);
     sourceSteam.stop(now + 2.0);
   }, []);
@@ -480,8 +484,12 @@ export function useAudioEngine(): AudioEngine {
     }
   }, []);
 
+  const setSpatialPose = useCallback((pose: SpatialPose | null) => {
+    spatialRef.current?.update(pose);
+  }, []);
+
   return useMemo(
-    () => ({ init, playAmbient, playLoyly, setMuted }),
-    [init, playAmbient, playLoyly, setMuted],
+    () => ({ init, playAmbient, playLoyly, setMuted, setSpatialPose }),
+    [init, playAmbient, playLoyly, setMuted, setSpatialPose],
   );
 }

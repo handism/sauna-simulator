@@ -13,6 +13,7 @@ const mockAudioEngine = {
   playAmbient: vi.fn(),
   playLoyly: vi.fn(),
   setMuted: vi.fn(),
+    setSpatialPose: vi.fn(),
 };
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (

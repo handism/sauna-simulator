@@ -144,6 +144,44 @@ describe('useAudioEngine', () => {
     expect(masterGain.gain.value).toBe(0);
   });
 
+  it('routes sauna and loyly to the stove, water to the spout, and keeps wind and beats unpositioned', async () => {
+    const panners: MockGainNode[] = [];
+    class SpatialContext extends MockAudioContext {
+      createBufferSource = vi.fn(() => { const node = mockCreateBufferSource(); node.connect.mockImplementation(target => target); return node; });
+      createBiquadFilter = vi.fn(() => { const node = mockCreateBiquadFilter(); node.connect.mockImplementation(target => target); return node; });
+      createGain = vi.fn(() => { const node = mockCreateGain(); node.connect.mockImplementation(target => target); return node; });
+      listener = Object.fromEntries(['position', 'forward', 'up'].flatMap(prefix => ['X', 'Y', 'Z'].map(axis => [prefix + axis, new MockAudioParam()])));
+      createPanner = vi.fn(() => {
+        const panner = Object.assign(new MockGainNode(), { positionX: new MockAudioParam(), positionY: new MockAudioParam(), positionZ: new MockAudioParam() });
+        panners.push(panner);
+        return panner;
+      });
+    }
+    window.AudioContext = SpatialContext as unknown as typeof AudioContext;
+    const { result } = renderHook(() => useAudioEngine());
+    act(() => result.current.init());
+    const [master, stove, , , water] = mockCreateGain.mock.results.map(entry => entry.value);
+    act(() => result.current.setSpatialPose({ position: [0, 1, 0], forward: [0, 0, -1], up: [0, 1, 0], stove: [2, 1, 0], water: [-2, 1, 0] }));
+    mockCreateGain.mockClear();
+    await act(async () => { await result.current.playAmbient('sauna'); });
+    expect(mockCreateGain.mock.results[0].value.connect).toHaveBeenCalledWith(stove);
+    mockCreateGain.mockClear();
+    await act(async () => { await result.current.playLoyly(); });
+    expect(mockCreateGain.mock.results).toHaveLength(2);
+    for (const entry of mockCreateGain.mock.results) expect(entry.value.connect).toHaveBeenCalledWith(stove);
+    mockCreateGain.mockClear();
+    await act(async () => { await result.current.playAmbient('water'); });
+    expect(mockCreateGain.mock.results[0].value.connect).toHaveBeenCalledWith(water);
+    mockCreateGain.mockClear();
+    await act(async () => { await result.current.playAmbient('totonou'); });
+    expect(mockCreateGain.mock.results[0].value.connect).toHaveBeenCalledWith(master);
+    expect(mockCreateGain.mock.results[1].value.connect).toHaveBeenCalledWith(master);
+    const sourceCount = mockCreateBufferSource.mock.calls.length;
+    act(() => { result.current.setSpatialPose(null); result.current.setSpatialPose(null); });
+    expect(mockCreateBufferSource).toHaveBeenCalledTimes(sourceCount);
+    expect(panners).toHaveLength(2);
+  });
+
   it('handles setMuted correctly', () => {
     const { result } = renderHook(() => useAudioEngine());
 
