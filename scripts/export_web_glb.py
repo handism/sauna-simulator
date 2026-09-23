@@ -274,6 +274,26 @@ for o in list(bpy.context.scene.objects):
     bpy.data.objects.remove(o, do_unlink=True)
     web.name = report['bark_curves'][-1]['object']
 
+# Text is geometry in the source scene, not a browser overlay. Keep its source
+# outlines and extrusion: generic decimation can close counters or break strokes.
+report['text_meshes'] = []
+text_names = set()
+for o in list(bpy.context.scene.objects):
+    if o.type != 'FONT' or o.hide_render:
+        continue
+    entry = {'object': o.name, 'body': o.data.body, 'font': o.data.font.name}
+    mesh = bpy.data.meshes.new_from_object(o.evaluated_get(depsgraph))
+    entry['triangles'] = sum(len(p.vertices) - 2 for p in mesh.polygons)
+    assert entry['triangles'] > 0, entry
+    web = bpy.data.objects.new(o.name, mesh)
+    web.matrix_world = o.matrix_world.copy()
+    for collection in o.users_collection: collection.objects.link(web)
+    bpy.data.objects.remove(o, do_unlink=True)
+    web.name = entry['object']
+    text_names.add(web.name)
+    report['text_meshes'].append(entry)
+report['policy']['text'] = 'render-visible FONT objects meshed with source outlines, extrusion, transforms and materials; no decimation or small-detail exclusion'
+
 selected=[]
 for o in list(bpy.context.scene.objects):
     # Omit small garden detail. Render-visible objects beyond the courtyard are
@@ -281,7 +301,7 @@ for o in list(bpy.context.scene.objects):
     size=max(o.dimensions) if o.type=='MESH' else 0
     exclude=(o.type!='MESH' or o.hide_render or 'steam' in o.name.lower()
              or 'droplet' in o.name.lower()
-             or (o.location.y < 0 and size < .35))
+             or (o.location.y < 0 and size < .35 and o.name not in text_names))
     if exclude:
         report['excluded'].append(o.name)
         bpy.data.objects.remove(o, do_unlink=True)
@@ -316,7 +336,7 @@ for o in list(bpy.context.scene.objects):
     # V6 woodland crowns have about 4,000 leaves; 175 of them read as bare branches.
     style = 'outline' if near_maple else 'cluster' if 'V6 clustered tree leaves' in o.name else 'diamond'
     sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, leaves, style)
-    if len(o.data.polygons) > 500 and not sampled:
+    if len(o.data.polygons) > 500 and not sampled and o.name not in text_names:
         mod=o.modifiers.new('Web reduction','DECIMATE'); mod.ratio=min(1, 350/len(o.data.polygons))
     selected.append(o)
 bpy.ops.object.select_all(action='SELECT')
