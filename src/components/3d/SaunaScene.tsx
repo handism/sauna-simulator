@@ -7,6 +7,7 @@ import { QUALITY, type QualityMode } from './quality';
 import { createLighting, eveningAmount, type LightingMode } from './lighting';
 import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
+import { applyFoliageTransmission, isFoliageMaterial } from './foliage';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -156,14 +157,18 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         if (disposed || failed) { disposeTree(gltf.scene); return; }
         // Replace the exported closed water volume with the bounded realtime surface.
         // Drawing both creates a milky double layer when the viewer sits in the pool.
+        const foliage = new Set<THREE.MeshStandardMaterial>();
         gltf.scene.traverse((object) => {
           if (!(object instanceof THREE.Mesh)) return;
           const materials = Array.isArray(object.material) ? object.material : [object.material];
+          for (const material of materials) if (isFoliageMaterial(material)) foliage.add(material);
           // Glass and water must not cast opaque silhouettes onto the garden.
           object.castShadow = materials.every(material => !material.transparent);
           object.receiveShadow = object.castShadow;
           if (materials.every(material => material.name === 'V4 | clear spring water')) object.visible = false;
         });
+        foliage.forEach(applyFoliageTransmission);
+        element.dataset.foliageMaterials = String(foliage.size);
         scene.add(gltf.scene);
         const waterEffects = createWaterEffects(definition.water);
         scene.add(waterEffects.group);
