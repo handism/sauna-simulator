@@ -186,3 +186,14 @@ API参照：[Three.js LightShadow](https://threejs.org/docs/pages/LightShadow.ht
 - [狭い画面の検証画像](3d-qa/viewport-narrow-sauna.png)を保存し、操作欄・進行ボタンを視覚確認。スクリーンショットは軽量画質・昼の設定。これはデスクトップChromeの画面サイズ／メディア設定のエミュレーションであり、タッチ操作・モバイル実機・実GPU性能の検証ではない。蒸気の全軸静止は座標の単体検証であり、ブラウザ動画での蒸気比較は未実施。
 - `bunx tsc -b`、`bun run test`（14ファイル90テスト）、`bun run lint`、`bun run test:browser`（本番ビルド＋4件、約74秒、スキップ・再試行なし）に成功。既存の切り替え・コンテキスト喪失・取得保留・30秒タイムアウトも再検証した。
 - 遅延3Dチャンク619.64KB（gzip 156.87KB）。既存の500KB超警告は継続。実機タッチ、音の実聴、長時間のGPU総メモリ、全周画質・Cycles比較・ベイク・圧縮は引き続き残件。
+
+## フェーズ5：タッチ見回しの継続性（2026-09-23）
+
+- 2本目の指を離すと1本目の見回しまで停止する不具合を修正。`pointerup`・`pointercancel`・`lostpointercapture` は、操作開始時のpointerIdと一致する場合だけ見回しを終了する。修正前に3ケースの単体テスト失敗を確認し、修正後はすべて成功した。
+- `e2e/scene-touch.e2e.ts` を追加。ChromeのCDP `Input.dispatchTouchEvent` によるタッチ入力で、水平・上下スワイプの描画変化、2本目の移動では視点が変わらないこと、2本目を離しても1本目で操作継続できること、キャンセル後の新しいスワイプを確認した。画像比較時はUIのCSS遷移を完了させ、フェードを視点変化と誤認しないようにする。
+- タップによる入室、UI非表示／復帰、ステージ一巡、同一canvas保持、ミュート状態保持、2D復帰も成功。タッチケースの未処理ページエラー0件。
+- 条件はChrome 153.0.8010.53／macOS、headless、本番ビルド、localhost、390×844 CSS px、DPR1、標準画質、自動照明、動作抑制設定、タッチエミュレーション。モバイル実機・Safari・音の実聴・GPU性能の検証ではない。
+- `bunx tsc -b`、`bun run test`（14ファイル93件）、`bun run lint`、本番ビルド、差分チェックが成功。全ブラウザ回帰テストは5件成功、約80秒、スキップ・再試行なし。[検証記録](3d-qa/touch-validation.json)を保存した。
+- 遅延3Dチャンク619.66KB（gzip 156.88KB）。500KB超の既存警告は継続。実機タッチ、長時間とGPU総メモリ、音の実聴、全周画質・Cycles比較・ベイク・圧縮は残件。
+
+入力API参照：[Chrome DevTools Protocol — Input](https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchTouchEvent)。
