@@ -1,0 +1,30 @@
+# depth target: near
+current                n=56 undef=0 mean|log2|=0.218 max=0.884 ratio 0.615..1.846
+backface               n=56 undef=0 mean|log2|=0.180 max=0.832 ratio 0.748..1.780
+chebyshev eps=0.0      n=56 undef=0 mean|log2|=0.191 max=1.679 ratio 0.805..3.201
+ddgi eps=0.0           n=56 undef=0 mean|log2|=0.175 max=1.369 ratio 0.817..2.583
+chebyshev eps=0.05     n=56 undef=0 mean|log2|=0.186 max=1.438 ratio 0.793..2.710
+ddgi eps=0.05          n=56 undef=0 mean|log2|=0.173 max=1.205 ratio 0.804..2.305
+chebyshev eps=0.1      n=56 undef=0 mean|log2|=0.184 max=1.307 ratio 0.783..2.475
+ddgi eps=0.1           n=56 undef=0 mean|log2|=0.174 max=1.120 ratio 0.793..2.173
+chebyshev eps=0.2      n=56 undef=0 mean|log2|=0.184 max=1.167 ratio 0.765..2.246
+ddgi eps=0.2           n=56 undef=0 mean|log2|=0.176 max=1.033 ratio 0.774..2.046
+binary eps=0.0         n=56 undef=0 mean|log2|=0.134 max=0.476 ratio 0.820..1.390
+binary eps=0.05        n=56 undef=0 mean|log2|=0.143 max=0.501 ratio 0.722..1.415
+binary eps=0.1         n=56 undef=0 mean|log2|=0.147 max=0.523 ratio 0.720..1.437
+binary eps=0.2         n=56 undef=0 mean|log2|=0.155 max=0.560 ratio 0.718..1.475
+# depth target: half
+current                n=56 undef=0 mean|log2|=0.218 max=0.884 ratio 0.615..1.846
+backface               n=56 undef=0 mean|log2|=0.180 max=0.832 ratio 0.748..1.780
+chebyshev eps=0.0      n=56 undef=0 mean|log2|=0.184 max=0.884 ratio 0.707..1.846
+ddgi eps=0.0           n=56 undef=0 mean|log2|=0.169 max=0.832 ratio 0.830..1.780
+chebyshev eps=0.05     n=56 undef=0 mean|log2|=0.186 max=0.884 ratio 0.707..1.846
+ddgi eps=0.05          n=56 undef=0 mean|log2|=0.171 max=0.834 ratio 0.816..1.783
+chebyshev eps=0.1      n=56 undef=0 mean|log2|=0.188 max=0.884 ratio 0.707..1.846
+ddgi eps=0.1           n=56 undef=0 mean|log2|=0.173 max=0.836 ratio 0.804..1.785
+chebyshev eps=0.2      n=56 undef=0 mean|log2|=0.191 max=0.884 ratio 0.707..1.846
+ddgi eps=0.2           n=56 undef=0 mean|log2|=0.177 max=0.840 ratio 0.784..1.790
+binary eps=0.0         n=56 undef=0 mean|log2|=0.134 max=0.476 ratio 0.820..1.390
+binary eps=0.05        n=56 undef=0 mean|log2|=0.143 max=0.501 ratio 0.722..1.415
+binary eps=0.1         n=56 undef=0 mean|log2|=0.147 max=0.523 ratio 0.720..1.437
+binary eps=0.2         n=56 undef=0 mean|log2|=0.155 max=0.560 ratio 0.718..1.475

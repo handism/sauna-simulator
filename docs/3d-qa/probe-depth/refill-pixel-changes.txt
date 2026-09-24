@@ -1,0 +1,12 @@
+01.png: changed 1.67% max dL 16.5 mean dL +1.38 |web-cyc| on changed 8.23 -> 8.98 (signed +5.44 -> +6.82) bbox x33-599 y0-311
+02.png: changed 0.84% max dL 7.4 mean dL -0.87 |web-cyc| on changed 9.92 -> 9.08 (signed +8.18 -> +7.31) bbox x255-540 y150-312
+bh-02: changed 0.94% max dL 5.2 mean dL -0.43 |web-cyc| on changed 10.41 -> 9.87 (signed +9.81 -> +9.38) bbox x255-540 y99-325
+03.png: changed 0.33% max dL 3.1 mean dL +1.34 |web-cyc| on changed 10.54 -> 11.17 (signed +5.00 -> +6.34) bbox x50-599 y86-395
+bh-03: changed 1.12% max dL 3.0 mean dL +1.48 |web-cyc| on changed 16.81 -> 18.03 (signed +15.95 -> +17.43) bbox x4-599 y87-392
+04.png: changed 4.94% max dL 17.0 mean dL +2.55 |web-cyc| on changed 10.36 -> 10.94 (signed -0.86 -> +1.69) bbox x86-599 y0-399
+bh-04: changed 6.09% max dL 12.8 mean dL +1.78 |web-cyc| on changed 5.08 -> 5.04 (signed -0.54 -> +1.24) bbox x2-599 y106-399
+05.png: changed 0.38% max dL 17.3 mean dL +1.77 |web-cyc| on changed 7.10 -> 7.51 (signed +0.96 -> +2.73) bbox x114-599 y0-278
+bh-05: changed 0.26% max dL 12.7 mean dL +1.70 |web-cyc| on changed 4.20 -> 4.61 (signed +1.21 -> +2.91) bbox x142-599 y1-278
+06.png: changed 1.06% max dL 12.7 mean dL +1.41 |web-cyc| on changed 4.27 -> 5.00 (signed +2.38 -> +3.79) bbox x54-599 y7-313
+07.png: changed 0.03% max dL 1.9 mean dL +0.56 |web-cyc| on changed 5.14 -> 5.06 (signed -1.17 -> -0.60) bbox x32-579 y157-388
+bh-07: changed 0.00% max dL 1.4 mean dL +0.72 |web-cyc| on changed 3.60 -> 4.57 (signed +2.06 -> +2.78) bbox x105-581 y157-388

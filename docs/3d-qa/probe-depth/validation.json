@@ -1,0 +1,74 @@
+{
+  "date": "2026-09-24",
+  "decision": "diagnostic only; distance-moment (Chebyshev) weights at the shipped half-spacing point change only the lounger sample in the 14-point fixture but need per-probe depth maps and manual 8-corner interpolation, so not implemented; refilling enclosed probes rejected (brightens the floor under the lounger in same-view captures)",
+  "blender": "4.5.11 LTS",
+  "depth": {
+    "cases": 56,
+    "lobe_power": 50,
+    "rays": 64,
+    "max_distance": "2 cell diagonals",
+    "seconds": 160
+  },
+  "enclosure": {
+    "probes": 4832,
+    "directions": 64,
+    "seconds": 837,
+    "enclosed_below_0_4_spacing": {
+      "room": 1,
+      "courtyard": 40,
+      "outer": 47
+    }
+  },
+  "refill_candidate": {
+    "threshold_spacing": 0.4,
+    "irradiance_bin_sha256": "d5f6e22c82f5b1a266e4912d8b38ed12de66fdd9cdf6f077102ddcc768e0cbc3",
+    "source_mean_abs_dL": [
+      1.45,
+      1.49
+    ],
+    "evening_mean_abs_dL": [
+      0.96,
+      1.0
+    ],
+    "browser_baseline": {
+      "startTime": "2026-09-24T14:00:03.909Z",
+      "duration": 32078.343999999997,
+      "expected": 1,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "browser_candidate": {
+      "startTime": "2026-09-24T13:59:08.459Z",
+      "duration": 33029.901,
+      "expected": 1,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "baseline_captures": "byte-identical to ../probe-sampling/baseline"
+  },
+  "python_tests": 11,
+  "blender_checks": "six ray, two normalization, five first-hit and two direction-set cases",
+  "typecheck": "passed",
+  "unit_tests": {
+    "files": 30,
+    "tests": 157,
+    "status": "passed"
+  },
+  "lint": "passed",
+  "format": "passed",
+  "build": "passed; 2D 220.90KB, 3D 680.69KB; existing 500KB chunk warning",
+  "browser_regression": "not rerun: product code and shipped assets unchanged",
+  "bake_script": "fill_invalid moved to probe_sampling.py; import checked with --probe-test 1 (no assets written)",
+  "hashes": {
+    "blender/scene/SUI_Retreat.blend": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+    "public/models/sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "public/models/sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+    "public/models/irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "public/models/irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+    "public/models/reflection.bin": "7dcc6244014d14e5c2e768722e81dc2231c1bd325bcc7fa4050e148046be13dd",
+    "public/models/reflection.json": "84678a513edeee0a27e3466f6344a4d4d9515408e36f1fae60aa7ee984e8a613"
+  },
+  "environment_note": "Blender runs and browser captures ran outside the sandbox; candidate probes only in a scratch copy of the app."
+}
