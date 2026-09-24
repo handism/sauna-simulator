@@ -35,7 +35,7 @@ vec3 sui_ramp( float fac, vec4 stops[ ${NOISE_COLOR_MAX_STOPS} ], int count ) {
 // 0.982 scale) and normalized FBM, so the pattern matches the Cycles renders.
 // Octaves finer than a pixel fade to their zero mean instead of shimmering; Cycles
 // averages them away across its samples.
-export const NOISE_COLOR_GLSL = `
+export const FBM_GLSL = `
 uint sui_rot( uint x, uint k ) { return ( x << k ) | ( x >> ( 32u - k ) ); }
 uint sui_hash( ivec3 key ) {
 	uint a = 0xdeadbeefu + 25u;
@@ -88,7 +88,8 @@ float sui_fbm( vec3 p, float detail, float roughness, float lacunarity, float fo
 	}
 	return 0.5 * sum / maxamp + 0.5;
 }
-${RAMP_GLSL}`;
+`;
+export const NOISE_COLOR_GLSL = FBM_GLSL + RAMP_GLSL;
 
 const FRAGMENT_PARS = `
 varying vec3 vSuiNoisePosition;
