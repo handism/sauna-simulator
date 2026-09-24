@@ -14,17 +14,11 @@ import * as THREE from 'three';
 // direct light over the unshadowed browser light, summed over the room pixels of camera 02 with
 // that light alone (the benches and their light-shielding lips hide most of the strips). The
 // room is bounded by cedar walls and glass that passes no direct light in Cycles, so these lights
-// reach only fragments inside the room box, and the unshadowed hemisphere light (sky and bounce)
-// is scaled there by INTERIOR_SKY.
+// reach only fragments inside the room box (which also selects the room's probe grid,
+// irradiance.ts).
 
 /** The room's inner volume in glTF axes, to the glass planes on the entry and plunge sides. */
 export const INTERIOR_BOX = new THREE.Box3(new THREE.Vector3(-6.15, 0, -4.59), new THREE.Vector3(-0.5, 3.36, -0.25));
-/**
- * Share of the hemisphere light that reaches the room. With the interior lights off, the light
- * entering through the glass in Cycles (sky, courtyard and bounce, linear, camera 02) equals the
- * browser hemisphere at 0.66; this keeps that for the daytime hemisphere of 0.8.
- */
-export const INTERIOR_SKY = 0.83;
 
 // Blender name, W, linear color, location, local X and local Z (the light shines along -Z), size
 // in meters ([width, height] for rectangles, [diameter] for disks, or [diameter, from, to] for a
@@ -109,8 +103,6 @@ export function createInteriorLights(): THREE.RectAreaLight[] {
 
 const DIFFUSE_TARGET =
   'RE_Direct_RectArea( rectAreaLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );';
-const HEMI_START = '#if ( NUM_HEMI_LIGHTS > 0 )';
-const HEMI_END = '#pragma unroll_loop_end';
 const vec3 = (v: THREE.Vector3) =>
   `vec3( ${v
     .toArray()
@@ -179,18 +171,11 @@ float suiRectFormFactor( const in vec3 N, const in vec3 P, const in vec3 rect[ 4
 // three 0.186 is pinned; a changed chunk fails loudly instead of lighting the courtyard.
 const chunk = THREE.ShaderChunk.lights_fragment_begin;
 if (!chunk.includes('suiInterior')) {
-  const hemiStart = chunk.indexOf(HEMI_START);
-  const hemiEnd = hemiStart < 0 ? -1 : chunk.indexOf(HEMI_END, hemiStart);
   const light = chunk.indexOf('IncidentLight directLight;');
   const pars = THREE.ShaderChunk.lights_physical_pars_fragment;
-  if (!chunk.includes(DIFFUSE_TARGET) || hemiEnd < 0 || light < 0 || !pars.includes('vec3 LTC_EdgeVectorFormFactor('))
+  if (!chunk.includes(DIFFUSE_TARGET) || light < 0 || !pars.includes('vec3 LTC_EdgeVectorFormFactor('))
     throw new Error('three lighting chunks changed; update interiorLights.ts');
   THREE.ShaderChunk.lights_physical_pars_fragment = pars + formFactor;
-  const end = hemiEnd + HEMI_END.length;
   THREE.ShaderChunk.lights_fragment_begin =
-    chunk.slice(0, light) +
-    interior +
-    chunk.slice(light, hemiStart).replace(DIFFUSE_TARGET, diffuse) +
-    `vec3 suiBeforeSky = irradiance;\n\t${chunk.slice(hemiStart, end)}\n\t\tif ( suiInterior ) irradiance = suiBeforeSky + ${INTERIOR_SKY.toFixed(3)} * ( irradiance - suiBeforeSky );` +
-    chunk.slice(end);
+    chunk.slice(0, light) + interior + chunk.slice(light).replace(DIFFUSE_TARGET, diffuse);
 }

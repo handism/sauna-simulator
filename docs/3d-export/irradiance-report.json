@@ -1,0 +1,189 @@
+{
+  "plain_materials": [],
+  "flipped_meshes": [
+    "V10 woodland floor extension"
+  ],
+  "input": "SUI_Retreat.blend",
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "blender": "4.5.11 LTS",
+  "panorama": [
+    64,
+    32
+  ],
+  "samples": 64,
+  "quick": false,
+  "grids": [
+    {
+      "name": "room",
+      "min": [
+        -5.9,
+        0.25,
+        -4.34
+      ],
+      "max": [
+        -0.75,
+        3.11,
+        -0.5
+      ],
+      "resolution": [
+        11,
+        7,
+        9
+      ]
+    },
+    {
+      "name": "courtyard",
+      "min": [
+        -9.0,
+        0.25,
+        -8.0
+      ],
+      "max": [
+        9.0,
+        4.25,
+        16.0
+      ],
+      "resolution": [
+        19,
+        5,
+        25
+      ]
+    },
+    {
+      "name": "outer",
+      "min": [
+        -30.0,
+        0.25,
+        -30.0
+      ],
+      "max": [
+        30.0,
+        9.25,
+        30.0
+      ],
+      "resolution": [
+        21,
+        4,
+        21
+      ]
+    }
+  ],
+  "scenes": {
+    "day": {
+      "scene": "SUI \u2022 Daylight",
+      "lights_in_probes": [
+        "Garden lantern glow",
+        "Garden lantern glow.001",
+        "Garden lantern glow.002",
+        "Garden lantern glow.003",
+        "Sky softbox",
+        "Sunlit courtyard",
+        "V10 concealed deck edge -3.7 / day",
+        "V10 concealed deck edge 0 / day",
+        "V10 concealed deck edge 4.4 / day",
+        "V10 lounge dusk fill / day",
+        "V10 path grazing light 1 / day",
+        "V10 path grazing light 4 / day",
+        "V10 path grazing light 7 / day",
+        "V10 specimen uplight / day",
+        "V7 water reflection soft strip",
+        "V8 maple garden grazing light"
+      ],
+      "grids": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "seconds": 282.5,
+          "upward_irradiance_mean": [
+            0.2101,
+            0.1254,
+            0.0857
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "seconds": 608.6,
+          "upward_irradiance_mean": [
+            1.8279,
+            1.9215,
+            2.0446
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "seconds": 1714.9,
+          "upward_irradiance_mean": [
+            0.4014,
+            0.5001,
+            0.5864
+          ]
+        }
+      }
+    },
+    "evening": {
+      "scene": "SUI \u2022 Blue hour",
+      "lights_in_probes": [
+        "Garden lantern glow.008",
+        "Garden lantern glow.009",
+        "Garden lantern glow.010",
+        "Garden lantern glow.011",
+        "Sky softbox.002",
+        "Sunlit courtyard.002",
+        "V10 concealed deck edge -3.7 / dusk",
+        "V10 concealed deck edge 0 / dusk",
+        "V10 concealed deck edge 4.4 / dusk",
+        "V7 water reflection soft strip.002",
+        "V8 maple garden grazing light.001"
+      ],
+      "grids": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "seconds": 282.9,
+          "upward_irradiance_mean": [
+            0.1497,
+            0.0635,
+            0.04
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "seconds": 599.2,
+          "upward_irradiance_mean": [
+            0.3644,
+            0.4967,
+            0.8534
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "seconds": 320.7,
+          "upward_irradiance_mean": [
+            0.0921,
+            0.1423,
+            0.2653
+          ]
+        }
+      }
+    }
+  },
+  "bin_bytes": 521856,
+  "bin_sha256": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+  "seconds": 3809.5
+}

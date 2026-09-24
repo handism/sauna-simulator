@@ -112,3 +112,21 @@ if (!chunk.includes('pcssDisk')) {
     throw new Error('three shadowmap_pars_fragment changed; update softShadows.ts');
   THREE.ShaderChunk.shadowmap_pars_fragment = `${chunk.slice(0, start)}\n\t#else\n${pcss}${chunk.slice(end)}`;
 }
+
+// three offsets the shadow lookup along the vertex normal (normalBias), but shades a double-sided
+// back face with the flipped normal. The merged 'Mossy woodland terrain' is double-sided and its
+// far slope faces down, so the lookup sank below the ground and the slope shadowed itself (the
+// sunless hill of camera 07); Cycles shades both sides alike. Offset toward the viewer's side,
+// per vertex, as the fragment shading flips per pixel.
+export const FACING_NORMAL_BIAS =
+  'if ( dot( shadowWorldNormal, cameraPosition - worldPosition.xyz ) < 0.0 ) shadowWorldNormal = - shadowWorldNormal;';
+const WORLD_POSITION = 'vec4 shadowWorldPosition;';
+const vertex = THREE.ShaderChunk.shadowmap_vertex;
+if (!vertex.includes(FACING_NORMAL_BIAS)) {
+  if (vertex.split(WORLD_POSITION).length !== 2 || !vertex.includes('vec3 shadowWorldNormal ='))
+    throw new Error('three shadowmap_vertex changed; update softShadows.ts');
+  THREE.ShaderChunk.shadowmap_vertex = vertex.replace(
+    WORLD_POSITION,
+    `${WORLD_POSITION}\n\t#ifdef DOUBLE_SIDED\n\t${FACING_NORMAL_BIAS}\n\t#endif`,
+  );
+}

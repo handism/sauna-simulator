@@ -35,6 +35,19 @@ vi.mock('three/addons/loaders/GLTFLoader.js', () => ({
   },
 }));
 
+// Smallest valid probe layout: 2×2×2 probes per grid, day and evening.
+const irradiance = {
+  scenes: ['day', 'evening'],
+  grids: ['room', 'courtyard', 'outer'].map((name, i) => ({
+    name,
+    min: [0, 0, 0],
+    max: [1, 1, 1],
+    resolution: [2, 2, 2],
+    offset: { day: i * 432, evening: i * 432 + 216 },
+  })),
+};
+const irradianceBytes = 3 * 432 * 2;
+
 function deferred<T>() {
   let resolve!: (value: T) => void;
   const promise = new Promise<T>((done) => {
@@ -93,8 +106,8 @@ beforeEach(() => {
     'fetch',
     vi.fn(async (url: string) => ({
       ok: true,
-      json: async () => definition,
-      arrayBuffer: async () => new ArrayBuffer(0),
+      json: async () => (url.endsWith('irradiance.json') ? irradiance : definition),
+      arrayBuffer: async () => new ArrayBuffer(url.endsWith('irradiance.bin') ? irradianceBytes : 0),
       url,
     })),
   );

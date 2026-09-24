@@ -1,0 +1,83 @@
+{
+  "date": "2026-09-24",
+  "change": "Static PCSS shadow for V10 lounge dusk fill only; source power and baked irradiance unchanged.",
+  "conditions": {
+    "browser": "154.0.8037.57",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "deviceScaleFactor": 1,
+    "quality": "standard",
+    "reducedMotion": true,
+    "muted": true,
+    "hashes": {
+      "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+      "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+      "irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+      "irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412"
+    },
+    "errors": [],
+    "note": "Manual visual review required. Angles are relative to each initial seated heading. No performance or Cycles equivalence claim.",
+    "captureStatus": "passed",
+    "durationMs": 43116,
+    "capturedAt": "2026-09-24T06:37:09.544Z",
+    "visualReview": "See docs/3d-sauna-progress.md; capture success is not a quality approval."
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unit": "26 files, 127 tests passed",
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed; existing >500kB chunk warning",
+    "browser": {
+      "startTime": "2026-09-24T06:29:08.699Z",
+      "duration": 169689.772,
+      "expected": 11,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "visual": {
+      "startTime": "2026-09-24T06:36:39.482Z",
+      "duration": 73453.041,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "stableFrameResourceDeltas": {
+    "drawCalls": [
+      0
+    ],
+    "triangles": [
+      0
+    ],
+    "textures": [
+      2
+    ],
+    "geometries": [
+      0
+    ]
+  },
+  "tone": {
+    "baseline": {
+      "sourceMeanAbsL": 2.83,
+      "sourcePercentileAbsL": 3.55,
+      "eveningMeanAbsL": 2.12,
+      "eveningPercentileAbsL": 3.24
+    },
+    "final": {
+      "sourceMeanAbsL": 2.54,
+      "sourcePercentileAbsL": 3.26,
+      "eveningMeanAbsL": 1.8,
+      "eveningPercentileAbsL": 3.0
+    }
+  },
+  "limitations": [
+    "03/04 water-stage captures vary between runs; daytime differences also observed despite zero dusk-light intensity; cause not isolated. Do not attribute all global-statistic differences to the new shadow.",
+    "Point approximation and limited 144-degree shadow frustum remain; other four dusk accents have no shadows.",
+    "No mobile, GPU-time or five-minute soak measurement this turn."
+  ]
+}
