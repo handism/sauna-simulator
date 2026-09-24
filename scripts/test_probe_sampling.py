@@ -3,10 +3,35 @@ import unittest
 
 import numpy as np
 
-from probe_sampling import ProbeSampler, evaluate, interpolate
+from probe_sampling import ProbeSampler, evaluate, interpolate, stencil
 
 
 class ProbeSamplingTests(unittest.TestCase):
+    def test_stencil_boundaries_and_linear_reconstruction(self):
+        z, y, x = np.mgrid[:4, :3, :2]
+        values = np.broadcast_to((x + 10 * y + 100 * z)[..., None, None], (4, 3, 2, 9, 3))
+        for coordinate in ([.25, 1.5, 2.25], [-5, 5, 10], [1, 2, 3]):
+            corners = list(stencil([2, 3, 4], coordinate))
+            self.assertAlmostEqual(sum(w for _, w in corners), 1)
+            self.assertEqual(len({tuple(i) for i, _ in corners}), len(corners))
+            reconstructed = sum(w * values[i[2], i[1], i[0]] for i, w in corners)
+            np.testing.assert_allclose(reconstructed, interpolate(values, coordinate))
+
+    def test_contributors_reconstruct_shipped_sampling(self):
+        sampler = ProbeSampler('public/models')
+        # Includes room, courtyard, both-grid transition, and clamped outer grid.
+        for scene in ('day', 'evening'):
+            for p in ([-3, 1, -2], [0, -.2, 0], [8.25, 1, 0], [40, 15, 40]):
+                for n in ([0, 1, 0], [0, -1, 0], [1, 0, 0]):
+                    rows = sampler.contributors(scene, p, n)
+                    rgb = np.zeros(3)
+                    for grid in {r['grid'] for r in rows}:
+                        group = [r for r in rows if r['grid'] == grid]
+                        self.assertAlmostEqual(sum(r['weight'] for r in group), 1)
+                        signed = sum(r['weight'] * np.array(r['signed_rgb']) for r in group)
+                        rgb += group[0]['grid_weight'] * np.maximum(signed, 0)
+                    np.testing.assert_allclose(rgb, sampler.sample(scene, p, n), atol=1e-12)
+
     def test_constant_radiance_integrates_to_pi(self):
         coefficients = np.zeros((9, 3))
         coefficients[0] = np.array([1, 2, 3]) / .282095
