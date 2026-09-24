@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { getSecureRandom } from '../utils/saunaUtils';
+import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 
 interface Ripple {
   id: number;
@@ -23,6 +24,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [heartRate, setHeartRate] = useState<number>(initialHeartRate);
 
+  const rootRef = useRef<HTMLDivElement>(null);
   const secondsRef = useRef<number>(0);
 
   // 波紋（リップル）の定期生成
@@ -60,11 +62,13 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
     onNext(Math.round(heartRate), secondsRef.current);
   };
 
+  useKeyboardShortcut(' ', handleLeave, { scope: rootRef });
+
   // 心拍に同期するアニメーション速度
   const pulseSpeed = 60 / heartRate;
 
   return (
-    <div className="scene-container">
+    <div ref={rootRef} className="scene-container">
       {/* 冷気インセットグローオーバーレイ。心拍と同期して脈動 */}
       <div
         className="cooling-glow"
@@ -106,7 +110,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
 
       {/* 外気浴へ遷移 */}
       <div className="cooling-next-btn-container">
-        <button className="primary-btn cooling-next-btn" onClick={handleLeave}>
+        <button className="primary-btn cooling-next-btn" onClick={handleLeave} aria-keyshortcuts="Space">
           外気浴へ 🍃
         </button>
       </div>
