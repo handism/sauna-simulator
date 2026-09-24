@@ -5,6 +5,8 @@ import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
 import { useSaunaContext, type Stage } from './context/SaunaContext';
+import { useFullscreen } from './hooks/useFullscreen';
+import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
 
 interface BackgroundConfig {
   gradient: string;
@@ -35,6 +37,8 @@ function UiToggleButton({ isUiHidden, onToggle }: { isUiHidden: boolean; onToggl
       onClick={onToggle}
       aria-label={isUiHidden ? 'UI表示' : 'UI非表示'}
       aria-pressed={isUiHidden}
+      aria-keyshortcuts="U"
+      title={isUiHidden ? 'UI表示 (U)' : 'UI非表示 (U)'}
     >
       {isUiHidden ? (
         <svg
@@ -77,6 +81,8 @@ function MuteButton({ isMuted, onToggle }: { isMuted: boolean; onToggle: () => v
       onClick={onToggle}
       aria-label={isMuted ? 'ミュート解除' : 'ミュート'}
       aria-pressed={isMuted}
+      aria-keyshortcuts="M"
+      title={isMuted ? 'ミュート解除 (M)' : 'ミュート (M)'}
     >
       {isMuted ? (
         <svg
@@ -113,6 +119,38 @@ function MuteButton({ isMuted, onToggle }: { isMuted: boolean; onToggle: () => v
   );
 }
 
+function FullscreenButton({ isFullscreen, onToggle }: { isFullscreen: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      className="mute-btn"
+      style={{ right: '128px' }}
+      onClick={onToggle}
+      aria-label={isFullscreen ? '全画面を終了' : '全画面表示'}
+      aria-pressed={isFullscreen}
+      aria-keyshortcuts="F"
+      title={isFullscreen ? '全画面を終了 (F)' : '全画面表示 (F)'}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {isFullscreen ? (
+          <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+        ) : (
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+        )}
+      </svg>
+    </button>
+  );
+}
+
 function App() {
   const {
     stage,
@@ -134,6 +172,11 @@ function App() {
   } = useSaunaContext();
 
   const [loylyEvents] = useState(() => new EventTarget());
+  const fullscreen = useFullscreen();
+  // Space is bound by each stage to its own main action.
+  useKeyboardShortcut('m', toggleMute, { enabled: stage !== 'start' });
+  useKeyboardShortcut('u', toggleUiVisibility, { enabled: stage !== 'start' });
+  useKeyboardShortcut('f', fullscreen.toggle, { enabled: fullscreen.isSupported });
   const background = stage === 'start' ? null : BACKGROUNDS[stage];
 
   return (
@@ -153,6 +196,9 @@ function App() {
       <div className="app-main-ui-container">
         {stage !== 'start' && (
           <>
+            {fullscreen.isSupported && (
+              <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
+            )}
             <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
             <MuteButton isMuted={isMuted} onToggle={toggleMute} />
           </>
@@ -175,6 +221,22 @@ function App() {
                 静かに入室する
               </button>
             </div>
+            <p className="app-shortcut-hint">
+              <span>
+                <kbd>Space</kbd> ロウリュ・次へ
+              </span>
+              <span>
+                <kbd>M</kbd> ミュート
+              </span>
+              <span>
+                <kbd>U</kbd> UI表示
+              </span>
+              {fullscreen.isSupported && (
+                <span>
+                  <kbd>F</kbd> 全画面
+                </span>
+              )}
+            </p>
           </div>
         )}
 

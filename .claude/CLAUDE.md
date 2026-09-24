@@ -32,6 +32,11 @@
 - 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする
 - `audio` と各種セッション値は `App.tsx` が `useSaunaContext()` から取得し、props で各コンポーネントに渡す。コンポーネント側は context を直接参照しない
 
+### キーボードショートカット・全画面
+- 単キーのショートカットは `src/hooks/useKeyboardShortcut.ts`。`M`（ミュート）・`U`（UI表示）は入室後、`F`（全画面、`src/hooks/useFullscreen.ts`）は常時 `App.tsx` が登録する。`Space` は各ステージが自分の主操作（サウナはロウリュ、水風呂・外気浴は次へ）に `scope` 付きで登録し、遷移中の `inert` なステージでは無視する
+- 修飾キー付き・リピート・IME変換中・フォーム部品への入力は奪わない。キーボードでフォーカスしたボタン上の `Space` はブラウザ標準の押下に任せ、クリックでフォーカスが残ったボタンではフォーカスを外してショートカットを優先する（Chromeではキー入力後に `:focus-visible` で判別できないため、ポインタ由来のフォーカスを記録する）
+- Fullscreen API 非対応環境（iPhone Safari）では全画面ボタンと案内を出さない
+
 ## 3Dサウナ試験版
 
 - `?view=3d` または「3Dを試す」で有効化。`?view=2d` は保存済みの選択を上書きする。選択は `sui-view-mode` に保存し、未選択時は2D。

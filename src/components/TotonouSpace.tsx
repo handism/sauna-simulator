@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { calculateTotonouScore } from '../utils/saunaUtils';
+import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 
 export interface TotonouSpaceProps {
   saunaTime: number;
@@ -12,6 +13,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
+  const rootRef = useRef<HTMLDivElement>(null);
   const totonouTextRef = useRef<HTMLSpanElement>(null);
   const totonouBarRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +30,8 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
 
     return () => clearInterval(breathInterval);
   }, []);
+
+  useKeyboardShortcut(' ', onNext, { scope: rootRef });
 
   const maxTotonouRef = useRef(maxTotonou);
 
@@ -95,7 +99,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
   }, []);
 
   return (
-    <div className="scene-container">
+    <div ref={rootRef} className="scene-container">
       {/* プレミアムオーロラ背景 (呼吸に合わせて透明度と光が微細に揺らぐ) */}
       <div
         className="aurora-container"
@@ -162,7 +166,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       </div>
 
       <div className="totonou-next-btn-container">
-        <button className="primary-btn totonou-next-btn" onClick={onNext}>
+        <button className="primary-btn totonou-next-btn" onClick={onNext} aria-keyshortcuts="Space">
           もう一度サウナへ 🔄
         </button>
       </div>
