@@ -19,6 +19,13 @@ import * as THREE from 'three';
 
 /** The room's inner volume in glTF axes, to the glass planes on the entry and plunge sides. */
 export const INTERIOR_BOX = new THREE.Box3(new THREE.Vector3(-6.15, 0, -4.59), new THREE.Vector3(-0.5, 3.36, -0.25));
+/**
+ * The plunge water below its surface in glTF axes: the source water volume, extended to the tiles
+ * and the stone slab under them (the tiles lie 1.3 cm below the water volume, and the slab reaches
+ * 2.5 cm past its sides with its top at 0.18). No browser light reaches it directly (lighting.ts),
+ * and it has its own probe grid (irradiance.ts).
+ */
+export const WATER_BOX = new THREE.Box3(new THREE.Vector3(-0.2, 0.15, -4.12), new THREE.Vector3(2.56, 0.771, -0.86));
 
 // Blender name, W, linear color, location, local X and local Z (the light shines along -Z), size
 // in meters ([width, height] for rectangles, [diameter] for disks, or [diameter, from, to] for a
@@ -113,6 +120,7 @@ const vec3 = (v: THREE.Vector3) =>
 const interior = /* glsl */ `
 vec3 suiWorldPosition = ( ( vec4( geometryPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
 bool suiInterior = all( greaterThanEqual( suiWorldPosition, ${vec3(INTERIOR_BOX.min)} ) ) && all( lessThanEqual( suiWorldPosition, ${vec3(INTERIOR_BOX.max)} ) );
+bool suiUnderwater = all( greaterThanEqual( suiWorldPosition, ${vec3(WATER_BOX.min)} ) ) && all( lessThanEqual( suiWorldPosition, ${vec3(WATER_BOX.max)} ) );
 `;
 const diffuse = /* glsl */ `if ( suiInterior ) {
 			vec3 rectCoords[ 4 ];

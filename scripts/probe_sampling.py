@@ -106,6 +106,9 @@ class ProbeSampler:
         position = np.asarray(position)
         if np.all((position >= [-6.15, 0, -4.59]) & (position <= [-.5, 3.36, -.25])):
             return [(0, 1.)]
+        # Below the plunge surface (interiorLights.ts WATER_BOX), when the file has a water grid.
+        if len(self.header['grids']) > 3 and np.all((position >= [-.2, .15, -4.12]) & (position <= [2.56, .771, -.86])):
+            return [(3, 1.)]
         grid = self.header['grids'][1]
         lo, hi = np.array(grid['min']), np.array(grid['max'])
         inside = np.minimum(position - lo, hi - position)

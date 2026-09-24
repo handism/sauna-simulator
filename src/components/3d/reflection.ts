@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 // Patches lights_pars_begin and lights_fragment_begin first (suiProbes, suiWorldNormal).
-import { createIrradianceTextures, IRRADIANCE_LINE, type IrradianceHeader } from './irradiance';
+// The reflection is stored in the second half of the irradiance grid textures
+// (createProbeTextures), so it needs no texture units of its own.
+import { IRRADIANCE_LINE, type IrradianceUniforms } from './irradiance';
 
 // What glossy rays see, baked from the source Cycles scenes by
 // scripts/bake_irradiance_probes.py --reflection on the grids of the irradiance probes: the sky,
@@ -18,33 +20,8 @@ import { createIrradianceTextures, IRRADIANCE_LINE, type IrradianceHeader } from
 // and evaluated along three's dominant direction; three's split-sum term (RE_IndirectSpecular)
 // applies the Fresnel. L2 cannot hold a sharp mirror image: glass and water get a soft sheen.
 
-export function createReflectionUniforms() {
-  return {
-    suiReflectionRoom: { value: null as THREE.Data3DTexture | null },
-    suiReflectionCourtyard: { value: null as THREE.Data3DTexture | null },
-    suiReflectionOuter: { value: null as THREE.Data3DTexture | null },
-  };
-}
-export type ReflectionUniforms = ReturnType<typeof createReflectionUniforms>;
-
-const layout = (header: IrradianceHeader) =>
-  JSON.stringify(header.grids?.map(({ name, min, max, resolution }) => [name, min, max, resolution]));
-
-/** Same packing as the irradiance probes; the grids must match (they share the grid uniforms). */
-export function createReflectionTextures(irradiance: IrradianceHeader, header: IrradianceHeader, buffer: ArrayBuffer) {
-  if (layout(header) !== layout(irradiance)) throw Error('reflection');
-  const probes = createIrradianceTextures(header, buffer);
-  return {
-    apply(uniforms: ReflectionUniforms) {
-      [uniforms.suiReflectionRoom.value, uniforms.suiReflectionCourtyard.value, uniforms.suiReflectionOuter.value] =
-        probes.textures;
-    },
-    dispose: probes.dispose,
-  };
-}
-
 /** Adds the reflection to every material lit by the probes (applyIrradiance first). */
-export function applyReflection(root: THREE.Object3D, uniforms: ReflectionUniforms): number {
+export function applyReflection(root: THREE.Object3D, uniforms: IrradianceUniforms): number {
   const materials = new Set<THREE.MeshStandardMaterial>();
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
@@ -66,22 +43,19 @@ export function applyReflection(root: THREE.Object3D, uniforms: ReflectionUnifor
 
 export const REFLECTION_PARS = /* glsl */ `
 #ifdef SUI_REFLECTION
-uniform highp sampler3D suiReflectionRoom;
-uniform highp sampler3D suiReflectionCourtyard;
-uniform highp sampler3D suiReflectionOuter;
 
 // Radiance arriving along D, filtered by a GGX lobe of the given roughness.
-vec3 suiReflection( const in vec3 P, const in vec3 N, const in vec3 D, const in float roughness, const in bool interior ) {
+vec3 suiReflection( const in vec3 P, const in vec3 N, const in vec3 D, const in float roughness, const in bool interior, const in bool underwater ) {
 	float alpha = roughness * roughness;
 	vec2 lobe = exp( - vec2( 0.5, 1.5 ) * alpha * alpha );
-	return suiProbes( suiReflectionRoom, suiReflectionCourtyard, suiReflectionOuter, P, N, D, vec3( 1.0, lobe ), interior );
+	return suiProbes( P, N, D, vec3( 1.0, lobe ), interior, underwater, SUI_REFLECTION_KIND );
 }
 #endif
 `;
 
 /** The reflection line of lights_fragment_begin (after radiance is declared). */
 export const REFLECTION_LINE =
-  'radiance += suiReflection( suiWorldPosition, suiWorldNormal, inverseTransformDirection( normalize( mix( reflect( - geometryViewDir, geometryNormal ), geometryNormal, pow4( material.roughness ) ) ), viewMatrix ), material.roughness, suiInterior );';
+  'radiance += suiReflection( suiWorldPosition, suiWorldNormal, inverseTransformDirection( normalize( mix( reflect( - geometryViewDir, geometryNormal ), geometryNormal, pow4( material.roughness ) ) ), viewMatrix ), material.roughness, suiInterior, suiUnderwater );';
 const RADIANCE = 'vec3 clearcoatRadiance = vec3( 0.0 );\n#endif';
 
 // three 0.186 is pinned; irradiance.ts has already declared suiWorldNormal.

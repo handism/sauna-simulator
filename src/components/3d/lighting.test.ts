@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { createLighting, eveningAmount, SPOT_COSINE, SUN_DIFFUSE_ONLY } from './lighting';
+import { createLighting, DRY_ONLY, eveningAmount, SPOT_COSINE, SUN_DIFFUSE_ONLY } from './lighting';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
 import { agx } from './agx';
 
@@ -14,6 +14,15 @@ describe('3D lighting', () => {
     expect(restore).toBeGreaterThan(start);
     expect(restore).toBeLessThan(end);
     expect(chunk.split(SUN_DIFFUSE_ONLY)).toHaveLength(2);
+    // Neither the sun nor the spot lights light the plunge below the water, which is declared
+    // before the light loops.
+    expect(chunk.slice(start, end)).toContain(`${DRY_ONLY}RE_Direct(`);
+    const spotStart = chunk.indexOf('#if ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )');
+    expect(chunk.slice(spotStart, chunk.indexOf('#pragma unroll_loop_end', spotStart))).toContain(
+      `${DRY_ONLY}RE_Direct(`,
+    );
+    expect(chunk.split(DRY_ONLY)).toHaveLength(3);
+    expect(chunk.indexOf('bool suiUnderwater')).toBeLessThan(spotStart);
     // Spot lights (V9 and the dusk accents) keep their highlights, as in the source.
     const spot = chunk.indexOf('#if ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )');
     expect(chunk.slice(spot, chunk.indexOf('#pragma unroll_loop_end', spot))).not.toContain('suiSpecular');

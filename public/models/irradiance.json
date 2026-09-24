@@ -1,6 +1,6 @@
 {
   "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
-  "format": "float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear irradiance-ready radiance)",
+  "format": "float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear radiance)",
   "scenes": [
     "day",
     "evening"
@@ -71,7 +71,29 @@
         "day": 165672,
         "evening": 213300
       }
+    },
+    {
+      "name": "water",
+      "min": [
+        0.05,
+        0.33,
+        -3.9
+      ],
+      "max": [
+        2.31,
+        0.66,
+        -1.1
+      ],
+      "resolution": [
+        6,
+        2,
+        7
+      ],
+      "offset": {
+        "day": 260928,
+        "evening": 263196
+      }
     }
   ],
-  "bin_sha256": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412"
+  "bin_sha256": "35652f8e172eb3afaa0ed75843235025da8993d0d9647a05c6fae6a8e600e431"
 }

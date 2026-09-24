@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { IRRADIANCE_PARS, type IrradianceUniforms } from './irradiance';
-import { REFLECTION_PARS, type ReflectionUniforms } from './reflection';
+import { REFLECTION_PARS } from './reflection';
 
 export interface WaterDefinition {
   center: number[];
@@ -11,7 +11,7 @@ export interface WaterDefinition {
 
 // A bounded surface avoids rings crossing the pool coping. No fluid simulation.
 // `probes` are the shared probe uniforms (reflection.ts), filled before the first frame.
-export function createWaterEffects(definition: WaterDefinition, probes: IrradianceUniforms & ReflectionUniforms) {
+export function createWaterEffects(definition: WaterDefinition, probes: IrradianceUniforms) {
   const group = new THREE.Group();
   const time = { value: 0 };
   const vertexShader = `varying vec2 vUv;
@@ -43,7 +43,7 @@ export function createWaterEffects(definition: WaterDefinition, probes: Irradian
         // Schlick's approximation for water (F0 = 0.02).
         float fresnel = 0.02 + 0.98 * pow(1.0 - facing, 5.0);
         vec3 normal = vec3(0.0, view.y < 0.0 ? -1.0 : 1.0, 0.0);
-        vec3 sky = suiReflection(vWorld + normal * 0.02, normal, reflect(-view, normal), 0.018, false);
+        vec3 sky = suiReflection(vWorld + normal * 0.02, normal, reflect(-view, normal), 0.018, false, false);
         vec3 color = mix(sky, vec3(0.78, 0.86, 0.86), ripple * 0.6);
         gl_FragColor = vec4(color, clamp(fresnel + ripple * 0.14 + drift, 0.0, 1.0));
         #include <tonemapping_fragment>

@@ -40,7 +40,7 @@ vi.mock('three/addons/loaders/GLTFLoader.js', () => ({
 // Smallest valid probe layout: 2×2×2 probes per grid, day and evening.
 const irradiance = {
   scenes: ['day', 'evening'],
-  grids: ['room', 'courtyard', 'outer'].map((name, i) => ({
+  grids: ['room', 'courtyard', 'outer', 'water'].map((name, i) => ({
     name,
     min: [0, 0, 0],
     max: [1, 1, 1],
@@ -48,7 +48,7 @@ const irradiance = {
     offset: { day: i * 432, evening: i * 432 + 216 },
   })),
 };
-const irradianceBytes = 3 * 432 * 2;
+const irradianceBytes = 4 * 432 * 2;
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -235,7 +235,7 @@ describe('3D scene load and teardown', () => {
     expect(release).toHaveBeenCalledOnce();
   });
 
-  it('replaces the glass, reflects on the lit materials and releases both probe sets on exit', async () => {
+  it('replaces the glass, reflects on the lit materials and releases the probe textures on exit', async () => {
     const loaded = model();
     const pane = new THREE.Mesh(
       new THREE.BoxGeometry(),
@@ -253,8 +253,8 @@ describe('3D scene load and teardown', () => {
     expect(pane.material).toBeInstanceOf(THREE.ShaderMaterial);
     const release = vi.spyOn(THREE.Data3DTexture.prototype, 'dispose');
     view.unmount();
-    // Three irradiance grids and three reflection grids.
-    expect(release).toHaveBeenCalledTimes(6);
+    // One texture per grid holds both the irradiance and the reflection.
+    expect(release).toHaveBeenCalledTimes(4);
     release.mockRestore();
   });
 

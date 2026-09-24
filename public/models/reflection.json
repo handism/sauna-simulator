@@ -71,7 +71,29 @@
         "day": 165672,
         "evening": 213300
       }
+    },
+    {
+      "name": "water",
+      "min": [
+        0.05,
+        0.33,
+        -3.9
+      ],
+      "max": [
+        2.31,
+        0.66,
+        -1.1
+      ],
+      "resolution": [
+        6,
+        2,
+        7
+      ],
+      "offset": {
+        "day": 260928,
+        "evening": 263196
+      }
     }
   ],
-  "bin_sha256": "7dcc6244014d14e5c2e768722e81dc2231c1bd325bcc7fa4050e148046be13dd"
+  "bin_sha256": "9116ed231df80dc477a8b2367ea5897741c2a0d2f13a486df2fa357c0dba461a"
 }
