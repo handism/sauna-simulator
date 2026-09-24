@@ -25,6 +25,10 @@ walls; the room has its own grid.
 Writes public/models/irradiance.bin (float16) and irradiance.json (grid layout, input hash) and
 docs/3d-export/irradiance-report.json. Never saves the input blend.
 
+With --surface-samples <JSON> --out <diagnostic-dir> it measures incident diffuse light at
+supplied glTF surface positions/normals, compares full cosine integration with local L2 SH and
+shipped grid interpolation, and writes only surface-sampling.json. It never writes probe assets.
+
 With --reflection it bakes what glossy rays see instead (src/components/3d/reflection.ts), into
 reflection.bin / reflection.json / reflection-report.json with the same layout: every light is
 visible to the panorama camera exactly when it is visible to glossy rays in the source, except the
@@ -47,6 +51,9 @@ ROOT = Path(__file__).resolve().parents[1]
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 QUICK = '--quick' in ARGS
 REFLECTION = '--reflection' in ARGS
+SURFACE_SAMPLES = Path(ARGS[ARGS.index('--surface-samples') + 1]) if '--surface-samples' in ARGS else None
+if SURFACE_SAMPLES and ('--out' not in ARGS or any(flag in ARGS for flag in ('--reflection', '--quick', '--probe-test'))):
+    raise ValueError('--surface-samples requires --out and cannot combine with other bake modes')
 NAME = 'reflection' if REFLECTION else 'irradiance'
 # Renders the first N courtyard probes of the Daylight scene, prints timing and exits.
 PROBE_TEST = int(ARGS[ARGS.index('--probe-test') + 1]) if '--probe-test' in ARGS else 0
@@ -56,7 +63,7 @@ PROBE_START = int(ARGS[ARGS.index('--probe-start') + 1]) if '--probe-start' in A
 OUT = Path(sys.argv[sys.argv.index('--out') + 1]) if '--out' in sys.argv else ROOT / 'public/models'
 REPORT = OUT if '--out' in sys.argv else ROOT / 'docs/3d-export'
 SCENES = (('day', 'SUI • Daylight'), ('evening', 'SUI • Blue hour'))
-WIDTH, HEIGHT, SAMPLES = 64, 32, 64
+WIDTH, HEIGHT, SAMPLES = (128, 64, 128) if SURFACE_SAMPLES else (64, 32, 64)
 # The room's inner volume (src/components/3d/interiorLights.ts INTERIOR_BOX), glTF axes.
 ROOM = ((-6.15, 0.0, -4.59), (-0.5, 3.36, -0.25))
 # glTF-axis bounds of the probe positions and the target spacing in meters. The room grid is
@@ -308,6 +315,30 @@ def inside_room(points):
     return np.all((points > lo) & (points < hi), axis=1)
 
 
+def diagnose_surfaces(scene, key, fixture, sampler):
+    # Full cosine integration separates SH truncation from spatial interpolation. Compare two
+    # small surface offsets to reveal near-surface sensitivity instead of assuming one is exact.
+    rows = []
+    from probe_sampling import evaluate
+    for sample in fixture['samples']:
+        p, n = np.array(sample['position']), np.array(sample['normal'])
+        if p.shape != (3,) or n.shape != (3,) or not np.isfinite([p, n]).all() or abs(np.linalg.norm(n) - 1) > 1e-4:
+            raise ValueError('surface sample needs a finite position and unit normal')
+        measured = []
+        for distance in (0.02, 0.05):
+            rgba = render(scene, p + distance * n)
+            sh = np.einsum('pk,pc->kc', basis, rgba[:, :3])
+            cosine = np.maximum(directions @ n, 0) * weights
+            measured.append(dict(offset_m=distance,
+                cosine_rgb=(cosine @ rgba[:, :3]).tolist(), sh_rgb=evaluate(sh, n).tolist(),
+                backface_sphere=float(rgba[:, 3] @ weights / (4 * math.pi)),
+                backface_cosine=float(cosine @ rgba[:, 3] / cosine.sum())))
+        rows.append(dict(**sample, measured=measured,
+                         grid_half_spacing_rgb=sampler.sample(key, p, n, .5).tolist(),
+                         grid_no_offset_rgb=sampler.sample(key, p, n, 0).tolist()))
+    return rows
+
+
 started = time.time()
 directions, weights = calibrate()
 basis = sh_basis(directions) * weights[:, None]
@@ -322,6 +353,15 @@ print('IRRADIANCE flipped', flipped_meshes, flush=True)
 report = dict(mode=NAME, plain_materials=plain_materials, flipped_meshes=flipped_meshes, input=source.name, input_sha256=source_hash, blender=bpy.app.version_string,
               panorama=[WIDTH, HEIGHT], samples=SAMPLES, quick=QUICK, grids=[], scenes={})
 coefficients = {}
+if SURFACE_SAMPLES:
+    sys.path.insert(0, str(ROOT / 'scripts'))
+    from probe_sampling import ProbeSampler
+    sampler = ProbeSampler(ROOT / 'public/models')
+    fixture = json.loads(SURFACE_SAMPLES.read_text())
+    if fixture['input_sha256'] != source_hash or sampler.header['input_sha256'] != source_hash:
+        raise ValueError('surface samples and shipped probes must match the input blend')
+    report['probe_bin_sha256'] = hashlib.sha256((ROOT / 'public/models/irradiance.bin').read_bytes()).hexdigest()
+    report['surface_samples_sha256'] = hashlib.sha256(SURFACE_SAMPLES.read_bytes()).hexdigest()
 for key, scene_name in SCENES:
     scene = bpy.data.scenes[scene_name]
     visible = {o.name: o.visible_camera for o in scene.objects if o.type == 'LIGHT'}
@@ -337,6 +377,14 @@ for key, scene_name in SCENES:
         scene.world.cycles_visibility.camera = scene.world.cycles_visibility.glossy
     configure(scene, SAMPLES, backface=True)
     composite_backface(scene)
+    if SURFACE_SAMPLES:
+        report['scenes'][key] = dict(scene=scene_name, lights_in_probes=sorted(shown),
+                                    samples=diagnose_surfaces(scene, key, fixture, sampler))
+        for o in scene.objects:
+            if o.name in visible:
+                o.visible_camera = visible[o.name]
+        scene.world.cycles_visibility.camera = world_camera
+        continue
     if PROBE_TEST:
         t = time.time()
         points = next(g for g in grids if g['name'] == PROBE_GRID)['points'][PROBE_START:PROBE_START + PROBE_TEST]
@@ -377,6 +425,14 @@ for key, scene_name in SCENES:
             o.visible_camera = visible[o.name]
     scene.world.cycles_visibility.camera = world_camera
     report['scenes'][key] = scene_report
+
+if SURFACE_SAMPLES:
+    OUT.mkdir(parents=True, exist_ok=True)
+    report['seconds'] = round(time.time() - started, 1)
+    (OUT / 'surface-sampling.json').write_text(json.dumps(report, indent=2) + '\n')
+    assert source_hash == hashlib.sha256(source.read_bytes()).hexdigest()
+    print('SURFACE_SAMPLING_DONE', report['seconds'], flush=True)
+    sys.exit(0)
 
 OUT.mkdir(parents=True, exist_ok=True)
 REPORT.mkdir(parents=True, exist_ok=True)
