@@ -5,6 +5,8 @@ No scene or delivery assets are saved. Classification measures paths, not radian
 """
 import argparse
 import hashlib
+import gzip
+from collections import Counter
 import json
 import math
 from pathlib import Path
@@ -59,9 +61,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--width', type=int, default=420)
+    parser.add_argument('--trace', action='store_true', help='Trace original and wave-box paths to scene surfaces')
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     if args.width < 32:
         parser.error('--width must be at least 32')
+    if args.trace:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from water_path_trace import trace_path
     args.out.mkdir(parents=True, exist_ok=True)
     source = Path(bpy.data.filepath)
     source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
@@ -88,6 +94,27 @@ def main():
     rotation = camera.matrix_world.to_3x3()
     variants = ['original', 'box_same_ray', 'flat_box', 'wave_box']
     maps = {name: np.full((height, width), -1, dtype=np.int16) for name in variants}
+    traces = {'original': [], 'wave_box': []}
+
+    def original_boundary(point, direction):
+        _, n, _, d = tree.ray_cast(Vector(point), Vector(direction))
+        return (d, tuple(n)) if n is not None else None
+
+    def scene_surface(point, direction, visibility):
+        start = Vector(point)
+        direction = Vector(direction)
+        for _ in range(128):
+            hit, location, n, face, hit_obj, _ = scene.ray_cast(deps, start, direction)
+            if not hit:
+                return None
+            if hit_obj.original != obj and not hit_obj.hide_render and getattr(hit_obj, 'visible_' + visibility):
+                hit_mesh = hit_obj.evaluated_get(deps).data
+                material_index = hit_mesh.polygons[face].material_index if hit_obj.type == 'MESH' and 0 <= face < len(hit_mesh.polygons) else -1
+                material = hit_obj.material_slots[material_index].material if 0 <= material_index < len(hit_obj.material_slots) else None
+                return {'distance': float((location - Vector(point)).length), 'position': tuple(location),
+                        'normal': tuple(n), 'object': hit_obj.name, 'material': material.name if material else None}
+            start = location + direction * 1e-4
+        raise RuntimeError('Too many secondary hidden intersections')
     # Rows are top to bottom. All variants use the same original visible top-surface pixels.
     for row in range(height):
         for col in range(width):
@@ -133,6 +160,15 @@ def main():
             wave_direction = Vector(refract(ray, wave_normal, 1 / IOR))
             wave_hit = box_exit(flat_entry + wave_direction * 1e-4, wave_direction, lower, upper)
             wave_label = classify(wave_direction, wave_hit[1]) if wave_hit else 'miss'
+            if args.trace:
+                for name, point, direction, boundary in [
+                    ('original', entry, inside, original_boundary),
+                    ('wave_box', flat_entry, wave_direction, lambda p, d: box_exit(p, d, lower, upper)),
+                ]:
+                    record = ({'terminal': 'invalid_entry', 'events': []} if name == 'wave_box' and wave_hit is None
+                              else trace_path(point, direction, boundary, scene_surface))
+                    record.update(pixel=[col, row], first_exit=actual if name == 'original' else wave_label)
+                    traces[name].append(record)
             for name, label in zip(variants, [actual, box_label, flat_label, wave_label]):
                 maps[name][row, col] = LABELS.index(label)
         if row % 40 == 0:
@@ -182,6 +218,32 @@ def main():
     if hashlib.sha256(source.read_bytes()).hexdigest() != source_hash:
         raise RuntimeError('Source blend changed during diagnosis')
     (args.out / 'paths.json').write_text(json.dumps(report, indent=2) + '\n')
+    if args.trace:
+        summary = {}
+        for name, records in traces.items():
+            groups = {}
+            for label in ['all'] + LABELS:
+                selected = records if label == 'all' else [r for r in records if r['first_exit'] == label]
+                groups[label] = {
+                    'count': len(selected),
+                    'terminals': dict(Counter(r['terminal'] for r in selected)),
+                    'tir_bounces': dict(sorted(Counter(sum(e['kind'] == 'tir' for e in r['events']) for r in selected).items())),
+                    'objects': dict(Counter(r['hit']['object'] for r in selected if r.get('hit')).most_common()),
+                    'materials': dict(Counter(r['hit']['material'] for r in selected if r.get('hit')).most_common()),
+                    'transmitted_faces': dict(Counter(e['face'] for r in selected for e in r['events'] if e['kind'] == 'transmit')),
+                }
+            summary[name] = groups
+        report['trace'] = summary
+        report['trace_helper_sha256'] = hashlib.sha256(Path(__file__).with_name('water_path_trace.py').read_bytes()).hexdigest()
+        report['trace_limitations'] = [
+            'Follows total reflection or the transmitted branch only; no Fresnel splitting or radiance.',
+            'Stops at first non-water surface, including transparent materials; uses transmission/glossy visibility.',
+            'At most 8 boundary events; original-water reentry is unresolved. Convex box cannot reenter after exiting.',
+            'Scene surfaces use viewport evaluated geometry and geometric normals; no material bump.',
+        ]
+        with gzip.open(args.out / 'trace-rays.json.gz', 'wt', encoding='utf-8') as stream:
+            json.dump(traces, stream, separators=(',', ':'))
+        (args.out / 'trace-summary.json').write_text(json.dumps(report, indent=2) + '\n')
     print('WATER_PATHS', json.dumps(report), flush=True)
 
 

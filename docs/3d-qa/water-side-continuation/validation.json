@@ -1,0 +1,59 @@
+{
+  "date": "2026-09-25",
+  "baseline_commit": "5268326a5a7710ac4c92e63f31753ed605248eb0",
+  "scope": "Offline ray endpoint diagnosis; no product or delivery asset changes",
+  "checks": {
+    "python_unittest": {
+      "passed": 26
+    },
+    "typescript": "passed",
+    "vitest": {
+      "files": 33,
+      "tests": 171,
+      "passed": true
+    },
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diff_check": "passed",
+    "prior_first_exit_classification": "exact match",
+    "source_blend_before_after_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+    "plot_review": "Both variants inspected; dark-band path regions present; not a radiance render"
+  },
+  "build": {
+    "main_kb": 220.9,
+    "scene_kb": 697.19,
+    "scene_gzip_kb": 181.43,
+    "warning": "Existing chunk exceeds 500 kB"
+  },
+  "not_run": [
+    "Browser regression",
+    "144-view survey",
+    "5-minute soak",
+    "Mobile device",
+    "Audio listening",
+    "GPU time and total memory",
+    "Slow network"
+  ],
+  "diagnostic": {
+    "blender": "4.5.11 LTS",
+    "samples": 10058,
+    "resolution": [
+      420,
+      280
+    ],
+    "original_unresolved_event_limit": 2,
+    "candidate_invalid_entry": 7,
+    "radiance_calculated": false
+  },
+  "sha256": {
+    "scripts/diagnose_water_paths.py": "93f7bfca3a0888d7ab78216628c8aad6d6fec15bf3c59da10841f4bf69266bc2",
+    "scripts/water_path_trace.py": "bdb2aaaf209913d66903953b218423fc15f61afb1cc80acb10506f3072856329",
+    "scripts/summarize_water_trace.py": "e1965bb5296c8814994753bcb53742af6c9f3f398198aa3ce0645d1de1c6789d",
+    "scripts/test_water_path_trace.py": "6476e7fd10f6cfdecf627a405b7a471f9026f5596f9150111c27cb35a3f0f130",
+    "docs/3d-qa/water-side-continuation/trace-summary.json": "633e1d361aa6309b6bb9b2276e4930699b51ff8057b0c3e3ea975c58395c5ed1",
+    "docs/3d-qa/water-side-continuation/trace-rays.json.gz": "b2eb74a33ae35f95c5a0d8da1bf198c990344f19819c97a135bf8e01695cb5f3",
+    "docs/3d-qa/water-side-continuation/endpoint-comparison.json": "1c0c872a705d4d79c2c710eb233127b3d74612266c02e730ae34055c424153be",
+    "docs/3d-qa/water-side-continuation/endpoints.png": "2636a9244b4df94a5033fa0c69bf6dc9bfe4046997992a710d386724def6d298"
+  }
+}
