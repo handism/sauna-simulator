@@ -19,9 +19,9 @@ class ProbeSamplingTests(unittest.TestCase):
 
     def test_contributors_reconstruct_shipped_sampling(self):
         sampler = ProbeSampler('public/models')
-        # Includes room, courtyard, both-grid transition, and clamped outer grid.
+        # Includes room, courtyard, both-grid transition, clamped outer grid and the water wall.
         for scene in ('day', 'evening'):
-            for p in ([-3, 1, -2], [0, -.2, 0], [8.25, 1, 0], [40, 15, 40]):
+            for p in ([-3, 1, -2], [0, -.2, 0], [8.25, 1, 0], [40, 15, 40], [2.5, .4, -1]):
                 for n in ([0, 1, 0], [0, -1, 0], [1, 0, 0]):
                     rows = sampler.contributors(scene, p, n)
                     rgb = np.zeros(3)
@@ -69,6 +69,9 @@ class ProbeSamplingTests(unittest.TestCase):
         np.testing.assert_allclose(sampler.sample('day', [0, 1, 0], [0, 1, 0]), 2)
         np.testing.assert_allclose(sampler.sample('day', [30, 1, 0], [0, 1, 0]), 3)
         np.testing.assert_allclose(sampler.sample('day', [8.25, 1, 0], [0, 1, 0]), 2.5)
+        # Below the plunge surface only (the tiles lie on the water volume's faces).
+        np.testing.assert_allclose(sampler.sample('day', [1.18, .215, -2.5], [0, 1, 0]), 4)
+        np.testing.assert_allclose(sampler.sample('day', [1.18, .9, -2.5], [0, 1, 0]), 2)
 
     def test_chebyshev_is_one_in_front_and_falls_off_behind(self):
         self.assertEqual(chebyshev(.5, 1., 1.1), 1)

@@ -1,4 +1,5 @@
 {
+  "mode": "irradiance",
   "plain_materials": [],
   "flipped_meshes": [
     "V10 woodland floor extension"
@@ -66,6 +67,24 @@
         4,
         21
       ]
+    },
+    {
+      "name": "water",
+      "min": [
+        0.05,
+        0.33,
+        -3.9
+      ],
+      "max": [
+        2.31,
+        0.66,
+        -1.1
+      ],
+      "resolution": [
+        6,
+        2,
+        7
+      ]
     }
   ],
   "scenes": {
@@ -89,6 +108,7 @@
         "V7 water reflection soft strip",
         "V8 maple garden grazing light"
       ],
+      "world_in_probes": true,
       "grids": {
         "room": {
           "probes": 693,
@@ -125,6 +145,18 @@
             0.5001,
             0.5864
           ]
+        },
+        "water": {
+          "probes": 84,
+          "invalid": 0,
+          "fill_rounds": 0,
+          "backface_share_max_valid": 0.0,
+          "seconds": 38.3,
+          "upward_irradiance_mean": [
+            1.9109,
+            1.7377,
+            1.3198
+          ]
         }
       }
     },
@@ -143,6 +175,7 @@
         "V7 water reflection soft strip.002",
         "V8 maple garden grazing light.001"
       ],
+      "world_in_probes": true,
       "grids": {
         "room": {
           "probes": 693,
@@ -179,11 +212,32 @@
             0.1423,
             0.2653
           ]
+        },
+        "water": {
+          "probes": 84,
+          "invalid": 0,
+          "fill_rounds": 0,
+          "backface_share_max_valid": 0.0,
+          "seconds": 38.6,
+          "upward_irradiance_mean": [
+            0.088,
+            0.1061,
+            0.1255
+          ]
         }
       }
     }
   },
-  "bin_bytes": 521856,
-  "bin_sha256": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
-  "seconds": 3809.5
+  "copied_grids": {
+    "bin_sha256": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "seconds": 3809.5,
+    "grids": [
+      "room",
+      "courtyard",
+      "outer"
+    ]
+  },
+  "bin_bytes": 530928,
+  "bin_sha256": "35652f8e172eb3afaa0ed75843235025da8993d0d9647a05c6fae6a8e600e431",
+  "seconds": 77.6
 }

@@ -22,6 +22,16 @@ sides alike, so the panoramas do not change), and a valid probe that sees no lig
 the sauna room are also filled from outside so that the room's light does not leak through the
 walls; the room has its own grid.
 
+The plunge water is a closed transmissive mesh, so its back faces are not an enclosure: the water
+material writes no back-face AOV. The water has its own grid inside the water volume (the browser
+uses it only below the surface): from there Cycles sees the courtyard through the water surface,
+only with the lights that are visible to transmission rays, and the sun does not reach the tiles.
+Courtyard and outer probes inside the water are filled from outside as before (their dark values
+would otherwise leak onto the deck around the plunge).
+
+With --grids NAME[,NAME] only those grids are baked; the other grids are copied from the shipped
+file, which must come from the same input blend and have the same layout.
+
 Writes public/models/irradiance.bin (float16) and irradiance.json (grid layout, input hash) and
 docs/3d-export/irradiance-report.json. Never saves the input blend.
 
@@ -63,6 +73,9 @@ PROBE_TEST = int(ARGS[ARGS.index('--probe-test') + 1]) if '--probe-test' in ARGS
 # --probe-grid NAME --probe-start I: which probes --probe-test renders (default courtyard from 0).
 PROBE_GRID = ARGS[ARGS.index('--probe-grid') + 1] if '--probe-grid' in ARGS else 'courtyard'
 PROBE_START = int(ARGS[ARGS.index('--probe-start') + 1]) if '--probe-start' in ARGS else 0
+ONLY_GRIDS = ARGS[ARGS.index('--grids') + 1].split(',') if '--grids' in ARGS else None
+if ONLY_GRIDS and (SURFACE_SAMPLES or PROBE_TEST or QUICK):
+    raise ValueError('--grids cannot combine with other bake modes')
 OUT = Path(sys.argv[sys.argv.index('--out') + 1]) if '--out' in sys.argv else ROOT / 'public/models'
 REPORT = OUT if '--out' in sys.argv else ROOT / 'docs/3d-export'
 SCENES = (('day', 'SUI • Daylight'), ('evening', 'SUI • Blue hour'))
@@ -75,7 +88,12 @@ GRIDS = (
     ('room', (-5.9, 0.25, -4.34), (-0.75, 3.11, -0.5), 0.5),
     ('courtyard', (-9.0, 0.25, -8.0), (9.0, 4.25, 16.0), 1.0),
     ('outer', (-30.0, 0.25, -30.0), (30.0, 9.25, 30.0), 3.0),
+    ('water', (0.05, 0.33, -3.9), (2.31, 0.66, -1.1), 0.5),
 )
+# The plunge water volume ('V4 rippled spring water volume'), glTF axes, and its material. The
+# browser's WATER_BOX (interiorLights.ts) extends it down and out to the tiles.
+WATER = ((-0.155, 0.215, -4.095), (2.515, 0.771, -0.905))
+WATER_MATERIALS = {'V4 | clear spring water'}
 # Lights the browser draws itself (lighting.ts, interiorLights.ts), by base name and scene.
 DRAWN = {
     'Late afternoon sunlight', 'V9 lounge patch of sunlight', 'Warm under-bench wash',
@@ -242,7 +260,10 @@ def add_backface_aov():
         nodes, links = material.node_tree.nodes, material.node_tree.links
         aov = nodes.new('ShaderNodeOutputAOV')
         aov.aov_name = AOV
-        links.new(nodes.new('ShaderNodeNewGeometry').outputs['Backfacing'], aov.inputs['Value'])
+        if material.name in WATER_MATERIALS:
+            aov.inputs['Value'].default_value = 0.0
+        else:
+            links.new(nodes.new('ShaderNodeNewGeometry').outputs['Backfacing'], aov.inputs['Value'])
     return plain
 
 
@@ -286,8 +307,8 @@ def composite_backface(scene):
     tree.links.new(alpha.outputs['Image'], tree.nodes.new('CompositorNodeComposite').inputs['Image'])
 
 
-def inside_room(points):
-    lo, hi = np.array(ROOM[0]), np.array(ROOM[1])
+def inside(points, box):
+    lo, hi = np.array(box[0]), np.array(box[1])
     return np.all((points > lo) & (points < hi), axis=1)
 
 
@@ -372,15 +393,19 @@ for key, scene_name in SCENES:
         sys.exit(0)
     scene_report = dict(scene=scene_name, lights_in_probes=sorted(shown), world_in_probes=scene.world.cycles_visibility.camera, grids={})
     for grid in grids:
+        if ONLY_GRIDS and grid['name'] not in ONLY_GRIDS:
+            continue
         t = time.time()
         rgba = render_all(scene, grid['points'], f'{key} {grid["name"]}')
         # (probes, 9 coefficients, RGB) flattened to 27 per probe.
         sh = np.einsum('pk,npc->nkc', basis, rgba[:, :, :3]).reshape(len(grid['points']), -1)
-        # Valid: mostly front faces; courtyard/outer probes in the room are filled from outside.
+        # Valid: mostly front faces; courtyard/outer probes in the room or the water are filled
+        # from outside.
         backface = rgba[:, :, 3] @ weights / (4 * math.pi)
         valid = backface < 0.25
-        if grid['name'] != 'room':
-            valid &= ~inside_room(grid['points'])
+        if grid['name'] not in ('room', 'water'):
+            valid &= ~inside(grid['points'], ROOM) & ~inside(grid['points'], WATER)
+        assert grid['name'] != 'water' or valid.all(), f'{key} water: probes inside other geometry'
         # Every probe outside geometry sees the sky or a lit surface.
         dark = valid & (np.abs(sh).sum(axis=1) < 1e-3)
         assert not dark.any(), f'{key} {grid["name"]}: {int(dark.sum())} valid probes see no light'
@@ -411,6 +436,28 @@ if SURFACE_SAMPLES:
 
 OUT.mkdir(parents=True, exist_ok=True)
 REPORT.mkdir(parents=True, exist_ok=True)
+if ONLY_GRIDS:
+    # Copy the grids that were not baked from the shipped file of the same input and layout.
+    shipped = ROOT / 'public/models'
+    old = json.loads((shipped / f'{NAME}.json').read_text())
+    old_data = np.frombuffer((shipped / f'{NAME}.bin').read_bytes(), dtype='<f2')
+    assert old['input_sha256'] == source_hash, 'shipped probes come from another input blend'
+    assert hashlib.sha256(old_data.tobytes()).hexdigest() == old['bin_sha256']
+    old_report = json.loads((ROOT / f'docs/3d-export/{NAME}-report.json').read_text())
+    for grid in grids:
+        if grid['name'] in ONLY_GRIDS:
+            continue
+        entry = next(g for g in old['grids'] if g['name'] == grid['name'])
+        assert [entry[k] for k in ('min', 'max', 'resolution')] == [list(grid[k]) for k in ('min', 'max', 'resolution')]
+        count = int(np.prod(grid['resolution'])) * 27
+        for key, _ in SCENES:
+            start = entry['offset'][key]
+            coefficients[(key, grid['name'])] = old_data[start:start + count].astype(np.float64).reshape(-1, 27)
+            report['scenes'][key]['grids'][grid['name']] = old_report['scenes'][key]['grids'][grid['name']]
+    for key, _ in SCENES:
+        report['scenes'][key]['grids'] = {g['name']: report['scenes'][key]['grids'][g['name']] for g in grids}
+    report['copied_grids'] = dict(bin_sha256=old['bin_sha256'], seconds=old_report['seconds'],
+                                  grids=[g['name'] for g in grids if g['name'] not in ONLY_GRIDS])
 # Grid by grid, scene by scene, probe (x fastest, then y, then z), 9 RGB coefficients.
 chunks = []
 layout = []
