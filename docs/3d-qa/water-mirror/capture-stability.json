@@ -1,0 +1,136 @@
+{
+  "browser": "154.0.8037.57",
+  "viewport": {
+    "width": 1200,
+    "height": 800
+  },
+  "reducedMotion": true,
+  "captureStyle": "\n  .app-stage-container, .scene-mode-controls, .mute-btn {\n    visibility: hidden !important;\n    transition: none !important;\n  }\n",
+  "samples": [
+    {
+      "render": "03.png",
+      "lighting": "day",
+      "run": 0,
+      "raw": [
+        "7bf2af522a90d3a80e194f317ca8268af1a7f469c1f623d33a2190d1e3ebb73f",
+        "c427110932dd94f9e9db6e1b43e57fb1c050ffbc51d1a0286744ed3708ca82bd"
+      ],
+      "clean": [
+        "1b4d580515b79e23ff032ee076953f60106404c098fa7a2a5ee04a0586b34b22",
+        "1b4d580515b79e23ff032ee076953f60106404c098fa7a2a5ee04a0586b34b22"
+      ]
+    },
+    {
+      "render": "03.png",
+      "lighting": "evening",
+      "run": 0,
+      "raw": [
+        "7c098174a534e8786187528d9b99df9a3c3b2313e9eb0d2ac157fec40fc89978",
+        "6eded152df5448af6baead7927ee6c8ad37736f999c5562022c9dc24b090044b"
+      ],
+      "clean": [
+        "c4bff8400b06bc5b0821fbf23a0a2f33228eaee155f0f928bc181aa8c26f17ba",
+        "c4bff8400b06bc5b0821fbf23a0a2f33228eaee155f0f928bc181aa8c26f17ba"
+      ]
+    },
+    {
+      "render": "04.png",
+      "lighting": "day",
+      "run": 0,
+      "raw": [
+        "423ca7e7ae4921f704cbd0efe2847805d50c605c5f85e2044e48236745f021eb",
+        "f09c9209e418b01f48293dd02cb13b4550da0132952b9758055265fe656c3319"
+      ],
+      "clean": [
+        "7c65efddce285181efb5fda1b024099ef06b4eb2b8fe72dd17e72d07ae8c2474",
+        "7c65efddce285181efb5fda1b024099ef06b4eb2b8fe72dd17e72d07ae8c2474"
+      ]
+    },
+    {
+      "render": "04.png",
+      "lighting": "evening",
+      "run": 0,
+      "raw": [
+        "2c56ed042723899c08309b20f15436d9993dce976ba6bc0891ccfff299e33a51",
+        "f6b9e8e243c2eb164af14a61e0fc354ea7f7ed782dc33152992447985bb482b7"
+      ],
+      "clean": [
+        "61c9e16c32fee9f053b50002618bb3c3050a148b67a8b7669c33e32d2cf2fc17",
+        "61c9e16c32fee9f053b50002618bb3c3050a148b67a8b7669c33e32d2cf2fc17"
+      ]
+    },
+    {
+      "render": "03.png",
+      "lighting": "day",
+      "run": 1,
+      "raw": [
+        "7bf2af522a90d3a80e194f317ca8268af1a7f469c1f623d33a2190d1e3ebb73f",
+        "c427110932dd94f9e9db6e1b43e57fb1c050ffbc51d1a0286744ed3708ca82bd"
+      ],
+      "clean": [
+        "1b4d580515b79e23ff032ee076953f60106404c098fa7a2a5ee04a0586b34b22",
+        "1b4d580515b79e23ff032ee076953f60106404c098fa7a2a5ee04a0586b34b22"
+      ],
+      "reload": {
+        "sameSize": true,
+        "changedShare": 0,
+        "maxDifference": 0
+      }
+    },
+    {
+      "render": "03.png",
+      "lighting": "evening",
+      "run": 1,
+      "raw": [
+        "0686b17041a6cd4fc74b40f06fc1cd1f8a14cf114e681dc361a0c9948e181a93",
+        "6eded152df5448af6baead7927ee6c8ad37736f999c5562022c9dc24b090044b"
+      ],
+      "clean": [
+        "c4bff8400b06bc5b0821fbf23a0a2f33228eaee155f0f928bc181aa8c26f17ba",
+        "c4bff8400b06bc5b0821fbf23a0a2f33228eaee155f0f928bc181aa8c26f17ba"
+      ],
+      "reload": {
+        "sameSize": true,
+        "changedShare": 0,
+        "maxDifference": 0
+      }
+    },
+    {
+      "render": "04.png",
+      "lighting": "day",
+      "run": 1,
+      "raw": [
+        "61e3753ff475c288d719c1d55b9c2e6b83c3d3ef647ff61fd68f3fe656fad55a",
+        "9ca0c517b5d189a34ed99427f2bd2afa5ce89b0b465daf217e810a23a75468e0"
+      ],
+      "clean": [
+        "6a144028e0e9f180240fbeb17551a6740806e2bdc60d1767b9c9d1e2308e8c6a",
+        "6a144028e0e9f180240fbeb17551a6740806e2bdc60d1767b9c9d1e2308e8c6a"
+      ],
+      "reload": {
+        "sameSize": true,
+        "changedShare": 0.000022916666666666667,
+        "maxDifference": 51
+      }
+    },
+    {
+      "render": "04.png",
+      "lighting": "evening",
+      "run": 1,
+      "raw": [
+        "76ca8920909b5eef6d606a63b31fcef35462b0a2c9ea9408cfbff7b5a251268e",
+        "0bc14e5da81923d3e4fbea3b562608a21f3921e653b038b0e2d2cbb6e339bbbf"
+      ],
+      "clean": [
+        "21270ba158f21493061222ec1030ed33fac3f115181e70b3a1598a7b4728b160",
+        "21270ba158f21493061222ec1030ed33fac3f115181e70b3a1598a7b4728b160"
+      ],
+      "reload": {
+        "sameSize": true,
+        "changedShare": 0.000022916666666666667,
+        "maxDifference": 28
+      }
+    }
+  ],
+  "errors": []
+}

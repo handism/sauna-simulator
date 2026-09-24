@@ -1,0 +1,79 @@
+{
+  "date": "2026-09-25",
+  "commit": "7147ccc",
+  "scope": "Revalidation of planar water reflection; no product or test changes.",
+  "environment": {
+    "browser": "154.0.8037.57",
+    "platform": "macOS",
+    "headless": true,
+    "origin": "localhost",
+    "visualViewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "visualDPR": 1,
+    "visualReducedMotion": true,
+    "muted": true
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": {
+      "files": 33,
+      "tests": 171,
+      "status": "passed"
+    },
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed; existing >500KB chunk warning"
+  },
+  "visual": {
+    "stats": {
+      "startTime": "2026-09-24T23:06:02.284Z",
+      "duration": 129755.21699999999,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "water renderer captures exclude the animated DOM glow and nearly repeat across reloads",
+        "status": "passed",
+        "durationMs": 45399
+      },
+      {
+        "title": "capture the Cycles review cameras in the browser scene",
+        "status": "passed",
+        "durationMs": 31093
+      },
+      {
+        "title": "capture all seated views for manual geometry and lighting review",
+        "status": "passed",
+        "durationMs": 51857
+      }
+    ],
+    "samples": 144,
+    "errors": []
+  },
+  "hashes": {
+    "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+    "irradiance.json": "cb42041149bc35e2ea09e678e9cd86abb398a191c2d79fec8f7ce32b157c253d",
+    "irradiance.bin": "35652f8e172eb3afaa0ed75843235025da8993d0d9647a05c6fae6a8e600e431",
+    "reflection.json": "32ca569ddd06f1b34a11d52161040a5ad6477346ac0c7d3b3a423d7143af05f1",
+    "reflection.bin": "9116ed231df80dc477a8b2367ea5897741c2a0d2f13a486df2fa357c0dba461a"
+  },
+  "limitations": [
+    "No mobile-device, audio listening, total GPU memory or GPU-time validation.",
+    "Survey sheets reviewed at contact-sheet scale; not blanket quality approval.",
+    "Routine browser regression and Python tests were not rerun because product code did not change."
+  ],
+  "soak": {
+    "status": "passed",
+    "durationMs": 305871,
+    "cycles": 7,
+    "samples": 35,
+    "elapsedMs": 305374,
+    "errors": []
+  }
+}
