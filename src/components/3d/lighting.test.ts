@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { createLighting, eveningAmount, SPOT_COSINE, SUN_DIFFUSE_ONLY } from './lighting';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
+import { agx } from './agx';
 
 describe('3D lighting', () => {
   it('keeps the specular of the sun only out of the directional light loop', () => {
@@ -58,6 +59,19 @@ describe('3D lighting', () => {
     lighting.update(1, 0, true);
     expect(scene.fog).toBeNull();
     expect((scene.background as THREE.Color).getHexString(THREE.SRGBColorSpace)).toBe('283d54');
+  });
+  it('gives the tone-mapped HDR output the scene-linear sky that displays as the source sky', () => {
+    const scene = new THREE.Scene();
+    const renderer = { toneMappingExposure: 0 } as THREE.WebGLRenderer;
+    const lighting = createLighting(scene, renderer, true);
+    for (const [amount, hex] of [
+      [0, '4f616c'],
+      [1, '283d54'],
+    ] as const) {
+      lighting.update(amount, 0, true);
+      const shown = agx((scene.background as THREE.Color).toArray(), renderer.toneMappingExposure);
+      expect(new THREE.Color().fromArray(shown).getHexString(THREE.SRGBColorSpace)).toBe(hex);
+    }
   });
 });
 

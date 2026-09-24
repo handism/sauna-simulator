@@ -78,12 +78,14 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
   expect(errors).toEqual([]);
   const hashes = Object.fromEntries(
     await Promise.all(
-      ['sauna.glb', 'sauna.scene.json', 'irradiance.json', 'irradiance.bin'].map(async (file) => [
-        file,
-        createHash('sha256')
-          .update(await readFile(`public/models/${file}`))
-          .digest('hex'),
-      ]),
+      ['sauna.glb', 'sauna.scene.json', 'irradiance.json', 'irradiance.bin', 'reflection.json', 'reflection.bin'].map(
+        async (file) => [
+          file,
+          createHash('sha256')
+            .update(await readFile(`public/models/${file}`))
+            .digest('hex'),
+        ],
+      ),
     ),
   );
   await info.attach('cycles-compare', {

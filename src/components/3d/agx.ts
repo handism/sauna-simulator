@@ -55,6 +55,37 @@ export function agx(color: number[], exposure = 1): number[] {
   ).map((c) => Math.min(Math.max(c, 0), 1));
 }
 
+/**
+ * The scene-linear color that agx() maps to a displayed color (linear Rec.709, inside the view's
+ * gamut), for exposures of the output pass. Newton's method in log2 space with a numeric Jacobian.
+ */
+export function agxInverse(display: number[], exposure = 1): number[] {
+  const residual = (u: number[]) =>
+    agx(
+      u.map((v) => 2 ** v),
+      exposure,
+    ).map((c, i) => c - display[i]);
+  let u = [0, 1, 2].map(() => Math.log2(0.18 / exposure));
+  for (let iteration = 0; iteration < 40; iteration++) {
+    const r = residual(u);
+    if (Math.max(...r.map(Math.abs)) < 1e-7) break;
+    // Columns of the Jacobian.
+    const j = [0, 1, 2].map((k) => {
+      const step = u.map((v, i) => (i === k ? v + 1e-4 : v));
+      return residual(step).map((c, i) => (c - r[i]) / 1e-4);
+    });
+    const det = (a: number[], b: number[], c: number[]) =>
+      a[0] * (b[1] * c[2] - b[2] * c[1]) - b[0] * (a[1] * c[2] - a[2] * c[1]) + c[0] * (a[1] * b[2] - a[2] * b[1]);
+    const d = det(j[0], j[1], j[2]);
+    // Cramer's rule; steps are limited to two stops.
+    const delta = [det(r, j[1], j[2]), det(j[0], r, j[2]), det(j[0], j[1], r)].map((v) =>
+      Math.min(Math.max(v / d, -2), 2),
+    );
+    u = u.map((v, i) => v - delta[i]);
+  }
+  return u.map((v) => 2 ** v);
+}
+
 const glslMat = (m: number[][]) => `mat3( ${m.map((c) => `vec3( ${c.join(', ')} )`).join(', ')} )`;
 const shader = /* glsl */ `vec3 AgXToneMapping( vec3 color ) {
 	const float curve[ ${AGX_CURVE.length} ] = float[]( ${AGX_CURVE.map((v) => v.toFixed(6)).join(', ')} );
