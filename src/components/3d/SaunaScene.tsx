@@ -18,6 +18,7 @@ import { applyGlass } from './glass';
 import { applyRefraction } from './refraction';
 import { applyCaustics } from './caustics';
 import { createHdrOutput, type RenderStats } from './hdrOutput';
+import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -34,6 +35,8 @@ export interface SceneProps {
   onReady: () => void;
   onError: () => void;
 }
+
+const STEAM_LAYER = 1;
 
 const STAGE_LABELS: Record<AmbientEnv, string> = { sauna: 'サウナ', water: '水風呂', totonou: '外気浴' };
 
@@ -96,6 +99,11 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     // Transparent surfaces blend in scene-linear light, tone mapped once (hdrOutput.ts).
     const output = createHdrOutput(renderer);
     const lighting = createLighting(scene, renderer, output.hdr);
+    // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
+    const mirrorUniforms = createMirrorUniforms();
+    let mirror: PlanarReflection | null = null;
+    const mirrorState = [0, 0];
+    let qualityIndex = 0;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(90 * 3);
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -117,6 +125,10 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       depthWrite: false,
     });
     const steam = new THREE.Points(geometry, material);
+    // Only the main camera sees the steam: it rises by the stove inside the room, out of the water's
+    // mirror, which would otherwise redraw every frame of a löyly (planarReflection.ts).
+    steam.layers.set(STEAM_LAYER);
+    camera.layers.enable(STEAM_LAYER);
     scene.add(steam);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onLoyly = () => {
@@ -129,6 +141,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, preset.pixelRatio));
       lighting.setShadowSize(preset.shadowSize);
       lighting.setDuskLights(preset.duskLights);
+      mirror?.setScale(preset.mirror);
+      qualityIndex++;
       resetMetrics();
       setData('quality', qualityRef.current);
       setData('pixelRatio', String(renderer.getPixelRatio()));
@@ -202,8 +216,12 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         setData('imageRampMaterials', String(stats.imageRampMaterials));
         setData('leafClusterMaterials', String(stats.leafClusterMaterials));
         scene.add(gltf.scene);
-        const waterEffects = createWaterEffects(definition.water, lighting.irradiance);
+        const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
         scene.add(waterEffects.group);
+        if (output.hdr) {
+          mirror = createPlanarReflection(renderer, definition.water.center[1], mirrorUniforms);
+          mirror.setScale(QUALITY[qualityRef.current].mirror);
+        }
         const forward = new THREE.Vector3();
         const upVector = new THREE.Vector3();
         const pose = {
@@ -229,10 +247,23 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           delete element.dataset.frameMeanMs;
           delete element.dataset.frameMaxMs;
         };
-        // Counts of the scene pass, without the tone mapping pass.
+        // Counts of the scene pass, without the tone mapping pass; the mirror pass separately.
         const recordRenderInfo = ({ calls, triangles }: RenderStats) => {
           setData('drawCalls', String(calls));
           setData('triangles', String(triangles));
+        };
+        const draw = () => {
+          if (mirror) {
+            // What else the reflection shows changing: lighting and the quality's lights.
+            mirrorState[0] = lighting.irradiance.suiIrradianceEvening.value;
+            mirrorState[1] = qualityIndex;
+            const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
+            // Counts of the last mirror pass; frames that keep its image add no draws.
+            setData('mirrorCalls', String(reflected.calls));
+            setData('mirrorTriangles', String(reflected.triangles));
+            setData('mirrorSize', mirror.size);
+          }
+          return output.render(scene, camera);
         };
         const setView = (next: AmbientEnv) => {
           const view = definition.views[next];
@@ -247,12 +278,12 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           resetMetrics();
           setData('stage', next);
           lighting.update(eveningAmount(lightingRef.current, next), 0, true);
-          recordRenderInfo(output.render(scene, camera));
+          recordRenderInfo(draw());
         };
         setViewRef.current = setView;
         setView(stageRef.current);
         steam.position.fromArray(definition.stove);
-        const firstFrame = output.render(scene, camera);
+        const firstFrame = draw();
         ready = true;
         clearTimeout(timeout);
         setData('loadMs', String(Math.round(performance.now() - start)));
@@ -282,7 +313,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
             updateSteamPositions(positions, age, reducedMotion.matches);
             geometry.attributes.position.needsUpdate = true;
           }
-          recordRenderInfo(output.render(scene, camera));
+          recordRenderInfo(draw());
           setData('textures', String(renderer.info.memory.textures));
           setData('geometries', String(renderer.info.memory.geometries));
         });
@@ -306,6 +337,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       renderer.domElement.removeEventListener('webglcontextlost', lost);
       disposeTree(scene);
       releaseProbes();
+      mirror?.dispose();
       output.dispose();
       renderer.dispose();
       renderer.domElement.remove();

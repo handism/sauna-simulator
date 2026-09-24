@@ -18,7 +18,7 @@ def write_definition(out, reports=None):
             'totonou': view((4.3, 2.0, 1.48), (2.8, -6, 2.3), 65),
         },
         'stove': web((-1.25, 1.28, 1.12)),
-        'water': {'center': web((1.18, 2.5, .785)), 'size': [2.65, 3.17],
+        'water': {'center': web((1.18, 2.5, .765)), 'size': [2.65, 3.17],
                   'inlet': web((1.18, 4.12, .79)), 'spout': web((1.18, 4.12, 1.12))},
     }
     scene_path = out / 'sauna.scene.json'
