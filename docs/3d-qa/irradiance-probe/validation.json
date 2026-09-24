@@ -1,0 +1,678 @@
+{
+  "date": "2026-09-24",
+  "change": "Baked L2 SH irradiance probes (sky, area lights not drawn by the browser, all bounce light) replace the hemisphere light; no fitted factor.",
+  "conditions": "Chrome 154.0.8037.57 headless, macOS, localhost production build, standard quality, DPR 1, reduced motion, muted; scripts/cycles_tone_stats.py (day = source 7 renders, evening = 06 + blender/renders/web-bluehour).",
+  "hashes": {
+    "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+    "irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+    "irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "input_blend": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af"
+  },
+  "bake": {
+    "blender": "4.5.11 LTS",
+    "panorama": [
+      64,
+      32
+    ],
+    "samples": 64,
+    "grids": [
+      {
+        "name": "room",
+        "min": [
+          -5.9,
+          0.25,
+          -4.34
+        ],
+        "max": [
+          -0.75,
+          3.11,
+          -0.5
+        ],
+        "resolution": [
+          11,
+          7,
+          9
+        ]
+      },
+      {
+        "name": "courtyard",
+        "min": [
+          -9.0,
+          0.25,
+          -8.0
+        ],
+        "max": [
+          9.0,
+          4.25,
+          16.0
+        ],
+        "resolution": [
+          19,
+          5,
+          25
+        ]
+      },
+      {
+        "name": "outer",
+        "min": [
+          -30.0,
+          0.25,
+          -30.0
+        ],
+        "max": [
+          30.0,
+          9.25,
+          30.0
+        ],
+        "resolution": [
+          21,
+          4,
+          21
+        ]
+      }
+    ],
+    "bin_bytes": 521856,
+    "seconds": 3809.5,
+    "flipped_meshes": [
+      "V10 woodland floor extension"
+    ],
+    "plain_materials": [],
+    "scenes": {
+      "day": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "upward_irradiance_mean": [
+            0.2101,
+            0.1254,
+            0.0857
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "upward_irradiance_mean": [
+            1.8279,
+            1.9215,
+            2.0446
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "upward_irradiance_mean": [
+            0.4014,
+            0.5001,
+            0.5864
+          ]
+        },
+        "lights_in_probes": [
+          "Garden lantern glow",
+          "Garden lantern glow.001",
+          "Garden lantern glow.002",
+          "Garden lantern glow.003",
+          "Sky softbox",
+          "Sunlit courtyard",
+          "V10 concealed deck edge -3.7 / day",
+          "V10 concealed deck edge 0 / day",
+          "V10 concealed deck edge 4.4 / day",
+          "V10 lounge dusk fill / day",
+          "V10 path grazing light 1 / day",
+          "V10 path grazing light 4 / day",
+          "V10 path grazing light 7 / day",
+          "V10 specimen uplight / day",
+          "V7 water reflection soft strip",
+          "V8 maple garden grazing light"
+        ]
+      },
+      "evening": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "upward_irradiance_mean": [
+            0.1497,
+            0.0635,
+            0.04
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "upward_irradiance_mean": [
+            0.3644,
+            0.4967,
+            0.8534
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "upward_irradiance_mean": [
+            0.0921,
+            0.1423,
+            0.2653
+          ]
+        },
+        "lights_in_probes": [
+          "Garden lantern glow.008",
+          "Garden lantern glow.009",
+          "Garden lantern glow.010",
+          "Garden lantern glow.011",
+          "Sky softbox.002",
+          "Sunlit courtyard.002",
+          "V10 concealed deck edge -3.7 / dusk",
+          "V10 concealed deck edge 0 / dusk",
+          "V10 concealed deck edge 4.4 / dusk",
+          "V7 water reflection soft strip.002",
+          "V8 maple garden grazing light.001"
+        ]
+      }
+    }
+  },
+  "tone_stats": {
+    "before (interior-light, hemisphere 0.8/0.65)": {
+      "source": {
+        "distribution": 2.93,
+        "mean_abs_dL": 1.14,
+        "mean_dL": -0.53,
+        "mean_dC": 0.58
+      },
+      "evening": {
+        "distribution": 3.53,
+        "mean_abs_dL": 1.37,
+        "mean_dL": -1.02,
+        "mean_dC": 0.6
+      },
+      "cameras": {
+        "01.png": {
+          "L_cycles": 34.0,
+          "L_web": 33.5
+        },
+        "02.png": {
+          "L_cycles": 29.0,
+          "L_web": 30.1
+        },
+        "bh-02": {
+          "L_cycles": 25.5,
+          "L_web": 26.0
+        },
+        "03.png": {
+          "L_cycles": 46.1,
+          "L_web": 43.1
+        },
+        "bh-03": {
+          "L_cycles": 26.4,
+          "L_web": 21.9
+        },
+        "04.png": {
+          "L_cycles": 47.8,
+          "L_web": 45.3
+        },
+        "bh-04": {
+          "L_cycles": 28.6,
+          "L_web": 28.0
+        },
+        "05.png": {
+          "L_cycles": 34.9,
+          "L_web": 35.1
+        },
+        "bh-05": {
+          "L_cycles": 17.0,
+          "L_web": 16.6
+        },
+        "06.png": {
+          "L_cycles": 14.4,
+          "L_web": 14.9
+        },
+        "07.png": {
+          "L_cycles": 37.5,
+          "L_web": 37.9
+        },
+        "bh-07": {
+          "L_cycles": 18.0,
+          "L_web": 16.2
+        }
+      }
+    },
+    "adopted: probes, unscaled": {
+      "source": {
+        "distribution": 3.45,
+        "mean_abs_dL": 2.72,
+        "mean_dL": 2.72,
+        "mean_dC": 0.95
+      },
+      "evening": {
+        "distribution": 3.2,
+        "mean_abs_dL": 2.07,
+        "mean_dL": 2.07,
+        "mean_dC": 1.36
+      },
+      "cameras": {
+        "01.png": {
+          "L_cycles": 34.0,
+          "L_web": 37.0
+        },
+        "02.png": {
+          "L_cycles": 29.0,
+          "L_web": 31.4
+        },
+        "bh-02": {
+          "L_cycles": 25.5,
+          "L_web": 27.6
+        },
+        "03.png": {
+          "L_cycles": 46.1,
+          "L_web": 49.1
+        },
+        "bh-03": {
+          "L_cycles": 26.4,
+          "L_web": 29.5
+        },
+        "04.png": {
+          "L_cycles": 47.8,
+          "L_web": 49.9
+        },
+        "bh-04": {
+          "L_cycles": 28.6,
+          "L_web": 31.7
+        },
+        "05.png": {
+          "L_cycles": 34.9,
+          "L_web": 39.3
+        },
+        "bh-05": {
+          "L_cycles": 17.0,
+          "L_web": 19.1
+        },
+        "06.png": {
+          "L_cycles": 14.4,
+          "L_web": 16.0
+        },
+        "07.png": {
+          "L_cycles": 37.5,
+          "L_web": 39.9
+        },
+        "bh-07": {
+          "L_cycles": 18.0,
+          "L_web": 18.3
+        }
+      }
+    }
+  },
+  "candidates": {
+    "quick bake (2x spacing, courtyard to z 12, before the terrain fix)": {
+      "source": {
+        "distribution": 3.38,
+        "mean_abs_dL": 3.13,
+        "mean_dL": 3.13,
+        "mean_dC": 1.05
+      },
+      "evening": {
+        "distribution": 2.91,
+        "mean_abs_dL": 2.28,
+        "mean_dL": 2.28,
+        "mean_dC": 1.5
+      },
+      "cameras": {
+        "01.png": {
+          "L_cycles": 34.0,
+          "L_web": 37.5
+        },
+        "02.png": {
+          "L_cycles": 29.0,
+          "L_web": 31.7
+        },
+        "bh-02": {
+          "L_cycles": 25.5,
+          "L_web": 27.7
+        },
+        "03.png": {
+          "L_cycles": 46.1,
+          "L_web": 49.3
+        },
+        "bh-03": {
+          "L_cycles": 26.4,
+          "L_web": 29.7
+        },
+        "04.png": {
+          "L_cycles": 47.8,
+          "L_web": 50.4
+        },
+        "bh-04": {
+          "L_cycles": 28.6,
+          "L_web": 31.8
+        },
+        "05.png": {
+          "L_cycles": 34.9,
+          "L_web": 39.4
+        },
+        "bh-05": {
+          "L_cycles": 17.0,
+          "L_web": 19.0
+        },
+        "06.png": {
+          "L_cycles": 14.4,
+          "L_web": 16.3
+        },
+        "07.png": {
+          "L_cycles": 37.5,
+          "L_web": 41.1
+        },
+        "bh-07": {
+          "L_cycles": 18.0,
+          "L_web": 18.9
+        }
+      }
+    },
+    "probes x 0.75 (not adopted)": {
+      "source": {
+        "distribution": 2.45,
+        "mean_abs_dL": 1.27,
+        "mean_dL": 1.23,
+        "mean_dC": 0.52
+      },
+      "evening": {
+        "distribution": 2.49,
+        "mean_abs_dL": 0.59,
+        "mean_dL": 0.23,
+        "mean_dC": 0.9
+      },
+      "cameras": {
+        "01.png": {
+          "L_cycles": 34.0,
+          "L_web": 35.2
+        },
+        "02.png": {
+          "L_cycles": 29.0,
+          "L_web": 30.4
+        },
+        "bh-02": {
+          "L_cycles": 25.5,
+          "L_web": 26.5
+        },
+        "03.png": {
+          "L_cycles": 46.1,
+          "L_web": 47.4
+        },
+        "bh-03": {
+          "L_cycles": 26.4,
+          "L_web": 27.1
+        },
+        "04.png": {
+          "L_cycles": 47.8,
+          "L_web": 48.7
+        },
+        "bh-04": {
+          "L_cycles": 28.6,
+          "L_web": 29.1
+        },
+        "05.png": {
+          "L_cycles": 34.9,
+          "L_web": 37.6
+        },
+        "bh-05": {
+          "L_cycles": 17.0,
+          "L_web": 17.1
+        },
+        "06.png": {
+          "L_cycles": 14.4,
+          "L_web": 14.2
+        },
+        "07.png": {
+          "L_cycles": 37.5,
+          "L_web": 38.8
+        },
+        "bh-07": {
+          "L_cycles": 18.0,
+          "L_web": 17.1
+        }
+      }
+    }
+  },
+  "linear_isolation": {
+    "method": "Cycles 25%/96 spp denoised linear EXR: full, and only the browser-drawn lights with max bounces 0 and world 0 (film transparent masks the sky). Web builds with a temporary flag: probes only / drawn lights only / everything, all without tone mapping, at the Cycles cameras. Luminance mean over non-sky pixels; cell_median is the median web/cycles ratio of a 12x8 grid. Max bounces 0 keeps camera rays out of glass and water, so drawn-light regions behind them read black in Cycles (overstating the direct ratio there and understating the probe ratio, e.g. 02).",
+    "probe_term_vs_cycles_full_minus_direct": {
+      "01-day": {
+        "cycles": 0.0614,
+        "web": 0.0583,
+        "ratio": 0.95,
+        "cell_median": 0.99
+      },
+      "01-evening": {
+        "cycles": 0.0207,
+        "web": 0.0168,
+        "ratio": 0.81,
+        "cell_median": 0.89
+      },
+      "02-day": {
+        "cycles": 0.059,
+        "web": 0.0347,
+        "ratio": 0.59,
+        "cell_median": 0.64
+      },
+      "02-evening": {
+        "cycles": 0.0189,
+        "web": 0.0139,
+        "ratio": 0.73,
+        "cell_median": 0.93
+      },
+      "03-day": {
+        "cycles": 0.115,
+        "web": 0.0964,
+        "ratio": 0.84,
+        "cell_median": 0.85
+      },
+      "03-evening": {
+        "cycles": 0.0489,
+        "web": 0.042,
+        "ratio": 0.86,
+        "cell_median": 0.97
+      },
+      "04-day": {
+        "cycles": 0.1325,
+        "web": 0.1177,
+        "ratio": 0.89,
+        "cell_median": 0.9
+      },
+      "04-evening": {
+        "cycles": 0.044,
+        "web": 0.0398,
+        "ratio": 0.9,
+        "cell_median": 0.91
+      },
+      "05-day": {
+        "cycles": 0.0698,
+        "web": 0.0657,
+        "ratio": 0.94,
+        "cell_median": 0.99
+      },
+      "05-evening": {
+        "cycles": 0.0259,
+        "web": 0.0201,
+        "ratio": 0.78,
+        "cell_median": 0.9
+      },
+      "07-day": {
+        "cycles": 0.0572,
+        "web": 0.0538,
+        "ratio": 0.94,
+        "cell_median": 0.96
+      },
+      "07-evening": {
+        "cycles": 0.0172,
+        "web": 0.0146,
+        "ratio": 0.85,
+        "cell_median": 0.88
+      }
+    },
+    "drawn_lights_direct": {
+      "01-day": {
+        "cycles": 0.0763,
+        "web": 0.0898,
+        "ratio": 1.18,
+        "cell_median": 1.17
+      },
+      "01-evening": {
+        "cycles": 0.0064,
+        "web": 0.0108,
+        "ratio": 1.68,
+        "cell_median": 1.62
+      },
+      "02-day": {
+        "cycles": 0.0333,
+        "web": 0.0786,
+        "ratio": 2.36,
+        "cell_median": 1.36
+      },
+      "02-evening": {
+        "cycles": 0.0336,
+        "web": 0.0414,
+        "ratio": 1.23,
+        "cell_median": 1.18
+      },
+      "03-day": {
+        "cycles": 0.1074,
+        "web": 0.1485,
+        "ratio": 1.38,
+        "cell_median": 1.36
+      },
+      "03-evening": {
+        "cycles": 0.0065,
+        "web": 0.0226,
+        "ratio": 3.47,
+        "cell_median": 3.25
+      },
+      "04-day": {
+        "cycles": 0.1933,
+        "web": 0.2108,
+        "ratio": 1.09,
+        "cell_median": 1.1
+      },
+      "04-evening": {
+        "cycles": 0.0219,
+        "web": 0.0349,
+        "ratio": 1.59,
+        "cell_median": 1.78
+      },
+      "05-day": {
+        "cycles": 0.0841,
+        "web": 0.1056,
+        "ratio": 1.26,
+        "cell_median": 1.22
+      },
+      "05-evening": {
+        "cycles": 0.0065,
+        "web": 0.0133,
+        "ratio": 2.06,
+        "cell_median": 1.94
+      },
+      "07-day": {
+        "cycles": 0.0883,
+        "web": 0.1261,
+        "ratio": 1.43,
+        "cell_median": 1.44
+      },
+      "07-evening": {
+        "cycles": 0.0063,
+        "web": 0.0064,
+        "ratio": 1.01,
+        "cell_median": 1.16
+      }
+    },
+    "total": {
+      "01-day": {
+        "cycles": 0.1378,
+        "web": 0.1473,
+        "ratio": 1.07,
+        "cell_median": 1.12
+      },
+      "01-evening": {
+        "cycles": 0.0271,
+        "web": 0.0279,
+        "ratio": 1.03,
+        "cell_median": 1.05
+      },
+      "02-day": {
+        "cycles": 0.0923,
+        "web": 0.1097,
+        "ratio": 1.19,
+        "cell_median": 1.05
+      },
+      "02-evening": {
+        "cycles": 0.0525,
+        "web": 0.0545,
+        "ratio": 1.04,
+        "cell_median": 1.1
+      },
+      "03-day": {
+        "cycles": 0.2224,
+        "web": 0.2332,
+        "ratio": 1.05,
+        "cell_median": 1.12
+      },
+      "03-evening": {
+        "cycles": 0.0554,
+        "web": 0.0599,
+        "ratio": 1.08,
+        "cell_median": 1.16
+      },
+      "04-day": {
+        "cycles": 0.3258,
+        "web": 0.3083,
+        "ratio": 0.95,
+        "cell_median": 0.98
+      },
+      "04-evening": {
+        "cycles": 0.0659,
+        "web": 0.0713,
+        "ratio": 1.08,
+        "cell_median": 1.11
+      },
+      "05-day": {
+        "cycles": 0.1539,
+        "web": 0.17,
+        "ratio": 1.1,
+        "cell_median": 1.14
+      },
+      "05-evening": {
+        "cycles": 0.0324,
+        "web": 0.034,
+        "ratio": 1.05,
+        "cell_median": 1.08
+      },
+      "07-day": {
+        "cycles": 0.1454,
+        "web": 0.1779,
+        "ratio": 1.22,
+        "cell_median": 1.23
+      },
+      "07-evening": {
+        "cycles": 0.0235,
+        "web": 0.021,
+        "ratio": 0.89,
+        "cell_median": 0.92
+      }
+    },
+    "note": "Measured with the first full bake, before the downward terrain fix (probes past glTF z 12 were dark then); cameras 01/05/07 far ground differs from the adopted bake."
+  },
+  "build": {
+    "main_2d": "217.62 KB (gzip 69.24 KB), unchanged",
+    "scene_3d_chunk": "666.49 -> 672.00 KB (gzip 172.10 -> 173.65 KB)",
+    "irradiance.bin": "521,856 bytes",
+    "irradiance.json": "1326 bytes"
+  },
+  "survey": "144 views: draw calls, triangles and geometries identical to interior-light; textures +3 in every view (the probe atlases)."
+}

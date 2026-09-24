@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { applyFoliageTransmission } from './foliage';
 import { applyNoiseColor, noiseColorOf, patchNoiseColorShader, type NoiseColor } from './noiseColor';
 
 const moss: NoiseColor = {
@@ -45,7 +44,7 @@ describe('noise color', () => {
     expect(() => patchNoiseColorShader({ vertexShader: 'void main() {}', fragmentShader: 'void main() {}' })).toThrow();
   });
 
-  it('pads ramp stops into uniforms and composes with foliage transmission', () => {
+  it('pads ramp stops into uniforms and composes with an earlier hook', () => {
     const fern = named('V3 | fern 0', {
       ...moss,
       stops: [
@@ -53,14 +52,17 @@ describe('noise color', () => {
         [1, 0.07, 0.16, 0.028],
       ],
     });
-    applyFoliageTransmission(fern);
+    fern.onBeforeCompile = (shader) => {
+      shader.fragmentShader = `// earlier hook\n${shader.fragmentShader}`;
+    };
+    fern.customProgramCacheKey = () => 'earlier';
     applyNoiseColor(fern, noiseColorOf(fern)!);
     const shader = { ...physical(), uniforms: {} as Record<string, THREE.IUniform> };
     fern.onBeforeCompile(shader as unknown as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
-    expect(shader.fragmentShader).toContain('#define RE_Direct RE_Direct_Foliage');
+    expect(shader.fragmentShader).toContain('// earlier hook');
     expect(shader.fragmentShader).toContain('sui_fbm(');
     expect(shader.uniforms.suiNoiseStopCount.value).toBe(2);
     expect(shader.uniforms.suiNoiseStops.value.map((stop: THREE.Vector4) => stop.x)).toEqual([0, 1, 1, 1]);
-    expect(fern.customProgramCacheKey()).toBe('foliage-transmission|noise-color');
+    expect(fern.customProgramCacheKey()).toBe('earlier|noise-color');
   });
 });

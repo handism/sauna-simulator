@@ -1,0 +1,268 @@
+{
+ "date": "2026-09-24",
+ "scope": "Linear isolation of the remaining brightness and saturation bias against Cycles (AgX, material color, direct light, probes, specular, glass/water regions) and one source-faithful fix: foliage no longer passes 0.6 of the far-face direct and probe light. No asset, light, probe or exposure change.",
+ "conditions": "Chrome 154.0.8037.57 headless, macOS, localhost production build, 1200x800 (Cycles cameras) / 1280x800 (survey), DPR 1, standard quality, reduced motion, muted, DOM stage effects excluded for the Cycles cameras.",
+ "hashes": {
+  "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+  "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+  "irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+  "irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+  "input_blend": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af (unchanged after every Blender run)"
+ },
+ "isolation_method": {
+  "cycles": "Blender 4.5.11, source Daylight / Blue hour scenes at 25% (525x350), 256 samples, no denoising, film transparent, 32-bit multilayer EXR with Diffuse/Glossy/Transmission Direct/Indirect/Color, Emission, Environment, Normal, Position. Per-light-group direct renders of the previous phase (sun-specular) reused for the browser-drawn lights. A second set hides glass and water from camera rays only (visible_camera False), so shadows and light are unchanged.",
+  "browser": "Temporary scratch copy of the app (not in the repository): a URL flag replaces the final physical fragment output with material.diffuseContribution, directDiffuse, indirectDiffuse (probes), totalSpecular, emission or the full outgoing light; LinearToneMapping with gain 1 (day), black sky, PNG captures decoded to linear and box-resized to 525x350. Variants: foliage transmission 0, and glass drawn only into the shadow maps (colorWrite and depthWrite off) with the water surface hidden.",
+  "mask": "Surfaces: Cycles alpha > 0.99, TransCol luminance < 0.02, DiffCol luminance > 0.01. Ratios are luminance sums over the mask."
+ },
+ "agx": {
+  "note": "Cycles linear Combined through the agx.ts constants (Python port) vs the denoised Blender PNG, non-sky pixels. The render is not denoised, so its noise raises L* and C* slightly. AgX is excluded as a cause.",
+  "L_ref_vs_port": {
+   "01": [
+    35.68,
+    36.51
+   ],
+   "03": [
+    46.14,
+    45.98
+   ],
+   "05": [
+    36.41,
+    37.01
+   ],
+   "07": [
+    39.46,
+    39.9
+   ]
+  },
+  "C_ref_vs_port": {
+   "01": [
+    17.5,
+    17.99
+   ],
+   "03": [
+    11.54,
+    11.49
+   ],
+   "05": [
+    15.02,
+    15.29
+   ],
+   "07": [
+    17.75,
+    18.05
+   ]
+  }
+ },
+ "material_color": {
+  "note": "Browser diffuseContribution vs Cycles DiffCol on the surface mask. Chromaticity (share of R,G,B) agrees within 0.003; luminance 0.99-1.05 (Cycles DiffCol is reduced by the Principled specular layer). Excluded as a cause of the saturation.",
+  "luminance_ratio": {
+   "01": 1.04,
+   "02": 1.04,
+   "03": 1.03,
+   "04": 0.99,
+   "05": 1.05,
+   "07": 1.03
+  },
+  "rgb_share_cycles_web": {
+   "01": [
+    [
+     0.353,
+     0.41,
+     0.237
+    ],
+    [
+     0.354,
+     0.411,
+     0.235
+    ]
+   ],
+   "05": [
+    [
+     0.358,
+     0.391,
+     0.251
+    ],
+    [
+     0.358,
+     0.393,
+     0.249
+    ]
+   ],
+   "07": [
+    [
+     0.389,
+     0.404,
+     0.207
+    ],
+    [
+     0.392,
+     0.404,
+     0.205
+    ]
+   ]
+  }
+ },
+ "linear_components_day_before": {
+  "note": "browser/Cycles luminance on the surface mask before the change. Total light is near 1, but diffuse is too high and specular far too low (the browser has no environment or indirect specular; Cycles' glossy is 5-17% of the surface luminance, mostly sky reflection).",
+  "full": {
+   "01": 1.0,
+   "02": 0.97,
+   "03": 0.92,
+   "04": 0.89,
+   "05": 1.02,
+   "07": 0.98
+  },
+  "diffuse": {
+   "01": 1.08,
+   "02": 1.17,
+   "03": 0.97,
+   "04": 0.95,
+   "05": 1.11,
+   "07": 1.07
+  },
+  "specular": {
+   "01": 0.41,
+   "02": 0.0,
+   "03": 0.37,
+   "04": 0.43,
+   "05": 0.42,
+   "07": 0.38
+  },
+  "cycles_glossy_share": {
+   "01": 0.1,
+   "02": 0.17,
+   "03": 0.06,
+   "04": 0.05,
+   "05": 0.11,
+   "07": 0.12
+  }
+ },
+ "probes_day": {
+  "note": "Browser probe diffuse / (Cycles diffuse - Cycles direct of the browser-drawn lights). Browser direct / Cycles direct 0.96-1.07.",
+  "before": {
+   "01": 1.16,
+   "03": 0.93,
+   "04": 0.92,
+   "05": 1.19,
+   "07": 1.19
+  },
+  "foliage_transmission_0": {
+   "01": 1.12,
+   "03": 0.93,
+   "04": 0.92,
+   "05": 1.11,
+   "07": 1.18
+  },
+  "by_albedo_class_ft0": {
+   "green (leaves, grass, moss)": "1.16-1.86 (was 1.25-2.16)",
+   "bright (plaster, linen)": "0.76-0.92",
+   "other": "1.04-1.24"
+  },
+  "by_normal_non_green_ft0": {
+   "side": "0.89-1.10",
+   "up": "0.87-1.20 (1.14-1.20 in the garden views 01/05/07)",
+   "down": "0.92-1.19"
+  },
+  "interpretation": "Not fixed: horizontal garden surfaces and grass get too much probe light, vertical bright walls slightly too little. Likely missing sub-probe occlusion (probes are sampled 0.5 m off the surface, grass blades and small occluders are finer than the 1 m grid). See probe-orientation.jpg (rows 01/05/07/04: Cycles non-browser diffuse, browser probe diffuse, log2 ratio red = browser brighter, blue = darker, full scale = 2x)."
+ },
+ "leaf_transmission_cycles": {
+  "note": "A 2 m plane with each source leaf material, sun of strength 1 at 45 degrees from the front or from behind, orthographic camera, 512 samples. back/front radiance.",
+  "subsurface_weight": {
+   "V6 woodland leaf 0": 0.08,
+   "Forest leaf tone 0": 0.06,
+   "V5 forest leaf 0": 0.06,
+   "V11 | maple leaf 0": 0.0,
+   "V3 | fern 0": 0.0,
+   "Evergreen foliage": 0.0,
+   "V7 | maple fresh olive": 0.0
+  },
+  "back_over_front": {
+   "V6 woodland leaf 0": 0.001,
+   "Forest leaf tone 0": 0.001,
+   "V5 forest leaf 0": 0.001,
+   "V11 | maple leaf 0": 0.0,
+   "V3 | fern 0": 0.0,
+   "Evergreen foliage": 0.0
+  }
+ },
+ "display_regions_day": {
+  "note": "Displayed CIELAB difference (browser - Cycles PNG) split by Cycles regions at 525x350: sky, edge (partially transparent pixels, mostly tree canopy against the sky), glass/water (seen through transmission), surfaces. Values are the contribution to the frame mean, averaged over the six day cameras.",
+  "before": {
+   "dL": {
+    "edge": 0.5,
+    "glass_water": 0.94,
+    "surfaces": 0.45,
+    "sky": 0.0,
+    "frame": 1.88
+   },
+   "dC": {
+    "edge": 0.3,
+    "glass_water": 0.11,
+    "surfaces": 1.64
+   }
+  },
+  "after": {
+   "dL": {
+    "edge": 0.08,
+    "glass_water": 0.91,
+    "surfaces": 0.07,
+    "frame": 1.06
+   },
+   "dC": {
+    "edge": 0.01,
+    "glass_water": 0.09,
+    "surfaces": 1.31
+   }
+  }
+ },
+ "glass_water": {
+  "note": "Region seen through glass or water in Cycles. Glass factor = luminance with / without the glass and water (camera rays only). Behind = browser/Cycles with glass and water hidden on both sides.",
+  "glass_factor_cycles": {
+   "01": 1.21,
+   "02": 0.9,
+   "03": 1.36,
+   "04": 1.48,
+   "05": 1.35
+  },
+  "glass_factor_browser": {
+   "01": 1.48,
+   "02": 1.1,
+   "03": 1.28,
+   "04": 2.37,
+   "05": 2.45
+  },
+  "behind_full": {
+   "01": 1.02,
+   "02": 1.01,
+   "03": 1.49,
+   "04": 0.89,
+   "05": 0.87
+  },
+  "behind_diffuse": {
+   "01": 1.19,
+   "02": 1.08,
+   "03": 1.87,
+   "04": 1.07,
+   "05": 1.05
+  },
+  "interpretation": "Not fixed. The exported browser glass is a 12% opaque (0.5, 0.7, 0.7) diffuse sheet lit by the sun and probes, where the Cycles glass only reflects its surroundings (Fresnel) and transmits. The plunge floor (03) is lit by the sun through the water surface in the browser, while Cycles water passes no direct light."
+ },
+ "specular_substitution": {
+  "note": "Simulation on the surface mask: replacing the browser specular by the Cycles glossy (box-blurred 3x3) lowers the mean displayed chroma difference from +2.31 to +0.92 (foliage transmission 0) and raises L* by about 1.7; replacing the probe term by the Cycles remainder barely changes chroma (+2.34). The saturation mainly comes from the missing environment reflection, a white/blue sheen in Cycles."
+ },
+ "cycles_tone_stats": {
+  "before": "docs/3d-qa/sun-specular/tone-stats.txt: source 7 mean |dL*| 1.87, distribution 2.34, dC* +2.03, green |dC| 3.07; evening 6 |dL*| 1.08, distribution 2.26, dC* +1.29, green |dC| 1.35",
+  "after": "tone-stats.txt: source 7 mean |dL*| 1.07, distribution 1.56, dC* +1.40, green |dC| 2.30; evening 6 |dL*| 0.84, distribution 1.79, dC* +0.99, green |dC| 0.59"
+ },
+ "survey": "144 views: draw calls, triangles, textures, geometries and material counts identical to sun-specular in every view; model and probe hashes identical.",
+ "tests": {
+  "typecheck": "passed",
+  "unit": "26 files, 129 tests passed",
+  "lint": "passed",
+  "format": "passed",
+  "build": "2D main 217.62 kB (gzip 69.24 kB), 3D chunk 672.71 kB (gzip 173.85 kB, was 673.96 / 174.14)",
+  "browser_regression": "11 passed (2.7 min)",
+  "visual": "3 passed: survey, Cycles cameras, capture stability (about 116 s)",
+  "not_run": "5-minute soak, real devices, audio listening, GPU time"
+ }
+}

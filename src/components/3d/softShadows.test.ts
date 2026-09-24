@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { BLOCKER_SAMPLES, FILTER_SAMPLES, directionalPenumbra, spotPenumbra } from './softShadows';
+import { BLOCKER_SAMPLES, FACING_NORMAL_BIAS, FILTER_SAMPLES, directionalPenumbra, spotPenumbra } from './softShadows';
 
 describe('soft shadows', () => {
   it('replaces only the BasicShadowMap filter of the shared chunk', () => {
@@ -24,5 +24,17 @@ describe('soft shadows', () => {
     const depth = (d: number) => (far / (far - near)) * (1 - near / d);
     const width = 2 * 7 * Math.tan(THREE.MathUtils.degToRad(fov / 2));
     expect(spotPenumbra(near, far, fov, 1.25) * (depth(7) - depth(3))).toBeCloseTo((1.25 * 4) / 3 / width, 6);
+  });
+
+  it('offsets the shadow lookup of double-sided faces toward the viewer', () => {
+    const vertex = THREE.ShaderChunk.shadowmap_vertex;
+    const flip = vertex.indexOf(FACING_NORMAL_BIAS);
+    expect(vertex.split(FACING_NORMAL_BIAS)).toHaveLength(2);
+    // After the normal is set and before any light applies normalBias, for double-sided only.
+    expect(flip).toBeGreaterThan(vertex.indexOf('vec4 shadowWorldPosition;'));
+    expect(flip).toBeLessThan(vertex.indexOf('shadowNormalBias'));
+    expect(vertex.lastIndexOf('#ifdef DOUBLE_SIDED', flip)).toBeGreaterThan(
+      vertex.indexOf('vec4 shadowWorldPosition;'),
+    );
   });
 });

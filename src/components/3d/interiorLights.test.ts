@@ -33,14 +33,11 @@ describe('sauna interior lights', () => {
     expect(radiance).toBeCloseTo(48 / (Math.PI * Math.PI * r * r));
   });
 
-  it('confines the area lights to the room and scales the sky there', () => {
+  it('confines the area lights to the room', () => {
     const begin = THREE.ShaderChunk.lights_fragment_begin;
     expect(begin).toContain('bool suiInterior');
     expect(begin).toContain('suiRectFormFactor( geometryNormal, geometryPosition, rectCoords )');
     expect(begin).not.toContain('RE_Direct_RectArea( rectAreaLight');
-    expect(begin).toContain('if ( suiInterior ) irradiance = suiBeforeSky + 0.830');
-    // The foliage patch still finds its hemisphere line.
-    expect(begin).toContain('irradiance += getHemisphereLightIrradiance( hemisphereLights[ i ], geometryNormal );');
     expect(THREE.ShaderChunk.lights_physical_pars_fragment).toContain('float suiRectFormFactor(');
   });
 });

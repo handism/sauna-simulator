@@ -12,6 +12,7 @@ import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
 import { attachLookControls } from './lookControls';
 import { disposeTree, prepareModel } from './modelMaterials';
+import { applyIrradiance, createIrradianceTextures, type IrradianceHeader } from './irradiance';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -142,27 +143,40 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     };
     renderer.domElement.addEventListener('webglcontextlost', lost);
     const look = attachLookControls(element, camera);
+    let releaseIrradiance = () => {};
     const start = performance.now();
     async function load() {
       try {
         const base = `${import.meta.env.BASE_URL}models/`;
-        const [definition, binary]: [SceneDefinition, ArrayBuffer] = await Promise.all([
-          fetch(`${base}sauna.scene.json`, { signal: abort.signal }).then((r) => {
-            if (!r.ok) throw Error('scene');
-            return r.json();
-          }),
-          fetch(`${base}sauna.glb`, { signal: abort.signal }).then((r) => {
-            if (!r.ok) throw Error('model');
-            return r.arrayBuffer();
-          }),
+        const get = (name: string) =>
+          fetch(`${base}${name}`, { signal: abort.signal }).then((r) => {
+            if (!r.ok) throw Error(name);
+            return r;
+          });
+        const [definition, binary, irradianceHeader, irradianceData]: [
+          SceneDefinition,
+          ArrayBuffer,
+          IrradianceHeader,
+          ArrayBuffer,
+        ] = await Promise.all([
+          get('sauna.scene.json').then((r) => r.json()),
+          get('sauna.glb').then((r) => r.arrayBuffer()),
+          get('irradiance.json').then((r) => r.json()),
+          get('irradiance.bin').then((r) => r.arrayBuffer()),
         ]);
         if (disposed || failed) return;
+        // Throws on a layout mismatch before the model is parsed.
+        const irradiance = createIrradianceTextures(irradianceHeader, irradianceData);
+        releaseIrradiance = irradiance.dispose;
+        irradiance.apply(lighting.irradiance);
+        setData('irradianceProbes', String(irradiance.probes));
         const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(binary, base);
         if (disposed || failed) {
           disposeTree(gltf.scene);
           return;
         }
         const stats = prepareModel(gltf.scene);
+        setData('irradianceMaterials', String(applyIrradiance(gltf.scene, lighting.irradiance)));
         setData('foliageMaterials', String(stats.foliageMaterials));
         setData('noiseColorMaterials', String(stats.noiseColorMaterials));
         setData('imageRampMaterials', String(stats.imageRampMaterials));
@@ -272,6 +286,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       look.dispose();
       renderer.domElement.removeEventListener('webglcontextlost', lost);
       disposeTree(scene);
+      releaseIrradiance();
       renderer.dispose();
       renderer.domElement.remove();
     };

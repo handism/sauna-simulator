@@ -1,9 +1,31 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { createLighting, eveningAmount } from './lighting';
+import { createLighting, eveningAmount, SPOT_COSINE, SUN_DIFFUSE_ONLY } from './lighting';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
 
 describe('3D lighting', () => {
+  it('keeps the specular of the sun only out of the directional light loop', () => {
+    const chunk = THREE.ShaderChunk.lights_fragment_begin;
+    const start = chunk.indexOf('#if ( NUM_DIR_LIGHTS > 0 ) && defined( RE_Direct )');
+    const end = chunk.indexOf('#pragma unroll_loop_end', start);
+    const restore = chunk.indexOf(SUN_DIFFUSE_ONLY);
+    expect(start).toBeGreaterThan(0);
+    expect(restore).toBeGreaterThan(start);
+    expect(restore).toBeLessThan(end);
+    expect(chunk.split(SUN_DIFFUSE_ONLY)).toHaveLength(2);
+    // Spot lights (V9 and the dusk accents) keep their highlights, as in the source.
+    const spot = chunk.indexOf('#if ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )');
+    expect(chunk.slice(spot, chunk.indexOf('#pragma unroll_loop_end', spot))).not.toContain('suiSpecular');
+  });
+  it('gives every spot light the cosine falloff of a Lambertian disk', () => {
+    const pars = THREE.ShaderChunk.lights_pars_begin;
+    expect(pars).toContain(SPOT_COSINE);
+    expect(pars).not.toContain('smoothstep( coneCosine');
+    // A 90° cone with full penumbra: 0 at 90°, 1 on the axis, linear in the cosine between.
+    const light = new THREE.SpotLight('#fff', 1, 0, Math.PI / 2, 1, 2);
+    expect(Math.cos(light.angle)).toBeCloseTo(0, 12);
+    expect(Math.cos(light.angle * (1 - light.penumbra))).toBe(1);
+  });
   it('repeats the automatic progression and honors fixed choices in every stage', () => {
     expect(
       ['sauna', 'water', 'totonou', 'sauna'].map((stage) =>
@@ -26,8 +48,14 @@ describe('3D lighting', () => {
     expect(renderer.toneMappingExposure).toBeLessThan(2 ** 0.55);
     lighting.update(1, 0, true);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.55);
-    // Hemisphere, sun, six sauna area lights, lounge spot light, five dusk spot lights, and targets.
-    expect(scene.children).toHaveLength(20);
+    // Sun, six sauna area lights, lounge spot light, five dusk spot lights, and targets; no
+    // hemisphere light (the baked probes replace it) and the probes follow the evening amount.
+    expect(scene.children).toHaveLength(19);
+    expect(scene.children.some((child) => child instanceof THREE.HemisphereLight)).toBe(false);
+    expect(lighting.irradiance.suiIrradianceEvening.value).toBe(1);
+    lighting.update(0, 0, true);
+    expect(lighting.irradiance.suiIrradianceEvening.value).toBe(0);
+    lighting.update(1, 0, true);
     expect(scene.fog).toBeNull();
     expect((scene.background as THREE.Color).getHexString(THREE.SRGBColorSpace)).toBe('283d54');
   });
@@ -68,7 +96,7 @@ describe('Cycles lounge light', () => {
 });
 
 describe('Cycles Blue hour lights', () => {
-  it('dims the sun to the source value and brings up the unshadowed accent lights', () => {
+  it('dims the sun to the source value and brings up the accent lights', () => {
     const scene = new THREE.Scene();
     const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
     const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
@@ -103,9 +131,15 @@ describe('cached shadows', () => {
     const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
     const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
     const lounge = scene.children.find((child) => child instanceof THREE.SpotLight) as THREE.SpotLight;
+    const spots = scene.children.filter((child) => child instanceof THREE.SpotLight);
+    const duskLounge = spots[1];
+    const maple = spots[5];
+    const shadowLights = [sun, lounge, duskLounge, maple];
+    expect(duskLounge.shadow.radius).toBeCloseTo(spotPenumbra(0.1, 20, 144, 2));
+    expect(maple.shadow.radius).toBeCloseTo(spotPenumbra(0.1, 20, 144, 0.6));
     lighting.setShadowSize(1024);
     lighting.update(0, 0, true);
-    for (const light of [sun, lounge]) {
+    for (const light of shadowLights) {
       expect(light.castShadow).toBe(true);
       expect(light.shadow.autoUpdate).toBe(false);
       expect(light.shadow.mapSize.x).toBe(1024);
@@ -113,26 +147,35 @@ describe('cached shadows', () => {
     }
     lighting.update(0, 0.016, false);
     expect(sun.shadow.needsUpdate).toBe(false);
-    // Neither shadowed light moves, so lighting changes keep both cached shadows.
+    // None of these lights move, so lighting changes keep the cached shadows.
     lighting.update(1, 0, true);
     lighting.update(0.5, 0.016, false);
-    expect(sun.shadow.needsUpdate).toBe(false);
-    expect(lounge.shadow.needsUpdate).toBe(false);
+    for (const light of shadowLights) expect(light.shadow.needsUpdate).toBe(false);
     lighting.setShadowSize(2048);
     expect(sun.shadow.mapSize.x).toBe(2048);
     expect(lounge.shadow.needsUpdate).toBe(true);
     const disposed: boolean[] = [];
-    for (const light of [sun, lounge]) {
+    for (const light of shadowLights) {
       const target = new THREE.WebGLRenderTarget(16, 16);
       target.addEventListener('dispose', () => disposed.push(true));
       light.shadow.map = target;
     }
     lighting.setShadowSize(0);
-    for (const light of [sun, lounge]) {
+    for (const light of shadowLights) {
       expect(light.castShadow).toBe(false);
       expect(light.shadow.map).toBeNull();
     }
-    expect(disposed).toHaveLength(2);
+    expect(disposed).toHaveLength(4);
+    // Re-enable after low quality, then release every allocated shadow on scene teardown.
+    lighting.setShadowSize(1024);
+    for (const light of shadowLights) {
+      expect(light.castShadow).toBe(true);
+      expect(light.shadow.needsUpdate).toBe(true);
+      const target = new THREE.WebGLRenderTarget(16, 16);
+      target.addEventListener('dispose', () => disposed.push(true));
+      light.shadow.map = target;
+    }
     lighting.dispose();
+    expect(disposed).toHaveLength(8);
   });
 });

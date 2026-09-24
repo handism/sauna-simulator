@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
+import { rendererCaptureStyle } from './scene-capture';
 
 type Camera = { render: string; camera: string; lighting: string; position: number[]; target: number[]; fov: number };
 // Written by scripts/blender_camera_reference.py from the source blend.
@@ -50,12 +51,12 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         const camera = views[stage];
         const file = `cycles-${camera.render.replace('.png', '')}-${lighting}.jpg`;
-        // The mode, lighting and mute controls always stay on screen; keep them out of the comparison.
-        const hide = await page.addStyleTag({
-          content: '.scene-mode-controls, .mute-btn { visibility: hidden !important; transition: none !important; }',
+        await canvas.screenshot({
+          path: info.outputPath(file),
+          type: 'jpeg',
+          quality: 90,
+          style: rendererCaptureStyle,
         });
-        await canvas.screenshot({ path: info.outputPath(file), type: 'jpeg', quality: 90 });
-        await hide.evaluate((element) => (element as HTMLStyleElement).remove());
         // 06 is camera 01 in the blue-hour scene; pair captures with the render of the same light.
         const render =
           reference.cameras.find((other) => other.camera === camera.camera && other.lighting === lighting)?.render ??
@@ -77,7 +78,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
   expect(errors).toEqual([]);
   const hashes = Object.fromEntries(
     await Promise.all(
-      ['sauna.glb', 'sauna.scene.json'].map(async (file) => [
+      ['sauna.glb', 'sauna.scene.json', 'irradiance.json', 'irradiance.bin'].map(async (file) => [
         file,
         createHash('sha256')
           .update(await readFile(`public/models/${file}`))
@@ -94,6 +95,8 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
         deviceScaleFactor: 1,
         quality: 'standard',
         reducedMotion: true,
+        captureStyle: rendererCaptureStyle,
+        stageOverlays: false,
         muted: true,
         cameraReference: reference.input_sha256,
         hashes,
