@@ -5,6 +5,8 @@ import { MeshoptDecoder } from 'meshoptimizer/decoder';
 
 import type { AmbientEnv, AudioEngine } from '../../hooks/useAudioEngine';
 import { QUALITY, type QualityMode } from './quality';
+// Replaces three's AgX curve with Blender's before any material compiles.
+import './agx';
 import { createLighting, eveningAmount, type LightingMode } from './lighting';
 import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
@@ -82,7 +84,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     renderer.shadowMap.enabled = true;
     // Raw depth for the soft shadow filter in softShadows.ts.
     renderer.shadowMap.type = THREE.BasicShadowMap;
-    // Same view transform as the source Cycles renders (AgX, look None).
+    // Same view transform as the source Cycles renders (AgX, look None; Blender's curve, agx.ts).
     renderer.toneMapping = THREE.AgXToneMapping;
     element.appendChild(renderer.domElement);
     const lighting = createLighting(scene, renderer);

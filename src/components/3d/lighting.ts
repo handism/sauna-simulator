@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { AmbientEnv } from '../../hooks/useAudioEngine';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
+import { createInteriorLights } from './interiorLights';
 
 // AgX view exposure (stops) of the source Daylight and Blue hour scenes.
 const DAY_EXPOSURE = 0.15,
@@ -31,9 +32,9 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   // Penumbra of the source sun's 0.085 rad disk (see softShadows.ts).
   sun.shadow.radius = directionalPenumbra(sun.shadow.camera, 0.085);
   sun.shadow.autoUpdate = false;
-  // Stands in for the sauna interior lights, which keep the same power in both source scenes.
-  const warmth = new THREE.PointLight('#ffb96a', 10, 9, 2);
-  warmth.position.set(-3.2, 2.9, -2.7);
+  // The sauna room's source area lights, confined to the room (see interiorLights.ts). They keep
+  // the same power in both source scenes.
+  const interior = createInteriorLights();
   // Cycles 'V9 lounge patch of sunlight': a 950 W, 1.25 m disk above the lounge and plunge.
   // A Lambertian disk emits P/π candela on its axis; a 90° cone with full penumbra approximates
   // its cosine falloff (a 60° cone gave the plaster walls 35° off the axis only 0.65 of the
@@ -79,7 +80,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     light.userData.candela = watts / Math.PI;
     return light;
   });
-  scene.add(ambient, sun, warmth, lounge, lounge.target);
+  scene.add(ambient, sun, ...interior, lounge, lounge.target);
   for (const light of dusk) scene.add(light, light.target);
   // Both source scenes light the courtyard along the 'Late afternoon sunlight' direction; the
   // Blue hour one is a faint blue 0.045. A fixed direction keeps the cached shadow valid.
@@ -119,9 +120,9 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
       sky.copy(daySky).lerp(duskSky, current);
       ambient.color.copy(dayAmbient).lerp(duskAmbient, current);
       // The unshadowed hemisphere light stands in for the remaining Cycles area lights and bounce
-      // light; it and the interior light are balanced against the Cycles camera renders. The sun,
-      // lounge and dusk accent lights use the source values of each scene.
-      ambient.intensity = THREE.MathUtils.lerp(0.6, 0.45, current);
+      // light and is balanced against the Cycles camera renders. The sun, lounge, dusk accent and
+      // sauna interior lights use the source values of each scene.
+      ambient.intensity = THREE.MathUtils.lerp(0.8, 0.65, current);
       sun.color.copy(daySun).lerp(duskSun, current);
       sun.intensity = THREE.MathUtils.lerp(3.2, 0.045, current);
       lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, current);
