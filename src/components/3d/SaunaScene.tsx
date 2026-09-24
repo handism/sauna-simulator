@@ -15,6 +15,8 @@ import { disposeTree, prepareModel } from './modelMaterials';
 import { applyIrradiance, createProbeTextures, type IrradianceHeader } from './irradiance';
 import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
+import { applyRefraction } from './refraction';
+import { applyCaustics } from './caustics';
 import { createHdrOutput, type RenderStats } from './hdrOutput';
 
 interface SceneDefinition {
@@ -188,6 +190,10 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           return;
         }
         const stats = prepareModel(gltf.scene);
+        const refraction = applyRefraction(gltf.scene, definition.water.center[1]);
+        setData('refractionMaterials', String(refraction.materials));
+        setData('refractionTriangles', String(refraction.triangles));
+        setData('causticMaterials', String(applyCaustics(gltf.scene)));
         setData('glassMeshes', String(applyGlass(gltf.scene, lighting.irradiance)));
         setData('irradianceMaterials', String(applyIrradiance(gltf.scene, lighting.irradiance)));
         setData('reflectionMaterials', String(applyReflection(gltf.scene, lighting.irradiance)));

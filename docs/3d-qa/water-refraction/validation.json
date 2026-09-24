@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-25",
+  "input_blend_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "unchanged": ["public/models/sauna.glb", "public/models/sauna.scene.json", "public/models/irradiance.bin", "public/models/reflection.bin", "blender/scene/SUI_Retreat.blend"],
+  "source_water": {
+    "material": "V4 | clear spring water",
+    "ior": 1.333,
+    "transmission_base_color": [0.93, 0.985, 0.975],
+    "volume_absorption": { "color": [0.57, 0.84, 0.78], "density": 0.12, "per_meter": "density * (1 - color)" }
+  },
+  "source_caustics": {
+    "materials": ["V10 | submerged light / Teal glazed pool tile", "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c"],
+    "emission_color": [0.46, 0.77, 0.66],
+    "strength": "map(voronoi_edge((p + 0.2 * noise_color(p, 3.6, detail 2)) * 5.2), 0.008..0.065 -> 0.28..0) * map(noise(p, 1.7, detail 3), 0.3..0.7 -> 0.04..0.48) * [x in (-0.17, 2.53), y in (0.89, 4.11), z < 0.755] (Blender axes)",
+    "reference": "e2e/fixtures/blender-caustic.json (128 points, Blender 4.5.11 Geometry Nodes copy of the material nodes, max strength 0.122)",
+    "glsl_max_abs_diff": { "strength": 3.35e-7, "voronoi_edge": 6.78e-7, "noise_1.7": 1.19e-7, "noise_3.6": 1.19e-7 }
+  },
+  "refraction": {
+    "surface_y": 0.785,
+    "materials": 4,
+    "added_triangles": 8186,
+    "slice_spacing_m": 0.1,
+    "cut_when_underwater_edge_longer_than_m": 0.3
+  },
+  "browser": {
+    "chrome": "154.0.8037.57 macOS headless localhost, production build, standard quality, DPR1, reduced motion, muted",
+    "tile_pixels_median_display_rgb_03_day": { "cycles": [77, 106, 89], "before": [96, 120, 107], "after": [99, 125, 110], "method": "teal pixels (g > r + 12, b > r + 4) in the same 500x270 box of the 900x600 halves of cycles/cycles-03.jpg; the previous record's (83,110,94)/(97,120,106) used another region" },
+    "tone_stats": {
+      "source_mean_abs_dL": [1.3, 1.34],
+      "source_percentile_all": [1.75, 1.81],
+      "source_mean_dC": [1.42, 1.46],
+      "evening_mean_abs_dL": [0.89, 0.83],
+      "evening_percentile_all": [1.47, 1.57],
+      "evening_mean_dC": [1.15, 1.17],
+      "03_day_L": { "cycles": 46.1, "before": 45.9, "after": 46.5 },
+      "bh03_L": { "cycles": 26.4, "before": 25.9, "after": 26.3 },
+      "columns": ["before (water-probes)", "after"]
+    },
+    "survey_144_views": {
+      "draw_calls": "unchanged except totonou 5/down day and evening 38 -> 37 (recomputed bounding spheres of the cut meshes cull one off-screen mesh)",
+      "triangles": "+5,640 to +8,186 where the plunge meshes are drawn",
+      "textures": "unchanged (27)",
+      "geometries": "unchanged (92)",
+      "page_errors": 0
+    },
+    "bundle": { "main_2d_kb": 220.9, "scene_3d_kb": [681.26, 692.34], "scene_3d_gzip_kb": [176.38, 179.72] }
+  },
+  "checks": ["tsc -b", "32 files / 165 unit tests", "12 Python probe-sampling tests", "eslint", "prettier", "vite build", "test:browser 13 passed (3.0 min, incl. caustics.e2e.ts)", "test:browser:visual 3 passed"]
+}
