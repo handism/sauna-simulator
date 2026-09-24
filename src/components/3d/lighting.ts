@@ -138,7 +138,19 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   maple.shadow.normalBias = 0.015;
   maple.shadow.radius = spotPenumbra(0.1, 20, 144, 0.6);
   maple.shadow.autoUpdate = false;
-  const shadowLights = [sun, lounge, duskLounge, maple];
+  // The three low path disks are occluded by stepping stones and planting. Use the
+  // source 0.28 m diameter; as with the other disks, visibility is sampled at the center.
+  const pathLights = dusk.slice(1, 4);
+  for (const light of pathLights) {
+    light.shadow.focus = 0.8;
+    light.shadow.camera.near = 0.1;
+    light.shadow.camera.far = 20;
+    light.shadow.bias = -0.0001;
+    light.shadow.normalBias = 0.015;
+    light.shadow.radius = spotPenumbra(0.1, 20, 144, 0.28);
+    light.shadow.autoUpdate = false;
+  }
+  const shadowLights = [sun, lounge, ...dusk];
   scene.add(sun, ...interior, lounge, lounge.target);
   for (const light of dusk) scene.add(light, light.target);
   // Both source scenes light the courtyard along the 'Late afternoon sunlight' direction; the
