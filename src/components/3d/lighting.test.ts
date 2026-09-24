@@ -26,8 +26,8 @@ describe('3D lighting', () => {
     expect(renderer.toneMappingExposure).toBeLessThan(2 ** 0.55);
     lighting.update(1, 0, true);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.55);
-    // Hemisphere, sun, sauna point light, lounge spot light, five dusk spot lights, and targets.
-    expect(scene.children).toHaveLength(15);
+    // Hemisphere, sun, six sauna area lights, lounge spot light, five dusk spot lights, and targets.
+    expect(scene.children).toHaveLength(20);
     expect(scene.fog).toBeNull();
     expect((scene.background as THREE.Color).getHexString(THREE.SRGBColorSpace)).toBe('283d54');
   });
