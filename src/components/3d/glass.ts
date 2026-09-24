@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { IRRADIANCE_PARS, type IrradianceUniforms } from './irradiance';
 import { INTERIOR_BOX } from './interiorLights';
-import { REFLECTION_PARS, type ReflectionUniforms } from './reflection';
+import { REFLECTION_PARS } from './reflection';
 
 // The source glass is a Principled BSDF with full transmission: 18 mm panes (closed boxes) of
 // IOR 1.45 whose base color tints each refraction, and a hourglass of IOR 1.46. The exporter
@@ -79,7 +79,7 @@ void main() {
 		// Camera side of the pane, which lies on the room box.
 		vec3 P = vWorldPosition + N * 0.02;
 		bool interior = all( greaterThanEqual( P, ${vec3(INTERIOR_BOX.min)} ) ) && all( lessThanEqual( P, ${vec3(INTERIOR_BOX.max)} ) );
-		vec3 radiance = suiReflection( P, N, reflect( - V, N ), 0.055, interior );
+		vec3 radiance = suiReflection( P, N, reflect( - V, N ), 0.055, interior, false );
 		gl_FragColor = vec4( radiance * ( F + F * through ), 1.0 );
 		#include <tonemapping_fragment>
 		#include <colorspace_fragment>
@@ -90,7 +90,7 @@ function glassMaterial(
   source: THREE.Material,
   optics: (typeof GLASS)[string],
   transmission: boolean,
-  uniforms: IrradianceUniforms & ReflectionUniforms,
+  uniforms: IrradianceUniforms,
 ) {
   const material = new THREE.ShaderMaterial({
     name: source.name,
@@ -116,7 +116,7 @@ function glassMaterial(
  * transmittance; a copy sharing its geometry draws the reflection right after it (equal render
  * order and depth, so the later id sorts last). Returns the number of glass meshes.
  */
-export function applyGlass(root: THREE.Object3D, uniforms: IrradianceUniforms & ReflectionUniforms): number {
+export function applyGlass(root: THREE.Object3D, uniforms: IrradianceUniforms): number {
   const meshes: THREE.Mesh[] = [];
   root.traverse((object) => {
     if (object instanceof THREE.Mesh && !Array.isArray(object.material) && GLASS[object.material.name])

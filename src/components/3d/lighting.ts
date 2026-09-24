@@ -8,21 +8,37 @@ import { agxInverse } from './agx';
 // The source sun (both scenes) is invisible to glossy rays: it lights the diffuse layer (still
 // reduced by the specular Fresnel) but draws no highlights. Its browser specular doubled the
 // sunlit deck of camera 07. The sun is the only directional light.
+//
+// No browser light reaches the plunge below the water (interiorLights.ts WATER_BOX) directly. In
+// Cycles, shadow rays stop at the refractive surface; the sun is invisible to transmission rays,
+// and V9 and the blue-hour accents reach the tiles only along refracted paths, which the water
+// probes already hold (their panoramas look through the surface, where transmission visibility
+// applies). The sauna-room lights are evaluated inside the room only.
 const DIRECTIONAL_START = '#if ( NUM_DIR_LIGHTS > 0 ) && defined( RE_Direct )';
+const SPOT_START = '#if ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )';
 const DIRECT_CALL =
   'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );';
 export const SUN_DIFFUSE_ONLY = 'reflectedLight.directSpecular = suiSpecularBeforeSun;';
+export const DRY_ONLY = 'if ( ! suiUnderwater ) ';
 const begin = THREE.ShaderChunk.lights_fragment_begin;
 if (!begin.includes(SUN_DIFFUSE_ONLY)) {
-  const start = begin.indexOf(DIRECTIONAL_START);
-  const call = start < 0 ? -1 : begin.indexOf(DIRECT_CALL, start);
-  // three 0.186 is pinned; a changed chunk fails loudly instead of giving the sun highlights.
-  if (call < 0 || begin.indexOf('#pragma unroll_loop_end', start) < call)
-    throw new Error('three lighting chunks changed; update lighting.ts');
+  const call = (start: string) => {
+    const at = begin.indexOf(start);
+    const found = at < 0 ? -1 : begin.indexOf(DIRECT_CALL, at);
+    // three 0.186 is pinned; a changed chunk fails loudly instead of giving the sun highlights.
+    if (found < 0 || begin.indexOf('#pragma unroll_loop_end', at) < found)
+      throw new Error('three lighting chunks changed; update lighting.ts');
+    return found;
+  };
+  const spot = call(SPOT_START);
+  const sun = call(DIRECTIONAL_START);
+  if (spot > sun) throw new Error('three lighting chunks changed; update lighting.ts');
   THREE.ShaderChunk.lights_fragment_begin =
-    begin.slice(0, call) +
-    `vec3 suiSpecularBeforeSun = reflectedLight.directSpecular;\n\t\t${DIRECT_CALL}\n\t\t${SUN_DIFFUSE_ONLY}` +
-    begin.slice(call + DIRECT_CALL.length);
+    begin.slice(0, spot) +
+    DRY_ONLY +
+    begin.slice(spot, sun) +
+    `vec3 suiSpecularBeforeSun = reflectedLight.directSpecular;\n\t\t${DRY_ONLY}${DIRECT_CALL}\n\t\t${SUN_DIFFUSE_ONLY}` +
+    begin.slice(sun + DIRECT_CALL.length);
 }
 
 // Every spot light here stands for a Lambertian disk of the source (P/π candela on the axis), so

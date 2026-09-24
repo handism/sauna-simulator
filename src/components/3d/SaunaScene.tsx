@@ -12,8 +12,8 @@ import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
 import { attachLookControls } from './lookControls';
 import { disposeTree, prepareModel } from './modelMaterials';
-import { applyIrradiance, createIrradianceTextures, type IrradianceHeader } from './irradiance';
-import { applyReflection, createReflectionTextures, createReflectionUniforms } from './reflection';
+import { applyIrradiance, createProbeTextures, type IrradianceHeader } from './irradiance';
+import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
 import { createHdrOutput, type RenderStats } from './hdrOutput';
 
@@ -148,9 +148,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     };
     renderer.domElement.addEventListener('webglcontextlost', lost);
     const look = attachLookControls(element, camera);
-    let releaseIrradiance = () => {};
-    let releaseReflection = () => {};
-    const reflection = createReflectionUniforms();
+    let releaseProbes = () => {};
     const start = performance.now();
     async function load() {
       try {
@@ -177,28 +175,28 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         ]);
         if (disposed || failed) return;
         // Throws on a layout mismatch before the model is parsed.
-        const irradiance = createIrradianceTextures(irradianceHeader, irradianceData);
-        releaseIrradiance = irradiance.dispose;
-        irradiance.apply(lighting.irradiance);
-        setData('irradianceProbes', String(irradiance.probes));
-        const reflectionProbes = createReflectionTextures(irradianceHeader, reflectionHeader, reflectionData);
-        releaseReflection = reflectionProbes.dispose;
-        reflectionProbes.apply(reflection);
+        const probes = createProbeTextures(
+          { header: irradianceHeader, buffer: irradianceData },
+          { header: reflectionHeader, buffer: reflectionData },
+        );
+        releaseProbes = probes.dispose;
+        probes.apply(lighting.irradiance);
+        setData('irradianceProbes', String(probes.probes));
         const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(binary, base);
         if (disposed || failed) {
           disposeTree(gltf.scene);
           return;
         }
         const stats = prepareModel(gltf.scene);
-        setData('glassMeshes', String(applyGlass(gltf.scene, { ...lighting.irradiance, ...reflection })));
+        setData('glassMeshes', String(applyGlass(gltf.scene, lighting.irradiance)));
         setData('irradianceMaterials', String(applyIrradiance(gltf.scene, lighting.irradiance)));
-        setData('reflectionMaterials', String(applyReflection(gltf.scene, reflection)));
+        setData('reflectionMaterials', String(applyReflection(gltf.scene, lighting.irradiance)));
         setData('foliageMaterials', String(stats.foliageMaterials));
         setData('noiseColorMaterials', String(stats.noiseColorMaterials));
         setData('imageRampMaterials', String(stats.imageRampMaterials));
         setData('leafClusterMaterials', String(stats.leafClusterMaterials));
         scene.add(gltf.scene);
-        const waterEffects = createWaterEffects(definition.water, { ...lighting.irradiance, ...reflection });
+        const waterEffects = createWaterEffects(definition.water, lighting.irradiance);
         scene.add(waterEffects.group);
         const forward = new THREE.Vector3();
         const upVector = new THREE.Vector3();
@@ -301,8 +299,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       look.dispose();
       renderer.domElement.removeEventListener('webglcontextlost', lost);
       disposeTree(scene);
-      releaseIrradiance();
-      releaseReflection();
+      releaseProbes();
       output.dispose();
       renderer.dispose();
       renderer.domElement.remove();

@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { applyGlass, fresnel, GLASS, slab } from './glass';
 import { createIrradianceUniforms } from './irradiance';
-import { createReflectionUniforms } from './reflection';
 
 describe('glass', () => {
   it('uses the dielectric Fresnel of the source IOR', () => {
@@ -38,7 +37,7 @@ describe('glass', () => {
     root.add(glass, wall);
     let disposed = false;
     source.addEventListener('dispose', () => (disposed = true));
-    const uniforms = { ...createIrradianceUniforms(), ...createReflectionUniforms() };
+    const uniforms = createIrradianceUniforms();
     expect(applyGlass(root, uniforms)).toBe(1);
     expect(disposed).toBe(true);
     const transmission = glass.material as unknown as THREE.ShaderMaterial;
@@ -61,7 +60,7 @@ describe('glass', () => {
     expect(copy.renderOrder).toBe(glass.renderOrder);
     expect([glass.castShadow, copy.castShadow, copy.receiveShadow]).toEqual([true, false, false]);
     // The probes are shared, not copied.
-    expect(reflection.uniforms.suiReflectionCourtyard).toBe(uniforms.suiReflectionCourtyard);
+    expect(reflection.uniforms.suiProbeCourtyard).toBe(uniforms.suiProbeCourtyard);
     expect(reflection.uniforms.suiIrradianceEvening).toBe(uniforms.suiIrradianceEvening);
     expect(reflection.defines).toHaveProperty('SUI_REFLECTION');
     expect(wall.material).toBeInstanceOf(THREE.MeshStandardMaterial);
