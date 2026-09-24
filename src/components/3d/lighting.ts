@@ -3,6 +3,7 @@ import type { AmbientEnv } from '../../hooks/useAudioEngine';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
 import { createInteriorLights } from './interiorLights';
 import { createIrradianceUniforms } from './irradiance';
+import { agxInverse } from './agx';
 
 // The source sun (both scenes) is invisible to glossy rays: it lights the diffuse layer (still
 // reduced by the specular Fresnel) but draws no highlights. Its browser specular doubled the
@@ -46,7 +47,11 @@ export function eveningAmount(mode: LightingMode, stage: AmbientEnv): number {
   return mode === 'evening' ? 1 : mode === 'day' ? 0 : { sauna: 0, water: 0.5, totonou: 1 }[stage];
 }
 
-export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer) {
+/**
+ * `hdr`: the scene is tone mapped once in hdrOutput.ts, so the sky background is the
+ * scene-linear color that the view maps to the source's displayed sky.
+ */
+export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer, hdr = false) {
   // Cycles renders the courtyard without mist, so distant trees keep their color.
   const sky = new THREE.Color();
   scene.background = sky;
@@ -145,6 +150,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   const daySun = new THREE.Color('#fff1d5'),
     duskSun = new THREE.Color().setRGB(0.47, 0.62, 1, THREE.LinearSRGBColorSpace);
   let current = 0;
+  let skyAmount = NaN;
   return {
     irradiance,
     setShadowSize(size: number) {
@@ -169,14 +175,19 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     update(target: number, delta: number, immediate: boolean) {
       // Exponential smoothing is independent of frame rate; reduced motion snaps.
       current = immediate ? target : THREE.MathUtils.lerp(current, target, 1 - Math.exp(-delta / 1.4));
-      sky.copy(daySky).lerp(duskSky, current);
+      const exposure = 2 ** THREE.MathUtils.lerp(DAY_EXPOSURE, EVENING_EXPOSURE, current);
+      if (current !== skyAmount) {
+        skyAmount = current;
+        sky.copy(daySky).lerp(duskSky, current);
+        if (hdr) sky.fromArray(agxInverse(sky.toArray(), exposure));
+      }
       // Every light uses the source values of each scene; the probes mix the two bakes.
       irradiance.suiIrradianceEvening.value = current;
       sun.color.copy(daySun).lerp(duskSun, current);
       sun.intensity = THREE.MathUtils.lerp(3.2, 0.045, current);
       lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, current);
       for (const light of dusk) light.intensity = light.userData.candela * current;
-      renderer.toneMappingExposure = 2 ** THREE.MathUtils.lerp(DAY_EXPOSURE, EVENING_EXPOSURE, current);
+      renderer.toneMappingExposure = exposure;
     },
   };
 }

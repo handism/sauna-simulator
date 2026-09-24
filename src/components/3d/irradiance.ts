@@ -115,6 +115,7 @@ export function createIrradianceTextures(header: IrradianceHeader, buffer: Array
     return texture;
   });
   return {
+    textures,
     probes: header.grids.reduce((sum, grid) => sum + grid.resolution.reduce((a, b) => a * b), 0),
     apply(uniforms: IrradianceUniforms) {
       [uniforms.suiIrradianceRoom.value, uniforms.suiIrradianceCourtyard.value, uniforms.suiIrradianceOuter.value] =
@@ -151,8 +152,10 @@ export function applyIrradiance(root: THREE.Object3D, uniforms: IrradianceUnifor
   return materials.size;
 }
 
-// three's L2 irradiance evaluation (lightprobes_pars_fragment) over a padded sub-volume set.
-const pars = /* glsl */ `
+// three's L2 evaluation (lightprobes_pars_fragment) over a padded sub-volume set, with a weight
+// per band: (π, 2π/3, π/4) gives the irradiance of the stored radiance, (1, 1, 1) the radiance
+// itself (reflection.ts scales bands 1 and 2 by its lobe).
+export const IRRADIANCE_PARS = /* glsl */ `
 #ifdef SUI_IRRADIANCE
 uniform highp sampler3D suiIrradianceRoom;
 uniform highp sampler3D suiIrradianceCourtyard;
@@ -162,7 +165,7 @@ uniform vec3 suiIrradianceMax[ 3 ];
 uniform vec3 suiIrradianceRes[ 3 ];
 uniform float suiIrradianceEvening;
 
-vec3 suiEvaluateSH( const in highp sampler3D atlas, const in vec2 uv, const in float z, const in float first, const in float slices, const in vec3 n ) {
+vec3 suiEvaluateSH( const in highp sampler3D atlas, const in vec2 uv, const in float z, const in float first, const in float slices, const in vec3 n, const in vec3 band ) {
 	float depth = ${(TEXELS * SCENES.length).toFixed(1)} * slices;
 	vec4 s0 = textureLod( atlas, vec3( uv, ( z + first * slices ) / depth ), 0.0 );
 	vec4 s1 = textureLod( atlas, vec3( uv, ( z + ( first + 1.0 ) * slices ) / depth ), 0.0 );
@@ -171,40 +174,39 @@ vec3 suiEvaluateSH( const in highp sampler3D atlas, const in vec2 uv, const in f
 	vec4 s4 = textureLod( atlas, vec3( uv, ( z + ( first + 4.0 ) * slices ) / depth ), 0.0 );
 	vec4 s5 = textureLod( atlas, vec3( uv, ( z + ( first + 5.0 ) * slices ) / depth ), 0.0 );
 	vec4 s6 = textureLod( atlas, vec3( uv, ( z + ( first + 6.0 ) * slices ) / depth ), 0.0 );
-	vec3 result = s0.xyz * 0.886227;
-	result += vec3( s0.w, s1.xy ) * 1.023328 * n.y;
-	result += vec3( s1.zw, s2.x ) * 1.023328 * n.z;
-	result += s2.yzw * 1.023328 * n.x;
-	result += s3.xyz * 0.858086 * n.x * n.y;
-	result += vec3( s3.w, s4.xy ) * 0.858086 * n.y * n.z;
-	result += vec3( s4.zw, s5.x ) * ( 0.743125 * n.z * n.z - 0.247708 );
-	result += s5.yzw * 0.858086 * n.x * n.z;
-	result += s6.xyz * 0.429043 * ( n.x * n.x - n.y * n.y );
+	vec3 result = s0.xyz * ( 0.282095 * band.x );
+	result += ( vec3( s0.w, s1.xy ) * n.y + vec3( s1.zw, s2.x ) * n.z + s2.yzw * n.x ) * ( 0.488603 * band.y );
+	result += ( s3.xyz * ( 1.092548 * n.x * n.y ) + vec3( s3.w, s4.xy ) * ( 1.092548 * n.y * n.z ) + vec3( s4.zw, s5.x ) * ( 0.315392 * ( 3.0 * n.z * n.z - 1.0 ) ) + s5.yzw * ( 1.092548 * n.x * n.z ) + s6.xyz * ( 0.546274 * ( n.x * n.x - n.y * n.y ) ) ) * band.z;
 	return max( result, vec3( 0.0 ) );
 }
 
-vec3 suiGridIrradiance( const in highp sampler3D atlas, const in vec3 lo, const in vec3 hi, const in vec3 res, const in vec3 P, const in vec3 N ) {
-	// Sampled half a probe spacing off the surface, as three's probe grid does.
+// Sampled half a probe spacing off the surface along N, as three's probe grid does; D is the
+// direction the coefficients are evaluated in.
+vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 hi, const in vec3 res, const in vec3 P, const in vec3 N, const in vec3 D, const in vec3 band ) {
 	vec3 uvw = clamp( ( P + N * 0.5 * ( hi - lo ) / ( res - 1.0 ) - lo ) / ( hi - lo ), 0.0, 1.0 );
 	uvw = ( uvw * ( res - 1.0 ) + 0.5 ) / res;
 	float slices = res.z + 2.0;
 	float z = uvw.z * res.z + 1.0;
-	vec3 irradiance = vec3( 0.0 );
-	if ( suiIrradianceEvening < 1.0 ) irradiance += ( 1.0 - suiIrradianceEvening ) * suiEvaluateSH( atlas, uvw.xy, z, 0.0, slices, N );
-	if ( suiIrradianceEvening > 0.0 ) irradiance += suiIrradianceEvening * suiEvaluateSH( atlas, uvw.xy, z, ${TEXELS.toFixed(1)}, slices, N );
-	return irradiance;
+	vec3 result = vec3( 0.0 );
+	if ( suiIrradianceEvening < 1.0 ) result += ( 1.0 - suiIrradianceEvening ) * suiEvaluateSH( atlas, uvw.xy, z, 0.0, slices, D, band );
+	if ( suiIrradianceEvening > 0.0 ) result += suiIrradianceEvening * suiEvaluateSH( atlas, uvw.xy, z, ${TEXELS.toFixed(1)}, slices, D, band );
+	return result;
 }
 
-vec3 suiIrradiance( const in vec3 P, const in vec3 N, const in bool interior ) {
-	if ( interior ) return suiGridIrradiance( suiIrradianceRoom, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N );
+vec3 suiProbes( const in highp sampler3D room, const in highp sampler3D courtyard, const in highp sampler3D outer, const in vec3 P, const in vec3 N, const in vec3 D, const in vec3 band, const in bool interior ) {
+	if ( interior ) return suiGridSH( room, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N, D, band );
 	vec3 lo = suiIrradianceMin[ 1 ];
 	vec3 hi = suiIrradianceMax[ 1 ];
 	vec2 inside = min( P.xz - lo.xz, hi.xz - P.xz );
-	float courtyard = smoothstep( 0.0, ${COURTYARD_BLEND.toFixed(1)}, min( inside.x, inside.y ) ) * ( 1.0 - smoothstep( hi.y, hi.y + ${COURTYARD_BLEND.toFixed(1)}, P.y ) );
-	vec3 irradiance = vec3( 0.0 );
-	if ( courtyard > 0.0 ) irradiance += courtyard * suiGridIrradiance( suiIrradianceCourtyard, lo, hi, suiIrradianceRes[ 1 ], P, N );
-	if ( courtyard < 1.0 ) irradiance += ( 1.0 - courtyard ) * suiGridIrradiance( suiIrradianceOuter, suiIrradianceMin[ 2 ], suiIrradianceMax[ 2 ], suiIrradianceRes[ 2 ], P, N );
-	return irradiance;
+	float weight = smoothstep( 0.0, ${COURTYARD_BLEND.toFixed(1)}, min( inside.x, inside.y ) ) * ( 1.0 - smoothstep( hi.y, hi.y + ${COURTYARD_BLEND.toFixed(1)}, P.y ) );
+	vec3 result = vec3( 0.0 );
+	if ( weight > 0.0 ) result += weight * suiGridSH( courtyard, lo, hi, suiIrradianceRes[ 1 ], P, N, D, band );
+	if ( weight < 1.0 ) result += ( 1.0 - weight ) * suiGridSH( outer, suiIrradianceMin[ 2 ], suiIrradianceMax[ 2 ], suiIrradianceRes[ 2 ], P, N, D, band );
+	return result;
+}
+
+vec3 suiIrradiance( const in vec3 P, const in vec3 N, const in bool interior ) {
+	return suiProbes( suiIrradianceRoom, suiIrradianceCourtyard, suiIrradianceOuter, P, N, N, vec3( PI, 2.0 * PI / 3.0, PI / 4.0 ), interior );
 }
 #endif
 `;
@@ -223,7 +225,7 @@ if (!begin.includes(IRRADIANCE_LINE)) {
     !THREE.ShaderChunk.common.includes('transformNormalByInverseViewMatrix')
   )
     throw new Error('three lighting chunks changed; update irradiance.ts');
-  THREE.ShaderChunk.lights_pars_begin += pars;
+  THREE.ShaderChunk.lights_pars_begin += IRRADIANCE_PARS;
   THREE.ShaderChunk.lights_fragment_begin =
     begin.slice(0, hemi) +
     `#ifdef SUI_IRRADIANCE

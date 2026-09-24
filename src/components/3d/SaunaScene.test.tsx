@@ -14,6 +14,8 @@ vi.mock('three', async (importOriginal) => {
       domElement = document.createElement('canvas');
       shadowMap = {};
       info = { render: { triangles: 0, calls: 0 }, memory: { textures: 0, geometries: 0 } };
+      // No half-float color buffers: materials tone map themselves.
+      extensions = { has: () => false };
       setPixelRatio = vi.fn();
       getPixelRatio = () => 1;
       setSize = vi.fn();
@@ -106,8 +108,8 @@ beforeEach(() => {
     'fetch',
     vi.fn(async (url: string) => ({
       ok: true,
-      json: async () => (url.endsWith('irradiance.json') ? irradiance : definition),
-      arrayBuffer: async () => new ArrayBuffer(url.endsWith('irradiance.bin') ? irradianceBytes : 0),
+      json: async () => (/(irradiance|reflection)\.json$/.test(url) ? irradiance : definition),
+      arrayBuffer: async () => new ArrayBuffer(/(irradiance|reflection)\.bin$/.test(url) ? irradianceBytes : 0),
       url,
     })),
   );
@@ -231,6 +233,29 @@ describe('3D scene load and teardown', () => {
     const release = vi.spyOn(mask, 'dispose');
     view.unmount();
     expect(release).toHaveBeenCalledOnce();
+  });
+
+  it('replaces the glass, reflects on the lit materials and releases both probe sets on exit', async () => {
+    const loaded = model();
+    const pane = new THREE.Mesh(
+      new THREE.BoxGeometry(),
+      new THREE.MeshStandardMaterial({ name: 'Low iron architectural glass', transparent: true }),
+    );
+    loaded.scene.add(pane, new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial()));
+    mocks.parse.mockResolvedValue(loaded);
+    const view = mountScene();
+    await flush();
+    const element = view.container.querySelector('.sauna-3d-canvas') as HTMLElement;
+    expect(element.dataset.glassMeshes).toBe('1');
+    // The glass is no longer a lit material; the other standard material gets both probe sets.
+    expect(element.dataset.irradianceMaterials).toBe('1');
+    expect(element.dataset.reflectionMaterials).toBe('1');
+    expect(pane.material).toBeInstanceOf(THREE.ShaderMaterial);
+    const release = vi.spyOn(THREE.Data3DTexture.prototype, 'dispose');
+    view.unmount();
+    // Three irradiance grids and three reflection grids.
+    expect(release).toHaveBeenCalledTimes(6);
+    release.mockRestore();
   });
 
   it('aborts the other request when one asset fails', async () => {

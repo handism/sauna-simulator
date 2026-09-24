@@ -13,6 +13,9 @@ import { updateSteamPositions } from './steam';
 import { attachLookControls } from './lookControls';
 import { disposeTree, prepareModel } from './modelMaterials';
 import { applyIrradiance, createIrradianceTextures, type IrradianceHeader } from './irradiance';
+import { applyReflection, createReflectionTextures, createReflectionUniforms } from './reflection';
+import { applyGlass } from './glass';
+import { createHdrOutput, type RenderStats } from './hdrOutput';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -88,7 +91,9 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     // Same view transform as the source Cycles renders (AgX, look None; Blender's curve, agx.ts).
     renderer.toneMapping = THREE.AgXToneMapping;
     element.appendChild(renderer.domElement);
-    const lighting = createLighting(scene, renderer);
+    // Transparent surfaces blend in scene-linear light, tone mapped once (hdrOutput.ts).
+    const output = createHdrOutput(renderer);
+    const lighting = createLighting(scene, renderer, output.hdr);
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(90 * 3);
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -144,6 +149,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     renderer.domElement.addEventListener('webglcontextlost', lost);
     const look = attachLookControls(element, camera);
     let releaseIrradiance = () => {};
+    let releaseReflection = () => {};
+    const reflection = createReflectionUniforms();
     const start = performance.now();
     async function load() {
       try {
@@ -153,8 +160,10 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
             if (!r.ok) throw Error(name);
             return r;
           });
-        const [definition, binary, irradianceHeader, irradianceData]: [
+        const [definition, binary, irradianceHeader, irradianceData, reflectionHeader, reflectionData]: [
           SceneDefinition,
+          ArrayBuffer,
+          IrradianceHeader,
           ArrayBuffer,
           IrradianceHeader,
           ArrayBuffer,
@@ -163,6 +172,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           get('sauna.glb').then((r) => r.arrayBuffer()),
           get('irradiance.json').then((r) => r.json()),
           get('irradiance.bin').then((r) => r.arrayBuffer()),
+          get('reflection.json').then((r) => r.json()),
+          get('reflection.bin').then((r) => r.arrayBuffer()),
         ]);
         if (disposed || failed) return;
         // Throws on a layout mismatch before the model is parsed.
@@ -170,19 +181,24 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         releaseIrradiance = irradiance.dispose;
         irradiance.apply(lighting.irradiance);
         setData('irradianceProbes', String(irradiance.probes));
+        const reflectionProbes = createReflectionTextures(irradianceHeader, reflectionHeader, reflectionData);
+        releaseReflection = reflectionProbes.dispose;
+        reflectionProbes.apply(reflection);
         const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(binary, base);
         if (disposed || failed) {
           disposeTree(gltf.scene);
           return;
         }
         const stats = prepareModel(gltf.scene);
+        setData('glassMeshes', String(applyGlass(gltf.scene, { ...lighting.irradiance, ...reflection })));
         setData('irradianceMaterials', String(applyIrradiance(gltf.scene, lighting.irradiance)));
+        setData('reflectionMaterials', String(applyReflection(gltf.scene, reflection)));
         setData('foliageMaterials', String(stats.foliageMaterials));
         setData('noiseColorMaterials', String(stats.noiseColorMaterials));
         setData('imageRampMaterials', String(stats.imageRampMaterials));
         setData('leafClusterMaterials', String(stats.leafClusterMaterials));
         scene.add(gltf.scene);
-        const waterEffects = createWaterEffects(definition.water, scene.background as THREE.Color);
+        const waterEffects = createWaterEffects(definition.water, { ...lighting.irradiance, ...reflection });
         scene.add(waterEffects.group);
         const forward = new THREE.Vector3();
         const upVector = new THREE.Vector3();
@@ -209,9 +225,10 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           delete element.dataset.frameMeanMs;
           delete element.dataset.frameMaxMs;
         };
-        const recordRenderInfo = () => {
-          setData('drawCalls', String(renderer.info.render.calls));
-          setData('triangles', String(renderer.info.render.triangles));
+        // Counts of the scene pass, without the tone mapping pass.
+        const recordRenderInfo = ({ calls, triangles }: RenderStats) => {
+          setData('drawCalls', String(calls));
+          setData('triangles', String(triangles));
         };
         const setView = (next: AmbientEnv) => {
           const view = definition.views[next];
@@ -226,17 +243,16 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           resetMetrics();
           setData('stage', next);
           lighting.update(eveningAmount(lightingRef.current, next), 0, true);
-          renderer.render(scene, camera);
-          recordRenderInfo();
+          recordRenderInfo(output.render(scene, camera));
         };
         setViewRef.current = setView;
         setView(stageRef.current);
         steam.position.fromArray(definition.stove);
-        renderer.render(scene, camera);
+        const firstFrame = output.render(scene, camera);
         ready = true;
         clearTimeout(timeout);
         setData('loadMs', String(Math.round(performance.now() - start)));
-        recordRenderInfo();
+        recordRenderInfo(firstFrame);
         onReady();
         renderer.setAnimationLoop((now) => {
           if (document.hidden) {
@@ -262,8 +278,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
             updateSteamPositions(positions, age, reducedMotion.matches);
             geometry.attributes.position.needsUpdate = true;
           }
-          renderer.render(scene, camera);
-          recordRenderInfo();
+          recordRenderInfo(output.render(scene, camera));
           setData('textures', String(renderer.info.memory.textures));
           setData('geometries', String(renderer.info.memory.geometries));
         });
@@ -287,6 +302,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       renderer.domElement.removeEventListener('webglcontextlost', lost);
       disposeTree(scene);
       releaseIrradiance();
+      releaseReflection();
+      output.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };

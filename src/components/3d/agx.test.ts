@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { agx } from './agx';
+import { agx, agxInverse } from './agx';
 
 const encode = (c: number) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
 
@@ -16,6 +16,17 @@ describe('Blender AgX tone mapping', () => {
     }
     // Exposure scales the scene-linear input, as three's toneMappingExposure does.
     expect(agx([0.09, 0.09, 0.09], 2)).toEqual(agx([0.18, 0.18, 0.18]));
+  });
+
+  it('inverts the view for the displayed sky colors of both source scenes', () => {
+    for (const [hex, stops] of [
+      ['#4f616c', 0.15],
+      ['#283d54', 0.55],
+    ] as const) {
+      const display = new THREE.Color(hex);
+      const linear = agxInverse([display.r, display.g, display.b], 2 ** stops);
+      agx(linear, 2 ** stops).forEach((c, i) => expect(c).toBeCloseTo([display.r, display.g, display.b][i], 6));
+    }
   });
 
   it("replaces only three's AgX function of the shared chunk", () => {
