@@ -70,6 +70,31 @@ describe('SaunaRoom', () => {
     expect(screen.getByText('40%')).toBeInTheDocument();
   });
 
+  it('pours Löyly with the Space key', () => {
+    const onLoyly = vi.fn();
+    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} onLoyly={onLoyly} />);
+
+    act(() => {
+      fireEvent.keyDown(document.body, { key: ' ' });
+    });
+
+    expect(mockAudioEngine.playLoyly).toHaveBeenCalledTimes(1);
+    expect(onLoyly).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('93.0°C')).toBeInTheDocument();
+    expect(mockOnNext).not.toHaveBeenCalled();
+  });
+
+  it('ignores the Space key while the stage is fading out', () => {
+    render(
+      <div inert>
+        <SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />
+      </div>,
+    );
+
+    fireEvent.keyDown(document.body, { key: ' ' });
+    expect(mockAudioEngine.playLoyly).not.toHaveBeenCalled();
+  });
+
   it('removes every steam particle after rapid Loyly presses', () => {
     const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
     const loylyBtn = screen.getByRole('button', { name: /ロウリュ \(Löyly\)/i });
