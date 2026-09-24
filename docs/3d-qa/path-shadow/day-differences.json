@@ -1,0 +1,32 @@
+{
+  "cycles-01-day.jpg": {
+    "meanAbsoluteRgbDifference": 0.009747916666666667,
+    "changedPixelFraction": 0.003865625,
+    "identicalBytes": false
+  },
+  "cycles-02-day.jpg": {
+    "meanAbsoluteRgbDifference": 0.0011638888888888888,
+    "changedPixelFraction": 0.0008760416666666667,
+    "identicalBytes": false
+  },
+  "cycles-03-day.jpg": {
+    "meanAbsoluteRgbDifference": 0.0,
+    "changedPixelFraction": 0.0,
+    "identicalBytes": true
+  },
+  "cycles-07-day.jpg": {
+    "meanAbsoluteRgbDifference": 0.0,
+    "changedPixelFraction": 0.0,
+    "identicalBytes": true
+  },
+  "cycles-05-day.jpg": {
+    "meanAbsoluteRgbDifference": 0.0029489583333333334,
+    "changedPixelFraction": 0.0013875,
+    "identicalBytes": false
+  },
+  "cycles-04-day.jpg": {
+    "meanAbsoluteRgbDifference": 0.0035722222222222223,
+    "changedPixelFraction": 0.0016145833333333333,
+    "identicalBytes": false
+  }
+}

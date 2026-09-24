@@ -1,0 +1,235 @@
+{
+  "date": "2026-09-24",
+  "scope": "Static PCSS shadows for the three V10 path grazing lights; source disk diameter 0.28 m verified in Blender 4.5.11. Position, power, color, direction and assets unchanged.",
+  "conditions": {
+    "browser": "154.0.8037.57",
+    "viewport": {
+      "width": 1200,
+      "height": 800
+    },
+    "deviceScaleFactor": 1,
+    "quality": "standard",
+    "reducedMotion": true,
+    "captureStyle": "\n  .app-stage-container, .scene-mode-controls, .mute-btn {\n    visibility: hidden !important;\n    transition: none !important;\n  }\n",
+    "muted": true
+  },
+  "hashes": {
+    "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+    "irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+    "irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "reflection.json": "84678a513edeee0a27e3466f6344a4d4d9515408e36f1fae60aa7ee984e8a613",
+    "reflection.bin": "7dcc6244014d14e5c2e768722e81dc2231c1bd325bcc7fa4050e148046be13dd"
+  },
+  "assetsMatchBaseline": true,
+  "shadow": {
+    "countAdded": 3,
+    "near": 0.1,
+    "far": 20,
+    "fovDegrees": 144,
+    "bias": -0.0001,
+    "normalBias": 0.015,
+    "diameterMeters": 0.28,
+    "standardSize": 1024,
+    "highSize": 2048,
+    "low": "disabled and disposed",
+    "refresh": "quality changes only"
+  },
+  "cyclesMetrics": {
+    "columns": [
+      "mean |dL*|",
+      "percentile |dL*|",
+      "mean dC*",
+      "green |dC*|"
+    ],
+    "sourceBefore": [
+      1.49,
+      1.86,
+      1.41,
+      1.51
+    ],
+    "sourceAfter": [
+      1.45,
+      1.83,
+      1.4,
+      1.52
+    ],
+    "eveningBefore": [
+      1.12,
+      1.64,
+      1.22,
+      0.82
+    ],
+    "eveningAfter": [
+      0.96,
+      1.55,
+      1.21,
+      0.81
+    ]
+  },
+  "resourceDeltas": [
+    {
+      "file": "cycles-02-day.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-02-evening.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-03-day.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-03-evening.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-07-day.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-07-evening.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-01-day.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-01-evening.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-04-day.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-04-evening.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-05-day.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    },
+    {
+      "file": "cycles-05-evening.jpg",
+      "delta": {
+        "drawCalls": 0,
+        "triangles": 0,
+        "textures": 6,
+        "geometries": 0
+      }
+    }
+  ],
+  "dayDifferences": {
+    "cycles-01-day.jpg": {
+      "meanAbsoluteRgbDifference": 0.009747916666666667,
+      "changedPixelFraction": 0.003865625,
+      "identicalBytes": false
+    },
+    "cycles-02-day.jpg": {
+      "meanAbsoluteRgbDifference": 0.0011638888888888888,
+      "changedPixelFraction": 0.0008760416666666667,
+      "identicalBytes": false
+    },
+    "cycles-03-day.jpg": {
+      "meanAbsoluteRgbDifference": 0.0,
+      "changedPixelFraction": 0.0,
+      "identicalBytes": true
+    },
+    "cycles-07-day.jpg": {
+      "meanAbsoluteRgbDifference": 0.0,
+      "changedPixelFraction": 0.0,
+      "identicalBytes": true
+    },
+    "cycles-05-day.jpg": {
+      "meanAbsoluteRgbDifference": 0.0029489583333333334,
+      "changedPixelFraction": 0.0013875,
+      "identicalBytes": false
+    },
+    "cycles-04-day.jpg": {
+      "meanAbsoluteRgbDifference": 0.0035722222222222223,
+      "changedPixelFraction": 0.0016145833333333333,
+      "identicalBytes": false
+    }
+  },
+  "visualReview": "Comparison 01/05/07 evening: excess light on the path-side grass and rocks is reduced; stepping-stone highlights remain. Evening contact sheets for all stages show no obvious new broken surfaces. Broad wall brightness and diffuse excess remain.",
+  "limitations": [
+    "Center-sampled visibility approximates area lights. No shadows outside the 144 degree frustum or beyond 20 m.",
+    "Daylight is not pixel identical; shader light ordering changes when shadows are enabled, but the exact cause of the small differences is not isolated.",
+    "Steady-state draw metrics exclude shadow creation and the HDR output pass. GPU time and total memory not measured.",
+    "Mobile devices, listening and five-minute soak not run."
+  ],
+  "tests": {
+    "typecheck": "passed",
+    "unit": "30 files / 157 passed",
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed; existing >500 kB chunk warning",
+    "visual": "3 passed / 129.3 seconds",
+    "browser": {
+      "startTime": "2026-09-24T12:30:28.276Z",
+      "duration": 176301.07400000002,
+      "expected": 12,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  }
+}
