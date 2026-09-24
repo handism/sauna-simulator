@@ -47,6 +47,9 @@ from pathlib import Path
 import numpy as np
 import OpenImageIO as oiio
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from probe_sampling import fill_invalid  # shared with refill_enclosed_probes.py
+
 ROOT = Path(__file__).resolve().parents[1]
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 QUICK = '--quick' in ARGS
@@ -283,33 +286,6 @@ def composite_backface(scene):
     tree.links.new(alpha.outputs['Image'], tree.nodes.new('CompositorNodeComposite').inputs['Image'])
 
 
-def fill_invalid(values, valid, res):
-    """Replaces invalid probes by the mean of valid face neighbors, growing inward."""
-    nx, ny, nz = res
-    values = values.reshape(nz, ny, nx, -1).copy()
-    valid = valid.reshape(nz, ny, nx).copy()
-    rounds = 0
-    while not valid.all():
-        rounds += 1
-        total = np.zeros_like(values)
-        count = np.zeros(valid.shape)
-        for axis in range(3):
-            for step in (-1, 1):
-                shifted = np.roll(values * valid[..., None], step, axis=axis)
-                mask = np.roll(valid, step, axis=axis).astype(float)
-                edge = [slice(None)] * 3
-                edge[axis] = 0 if step == 1 else -1
-                shifted[tuple(edge)] = 0
-                mask[tuple(edge)] = 0
-                total += shifted
-                count += mask
-        grow = ~valid & (count > 0)
-        assert grow.any(), 'no valid probe in the grid'
-        values[grow] = total[grow] / count[grow][:, None]
-        valid |= grow
-    return values.reshape(nx * ny * nz, -1), rounds
-
-
 def inside_room(points):
     lo, hi = np.array(ROOM[0]), np.array(ROOM[1])
     return np.all((points > lo) & (points < hi), axis=1)
@@ -354,7 +330,6 @@ report = dict(mode=NAME, plain_materials=plain_materials, flipped_meshes=flipped
               panorama=[WIDTH, HEIGHT], samples=SAMPLES, quick=QUICK, grids=[], scenes={})
 coefficients = {}
 if SURFACE_SAMPLES:
-    sys.path.insert(0, str(ROOT / 'scripts'))
     from probe_sampling import ProbeSampler
     sampler = ProbeSampler(ROOT / 'public/models')
     fixture = json.loads(SURFACE_SAMPLES.read_text())

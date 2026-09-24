@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from probe_sampling import ProbeSampler, evaluate, interpolate, stencil
+from probe_sampling import ProbeSampler, backface, chebyshev, evaluate, fill_invalid, interpolate, reweight, stencil
 
 
 class ProbeSamplingTests(unittest.TestCase):
@@ -69,6 +69,49 @@ class ProbeSamplingTests(unittest.TestCase):
         np.testing.assert_allclose(sampler.sample('day', [0, 1, 0], [0, 1, 0]), 2)
         np.testing.assert_allclose(sampler.sample('day', [30, 1, 0], [0, 1, 0]), 3)
         np.testing.assert_allclose(sampler.sample('day', [8.25, 1, 0], [0, 1, 0]), 2.5)
+
+    def test_chebyshev_is_one_in_front_and_falls_off_behind(self):
+        self.assertEqual(chebyshev(.5, 1., 1.1), 1)
+        self.assertEqual(chebyshev(1., 1., 1.1), 1)
+        near, far = chebyshev(1.2, 1., 1.01), chebyshev(2., 1., 1.01)
+        self.assertGreater(1, near)
+        self.assertGreater(near, far)
+        self.assertAlmostEqual(chebyshev(2., 1., 1.01, power=1), .01 / 1.01)
+
+    def test_backface_weight_range(self):
+        n = np.array([0., 1, 0])
+        self.assertAlmostEqual(backface([0, 2, 0], np.zeros(3), n), 1.2)
+        self.assertAlmostEqual(backface([0, -2, 0], np.zeros(3), n), .2)
+        self.assertAlmostEqual(backface([2, 0, 0], np.zeros(3), n), .45)
+        self.assertAlmostEqual(backface(np.zeros(3), np.zeros(3), n), 1.2)
+
+    def test_reweight_regularization_falls_back_to_trilinear(self):
+        rows = [dict(grid='g', grid_weight=1., weight=.999, signed_rgb=[0, 0, 0], v=0.),
+                dict(grid='g', grid_weight=1., weight=.001, signed_rgb=[9, 9, 9], v=1.)]
+        np.testing.assert_allclose(reweight(rows, 'v'), 9)
+        self.assertLess(reweight(rows, 'v', .1)[0], .1)
+        for r in rows:
+            r['v'] = 1.
+        np.testing.assert_allclose(reweight(rows, 'v', .1), .009)
+        for r in rows:
+            r['v'] = 0.
+        self.assertIsNone(reweight(rows, 'v'))
+        np.testing.assert_allclose(reweight(rows, 'v', .1), .009)
+
+    def test_reweight_clamps_each_grid_then_blends(self):
+        rows = [dict(grid='a', grid_weight=.5, weight=1., signed_rgb=[-1, 2, 4], v=1.),
+                dict(grid='b', grid_weight=.5, weight=1., signed_rgb=[3, 2, 0], v=1.)]
+        np.testing.assert_allclose(reweight(rows, 'v'), [1.5, 2, 2])
+
+    def test_fill_invalid_grows_from_valid_face_neighbors(self):
+        # res (x, y, z) = (3, 1, 1): only the middle probe is invalid.
+        values = np.array([[1., 10], [99, 99], [3, 30]])
+        filled, rounds = fill_invalid(values, np.array([True, False, True]), (3, 1, 1))
+        np.testing.assert_allclose(filled, [[1, 10], [2, 20], [3, 30]])
+        self.assertEqual(rounds, 1)
+        filled, rounds = fill_invalid(np.arange(4.)[:, None], np.array([True, False, False, False]), (4, 1, 1))
+        np.testing.assert_allclose(filled[:, 0], 0)
+        self.assertEqual(rounds, 3)
 
 
 if __name__ == '__main__':
