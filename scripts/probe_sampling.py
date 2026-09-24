@@ -57,6 +57,33 @@ def stencil(resolution, coordinate):
                     yield np.minimum(lower + bits, res - 1), weight
 
 
+def fill_invalid(values, valid, res):
+    """Replaces invalid probes by the mean of valid face neighbors, growing inward."""
+    nx, ny, nz = res
+    values = values.reshape(nz, ny, nx, -1).copy()
+    valid = valid.reshape(nz, ny, nx).copy()
+    rounds = 0
+    while not valid.all():
+        rounds += 1
+        total = np.zeros_like(values)
+        count = np.zeros(valid.shape)
+        for axis in range(3):
+            for step in (-1, 1):
+                shifted = np.roll(values * valid[..., None], step, axis=axis)
+                mask = np.roll(valid, step, axis=axis).astype(float)
+                edge = [slice(None)] * 3
+                edge[axis] = 0 if step == 1 else -1
+                shifted[tuple(edge)] = 0
+                mask[tuple(edge)] = 0
+                total += shifted
+                count += mask
+        grow = ~valid & (count > 0)
+        assert grow.any(), 'no valid probe in the grid'
+        values[grow] = total[grow] / count[grow][:, None]
+        valid |= grow
+    return values.reshape(nx * ny * nz, -1), rounds
+
+
 class ProbeSampler:
     def __init__(self, directory):
         directory = Path(directory)
@@ -109,3 +136,39 @@ class ProbeSampler:
                                  index=index.tolist(), position=(lo + index * spacing).tolist(),
                                  weight=weight, signed_rgb=rgb.tolist()))
         return rows
+
+
+# Candidate corner weights for diagnostics only (irradiance.ts does not use them).
+
+def chebyshev(distance, mean, mean_square, power=3):
+    """DDGI-style visibility from the depth moments a probe sees toward the shaded point."""
+    if distance <= mean:
+        return 1.
+    variance = max(mean_square - mean * mean, 1e-6)
+    return (variance / (variance + (distance - mean) ** 2)) ** power
+
+
+def backface(probe, point, normal):
+    """DDGI's wrap weight: probes behind the surface keep 0.2 of their trilinear weight."""
+    direction = np.asarray(probe, float) - point
+    length = np.linalg.norm(direction)
+    cosine = 1. if length < 1e-9 else float(np.dot(direction / length, normal))
+    return ((cosine + 1) / 2) ** 2 + .2
+
+
+def reweight(rows, key, regularization=0.):
+    """Per grid, sum(t*v*c + eps*t*c) / (sum(t*v) + eps), clamped like the shipped sampler.
+
+    t is the trilinear weight, v = row[key] and eps the regularization: with a small visible
+    mass the result falls back to plain trilinear interpolation instead of amplifying the few
+    visible corners. Returns None when a grid has no visible mass and no regularization.
+    """
+    result = np.zeros(3)
+    for grid in sorted({r['grid'] for r in rows}):
+        subset = [r for r in rows if r['grid'] == grid]
+        mass = sum(r['weight'] * r[key] for r in subset) + regularization
+        if mass < 1e-8:
+            return None
+        value = sum(r['weight'] * (r[key] + regularization) * np.array(r['signed_rgb']) for r in subset) / mass
+        result += subset[0]['grid_weight'] * np.maximum(value, 0)
+    return result

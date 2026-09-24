@@ -23,8 +23,22 @@ cube.hide_render=False
 cube.visible_camera=False
 assert cast([-2,0,0],[2,0,0]) is None
 assert cast([0,0,0],[0,0,0]) is None
+d=runpy.run_path(str(Path(__file__).with_name('diagnose_probe_depth.py')))
+hit=lambda a,b,l:d['first_hit'](scene,graph,np.array(a),np.array(b),l)
+assert hit([-3,0,0],[1,0,0],5)==5
+cube.visible_camera=True
+assert abs(hit([-3,0,0],[1,0,0],5)-2)<1e-4
+assert hit([-3,2,0],[1,0,0],5)==5
+assert hit([-3,0,0],[1,0,0],1.5)==1.5
+cube.hide_render=True
+assert hit([-3,0,0],[1,0,0],5)==5
+cube.hide_render=False
+rays=d['lobe'](np.array([0,0,1.]))
+assert np.allclose(np.linalg.norm(rays,axis=1),1) and rays[:,2].min()>.9
+s=runpy.run_path(str(Path(__file__).with_name('survey_probe_enclosure.py')))['sphere']()
+assert np.allclose(np.linalg.norm(s,axis=1),1) and np.abs(s.mean(axis=0)).max()<.02
 rows=[dict(grid='room',grid_weight=1.,weight=.4,signed_rgb=[-1,2,3],blocker=None),dict(grid='room',grid_weight=1.,weight=.6,signed_rgb=[9,9,9],blocker={ 'object':'x'})]
 np.testing.assert_allclose(m['reweighted'](rows),[0,2,3])
 rows[0]['blocker']={'object':'x'}
 assert m['reweighted'](rows) is None
-print('PASS: six ray cases and two visibility normalization cases')
+print('PASS: six ray, two normalization, five first-hit and two direction-set cases')
