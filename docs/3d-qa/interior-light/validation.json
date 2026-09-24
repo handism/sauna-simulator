@@ -1,0 +1,387 @@
+{
+  "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "source_unchanged": true,
+  "model_sha256": {
+    "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3"
+  },
+  "model_unchanged": true,
+  "interior_sources": "Daylight and Blue hour scenes: Warm under-bench wash x2 (95 W, 4.35x0.10 m, down), Sauna ceiling soft amber (85 W, 3 m disk), Sauna wall wash (48 W, 3 m disk, 41% of it inside the room), Steam soft backlight (85 W, 0.8 m disk), V7 concealed backrest wash (16 W, 4.35x0.16 m); normalize on, spread 180 deg, visible_glossy off",
+  "cycles_area_light_radiance_check": "empty scene, white Lambertian, max_bounces 0: 3 m/85 W disk at 2 m, 1.25 m/950 W at 7 m, 4.35x0.1 m/95 W at 0.4 m match radiance P/(pi A) with ratios 1.000, 1.000, 0.976 (numeric integration)",
+  "albedo_check_camera02": "Cycles DiffCol pass vs browser capture under ambient pi: room cells 0.97-1.08",
+  "isolation_camera02_direct": {
+    "method": "Cycles SUI Daylight, one interior light, world 0, max_bounces 0, 25% 64 samples denoised, linear EXR; browser same light only, NoToneMapping; sums over room pixels (Cycles position pass inside the room)",
+    "cycles_over_unoccluded_analytic_median": {
+      "under-bench upper": 0.3,
+      "under-bench lower": 0.5,
+      "ceiling": 0.93,
+      "wall wash (full disk)": 0.49,
+      "steam backlight": 0.81,
+      "backrest wash": 0.32
+    },
+    "browser_over_analytic_median": {
+      "three sphere form factor": {
+        "ceiling": 1.12,
+        "backrest": 1.36
+      },
+      "clipped exact form factor": {
+        "ceiling": 1.04,
+        "backrest": 1.11
+      }
+    },
+    "visible_share_cycles_over_browser_sum": {
+      "Warm under-bench wash": 0.64,
+      "Warm under-bench wash.001": 0.63,
+      "Sauna ceiling soft amber": 0.82,
+      "Sauna wall wash": 0.94,
+      "Steam soft backlight": 0.74,
+      "V7 concealed backrest wash": 0.76
+    },
+    "clipped_form_factor_python_mirror_vs_numeric": "relative error < 0.05% over 300 random rectangles and receivers"
+  },
+  "exterior_light_in_room_linear_mean": {
+    "cycles_all_but_interior_gi": 0.0085,
+    "browser_hemisphere_0.6_share_1": 0.0077,
+    "browser_share_0": 0.0002,
+    "note": "sky share 0.83 x hemisphere 0.8 keeps the absolute 0.66"
+  },
+  "agx": {
+    "finding": "three 0.186 AgXToneMapping vs Blender 4.5 AgX (OCIO 2.4.1) on the same linear Cycles camera 02 image: +4.01 L* mean (+5.7 at Blender L* 30-40); grey 0.18 -> 0.501 vs 0.461",
+    "fit": "scripts/fit_blender_agx.py, 204,000 OCIO samples: held-out display error mean 0.00105, p99 0.0127, max 0.088 (three AgX: 0.00956 / 0.0399 / 0.194); greys within 0.0027",
+    "fit_on_camera02_image": "mean dL* +0.003, mean |dL*| 0.09, p99 0.52",
+    "browser_glsl_vs_model": "camera 02 capture under ambient pi, opaque room pixels: mean -0.21/255, mean abs 0.69/255 (glass areas differ because transparent objects are tone mapped before blending)"
+  },
+  "candidates": {
+    "base (HEAD: three AgX, point light 10, hemisphere 0.6/0.45)": {
+      "source": {
+        "distribution": 2.61,
+        "mean_abs_dL": 1.17,
+        "dC": -0.02
+      },
+      "evening": {
+        "distribution": 2.9,
+        "mean_abs_dL": 1.33,
+        "dC": 1.18
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 7.99,
+        "cycles-02-evening": 9.04,
+        "cycles-03-day": 3.5,
+        "cycles-03-evening": 5.25
+      },
+      "camera02_day_L": [
+        29.0,
+        29.6
+      ]
+    },
+    "three AgX; area lights at source power, sky share 0.35": {
+      "source": {
+        "distribution": 3.32,
+        "mean_abs_dL": 1.95,
+        "dC": 0.25
+      },
+      "evening": {
+        "distribution": 3.31,
+        "mean_abs_dL": 2.38,
+        "dC": 1.03
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 6.54,
+        "cycles-02-evening": 7.26,
+        "cycles-03-day": 5.26,
+        "cycles-03-evening": 7.38
+      },
+      "camera02_day_L": [
+        29.0,
+        35.5
+      ]
+    },
+    "three AgX; area lights x0.6, sky share 0.35": {
+      "source": {
+        "distribution": 2.48,
+        "mean_abs_dL": 1.29,
+        "dC": -0.2
+      },
+      "evening": {
+        "distribution": 2.73,
+        "mean_abs_dL": 1.77,
+        "dC": 0.68
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 3.11,
+        "cycles-02-evening": 3.1,
+        "cycles-03-day": 4.44,
+        "cycles-03-evening": 6.65
+      },
+      "camera02_day_L": [
+        29.0,
+        30.5
+      ]
+    },
+    "three AgX; wall wash clipped, x0.6, sky 0.35": {
+      "source": {
+        "distribution": 2.47,
+        "mean_abs_dL": 1.22,
+        "dC": -0.32
+      },
+      "evening": {
+        "distribution": 2.83,
+        "mean_abs_dL": 1.85,
+        "dC": 0.54
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.8,
+        "cycles-02-evening": 2.8,
+        "cycles-03-day": 4.32,
+        "cycles-03-evening": 6.67
+      },
+      "camera02_day_L": [
+        29.0,
+        29.9
+      ]
+    },
+    "three AgX; per-light visible share, sky 0": {
+      "source": {
+        "distribution": 2.65,
+        "mean_abs_dL": 1.36,
+        "dC": -0.12
+      },
+      "evening": {
+        "distribution": 2.69,
+        "mean_abs_dL": 1.81,
+        "dC": 0.67
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 3.44,
+        "cycles-02-evening": 3.87,
+        "cycles-03-day": 4.44,
+        "cycles-03-evening": 6.22
+      },
+      "camera02_day_L": [
+        29.0,
+        30.9
+      ]
+    },
+    "three AgX; per-light visible share, sky 0.35": {
+      "source": {
+        "distribution": 2.68,
+        "mean_abs_dL": 1.45,
+        "dC": -0.07
+      },
+      "evening": {
+        "distribution": 2.83,
+        "mean_abs_dL": 1.88,
+        "dC": 0.65
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 3.86,
+        "cycles-02-evening": 4.06,
+        "cycles-03-day": 4.55,
+        "cycles-03-evening": 6.38
+      },
+      "camera02_day_L": [
+        29.0,
+        31.6
+      ]
+    },
+    "three AgX; per-light visible share, sky 1": {
+      "source": {
+        "distribution": 2.95,
+        "mean_abs_dL": 1.55,
+        "dC": -0.03
+      },
+      "evening": {
+        "distribution": 3.0,
+        "mean_abs_dL": 1.97,
+        "dC": 0.63
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 4.64,
+        "cycles-02-evening": 4.42,
+        "cycles-03-day": 4.74,
+        "cycles-03-evening": 6.6
+      },
+      "camera02_day_L": [
+        29.0,
+        32.9
+      ]
+    },
+    "Blender AgX; hemisphere 0.6/0.45, sky abs 0.66": {
+      "source": {
+        "distribution": 3.05,
+        "mean_abs_dL": 1.72,
+        "dC": 0.28
+      },
+      "evening": {
+        "distribution": 3.74,
+        "mean_abs_dL": 2.73,
+        "dC": 0.22
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.36,
+        "cycles-02-evening": 2.77,
+        "cycles-03-day": 5.5,
+        "cycles-03-evening": 7.51
+      },
+      "camera02_day_L": [
+        29.0,
+        29.8
+      ]
+    },
+    "Blender AgX; hemisphere 0.8/0.6": {
+      "source": {
+        "distribution": 2.93,
+        "mean_abs_dL": 0.97,
+        "dC": 0.46
+      },
+      "evening": {
+        "distribution": 3.48,
+        "mean_abs_dL": 1.58,
+        "dC": 0.51
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.51,
+        "cycles-02-evening": 2.64,
+        "cycles-03-day": 5.12,
+        "cycles-03-evening": 6.3
+      },
+      "camera02_day_L": [
+        29.0,
+        30.1
+      ]
+    },
+    "Blender AgX; hemisphere 1.0/0.75": {
+      "source": {
+        "distribution": 2.97,
+        "mean_abs_dL": 1.33,
+        "dC": 0.71
+      },
+      "evening": {
+        "distribution": 3.61,
+        "mean_abs_dL": 1.29,
+        "dC": 0.79
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.67,
+        "cycles-02-evening": 2.54,
+        "cycles-03-day": 4.84,
+        "cycles-03-evening": 5.4
+      },
+      "camera02_day_L": [
+        29.0,
+        30.3
+      ]
+    },
+    "Blender AgX; hemisphere 1.2/0.9": {
+      "source": {
+        "distribution": 3.22,
+        "mean_abs_dL": 1.73,
+        "dC": 0.86
+      },
+      "evening": {
+        "distribution": 3.96,
+        "mean_abs_dL": 1.66,
+        "dC": 1.08
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.83,
+        "cycles-02-evening": 2.7,
+        "cycles-03-day": 4.63,
+        "cycles-03-evening": 4.66
+      },
+      "camera02_day_L": [
+        29.0,
+        30.6
+      ]
+    },
+    "Blender AgX; hemisphere 0.8/0.7": {
+      "source": {
+        "distribution": 2.96,
+        "mean_abs_dL": 1.16,
+        "dC": 0.56
+      },
+      "evening": {
+        "distribution": 3.56,
+        "mean_abs_dL": 1.23,
+        "dC": 0.69
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.51,
+        "cycles-02-evening": 2.62,
+        "cycles-03-day": 5.13,
+        "cycles-03-evening": 5.72
+      },
+      "camera02_day_L": [
+        29.0,
+        30.1
+      ]
+    },
+    "Blender AgX; hemisphere 0.9/0.7": {
+      "source": {
+        "distribution": 2.94,
+        "mean_abs_dL": 1.15,
+        "dC": 0.61
+      },
+      "evening": {
+        "distribution": 3.52,
+        "mean_abs_dL": 1.2,
+        "dC": 0.71
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.59,
+        "cycles-02-evening": 2.58,
+        "cycles-03-day": 4.97,
+        "cycles-03-evening": 5.64
+      },
+      "camera02_day_L": [
+        29.0,
+        30.2
+      ]
+    },
+    "adopted: Blender AgX; hemisphere 0.8/0.65, sky share 0.83 (candidate build)": {
+      "source": {
+        "distribution": 2.94,
+        "mean_abs_dL": 1.06,
+        "dC": 0.5
+      },
+      "evening": {
+        "distribution": 3.49,
+        "mean_abs_dL": 1.38,
+        "dC": 0.6
+      },
+      "grid_6x4_mean_abs_dL": {
+        "cycles-02-day": 2.51,
+        "cycles-02-evening": 2.62,
+        "cycles-03-day": 5.13,
+        "cycles-03-evening": 5.96
+      },
+      "camera02_day_L": [
+        29.0,
+        30.1
+      ]
+    }
+  },
+  "final_build": {
+    "source": {
+      "distribution": 2.94,
+      "mean_abs_dL": 1.09,
+      "dC": 0.53
+    },
+    "evening": {
+      "distribution": 3.54,
+      "mean_abs_dL": 1.36,
+      "dC": 0.6
+    },
+    "grid_6x4_mean_abs_dL": {
+      "cycles-02-day": 2.51,
+      "cycles-02-evening": 2.62,
+      "cycles-03-day": 5.13,
+      "cycles-03-evening": 6.0
+    },
+    "camera02_day_L": [
+      29.0,
+      30.1
+    ]
+  },
+  "survey": "144 views: draw calls, triangles, textures and geometries identical to material-roughness in every view"
+}
