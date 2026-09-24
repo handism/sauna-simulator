@@ -1,0 +1,237 @@
+{
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "blender": "4.5.11 LTS",
+  "script_sha256": "93f7bfca3a0888d7ab78216628c8aad6d6fec15bf3c59da10841f4bf69266bc2",
+  "scene_definition_sha256": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+  "wave_shader_sha256": "83d2ea56ed5599068ba6477465f079ce46d87634b5813a48ec76014edb047492",
+  "camera": "03 \u2022 Water / cold plunge",
+  "resolution": [
+    420,
+    280
+  ],
+  "visible_water_samples": 10058,
+  "coordinates": "Blender Z-up, meters",
+  "water_bounds": [
+    [
+      -0.1550000011920929,
+      0.9049999713897705,
+      0.2150000035762787
+    ],
+    [
+      2.515000104904175,
+      4.09499979019165,
+      0.7714451551437378
+    ]
+  ],
+  "flat_level": 0.765,
+  "smooth_water_faces": 15005,
+  "labels": [
+    "bottom",
+    "side_tir",
+    "side_transmit",
+    "other",
+    "miss"
+  ],
+  "results": {
+    "original": {
+      "counts": {
+        "bottom": 7751,
+        "side_tir": 1726,
+        "side_transmit": 581,
+        "other": 0,
+        "miss": 0
+      },
+      "agreement": 1.0,
+      "tir_iou": 1.0,
+      "confusion_actual_rows_candidate_columns": [
+        [
+          7751,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1726,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          581,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "box_same_ray": {
+      "counts": {
+        "bottom": 7751,
+        "side_tir": 1726,
+        "side_transmit": 581,
+        "other": 0,
+        "miss": 0
+      },
+      "agreement": 1.0,
+      "tir_iou": 1.0,
+      "confusion_actual_rows_candidate_columns": [
+        [
+          7751,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1726,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          581,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "flat_box": {
+      "counts": {
+        "bottom": 7757,
+        "side_tir": 1796,
+        "side_transmit": 498,
+        "other": 0,
+        "miss": 7
+      },
+      "agreement": 0.9765360906740903,
+      "tir_iou": 0.8894849785407726,
+      "confusion_actual_rows_candidate_columns": [
+        [
+          7720,
+          28,
+          3,
+          0,
+          0
+        ],
+        [
+          13,
+          1658,
+          51,
+          0,
+          4
+        ],
+        [
+          24,
+          110,
+          444,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "wave_box": {
+      "counts": {
+        "bottom": 7752,
+        "side_tir": 1755,
+        "side_transmit": 544,
+        "other": 0,
+        "miss": 7
+      },
+      "agreement": 0.9909524756412805,
+      "tir_iou": 0.9578177727784027,
+      "confusion_actual_rows_candidate_columns": [
+        [
+          7737,
+          8,
+          6,
+          0,
+          0
+        ],
+        [
+          8,
+          1703,
+          11,
+          0,
+          4
+        ],
+        [
+          7,
+          44,
+          527,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  "limitations": [
+    "Viewport evaluated geometry; render-hidden and camera-invisible blockers skipped; transparent blockers treated opaque.",
+    "Geometric face normals, not interpolated shading normals or material bump; this is not a Cycles ray oracle.",
+    "First water exit only; no radiance, wall hits, or subsequent bounces.",
+    "Original visible top-surface mask is shared; silhouette error is excluded.",
+    "Box bounds come from evaluated source geometry, not the wider WATER_BOX lighting region.",
+    "One fixed camera and original static waves; no temporal or browser validation."
+  ]
+}

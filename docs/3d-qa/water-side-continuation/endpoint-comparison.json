@@ -1,0 +1,50 @@
+{
+  "all": {
+    "count": 10058,
+    "same_terminal": 10049,
+    "same_material_with_hits": 9769,
+    "both_hit_count": 10049,
+    "endpoint_distance_m_percentiles_50_90_99_max": [
+      0.0011774522702999658,
+      0.006693206939656941,
+      0.187985394091058,
+      1.4334512804136534
+    ]
+  },
+  "side_tir": {
+    "count": 1726,
+    "same_terminal": 1720,
+    "same_material_with_hits": 1662,
+    "both_hit_count": 1720,
+    "endpoint_distance_m_percentiles_50_90_99_max": [
+      0.0014071180176964781,
+      0.011758175971345397,
+      0.2590865762319146,
+      1.4334512804136534
+    ]
+  },
+  "side_transmit": {
+    "count": 581,
+    "same_terminal": 578,
+    "same_material_with_hits": 517,
+    "both_hit_count": 578,
+    "endpoint_distance_m_percentiles_50_90_99_max": [
+      0.003446465961614251,
+      0.059987668755992,
+      0.6469348213946798,
+      0.7224667018769723
+    ]
+  },
+  "bottom": {
+    "count": 7751,
+    "same_terminal": 7751,
+    "same_material_with_hits": 7590,
+    "both_hit_count": 7751,
+    "endpoint_distance_m_percentiles_50_90_99_max": [
+      0.0010851541696239163,
+      0.0047867785319282916,
+      0.0246045641220764,
+      0.771233100818326
+    ]
+  }
+}
