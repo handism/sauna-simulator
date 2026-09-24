@@ -32,6 +32,9 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   await expect(scene).toHaveAttribute('data-noise-color-materials', /^[1-9]\d*$/);
   // Stone, linen and timber colors come from image-luminance ramps; without them the raw texture hues show.
   await expect(scene).toHaveAttribute('data-image-ramp-materials', /^[1-9]\d*$/);
+  // Sky and bounce light come from the baked probes; without them the scene has no ambient light.
+  await expect(scene).toHaveAttribute('data-irradiance-materials', /^[1-9]\d*$/);
+  await expect(scene).toHaveAttribute('data-irradiance-probes', /^[1-9]\d*$/);
   await expect(aurora).toBeHidden();
   const canvas = scene.locator('canvas');
   const original = await canvas.elementHandle();

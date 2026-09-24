@@ -157,7 +157,7 @@ export function patchNoiseColorShader(shader: { vertexShader: string; fragmentSh
     .replace(COLOR_INCLUDE, `${COLOR_INCLUDE}${FRAGMENT_COLOR}`);
 }
 
-// Composes with an earlier onBeforeCompile (fern foliage transmission).
+// Composes with an earlier onBeforeCompile.
 export function applyNoiseColor(material: THREE.MeshStandardMaterial, noise: NoiseColor) {
   const stops = rampUniform(noise.stops);
   const previous = material.onBeforeCompile;

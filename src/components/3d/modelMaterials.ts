@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { applyFoliageTransmission, isFoliageMaterial } from './foliage';
+import { applyFoliage, isFoliageMaterial } from './foliage';
 import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
 import { applyImageRamp, imageRampOf, type ImageRamp } from './imageRamp';
 import { applyNoiseColor, noiseColorOf, type NoiseColor } from './noiseColor';
@@ -65,7 +65,7 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
     // Drawing both creates a milky double layer when the viewer sits in the pool.
     if (materials.every((material) => material.name === 'V4 | clear spring water')) object.visible = false;
   });
-  foliage.forEach(applyFoliageTransmission);
+  foliage.forEach(applyFoliage);
   noiseColors.forEach((noise, material) => applyNoiseColor(material, noise));
   imageRamps.forEach((ramp, material) => applyImageRamp(material, ramp));
   return {

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { applyFoliageTransmission, isFoliageMaterial, patchFoliageShader } from './foliage';
+import { applyFoliage, isFoliageMaterial } from './foliage';
 
 const named = (name: string) => Object.assign(new THREE.MeshStandardMaterial(), { name });
 
-describe('foliage transmission', () => {
+describe('foliage', () => {
   it('selects standing leaves but not ground cover, bark or other surfaces', () => {
     for (const name of [
       'V5 forest leaf 2',
@@ -27,22 +27,13 @@ describe('foliage transmission', () => {
     expect(isFoliageMaterial(Object.assign(new THREE.MeshBasicMaterial(), { name: 'V5 forest leaf 0' }))).toBe(false);
   });
 
-  it('adds far-face direct and hemisphere light to the installed physical shader', () => {
-    const shader = patchFoliageShader(THREE.ShaderLib.physical.fragmentShader);
-    expect(shader).toContain('#define RE_Direct RE_Direct_Foliage');
-    expect(shader).toContain('saturate( - dot( geometryNormal, directLight.direction ) )');
-    expect(shader).toContain('getHemisphereLightIrradiance( hemisphereLights[ i ], - geometryNormal )');
-    expect(shader).not.toContain('#include <lights_fragment_begin>');
-    expect(() => patchFoliageShader('void main() {}')).toThrow();
-  });
-
-  it('keeps a separate double-sided program for foliage', () => {
+  it('shades both faces without passing light to the far face', () => {
     const material = named('V5 forest leaf 0');
     const version = material.version;
-    applyFoliageTransmission(material);
+    applyFoliage(material);
     expect(material.side).toBe(THREE.DoubleSide);
-    expect(material.customProgramCacheKey()).toBe('foliage-transmission');
     expect(material.version).toBeGreaterThan(version);
-    expect(named('Tree bark').customProgramCacheKey()).not.toBe('foliage-transmission');
+    // The standard program is kept: no far-face light, no separate shader.
+    expect(material.customProgramCacheKey()).toBe(named('Tree bark').customProgramCacheKey());
   });
 });

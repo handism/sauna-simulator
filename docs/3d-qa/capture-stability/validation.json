@@ -1,0 +1,124 @@
+{
+  "browser": "154.0.8037.57",
+  "viewport": {
+    "width": 1200,
+    "height": 800
+  },
+  "reducedMotion": true,
+  "captureStyle": "\n  .app-stage-container, .scene-mode-controls, .mute-btn {\n    visibility: hidden !important;\n    transition: none !important;\n  }\n",
+  "samples": [
+    {
+      "render": "03.png",
+      "lighting": "day",
+      "run": 0,
+      "raw": [
+        "c7447fc4a73d093ae773e1c21f956c4caf28fb556b5daf63f3368b7fa88bf604",
+        "383c6e23c9133640615b4a6667b32a91a940f91fea31463083c3005c06237783"
+      ],
+      "clean": [
+        "c6d8e2a9d0af94f3ae21fc0b6bffc13ccab1325113497d7bc23e723b7a240dc2",
+        "c6d8e2a9d0af94f3ae21fc0b6bffc13ccab1325113497d7bc23e723b7a240dc2"
+      ]
+    },
+    {
+      "render": "03.png",
+      "lighting": "evening",
+      "run": 0,
+      "raw": [
+        "0de7109c9220a1d33b16a94adcc8de568a675bbe1352889ee04d9f9a88a943cd",
+        "4b7e1feb6bba755d3271fc81a81a9870ebb33143917653554c7e9190059d1a9e"
+      ],
+      "clean": [
+        "6cb21cc9655bebeef1472a6aafbc96f94314ec1def77f02fc3f00bceb65b7950",
+        "6cb21cc9655bebeef1472a6aafbc96f94314ec1def77f02fc3f00bceb65b7950"
+      ]
+    },
+    {
+      "render": "04.png",
+      "lighting": "day",
+      "run": 0,
+      "raw": [
+        "9262e0f08d2828c658e3b575bdf80c32e415a5907d4847a54953a3e1e93dee5e",
+        "998a6248ddae3fed1fc585d44f57ba887a91e041320377292672b4615aa0f2f4"
+      ],
+      "clean": [
+        "cc19b49e673672b9f34884a35cd46f0b4dccf65d29b1ab1b64dcc03abc63093a",
+        "cc19b49e673672b9f34884a35cd46f0b4dccf65d29b1ab1b64dcc03abc63093a"
+      ]
+    },
+    {
+      "render": "04.png",
+      "lighting": "evening",
+      "run": 0,
+      "raw": [
+        "de274427a42cec84236fb158881e61d21bc9f3846b4f31128cdb004bcd91d1f3",
+        "9968cb7ddcd8ca72acb39f1b5d6b66199d14aa90bf19e1ed7d73bc6bdb2f2b38"
+      ],
+      "clean": [
+        "9f4ecdfe3c35b7190c57cc14d0ecfc5aa067a36b3d69d4fb9ffc829e4564e74d",
+        "9f4ecdfe3c35b7190c57cc14d0ecfc5aa067a36b3d69d4fb9ffc829e4564e74d"
+      ]
+    },
+    {
+      "render": "03.png",
+      "lighting": "day",
+      "run": 1,
+      "raw": [
+        "c7447fc4a73d093ae773e1c21f956c4caf28fb556b5daf63f3368b7fa88bf604",
+        "383c6e23c9133640615b4a6667b32a91a940f91fea31463083c3005c06237783"
+      ],
+      "clean": [
+        "c6d8e2a9d0af94f3ae21fc0b6bffc13ccab1325113497d7bc23e723b7a240dc2",
+        "c6d8e2a9d0af94f3ae21fc0b6bffc13ccab1325113497d7bc23e723b7a240dc2"
+      ]
+    },
+    {
+      "render": "03.png",
+      "lighting": "evening",
+      "run": 1,
+      "raw": [
+        "1be5f688f9e98340587cc2f11dcae7014e56b4492781098a57d49fc172b21cd9",
+        "f923b8a27e8120e785f5bf99a53ef4abd606702bdf1dae16d2e575eacfc038d9"
+      ],
+      "clean": [
+        "6cb21cc9655bebeef1472a6aafbc96f94314ec1def77f02fc3f00bceb65b7950",
+        "6cb21cc9655bebeef1472a6aafbc96f94314ec1def77f02fc3f00bceb65b7950"
+      ]
+    },
+    {
+      "render": "04.png",
+      "lighting": "day",
+      "run": 1,
+      "raw": [
+        "9262e0f08d2828c658e3b575bdf80c32e415a5907d4847a54953a3e1e93dee5e",
+        "998a6248ddae3fed1fc585d44f57ba887a91e041320377292672b4615aa0f2f4"
+      ],
+      "clean": [
+        "cc19b49e673672b9f34884a35cd46f0b4dccf65d29b1ab1b64dcc03abc63093a",
+        "cc19b49e673672b9f34884a35cd46f0b4dccf65d29b1ab1b64dcc03abc63093a"
+      ]
+    },
+    {
+      "render": "04.png",
+      "lighting": "evening",
+      "run": 1,
+      "raw": [
+        "de274427a42cec84236fb158881e61d21bc9f3846b4f31128cdb004bcd91d1f3",
+        "9968cb7ddcd8ca72acb39f1b5d6b66199d14aa90bf19e1ed7d73bc6bdb2f2b38"
+      ],
+      "clean": [
+        "9f4ecdfe3c35b7190c57cc14d0ecfc5aa067a36b3d69d4fb9ffc829e4564e74d",
+        "9f4ecdfe3c35b7190c57cc14d0ecfc5aa067a36b3d69d4fb9ffc829e4564e74d"
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-24T06:44:14.046Z",
+    "duration": 47542.132,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

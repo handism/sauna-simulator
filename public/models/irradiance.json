@@ -1,0 +1,77 @@
+{
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "format": "float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear irradiance-ready radiance)",
+  "scenes": [
+    "day",
+    "evening"
+  ],
+  "grids": [
+    {
+      "name": "room",
+      "min": [
+        -5.9,
+        0.25,
+        -4.34
+      ],
+      "max": [
+        -0.75,
+        3.11,
+        -0.5
+      ],
+      "resolution": [
+        11,
+        7,
+        9
+      ],
+      "offset": {
+        "day": 0,
+        "evening": 18711
+      }
+    },
+    {
+      "name": "courtyard",
+      "min": [
+        -9.0,
+        0.25,
+        -8.0
+      ],
+      "max": [
+        9.0,
+        4.25,
+        16.0
+      ],
+      "resolution": [
+        19,
+        5,
+        25
+      ],
+      "offset": {
+        "day": 37422,
+        "evening": 101547
+      }
+    },
+    {
+      "name": "outer",
+      "min": [
+        -30.0,
+        0.25,
+        -30.0
+      ],
+      "max": [
+        30.0,
+        9.25,
+        30.0
+      ],
+      "resolution": [
+        21,
+        4,
+        21
+      ],
+      "offset": {
+        "day": 165672,
+        "evening": 213300
+      }
+    }
+  ],
+  "bin_sha256": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412"
+}

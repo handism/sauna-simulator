@@ -1,0 +1,586 @@
+{
+  "date": "2026-09-24",
+  "scope": "Shader-only lighting fixes found by per-light linear isolation: the sun draws no specular (source sun is invisible to glossy rays), the shadow normal offset of double-sided faces points to the viewer side, and spot lights use the exact cosine falloff. No asset, intensity or light position changes.",
+  "conditions": "Chrome 154.0.8037.57 headless, macOS, localhost production build, 1200x800 (Cycles cameras) / 1280x800 (survey), DPR 1, standard quality, reduced motion, muted, DOM stage effects excluded for the Cycles cameras.",
+  "hashes": {
+    "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+    "irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+    "irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "input_blend": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af (unchanged after the isolation renders)"
+  },
+  "source_light_visibility": "Blender: Late afternoon sunlight (Daylight 3.2, Blue hour 0.045) and the six sauna interior lights have visible_glossy False; V9 and the V10 dusk accents have it True.",
+  "linear_isolation": {
+    "method": "Cycles 25%, 96 spp denoised, 32-bit EXR per light group: only that group renders, world strength 0, emission 0, diffuse/glossy bounces 0 with transmission bounces 8 (camera rays pass glass and water), film transparent masks the sky. Browser: temporary build flag in a scratch copy (not in the repository) that keeps only the group, zeroes probes and emission, blacks the sky and uses LinearToneMapping with gain 1 (day) / 8 (evening). Ratio = browser/Cycles luminance mean over non-sky pixels; cell_median = median over a 12x8 grid of cells with Cycles light.",
+    "variants": {
+      "sun": "before",
+      "sun-nogloss": "sun without specular",
+      "sun-facing": "plus facing-side shadow offset (final)",
+      "*-facing": "facing-side shadow offset",
+      "*-cos": "facing-side offset and cosine spot falloff (final for spot lights)"
+    },
+    "groups": {
+      "day/sun": {
+        "sun": {
+          "01": {
+            "ratio": 1.25,
+            "cell_median": 1.27
+          },
+          "02": {
+            "ratio": 2.24,
+            "cell_median": 2.39
+          },
+          "03": {
+            "ratio": 1.03,
+            "cell_median": 1.05
+          },
+          "04": {
+            "ratio": 1.04,
+            "cell_median": 1.08
+          },
+          "05": {
+            "ratio": 1.33,
+            "cell_median": 1.32
+          },
+          "07": {
+            "ratio": 2.19,
+            "cell_median": 1.87
+          }
+        },
+        "sun-nogloss": {
+          "01": {
+            "ratio": 1.07,
+            "cell_median": 1.05
+          },
+          "02": {
+            "ratio": 2.13,
+            "cell_median": 2.18
+          },
+          "03": {
+            "ratio": 0.95,
+            "cell_median": 0.97
+          },
+          "04": {
+            "ratio": 0.98,
+            "cell_median": 1.01
+          },
+          "05": {
+            "ratio": 1.16,
+            "cell_median": 1.12
+          },
+          "07": {
+            "ratio": 0.83,
+            "cell_median": 0.94
+          }
+        },
+        "sun-facing": {
+          "01": {
+            "ratio": 1.08,
+            "cell_median": 1.08
+          },
+          "02": {
+            "ratio": 2.14,
+            "cell_median": 2.18
+          },
+          "03": {
+            "ratio": 0.95,
+            "cell_median": 0.97
+          },
+          "04": {
+            "ratio": 0.98,
+            "cell_median": 1.01
+          },
+          "05": {
+            "ratio": 1.17,
+            "cell_median": 1.15
+          },
+          "07": {
+            "ratio": 1.01,
+            "cell_median": 1.02
+          }
+        }
+      },
+      "day/v9": {
+        "v9": {
+          "01": {
+            "ratio": 1.06,
+            "cell_median": 1.04
+          },
+          "02": {
+            "ratio": 0.79,
+            "cell_median": 0.77
+          },
+          "03": {
+            "ratio": 1.25,
+            "cell_median": 1.21
+          },
+          "04": {
+            "ratio": 1.05,
+            "cell_median": 1.04
+          },
+          "05": {
+            "ratio": 1.12,
+            "cell_median": 1.1
+          },
+          "07": {
+            "ratio": 1.08,
+            "cell_median": 1.04
+          }
+        },
+        "v9-facing": {
+          "01": {
+            "ratio": 1.06,
+            "cell_median": 1.05
+          },
+          "02": {
+            "ratio": 0.79,
+            "cell_median": 0.77
+          },
+          "03": {
+            "ratio": 1.25,
+            "cell_median": 1.21
+          },
+          "04": {
+            "ratio": 1.04,
+            "cell_median": 1.04
+          },
+          "05": {
+            "ratio": 1.12,
+            "cell_median": 1.11
+          },
+          "07": {
+            "ratio": 1.06,
+            "cell_median": 1.04
+          }
+        },
+        "v9-cos": {
+          "01": {
+            "ratio": 1.02,
+            "cell_median": 1.01
+          },
+          "02": {
+            "ratio": 0.73,
+            "cell_median": 0.73
+          },
+          "03": {
+            "ratio": 1.15,
+            "cell_median": 1.1
+          },
+          "04": {
+            "ratio": 0.98,
+            "cell_median": 0.96
+          },
+          "05": {
+            "ratio": 1.04,
+            "cell_median": 1.03
+          },
+          "07": {
+            "ratio": 1.0,
+            "cell_median": 1.03
+          }
+        }
+      },
+      "day/interior": {
+        "interior": {
+          "01": {
+            "ratio": 0.72,
+            "cell_median": 0.57
+          },
+          "02": {
+            "ratio": 1.07,
+            "cell_median": 1.07
+          },
+          "03": {
+            "ratio": 0.65,
+            "cell_median": 0.63
+          },
+          "04": {
+            "ratio": 0.72,
+            "cell_median": 0.69
+          },
+          "05": {
+            "ratio": 0.7,
+            "cell_median": 0.65
+          },
+          "07": {
+            "ratio": 0.09,
+            "cell_median": 0.0
+          }
+        }
+      },
+      "evening/sun": {
+        "sun": {
+          "01": {
+            "ratio": 1.29,
+            "cell_median": 1.3
+          },
+          "02": {
+            "ratio": 2.44,
+            "cell_median": 2.99
+          },
+          "03": {
+            "ratio": 0.36,
+            "cell_median": 0.99
+          },
+          "04": {
+            "ratio": 1.03,
+            "cell_median": 1.08
+          },
+          "05": {
+            "ratio": 1.4,
+            "cell_median": 1.34
+          },
+          "07": {
+            "ratio": 2.23,
+            "cell_median": 1.87
+          }
+        },
+        "sun-nogloss": {
+          "01": {
+            "ratio": 1.1,
+            "cell_median": 1.06
+          },
+          "02": {
+            "ratio": 2.34,
+            "cell_median": 2.67
+          },
+          "03": {
+            "ratio": 0.33,
+            "cell_median": 0.9
+          },
+          "04": {
+            "ratio": 0.96,
+            "cell_median": 1.0
+          },
+          "05": {
+            "ratio": 1.22,
+            "cell_median": 1.1
+          },
+          "07": {
+            "ratio": 0.82,
+            "cell_median": 0.93
+          }
+        }
+      },
+      "evening/interior": {
+        "interior": {
+          "01": {
+            "ratio": 0.55,
+            "cell_median": 0.46
+          },
+          "02": {
+            "ratio": 0.87,
+            "cell_median": 0.93
+          },
+          "03": {
+            "ratio": 0.54,
+            "cell_median": 0.42
+          },
+          "04": {
+            "ratio": 0.6,
+            "cell_median": 0.59
+          },
+          "05": {
+            "ratio": 0.59,
+            "cell_median": 0.57
+          },
+          "07": {
+            "ratio": 0.01,
+            "cell_median": 0.0
+          }
+        }
+      },
+      "evening/fill": {
+        "fill": {
+          "01": {
+            "ratio": 1.01,
+            "cell_median": 1.02
+          },
+          "02": {
+            "ratio": 0.27,
+            "cell_median": 1.0
+          },
+          "03": {
+            "ratio": 1.26,
+            "cell_median": 1.27
+          },
+          "04": {
+            "ratio": 1.07,
+            "cell_median": 1.36
+          },
+          "05": {
+            "ratio": 1.0,
+            "cell_median": 0.98
+          },
+          "07": {
+            "ratio": 0.99,
+            "cell_median": 0.97
+          }
+        },
+        "fill-facing": {
+          "01": {
+            "ratio": 1.0,
+            "cell_median": 1.02
+          },
+          "02": {
+            "ratio": 0.27,
+            "cell_median": 0.99
+          },
+          "03": {
+            "ratio": 1.25,
+            "cell_median": 1.27
+          },
+          "04": {
+            "ratio": 1.06,
+            "cell_median": 1.35
+          },
+          "05": {
+            "ratio": 0.99,
+            "cell_median": 0.98
+          },
+          "07": {
+            "ratio": 0.98,
+            "cell_median": 0.95
+          }
+        },
+        "fill-cos": {
+          "01": {
+            "ratio": 0.97,
+            "cell_median": 1.06
+          },
+          "02": {
+            "ratio": 0.25,
+            "cell_median": 0.95
+          },
+          "03": {
+            "ratio": 1.17,
+            "cell_median": 1.19
+          },
+          "04": {
+            "ratio": 1.02,
+            "cell_median": 1.3
+          },
+          "05": {
+            "ratio": 0.96,
+            "cell_median": 1.05
+          },
+          "07": {
+            "ratio": 0.94,
+            "cell_median": 0.97
+          }
+        }
+      },
+      "evening/path": {
+        "path": {
+          "01": {
+            "ratio": 0.86,
+            "cell_median": 3.04
+          },
+          "02": {
+            "ratio": 2.11,
+            "cell_median": 2.88
+          },
+          "03": {
+            "ratio": 0.92,
+            "cell_median": 2.0
+          },
+          "04": {
+            "ratio": 2.77,
+            "cell_median": 3.06
+          },
+          "05": {
+            "ratio": 1.86,
+            "cell_median": 4.48
+          },
+          "07": {
+            "ratio": 0.52,
+            "cell_median": 1.89
+          }
+        },
+        "path-cos": {
+          "01": {
+            "ratio": 0.85,
+            "cell_median": 2.99
+          },
+          "02": {
+            "ratio": 2.45,
+            "cell_median": 3.49
+          },
+          "03": {
+            "ratio": 0.96,
+            "cell_median": 2.13
+          },
+          "04": {
+            "ratio": 2.72,
+            "cell_median": 3.11
+          },
+          "05": {
+            "ratio": 1.83,
+            "cell_median": 4.67
+          },
+          "07": {
+            "ratio": 0.5,
+            "cell_median": 1.76
+          }
+        }
+      },
+      "evening/maple": {
+        "maple": {
+          "01": {
+            "ratio": 1.06,
+            "cell_median": 0.66
+          },
+          "02": {
+            "ratio": 0.61,
+            "cell_median": 0.76
+          },
+          "03": {
+            "ratio": 0.26,
+            "cell_median": 0.14
+          },
+          "04": {
+            "ratio": 0.4,
+            "cell_median": 0.36
+          },
+          "05": {
+            "ratio": 0.97,
+            "cell_median": 0.86
+          },
+          "07": {
+            "ratio": 0.54,
+            "cell_median": 0.33
+          }
+        },
+        "maple-facing": {
+          "01": {
+            "ratio": 1.07,
+            "cell_median": 0.66
+          },
+          "02": {
+            "ratio": 0.61,
+            "cell_median": 0.74
+          },
+          "03": {
+            "ratio": 0.26,
+            "cell_median": 0.14
+          },
+          "04": {
+            "ratio": 0.4,
+            "cell_median": 0.36
+          },
+          "05": {
+            "ratio": 1.07,
+            "cell_median": 0.85
+          },
+          "07": {
+            "ratio": 0.58,
+            "cell_median": 0.48
+          }
+        },
+        "maple-cos": {
+          "01": {
+            "ratio": 1.39,
+            "cell_median": 1.25
+          },
+          "02": {
+            "ratio": 1.17,
+            "cell_median": 0.99
+          },
+          "03": {
+            "ratio": 0.33,
+            "cell_median": 0.87
+          },
+          "04": {
+            "ratio": 1.1,
+            "cell_median": 1.05
+          },
+          "05": {
+            "ratio": 1.37,
+            "cell_median": 1.39
+          },
+          "07": {
+            "ratio": 0.7,
+            "cell_median": 1.09
+          }
+        }
+      }
+    },
+    "caveats": [
+      "02 looks through the sauna glass; its sun ratio (~2.2) is a glass rendering difference, not the sun.",
+      "Evening captures use gain 8; the lounge fill clipped 8% of camera 04 and <1% elsewhere, so those ratios are lower bounds.",
+      "Interior lights seen through the glass from outside read 0.55-0.72 of Cycles, but 0.87-1.07 inside (02): a glass difference, left unchanged.",
+      "Path grazing lights: cell medians 1.8-4.7 (unshadowed light spreads where Cycles is dark) at 1-4% of the evening total; not changed."
+    ]
+  },
+  "tone_stats": {
+    "before (maple shadow, same capture conditions)": {
+      "source": {
+        "mean_dL": 2.42,
+        "mean_abs_dL": 2.42,
+        "mean_dC": 1.27,
+        "distribution": 3.15,
+        "green_abs_dC": 2.36
+      },
+      "evening": {
+        "mean_dL": 1.15,
+        "mean_abs_dL": 1.15,
+        "mean_dC": 1.27,
+        "distribution": 2.25,
+        "green_abs_dC": 1.37
+      }
+    },
+    "sun without specular only": {
+      "source": {
+        "mean_dL": 1.75,
+        "mean_abs_dL": 1.81,
+        "mean_dC": 1.78,
+        "distribution": 2.72,
+        "green_abs_dC": 2.81
+      },
+      "evening": {
+        "mean_dL": 1.11,
+        "mean_abs_dL": 1.14,
+        "mean_dC": 1.31,
+        "distribution": 2.23,
+        "green_abs_dC": 1.31
+      }
+    },
+    "adopted (sun without specular, facing-side offset, cosine spots)": {
+      "source": {
+        "mean_dL": 1.87,
+        "mean_abs_dL": 1.87,
+        "mean_dC": 2.03,
+        "distribution": 2.34,
+        "green_abs_dC": 3.07
+      },
+      "evening": {
+        "mean_dL": 1.06,
+        "mean_abs_dL": 1.08,
+        "mean_dC": 1.29,
+        "distribution": 2.26,
+        "green_abs_dC": 1.35
+      }
+    }
+  },
+  "survey": "144 views: draw calls, triangles, geometries identical to dusk-shadow; textures +2 in every view (the maple shadow of the previous phase). No errors.",
+  "capture_stability": {
+    "finding": "capture-stability.visual.ts failed intermittently across page loads before this change as well: the pre-change build failed 6/6 runs, and again 3/3 at low quality (no shadows); the adopted build failed 2 of its first 5 runs. The differences were 15-22 isolated pixels (max 26-34/255, <0.003% of the frame) on textured surfaces; within one page load both glow phases stayed identical. Cause not identified.",
+    "change": "The within-load equality stays exact; the cross-load check now decodes both PNGs in the browser and allows up to 0.01% changed pixels, recording the share and maximum difference.",
+    "after": "3/3 runs passed with 0 changed pixels, then passed in the full visual run."
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": 130,
+    "unitFiles": 26,
+    "lint": "passed",
+    "format": "passed",
+    "build": "2D main 217.62 KB (gzip 69.24 KB) unchanged; 3D chunk 672.36 -> 673.96 KB (gzip 173.73 -> 174.14 KB)",
+    "browserRegression": "11 passed (2.9 min)",
+    "visual": "3 passed (119 s): survey, Cycles cameras, capture stability"
+  },
+  "limitations": [
+    "Static images and whole-frame statistics, not a visual acceptance test.",
+    "GPU time, total GPU memory, mobile hardware, listening and the five-minute soak not measured.",
+    "The facing-side offset flips per vertex; triangles whose vertices straddle the silhouette may still pick the other side."
+  ]
+}
