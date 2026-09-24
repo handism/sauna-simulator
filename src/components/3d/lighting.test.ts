@@ -148,7 +148,10 @@ describe('cached shadows', () => {
     const spots = scene.children.filter((child) => child instanceof THREE.SpotLight);
     const duskLounge = spots[1];
     const maple = spots[5];
-    const shadowLights = [sun, lounge, duskLounge, maple];
+    const shadowLights = [sun, ...spots];
+    for (const light of spots.slice(2, 5)) {
+      expect(light.shadow.radius).toBeCloseTo(spotPenumbra(0.1, 20, 144, 0.28));
+    }
     expect(duskLounge.shadow.radius).toBeCloseTo(spotPenumbra(0.1, 20, 144, 2));
     expect(maple.shadow.radius).toBeCloseTo(spotPenumbra(0.1, 20, 144, 0.6));
     lighting.setShadowSize(1024);
@@ -179,7 +182,7 @@ describe('cached shadows', () => {
       expect(light.castShadow).toBe(false);
       expect(light.shadow.map).toBeNull();
     }
-    expect(disposed).toHaveLength(4);
+    expect(disposed).toHaveLength(7);
     // Re-enable after low quality, then release every allocated shadow on scene teardown.
     lighting.setShadowSize(1024);
     for (const light of shadowLights) {
@@ -190,6 +193,6 @@ describe('cached shadows', () => {
       light.shadow.map = target;
     }
     lighting.dispose();
-    expect(disposed).toHaveLength(8);
+    expect(disposed).toHaveLength(14);
   });
 });
