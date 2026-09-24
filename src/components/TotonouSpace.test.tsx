@@ -116,4 +116,12 @@ describe('TotonouSpace Component', () => {
     fireEvent.click(button);
     expect(mockOnNext).toHaveBeenCalledTimes(1);
   });
+
+  it('returns to the sauna with the Space key', () => {
+    const mockOnNext = vi.fn();
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={mockOnNext} />);
+
+    fireEvent.keyDown(document.body, { key: ' ' });
+    expect(mockOnNext).toHaveBeenCalledTimes(1);
+  });
 });

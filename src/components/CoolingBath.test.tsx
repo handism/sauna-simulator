@@ -56,6 +56,19 @@ describe('CoolingBath', () => {
     expect(handleNext.mock.calls[0][0]).toBeLessThan(100);
   });
 
+  it('leaves for the outdoor rest with the Space key', () => {
+    const handleNext = vi.fn();
+    render(<CoolingBath initialHeartRate={100} onNext={handleNext} />);
+
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+    fireEvent.keyDown(document.body, { key: ' ' });
+
+    expect(handleNext).toHaveBeenCalledTimes(1);
+    expect(handleNext.mock.calls[0][1]).toBe(3);
+  });
+
   it('generates ripples over time', () => {
     const { container } = render(<CoolingBath initialHeartRate={100} onNext={vi.fn()} />);
 

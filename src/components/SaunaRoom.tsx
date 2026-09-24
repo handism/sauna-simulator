@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
+import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { calculateHeatIndex, getSecureRandom } from '../utils/saunaUtils';
 
 interface Steam {
@@ -46,6 +47,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const [steams, setSteams] = useState<Steam[]>([]);
   const [isSteaming, setIsSteaming] = useState<boolean>(false);
 
+  const rootRef = useRef<HTMLDivElement>(null);
   const secondsRef = useRef<number>(0);
   const loylyCountRef = useRef<number>(0);
   const steamIdRef = useRef<number>(0);
@@ -105,6 +107,8 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
     particleTimeouts.add(particleTimeout);
   };
 
+  useKeyboardShortcut(' ', handleLoyly, { scope: rootRef });
+
   // メインシミュレーションループ (1秒ごと)
   useEffect(() => {
     const interval = setInterval(() => {
@@ -149,7 +153,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const pulseSpeed = 60 / heartRate;
 
   return (
-    <div className="scene-container">
+    <div ref={rootRef} className="scene-container">
       {/* スチームオーバーレイ曇り演出 */}
       <div className={`steam-overlay ${isSteaming ? 'active' : ''}`} />
 
@@ -194,7 +198,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
         </div>
 
         <div className="sauna-action-btn-container">
-          <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly}>
+          <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
             ロウリュ (Löyly)
           </button>
         </div>
