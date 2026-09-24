@@ -1,0 +1,182 @@
+{
+  "mode": "reflection",
+  "plain_materials": [],
+  "flipped_meshes": [
+    "V10 woodland floor extension"
+  ],
+  "input": "SUI_Retreat.blend",
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "blender": "4.5.11 LTS",
+  "panorama": [
+    64,
+    32
+  ],
+  "samples": 64,
+  "quick": false,
+  "grids": [
+    {
+      "name": "room",
+      "min": [
+        -5.9,
+        0.25,
+        -4.34
+      ],
+      "max": [
+        -0.75,
+        3.11,
+        -0.5
+      ],
+      "resolution": [
+        11,
+        7,
+        9
+      ]
+    },
+    {
+      "name": "courtyard",
+      "min": [
+        -9.0,
+        0.25,
+        -8.0
+      ],
+      "max": [
+        9.0,
+        4.25,
+        16.0
+      ],
+      "resolution": [
+        19,
+        5,
+        25
+      ]
+    },
+    {
+      "name": "outer",
+      "min": [
+        -30.0,
+        0.25,
+        -30.0
+      ],
+      "max": [
+        30.0,
+        9.25,
+        30.0
+      ],
+      "resolution": [
+        21,
+        4,
+        21
+      ]
+    }
+  ],
+  "scenes": {
+    "day": {
+      "scene": "SUI \u2022 Daylight",
+      "lights_in_probes": [
+        "V10 concealed deck edge -3.7 / day",
+        "V10 concealed deck edge 0 / day",
+        "V10 concealed deck edge 4.4 / day",
+        "V10 lounge dusk fill / day",
+        "V10 path grazing light 1 / day",
+        "V10 path grazing light 4 / day",
+        "V10 path grazing light 7 / day",
+        "V10 specimen uplight / day",
+        "V7 concealed backrest wash",
+        "V7 water reflection soft strip",
+        "V8 maple garden grazing light"
+      ],
+      "world_in_probes": true,
+      "grids": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "seconds": 276.7,
+          "upward_irradiance_mean": [
+            0.2086,
+            0.1241,
+            0.0846
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "seconds": 627.9,
+          "upward_irradiance_mean": [
+            0.2807,
+            0.3637,
+            0.4174
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "seconds": 652.3,
+          "upward_irradiance_mean": [
+            0.2051,
+            0.2957,
+            0.3645
+          ]
+        }
+      }
+    },
+    "evening": {
+      "scene": "SUI \u2022 Blue hour",
+      "lights_in_probes": [
+        "V10 concealed deck edge -3.7 / dusk",
+        "V10 concealed deck edge 0 / dusk",
+        "V10 concealed deck edge 4.4 / dusk",
+        "V7 concealed backrest wash.002",
+        "V7 water reflection soft strip.002",
+        "V8 maple garden grazing light.001"
+      ],
+      "world_in_probes": true,
+      "grids": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "seconds": 240.4,
+          "upward_irradiance_mean": [
+            0.1493,
+            0.0632,
+            0.0396
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "seconds": 5253.7,
+          "upward_irradiance_mean": [
+            0.1296,
+            0.1691,
+            0.2472
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "seconds": 298.9,
+          "upward_irradiance_mean": [
+            0.0585,
+            0.0959,
+            0.1798
+          ]
+        }
+      }
+    }
+  },
+  "bin_bytes": 521856,
+  "bin_sha256": "7dcc6244014d14e5c2e768722e81dc2231c1bd325bcc7fa4050e148046be13dd",
+  "seconds": 7350.7
+}

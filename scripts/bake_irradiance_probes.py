@@ -24,6 +24,13 @@ walls; the room has its own grid.
 
 Writes public/models/irradiance.bin (float16) and irradiance.json (grid layout, input hash) and
 docs/3d-export/irradiance-report.json. Never saves the input blend.
+
+With --reflection it bakes what glossy rays see instead (src/components/3d/reflection.ts), into
+reflection.bin / reflection.json / reflection-report.json with the same layout: every light is
+visible to the panorama camera exactly when it is visible to glossy rays in the source, except the
+lights whose highlights the browser draws itself (V9 and the five blue-hour accents); the sun,
+Sky softbox, Sunlit courtyard, the lanterns and the six sauna-room lights are invisible to glossy
+rays in the source. The world keeps its own glossy visibility.
 """
 import bpy
 import hashlib
@@ -39,6 +46,8 @@ import OpenImageIO as oiio
 ROOT = Path(__file__).resolve().parents[1]
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 QUICK = '--quick' in ARGS
+REFLECTION = '--reflection' in ARGS
+NAME = 'reflection' if REFLECTION else 'irradiance'
 # Renders the first N courtyard probes of the Daylight scene, prints timing and exits.
 PROBE_TEST = int(ARGS[ARGS.index('--probe-test') + 1]) if '--probe-test' in ARGS else 0
 # --probe-grid NAME --probe-start I: which probes --probe-test renders (default courtyard from 0).
@@ -66,6 +75,18 @@ DRAWN_EVENING = {
     'V10 lounge dusk fill', 'V10 path grazing light 1', 'V10 path grazing light 4',
     'V10 path grazing light 7', 'V10 specimen uplight',
 }
+# Drawn lights whose highlights the browser draws too (three spot lights). The sun and the six
+# sauna-room lights are diffuse only in the browser, as they are invisible to glossy rays.
+DRAWN_SPECULAR = {'V9 lounge patch of sunlight'}
+
+
+def in_panorama(o, key):
+    """Whether a light is visible to the probe camera in this bake."""
+    name = base_name(o.name)
+    evening = key == 'evening' and name in DRAWN_EVENING
+    if REFLECTION:
+        return o.visible_glossy and name not in DRAWN_SPECULAR and not evening
+    return name not in DRAWN and not evening
 
 
 def base_name(name):
@@ -298,7 +319,7 @@ for name, lo, hi, spacing in GRIDS:
 plain_materials = add_backface_aov()
 flipped_meshes = flip_downward_meshes(bpy.data.scenes[SCENES[0][1]])
 print('IRRADIANCE flipped', flipped_meshes, flush=True)
-report = dict(plain_materials=plain_materials, flipped_meshes=flipped_meshes, input=source.name, input_sha256=source_hash, blender=bpy.app.version_string,
+report = dict(mode=NAME, plain_materials=plain_materials, flipped_meshes=flipped_meshes, input=source.name, input_sha256=source_hash, blender=bpy.app.version_string,
               panorama=[WIDTH, HEIGHT], samples=SAMPLES, quick=QUICK, grids=[], scenes={})
 coefficients = {}
 for key, scene_name in SCENES:
@@ -308,10 +329,12 @@ for key, scene_name in SCENES:
     for o in scene.objects:
         if o.type != 'LIGHT' or o.hide_render:
             continue
-        drawn = base_name(o.name) in DRAWN or (key == 'evening' and base_name(o.name) in DRAWN_EVENING)
-        o.visible_camera = not drawn
-        if not drawn:
+        o.visible_camera = in_panorama(o, key)
+        if o.visible_camera:
             shown.append(o.name)
+    world_camera = scene.world.cycles_visibility.camera
+    if REFLECTION:
+        scene.world.cycles_visibility.camera = scene.world.cycles_visibility.glossy
     configure(scene, SAMPLES, backface=True)
     composite_backface(scene)
     if PROBE_TEST:
@@ -324,7 +347,7 @@ for key, scene_name in SCENES:
             print('IRRADIANCE test', p, 'backface', round(float(row[:, 3] @ weights / (4 * math.pi)), 3),
                   'up', np.round(0.886227 * e[0] + 1.023328 * e[1] - 0.247708 * e[6] - 0.429043 * e[8], 3), flush=True)
         sys.exit(0)
-    scene_report = dict(scene=scene_name, lights_in_probes=sorted(shown), grids={})
+    scene_report = dict(scene=scene_name, lights_in_probes=sorted(shown), world_in_probes=scene.world.cycles_visibility.camera, grids={})
     for grid in grids:
         t = time.time()
         rgba = render_all(scene, grid['points'], f'{key} {grid["name"]}')
@@ -352,6 +375,7 @@ for key, scene_name in SCENES:
     for o in scene.objects:
         if o.name in visible:
             o.visible_camera = visible[o.name]
+    scene.world.cycles_visibility.camera = world_camera
     report['scenes'][key] = scene_report
 
 OUT.mkdir(parents=True, exist_ok=True)
@@ -370,16 +394,16 @@ for grid in grids:
         chunks.append(data.ravel())
     layout.append(entry)
 binary = np.concatenate(chunks).astype('<f2').tobytes()
-(OUT / 'irradiance.bin').write_bytes(binary)
+(OUT / f'{NAME}.bin').write_bytes(binary)
 header = dict(
-    input_sha256=source_hash, format='float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear irradiance-ready radiance)',
+    input_sha256=source_hash, format='float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear radiance)',
     scenes=[key for key, _ in SCENES], grids=layout, bin_sha256=hashlib.sha256(binary).hexdigest(),
 )
-(OUT / 'irradiance.json').write_text(json.dumps(header, indent=2) + '\n')
+(OUT / f'{NAME}.json').write_text(json.dumps(header, indent=2) + '\n')
 report['grids'] = [{k: v for k, v in g.items() if k != 'points'} for g in grids]
 report['bin_bytes'] = len(binary)
 report['bin_sha256'] = header['bin_sha256']
 report['seconds'] = round(time.time() - started, 1)
-(REPORT / 'irradiance-report.json').write_text(json.dumps(report, indent=2) + '\n')
+(REPORT / f'{NAME}-report.json').write_text(json.dumps(report, indent=2) + '\n')
 assert source_hash == hashlib.sha256(source.read_bytes()).hexdigest()
 print('IRRADIANCE_DONE', report['seconds'], len(binary), source_hash, flush=True)

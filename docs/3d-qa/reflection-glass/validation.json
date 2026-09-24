@@ -1,0 +1,248 @@
+{
+  "date": "2026-09-24",
+  "scope": "Linear HDR output (tone mapped once), glass as a Cycles-fitted transmitting/reflecting slab, and environment specular from newly baked reflection probes (what glossy rays see) for all probe-lit materials and the water surface. GLB, scene definition, irradiance probes, lights and exposure unchanged.",
+  "conditions": "Chrome 154.0.8037.57 headless, macOS, localhost production build, 1200x800 (Cycles cameras) / 1280x800 (survey), DPR 1, standard quality, reduced motion, muted, DOM stage effects excluded for the Cycles cameras.",
+  "hashes": {
+    "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+    "irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+    "irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "reflection.json": "84678a513edeee0a27e3466f6344a4d4d9515408e36f1fae60aa7ee984e8a613",
+    "reflection.bin": "7dcc6244014d14e5c2e768722e81dc2231c1bd325bcc7fa4050e148046be13dd",
+    "input_blend": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af (unchanged after the bake and every Blender run)"
+  },
+  "reflection_bake": {
+    "command": "Blender 4.5.11 -b blender/scene/SUI_Retreat.blend --python-exit-code 1 --python scripts/bake_irradiance_probes.py -- --reflection",
+    "seconds": 7350.7,
+    "note": "Same 4,832-probe grids, 64x32 panoramas, 64 samples. The machine appears to have slept during the evening courtyard grid (5,254 s for 2,375 probes; the other grids ran at 0.17-0.4 s/probe).",
+    "lights_in_probes": {
+      "day": "V10 day lights (deck edges x3, lounge dusk fill, path grazing x3, specimen uplight), V7 concealed backrest wash, V7 water reflection soft strip, V8 maple garden grazing light",
+      "evening": "V10 deck edges x3, V7 backrest wash, V7 water strip, V8 maple light (V10 lounge fill, path lights and uplight are drawn by the browser)"
+    },
+    "world_in_probes": true
+  },
+  "glass_cycles_measurement": {
+    "method": "Source 'Low iron architectural glass' on an 18 mm slab, Cycles CPU 512 samples, orthographic camera; T: white emitter behind, black world; R: white world without emitter minus T.",
+    "cycles": {
+      "0": {
+        "T": [
+          0.8118,
+          0.8959,
+          0.8865
+        ],
+        "R": [
+          0.0616,
+          0.0645,
+          0.0642
+        ]
+      },
+      "30": {
+        "T": [
+          0.8093,
+          0.893,
+          0.8837
+        ],
+        "R": [
+          0.0649,
+          0.0678,
+          0.0675
+        ]
+      },
+      "60": {
+        "T": [
+          0.7385,
+          0.8149,
+          0.8064
+        ],
+        "R": [
+          0.1403,
+          0.1464,
+          0.1458
+        ]
+      },
+      "75": {
+        "T": [
+          0.5251,
+          0.5794,
+          0.5734
+        ],
+        "R": [
+          0.3732,
+          0.3867,
+          0.3852
+        ]
+      }
+    },
+    "model": "T = (1-F)^2 t / (1 - F^2 t), R = F + F T (F exact dielectric Fresnel, IOR 1.45, t base color): within 0.01 at every angle. Tinting at both refractions (t^2) gave T red 0.71 at normal incidence."
+  },
+  "linear_components_day": {
+    "note": "browser/Cycles luminance on the surface mask (same method and Cycles EXRs as leaf-transmission). Glass factor = region luminance with / without glass and water.",
+    "before": {
+      "full": {
+        "01": 1.0,
+        "02": 0.97,
+        "03": 0.92,
+        "04": 0.89,
+        "05": 1.02,
+        "07": 0.98
+      },
+      "specular": {
+        "01": 0.41,
+        "02": 0.0,
+        "03": 0.37,
+        "04": 0.43,
+        "05": 0.42,
+        "07": 0.38
+      },
+      "glass_factor_browser": {
+        "01": 1.48,
+        "02": 1.1,
+        "03": 1.28,
+        "04": 2.37,
+        "05": 2.45
+      }
+    },
+    "after": {
+      "full": {
+        "01": 1.018,
+        "02": 1.008,
+        "03": 0.943,
+        "04": 0.907,
+        "05": 1.015,
+        "07": 1.005
+      },
+      "diffuse": {
+        "01": 1.068,
+        "02": 1.169,
+        "03": 0.974,
+        "04": 0.949,
+        "05": 1.069,
+        "07": 1.065
+      },
+      "specular": {
+        "01": 0.69,
+        "02": 0.229,
+        "03": 0.711,
+        "04": 0.706,
+        "05": 0.682,
+        "07": 0.628
+      },
+      "glass_factor_browser": {
+        "01": 1.101,
+        "02": 0.906,
+        "03": 1.129,
+        "04": 1.265,
+        "05": 1.266
+      }
+    },
+    "glass_factor_cycles": {
+      "01": 1.21,
+      "02": 0.9,
+      "03": 1.36,
+      "04": 1.48,
+      "05": 1.35
+    },
+    "specular_by_brightness": {
+      "note": "browser/Cycles specular in the darkest and brightest quartile of Cycles surface luminance (7x7 px blocks)",
+      "dark": {
+        "01": 1.01,
+        "02": 0.6,
+        "03": 0.91,
+        "07": 1.08
+      },
+      "bright": {
+        "01": 0.65,
+        "02": 0.11,
+        "03": 0.57,
+        "07": 0.59
+      }
+    },
+    "cycles_glossy_direct_indirect_share": {
+      "01": [
+        0.084,
+        0.017
+      ],
+      "02": [
+        0.102,
+        0.068
+      ],
+      "03": [
+        0.038,
+        0.019
+      ],
+      "07": [
+        0.111,
+        0.006
+      ]
+    }
+  },
+  "cycles_tone_stats": {
+    "columns": "source 7: mean dL*, mean |dL*|, percentile |dL| all, mean dC*, green |dC| / evening 6: same",
+    "before_leaf_transmission": {
+      "source": [
+        1.07,
+        1.07,
+        1.56,
+        1.4,
+        2.3
+      ],
+      "evening": [
+        0.71,
+        0.84,
+        1.79,
+        0.99,
+        0.59
+      ]
+    },
+    "hdr_only_old_glass": {
+      "source": [
+        3.06,
+        3.06,
+        2.77,
+        0.51,
+        2.35
+      ],
+      "evening": [
+        1.51,
+        1.59,
+        2.47,
+        0.36,
+        0.72
+      ]
+    },
+    "hdr_glass_water_no_surface_reflection": {
+      "source": [
+        0.61,
+        0.65,
+        1.16,
+        1.73,
+        2.16
+      ],
+      "evening": [
+        0.29,
+        0.37,
+        1.18,
+        1.44,
+        0.86
+      ]
+    },
+    "adopted": {
+      "source": [
+        1.49,
+        1.49,
+        1.86,
+        1.41,
+        1.51
+      ],
+      "evening": [
+        1.12,
+        1.12,
+        1.63,
+        1.22,
+        0.82
+      ]
+    }
+  },
+  "survey": "144 views: draw calls and triangles identical to leaf-transmission (the double-sided transparent glass was two passes, now transmission + reflection), textures +4 (three reflection 3D textures and the HDR target), geometries +1 (full-screen triangle).",
+  "tests": "tsc, 30 files / 157 unit tests, lint, format, build; test:browser 12 passed (2.9 min); test:browser:visual 3 passed (survey, Cycles cameras, capture stability; about 108 s). 5-minute soak, devices, GPU time not run."
+}
