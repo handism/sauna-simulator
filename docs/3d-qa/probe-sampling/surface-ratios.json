@@ -1,0 +1,254 @@
+[
+  {
+    "scene": "day",
+    "label": "01-170-300",
+    "gridHalfOverMeasured": 1.015932320459409,
+    "gridZeroOverMeasured": 1.0109700261747128,
+    "localSHOverMeasured": 0.9909250199480616,
+    "offset5cmOver2cm": 1.003488292468474,
+    "backfaceCosine": 0.06493124815710341
+  },
+  {
+    "scene": "day",
+    "label": "01-320-280",
+    "gridHalfOverMeasured": 0.9008395393830498,
+    "gridZeroOverMeasured": 0.9906216798621595,
+    "localSHOverMeasured": 1.0078483791073545,
+    "offset5cmOver2cm": 0.9954631059167954,
+    "backfaceCosine": 0.04648481498910208
+  },
+  {
+    "scene": "day",
+    "label": "01-240-270",
+    "gridHalfOverMeasured": 1.0275685479753622,
+    "gridZeroOverMeasured": 1.0400829624336418,
+    "localSHOverMeasured": 1.0046541671416127,
+    "offset5cmOver2cm": 1.0015897422481492,
+    "backfaceCosine": 0.10636766181646982
+  },
+  {
+    "scene": "day",
+    "label": "02-120-250",
+    "gridHalfOverMeasured": 0.9532199912018063,
+    "gridZeroOverMeasured": 0.8911967018243704,
+    "localSHOverMeasured": 1.0452958081287245,
+    "offset5cmOver2cm": 0.9908542773550497,
+    "backfaceCosine": 0.0033313781652772245
+  },
+  {
+    "scene": "day",
+    "label": "02-90-180",
+    "gridHalfOverMeasured": 1.0029350158391808,
+    "gridZeroOverMeasured": 0.9951438938007439,
+    "localSHOverMeasured": 1.02599211597749,
+    "offset5cmOver2cm": 0.9953178093405308,
+    "backfaceCosine": 2.5679476471931526e-05
+  },
+  {
+    "scene": "day",
+    "label": "02-100-90",
+    "gridHalfOverMeasured": 0.9985428735928574,
+    "gridZeroOverMeasured": 0.988718442363929,
+    "localSHOverMeasured": 1.0267357058568218,
+    "offset5cmOver2cm": 1.005833149772727,
+    "backfaceCosine": 0.0004122829321987067
+  },
+  {
+    "scene": "day",
+    "label": "04-340-140",
+    "gridHalfOverMeasured": 0.9936409912635308,
+    "gridZeroOverMeasured": 0.9433626219077781,
+    "localSHOverMeasured": 1.0045441155337227,
+    "offset5cmOver2cm": 1.001162726190069,
+    "backfaceCosine": 0.01710043228611948
+  },
+  {
+    "scene": "day",
+    "label": "04-400-290",
+    "gridHalfOverMeasured": 0.6697583791442596,
+    "gridZeroOverMeasured": 0.3039911794087987,
+    "localSHOverMeasured": 1.0163180387893243,
+    "offset5cmOver2cm": 0.9960184229733137,
+    "backfaceCosine": 0.009325801819113994
+  },
+  {
+    "scene": "day",
+    "label": "05-270-300",
+    "gridHalfOverMeasured": 0.7204860030017177,
+    "gridZeroOverMeasured": 0.5091352151111465,
+    "localSHOverMeasured": 0.9662590165911868,
+    "offset5cmOver2cm": 1.0124816673952657,
+    "backfaceCosine": 0.058783613660290106
+  },
+  {
+    "scene": "day",
+    "label": "07-150-230",
+    "gridHalfOverMeasured": 1.0288785036902641,
+    "gridZeroOverMeasured": 1.025313765037187,
+    "localSHOverMeasured": 0.991594771444857,
+    "offset5cmOver2cm": 1.0016618869099536,
+    "backfaceCosine": 0.07227610124560137
+  },
+  {
+    "scene": "day",
+    "label": "02-floor-dark",
+    "gridHalfOverMeasured": 1.3345883112097447,
+    "gridZeroOverMeasured": 1.2263302236656355,
+    "localSHOverMeasured": 1.0236558884586193,
+    "offset5cmOver2cm": 1.0143984546644278,
+    "backfaceCosine": 2.0349272514781443e-05
+  },
+  {
+    "scene": "day",
+    "label": "02-bench-dark",
+    "gridHalfOverMeasured": 0.9392033215726642,
+    "gridZeroOverMeasured": 0.9051695163037732,
+    "localSHOverMeasured": 1.080428242163386,
+    "offset5cmOver2cm": 0.99541046791978,
+    "backfaceCosine": 0.0
+  },
+  {
+    "scene": "day",
+    "label": "01-ground-dark",
+    "gridHalfOverMeasured": 1.7347858404838186,
+    "gridZeroOverMeasured": 1.3797562603478741,
+    "localSHOverMeasured": 1.0045244873172838,
+    "offset5cmOver2cm": 0.9720464418883812,
+    "backfaceCosine": 0.32089922071043425
+  },
+  {
+    "scene": "day",
+    "label": "05-ground-dark",
+    "gridHalfOverMeasured": 1.2329882472249964,
+    "gridZeroOverMeasured": 1.2378027709180248,
+    "localSHOverMeasured": 0.996901034846912,
+    "offset5cmOver2cm": 1.1646359963786341,
+    "backfaceCosine": 0.25248557511763403
+  },
+  {
+    "scene": "evening",
+    "label": "01-170-300",
+    "gridHalfOverMeasured": 1.0508919017443565,
+    "gridZeroOverMeasured": 1.0494199200584395,
+    "localSHOverMeasured": 0.9997663640538055,
+    "offset5cmOver2cm": 1.0035677248509285,
+    "backfaceCosine": 0.06493124815710341
+  },
+  {
+    "scene": "evening",
+    "label": "01-320-280",
+    "gridHalfOverMeasured": 0.8777689622407902,
+    "gridZeroOverMeasured": 0.9616312374288158,
+    "localSHOverMeasured": 1.0015173089895952,
+    "offset5cmOver2cm": 0.9968739061305403,
+    "backfaceCosine": 0.04648481498910208
+  },
+  {
+    "scene": "evening",
+    "label": "01-240-270",
+    "gridHalfOverMeasured": 1.0635766566546512,
+    "gridZeroOverMeasured": 1.0745549600472375,
+    "localSHOverMeasured": 1.0039156064731298,
+    "offset5cmOver2cm": 1.006663091155255,
+    "backfaceCosine": 0.10636766181646982
+  },
+  {
+    "scene": "evening",
+    "label": "02-120-250",
+    "gridHalfOverMeasured": 0.9257666840467585,
+    "gridZeroOverMeasured": 0.8620591009900334,
+    "localSHOverMeasured": 1.0592978534147004,
+    "offset5cmOver2cm": 0.9863469117678327,
+    "backfaceCosine": 0.0033313781652772245
+  },
+  {
+    "scene": "evening",
+    "label": "02-90-180",
+    "gridHalfOverMeasured": 0.979353747852202,
+    "gridZeroOverMeasured": 0.9997077115392068,
+    "localSHOverMeasured": 1.0200223475553878,
+    "offset5cmOver2cm": 0.9947272120149964,
+    "backfaceCosine": 2.5679476471931526e-05
+  },
+  {
+    "scene": "evening",
+    "label": "02-100-90",
+    "gridHalfOverMeasured": 0.9425652177397748,
+    "gridZeroOverMeasured": 0.9412277598781159,
+    "localSHOverMeasured": 1.022543218947947,
+    "offset5cmOver2cm": 0.9948847332900611,
+    "backfaceCosine": 0.0004122829321987067
+  },
+  {
+    "scene": "evening",
+    "label": "04-340-140",
+    "gridHalfOverMeasured": 0.9262735370736888,
+    "gridZeroOverMeasured": 0.920108230292254,
+    "localSHOverMeasured": 0.9871755016670413,
+    "offset5cmOver2cm": 0.9997421826862471,
+    "backfaceCosine": 0.01710043228611948
+  },
+  {
+    "scene": "evening",
+    "label": "04-400-290",
+    "gridHalfOverMeasured": 0.6148678955925287,
+    "gridZeroOverMeasured": 0.3066381841761895,
+    "localSHOverMeasured": 1.0085694292588998,
+    "offset5cmOver2cm": 0.9941449187119482,
+    "backfaceCosine": 0.009325801819113994
+  },
+  {
+    "scene": "evening",
+    "label": "05-270-300",
+    "gridHalfOverMeasured": 0.7173493664975393,
+    "gridZeroOverMeasured": 0.5096208669249511,
+    "localSHOverMeasured": 0.9700713673979381,
+    "offset5cmOver2cm": 1.015901406710452,
+    "backfaceCosine": 0.058783613660290106
+  },
+  {
+    "scene": "evening",
+    "label": "07-150-230",
+    "gridHalfOverMeasured": 1.0597042132112646,
+    "gridZeroOverMeasured": 1.05034981354826,
+    "localSHOverMeasured": 0.9998858861049041,
+    "offset5cmOver2cm": 1.0092469556346564,
+    "backfaceCosine": 0.07227610124560137
+  },
+  {
+    "scene": "evening",
+    "label": "02-floor-dark",
+    "gridHalfOverMeasured": 1.0240050011322175,
+    "gridZeroOverMeasured": 1.0329869391710287,
+    "localSHOverMeasured": 1.035528083521892,
+    "offset5cmOver2cm": 1.012339909331111,
+    "backfaceCosine": 2.0349272514781443e-05
+  },
+  {
+    "scene": "evening",
+    "label": "02-bench-dark",
+    "gridHalfOverMeasured": 0.9243866397152238,
+    "gridZeroOverMeasured": 0.9019829848311544,
+    "localSHOverMeasured": 1.0905095011811672,
+    "offset5cmOver2cm": 0.9930089487754739,
+    "backfaceCosine": 0.0
+  },
+  {
+    "scene": "evening",
+    "label": "01-ground-dark",
+    "gridHalfOverMeasured": 1.8056191771359358,
+    "gridZeroOverMeasured": 1.4699374514867347,
+    "localSHOverMeasured": 1.025394839410958,
+    "offset5cmOver2cm": 0.9782501962712282,
+    "backfaceCosine": 0.32089922071043425
+  },
+  {
+    "scene": "evening",
+    "label": "05-ground-dark",
+    "gridHalfOverMeasured": 1.3209302071871671,
+    "gridZeroOverMeasured": 1.3304891516828146,
+    "localSHOverMeasured": 1.000570001251911,
+    "offset5cmOver2cm": 1.1742429891785162,
+    "backfaceCosine": 0.25248557511763403
+  }
+]

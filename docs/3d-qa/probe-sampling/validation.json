@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-24",
+  "decision": "Reject the zero diffuse normal-offset candidate; production renderer restored. Add reusable surface irradiance diagnostics only.",
+  "candidate": "In suiIrradiance only, pass vec3(0.0) instead of N as suiProbes sampling normal; keep evaluation normal N and reflection sampling unchanged.",
+  "hashesUnchanged": true,
+  "hashes": {
+    "sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "sauna.scene.json": "616ba53983b97984cf1451bc046d5a3203ee70015e7b4e443cf5dfd9056fd6b3",
+    "irradiance.json": "83a17f67dc0f21a4eec25a7ab3c2985e8c29524d06c0e5b622eca7821086af6d",
+    "irradiance.bin": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "reflection.json": "84678a513edeee0a27e3466f6344a4d4d9515408e36f1fae60aa7ee984e8a613",
+    "reflection.bin": "7dcc6244014d14e5c2e768722e81dc2231c1bd325bcc7fa4050e148046be13dd"
+  },
+  "browserBaseline": {
+    "startTime": "2026-09-24T12:42:05.143Z",
+    "duration": 32260.215,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserCandidate": {
+    "startTime": "2026-09-24T12:50:53.032Z",
+    "duration": 35004.332,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "surfaceDiagnostic": {
+    "samples": 14,
+    "scenes": 2,
+    "offsetsMeters": [
+      0.02,
+      0.05
+    ],
+    "panorama": [
+      128,
+      64
+    ],
+    "samplesPerPixel": 128,
+    "seconds": 40.3,
+    "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+    "note": "Pointwise finite-resolution cosine integration of Cycles panoramas. Same visibility policy as diffuse bake. Not an area-weighted image metric, not exact surface irradiance."
+  },
+  "checks": {
+    "python": "5 numerical tests passed",
+    "typecheck": "passed",
+    "vitest": "30 files / 157 tests passed",
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed; restored same asset filenames as baseline",
+    "fullBrowserRegression": "not rerun; product sources and assets unchanged",
+    "fullSurvey": "not rerun; candidate rejected"
+  },
+  "limitations": [
+    "Surface sample positions/normals were selected from prior untracked Cycles Position/Normal pass arrays; reusable coordinates are saved in surface-points.json.",
+    "Near-surface geometry and normals affect the sample; 05-ground-dark changes by 17.4% between 2 cm and 5 cm in evening.",
+    "Ground samples see backs of foliage; this is recorded, not silently excluded.",
+    "GPU performance, devices, audio and soak not measured."
+  ]
+}
