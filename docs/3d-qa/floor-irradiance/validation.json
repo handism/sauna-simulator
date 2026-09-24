@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-24",
+  "decision": "diagnostic only; the room grid is unbiased over the sauna floor (grid/measured luminance sum 1.005 day, 0.987 evening), errors are local (walls, stove) and finer than 0.5 m; a floor-only map at the probe spacing does not beat the grid on held-out points, so not implemented",
+  "blender": "4.5.11 LTS",
+  "fixture": { "points": 372, "missed": 19, "spacing_m": 0.25, "inside_geometry_excluded": 11 },
+  "measurement": { "panoramas": 1488, "resolution": [128, 64], "samples": 128, "offsets_m": [0.02, 0.05], "seconds": 1032.0 },
+  "python_tests": "12 passed (test_probe_sampling.py)",
+  "typecheck": "bunx tsc -b passed",
+  "unit_tests": "30 files, 157 tests passed",
+  "lint": "passed",
+  "format": "passed",
+  "build": "passed; main 220.90 kB, SaunaScene 680.69 kB (existing >500 kB warning)",
+  "browser_regression": "not rerun; no product code or shipped asset changed",
+  "hashes": {
+    "input_blend_sha256_before_after": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+    "irradiance_bin_sha256": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
+    "floor_points_sha256": "8f125f14feb5311ee8a60114e99bf95660d8dd0c22ad37f1d9adae712f0858ca"
+  },
+  "environment_note": "Blender runs outside the Bash sandbox (Metal detection crashes inside it)"
+}
