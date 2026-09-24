@@ -762,6 +762,30 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Keyboard shortcut guide; touch-only devices have no keyboard to use it with. */
+.app-shortcut-hint {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+.app-shortcut-hint kbd {
+  font: inherit;
+  padding: 1px 6px;
+  margin-right: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+@media (hover: none) and (pointer: coarse) {
+  .app-shortcut-hint {
+    display: none;
+  }
+}
+
 .app-btn-group {
   display: flex;
   flex-direction: column;
@@ -817,7 +841,7 @@ p {
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
-  max-width: calc(100% - 150px);
+  max-width: calc(100% - 206px);
   font-size: 11px;
 }
 .scene-mode-controls button {
