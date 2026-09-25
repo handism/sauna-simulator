@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-25",
+  "base_commit": "b4385bd",
+  "blender_exit_code": 0,
+  "source_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "source_unchanged": true,
+  "python_tests": 28,
+  "vitest_files": 33,
+  "vitest_tests": 171,
+  "typecheck": "passed",
+  "lint": "passed",
+  "format": "passed",
+  "build": "passed",
+  "diff_check": "passed",
+  "three_chunk_kb": 697.19,
+  "product_changed": false,
+  "browser_checks": "not rerun; diagnostic scripts and documentation only",
+  "limitations": [
+    "Geometry-only lookup feasibility, no HDR color, shading, Fresnel or browser/GPU cost measurement.",
+    "Same camera and static common water mask as the input fixture; no other views or animated waves.",
+    "Viewport source geometry, camera visibility, opaque treatment of other transparent materials; not exported GLB.",
+    "Continuous rays are an optimistic visibility bound; finite results use nearest texel, not bilinear filtering or MSAA.",
+    "Matches require the same object and Euclidean position within 2mm/10mm; these are diagnostic tolerances, not quality gates.",
+    "Overhead clips geometry above its origin plane; square map covers only the stated XY bounds.",
+    "Direction difference concerns the final path segment, not a measured radiance error."
+  ]
+}
