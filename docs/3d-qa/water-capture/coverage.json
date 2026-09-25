@@ -1,0 +1,747 @@
+{
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "trace_sha256": "b2eb74a33ae35f95c5a0d8da1bf198c990344f19819c97a135bf8e01695cb5f3",
+  "script_sha256": "a84ff6760c1a314d8685ebc85468b5569049e03004df3d289ec2a332e76d643b",
+  "blender": "4.5.11 LTS",
+  "camera": "03 \u2022 Water / cold plunge",
+  "source_resolution": [
+    420,
+    280
+  ],
+  "overhead_bounds_xy": [
+    [
+      -0.3550000011920929,
+      0.7049999713897706
+    ],
+    [
+      2.715000104904175,
+      4.294999790191651
+    ]
+  ],
+  "overhead_origin_z": 0.8714451551437378,
+  "coordinates": "Blender Z-up, meters",
+  "results": {
+    "original": {
+      "camera-continuous": {
+        "resolution": null,
+        "counts": {
+          "all": {
+            "match_2mm": 5917,
+            "match_10mm": 37,
+            "mismatch": 4102,
+            "unresolved": 2
+          },
+          "side_tir": {
+            "match_2mm": 1258,
+            "match_10mm": 28,
+            "mismatch": 438,
+            "unresolved": 2
+          },
+          "side_transmit": {
+            "match_2mm": 446,
+            "mismatch": 126,
+            "match_10mm": 9
+          },
+          "bottom": {
+            "mismatch": 3538,
+            "match_2mm": 4213
+          }
+        },
+        "mismatch_first_objects": {
+          "Honed pool coping.002": 2853,
+          "Honed pool coping.001": 1107,
+          "Plunge end basalt.001": 72,
+          "V8 canopy bronze post": 42,
+          "Plunge side basalt": 6,
+          "V8 recessed pool plinth": 4,
+          "Individual submerged tile.026": 4,
+          "Individual submerged tile.030": 2,
+          "Individual submerged tile.095": 2,
+          "Individual submerged tile.014": 1,
+          "V7 impact capillary ripple.002": 1,
+          "Individual submerged tile.031": 1
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 2.90826585051413,
+          "p90": 108.02674264336227,
+          "max": 145.08101706928835
+        }
+      },
+      "camera-512": {
+        "resolution": [
+          512,
+          341
+        ],
+        "counts": {
+          "all": {
+            "mismatch": 6890,
+            "match_2mm": 186,
+            "match_10mm": 2980,
+            "unresolved": 2
+          },
+          "side_tir": {
+            "mismatch": 1131,
+            "match_2mm": 36,
+            "match_10mm": 557,
+            "unresolved": 2
+          },
+          "side_transmit": {
+            "match_10mm": 384,
+            "mismatch": 167,
+            "match_2mm": 30
+          },
+          "bottom": {
+            "mismatch": 5592,
+            "match_10mm": 2039,
+            "match_2mm": 120
+          }
+        },
+        "mismatch_first_objects": {
+          "Honed pool coping.002": 2849,
+          "Honed pool coping.001": 1109,
+          "V8 recessed pool plinth": 184,
+          "Individual submerged tile.014": 89,
+          "Individual submerged tile.031": 77,
+          "Individual submerged tile.030": 73,
+          "Individual submerged tile.015": 70,
+          "Plunge end basalt.001": 70,
+          "Individual submerged tile.029": 61,
+          "Individual submerged tile.047": 59,
+          "Individual submerged tile.013": 57,
+          "Individual submerged tile.063": 55
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 3.4023014154161517,
+          "p90": 107.53373717049607,
+          "max": 144.13785098103216
+        }
+      },
+      "camera-1024": {
+        "resolution": [
+          1024,
+          683
+        ],
+        "counts": {
+          "all": {
+            "match_10mm": 4938,
+            "match_2mm": 703,
+            "mismatch": 4415,
+            "unresolved": 2
+          },
+          "side_tir": {
+            "match_10mm": 1085,
+            "match_2mm": 113,
+            "mismatch": 526,
+            "unresolved": 2
+          },
+          "side_transmit": {
+            "match_2mm": 105,
+            "mismatch": 151,
+            "match_10mm": 325
+          },
+          "bottom": {
+            "mismatch": 3738,
+            "match_10mm": 3528,
+            "match_2mm": 485
+          }
+        },
+        "mismatch_first_objects": {
+          "Honed pool coping.002": 2855,
+          "Honed pool coping.001": 1105,
+          "V8 recessed pool plinth": 125,
+          "Plunge end basalt.001": 70,
+          "V8 canopy bronze post": 44,
+          "Individual submerged tile.015": 18,
+          "Individual submerged tile.031": 16,
+          "Individual submerged tile.030": 12,
+          "Limestone terrace paver.013": 12,
+          "Limestone terrace paver.020": 12,
+          "Individual submerged tile.014": 8,
+          "Individual submerged tile.029": 7
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 2.906675223815542,
+          "p90": 67.60188046176238,
+          "max": 144.04792690858645
+        }
+      },
+      "overhead-continuous": {
+        "resolution": null,
+        "counts": {
+          "all": {
+            "match_2mm": 9338,
+            "mismatch": 584,
+            "outside": 128,
+            "unresolved": 2,
+            "match_10mm": 6
+          },
+          "side_tir": {
+            "match_2mm": 1704,
+            "mismatch": 8,
+            "outside": 12,
+            "unresolved": 2
+          },
+          "side_transmit": {
+            "mismatch": 544,
+            "match_2mm": 31,
+            "match_10mm": 6
+          },
+          "bottom": {
+            "outside": 116,
+            "mismatch": 32,
+            "match_2mm": 7603
+          }
+        },
+        "mismatch_first_objects": {
+          "Plunge end basalt.001": 540,
+          "Plunge side basalt": 27,
+          "V7 impact capillary ripple.003": 10,
+          "V4 flowing spring ribbon": 2,
+          "V7 impact droplets.010": 1,
+          "V7 impact capillary ripple.002": 1,
+          "V7 impact droplets.001": 1,
+          "V7 impact droplets.019": 1,
+          "V7 impact capillary ripple.001": 1
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 68.7447252591756,
+          "p90": 72.2422089607005,
+          "max": 82.66802674080739
+        }
+      },
+      "overhead-512": {
+        "resolution": [
+          512,
+          512
+        ],
+        "counts": {
+          "all": {
+            "match_2mm": 2768,
+            "match_10mm": 6252,
+            "mismatch": 908,
+            "outside": 128,
+            "unresolved": 2
+          },
+          "side_tir": {
+            "match_2mm": 488,
+            "match_10mm": 1166,
+            "mismatch": 58,
+            "outside": 12,
+            "unresolved": 2
+          },
+          "side_transmit": {
+            "mismatch": 562,
+            "match_10mm": 18,
+            "match_2mm": 1
+          },
+          "bottom": {
+            "outside": 116,
+            "mismatch": 288,
+            "match_10mm": 5068,
+            "match_2mm": 2279
+          }
+        },
+        "mismatch_first_objects": {
+          "Plunge end basalt.001": 564,
+          "V8 recessed pool plinth": 223,
+          "Plunge side basalt": 33,
+          "V7 impact capillary ripple.003": 10,
+          "Individual submerged tile.143": 4,
+          "Individual submerged tile.056": 3,
+          "Individual submerged tile.136": 3,
+          "Individual submerged tile.030": 2,
+          "Individual submerged tile.046": 2,
+          "Individual submerged tile.062": 2,
+          "Individual submerged tile.012": 2,
+          "V4 flowing spring ribbon": 2
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 68.72971890636171,
+          "p90": 72.21558847596557,
+          "max": 82.66802674080739
+        }
+      },
+      "overhead-1024": {
+        "resolution": [
+          1024,
+          1024
+        ],
+        "counts": {
+          "all": {
+            "match_2mm": 8793,
+            "match_10mm": 371,
+            "mismatch": 764,
+            "outside": 128,
+            "unresolved": 2
+          },
+          "side_tir": {
+            "match_2mm": 1616,
+            "match_10mm": 66,
+            "mismatch": 30,
+            "outside": 12,
+            "unresolved": 2
+          },
+          "side_transmit": {
+            "mismatch": 559,
+            "match_2mm": 15,
+            "match_10mm": 7
+          },
+          "bottom": {
+            "outside": 116,
+            "mismatch": 175,
+            "match_2mm": 7162,
+            "match_10mm": 298
+          }
+        },
+        "mismatch_first_objects": {
+          "Plunge end basalt.001": 561,
+          "V8 recessed pool plinth": 111,
+          "Plunge side basalt": 26,
+          "V7 impact capillary ripple.003": 9,
+          "Individual submerged tile.026": 4,
+          "Individual submerged tile.025": 4,
+          "Individual submerged tile.023": 3,
+          "V4 flowing spring ribbon": 2,
+          "Individual submerged tile.009": 2,
+          "Individual submerged tile.107": 2,
+          "Individual submerged tile.153": 2,
+          "Individual submerged tile.119": 2
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 68.74249089580464,
+          "p90": 72.24549832157906,
+          "max": 82.66802674080739
+        }
+      },
+      "two_capture_union": {
+        "continuous": {
+          "all": {
+            "count": 10058,
+            "2mm": 9810,
+            "10mm": 9821
+          },
+          "side_tir": {
+            "count": 1726,
+            "2mm": 1711,
+            "10mm": 1711
+          },
+          "side_transmit": {
+            "count": 581,
+            "2mm": 454,
+            "10mm": 465
+          },
+          "bottom": {
+            "count": 7751,
+            "2mm": 7645,
+            "10mm": 7645
+          }
+        },
+        "512": {
+          "all": {
+            "count": 10058,
+            "2mm": 2913,
+            "10mm": 9515
+          },
+          "side_tir": {
+            "count": 1726,
+            "2mm": 514,
+            "10mm": 1667
+          },
+          "side_transmit": {
+            "count": 581,
+            "2mm": 31,
+            "10mm": 426
+          },
+          "bottom": {
+            "count": 7751,
+            "2mm": 2368,
+            "10mm": 7422
+          }
+        },
+        "1024": {
+          "all": {
+            "count": 10058,
+            "2mm": 8944,
+            "10mm": 9707
+          },
+          "side_tir": {
+            "count": 1726,
+            "2mm": 1628,
+            "10mm": 1703
+          },
+          "side_transmit": {
+            "count": 581,
+            "2mm": 119,
+            "10mm": 440
+          },
+          "bottom": {
+            "count": 7751,
+            "2mm": 7197,
+            "10mm": 7564
+          }
+        }
+      }
+    },
+    "wave_box": {
+      "camera-continuous": {
+        "resolution": null,
+        "counts": {
+          "all": {
+            "unresolved": 7,
+            "match_2mm": 5924,
+            "match_10mm": 31,
+            "mismatch": 4096
+          },
+          "side_tir": {
+            "match_2mm": 1291,
+            "match_10mm": 23,
+            "mismatch": 441
+          },
+          "side_transmit": {
+            "match_2mm": 414,
+            "match_10mm": 8,
+            "mismatch": 122
+          },
+          "bottom": {
+            "mismatch": 3533,
+            "match_2mm": 4219
+          }
+        },
+        "mismatch_first_objects": {
+          "Honed pool coping.002": 2850,
+          "Honed pool coping.001": 1107,
+          "Plunge end basalt.001": 65,
+          "V8 canopy bronze post": 49,
+          "V8 recessed pool plinth": 4,
+          "Individual submerged tile.079": 3,
+          "Individual submerged tile.026": 3,
+          "Individual submerged tile.029": 2,
+          "Plunge side basalt": 2,
+          "Individual submerged tile.127": 2,
+          "Individual submerged tile.030": 1,
+          "Individual submerged tile.045": 1
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 2.8649238081901167,
+          "p90": 108.61438847801928,
+          "max": 145.07576501785434
+        }
+      },
+      "camera-512": {
+        "resolution": [
+          512,
+          341
+        ],
+        "counts": {
+          "all": {
+            "unresolved": 7,
+            "match_10mm": 2979,
+            "mismatch": 6901,
+            "match_2mm": 171
+          },
+          "side_tir": {
+            "match_10mm": 567,
+            "mismatch": 1162,
+            "match_2mm": 26
+          },
+          "side_transmit": {
+            "match_10mm": 354,
+            "mismatch": 159,
+            "match_2mm": 31
+          },
+          "bottom": {
+            "mismatch": 5580,
+            "match_10mm": 2058,
+            "match_2mm": 114
+          }
+        },
+        "mismatch_first_objects": {
+          "Honed pool coping.002": 2849,
+          "Honed pool coping.001": 1112,
+          "V8 recessed pool plinth": 205,
+          "Individual submerged tile.014": 86,
+          "Individual submerged tile.015": 79,
+          "Individual submerged tile.030": 71,
+          "Individual submerged tile.031": 70,
+          "Plunge end basalt.001": 65,
+          "Individual submerged tile.029": 59,
+          "Individual submerged tile.013": 58,
+          "Individual submerged tile.047": 56,
+          "Individual submerged tile.009": 51
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 3.1184420528116803,
+          "p90": 69.66646353916096,
+          "max": 144.06776040316763
+        }
+      },
+      "camera-1024": {
+        "resolution": [
+          1024,
+          683
+        ],
+        "counts": {
+          "all": {
+            "unresolved": 7,
+            "match_2mm": 702,
+            "match_10mm": 4917,
+            "mismatch": 4432
+          },
+          "side_tir": {
+            "match_2mm": 131,
+            "match_10mm": 1076,
+            "mismatch": 548
+          },
+          "side_transmit": {
+            "match_10mm": 309,
+            "match_2mm": 91,
+            "mismatch": 144
+          },
+          "bottom": {
+            "mismatch": 3740,
+            "match_10mm": 3532,
+            "match_2mm": 480
+          }
+        },
+        "mismatch_first_objects": {
+          "Honed pool coping.002": 2852,
+          "Honed pool coping.001": 1106,
+          "V8 recessed pool plinth": 119,
+          "Plunge end basalt.001": 64,
+          "V8 canopy bronze post": 49,
+          "Individual submerged tile.030": 17,
+          "Individual submerged tile.015": 15,
+          "Individual submerged tile.031": 14,
+          "Limestone terrace paver.020": 14,
+          "Individual submerged tile.014": 10,
+          "Individual submerged tile.079": 10,
+          "Individual submerged tile.047": 9
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 2.842260677392664,
+          "p90": 69.84042339597889,
+          "max": 144.100069477251
+        }
+      },
+      "overhead-continuous": {
+        "resolution": null,
+        "counts": {
+          "all": {
+            "unresolved": 7,
+            "match_2mm": 9375,
+            "mismatch": 552,
+            "outside": 118,
+            "match_10mm": 6
+          },
+          "side_tir": {
+            "match_2mm": 1737,
+            "mismatch": 7,
+            "outside": 11
+          },
+          "side_transmit": {
+            "mismatch": 509,
+            "match_2mm": 29,
+            "match_10mm": 6
+          },
+          "bottom": {
+            "outside": 107,
+            "mismatch": 36,
+            "match_2mm": 7609
+          }
+        },
+        "mismatch_first_objects": {
+          "Plunge end basalt.001": 508,
+          "Plunge side basalt": 27,
+          "V7 impact capillary ripple.003": 9,
+          "V4 flowing spring ribbon": 6,
+          "V7 impact droplets.012": 1,
+          "V7 impact droplets.007": 1
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 68.7094066225608,
+          "p90": 72.20431365037348,
+          "max": 89.41922888800777
+        }
+      },
+      "overhead-512": {
+        "resolution": [
+          512,
+          512
+        ],
+        "counts": {
+          "all": {
+            "unresolved": 7,
+            "match_10mm": 6253,
+            "match_2mm": 2802,
+            "mismatch": 878,
+            "outside": 118
+          },
+          "side_tir": {
+            "match_10mm": 1165,
+            "match_2mm": 521,
+            "mismatch": 58,
+            "outside": 11
+          },
+          "side_transmit": {
+            "mismatch": 524,
+            "match_10mm": 17,
+            "match_2mm": 3
+          },
+          "bottom": {
+            "outside": 107,
+            "mismatch": 296,
+            "match_10mm": 5071,
+            "match_2mm": 2278
+          }
+        },
+        "mismatch_first_objects": {
+          "Plunge end basalt.001": 522,
+          "V8 recessed pool plinth": 239,
+          "Plunge side basalt": 34,
+          "V7 impact capillary ripple.003": 12,
+          "V4 flowing spring ribbon": 6,
+          "Individual submerged tile.137": 3,
+          "Individual submerged tile.136": 3,
+          "Individual submerged tile.063": 2,
+          "Individual submerged tile.062": 2,
+          "Individual submerged tile.142": 2,
+          "Individual submerged tile.092": 2,
+          "Individual submerged tile.008": 2
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 68.75442542742493,
+          "p90": 72.17834845768522,
+          "max": 89.41922888800777
+        }
+      },
+      "overhead-1024": {
+        "resolution": [
+          1024,
+          1024
+        ],
+        "counts": {
+          "all": {
+            "unresolved": 7,
+            "match_2mm": 8800,
+            "match_10mm": 415,
+            "mismatch": 718,
+            "outside": 118
+          },
+          "side_tir": {
+            "match_2mm": 1620,
+            "match_10mm": 94,
+            "mismatch": 30,
+            "outside": 11
+          },
+          "side_transmit": {
+            "mismatch": 522,
+            "match_2mm": 16,
+            "match_10mm": 6
+          },
+          "bottom": {
+            "outside": 107,
+            "mismatch": 166,
+            "match_2mm": 7164,
+            "match_10mm": 315
+          }
+        },
+        "mismatch_first_objects": {
+          "Plunge end basalt.001": 524,
+          "V8 recessed pool plinth": 107,
+          "Plunge side basalt": 27,
+          "V7 impact capillary ripple.003": 7,
+          "V4 flowing spring ribbon": 6,
+          "Individual submerged tile.025": 3,
+          "Individual submerged tile.026": 2,
+          "Individual submerged tile.008": 2,
+          "Individual submerged tile.058": 2,
+          "Individual submerged tile.022": 2,
+          "Individual submerged tile.023": 2,
+          "Individual submerged tile.006": 2
+        },
+        "matched_2mm_direction_difference_degrees": {
+          "median": 68.70018274548246,
+          "p90": 72.20068655140545,
+          "max": 89.41922888800777
+        }
+      },
+      "two_capture_union": {
+        "continuous": {
+          "all": {
+            "count": 10058,
+            "2mm": 9818,
+            "10mm": 9829
+          },
+          "side_tir": {
+            "count": 1755,
+            "2mm": 1743,
+            "10mm": 1743
+          },
+          "side_transmit": {
+            "count": 544,
+            "2mm": 423,
+            "10mm": 434
+          },
+          "bottom": {
+            "count": 7752,
+            "2mm": 7652,
+            "10mm": 7652
+          }
+        },
+        "512": {
+          "all": {
+            "count": 10058,
+            "2mm": 2920,
+            "10mm": 9508
+          },
+          "side_tir": {
+            "count": 1755,
+            "2mm": 538,
+            "10mm": 1695
+          },
+          "side_transmit": {
+            "count": 544,
+            "2mm": 33,
+            "10mm": 398
+          },
+          "bottom": {
+            "count": 7752,
+            "2mm": 2349,
+            "10mm": 7415
+          }
+        },
+        "1024": {
+          "all": {
+            "count": 10058,
+            "2mm": 8928,
+            "10mm": 9710
+          },
+          "side_tir": {
+            "count": 1755,
+            "2mm": 1632,
+            "10mm": 1729
+          },
+          "side_transmit": {
+            "count": 544,
+            "2mm": 104,
+            "10mm": 412
+          },
+          "bottom": {
+            "count": 7752,
+            "2mm": 7192,
+            "10mm": 7569
+          }
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Geometry-only lookup feasibility, no HDR color, shading, Fresnel or browser/GPU cost measurement.",
+    "Same camera and static common water mask as the input fixture; no other views or animated waves.",
+    "Viewport source geometry, camera visibility, opaque treatment of other transparent materials; not exported GLB.",
+    "Continuous rays are an optimistic visibility bound; finite results use nearest texel, not bilinear filtering or MSAA.",
+    "Matches require the same object and Euclidean position within 2mm/10mm; these are diagnostic tolerances, not quality gates.",
+    "Overhead clips geometry above its origin plane; square map covers only the stated XY bounds.",
+    "Direction difference concerns the final path segment, not a measured radiance error."
+  ]
+}
