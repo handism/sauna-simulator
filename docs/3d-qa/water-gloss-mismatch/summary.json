@@ -1,0 +1,2728 @@
+{
+ "source": {
+  "gloss_sha256": "75c67dfcb359fbc06a44eab1f46e3a8bd5dac83a7ab08dafc552892548be0166",
+  "shading_sha256": "ae8b85c187b29765e7de0584be0e76cd46a990b9016c12a9ebbf51144ce684ad",
+  "terminals_sha256": "e38416827c5e15561e586902f8960646efba60d336e80aa4a429379d188a8fc2",
+  "capture_summary_sha256": "aaf836cba665c9e24cc6fbb2c91c94fc6347025673f9634bdc4ace8e305b8754",
+  "script_sha256": "e8e5f66b9cc617319d2af12cbc6c918967d6b3e358b9ba12c65f49fc8e3cc1e6",
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "gloss_script_sha256": "fd144d98c31c31e8189f1dbc4893f4d9bd3b92afdc7e20feb713bd0e3adf8579",
+  "shading_script_sha256": "26ed6bec3b4f5efca7d2f20581a53f9f1794600dc9793850ffd01d74a85317af"
+ },
+ "variants": {
+  "base": [],
+  "bounces": [
+   "bounces"
+  ],
+  "blur0": [
+   "blur0"
+  ],
+  "clamp0": [
+   "clamp0"
+  ],
+  "nobump": [
+   "nobump"
+  ],
+  "noabsorb": [
+   "noabsorb"
+  ],
+  "flat": [
+   "flat"
+  ],
+  "model": [
+   "bounces",
+   "blur0",
+   "clamp0",
+   "nobump",
+   "noabsorb",
+   "flat"
+  ]
+ },
+ "cycles_samples": 25600,
+ "seeds": [
+  17,
+  83
+ ],
+ "trace_samples": [
+  64,
+  1024
+ ],
+ "shading_deviation_deg": {
+  "p50": 27.95228963108872,
+  "p90": 40.694670056097,
+  "max": 54.27592406968249
+ },
+ "scenes": {
+  "day": {
+   "rows": [
+    {
+     "index": 0,
+     "group": "bottom/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      204,
+      130
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.036694,
+       "seed_spread": 0.106865
+      },
+      "bounces": {
+       "mean": 0.036698,
+       "seed_spread": 0.128736
+      },
+      "blur0": {
+       "mean": 0.03248,
+       "seed_spread": 0.079739
+      },
+      "clamp0": {
+       "mean": 0.04345,
+       "seed_spread": 0.114383
+      },
+      "nobump": {
+       "mean": 0.036254,
+       "seed_spread": 0.1053
+      },
+      "noabsorb": {
+       "mean": 0.037353,
+       "seed_spread": 0.107489
+      },
+      "flat": {
+       "mean": 0.037584,
+       "seed_spread": 0.146811
+      },
+      "model": {
+       "mean": 0.089184,
+       "seed_spread": 0.02835
+      }
+     },
+     "exit_true_face_normals": 0.018265,
+     "exit_estimate": {
+      "geometric_64": 0.017607,
+      "shading_64": 0.019163,
+      "geometric_1024": 0.018015,
+      "shading_1024": 0.018242
+     },
+     "exit_weight": {
+      "geometric_64": 0.087156,
+      "shading_64": 0.027256,
+      "geometric_1024": 0.086006,
+      "shading_1024": 0.027235
+     },
+     "true_over_glossy": {
+      "base": 0.4978,
+      "bounces": 0.4977,
+      "blur0": 0.5623,
+      "clamp0": 0.4204,
+      "nobump": 0.5038,
+      "noabsorb": 0.489,
+      "flat": 0.486,
+      "model": 0.2048
+     },
+     "shading_over_base_glossy": 0.4971,
+     "face_over_base_glossy": 0.491
+    },
+    {
+     "index": 1,
+     "group": "bottom/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      251,
+      148
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.058994,
+       "seed_spread": 0.029024
+      },
+      "bounces": {
+       "mean": 0.05959,
+       "seed_spread": 0.047424
+      },
+      "blur0": {
+       "mean": 0.058833,
+       "seed_spread": 0.012589
+      },
+      "clamp0": {
+       "mean": 0.069603,
+       "seed_spread": 0.011396
+      },
+      "nobump": {
+       "mean": 0.058928,
+       "seed_spread": 0.056608
+      },
+      "noabsorb": {
+       "mean": 0.06007,
+       "seed_spread": 0.034496
+      },
+      "flat": {
+       "mean": 0.039245,
+       "seed_spread": 0.07886
+      },
+      "model": {
+       "mean": 0.071689,
+       "seed_spread": 0.071798
+      }
+     },
+     "exit_true_face_normals": 0.014062,
+     "exit_estimate": {
+      "geometric_64": 0.014049,
+      "shading_64": 0.004524,
+      "geometric_1024": 0.012989,
+      "shading_1024": 0.006127
+     },
+     "exit_weight": {
+      "geometric_64": 0.008737,
+      "shading_64": 0.007127,
+      "geometric_1024": 0.009447,
+      "shading_1024": 0.007783
+     },
+     "true_over_glossy": {
+      "base": 0.2384,
+      "bounces": 0.236,
+      "blur0": 0.239,
+      "clamp0": 0.202,
+      "nobump": 0.2386,
+      "noabsorb": 0.2341,
+      "flat": 0.3583,
+      "model": 0.1962
+     },
+     "shading_over_base_glossy": 0.1039,
+     "face_over_base_glossy": 0.2202
+    },
+    {
+     "index": 2,
+     "group": "bottom/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      215,
+      166
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.028641,
+       "seed_spread": 0.313437
+      },
+      "bounces": {
+       "mean": 0.028663,
+       "seed_spread": 0.298727
+      },
+      "blur0": {
+       "mean": 0.018056,
+       "seed_spread": 0.08573
+      },
+      "clamp0": {
+       "mean": 0.043488,
+       "seed_spread": 0.293482
+      },
+      "nobump": {
+       "mean": 0.02845,
+       "seed_spread": 0.318451
+      },
+      "noabsorb": {
+       "mean": 0.028964,
+       "seed_spread": 0.313564
+      },
+      "flat": {
+       "mean": 0.028204,
+       "seed_spread": 0.276272
+      },
+      "model": {
+       "mean": 0.072109,
+       "seed_spread": 0.01826
+      }
+     },
+     "exit_true_face_normals": 0.000447,
+     "exit_estimate": {
+      "geometric_64": 0.000552,
+      "shading_64": 0.000423,
+      "geometric_1024": 0.000492,
+      "shading_1024": 0.000478
+     },
+     "exit_weight": {
+      "geometric_64": 0.002227,
+      "shading_64": 0.002189,
+      "geometric_1024": 0.002065,
+      "shading_1024": 0.002059
+     },
+     "true_over_glossy": {
+      "base": 0.0156,
+      "bounces": 0.0156,
+      "blur0": 0.0247,
+      "clamp0": 0.0103,
+      "nobump": 0.0157,
+      "noabsorb": 0.0154,
+      "flat": 0.0158,
+      "model": 0.0062
+     },
+     "shading_over_base_glossy": 0.0167,
+     "face_over_base_glossy": 0.0172
+    },
+    {
+     "index": 3,
+     "group": "bottom/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      192,
+      135
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.032313,
+       "seed_spread": 0.01732
+      },
+      "bounces": {
+       "mean": 0.032475,
+       "seed_spread": 0.00605
+      },
+      "blur0": {
+       "mean": 0.036021,
+       "seed_spread": 0.050332
+      },
+      "clamp0": {
+       "mean": 0.033328,
+       "seed_spread": 0.025134
+      },
+      "nobump": {
+       "mean": 0.03272,
+       "seed_spread": 0.0074
+      },
+      "noabsorb": {
+       "mean": 0.032826,
+       "seed_spread": 0.015116
+      },
+      "flat": {
+       "mean": 0.028665,
+       "seed_spread": 0.033327
+      },
+      "model": {
+       "mean": 0.068537,
+       "seed_spread": 0.252234
+      }
+     },
+     "exit_true_face_normals": 0.021658,
+     "exit_estimate": {
+      "geometric_64": 0.022543,
+      "shading_64": 0.0242,
+      "geometric_1024": 0.024581,
+      "shading_1024": 0.02586
+     },
+     "exit_weight": {
+      "geometric_64": 0.100759,
+      "shading_64": 0.029855,
+      "geometric_1024": 0.096341,
+      "shading_1024": 0.030982
+     },
+     "true_over_glossy": {
+      "base": 0.6702,
+      "bounces": 0.6669,
+      "blur0": 0.6013,
+      "clamp0": 0.6498,
+      "nobump": 0.6619,
+      "noabsorb": 0.6598,
+      "flat": 0.7555,
+      "model": 0.316
+     },
+     "shading_over_base_glossy": 0.8003,
+     "face_over_base_glossy": 0.7607
+    },
+    {
+     "index": 4,
+     "group": "bottom/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      212,
+      151
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.113063,
+       "seed_spread": 0.028527
+      },
+      "bounces": {
+       "mean": 0.113402,
+       "seed_spread": 0.019363
+      },
+      "blur0": {
+       "mean": 0.112717,
+       "seed_spread": 0.008637
+      },
+      "clamp0": {
+       "mean": 0.121139,
+       "seed_spread": 0.062581
+      },
+      "nobump": {
+       "mean": 0.111163,
+       "seed_spread": 0.020692
+      },
+      "noabsorb": {
+       "mean": 0.115419,
+       "seed_spread": 0.030086
+      },
+      "flat": {
+       "mean": 0.090942,
+       "seed_spread": 0.065795
+      },
+      "model": {
+       "mean": 0.124477,
+       "seed_spread": 0.020199
+      }
+     },
+     "exit_true_face_normals": 0.07053,
+     "exit_estimate": {
+      "geometric_64": 0.070738,
+      "shading_64": 0.049858,
+      "geometric_1024": 0.073453,
+      "shading_1024": 0.047894
+     },
+     "exit_weight": {
+      "geometric_64": 0.090372,
+      "shading_64": 0.037317,
+      "geometric_1024": 0.092428,
+      "shading_1024": 0.037028
+     },
+     "true_over_glossy": {
+      "base": 0.6238,
+      "bounces": 0.6219,
+      "blur0": 0.6257,
+      "clamp0": 0.5822,
+      "nobump": 0.6345,
+      "noabsorb": 0.6111,
+      "flat": 0.7756,
+      "model": 0.5666
+     },
+     "shading_over_base_glossy": 0.4236,
+     "face_over_base_glossy": 0.6497
+    },
+    {
+     "index": 5,
+     "group": "bottom/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      239,
+      168
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.099912,
+       "seed_spread": 0.01502
+      },
+      "bounces": {
+       "mean": 0.099992,
+       "seed_spread": 0.015822
+      },
+      "blur0": {
+       "mean": 0.10389,
+       "seed_spread": 0.023949
+      },
+      "clamp0": {
+       "mean": 0.105802,
+       "seed_spread": 0.094216
+      },
+      "nobump": {
+       "mean": 0.099155,
+       "seed_spread": 0.021289
+      },
+      "noabsorb": {
+       "mean": 0.103314,
+       "seed_spread": 0.006008
+      },
+      "flat": {
+       "mean": 0.110747,
+       "seed_spread": 0.040008
+      },
+      "model": {
+       "mean": 0.150654,
+       "seed_spread": 0.399819
+      }
+     },
+     "exit_true_face_normals": 0.093657,
+     "exit_estimate": {
+      "geometric_64": 0.093685,
+      "shading_64": 0.075951,
+      "geometric_1024": 0.09739,
+      "shading_1024": 0.079721
+     },
+     "exit_weight": {
+      "geometric_64": 0.077305,
+      "shading_64": 0.065682,
+      "geometric_1024": 0.078317,
+      "shading_1024": 0.06566
+     },
+     "true_over_glossy": {
+      "base": 0.9374,
+      "bounces": 0.9366,
+      "blur0": 0.9015,
+      "clamp0": 0.8852,
+      "nobump": 0.9445,
+      "noabsorb": 0.9065,
+      "flat": 0.8457,
+      "model": 0.6217
+     },
+     "shading_over_base_glossy": 0.7979,
+     "face_over_base_glossy": 0.9748
+    },
+    {
+     "index": 6,
+     "group": "side_tir/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      196,
+      114
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.010645,
+       "seed_spread": 0.019745
+      },
+      "bounces": {
+       "mean": 0.010762,
+       "seed_spread": 0.036456
+      },
+      "blur0": {
+       "mean": 0.005967,
+       "seed_spread": 0.157681
+      },
+      "clamp0": {
+       "mean": 0.017351,
+       "seed_spread": 0.160254
+      },
+      "nobump": {
+       "mean": 0.010624,
+       "seed_spread": 0.010036
+      },
+      "noabsorb": {
+       "mean": 0.010838,
+       "seed_spread": 0.022443
+      },
+      "flat": {
+       "mean": 0.01508,
+       "seed_spread": 0.029226
+      },
+      "model": {
+       "mean": 0.331134,
+       "seed_spread": 0.020632
+      }
+     },
+     "exit_true_face_normals": 0.004364,
+     "exit_estimate": {
+      "geometric_64": 0.005095,
+      "shading_64": 0.001403,
+      "geometric_1024": 0.00626,
+      "shading_1024": 0.001978
+     },
+     "exit_weight": {
+      "geometric_64": 0.01703,
+      "shading_64": 0.004164,
+      "geometric_1024": 0.01982,
+      "shading_1024": 0.00598
+     },
+     "true_over_glossy": {
+      "base": 0.41,
+      "bounces": 0.4055,
+      "blur0": 0.7313,
+      "clamp0": 0.2515,
+      "nobump": 0.4108,
+      "noabsorb": 0.4027,
+      "flat": 0.2894,
+      "model": 0.0132
+     },
+     "shading_over_base_glossy": 0.1858,
+     "face_over_base_glossy": 0.5881
+    },
+    {
+     "index": 7,
+     "group": "side_tir/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      280,
+      120
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.019401,
+       "seed_spread": 0.084499
+      },
+      "bounces": {
+       "mean": 0.019464,
+       "seed_spread": 0.078228
+      },
+      "blur0": {
+       "mean": 0.011868,
+       "seed_spread": 0.307994
+      },
+      "clamp0": {
+       "mean": 0.024434,
+       "seed_spread": 0.189126
+      },
+      "nobump": {
+       "mean": 0.019323,
+       "seed_spread": 0.091474
+      },
+      "noabsorb": {
+       "mean": 0.01982,
+       "seed_spread": 0.07031
+      },
+      "flat": {
+       "mean": 0.019337,
+       "seed_spread": 0.051784
+      },
+      "model": {
+       "mean": 0.032841,
+       "seed_spread": 0.298244
+      }
+     },
+     "exit_true_face_normals": 0.002281,
+     "exit_estimate": {
+      "geometric_64": 0.00232,
+      "shading_64": 0.001124,
+      "geometric_1024": 0.003652,
+      "shading_1024": 0.002302
+     },
+     "exit_weight": {
+      "geometric_64": 0.007986,
+      "shading_64": 0.004149,
+      "geometric_1024": 0.007304,
+      "shading_1024": 0.004039
+     },
+     "true_over_glossy": {
+      "base": 0.1176,
+      "bounces": 0.1172,
+      "blur0": 0.1922,
+      "clamp0": 0.0934,
+      "nobump": 0.1181,
+      "noabsorb": 0.1151,
+      "flat": 0.118,
+      "model": 0.0695
+     },
+     "shading_over_base_glossy": 0.1186,
+     "face_over_base_glossy": 0.1883
+    },
+    {
+     "index": 8,
+     "group": "side_tir/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      116,
+      146
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.029458,
+       "seed_spread": 0.157538
+      },
+      "bounces": {
+       "mean": 0.030528,
+       "seed_spread": 0.108464
+      },
+      "blur0": {
+       "mean": 0.026818,
+       "seed_spread": 0.063721
+      },
+      "clamp0": {
+       "mean": 0.033911,
+       "seed_spread": 0.299846
+      },
+      "nobump": {
+       "mean": 0.030508,
+       "seed_spread": 0.224857
+      },
+      "noabsorb": {
+       "mean": 0.03066,
+       "seed_spread": 0.148384
+      },
+      "flat": {
+       "mean": 0.131153,
+       "seed_spread": 0.054676
+      },
+      "model": {
+       "mean": 0.153247,
+       "seed_spread": 0.054761
+      }
+     },
+     "exit_true_face_normals": 0.111062,
+     "exit_estimate": {
+      "geometric_64": 0.112031,
+      "shading_64": 0.007441,
+      "geometric_1024": 0.115918,
+      "shading_1024": 0.009643
+     },
+     "exit_weight": {
+      "geometric_64": 0.061127,
+      "shading_64": 0.018453,
+      "geometric_1024": 0.062947,
+      "shading_1024": 0.020313
+     },
+     "true_over_glossy": {
+      "base": 3.7702,
+      "bounces": 3.6381,
+      "blur0": 4.1413,
+      "clamp0": 3.2751,
+      "nobump": 3.6404,
+      "noabsorb": 3.6224,
+      "flat": 0.8468,
+      "model": 0.7247
+     },
+     "shading_over_base_glossy": 0.3273,
+     "face_over_base_glossy": 3.9351
+    },
+    {
+     "index": 9,
+     "group": "side_tir/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      188,
+      114
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.042447,
+       "seed_spread": 0.133607
+      },
+      "bounces": {
+       "mean": 0.043495,
+       "seed_spread": 0.108722
+      },
+      "blur0": {
+       "mean": 0.030106,
+       "seed_spread": 0.059162
+      },
+      "clamp0": {
+       "mean": 0.066152,
+       "seed_spread": 0.22018
+      },
+      "nobump": {
+       "mean": 0.042495,
+       "seed_spread": 0.141396
+      },
+      "noabsorb": {
+       "mean": 0.043218,
+       "seed_spread": 0.129607
+      },
+      "flat": {
+       "mean": 0.053497,
+       "seed_spread": 0.119855
+      },
+      "model": {
+       "mean": 0.341683,
+       "seed_spread": 0.08761
+      }
+     },
+     "exit_true_face_normals": 0.03107,
+     "exit_estimate": {
+      "geometric_64": 0.02697,
+      "shading_64": 0.006228,
+      "geometric_1024": 0.028832,
+      "shading_1024": 0.005675
+     },
+     "exit_weight": {
+      "geometric_64": 0.116737,
+      "shading_64": 0.040184,
+      "geometric_1024": 0.118909,
+      "shading_1024": 0.040957
+     },
+     "true_over_glossy": {
+      "base": 0.732,
+      "bounces": 0.7143,
+      "blur0": 1.032,
+      "clamp0": 0.4697,
+      "nobump": 0.7311,
+      "noabsorb": 0.7189,
+      "flat": 0.5808,
+      "model": 0.0909
+     },
+     "shading_over_base_glossy": 0.1337,
+     "face_over_base_glossy": 0.6792
+    },
+    {
+     "index": 10,
+     "group": "side_tir/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      288,
+      124
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.036599,
+       "seed_spread": 0.158447
+      },
+      "bounces": {
+       "mean": 0.036976,
+       "seed_spread": 0.147983
+      },
+      "blur0": {
+       "mean": 0.019566,
+       "seed_spread": 0.022018
+      },
+      "clamp0": {
+       "mean": 0.052582,
+       "seed_spread": 0.158759
+      },
+      "nobump": {
+       "mean": 0.038586,
+       "seed_spread": 0.071114
+      },
+      "noabsorb": {
+       "mean": 0.038376,
+       "seed_spread": 0.149963
+      },
+      "flat": {
+       "mean": 0.046612,
+       "seed_spread": 0.030906
+      },
+      "model": {
+       "mean": 0.071444,
+       "seed_spread": 0.426826
+      }
+     },
+     "exit_true_face_normals": 0.027956,
+     "exit_estimate": {
+      "geometric_64": 0.026653,
+      "shading_64": 0.003605,
+      "geometric_1024": 0.030179,
+      "shading_1024": 0.004023
+     },
+     "exit_weight": {
+      "geometric_64": 0.092686,
+      "shading_64": 0.013384,
+      "geometric_1024": 0.090111,
+      "shading_1024": 0.014569
+     },
+     "true_over_glossy": {
+      "base": 0.7638,
+      "bounces": 0.7561,
+      "blur0": 1.4288,
+      "clamp0": 0.5317,
+      "nobump": 0.7245,
+      "noabsorb": 0.7285,
+      "flat": 0.5997,
+      "model": 0.3913
+     },
+     "shading_over_base_glossy": 0.1099,
+     "face_over_base_glossy": 0.8246
+    },
+    {
+     "index": 11,
+     "group": "side_tir/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      145,
+      144
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.022056,
+       "seed_spread": 0.010318
+      },
+      "bounces": {
+       "mean": 0.022879,
+       "seed_spread": 0.03199
+      },
+      "blur0": {
+       "mean": 0.013151,
+       "seed_spread": 0.076132
+      },
+      "clamp0": {
+       "mean": 0.024468,
+       "seed_spread": 0.009772
+      },
+      "nobump": {
+       "mean": 0.021369,
+       "seed_spread": 0.041092
+      },
+      "noabsorb": {
+       "mean": 0.023421,
+       "seed_spread": 0.002779
+      },
+      "flat": {
+       "mean": 0.17101,
+       "seed_spread": 0.001136
+      },
+      "model": {
+       "mean": 0.210009,
+       "seed_spread": 0.04421
+      }
+     },
+     "exit_true_face_normals": 0.16707,
+     "exit_estimate": {
+      "geometric_64": 0.172927,
+      "shading_64": 0.006706,
+      "geometric_1024": 0.171025,
+      "shading_1024": 0.007564
+     },
+     "exit_weight": {
+      "geometric_64": 0.099641,
+      "shading_64": 0.009825,
+      "geometric_1024": 0.096194,
+      "shading_1024": 0.008583
+     },
+     "true_over_glossy": {
+      "base": 7.5748,
+      "bounces": 7.3024,
+      "blur0": 12.7042,
+      "clamp0": 6.8281,
+      "nobump": 7.8185,
+      "noabsorb": 7.1334,
+      "flat": 0.977,
+      "model": 0.7955
+     },
+     "shading_over_base_glossy": 0.343,
+     "face_over_base_glossy": 7.754
+    },
+    {
+     "index": 12,
+     "group": "side_tir/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      253,
+      114
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.032728,
+       "seed_spread": 0.011205
+      },
+      "bounces": {
+       "mean": 0.032783,
+       "seed_spread": 0.011859
+      },
+      "blur0": {
+       "mean": 0.031694,
+       "seed_spread": 0.003043
+      },
+      "clamp0": {
+       "mean": 0.032957,
+       "seed_spread": 0.022864
+      },
+      "nobump": {
+       "mean": 0.03294,
+       "seed_spread": 0.022536
+      },
+      "noabsorb": {
+       "mean": 0.032796,
+       "seed_spread": 0.012027
+      },
+      "flat": {
+       "mean": 0.033784,
+       "seed_spread": 0.00503
+      },
+      "model": {
+       "mean": 0.045252,
+       "seed_spread": 0.277138
+      }
+     },
+     "exit_true_face_normals": 0.005802,
+     "exit_estimate": {
+      "geometric_64": 0.006563,
+      "shading_64": 0.006389,
+      "geometric_1024": 0.005659,
+      "shading_1024": 0.005459
+     },
+     "exit_weight": {
+      "geometric_64": 0.016694,
+      "shading_64": 0.016232,
+      "geometric_1024": 0.01543,
+      "shading_1024": 0.014813
+     },
+     "true_over_glossy": {
+      "base": 0.1773,
+      "bounces": 0.177,
+      "blur0": 0.1831,
+      "clamp0": 0.176,
+      "nobump": 0.1761,
+      "noabsorb": 0.1769,
+      "flat": 0.1717,
+      "model": 0.1282
+     },
+     "shading_over_base_glossy": 0.1668,
+     "face_over_base_glossy": 0.1729
+    },
+    {
+     "index": 13,
+     "group": "side_transmit/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      249,
+      123
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.007113,
+       "seed_spread": 0.366203
+      },
+      "bounces": {
+       "mean": 0.007115,
+       "seed_spread": 0.366121
+      },
+      "blur0": {
+       "mean": 0.005186,
+       "seed_spread": 0.035886
+      },
+      "clamp0": {
+       "mean": 0.008096,
+       "seed_spread": 0.541202
+      },
+      "nobump": {
+       "mean": 0.007192,
+       "seed_spread": 0.34738
+      },
+      "noabsorb": {
+       "mean": 0.007226,
+       "seed_spread": 0.356554
+      },
+      "flat": {
+       "mean": 0.006941,
+       "seed_spread": 0.254126
+      },
+      "model": {
+       "mean": 0.003313,
+       "seed_spread": 0.072306
+      }
+     },
+     "exit_true_face_normals": 0.0,
+     "exit_estimate": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 0.000125,
+      "shading_1024": 0.000183
+     },
+     "exit_weight": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 0.000473,
+      "shading_1024": 0.000744
+     },
+     "true_over_glossy": {
+      "base": 0.0,
+      "bounces": 0.0,
+      "blur0": 0.0,
+      "clamp0": 0.0,
+      "nobump": 0.0,
+      "noabsorb": 0.0,
+      "flat": 0.0,
+      "model": 0.0
+     },
+     "shading_over_base_glossy": 0.0257,
+     "face_over_base_glossy": 0.0175
+    },
+    {
+     "index": 14,
+     "group": "side_transmit/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      302,
+      131
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.012191,
+       "seed_spread": 0.075033
+      },
+      "bounces": {
+       "mean": 0.011992,
+       "seed_spread": 0.040327
+      },
+      "blur0": {
+       "mean": 0.005636,
+       "seed_spread": 0.049825
+      },
+      "clamp0": {
+       "mean": 0.013002,
+       "seed_spread": 0.115806
+      },
+      "nobump": {
+       "mean": 0.012045,
+       "seed_spread": 0.049884
+      },
+      "noabsorb": {
+       "mean": 0.012411,
+       "seed_spread": 0.067189
+      },
+      "flat": {
+       "mean": 0.011662,
+       "seed_spread": 0.051619
+      },
+      "model": {
+       "mean": 0.006708,
+       "seed_spread": 0.562982
+      }
+     },
+     "exit_true_face_normals": 0.000757,
+     "exit_estimate": {
+      "geometric_64": 0.000695,
+      "shading_64": 0.001931,
+      "geometric_1024": 0.000924,
+      "shading_1024": 0.001904
+     },
+     "exit_weight": {
+      "geometric_64": 0.002598,
+      "shading_64": 0.007632,
+      "geometric_1024": 0.003362,
+      "shading_1024": 0.007804
+     },
+     "true_over_glossy": {
+      "base": 0.0621,
+      "bounces": 0.0631,
+      "blur0": 0.1342,
+      "clamp0": 0.0582,
+      "nobump": 0.0628,
+      "noabsorb": 0.061,
+      "flat": 0.0649,
+      "model": 0.1128
+     },
+     "shading_over_base_glossy": 0.1562,
+     "face_over_base_glossy": 0.0758
+    },
+    {
+     "index": 15,
+     "group": "side_transmit/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      315,
+      135
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.003876,
+       "seed_spread": 0.477315
+      },
+      "bounces": {
+       "mean": 0.003875,
+       "seed_spread": 0.478708
+      },
+      "blur0": {
+       "mean": 0.0015,
+       "seed_spread": 0.160134
+      },
+      "clamp0": {
+       "mean": 0.004163,
+       "seed_spread": 0.525984
+      },
+      "nobump": {
+       "mean": 0.003868,
+       "seed_spread": 0.482803
+      },
+      "noabsorb": {
+       "mean": 0.003928,
+       "seed_spread": 0.475749
+      },
+      "flat": {
+       "mean": 0.004107,
+       "seed_spread": 0.417814
+      },
+      "model": {
+       "mean": 0.003853,
+       "seed_spread": 1.04359
+      }
+     },
+     "exit_true_face_normals": 0.0,
+     "exit_estimate": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 7.1e-05,
+      "shading_1024": 9.4e-05
+     },
+     "exit_weight": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 0.000283,
+      "shading_1024": 0.000447
+     },
+     "true_over_glossy": {
+      "base": 0.0,
+      "bounces": 0.0,
+      "blur0": 0.0,
+      "clamp0": 0.0,
+      "nobump": 0.0,
+      "noabsorb": 0.0,
+      "flat": 0.0,
+      "model": 0.0
+     },
+     "shading_over_base_glossy": 0.0241,
+     "face_over_base_glossy": 0.0183
+    },
+    {
+     "index": 16,
+     "group": "side_transmit/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      298,
+      122
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.019166,
+       "seed_spread": 0.065687
+      },
+      "bounces": {
+       "mean": 0.019382,
+       "seed_spread": 0.084607
+      },
+      "blur0": {
+       "mean": 0.006935,
+       "seed_spread": 0.252745
+      },
+      "clamp0": {
+       "mean": 0.025966,
+       "seed_spread": 0.157341
+      },
+      "nobump": {
+       "mean": 0.019267,
+       "seed_spread": 0.082125
+      },
+      "noabsorb": {
+       "mean": 0.019698,
+       "seed_spread": 0.060196
+      },
+      "flat": {
+       "mean": 0.027827,
+       "seed_spread": 0.130828
+      },
+      "model": {
+       "mean": 0.00477,
+       "seed_spread": 0.120439
+      }
+     },
+     "exit_true_face_normals": 0.000746,
+     "exit_estimate": {
+      "geometric_64": 0.000616,
+      "shading_64": 0.000495,
+      "geometric_1024": 0.001005,
+      "shading_1024": 0.000374
+     },
+     "exit_weight": {
+      "geometric_64": 0.003697,
+      "shading_64": 0.001907,
+      "geometric_1024": 0.00471,
+      "shading_1024": 0.001461
+     },
+     "true_over_glossy": {
+      "base": 0.0389,
+      "bounces": 0.0385,
+      "blur0": 0.1076,
+      "clamp0": 0.0287,
+      "nobump": 0.0387,
+      "noabsorb": 0.0379,
+      "flat": 0.0268,
+      "model": 0.1564
+     },
+     "shading_over_base_glossy": 0.0195,
+     "face_over_base_glossy": 0.0525
+    },
+    {
+     "index": 17,
+     "group": "side_transmit/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      299,
+      127
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.021903,
+       "seed_spread": 0.158676
+      },
+      "bounces": {
+       "mean": 0.021947,
+       "seed_spread": 0.165321
+      },
+      "blur0": {
+       "mean": 0.005074,
+       "seed_spread": 0.339115
+      },
+      "clamp0": {
+       "mean": 0.028764,
+       "seed_spread": 0.170485
+      },
+      "nobump": {
+       "mean": 0.022119,
+       "seed_spread": 0.160297
+      },
+      "noabsorb": {
+       "mean": 0.022514,
+       "seed_spread": 0.160291
+      },
+      "flat": {
+       "mean": 0.024497,
+       "seed_spread": 0.022223
+      },
+      "model": {
+       "mean": 0.004458,
+       "seed_spread": 0.125098
+      }
+     },
+     "exit_true_face_normals": 0.001028,
+     "exit_estimate": {
+      "geometric_64": 0.001052,
+      "shading_64": 0.00028,
+      "geometric_1024": 0.000871,
+      "shading_1024": 0.000408
+     },
+     "exit_weight": {
+      "geometric_64": 0.003389,
+      "shading_64": 0.001107,
+      "geometric_1024": 0.003491,
+      "shading_1024": 0.001555
+     },
+     "true_over_glossy": {
+      "base": 0.0469,
+      "bounces": 0.0468,
+      "blur0": 0.2026,
+      "clamp0": 0.0357,
+      "nobump": 0.0465,
+      "noabsorb": 0.0457,
+      "flat": 0.042,
+      "model": 0.2306
+     },
+     "shading_over_base_glossy": 0.0186,
+     "face_over_base_glossy": 0.0398
+    },
+    {
+     "index": 18,
+     "group": "side_transmit/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      317,
+      131
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.015966,
+       "seed_spread": 0.19415
+      },
+      "bounces": {
+       "mean": 0.016008,
+       "seed_spread": 0.191577
+      },
+      "blur0": {
+       "mean": 0.002786,
+       "seed_spread": 0.231846
+      },
+      "clamp0": {
+       "mean": 0.020407,
+       "seed_spread": 0.289211
+      },
+      "nobump": {
+       "mean": 0.015859,
+       "seed_spread": 0.20505
+      },
+      "noabsorb": {
+       "mean": 0.016486,
+       "seed_spread": 0.191111
+      },
+      "flat": {
+       "mean": 0.014733,
+       "seed_spread": 0.379375
+      },
+      "model": {
+       "mean": 0.002409,
+       "seed_spread": 0.183241
+      }
+     },
+     "exit_true_face_normals": 0.000491,
+     "exit_estimate": {
+      "geometric_64": 0.000513,
+      "shading_64": 0.000571,
+      "geometric_1024": 0.000636,
+      "shading_1024": 0.000461
+     },
+     "exit_weight": {
+      "geometric_64": 0.00206,
+      "shading_64": 0.001944,
+      "geometric_1024": 0.002879,
+      "shading_1024": 0.001545
+     },
+     "true_over_glossy": {
+      "base": 0.0308,
+      "bounces": 0.0307,
+      "blur0": 0.1763,
+      "clamp0": 0.0241,
+      "nobump": 0.031,
+      "noabsorb": 0.0298,
+      "flat": 0.0333,
+      "model": 0.2039
+     },
+     "shading_over_base_glossy": 0.0289,
+     "face_over_base_glossy": 0.0398
+    }
+   ],
+   "capture_vs_truth_face_normals": {
+    "p50": 0.0409,
+    "max": 0.2349,
+    "count": 17
+   },
+   "points_true_over_glossy_above_1": {
+    "base": [
+     8,
+     11
+    ],
+    "bounces": [
+     8,
+     11
+    ],
+    "blur0": [
+     8,
+     9,
+     10,
+     11
+    ],
+    "clamp0": [
+     8,
+     11
+    ],
+    "nobump": [
+     8,
+     11
+    ],
+    "noabsorb": [
+     8,
+     11
+    ],
+    "flat": [],
+    "model": []
+   },
+   "points_face_estimate_above_base_glossy": [
+    8,
+    11
+   ],
+   "points_shading_estimate_above_base_glossy": []
+  },
+  "evening": {
+   "rows": [
+    {
+     "index": 0,
+     "group": "bottom/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      204,
+      130
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.007793,
+       "seed_spread": 0.052065
+      },
+      "bounces": {
+       "mean": 0.007856,
+       "seed_spread": 0.05811
+      },
+      "blur0": {
+       "mean": 0.008745,
+       "seed_spread": 0.081327
+      },
+      "clamp0": {
+       "mean": 0.007793,
+       "seed_spread": 0.052065
+      },
+      "nobump": {
+       "mean": 0.007684,
+       "seed_spread": 0.040318
+      },
+      "noabsorb": {
+       "mean": 0.008003,
+       "seed_spread": 0.02136
+      },
+      "flat": {
+       "mean": 0.006269,
+       "seed_spread": 0.11709
+      },
+      "model": {
+       "mean": 0.007471,
+       "seed_spread": 0.133003
+      }
+     },
+     "exit_true_face_normals": 0.003312,
+     "exit_estimate": {
+      "geometric_64": 0.00301,
+      "shading_64": 0.004846,
+      "geometric_1024": 0.003096,
+      "shading_1024": 0.004558
+     },
+     "exit_weight": {
+      "geometric_64": 0.087156,
+      "shading_64": 0.027256,
+      "geometric_1024": 0.086006,
+      "shading_1024": 0.027235
+     },
+     "true_over_glossy": {
+      "base": 0.425,
+      "bounces": 0.4216,
+      "blur0": 0.3787,
+      "clamp0": 0.425,
+      "nobump": 0.431,
+      "noabsorb": 0.4138,
+      "flat": 0.5283,
+      "model": 0.4433
+     },
+     "shading_over_base_glossy": 0.585,
+     "face_over_base_glossy": 0.3973
+    },
+    {
+     "index": 1,
+     "group": "bottom/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      251,
+      148
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.01124,
+       "seed_spread": 0.04218
+      },
+      "bounces": {
+       "mean": 0.011263,
+       "seed_spread": 0.045812
+      },
+      "blur0": {
+       "mean": 0.012042,
+       "seed_spread": 0.041543
+      },
+      "clamp0": {
+       "mean": 0.01124,
+       "seed_spread": 0.04218
+      },
+      "nobump": {
+       "mean": 0.011176,
+       "seed_spread": 0.065974
+      },
+      "noabsorb": {
+       "mean": 0.011452,
+       "seed_spread": 0.011255
+      },
+      "flat": {
+       "mean": 0.007666,
+       "seed_spread": 0.074411
+      },
+      "model": {
+       "mean": 0.010046,
+       "seed_spread": 0.062691
+      }
+     },
+     "exit_true_face_normals": 0.003611,
+     "exit_estimate": {
+      "geometric_64": 0.003565,
+      "shading_64": 0.001238,
+      "geometric_1024": 0.003343,
+      "shading_1024": 0.001683
+     },
+     "exit_weight": {
+      "geometric_64": 0.008737,
+      "shading_64": 0.007127,
+      "geometric_1024": 0.009447,
+      "shading_1024": 0.007783
+     },
+     "true_over_glossy": {
+      "base": 0.3213,
+      "bounces": 0.3206,
+      "blur0": 0.2999,
+      "clamp0": 0.3213,
+      "nobump": 0.3231,
+      "noabsorb": 0.3153,
+      "flat": 0.471,
+      "model": 0.3594
+     },
+     "shading_over_base_glossy": 0.1497,
+     "face_over_base_glossy": 0.2974
+    },
+    {
+     "index": 2,
+     "group": "bottom/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      215,
+      166
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.003416,
+       "seed_spread": 0.046223
+      },
+      "bounces": {
+       "mean": 0.003434,
+       "seed_spread": 0.066628
+      },
+      "blur0": {
+       "mean": 0.00264,
+       "seed_spread": 0.184752
+      },
+      "clamp0": {
+       "mean": 0.003403,
+       "seed_spread": 0.054692
+      },
+      "nobump": {
+       "mean": 0.003371,
+       "seed_spread": 0.008787
+      },
+      "noabsorb": {
+       "mean": 0.003515,
+       "seed_spread": 0.024233
+      },
+      "flat": {
+       "mean": 0.003583,
+       "seed_spread": 0.133471
+      },
+      "model": {
+       "mean": 0.004176,
+       "seed_spread": 0.321117
+      }
+     },
+     "exit_true_face_normals": 0.00016,
+     "exit_estimate": {
+      "geometric_64": 0.000195,
+      "shading_64": 0.000144,
+      "geometric_1024": 0.000181,
+      "shading_1024": 0.000185
+     },
+     "exit_weight": {
+      "geometric_64": 0.002227,
+      "shading_64": 0.002189,
+      "geometric_1024": 0.002065,
+      "shading_1024": 0.002059
+     },
+     "true_over_glossy": {
+      "base": 0.0469,
+      "bounces": 0.0467,
+      "blur0": 0.0607,
+      "clamp0": 0.0471,
+      "nobump": 0.0475,
+      "noabsorb": 0.0456,
+      "flat": 0.0447,
+      "model": 0.0384
+     },
+     "shading_over_base_glossy": 0.0541,
+     "face_over_base_glossy": 0.053
+    },
+    {
+     "index": 3,
+     "group": "bottom/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      192,
+      135
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.010804,
+       "seed_spread": 0.030977
+      },
+      "bounces": {
+       "mean": 0.010893,
+       "seed_spread": 0.053388
+      },
+      "blur0": {
+       "mean": 0.013074,
+       "seed_spread": 0.008225
+      },
+      "clamp0": {
+       "mean": 0.010735,
+       "seed_spread": 0.047427
+      },
+      "nobump": {
+       "mean": 0.010852,
+       "seed_spread": 0.020975
+      },
+      "noabsorb": {
+       "mean": 0.010924,
+       "seed_spread": 0.028292
+      },
+      "flat": {
+       "mean": 0.005896,
+       "seed_spread": 0.056298
+      },
+      "model": {
+       "mean": 0.010325,
+       "seed_spread": 0.147101
+      }
+     },
+     "exit_true_face_normals": 0.003863,
+     "exit_estimate": {
+      "geometric_64": 0.004098,
+      "shading_64": 0.006418,
+      "geometric_1024": 0.004632,
+      "shading_1024": 0.006804
+     },
+     "exit_weight": {
+      "geometric_64": 0.100759,
+      "shading_64": 0.029855,
+      "geometric_1024": 0.096341,
+      "shading_1024": 0.030982
+     },
+     "true_over_glossy": {
+      "base": 0.3576,
+      "bounces": 0.3547,
+      "blur0": 0.2955,
+      "clamp0": 0.3599,
+      "nobump": 0.356,
+      "noabsorb": 0.3536,
+      "flat": 0.6553,
+      "model": 0.3742
+     },
+     "shading_over_base_glossy": 0.6297,
+     "face_over_base_glossy": 0.4287
+    },
+    {
+     "index": 4,
+     "group": "bottom/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      212,
+      151
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.031198,
+       "seed_spread": 0.006471
+      },
+      "bounces": {
+       "mean": 0.031276,
+       "seed_spread": 0.01521
+      },
+      "blur0": {
+       "mean": 0.034954,
+       "seed_spread": 0.005234
+      },
+      "clamp0": {
+       "mean": 0.031191,
+       "seed_spread": 0.013757
+      },
+      "nobump": {
+       "mean": 0.030963,
+       "seed_spread": 0.004733
+      },
+      "noabsorb": {
+       "mean": 0.031852,
+       "seed_spread": 0.004592
+      },
+      "flat": {
+       "mean": 0.022232,
+       "seed_spread": 0.053327
+      },
+      "model": {
+       "mean": 0.026084,
+       "seed_spread": 0.015455
+      }
+     },
+     "exit_true_face_normals": 0.017666,
+     "exit_estimate": {
+      "geometric_64": 0.017547,
+      "shading_64": 0.014792,
+      "geometric_1024": 0.018367,
+      "shading_1024": 0.014237
+     },
+     "exit_weight": {
+      "geometric_64": 0.090372,
+      "shading_64": 0.037317,
+      "geometric_1024": 0.092428,
+      "shading_1024": 0.037028
+     },
+     "true_over_glossy": {
+      "base": 0.5662,
+      "bounces": 0.5648,
+      "blur0": 0.5054,
+      "clamp0": 0.5664,
+      "nobump": 0.5706,
+      "noabsorb": 0.5546,
+      "flat": 0.7946,
+      "model": 0.6772
+     },
+     "shading_over_base_glossy": 0.4563,
+     "face_over_base_glossy": 0.5887
+    },
+    {
+     "index": 5,
+     "group": "bottom/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      239,
+      168
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.025905,
+       "seed_spread": 0.011661
+      },
+      "bounces": {
+       "mean": 0.025957,
+       "seed_spread": 0.009189
+      },
+      "blur0": {
+       "mean": 0.02829,
+       "seed_spread": 0.018905
+      },
+      "clamp0": {
+       "mean": 0.025889,
+       "seed_spread": 0.007259
+      },
+      "nobump": {
+       "mean": 0.02589,
+       "seed_spread": 0.01878
+      },
+      "noabsorb": {
+       "mean": 0.026548,
+       "seed_spread": 0.013998
+      },
+      "flat": {
+       "mean": 0.029362,
+       "seed_spread": 0.001072
+      },
+      "model": {
+       "mean": 0.033859,
+       "seed_spread": 0.008447
+      }
+     },
+     "exit_true_face_normals": 0.025237,
+     "exit_estimate": {
+      "geometric_64": 0.024994,
+      "shading_64": 0.019927,
+      "geometric_1024": 0.025851,
+      "shading_1024": 0.020881
+     },
+     "exit_weight": {
+      "geometric_64": 0.077305,
+      "shading_64": 0.065682,
+      "geometric_1024": 0.078317,
+      "shading_1024": 0.06566
+     },
+     "true_over_glossy": {
+      "base": 0.9742,
+      "bounces": 0.9723,
+      "blur0": 0.8921,
+      "clamp0": 0.9748,
+      "nobump": 0.9748,
+      "noabsorb": 0.9506,
+      "flat": 0.8595,
+      "model": 0.7454
+     },
+     "shading_over_base_glossy": 0.8061,
+     "face_over_base_glossy": 0.9979
+    },
+    {
+     "index": 6,
+     "group": "side_tir/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      196,
+      114
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.002281,
+       "seed_spread": 0.012815
+      },
+      "bounces": {
+       "mean": 0.002317,
+       "seed_spread": 0.020941
+      },
+      "blur0": {
+       "mean": 0.002148,
+       "seed_spread": 0.118695
+      },
+      "clamp0": {
+       "mean": 0.002261,
+       "seed_spread": 0.007055
+      },
+      "nobump": {
+       "mean": 0.002278,
+       "seed_spread": 0.013742
+      },
+      "noabsorb": {
+       "mean": 0.00233,
+       "seed_spread": 0.014443
+      },
+      "flat": {
+       "mean": 0.002228,
+       "seed_spread": 0.118965
+      },
+      "model": {
+       "mean": 0.002461,
+       "seed_spread": 0.022844
+      }
+     },
+     "exit_true_face_normals": 0.001641,
+     "exit_estimate": {
+      "geometric_64": 0.001641,
+      "shading_64": 0.000443,
+      "geometric_1024": 0.00194,
+      "shading_1024": 0.000565
+     },
+     "exit_weight": {
+      "geometric_64": 0.01703,
+      "shading_64": 0.004164,
+      "geometric_1024": 0.01982,
+      "shading_1024": 0.00598
+     },
+     "true_over_glossy": {
+      "base": 0.7191,
+      "bounces": 0.7081,
+      "blur0": 0.7638,
+      "clamp0": 0.7256,
+      "nobump": 0.7203,
+      "noabsorb": 0.7041,
+      "flat": 0.7362,
+      "model": 0.6666
+     },
+     "shading_over_base_glossy": 0.2477,
+     "face_over_base_glossy": 0.8505
+    },
+    {
+     "index": 7,
+     "group": "side_tir/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      280,
+      120
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.003276,
+       "seed_spread": 0.025699
+      },
+      "bounces": {
+       "mean": 0.003317,
+       "seed_spread": 0.009072
+      },
+      "blur0": {
+       "mean": 0.003057,
+       "seed_spread": 0.315208
+      },
+      "clamp0": {
+       "mean": 0.003287,
+       "seed_spread": 0.020734
+      },
+      "nobump": {
+       "mean": 0.003249,
+       "seed_spread": 0.032442
+      },
+      "noabsorb": {
+       "mean": 0.003381,
+       "seed_spread": 0.008451
+      },
+      "flat": {
+       "mean": 0.004737,
+       "seed_spread": 0.009154
+      },
+      "model": {
+       "mean": 0.004622,
+       "seed_spread": 0.040223
+      }
+     },
+     "exit_true_face_normals": 0.000863,
+     "exit_estimate": {
+      "geometric_64": 0.000872,
+      "shading_64": 0.00045,
+      "geometric_1024": 0.000796,
+      "shading_1024": 0.000446
+     },
+     "exit_weight": {
+      "geometric_64": 0.007986,
+      "shading_64": 0.004149,
+      "geometric_1024": 0.007304,
+      "shading_1024": 0.004039
+     },
+     "true_over_glossy": {
+      "base": 0.2633,
+      "bounces": 0.26,
+      "blur0": 0.2821,
+      "clamp0": 0.2624,
+      "nobump": 0.2655,
+      "noabsorb": 0.2551,
+      "flat": 0.1821,
+      "model": 0.1866
+     },
+     "shading_over_base_glossy": 0.136,
+     "face_over_base_glossy": 0.2431
+    },
+    {
+     "index": 8,
+     "group": "side_tir/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      116,
+      146
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.007947,
+       "seed_spread": 0.078244
+      },
+      "bounces": {
+       "mean": 0.008004,
+       "seed_spread": 0.058547
+      },
+      "blur0": {
+       "mean": 0.007467,
+       "seed_spread": 0.067227
+      },
+      "clamp0": {
+       "mean": 0.007842,
+       "seed_spread": 0.063457
+      },
+      "nobump": {
+       "mean": 0.007595,
+       "seed_spread": 0.05151
+      },
+      "noabsorb": {
+       "mean": 0.00841,
+       "seed_spread": 0.064844
+      },
+      "flat": {
+       "mean": 0.024957,
+       "seed_spread": 0.010429
+      },
+      "model": {
+       "mean": 0.027281,
+       "seed_spread": 0.015932
+      }
+     },
+     "exit_true_face_normals": 0.020984,
+     "exit_estimate": {
+      "geometric_64": 0.021087,
+      "shading_64": 0.001682,
+      "geometric_1024": 0.021972,
+      "shading_1024": 0.002519
+     },
+     "exit_weight": {
+      "geometric_64": 0.061127,
+      "shading_64": 0.018453,
+      "geometric_1024": 0.062947,
+      "shading_1024": 0.020313
+     },
+     "true_over_glossy": {
+      "base": 2.6406,
+      "bounces": 2.6218,
+      "blur0": 2.8103,
+      "clamp0": 2.6759,
+      "nobump": 2.7627,
+      "noabsorb": 2.4952,
+      "flat": 0.8408,
+      "model": 0.7692
+     },
+     "shading_over_base_glossy": 0.317,
+     "face_over_base_glossy": 2.765
+    },
+    {
+     "index": 9,
+     "group": "side_tir/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      188,
+      114
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.01154,
+       "seed_spread": 0.021712
+      },
+      "bounces": {
+       "mean": 0.011689,
+       "seed_spread": 0.026162
+      },
+      "blur0": {
+       "mean": 0.011481,
+       "seed_spread": 0.011138
+      },
+      "clamp0": {
+       "mean": 0.011547,
+       "seed_spread": 0.023219
+      },
+      "nobump": {
+       "mean": 0.011293,
+       "seed_spread": 0.022801
+      },
+      "noabsorb": {
+       "mean": 0.011803,
+       "seed_spread": 0.021775
+      },
+      "flat": {
+       "mean": 0.012371,
+       "seed_spread": 0.009767
+      },
+      "model": {
+       "mean": 0.020322,
+       "seed_spread": 0.022894
+      }
+     },
+     "exit_true_face_normals": 0.009423,
+     "exit_estimate": {
+      "geometric_64": 0.009674,
+      "shading_64": 0.002476,
+      "geometric_1024": 0.010163,
+      "shading_1024": 0.002016
+     },
+     "exit_weight": {
+      "geometric_64": 0.116737,
+      "shading_64": 0.040184,
+      "geometric_1024": 0.118909,
+      "shading_1024": 0.040957
+     },
+     "true_over_glossy": {
+      "base": 0.8166,
+      "bounces": 0.8062,
+      "blur0": 0.8207,
+      "clamp0": 0.816,
+      "nobump": 0.8344,
+      "noabsorb": 0.7983,
+      "flat": 0.7617,
+      "model": 0.4637
+     },
+     "shading_over_base_glossy": 0.1747,
+     "face_over_base_glossy": 0.8807
+    },
+    {
+     "index": 10,
+     "group": "side_tir/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      288,
+      124
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.011009,
+       "seed_spread": 0.025752
+      },
+      "bounces": {
+       "mean": 0.011294,
+       "seed_spread": 0.05508
+      },
+      "blur0": {
+       "mean": 0.008468,
+       "seed_spread": 0.03067
+      },
+      "clamp0": {
+       "mean": 0.011066,
+       "seed_spread": 0.047348
+      },
+      "nobump": {
+       "mean": 0.010985,
+       "seed_spread": 0.016454
+      },
+      "noabsorb": {
+       "mean": 0.011673,
+       "seed_spread": 0.028388
+      },
+      "flat": {
+       "mean": 0.014779,
+       "seed_spread": 0.000916
+      },
+      "model": {
+       "mean": 0.014362,
+       "seed_spread": 0.043522
+      }
+     },
+     "exit_true_face_normals": 0.010361,
+     "exit_estimate": {
+      "geometric_64": 0.010009,
+      "shading_64": 0.001313,
+      "geometric_1024": 0.009668,
+      "shading_1024": 0.001381
+     },
+     "exit_weight": {
+      "geometric_64": 0.092686,
+      "shading_64": 0.013384,
+      "geometric_1024": 0.090111,
+      "shading_1024": 0.014569
+     },
+     "true_over_glossy": {
+      "base": 0.9411,
+      "bounces": 0.9174,
+      "blur0": 1.2235,
+      "clamp0": 0.9363,
+      "nobump": 0.9432,
+      "noabsorb": 0.8876,
+      "flat": 0.7011,
+      "model": 0.7214
+     },
+     "shading_over_base_glossy": 0.1254,
+     "face_over_base_glossy": 0.8782
+    },
+    {
+     "index": 11,
+     "group": "side_tir/tile",
+     "material": "V10 | submerged light / Teal glazed pool tile",
+     "pixel": [
+      145,
+      144
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.005897,
+       "seed_spread": 0.080164
+      },
+      "bounces": {
+       "mean": 0.006244,
+       "seed_spread": 0.062891
+      },
+      "blur0": {
+       "mean": 0.004778,
+       "seed_spread": 0.062493
+      },
+      "clamp0": {
+       "mean": 0.005874,
+       "seed_spread": 0.089284
+      },
+      "nobump": {
+       "mean": 0.005726,
+       "seed_spread": 0.019996
+      },
+      "noabsorb": {
+       "mean": 0.006344,
+       "seed_spread": 0.073383
+      },
+      "flat": {
+       "mean": 0.034553,
+       "seed_spread": 0.053743
+      },
+      "model": {
+       "mean": 0.041232,
+       "seed_spread": 0.025477
+      }
+     },
+     "exit_true_face_normals": 0.033453,
+     "exit_estimate": {
+      "geometric_64": 0.034427,
+      "shading_64": 0.0017,
+      "geometric_1024": 0.034524,
+      "shading_1024": 0.001594
+     },
+     "exit_weight": {
+      "geometric_64": 0.099641,
+      "shading_64": 0.009825,
+      "geometric_1024": 0.096194,
+      "shading_1024": 0.008583
+     },
+     "true_over_glossy": {
+      "base": 5.6729,
+      "bounces": 5.3577,
+      "blur0": 7.0015,
+      "clamp0": 5.6952,
+      "nobump": 5.8423,
+      "noabsorb": 5.2729,
+      "flat": 0.9682,
+      "model": 0.8113
+     },
+     "shading_over_base_glossy": 0.2703,
+     "face_over_base_glossy": 5.8546
+    },
+    {
+     "index": 12,
+     "group": "side_tir/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      253,
+      114
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.004295,
+       "seed_spread": 0.011152
+      },
+      "bounces": {
+       "mean": 0.004302,
+       "seed_spread": 0.008082
+      },
+      "blur0": {
+       "mean": 0.004654,
+       "seed_spread": 0.025934
+      },
+      "clamp0": {
+       "mean": 0.0043,
+       "seed_spread": 0.008761
+      },
+      "nobump": {
+       "mean": 0.004303,
+       "seed_spread": 0.007222
+      },
+      "noabsorb": {
+       "mean": 0.004317,
+       "seed_spread": 0.009423
+      },
+      "flat": {
+       "mean": 0.00438,
+       "seed_spread": 0.002775
+      },
+      "model": {
+       "mean": 0.005406,
+       "seed_spread": 0.136166
+      }
+     },
+     "exit_true_face_normals": 0.001731,
+     "exit_estimate": {
+      "geometric_64": 0.001774,
+      "shading_64": 0.001728,
+      "geometric_1024": 0.001538,
+      "shading_1024": 0.001487
+     },
+     "exit_weight": {
+      "geometric_64": 0.016694,
+      "shading_64": 0.016232,
+      "geometric_1024": 0.01543,
+      "shading_1024": 0.014813
+     },
+     "true_over_glossy": {
+      "base": 0.403,
+      "bounces": 0.4024,
+      "blur0": 0.3719,
+      "clamp0": 0.4025,
+      "nobump": 0.4022,
+      "noabsorb": 0.401,
+      "flat": 0.3952,
+      "model": 0.3202
+     },
+     "shading_over_base_glossy": 0.3461,
+     "face_over_base_glossy": 0.3581
+    },
+    {
+     "index": 13,
+     "group": "side_transmit/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      249,
+      123
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.003779,
+       "seed_spread": 0.048208
+      },
+      "bounces": {
+       "mean": 0.003781,
+       "seed_spread": 0.046211
+      },
+      "blur0": {
+       "mean": 0.003415,
+       "seed_spread": 0.121523
+      },
+      "clamp0": {
+       "mean": 0.003779,
+       "seed_spread": 0.04512
+      },
+      "nobump": {
+       "mean": 0.003796,
+       "seed_spread": 0.035699
+      },
+      "noabsorb": {
+       "mean": 0.003818,
+       "seed_spread": 0.044674
+      },
+      "flat": {
+       "mean": 0.002724,
+       "seed_spread": 0.076562
+      },
+      "model": {
+       "mean": 0.002314,
+       "seed_spread": 0.068673
+      }
+     },
+     "exit_true_face_normals": 0.0,
+     "exit_estimate": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 4.2e-05,
+      "shading_1024": 7.4e-05
+     },
+     "exit_weight": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 0.000473,
+      "shading_1024": 0.000744
+     },
+     "true_over_glossy": {
+      "base": 0.0,
+      "bounces": 0.0,
+      "blur0": 0.0,
+      "clamp0": 0.0,
+      "nobump": 0.0,
+      "noabsorb": 0.0,
+      "flat": 0.0,
+      "model": 0.0
+     },
+     "shading_over_base_glossy": 0.0196,
+     "face_over_base_glossy": 0.0112
+    },
+    {
+     "index": 14,
+     "group": "side_transmit/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      302,
+      131
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.002049,
+       "seed_spread": 0.21076
+      },
+      "bounces": {
+       "mean": 0.002039,
+       "seed_spread": 0.230284
+      },
+      "blur0": {
+       "mean": 0.000822,
+       "seed_spread": 0.200285
+      },
+      "clamp0": {
+       "mean": 0.002032,
+       "seed_spread": 0.22371
+      },
+      "nobump": {
+       "mean": 0.002052,
+       "seed_spread": 0.206609
+      },
+      "noabsorb": {
+       "mean": 0.002097,
+       "seed_spread": 0.217521
+      },
+      "flat": {
+       "mean": 0.00152,
+       "seed_spread": 0.37197
+      },
+      "model": {
+       "mean": 0.000825,
+       "seed_spread": 0.156048
+      }
+     },
+     "exit_true_face_normals": 0.000283,
+     "exit_estimate": {
+      "geometric_64": 0.000244,
+      "shading_64": 0.000715,
+      "geometric_1024": 0.000346,
+      "shading_1024": 0.000886
+     },
+     "exit_weight": {
+      "geometric_64": 0.002598,
+      "shading_64": 0.007632,
+      "geometric_1024": 0.003362,
+      "shading_1024": 0.007804
+     },
+     "true_over_glossy": {
+      "base": 0.1381,
+      "bounces": 0.1387,
+      "blur0": 0.3441,
+      "clamp0": 0.1392,
+      "nobump": 0.1378,
+      "noabsorb": 0.1349,
+      "flat": 0.186,
+      "model": 0.3428
+     },
+     "shading_over_base_glossy": 0.4324,
+     "face_over_base_glossy": 0.1688
+    },
+    {
+     "index": 15,
+     "group": "side_transmit/base",
+     "material": "Blackened bronze",
+     "pixel": [
+      315,
+      135
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.001149,
+       "seed_spread": 0.011154
+      },
+      "bounces": {
+       "mean": 0.001157,
+       "seed_spread": 0.025661
+      },
+      "blur0": {
+       "mean": 0.000813,
+       "seed_spread": 0.039104
+      },
+      "clamp0": {
+       "mean": 0.001157,
+       "seed_spread": 0.025661
+      },
+      "nobump": {
+       "mean": 0.001146,
+       "seed_spread": 0.02219
+      },
+      "noabsorb": {
+       "mean": 0.00116,
+       "seed_spread": 0.010963
+      },
+      "flat": {
+       "mean": 0.001095,
+       "seed_spread": 0.170821
+      },
+      "model": {
+       "mean": 0.00087,
+       "seed_spread": 0.143379
+      }
+     },
+     "exit_true_face_normals": 0.0,
+     "exit_estimate": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 2.8e-05,
+      "shading_1024": 3.8e-05
+     },
+     "exit_weight": {
+      "geometric_64": 0.0,
+      "shading_64": 0.0,
+      "geometric_1024": 0.000283,
+      "shading_1024": 0.000447
+     },
+     "true_over_glossy": {
+      "base": 0.0,
+      "bounces": 0.0,
+      "blur0": 0.0,
+      "clamp0": 0.0,
+      "nobump": 0.0,
+      "noabsorb": 0.0,
+      "flat": 0.0,
+      "model": 0.0
+     },
+     "shading_over_base_glossy": 0.0329,
+     "face_over_base_glossy": 0.0242
+    },
+    {
+     "index": 16,
+     "group": "side_transmit/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      298,
+      122
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.00309,
+       "seed_spread": 0.00837
+      },
+      "bounces": {
+       "mean": 0.003143,
+       "seed_spread": 0.030053
+      },
+      "blur0": {
+       "mean": 0.004748,
+       "seed_spread": 0.290346
+      },
+      "clamp0": {
+       "mean": 0.003077,
+       "seed_spread": 0.011421
+      },
+      "nobump": {
+       "mean": 0.003077,
+       "seed_spread": 0.003738
+      },
+      "noabsorb": {
+       "mean": 0.003215,
+       "seed_spread": 0.005149
+      },
+      "flat": {
+       "mean": 0.00432,
+       "seed_spread": 0.11366
+      },
+      "model": {
+       "mean": 0.003028,
+       "seed_spread": 0.050657
+      }
+     },
+     "exit_true_face_normals": 0.000288,
+     "exit_estimate": {
+      "geometric_64": 0.000217,
+      "shading_64": 0.000184,
+      "geometric_1024": 0.000363,
+      "shading_1024": 0.000133
+     },
+     "exit_weight": {
+      "geometric_64": 0.003697,
+      "shading_64": 0.001907,
+      "geometric_1024": 0.00471,
+      "shading_1024": 0.001461
+     },
+     "true_over_glossy": {
+      "base": 0.0932,
+      "bounces": 0.0917,
+      "blur0": 0.0607,
+      "clamp0": 0.0936,
+      "nobump": 0.0936,
+      "noabsorb": 0.0896,
+      "flat": 0.0667,
+      "model": 0.0951
+     },
+     "shading_over_base_glossy": 0.0432,
+     "face_over_base_glossy": 0.1176
+    },
+    {
+     "index": 17,
+     "group": "side_transmit/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      299,
+      127
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.003319,
+       "seed_spread": 0.010228
+      },
+      "bounces": {
+       "mean": 0.003313,
+       "seed_spread": 0.00988
+      },
+      "blur0": {
+       "mean": 0.00313,
+       "seed_spread": 0.264449
+      },
+      "clamp0": {
+       "mean": 0.003306,
+       "seed_spread": 0.012398
+      },
+      "nobump": {
+       "mean": 0.003346,
+       "seed_spread": 0.037497
+      },
+      "noabsorb": {
+       "mean": 0.003546,
+       "seed_spread": 0.041166
+      },
+      "flat": {
+       "mean": 0.003937,
+       "seed_spread": 0.117731
+      },
+      "model": {
+       "mean": 0.003102,
+       "seed_spread": 0.026933
+      }
+     },
+     "exit_true_face_normals": 0.000386,
+     "exit_estimate": {
+      "geometric_64": 0.000384,
+      "shading_64": 0.000106,
+      "geometric_1024": 0.000315,
+      "shading_1024": 0.000134
+     },
+     "exit_weight": {
+      "geometric_64": 0.003389,
+      "shading_64": 0.001107,
+      "geometric_1024": 0.003491,
+      "shading_1024": 0.001555
+     },
+     "true_over_glossy": {
+      "base": 0.1162,
+      "bounces": 0.1164,
+      "blur0": 0.1233,
+      "clamp0": 0.1167,
+      "nobump": 0.1153,
+      "noabsorb": 0.1088,
+      "flat": 0.098,
+      "model": 0.1244
+     },
+     "shading_over_base_glossy": 0.0403,
+     "face_over_base_glossy": 0.095
+    },
+    {
+     "index": 18,
+     "group": "side_transmit/wall",
+     "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+     "pixel": [
+      317,
+      131
+     ],
+     "glossy": {
+      "base": {
+       "mean": 0.00195,
+       "seed_spread": 0.027127
+      },
+      "bounces": {
+       "mean": 0.001959,
+       "seed_spread": 0.023367
+      },
+      "blur0": {
+       "mean": 0.001885,
+       "seed_spread": 0.402651
+      },
+      "clamp0": {
+       "mean": 0.001957,
+       "seed_spread": 0.02405
+      },
+      "nobump": {
+       "mean": 0.002036,
+       "seed_spread": 0.026012
+      },
+      "noabsorb": {
+       "mean": 0.00204,
+       "seed_spread": 0.030035
+      },
+      "flat": {
+       "mean": 0.002122,
+       "seed_spread": 0.034484
+      },
+      "model": {
+       "mean": 0.001758,
+       "seed_spread": 0.072246
+      }
+     },
+     "exit_true_face_normals": 0.000185,
+     "exit_estimate": {
+      "geometric_64": 0.000196,
+      "shading_64": 0.000213,
+      "geometric_1024": 0.000237,
+      "shading_1024": 0.000141
+     },
+     "exit_weight": {
+      "geometric_64": 0.00206,
+      "shading_64": 0.001944,
+      "geometric_1024": 0.002879,
+      "shading_1024": 0.001545
+     },
+     "true_over_glossy": {
+      "base": 0.0947,
+      "bounces": 0.0942,
+      "blur0": 0.0979,
+      "clamp0": 0.0943,
+      "nobump": 0.0907,
+      "noabsorb": 0.0905,
+      "flat": 0.087,
+      "model": 0.105
+     },
+     "shading_over_base_glossy": 0.0722,
+     "face_over_base_glossy": 0.1215
+    }
+   ],
+   "capture_vs_truth_face_normals": {
+    "p50": 0.0266,
+    "max": 0.2465,
+    "count": 17
+   },
+   "points_true_over_glossy_above_1": {
+    "base": [
+     8,
+     11
+    ],
+    "bounces": [
+     8,
+     11
+    ],
+    "blur0": [
+     8,
+     10,
+     11
+    ],
+    "clamp0": [
+     8,
+     11
+    ],
+    "nobump": [
+     8,
+     11
+    ],
+    "noabsorb": [
+     8,
+     11
+    ],
+    "flat": [],
+    "model": []
+   },
+   "points_face_estimate_above_base_glossy": [
+    8,
+    11
+   ],
+   "points_shading_estimate_above_base_glossy": []
+  }
+ }
+}
