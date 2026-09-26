@@ -9,10 +9,13 @@ import {
   mirrorAcross,
   SIDE_IMAGE_LAYER,
   SIDE_IMAGES,
+  SIDE_WALL_LAYER,
   type Sides,
-  sideReflections,
+  sidePath,
   SLICE_SPACING,
   sliceUnderwater,
+  trueWeight,
+  waterAirReflectance,
   WATER_IOR,
   WATER_VOLUME,
   waterTransmittance,
@@ -188,10 +191,17 @@ describe('refraction', () => {
       const tb = (min.y - p.y) / d.y;
       const t = Math.min(tx, tz, tb);
       p.addScaledVector(d, t);
-      if (t === tb) return { point: p, sides, passes: false };
+      if (t === tb) return { point: p, sides, passes: false, first: [0, 0] as Sides, across: 0 };
       const axis = t === tx ? 'x' : 'z';
       // Snell: the view leaves when n·sin(incidence) ≤ 1.
-      if (WATER_IOR * Math.sqrt(1 - d[axis] ** 2) <= 1) return { point: p, sides, passes: true };
+      if (WATER_IOR * Math.sqrt(1 - d[axis] ** 2) <= 1)
+        return {
+          point: p,
+          sides,
+          passes: true,
+          first: (axis === 'x' ? [Math.sign(d.x), 0] : [0, Math.sign(d.z)]) as Sides,
+          across: Math.abs(d[axis]),
+        };
       sides[axis === 'x' ? 0 : 1] = Math.sign(d[axis]);
       d[axis] = -d[axis];
     }
@@ -215,10 +225,19 @@ describe('refraction', () => {
             THREE.MathUtils.lerp(WATER_VOLUME.min.z, WATER_VOLUME.max.z, k / 16),
           );
           const path = trace(camera, entry);
-          if (path.passes) {
+          if (path.passes && path.sides.every((side) => side === 0)) {
+            // Leaving through the first side: still partly reflected off it.
             passes++;
+            const image = entry.clone().sub(camera).multiplyScalar(1.2).add(camera);
+            const found = sidePath(camera, image, level);
+            expect(found.first).toEqual(path.first);
+            expect(found.sides).toEqual(path.first);
+            expect(found.reflectance).toBeCloseTo(waterAirReflectance(path.across), 9);
+            expect(found.reflectance).toBeGreaterThan(0.06);
+            expect(found.reflectance).toBeLessThan(1);
             continue;
           }
+          if (path.passes) continue;
           seen.add(path.sides.join());
           // The bottom point mirrored across the sides the view reflects off is imaged on the
           // camera ray through the entry, and from that image the same sides are found.
@@ -234,15 +253,21 @@ describe('refraction', () => {
               .add(camera)
               .distanceTo(entry),
           ).toBeLessThan(1e-4);
-          expect(sideReflections(camera, image, level)).toEqual(path.sides);
+          const found = sidePath(camera, image, level);
+          expect(found.sides).toEqual(path.sides);
+          if (path.sides.some((side) => side !== 0)) expect(found.reflectance).toBe(1);
         }
     // Every side and every corner is reached, and some views pass a side.
     expect(seen.size).toBe(9);
     expect(passes).toBeGreaterThan(0);
     // No reflection from under the water, outside the surface or looking up.
     const pool = new THREE.Vector3(1, 0.4, -2);
-    expect(sideReflections(new THREE.Vector3(1, 0.5, -2), pool, level)).toEqual([0, 0]);
-    expect(sideReflections(new THREE.Vector3(-3, 1.2, -2), new THREE.Vector3(-2, 0.4, -2), level)).toEqual([0, 0]);
+    expect(sidePath(new THREE.Vector3(1, 0.5, -2), pool, level)).toEqual({
+      sides: [0, 0],
+      first: [0, 0],
+      reflectance: 0,
+    });
+    expect(sidePath(new THREE.Vector3(-3, 1.2, -2), new THREE.Vector3(-2, 0.4, -2), level).sides).toEqual([0, 0]);
     // A tilted surface normal (the waves) bends the view before it is followed: it changes the
     // sides near the boundaries of the reflecting regions only.
     const tilted = (x: number) => () => new THREE.Vector3(x, 1, 0).normalize();
@@ -258,13 +283,40 @@ describe('refraction', () => {
           );
           // Any point on the camera ray under the surface.
           const image = entry.clone().sub(camera).multiplyScalar(1.2).add(camera);
-          const flat = sideReflections(camera, image, level);
-          expect(sideReflections(camera, image, level, tilted(0))).toEqual(flat);
-          if (sideReflections(camera, image, level, tilted(0.05)).join() !== flat.join()) changed++;
+          const flat = sidePath(camera, image, level);
+          expect(sidePath(camera, image, level, tilted(0))).toEqual(flat);
+          if (sidePath(camera, image, level, tilted(0.05)).sides.join() !== flat.sides.join()) changed++;
           total++;
         }
     expect(changed).toBeGreaterThan(0);
     expect(changed).toBeLessThan(total / 2);
+  });
+
+  it('reflects part of a view leaving through a side, fully past the critical angle', () => {
+    // Water–air Fresnel: 2% square to the side, rising steeply to 1 at 48.6°.
+    const at = (degrees: number) => waterAirReflectance(Math.cos(THREE.MathUtils.degToRad(degrees)));
+    expect(at(0)).toBeCloseTo(((WATER_IOR - 1) / (WATER_IOR + 1)) ** 2, 9);
+    expect(at(41.4)).toBeCloseTo(0.068, 3);
+    expect(at(48)).toBeCloseTo(0.433, 3);
+    expect(at(48.7)).toBe(1);
+    let last = 0;
+    for (let degrees = 0; degrees < 48.6; degrees += 0.1) {
+      expect(at(degrees)).toBeGreaterThanOrEqual(last);
+      last = at(degrees);
+    }
+    expect(at(48.6)).toBeGreaterThan(0.9);
+  });
+
+  it('weights the wall just behind the first side by its transmittance, and hides what is further', () => {
+    const path = { sides: [1, 0] as Sides, first: [1, 0] as Sides, reflectance: 0.3 };
+    const wall = new THREE.Vector3(WATER_VOLUME.max.x + 0.006, 0.5, -2);
+    expect(trueWeight(new THREE.Vector3(1, 0.3, -2), path)).toBe(1);
+    expect(trueWeight(wall, path)).toBeCloseTo(0.7, 9);
+    expect(trueWeight(wall, { ...path, reflectance: 1 })).toBe(0);
+    // The back of the wall, a wall behind another side and a view that meets no side.
+    expect(trueWeight(new THREE.Vector3(WATER_VOLUME.max.x + SIDE_WALL_LAYER + 0.01, 0.5, -2), path)).toBe(0);
+    expect(trueWeight(new THREE.Vector3(1, 0.5, WATER_VOLUME.min.z - 0.006), path)).toBe(0);
+    expect(trueWeight(wall, { sides: [0, 0], first: [0, 0], reflectance: 0 })).toBe(1);
   });
 
   it('keeps each fragment on the one image its view reaches', () => {
@@ -292,8 +344,12 @@ describe('refraction', () => {
     const root = new THREE.Group();
     const material = new THREE.MeshStandardMaterial({ side: THREE.FrontSide });
     const double = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide });
+    // Shader changes of other modules (caustics.ts) tell their programs apart by this key.
+    material.customProgramCacheKey = () => 'wall program';
+    double.customProgramCacheKey = () => 'floor program';
     const floor = new THREE.PlaneGeometry(2.5, 3).rotateX(-Math.PI / 2).translate(1.18, 0.2, -2.5);
-    const geometry = wall().translate(0.005, 0, 0);
+    // The inner wall 6 mm behind the −x side.
+    const geometry = wall().translate(-0.001, 0, 0);
     const position = [...geometry.getAttribute('position').array, ...floor.getAttribute('position').array];
     const merged = new THREE.BufferGeometry();
     merged.setAttribute('position', new THREE.Float32BufferAttribute(position, 3));
@@ -310,19 +366,43 @@ describe('refraction', () => {
     root.add(new THREE.Mesh(merged, [material, double]));
     root.add(new THREE.Mesh(wall().translate(-3, 0, 0), new THREE.MeshStandardMaterial()));
     applyRefraction(root, LEVEL);
+    const source = root.children[0] as THREE.Mesh;
+    // Every triangle wholly under the surface: all but the wall's cut part above it.
+    const index = Array.from(source.geometry.index!.array);
+    const y = source.geometry.getAttribute('position');
+    const wet = (t: number) => Math.max(y.getY(index[t]), y.getY(index[t + 1]), y.getY(index[t + 2])) <= LEVEL + 1e-6;
+    const triangles = [...Array(index.length / 3).keys()].map((t) => t * 3);
+    const under = triangles.filter(wet).length;
+    expect(under).toBeLessThan(index.length / 3);
+    // Of those, the wall's (the floor lies inside the water).
+    const walled = triangles.filter((t) => wet(t) && t < merged.groups[1].start).length;
+    expect(walled).toBeGreaterThan(0);
     const time = { value: 0 };
     const images = addSideImages(root, LEVEL, time);
     expect(images.meshes).toBe(SIDE_IMAGES.length);
-    const source = root.children[0] as THREE.Mesh;
-    const copies = root.children.slice(2) as THREE.Mesh[];
-    // Every triangle wholly under the surface: all but the wall's cut part above it.
-    const index = source.geometry.index!.array;
-    const y = source.geometry.getAttribute('position');
-    let under = 0;
-    for (let t = 0; t < index.length; t += 3)
-      if (Math.max(y.getY(index[t]), y.getY(index[t + 1]), y.getY(index[t + 2])) <= LEVEL + 1e-6) under++;
-    expect(under).toBeLessThan(index.length / 3);
     expect(images.triangles).toBe(SIDE_IMAGES.length * under);
+    expect(root.children).toHaveLength(2 + SIDE_IMAGES.length + 1);
+    const copies = root.children.slice(2, -1) as THREE.Mesh[];
+    // The wall's underwater triangles move to a mesh drawn after the images and blended over them
+    // by its alpha; the rest stays in place.
+    const behind = root.children[root.children.length - 1] as THREE.Mesh;
+    expect(behind.geometry.index!.count / 3).toBe(walled);
+    expect(source.geometry.index!.count / 3).toBe(index.length / 3 - walled);
+    expect(source.geometry.groups.map((g) => g.materialIndex)).toEqual([0, 1]);
+    expect(behind.geometry.getAttribute('position')).toBe(source.geometry.getAttribute('position'));
+    expect([source.renderOrder, behind.renderOrder]).toEqual([0, 2]);
+    expect(behind.castShadow).toBe(source.castShadow);
+    for (const [i, blended] of (behind.material as THREE.MeshStandardMaterial[]).entries()) {
+      expect(blended).not.toBe((source.material as THREE.Material[])[i]);
+      expect(blended.defines?.SUI_REFRACTION).toBe(material.defines?.SUI_REFRACTION);
+      expect(blended.customProgramCacheKey()).toBe(
+        `${(source.material as THREE.Material[])[i].customProgramCacheKey()}|behind-sides`,
+      );
+      expect(blended.blending).toBe(THREE.CustomBlending);
+      expect([blended.blendSrc, blended.blendDst]).toEqual([THREE.SrcAlphaFactor, THREE.OneMinusSrcAlphaFactor]);
+      expect([blended.blendSrcAlpha, blended.blendDstAlpha]).toEqual([THREE.ZeroFactor, THREE.OneFactor]);
+    }
+    expect([material.blending, double.blending]).toEqual([THREE.NormalBlending, THREE.NormalBlending]);
     for (const [n, copy] of copies.entries()) {
       const sides = SIDE_IMAGES[n];
       expect(copy.geometry.getAttribute('position')).toBe(source.geometry.getAttribute('position'));
@@ -335,6 +415,9 @@ describe('refraction', () => {
       expect(single.defines?.SUI_REFRACTION).toBe(material.defines?.SUI_REFRACTION);
       expect(single.defines?.SUI_SIDE_FLIPPED !== undefined).toBe(flipped);
       expect(single.side).toBe(flipped ? THREE.BackSide : THREE.FrontSide);
+      expect(single.blending).toBe(THREE.NormalBlending);
+      expect(single.customProgramCacheKey()).toBe('wall program|side-image');
+      expect(both.customProgramCacheKey()).toBe('floor program|side-image');
       expect(both.side).toBe(THREE.DoubleSide);
       // The culling bounds hold the mirrored pool.
       const center = mirrorAcross(new THREE.Vector3(1.18, 0.4, -2.5), sides);
@@ -358,6 +441,6 @@ describe('refraction', () => {
     // Under the surface or looking away, none.
     expect(look([1.18, 0.5, -2.5], [1.18, 0.3, -2.6])).toBe(0);
     expect(look([1.18, 1.2, -2.5], [1.18, 5, -2.4])).toBe(0);
-    expect(THREE.ShaderChunk.clipping_planes_fragment).toContain('suiSideReflections');
+    expect(THREE.ShaderChunk.clipping_planes_fragment).toContain('suiSidePath');
   });
 });
