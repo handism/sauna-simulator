@@ -1,5 +1,5 @@
 {
-  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
   "format": "float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear radiance)",
   "scenes": [
     "day",
@@ -95,5 +95,5 @@
       }
     }
   ],
-  "bin_sha256": "9116ed231df80dc477a8b2367ea5897741c2a0d2f13a486df2fa357c0dba461a"
+  "bin_sha256": "aeeb6414d48b01853476997a2f7130b96fe0c258d107f128aaa6af3f8c4d5fab"
 }

@@ -1,5 +1,7 @@
 # 水から出た鏡面の予測がCyclesの光沢パスを超える2点の原因（2026-09-26）
 
+> **その後**：判断は「元blendを直す」。水の側面・底をフラット化し、修正後のCyclesは全面フラットの値と一致した（[water-flat-sides](../water-flat-sides/README.md)）。以下は修正前（V11）の記録。
+
 [全周参照の色の誤差](../water-capture-radiance/README.md)から残っていた「19点のうち2点（11・8）で、光学モデルが予測する水から出た成分がCyclesの鏡面パス全体（`GlossCol×(GlossDir+GlossInd)`）の4.5〜8倍になる」原因を切り分けた。**製品・配信データ・元blendは変更していない。暗い帯の修正は未完了。**
 
 ## 結論
