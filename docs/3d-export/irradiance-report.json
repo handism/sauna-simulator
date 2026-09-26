@@ -5,7 +5,7 @@
     "V10 woodland floor extension"
   ],
   "input": "SUI_Retreat.blend",
-  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
   "blender": "4.5.11 LTS",
   "panorama": [
     64,
@@ -151,11 +151,11 @@
           "invalid": 0,
           "fill_rounds": 0,
           "backface_share_max_valid": 0.0,
-          "seconds": 38.3,
+          "seconds": 39.0,
           "upward_irradiance_mean": [
-            1.9109,
-            1.7377,
-            1.3198
+            1.8992,
+            1.7134,
+            1.3019
           ]
         }
       }
@@ -218,19 +218,20 @@
           "invalid": 0,
           "fill_rounds": 0,
           "backface_share_max_valid": 0.0,
-          "seconds": 38.6,
+          "seconds": 39.0,
           "upward_irradiance_mean": [
-            0.088,
-            0.1061,
-            0.1255
+            0.0869,
+            0.1021,
+            0.1201
           ]
         }
       }
     }
   },
   "copied_grids": {
-    "bin_sha256": "c735f66ab2813f38920f2aef36b5ab84d6805e58648c89c4ffdb9964750de412",
-    "seconds": 3809.5,
+    "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+    "bin_sha256": "35652f8e172eb3afaa0ed75843235025da8993d0d9647a05c6fae6a8e600e431",
+    "seconds": 77.6,
     "grids": [
       "room",
       "courtyard",
@@ -238,6 +239,6 @@
     ]
   },
   "bin_bytes": 530928,
-  "bin_sha256": "35652f8e172eb3afaa0ed75843235025da8993d0d9647a05c6fae6a8e600e431",
-  "seconds": 77.6
+  "bin_sha256": "d5045c64d6ceb60020caedd0671e0e8da4b947ebf5e4f58483614c70312eaa2f",
+  "seconds": 78.8
 }

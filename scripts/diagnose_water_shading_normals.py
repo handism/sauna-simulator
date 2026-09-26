@@ -3,9 +3,13 @@
 Blender -b blender/scene/SUI_Retreat.blend --python-exit-code 1 --python
 scripts/diagnose_water_shading_normals.py -- --out DIR
 
-The source water's side and bottom faces are single smooth strips whose corner
-normals lean 45 degrees, so Cycles refracts and totally reflects there with
-normals that differ from the face normals used by water_reflection_trace.py.
+In the V11 source the water's side and bottom faces were single smooth strips
+whose corner normals leaned 45 degrees, so Cycles refracted and totally
+reflected there with normals that differ from the face normals used by
+water_reflection_trace.py (flatten_water_sides.py has since made them flat).
+Cycles shades smooth faces next to flat ones with vertex normals unless the
+edge between them is sharp; this trace reads Blender's corner normals, which
+split there either way.
 For the 19 endpoints of diagnose_water_radiance.py the glossy lobe of
 diagnose_water_capture_radiance.py (same GLB roughness, F0 and seeds) is traced
 through the water twice: with face normals, and with the corner normals
@@ -27,6 +31,7 @@ import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from blend_lineage import same_geometry  # noqa: E402
 from diagnose_water_radiance import select_records  # noqa: E402
 from diagnose_water_reflection_targets import SCENES, WATER, classify, glb_materials, stratified  # noqa: E402
 from water_reflection_trace import dot, normalize, sample_ggx_reflection, schlick, trace_branches  # noqa: E402
@@ -61,7 +66,7 @@ def main():
     source = Path(bpy.data.filepath)
     source_hash = sha(source)
     metadata = json.loads((args.input / 'trace-summary.json').read_text())
-    if source_hash != metadata['input_sha256']:
+    if not same_geometry(source_hash, metadata['input_sha256']):
         raise RuntimeError('Endpoint fixture belongs to a different blend')
     with gzip.open(args.input / 'trace-rays.json.gz', 'rt') as stream:
         records = json.load(stream)['original']
