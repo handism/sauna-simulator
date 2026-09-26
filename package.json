@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:browser": "bun run build && playwright test",
     "test:browser:soak": "bun run build && playwright test --config playwright.soak.config.ts",
-    "test:browser:visual": "bun run build && playwright test --config playwright.visual.config.ts"
+    "test:browser:visual": "bun run build && playwright test --config playwright.visual.config.ts",
+    "test:browser:gpu": "bun run build && playwright test --config playwright.gpu.config.ts"
   },
   "dependencies": {
     "meshoptimizer": "1.1.1",
