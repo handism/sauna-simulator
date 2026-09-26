@@ -15,7 +15,7 @@ import { disposeTree, prepareModel } from './modelMaterials';
 import { applyIrradiance, createProbeTextures, type IrradianceHeader } from './irradiance';
 import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
-import { applyRefraction } from './refraction';
+import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
 import { applyCaustics } from './caustics';
 import { createHdrOutput, type RenderStats } from './hdrOutput';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
@@ -211,12 +211,17 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         setData('glassMeshes', String(applyGlass(gltf.scene, lighting.irradiance)));
         setData('irradianceMaterials', String(applyIrradiance(gltf.scene, lighting.irradiance)));
         setData('reflectionMaterials', String(applyReflection(gltf.scene, lighting.irradiance)));
+        const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
+        // After every material change: the mirrored images copy the finished materials.
+        const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
+        setData('sideImageMeshes', String(sideImages.meshes));
+        setData('sideImageTriangles', String(sideImages.triangles));
+        camera.layers.enable(SIDE_IMAGE_LAYER);
         setData('foliageMaterials', String(stats.foliageMaterials));
         setData('noiseColorMaterials', String(stats.noiseColorMaterials));
         setData('imageRampMaterials', String(stats.imageRampMaterials));
         setData('leafClusterMaterials', String(stats.leafClusterMaterials));
         scene.add(gltf.scene);
-        const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
         scene.add(waterEffects.group);
         if (output.hdr) {
           mirror = createPlanarReflection(renderer, definition.water.center[1], mirrorUniforms);
@@ -253,6 +258,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           setData('triangles', String(triangles));
         };
         const draw = () => {
+          setData('sideImagesShown', String(sideImages.update(camera)));
           if (mirror) {
             // What else the reflection shows changing: lighting and the quality's lights.
             mirrorState[0] = lighting.irradiance.suiIrradianceEvening.value;

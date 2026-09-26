@@ -2,11 +2,19 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { WATER_BOX } from './interiorLights';
 import {
+  addSideImages,
   applyRefraction,
   apparentDepth,
+  keepsImage,
+  mirrorAcross,
+  SIDE_IMAGE_LAYER,
+  SIDE_IMAGES,
+  type Sides,
+  sideReflections,
   SLICE_SPACING,
   sliceUnderwater,
   WATER_IOR,
+  WATER_VOLUME,
   waterTransmittance,
 } from './refraction';
 
@@ -162,5 +170,194 @@ describe('refraction', () => {
     );
     // Red is absorbed most, so the deep view turns teal.
     expect(meter[0] / meter[1]).toBeLessThan(waterTransmittance(0)[0] / waterTransmittance(0)[1]);
+  });
+
+  // The view from `camera` through `entry` on the flat surface, followed by reflecting its
+  // direction at the sides until it reaches the bottom or passes a side.
+  function trace(camera: THREE.Vector3, entry: THREE.Vector3) {
+    const view = entry.clone().sub(camera).normalize();
+    const sin = Math.hypot(view.x, view.z) / WATER_IOR;
+    const d = new THREE.Vector3(view.x, 0, view.z).setLength(sin);
+    d.y = -Math.sqrt(1 - sin * sin);
+    const p = entry.clone();
+    const sides: Sides = [0, 0];
+    const { min, max } = WATER_VOLUME;
+    for (;;) {
+      const tx = ((d.x > 0 ? max.x : min.x) - p.x) / d.x;
+      const tz = ((d.z > 0 ? max.z : min.z) - p.z) / d.z;
+      const tb = (min.y - p.y) / d.y;
+      const t = Math.min(tx, tz, tb);
+      p.addScaledVector(d, t);
+      if (t === tb) return { point: p, sides, passes: false };
+      const axis = t === tx ? 'x' : 'z';
+      // Snell: the view leaves when n·sin(incidence) ≤ 1.
+      if (WATER_IOR * Math.sqrt(1 - d[axis] ** 2) <= 1) return { point: p, sides, passes: true };
+      sides[axis === 'x' ? 0 : 1] = Math.sign(d[axis]);
+      d[axis] = -d[axis];
+    }
+  }
+
+  it('finds the sides a view reflects off, where the mirrored point is imaged', () => {
+    const level = WATER_VOLUME.max.y;
+    const cameras = [
+      new THREE.Vector3(1.18, 1.12, -2.7),
+      new THREE.Vector3(4.4, 3.3, 3.3),
+      new THREE.Vector3(-0.6, 1.0, -0.4),
+    ];
+    const seen = new Set<string>();
+    let passes = 0;
+    for (const camera of cameras)
+      for (let i = 1; i < 16; i++)
+        for (let k = 1; k < 16; k++) {
+          const entry = new THREE.Vector3(
+            THREE.MathUtils.lerp(WATER_VOLUME.min.x, WATER_VOLUME.max.x, i / 16),
+            level,
+            THREE.MathUtils.lerp(WATER_VOLUME.min.z, WATER_VOLUME.max.z, k / 16),
+          );
+          const path = trace(camera, entry);
+          if (path.passes) {
+            passes++;
+            continue;
+          }
+          seen.add(path.sides.join());
+          // The bottom point mirrored across the sides the view reflects off is imaged on the
+          // camera ray through the entry, and from that image the same sides are found.
+          const mirrored = mirrorAcross(path.point, path.sides);
+          const distance = Math.hypot(mirrored.x - camera.x, mirrored.z - camera.z);
+          const image = mirrored.clone();
+          image.y = level - apparentDepth(camera.y - level, level - mirrored.y, distance);
+          const ray = image.clone().sub(camera);
+          expect(
+            ray
+              .clone()
+              .multiplyScalar((camera.y - level) / -ray.y)
+              .add(camera)
+              .distanceTo(entry),
+          ).toBeLessThan(1e-4);
+          expect(sideReflections(camera, image, level)).toEqual(path.sides);
+        }
+    // Every side and every corner is reached, and some views pass a side.
+    expect(seen.size).toBe(9);
+    expect(passes).toBeGreaterThan(0);
+    // No reflection from under the water, outside the surface or looking up.
+    const pool = new THREE.Vector3(1, 0.4, -2);
+    expect(sideReflections(new THREE.Vector3(1, 0.5, -2), pool, level)).toEqual([0, 0]);
+    expect(sideReflections(new THREE.Vector3(-3, 1.2, -2), new THREE.Vector3(-2, 0.4, -2), level)).toEqual([0, 0]);
+    // A tilted surface normal (the waves) bends the view before it is followed: it changes the
+    // sides near the boundaries of the reflecting regions only.
+    const tilted = (x: number) => () => new THREE.Vector3(x, 1, 0).normalize();
+    let changed = 0;
+    let total = 0;
+    for (const camera of cameras)
+      for (let i = 1; i < 16; i++)
+        for (let k = 1; k < 16; k++) {
+          const entry = new THREE.Vector3(
+            THREE.MathUtils.lerp(WATER_VOLUME.min.x, WATER_VOLUME.max.x, i / 16),
+            level,
+            THREE.MathUtils.lerp(WATER_VOLUME.min.z, WATER_VOLUME.max.z, k / 16),
+          );
+          // Any point on the camera ray under the surface.
+          const image = entry.clone().sub(camera).multiplyScalar(1.2).add(camera);
+          const flat = sideReflections(camera, image, level);
+          expect(sideReflections(camera, image, level, tilted(0))).toEqual(flat);
+          if (sideReflections(camera, image, level, tilted(0.05)).join() !== flat.join()) changed++;
+          total++;
+        }
+    expect(changed).toBeGreaterThan(0);
+    expect(changed).toBeLessThan(total / 2);
+  });
+
+  it('keeps each fragment on the one image its view reaches', () => {
+    const inside = new THREE.Vector3(1, 0.2, -2);
+    const behindX = new THREE.Vector3(2.53, 0.5, -2);
+    const behindZ = new THREE.Vector3(1, 0.5, -4.11);
+    // True surfaces: the pool always, a wall behind a side only while the view passes the sides.
+    expect(keepsImage(inside, [0, 0], [1, -1])).toBe(true);
+    expect(keepsImage(behindX, [0, 0], [0, 0])).toBe(true);
+    expect(keepsImage(behindX, [0, 0], [1, 0])).toBe(false);
+    // An image of one side: the pool when the view reflects off that side first or only.
+    expect(keepsImage(inside, [1, 0], [1, 0])).toBe(true);
+    expect(keepsImage(inside, [1, 0], [1, -1])).toBe(true);
+    expect(keepsImage(inside, [1, 0], [0, -1])).toBe(false);
+    expect(keepsImage(inside, [1, 0], [-1, 0])).toBe(false);
+    // The wall right behind the mirroring side would stand in front of its image.
+    expect(keepsImage(behindX, [1, 0], [1, 0])).toBe(false);
+    // A wall behind another side is seen after the reflection only when the view passes it.
+    expect(keepsImage(behindZ, [1, 0], [1, 0])).toBe(true);
+    expect(keepsImage(behindZ, [1, 0], [1, -1])).toBe(false);
+    expect(keepsImage(behindZ, [1, -1], [1, -1])).toBe(false);
+  });
+
+  it('adds the mirrored images sharing the underwater geometry, shown only where they can be seen', () => {
+    const root = new THREE.Group();
+    const material = new THREE.MeshStandardMaterial({ side: THREE.FrontSide });
+    const double = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide });
+    const floor = new THREE.PlaneGeometry(2.5, 3).rotateX(-Math.PI / 2).translate(1.18, 0.2, -2.5);
+    const geometry = wall().translate(0.005, 0, 0);
+    const position = [...geometry.getAttribute('position').array, ...floor.getAttribute('position').array];
+    const merged = new THREE.BufferGeometry();
+    merged.setAttribute('position', new THREE.Float32BufferAttribute(position, 3));
+    merged.setAttribute(
+      'normal',
+      new THREE.Float32BufferAttribute(
+        position.map((_, i) => (i % 3 === 1 ? 1 : 0)),
+        3,
+      ),
+    );
+    merged.setIndex([...geometry.index!.array, ...Array.from(floor.index!.array, (i) => i + 4)]);
+    merged.addGroup(0, 6, 0);
+    merged.addGroup(6, 6, 1);
+    root.add(new THREE.Mesh(merged, [material, double]));
+    root.add(new THREE.Mesh(wall().translate(-3, 0, 0), new THREE.MeshStandardMaterial()));
+    applyRefraction(root, LEVEL);
+    const time = { value: 0 };
+    const images = addSideImages(root, LEVEL, time);
+    expect(images.meshes).toBe(SIDE_IMAGES.length);
+    const source = root.children[0] as THREE.Mesh;
+    const copies = root.children.slice(2) as THREE.Mesh[];
+    // Every triangle wholly under the surface: all but the wall's cut part above it.
+    const index = source.geometry.index!.array;
+    const y = source.geometry.getAttribute('position');
+    let under = 0;
+    for (let t = 0; t < index.length; t += 3)
+      if (Math.max(y.getY(index[t]), y.getY(index[t + 1]), y.getY(index[t + 2])) <= LEVEL + 1e-6) under++;
+    expect(under).toBeLessThan(index.length / 3);
+    expect(images.triangles).toBe(SIDE_IMAGES.length * under);
+    for (const [n, copy] of copies.entries()) {
+      const sides = SIDE_IMAGES[n];
+      expect(copy.geometry.getAttribute('position')).toBe(source.geometry.getAttribute('position'));
+      expect(copy.layers.mask).toBe(1 << SIDE_IMAGE_LAYER);
+      expect(copy.castShadow).toBe(false);
+      expect(copy.renderOrder).toBe(1);
+      const [single, both] = copy.material as THREE.MeshStandardMaterial[];
+      const flipped = sides[0] * sides[1] === 0;
+      expect(single.defines?.SUI_SIDE_IMAGE).toBe('');
+      expect(single.defines?.SUI_REFRACTION).toBe(material.defines?.SUI_REFRACTION);
+      expect(single.defines?.SUI_SIDE_FLIPPED !== undefined).toBe(flipped);
+      expect(single.side).toBe(flipped ? THREE.BackSide : THREE.FrontSide);
+      expect(both.side).toBe(THREE.DoubleSide);
+      // The culling bounds hold the mirrored pool.
+      const center = mirrorAcross(new THREE.Vector3(1.18, 0.4, -2.5), sides);
+      expect(copy.geometry.boundingBox!.containsPoint(center)).toBe(true);
+      const shader = { uniforms: {} as Record<string, unknown>, vertexShader: '', fragmentShader: '' };
+      single.onBeforeCompile(shader as never, undefined as never);
+      expect(shader.uniforms.suiWaterTime).toBe(time);
+      expect((shader.uniforms.suiSide as { value: THREE.Vector2 }).value.toArray()).toEqual(sides);
+    }
+    const camera = new THREE.PerspectiveCamera(70, 1.5, 0.05, 100);
+    const look = (position: number[], target: number[]) => {
+      camera.position.fromArray(position);
+      camera.lookAt(new THREE.Vector3().fromArray(target));
+      camera.updateMatrixWorld();
+      return images.update(camera);
+    };
+    // Above the pool every image can be seen; beyond the +x side none of that side.
+    expect(look([1.18, 1.2, -2.5], [1.18, 0, -2.6])).toBe(8);
+    expect(look([4.4, 3.3, 3.3], [1.18, 0.5, -2.5])).toBe(3);
+    expect(copies.filter((c) => c.visible).every((c) => !c.name.includes('side image 1'))).toBe(true);
+    // Under the surface or looking away, none.
+    expect(look([1.18, 0.5, -2.5], [1.18, 0.3, -2.6])).toBe(0);
+    expect(look([1.18, 1.2, -2.5], [1.18, 5, -2.4])).toBe(0);
+    expect(THREE.ShaderChunk.clipping_planes_fragment).toContain('suiSideReflections');
   });
 });

@@ -36,7 +36,8 @@ export function waveHeight(x: number, z: number, t = 0) {
 }
 
 const f = (v: number) => v.toFixed(6);
-const WAVE_NORMAL = /* glsl */ `
+/** The surface normal of WAVES at world (x, z) and time t, in GLSL (also used by refraction.ts). */
+export const WAVE_NORMAL = /* glsl */ `
 vec3 suiWaveNormal( vec2 xz, float t ) {
 	vec2 offset = xz - vec2( ${f(WAVES.center[0])}, ${f(WAVES.center[1])} );
 	float r = max( length( offset ), 1e-4 );
@@ -134,6 +135,8 @@ export function createWaterEffects(
   return {
     group,
     surface,
+    /** The waves' time in seconds (0 with reduced motion), shared with the underwater views. */
+    time,
     update: (seconds: number, reducedMotion: boolean) => {
       time.value = reducedMotion ? 0 : seconds;
     },

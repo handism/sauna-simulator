@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { WATER_BOX } from './interiorLights';
+import { WAVE_NORMAL } from './waterEffects';
 
 // The plunge seen through its flat surface. Cycles refracts the camera rays at the water (IOR
 // 1.333), so the tub looks shallow and its inner walls nearly vanish; the browser surface is a
@@ -21,6 +22,20 @@ import { WATER_BOX } from './interiorLights';
 // walls reach from the floor to the coping in one triangle) are cut at the surface and on a grid
 // of axis-aligned planes. Planes cut shared edges at the same points on both sides, so the moved
 // meshes stay closed. The individual tiles are already small and are left as they are.
+//
+// The sides of the source water are flat and meet air (the tiles and walls sit a few mm to cm
+// behind them), so Cycles reflects most views that reach a side back into the pool: the refracted
+// view goes down at least as steeply as the critical angle (|d.y| ≥ 0.66), so it meets a side at
+// more than 48.6° and is totally reflected unless it runs nearly square to it, and it never
+// reflects off the bottom. Across the tub it can reflect at most once off an x side and once off a
+// z side before it reaches the bottom. A flat mirror shows the scene mirrored across its plane, so
+// the underwater triangles are drawn eight more times, mirrored across each side and each corner,
+// at the image of the mirrored point (the straight refracted ray reaches it). Each fragment follows
+// its view through the flat surface and the source water's box and keeps only the image of the
+// sides that view reflects off: the true tub walls behind a reflecting side and the mirrored
+// images of the sides it passes are discarded. Lighting keeps the true point; only the view
+// direction is mirrored. The partial reflection where a view leaves through a side, and the
+// transmission loss there, are left out (the view either reflects fully or passes).
 
 export const WATER_IOR = 1.333;
 /** Spacing of the cutting planes, in meters. */
@@ -54,18 +69,163 @@ export const WATER_ABSORPTION = [0.57, 0.84, 0.78].map((c) => 0.12 * (1 - c));
 export const waterTransmittance = (path: number) =>
   WATER_TINT.map((tint, i) => tint * Math.exp(-WATER_ABSORPTION[i] * path));
 
+/**
+ * The source water volume (V4 rippled spring water volume, evaluated geometry) in glTF meters:
+ * its flat sides and bottom (the top is the scene's flat level). The lighting WATER_BOX is wider (it holds the tiles and walls).
+ */
+export const WATER_VOLUME = new THREE.Box3(
+  new THREE.Vector3(-0.155, 0.215, -4.095),
+  new THREE.Vector3(2.515, 0.765, -0.905),
+);
+/** A refracted view meeting a side reflects fully while its component along the side's normal is below this. */
+const SIDE_CRITICAL = Math.sqrt(1 - 1 / WATER_IOR ** 2);
+/** The sides a mirrored image lies behind: [x, z], each −1 (min side), 0 or 1 (max side). */
+export type Sides = [number, number];
+/** The mirrored images drawn besides the true one: four sides and four corners. */
+export const SIDE_IMAGES: Sides[] = [
+  [-1, 0],
+  [1, 0],
+  [0, -1],
+  [0, 1],
+  [-1, -1],
+  [-1, 1],
+  [1, -1],
+  [1, 1],
+];
+
+/**
+ * The sides the view from `camera` toward the underwater `image` reflects off, following it
+ * through the surface at `level` (refracted about `normal` there, a function of the entry point)
+ * into WATER_VOLUME. [0, 0] when it enters outside the volume.
+ */
+export function sideReflections(
+  camera: THREE.Vector3,
+  image: THREE.Vector3,
+  level: number,
+  normal: (x: number, z: number) => THREE.Vector3 = () => new THREE.Vector3(0, 1, 0),
+): Sides {
+  const view = image.clone().sub(camera).normalize();
+  const sides: Sides = [0, 0];
+  if (camera.y <= level || view.y >= 0) return sides;
+  const p = camera.clone().addScaledVector(view, (camera.y - level) / -view.y);
+  if (p.x < WATER_VOLUME.min.x || p.x > WATER_VOLUME.max.x || p.z < WATER_VOLUME.min.z || p.z > WATER_VOLUME.max.z)
+    return sides;
+  // refract() as in GLSL with eta 1/n.
+  const eta = 1 / WATER_IOR;
+  const n = normal(p.x, p.z);
+  const cos = -view.dot(n);
+  const d = view
+    .clone()
+    .multiplyScalar(eta)
+    .addScaledVector(n, eta * cos - Math.sqrt(1 - eta * eta * (1 - cos * cos)));
+  const bounds = WATER_VOLUME;
+  for (let i = 0; i < 2; i++) {
+    const tx = ((d.x >= 0 ? bounds.max.x : bounds.min.x) - p.x) / (Math.abs(d.x) > 1e-6 ? d.x : 1e-6);
+    const tz = ((d.z >= 0 ? bounds.max.z : bounds.min.z) - p.z) / (Math.abs(d.z) > 1e-6 ? d.z : 1e-6);
+    const tb = (bounds.min.y - p.y) / d.y;
+    if (tb <= Math.min(tx, tz)) break;
+    const axis = tx < tz ? 'x' : 'z';
+    p.addScaledVector(d, Math.min(tx, tz));
+    if (Math.abs(d[axis]) >= SIDE_CRITICAL) break;
+    sides[axis === 'x' ? 0 : 1] = Math.sign(d[axis]);
+    d[axis] = -d[axis];
+  }
+  return sides;
+}
+
+/** `point` mirrored across the given sides of WATER_VOLUME. */
+export function mirrorAcross(point: THREE.Vector3, [x, z]: Sides) {
+  const mirrored = point.clone();
+  if (x) mirrored.x = 2 * (x > 0 ? WATER_VOLUME.max.x : WATER_VOLUME.min.x) - point.x;
+  if (z) mirrored.z = 2 * (z > 0 ? WATER_VOLUME.max.z : WATER_VOLUME.min.z) - point.z;
+  return mirrored;
+}
+
+/**
+ * Whether a fragment at true position `point` of the image mirrored across `image` sides is kept
+ * when its view reflects off `path` sides: the image of those sides, or of fewer sides for the
+ * points inside the water, which the view reaches before it meets the next side. Nothing behind
+ * a side the view reflects off is seen (the tub wall just behind it would stand in front of its
+ * mirrored image).
+ */
+export function keepsImage(point: THREE.Vector3, image: Sides, path: Sides) {
+  const along = image.every((side, i) => side === 0 || side === path[i]);
+  const { min, max } = WATER_VOLUME;
+  const behind = (side: number, value: number, low: number, high: number) =>
+    (side > 0 && value > high) || (side < 0 && value < low);
+  if (behind(image[0], point.x, min.x, max.x) || behind(image[1], point.z, min.z, max.z)) return false;
+  const inside = point.x > min.x && point.x < max.x && point.z > min.z && point.z < max.z;
+  return along && (inside || (image[0] === path[0] && image[1] === path[1]));
+}
+
 const vec2 = (v: THREE.Vector3) => `vec2( ${v.x.toFixed(4)}, ${v.z.toFixed(4)} )`;
 
-// Same bisection as apparentDepth (16 steps: under 0.1 mm across the plunge).
+const glslVec3 = (v: readonly number[]) => `vec3( ${v.map((c) => c.toFixed(5)).join(', ')} )`;
+const inBox = (p: string) =>
+  `${p}.y >= ${WATER_BOX.min.y.toFixed(4)} && all( greaterThanEqual( ${p}.xz, ${vec2(WATER_BOX.min)} ) ) && all( lessThanEqual( ${p}.xz, ${vec2(WATER_BOX.max)} ) )`;
+
+// Declarations for both stages. suiSide is the image's sides (0 for the true one).
+const declarations = (level: string) => /* glsl */ `
+#ifdef SUI_REFRACTION
+varying float vSuiWaterPath;
+varying vec3 vSuiImage;
+uniform float suiWaterTime;
+${WAVE_NORMAL}
+#ifdef SUI_SIDE_IMAGE
+uniform vec2 suiSide;
+vec3 suiMirror( vec3 p ) {
+	vec2 plane = mix( ${vec2(WATER_VOLUME.min)}, ${vec2(WATER_VOLUME.max)}, step( 0.0, suiSide ) );
+	p.xz = mix( p.xz, 2.0 * plane - p.xz, abs( suiSide ) );
+	return p;
+}
+#endif
+// The sides the view toward an underwater image reflects off (sideReflections in refraction.ts),
+// entering through the rippled surface: the images stay at the flat surface's, but which one is
+// seen follows the waves (closer to the source's reflecting region than a flat surface).
+vec2 suiSideReflections( vec3 image ) {
+	vec3 view = normalize( image - cameraPosition );
+	vec2 sides = vec2( 0.0 );
+	if ( cameraPosition.y <= ${level} || view.y >= 0.0 ) return sides;
+	vec3 p = cameraPosition + view * ( ( cameraPosition.y - ${level} ) / - view.y );
+	if ( any( lessThan( p.xz, ${vec2(WATER_VOLUME.min)} ) ) || any( greaterThan( p.xz, ${vec2(WATER_VOLUME.max)} ) ) ) return sides;
+	vec3 d = refract( view, suiWaveNormal( p.xz, suiWaterTime ), ${(1 / WATER_IOR).toFixed(6)} );
+	for ( int i = 0; i < 2; i ++ ) {
+		vec2 wall = mix( ${vec2(WATER_VOLUME.min)}, ${vec2(WATER_VOLUME.max)}, step( 0.0, d.xz ) );
+		vec2 t = ( wall - p.xz ) / mix( vec2( 1e-6 ), d.xz, step( 1e-6, abs( d.xz ) ) );
+		float bottom = ( ${WATER_VOLUME.min.y.toFixed(4)} - p.y ) / d.y;
+		if ( bottom <= min( t.x, t.y ) ) break;
+		bool alongX = t.x < t.y;
+		p += d * min( t.x, t.y );
+		float across = alongX ? d.x : d.z;
+		if ( abs( across ) >= ${SIDE_CRITICAL.toFixed(6)} ) break;
+		if ( alongX ) { sides.x = sign( d.x ); d.x = - d.x; }
+		else { sides.y = sign( d.z ); d.z = - d.z; }
+	}
+	return sides;
+}
+#endif
+`;
+
+// Same bisection as apparentDepth (16 steps: under 0.1 mm across the plunge). A mirrored image
+// is placed at the image of its mirrored point.
 const refraction = (level: string) => /* glsl */ `
 #ifdef SUI_REFRACTION
 vSuiWaterPath = 0.0;
 {
 	vec3 suiWorld = cameraPosition + ( vec4( mvPosition.xyz, 0.0 ) * viewMatrix ).xyz;
+	vec3 suiSeen = suiWorld;
+	// mvPosition stays the true point: vViewPosition is set from it for the lighting.
+	vec4 suiSeenView = mvPosition;
+	#ifdef SUI_SIDE_IMAGE
+	suiSeen = suiMirror( suiWorld );
+	suiSeenView.xyz += ( viewMatrix * vec4( suiSeen - suiWorld, 0.0 ) ).xyz;
+	gl_Position = projectionMatrix * suiSeenView;
+	#endif
+	vSuiImage = suiSeen;
 	float suiHeight = cameraPosition.y - ${level};
 	float suiDepth = ${level} - suiWorld.y;
-	if ( suiHeight > 0.0 && suiDepth > 0.0 && suiWorld.y >= ${WATER_BOX.min.y.toFixed(4)} && all( greaterThanEqual( suiWorld.xz, ${vec2(WATER_BOX.min)} ) ) && all( lessThanEqual( suiWorld.xz, ${vec2(WATER_BOX.max)} ) ) ) {
-		float suiDistance = length( suiWorld.xz - cameraPosition.xz );
+	if ( suiHeight > 0.0 && suiDepth > 0.0 && ${inBox('suiWorld')} ) {
+		float suiDistance = length( suiSeen.xz - cameraPosition.xz );
 		float suiLo = 0.0;
 		float suiHi = suiDistance;
 		for ( int i = 0; i < 16; i ++ ) {
@@ -80,17 +240,55 @@ vSuiWaterPath = 0.0;
 		float suiCos2 = sqrt( 1.0 - suiSin2 * suiSin2 );
 		float suiApparent = suiDepth * suiCos1 / ( ${WATER_IOR} * suiCos2 );
 		vSuiWaterPath = suiDepth / suiCos2;
-		gl_Position = projectionMatrix * ( mvPosition + viewMatrix * vec4( 0.0, suiDepth - suiApparent, 0.0, 0.0 ) );
+		vSuiImage.y += suiDepth - suiApparent;
+		gl_Position = projectionMatrix * ( suiSeenView + viewMatrix * vec4( 0.0, suiDepth - suiApparent, 0.0, 0.0 ) );
 	}
 }
 #endif
 `;
 
-const glslVec3 = (v: readonly number[]) => `vec3( ${v.map((c) => c.toFixed(5)).join(', ')} )`;
+// Keeps a fragment only on the image its view reaches (keepsImage in refraction.ts). Mirrored
+// images show nothing above the water or for a camera under it.
+const sideImage = (level: string) => /* glsl */ `
+#ifdef SUI_REFRACTION
+{
+	vec3 suiTrue = ( ( vec4( - vViewPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
+	bool suiWet = cameraPosition.y > ${level} && suiTrue.y < ${level} && ${inBox('suiTrue')};
+	#ifdef SUI_SIDE_IMAGE
+	vec2 suiImageSides = suiSide;
+	if ( ! suiWet ) discard;
+	#else
+	vec2 suiImageSides = vec2( 0.0 );
+	#endif
+	if ( suiWet ) {
+		vec2 suiPath = suiSideReflections( vSuiImage );
+		bool suiAlong = all( equal( suiImageSides * ( suiImageSides - suiPath ), vec2( 0.0 ) ) );
+		vec2 suiBelow = step( suiTrue.xz, ${vec2(WATER_VOLUME.min)} );
+		vec2 suiAbove = step( ${vec2(WATER_VOLUME.max)}, suiTrue.xz );
+		bool suiBehind = any( greaterThan( max( suiImageSides, 0.0 ) * suiAbove + max( - suiImageSides, 0.0 ) * suiBelow, vec2( 0.0 ) ) );
+		bool suiInside = all( greaterThan( suiTrue.xz, ${vec2(WATER_VOLUME.min)} ) ) && all( lessThan( suiTrue.xz, ${vec2(WATER_VOLUME.max)} ) );
+		if ( suiBehind || ! suiAlong || ! ( suiInside || all( equal( suiImageSides, suiPath ) ) ) ) discard;
+	}
+}
+#endif
+`;
+
+// The mirrored image is seen from the mirrored camera.
+const sideView = /* glsl */ `
+#ifdef SUI_SIDE_IMAGE
+{
+	vec3 suiTrue = ( ( vec4( geometryPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
+	vec3 suiToCamera = cameraPosition - suiMirror( suiTrue );
+	suiToCamera.xz *= 1.0 - 2.0 * abs( suiSide );
+	geometryViewDir = normalize( ( viewMatrix * vec4( suiToCamera, 0.0 ) ).xyz );
+}
+#endif
+`;
+
 // suiWorldPosition is the fragment's true position (interiorLights.ts, lights_fragment_begin).
 const tint = (level: string) => /* glsl */ `
 #ifdef SUI_REFRACTION
-if ( cameraPosition.y > ${level} && suiWorldPosition.y < ${level} && suiWorldPosition.y >= ${WATER_BOX.min.y.toFixed(4)} && all( greaterThanEqual( suiWorldPosition.xz, ${vec2(WATER_BOX.min)} ) ) && all( lessThanEqual( suiWorldPosition.xz, ${vec2(WATER_BOX.max)} ) ) )
+if ( cameraPosition.y > ${level} && suiWorldPosition.y < ${level} && ${inBox('suiWorldPosition')} )
 	gl_FragColor.rgb *= ${glslVec3(WATER_TINT)} * exp( - ${glslVec3(WATER_ABSORPTION)} * vSuiWaterPath );
 #endif
 `;
@@ -263,19 +461,186 @@ export function applyRefraction(root: THREE.Object3D, level: number) {
   return { materials: materials.size, triangles };
 }
 
+/** The layer of the mirrored images: only the main camera draws them, not the water's mirror. */
+export const SIDE_IMAGE_LAYER = 2;
+
+/**
+ * The part of `geometry` under the water (as sliceUnderwater cuts it) as a geometry sharing its
+ * attributes, or null when there is none.
+ */
+function underwaterPart(geometry: THREE.BufferGeometry, matrix: THREE.Matrix4, level: number, wet: Set<number>) {
+  const position = geometry.getAttribute('position');
+  const index = geometry.index ? Array.from(geometry.index.array) : [...Array(position.count).keys()];
+  const region = new THREE.Box3(WATER_BOX.min, new THREE.Vector3(WATER_BOX.max.x, level, WATER_BOX.max.z));
+  const triangle = new THREE.Box3();
+  const corners = [0, 1, 2].map(() => new THREE.Vector3());
+  const groups = geometry.groups.length ? geometry.groups : [{ start: 0, count: index.length, materialIndex: 0 }];
+  const part: number[] = [];
+  const partGroups: { start: number; count: number; materialIndex: number }[] = [];
+  for (const group of groups) {
+    if (!wet.has(group.materialIndex ?? 0)) continue;
+    const start = part.length;
+    for (let t = group.start; t < Math.min(group.start + group.count, index.length); t += 3) {
+      corners.forEach((c, e) => c.fromBufferAttribute(position, index[t + e]).applyMatrix4(matrix));
+      triangle.setFromPoints(corners);
+      // Wholly under the surface: the slicing cut every wet triangle there.
+      if (triangle.intersectsBox(region) && triangle.max.y <= level + 1e-6)
+        part.push(index[t], index[t + 1], index[t + 2]);
+    }
+    if (part.length > start)
+      partGroups.push({ start, count: part.length - start, materialIndex: group.materialIndex ?? 0 });
+  }
+  if (!part.length) return null;
+  return { index: new THREE.BufferAttribute(new Uint32Array(part), 1), groups: partGroups };
+}
+
+/**
+ * Adds the underwater surfaces mirrored across the sides and corners of the source water (see
+ * above), after applyRefraction and the other material changes. They are drawn on
+ * SIDE_IMAGE_LAYER and cast no shadow. `waterTime` is the waves' time uniform (waterEffects.ts),
+ * which the underwater materials now read. Returns the meshes added and their triangles each.
+ */
+export function addSideImages(root: THREE.Object3D, level: number, waterTime: { value: number }) {
+  const region = new THREE.Box3(WATER_BOX.min, new THREE.Vector3(WATER_BOX.max.x, level, WATER_BOX.max.z));
+  const bounds = new THREE.Box3();
+  const sources: THREE.Mesh[] = [];
+  root.updateMatrixWorld(true);
+  root.traverse((object) => {
+    if (object instanceof THREE.Mesh && object.visible && bounds.setFromObject(object).intersectsBox(region))
+      sources.push(object);
+  });
+  let meshes = 0;
+  let triangles = 0;
+  const timed = new Set<THREE.Material>();
+  const images: { mesh: THREE.Mesh; sides: Sides }[] = [];
+  for (const source of sources) {
+    const list: THREE.Material[] = Array.isArray(source.material) ? source.material : [source.material];
+    const wet = new Set(
+      list.flatMap((material, i) =>
+        material instanceof THREE.MeshStandardMaterial && material.defines?.SUI_REFRACTION !== undefined ? [i] : [],
+      ),
+    );
+    if (!wet.size) continue;
+    for (const i of wet) {
+      const material = list[i];
+      if (timed.has(material)) continue;
+      timed.add(material);
+      const previous = material.onBeforeCompile;
+      material.onBeforeCompile = (shader, renderer) => {
+        previous.call(material, shader, renderer);
+        shader.uniforms.suiWaterTime = waterTime;
+      };
+    }
+    const part = underwaterPart(source.geometry, source.matrixWorld, level, wet);
+    if (!part) continue;
+    const toLocal = source.matrixWorld.clone().invert();
+    for (const sides of SIDE_IMAGES) {
+      const geometry = new THREE.BufferGeometry();
+      for (const [name, attribute] of Object.entries(source.geometry.attributes))
+        geometry.setAttribute(name, attribute);
+      geometry.setIndex(part.index);
+      for (const group of part.groups) geometry.addGroup(group.start, group.count, group.materialIndex);
+      // Culled by the mirrored region, where its image lies (the lift keeps it under the surface).
+      const mirrored = new THREE.Box3().setFromPoints(
+        [region.min, region.max].map((p) => mirrorAcross(p, sides).applyMatrix4(toLocal)),
+      );
+      geometry.boundingBox = mirrored;
+      geometry.boundingSphere = mirrored.getBoundingSphere(new THREE.Sphere());
+      // One mirror reverses the winding: swap the culled side and undo the normal flip that
+      // brings (FLIP_SIDED), or flip the facing of double-sided materials.
+      const flipped = sides[0] * sides[1] === 0;
+      const side = { value: new THREE.Vector2(...sides) };
+      const materials = list.map((material, i) => {
+        if (!wet.has(i)) return material;
+        const copy = material.clone();
+        copy.defines = { ...material.defines, SUI_SIDE_IMAGE: '', ...(flipped ? { SUI_SIDE_FLIPPED: '' } : {}) };
+        if (flipped && material.side !== THREE.DoubleSide)
+          copy.side = material.side === THREE.FrontSide ? THREE.BackSide : THREE.FrontSide;
+        copy.onBeforeCompile = (shader, renderer) => {
+          material.onBeforeCompile(shader, renderer);
+          shader.uniforms.suiSide = side;
+        };
+        return copy;
+      });
+      const mesh = new THREE.Mesh(geometry, Array.isArray(source.material) ? materials : materials[0]);
+      mesh.name = `${source.name} side image ${sides.join(',')}`;
+      mesh.matrixAutoUpdate = false;
+      mesh.matrix.copy(source.matrixWorld);
+      mesh.castShadow = false;
+      mesh.receiveShadow = source.receiveShadow;
+      mesh.layers.set(SIDE_IMAGE_LAYER);
+      // After the true surfaces, so the coping and the tub in front reject its hidden fragments by depth.
+      mesh.renderOrder = 1;
+      root.add(mesh);
+      images.push({ mesh, sides });
+      meshes++;
+      triangles += part.index.count / 3;
+    }
+  }
+  const surface = new THREE.Box3(
+    new THREE.Vector3(WATER_VOLUME.min.x, level, WATER_VOLUME.min.z),
+    new THREE.Vector3(WATER_VOLUME.max.x, level, WATER_VOLUME.max.z),
+  );
+  const frustum = new THREE.Frustum();
+  const matrix = new THREE.Matrix4();
+  return {
+    meshes,
+    triangles,
+    /**
+     * Shows only the images `camera` can see: none while it is under the surface or the surface is
+     * out of view, and none of a side it is behind. The refracted view keeps its horizontal
+     * direction, so from beyond a side every view moves away from it. Returns the meshes shown.
+     */
+    update(camera: THREE.Camera) {
+      camera.updateMatrixWorld();
+      matrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      frustum.setFromProjectionMatrix(matrix);
+      const { x, y, z } = camera.getWorldPosition(new THREE.Vector3());
+      const seen = y > level && frustum.intersectsBox(surface);
+      const facing = (side: number, value: number, low: number, high: number) =>
+        side === 0 || (side > 0 ? value < high : value > low);
+      let shown = 0;
+      for (const { mesh, sides } of images) {
+        mesh.visible =
+          seen &&
+          facing(sides[0], x, WATER_VOLUME.min.x, WATER_VOLUME.max.x) &&
+          facing(sides[1], z, WATER_VOLUME.min.z, WATER_VOLUME.max.z);
+        if (mesh.visible) shown++;
+      }
+      return shown;
+    },
+  };
+}
+
 // three 0.186 is pinned: project_vertex ends with gl_Position from mvPosition, opaque_fragment
 // with gl_FragColor from the outgoing light, and interiorLights.ts has defined suiWorldPosition.
 const PROJECT = 'gl_Position = projectionMatrix * mvPosition;';
 const OPAQUE = 'gl_FragColor = vec4( outgoingLight, diffuseColor.a );';
+const VIEW_DIR = 'vec3 geometryViewDir = ( isOrthographic ) ? vec3( 0, 0, 1 ) : normalize( vViewPosition );';
+const FACING = 'float faceDirection = gl_FrontFacing ? 1.0 : - 1.0;';
 if (!THREE.ShaderChunk.project_vertex.includes('SUI_REFRACTION')) {
   if (
     !THREE.ShaderChunk.project_vertex.trimEnd().endsWith(PROJECT) ||
     !THREE.ShaderChunk.opaque_fragment.trimEnd().endsWith(OPAQUE) ||
-    !THREE.ShaderChunk.lights_fragment_begin.includes('vec3 suiWorldPosition')
+    !THREE.ShaderChunk.lights_fragment_begin.includes('vec3 suiWorldPosition') ||
+    !THREE.ShaderChunk.lights_fragment_begin.includes(VIEW_DIR) ||
+    !THREE.ShaderChunk.normal_fragment_begin.includes(FACING) ||
+    !THREE.ShaderChunk.defaultnormal_vertex.includes('#ifdef FLIP_SIDED')
   )
     throw new Error('three shader chunks changed; update refraction.ts');
   const level = 'float( SUI_REFRACTION )';
-  THREE.ShaderChunk.common += '\n#ifdef SUI_REFRACTION\nvarying float vSuiWaterPath;\n#endif\n';
+  THREE.ShaderChunk.common += declarations(level);
   THREE.ShaderChunk.project_vertex += refraction(level);
+  THREE.ShaderChunk.clipping_planes_fragment = sideImage(level) + THREE.ShaderChunk.clipping_planes_fragment;
+  THREE.ShaderChunk.lights_fragment_begin = THREE.ShaderChunk.lights_fragment_begin.replace(
+    VIEW_DIR,
+    VIEW_DIR + sideView,
+  );
+  THREE.ShaderChunk.defaultnormal_vertex +=
+    '\n#if defined( SUI_SIDE_FLIPPED ) && ! defined( DOUBLE_SIDED )\ntransformedNormal = - transformedNormal;\n#endif\n';
+  THREE.ShaderChunk.normal_fragment_begin = THREE.ShaderChunk.normal_fragment_begin.replace(
+    FACING,
+    FACING + '\n#if defined( SUI_SIDE_FLIPPED ) && defined( DOUBLE_SIDED )\nfaceDirection = - faceDirection;\n#endif',
+  );
   THREE.ShaderChunk.opaque_fragment += tint(level);
 }
