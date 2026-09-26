@@ -1,0 +1,5407 @@
+{
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "trace_sha256": "b2eb74a33ae35f95c5a0d8da1bf198c990344f19819c97a135bf8e01695cb5f3",
+  "radiance_sha256": "18cb6d8f221bf4abf2ab4e00a3c7815e90c446b4d5a07726b5dd870bfe124ce0",
+  "glb_sha256": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+  "script_sha256": "49a77b7eda4511dd85b0dd55d8c9480b000b79e7ecf692db0cea198f9a3ab910",
+  "helper_sha256": "3be27bd6b6394e92724a44cc948aa4bc8bcb795e62a788a5d7cffcfed52ff2a4",
+  "blender": "4.5.11 LTS",
+  "coordinates": "Blender Z-up, meters",
+  "water_bounds": [
+    [
+      -0.1550000011920929,
+      0.9049999713897705,
+      0.2150000035762787
+    ],
+    [
+      2.515000104904175,
+      4.09499979019165,
+      0.7714451551437378
+    ]
+  ],
+  "overhead_origin_z": 0.8714451551437378,
+  "absorption_per_m": [
+    0.05160000000000001,
+    0.019200000000000002,
+    0.026399999999999996
+  ],
+  "categories": [
+    "pool_overhead",
+    "pool_face",
+    "sky",
+    "above_water",
+    "light",
+    "unresolved"
+  ],
+  "samples": 64,
+  "selected_samples": 1024,
+  "endpoints": 10056,
+  "suns": {
+    "SUI \u2022 Daylight": {
+      "object": "Late afternoon sunlight",
+      "direction": [
+        -0.5560218691825867,
+        -0.5560218691825867,
+        0.6178020238876343
+      ],
+      "half_angle": 0.042500000447034836,
+      "strength": 3.200000047683716
+    },
+    "SUI \u2022 Blue hour": {
+      "object": "Late afternoon sunlight.002",
+      "direction": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "half_angle": 0.03500000014901161,
+      "strength": 0.04500000178813934
+    }
+  },
+  "selected": {
+    "day": [
+      {
+        "index": 0,
+        "group": "bottom/base",
+        "pixel": [
+          204,
+          130
+        ],
+        "position": [
+          0.23832905292510986,
+          3.4289357662200928,
+          0.20000001788139343
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1423832892221021,
+        "fractions": {
+          "pool_overhead": 0.3784178723542994,
+          "pool_face": 0.0047730061828638376,
+          "sky": 0.012618055790993869,
+          "above_water": 0.5977518446176353,
+          "light": 7.763793774217954e-05,
+          "unresolved": 0.006361583116465811
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.374244601480702,
+          "pool_face": 0.004642802363020043,
+          "sky": 0.01178134769977632,
+          "above_water": 0.5828057977813309,
+          "light": 7.184625006887601e-05,
+          "unresolved": 0.005583697400407105
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.5853708811207801
+          ],
+          [
+            "pool_overhead",
+            "direct",
+            0.18028338667572621
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.11717724803628152
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > tir_side > tir_side > exit_bottom",
+            0.0745102435796752
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > tir_side > tir_side > reflect_bottom > exit_top",
+            0.010273073011770075
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.005387305986862352
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > tir_side > tir_side > reflect_bottom > exit_top",
+            0.0047574685272211
+          ],
+          [
+            "pool_face",
+            "enter_bottom > exit_top",
+            0.003806799191771757
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Plunge side basalt",
+            0.3346392320951776
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.20891663854584291
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.028",
+            0.1816815013003364
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.029",
+            0.1318051297709462
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.030",
+            0.03168918197386944
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.014",
+            0.015790594800655512
+          ],
+          [
+            "above_water",
+            "Honed pool coping",
+            0.01175321630061033
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.010606220640679643
+          ]
+        ]
+      },
+      {
+        "index": 1,
+        "group": "bottom/base",
+        "pixel": [
+          251,
+          148
+        ],
+        "position": [
+          1.259766936302185,
+          3.130133867263794,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.12757245071162,
+        "fractions": {
+          "pool_overhead": 0.9230795066057214,
+          "pool_face": 0.002425930452144957,
+          "sky": 0.005383092899900606,
+          "above_water": 0.06901295110803175,
+          "light": 5.143247679396257e-07,
+          "unresolved": 9.800460943410849e-05
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9229708655977901,
+          "pool_face": 0.0023258798220658116,
+          "sky": 0.005278326513796273,
+          "above_water": 0.06746921774831552,
+          "light": 4.813839417257885e-07,
+          "unresolved": 8.659362001448968e-05
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9161286210724667
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.06839913239440364
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.005313237038845049
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.00447348650661175
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.002410837540170974
+          ],
+          [
+            "pool_face",
+            "enter_bottom > tir_top > exit_side",
+            0.0020837060012788068
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.0005538101967308774
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.00011091035668911498
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.107",
+            0.9197702824914386
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.05422529562033904
+          ],
+          [
+            "above_water",
+            "Spillway fixture",
+            0.009311758656603924
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.00313084936477241
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.0021917057217236548
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.095",
+            0.0009237638898370042
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.000911577924948659
+          ],
+          [
+            "above_water",
+            "V4 flowing spring ribbon",
+            0.0008602658726734817
+          ]
+        ]
+      },
+      {
+        "index": 2,
+        "group": "bottom/base",
+        "pixel": [
+          215,
+          166
+        ],
+        "position": [
+          1.1282947063446045,
+          2.2726869583129883,
+          0.20000004768371582
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.09977290151271281,
+        "fractions": {
+          "pool_overhead": 0.9828020517244419,
+          "pool_face": 2.429526945018984e-05,
+          "sky": 0.010585969872740705,
+          "above_water": 0.006578462913888066,
+          "light": 0.0,
+          "unresolved": 9.220219478971735e-06
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9827813019040961,
+          "pool_face": 2.293005623931051e-05,
+          "sky": 0.010384509916927845,
+          "above_water": 0.006442016749989843,
+          "light": 0.0,
+          "unresolved": 8.779751294017338e-06
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.981732360255381
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.010581304094000054
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.006574092761803388
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.0005677407936863818
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.000500528597657102
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > reflect_bottom > exit_side",
+            2.429526945018984e-05
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > reflect_bottom",
+            8.034265165434215e-06
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > reflect_side > exit_top",
+            4.665778740651234e-06
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.103",
+            0.9820833690431523
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.004114095952411947
+          ],
+          [
+            "above_water",
+            "Sauna insulated flat roof",
+            0.0010961572936264172
+          ],
+          [
+            "above_water",
+            "Fine canopy leaves.086",
+            0.00038060062137375153
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.0002962217750469604
+          ],
+          [
+            "above_water",
+            "V8 slender shade louver.014",
+            0.00025492798890098997
+          ],
+          [
+            "above_water",
+            "Plunge side basalt",
+            0.00022382772462104658
+          ],
+          [
+            "above_water",
+            "Honed pool coping",
+            0.00020927565607825838
+          ]
+        ]
+      },
+      {
+        "index": 3,
+        "group": "bottom/tile",
+        "pixel": [
+          192,
+          135
+        ],
+        "position": [
+          0.19297105073928833,
+          3.112562894821167,
+          0.20249998569488525
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1404128453270668,
+        "fractions": {
+          "pool_overhead": 0.26636195502625865,
+          "pool_face": 0.03139307845932365,
+          "sky": 0.015869746534875384,
+          "above_water": 0.677401355349317,
+          "light": 0.0010194662191861435,
+          "unresolved": 0.007954398411040441
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.26219771175413503,
+          "pool_face": 0.030585532378010753,
+          "sky": 0.014860548814056731,
+          "above_water": 0.6603869591674503,
+          "light": 0.0009427521981554202,
+          "unresolved": 0.006931762472759206
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.4938325779027445
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.18285544279752933
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.16319315336726803
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > tir_side > exit_bottom",
+            0.031951847482726975
+          ],
+          [
+            "pool_face",
+            "enter_bottom > exit_top",
+            0.02750105758234019
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > tir_side > exit_bottom",
+            0.022474650717851118
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > tir_side > tir_side > exit_bottom",
+            0.015273745823932641
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > exit_bottom",
+            0.007964052444483132
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Plunge side basalt",
+            0.45259336755312485
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.027",
+            0.1446626218091845
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.11671314662007451
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.031",
+            0.04886824666711734
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.030690139586887464
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.02768039991025807
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.02708905146884634
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.028",
+            0.021066844716597925
+          ]
+        ]
+      },
+      {
+        "index": 4,
+        "group": "bottom/tile",
+        "pixel": [
+          212,
+          151
+        ],
+        "position": [
+          0.8167595267295837,
+          2.717432737350464,
+          0.20249998569488525
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.13094399330912676,
+        "fractions": {
+          "pool_overhead": 0.277670003203488,
+          "pool_face": 0.002336687791925848,
+          "sky": 0.011319013272492583,
+          "above_water": 0.7015248041117131,
+          "light": 0.0001044663312762964,
+          "unresolved": 0.0070450252891027755
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.27236821886451906,
+          "pool_face": 0.0021936638869065063,
+          "sky": 0.0108074807053047,
+          "above_water": 0.6834983403989559,
+          "light": 9.654623502643404e-05,
+          "unresolved": 0.006181415835124454
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.6818280295736926
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.17623272978423674
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.09493182504890324
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > exit_top",
+            0.014749768114712753
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.007031417134410505
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > reflect_top > tir_side > exit_bottom",
+            0.003366365666991703
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > tir_side > exit_top",
+            0.002875713976616092
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > tir_side > reflect_top > exit_bottom",
+            0.001840624872199103
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Garden enclosure",
+            0.4322373073800817
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.073",
+            0.1391820782417596
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.09245896014225685
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.06725333203321598
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.04191585599097979
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.030",
+            0.03867528837115003
+          ],
+          [
+            "above_water",
+            "Cedar rear wall board 31",
+            0.025041701824852897
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.046",
+            0.0223985922538278
+          ]
+        ]
+      },
+      {
+        "index": 5,
+        "group": "bottom/tile",
+        "pixel": [
+          239,
+          168
+        ],
+        "position": [
+          1.451127052307129,
+          2.387484550476074,
+          0.20250000059604645
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.10891294573877736,
+        "fractions": {
+          "pool_overhead": 0.21615944878874074,
+          "pool_face": 0.050965196188226515,
+          "sky": 0.014795350612008094,
+          "above_water": 0.702232727731004,
+          "light": 0.0,
+          "unresolved": 0.01584727668002109
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.21291211486029765,
+          "pool_face": 0.047149632373416815,
+          "sky": 0.014503695006506955,
+          "above_water": 0.6847889094839766,
+          "light": 0.0,
+          "unresolved": 0.013760272777700913
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.6912628513733938
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.15161134057695605
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.061412579481974684
+          ],
+          [
+            "pool_face",
+            "enter_bottom > tir_top > tir_bottom > exit_side",
+            0.035219968776504455
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.014725009466412848
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > tir_bottom > exit_side",
+            0.008646378537313643
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.006500490184818578
+          ],
+          [
+            "unresolved",
+            "enter_bottom > tir_top > tir_bottom > reflect_side > tir_top > tir_bottom > tir_top > tir_side",
+            0.004048042263394037
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Garden enclosure",
+            0.6320759303485513
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.119",
+            0.07404659467198793
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.120",
+            0.06285082387322193
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.05064027721447202
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.092",
+            0.03516209808844947
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.02897552803477029
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.016356163836208644
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.011203831769798486
+          ]
+        ]
+      },
+      {
+        "index": 6,
+        "group": "side_tir/base",
+        "pixel": [
+          196,
+          114
+        ],
+        "position": [
+          0.03161776065826416,
+          4.070158004760742,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.16668265568783863,
+        "fractions": {
+          "pool_overhead": 0.8819353751576697,
+          "pool_face": 0.002758676021392374,
+          "sky": 0.08852731877104753,
+          "above_water": 0.023871510986156176,
+          "light": 0.0028729211671118054,
+          "unresolved": 3.4197896624759985e-05
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.8816937140199413,
+          "pool_face": 0.0027577408275389894,
+          "sky": 0.08653398342922788,
+          "above_water": 0.02358908023202735,
+          "light": 0.0028112556771788784,
+          "unresolved": 3.221071104373294e-05
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.8757099986573599
+          ],
+          [
+            "sky",
+            "enter_bottom > tir_side > exit_top",
+            0.08651863092437702
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.011084114142240798
+          ],
+          [
+            "above_water",
+            "direct",
+            0.008737391950511214
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > exit_bottom",
+            0.005217816378367332
+          ],
+          [
+            "above_water",
+            "reflect_bottom",
+            0.0028745618090037436
+          ],
+          [
+            "light",
+            "enter_bottom > tir_side > exit_top",
+            0.002659681792964861
+          ],
+          [
+            "pool_face",
+            "reflect_bottom",
+            0.00263051001463671
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.8755409013914505
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.005120577544118361
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.003616814406392851
+          ],
+          [
+            "above_water",
+            "V8 canopy side rail",
+            0.0033112021456439163
+          ],
+          [
+            "light",
+            "V9 lounge patch of sunlight",
+            0.002846440694740385
+          ],
+          [
+            "above_water",
+            "Limestone terrace paver.006",
+            0.0026220375695363758
+          ],
+          [
+            "pool_face",
+            "Limestone terrace paver.006",
+            0.001761875366215624
+          ],
+          [
+            "above_water",
+            "V8 slender shade louver.001",
+            0.0016862315940865415
+          ]
+        ]
+      },
+      {
+        "index": 7,
+        "group": "side_tir/base",
+        "pixel": [
+          280,
+          120
+        ],
+        "position": [
+          1.172846794128418,
+          3.6682863235473633,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.10233108165478824,
+        "fractions": {
+          "pool_overhead": 0.9277625165211031,
+          "pool_face": 0.0003697930240298629,
+          "sky": 0.04746689221838925,
+          "above_water": 0.024327291420171017,
+          "light": 5.7484745077603375e-06,
+          "unresolved": 6.775834179956842e-05
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9276400237673049,
+          "pool_face": 0.0003575789267919546,
+          "sky": 0.04646026127134582,
+          "above_water": 0.023813027517626276,
+          "light": 5.3269571407593175e-06,
+          "unresolved": 6.145563211210718e-05
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9222549952983792
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.04734377960460478
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.024097128566767583
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.0027236713171475994
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.0027039077577203823
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_side > exit_top",
+            0.00017952702377160897
+          ],
+          [
+            "pool_face",
+            "enter_bottom > exit_top",
+            0.00017565453492330465
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.0001220645729659794
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.109",
+            0.9244608400612365
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.010813646629216382
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.007799160629217646
+          ],
+          [
+            "above_water",
+            "Sauna insulated flat roof",
+            0.0029098686978419924
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.0010809894009656798
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.089",
+            0.0007154038118310945
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.073",
+            0.000680433126191183
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.0005761986687274847
+          ]
+        ]
+      },
+      {
+        "index": 8,
+        "group": "side_tir/base",
+        "pixel": [
+          116,
+          146
+        ],
+        "position": [
+          0.23752015829086304,
+          2.117300510406494,
+          0.19999992847442627
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.12787903061351363,
+        "fractions": {
+          "pool_overhead": 0.5079908793811223,
+          "pool_face": 1.9783859532219624e-05,
+          "sky": 0.013584290571739236,
+          "above_water": 0.47789600090441503,
+          "light": 0.00023066327081364406,
+          "unresolved": 0.0002783820123779878
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.5058430220076993,
+          "pool_face": 1.8028052623308276e-05,
+          "sky": 0.013315222116231025,
+          "above_water": 0.4662544352951015,
+          "light": 0.00022605158436395946,
+          "unresolved": 0.00025591269705077085
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.4733654829028781
+          ],
+          [
+            "pool_overhead",
+            "direct",
+            0.403823702904631
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.05930379595642253
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.044545807982078245
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.013583553140537432
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.004311407284212024
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > reflect_bottom > reflect_top > exit_bottom",
+            0.00027995591137296275
+          ],
+          [
+            "light",
+            "enter_bottom > exit_top",
+            0.00023066327081364406
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.038",
+            0.46275268917749746
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.4490436377036463
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.090",
+            0.031057931465738844
+          ],
+          [
+            "above_water",
+            "Fine canopy leaves.094",
+            0.006368173495904859
+          ],
+          [
+            "above_water",
+            "V8 canopy timber beam.001",
+            0.004801720568048931
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.089",
+            0.004533834660682242
+          ],
+          [
+            "above_water",
+            "Fine canopy leaves.091",
+            0.00295603849538383
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.106",
+            0.0029123831558216895
+          ]
+        ]
+      },
+      {
+        "index": 9,
+        "group": "side_tir/tile",
+        "pixel": [
+          188,
+          114
+        ],
+        "position": [
+          0.13569024205207825,
+          3.986302137374878,
+          0.20250000059604645
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.16565948524407084,
+        "fractions": {
+          "pool_overhead": 0.2707027557407588,
+          "pool_face": 0.005383170604662336,
+          "sky": 0.4308742288467872,
+          "above_water": 0.27947535241652144,
+          "light": 0.008087375190331984,
+          "unresolved": 0.005477117200938727
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.26542306529119797,
+          "pool_face": 0.005321138815321165,
+          "sky": 0.41960890538961865,
+          "above_water": 0.27374174906115584,
+          "light": 0.007887238344231063,
+          "unresolved": 0.004736643390788385
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "sky",
+            "enter_bottom > tir_side > exit_top",
+            0.4133101022792016
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.20817250155702646
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.11814732643991423
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > exit_bottom",
+            0.09624770874050545
+          ],
+          [
+            "above_water",
+            "reflect_bottom",
+            0.059756063071210855
+          ],
+          [
+            "pool_overhead",
+            "direct",
+            0.049811206340907806
+          ],
+          [
+            "sky",
+            "enter_bottom > tir_side > reflect_top > reflect_bottom > exit_top",
+            0.014189782704465519
+          ],
+          [
+            "light",
+            "enter_bottom > tir_side > exit_top",
+            0.007971684095616655
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "V8 canopy bronze post",
+            0.10324398824018037
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.031",
+            0.07573457080810422
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.075",
+            0.06157224768889695
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.061179305223912135
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.05083370073322149
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.04420868474321691
+          ],
+          [
+            "above_water",
+            "V8 canopy side rail",
+            0.037710200628727916
+          ],
+          [
+            "above_water",
+            "V8 canopy timber beam",
+            0.031190040351884434
+          ]
+        ]
+      },
+      {
+        "index": 10,
+        "group": "side_tir/tile",
+        "pixel": [
+          288,
+          124
+        ],
+        "position": [
+          1.344686508178711,
+          3.792386054992676,
+          0.20250000059604645
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1340955990045603,
+        "fractions": {
+          "pool_overhead": 0.2438989708418989,
+          "pool_face": 0.06880105429672846,
+          "sky": 0.6011820565638344,
+          "above_water": 0.07675344368004666,
+          "light": 0.0,
+          "unresolved": 0.009364474617492116
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.24047924632053938,
+          "pool_face": 0.06062681606889303,
+          "sky": 0.5862242890197865,
+          "above_water": 0.07458277670762145,
+          "light": 0.0,
+          "unresolved": 0.008018155295684259
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.5941242878461204
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.17975147667173247
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.06918859576466921
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.05840994447373245
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.047893595462719214
+          ],
+          [
+            "pool_face",
+            "enter_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.011617893432613166
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.006659967632375956
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > tir_bottom > tir_top > tir_bottom > reflect_side > tir_top > tir_bottom",
+            0.004146518585793949
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.126",
+            0.11398611543153163
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.06761131034771647
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.125",
+            0.0381019668157569
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.02709948156822008
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.088",
+            0.02401062670168509
+          ],
+          [
+            "above_water",
+            "V10 garden woodland 03 / V6 clustered tree leaves.021",
+            0.012729073239380287
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.089",
+            0.012525158348514637
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.109",
+            0.011333240293333465
+          ]
+        ]
+      },
+      {
+        "index": 11,
+        "group": "side_tir/tile",
+        "pixel": [
+          145,
+          144
+        ],
+        "position": [
+          -0.09258992969989777,
+          2.4105606079101562,
+          0.20249998569488525
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1359909246559473,
+        "fractions": {
+          "pool_overhead": 0.2805875425079443,
+          "pool_face": 0.001968898816054194,
+          "sky": 0.014832563569395184,
+          "above_water": 0.6934730630638447,
+          "light": 3.041616829184751e-05,
+          "unresolved": 0.009107515874468659
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.27561131105026476,
+          "pool_face": 0.0018125740103846033,
+          "sky": 0.014538675954892609,
+          "above_water": 0.6756216255858527,
+          "light": 2.675702121078803e-05,
+          "unresolved": 0.007757077971438387
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.6737231058002519
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.18220181148877615
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.0942559995054908
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.018170329229174314
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.013421560967940728
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > reflect_bottom > tir_top > tir_side > tir_bottom > tir_top > tir_bottom",
+            0.0023514606320284713
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > reflect_bottom > tir_top > tir_side > tir_bottom > tir_top > tir_side",
+            0.0021007951387208294
+          ],
+          [
+            "sky",
+            "enter_bottom > tir_side > exit_top",
+            0.0013793305305167688
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Garden enclosure",
+            0.5644663688589069
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.008",
+            0.09559064360419221
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.007",
+            0.04239013908930754
+          ],
+          [
+            "above_water",
+            "Spillway fixture",
+            0.04187889210697649
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.076",
+            0.04162572388563586
+          ],
+          [
+            "above_water",
+            "V4 flowing spring ribbon",
+            0.040123975601050736
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.02625696787843135
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.024",
+            0.019231702450856522
+          ]
+        ]
+      },
+      {
+        "index": 12,
+        "group": "side_tir/wall",
+        "pixel": [
+          253,
+          114
+        ],
+        "position": [
+          -0.1600000560283661,
+          2.415076732635498,
+          0.8439290523529053
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.021423809869682453,
+        "fractions": {
+          "pool_overhead": 0.2589368174538019,
+          "pool_face": 0.02062350558243973,
+          "sky": 0.3037234559395708,
+          "above_water": 0.39758571205577975,
+          "light": 0.015738176556349674,
+          "unresolved": 0.003392332412057409
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.25256829917344553,
+          "pool_face": 0.020029781121655585,
+          "sky": 0.30355165263540934,
+          "above_water": 0.39619031637519303,
+          "light": 0.01568551577761375,
+          "unresolved": 0.0029490037891404235
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "direct",
+            0.3048194701610998
+          ],
+          [
+            "sky",
+            "direct",
+            0.2822063448516923
+          ],
+          [
+            "pool_overhead",
+            "enter_top > exit_bottom",
+            0.2522722094756351
+          ],
+          [
+            "above_water",
+            "reflect_top",
+            0.06683993793817275
+          ],
+          [
+            "above_water",
+            "enter_top > reflect_bottom > exit_top",
+            0.02117823803635252
+          ],
+          [
+            "sky",
+            "reflect_top",
+            0.017676974810211375
+          ],
+          [
+            "light",
+            "direct",
+            0.012523633996267753
+          ],
+          [
+            "pool_face",
+            "enter_top > reflect_bottom > exit_side",
+            0.006922352465782139
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Plunge end basalt",
+            0.10739296703910524
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.03769616862928991
+          ],
+          [
+            "above_water",
+            "Honed pool coping.002",
+            0.030563726718809883
+          ],
+          [
+            "above_water",
+            "Honed pool coping",
+            0.0225505572496893
+          ],
+          [
+            "above_water",
+            "Right garden wall",
+            0.020794653957451247
+          ],
+          [
+            "above_water",
+            "Plunge side basalt.001",
+            0.018556090450487665
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.020",
+            0.013746506377612369
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.013309982907421043
+          ]
+        ]
+      },
+      {
+        "index": 13,
+        "group": "side_transmit/base",
+        "pixel": [
+          249,
+          123
+        ],
+        "position": [
+          0.7399306297302246,
+          4.101654052734375,
+          0.19996784627437592
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.03148720274939512,
+        "fractions": {
+          "pool_overhead": 0.9673686915811308,
+          "pool_face": 0.014472447842857008,
+          "sky": 0.005917589382529621,
+          "above_water": 0.010271261642586205,
+          "light": 0.0,
+          "unresolved": 0.0019700095508961304
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9673197523947731,
+          "pool_face": 0.01405773859156377,
+          "sky": 0.005781849499207401,
+          "above_water": 0.010141066409210529,
+          "light": 0.0,
+          "unresolved": 0.001677016391653915
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9644037254791931
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.008725024670334671
+          ],
+          [
+            "above_water",
+            "direct",
+            0.00439968281428232
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.004292259174016189
+          ],
+          [
+            "sky",
+            "enter_side > exit_top",
+            0.00396225870068325
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.0018519431901197786
+          ],
+          [
+            "above_water",
+            "enter_side > exit_top",
+            0.0014839745838045046
+          ],
+          [
+            "pool_overhead",
+            "reflect_side",
+            0.001151058617730973
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.9655547840969241
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.008725024670334671
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.003143281674673562
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.002179509663076591
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.002070370671409834
+          ],
+          [
+            "above_water",
+            "Sauna insulated flat roof",
+            0.001862598589476356
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.0012564011396087576
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.0012081172963928541
+          ]
+        ]
+      },
+      {
+        "index": 14,
+        "group": "side_transmit/base",
+        "pixel": [
+          302,
+          131
+        ],
+        "position": [
+          1.673371434211731,
+          4.1008620262146,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.031278011585140056,
+        "fractions": {
+          "pool_overhead": 0.7319456684002764,
+          "pool_face": 0.15320649048212398,
+          "sky": 0.08338679562118527,
+          "above_water": 0.023849621181785473,
+          "light": 0.0,
+          "unresolved": 0.007611424314629099
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.7313427302299991,
+          "pool_face": 0.15069352083721896,
+          "sky": 0.08151538829507078,
+          "above_water": 0.023163436425924944,
+          "light": 0.0,
+          "unresolved": 0.0064599529498821275
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.7094056510166025
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.13202693273357646
+          ],
+          [
+            "sky",
+            "enter_side > exit_top",
+            0.06688406389625037
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.015855791919744854
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.013365515934277383
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.010081986695429226
+          ],
+          [
+            "pool_overhead",
+            "enter_side > reflect_top > exit_bottom",
+            0.00946516667438302
+          ],
+          [
+            "above_water",
+            "enter_side > exit_top",
+            0.008553076073196053
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.7175349584551441
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.13202693273357646
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.01816287714018552
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.009386070912735554
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.003774521912159386
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.107",
+            0.002916820377112087
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.0017387043304513147
+          ],
+          [
+            "above_water",
+            "Facade mullion.002",
+            0.0016540279992087945
+          ]
+        ]
+      },
+      {
+        "index": 15,
+        "group": "side_transmit/base",
+        "pixel": [
+          315,
+          135
+        ],
+        "position": [
+          1.9015018939971924,
+          4.1024298667907715,
+          0.19963416457176208
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.03138262850324506,
+        "fractions": {
+          "pool_overhead": 0.9777788384089736,
+          "pool_face": 0.007336184905257643,
+          "sky": 0.005695098625616498,
+          "above_water": 0.008064250089315949,
+          "light": 0.0,
+          "unresolved": 0.001125627970836094
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9777110350030495,
+          "pool_face": 0.007083437447774763,
+          "sky": 0.005556553133062806,
+          "above_water": 0.007921966035779758,
+          "light": 0.0,
+          "unresolved": 0.0009602745956578873
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9751788920757701
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.005389884702713202
+          ],
+          [
+            "sky",
+            "enter_side > exit_top",
+            0.004619195398816579
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.004269292810374008
+          ],
+          [
+            "above_water",
+            "direct",
+            0.0022518430320299177
+          ],
+          [
+            "above_water",
+            "enter_side > exit_top",
+            0.0014142349944521533
+          ],
+          [
+            "pool_overhead",
+            "enter_side > reflect_top > exit_bottom",
+            0.0010772611149591233
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.0009205790802520823
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.9760870375709724
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.005389884702713202
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.0022518430320299177
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.0015291298638547741
+          ],
+          [
+            "above_water",
+            "Plunge side basalt.001",
+            0.0010502819666178022
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.0009363003215690537
+          ],
+          [
+            "above_water",
+            "V8 coping shadow joint.001",
+            0.0009031864962554533
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.0008750703902287734
+          ]
+        ]
+      },
+      {
+        "index": 16,
+        "group": "side_transmit/wall",
+        "pixel": [
+          298,
+          122
+        ],
+        "position": [
+          1.5854593515396118,
+          4.100000381469727,
+          0.6286140084266663
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.07331652845781775,
+        "fractions": {
+          "pool_overhead": 0.19635521936752265,
+          "pool_face": 0.695211898146205,
+          "sky": 0.03427682630814927,
+          "above_water": 0.022813066438760056,
+          "light": 0.0,
+          "unresolved": 0.051342989739364055
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.1889025099673068,
+          "pool_face": 0.6335831325162177,
+          "sky": 0.03295495236822651,
+          "above_water": 0.021173719800430483,
+          "light": 0.0,
+          "unresolved": 0.04347040237431905
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_face",
+            "reflect_side",
+            0.18018758275164218
+          ],
+          [
+            "pool_overhead",
+            "enter_side > exit_bottom",
+            0.14582279364023115
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > exit_side",
+            0.10646324037036366
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.06015338979071844
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.048003362714052034
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > exit_side",
+            0.0387572995135038
+          ],
+          [
+            "sky",
+            "enter_side > reflect_bottom > exit_top",
+            0.025505470685607313
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_side > tir_top > exit_side",
+            0.024048863211703457
+          ]
+        ],
+        "objects": [
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.48816696902040635
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.18060352999538698
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.125",
+            0.04241187289810111
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.142",
+            0.03299575169027627
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.141",
+            0.03234828842744398
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.126",
+            0.027325830452747914
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt",
+            0.024101898833875215
+          ],
+          [
+            "above_water",
+            "Plunge end basalt",
+            0.008908346733066883
+          ]
+        ]
+      },
+      {
+        "index": 17,
+        "group": "side_transmit/wall",
+        "pixel": [
+          299,
+          127
+        ],
+        "position": [
+          1.630793809890747,
+          4.100000381469727,
+          0.4295201301574707
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.05581207908726361,
+        "fractions": {
+          "pool_overhead": 0.22951295145298795,
+          "pool_face": 0.6695125589232949,
+          "sky": 0.030509219668344276,
+          "above_water": 0.031237554327011797,
+          "light": 0.0,
+          "unresolved": 0.03922771562836199
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.2220224357889984,
+          "pool_face": 0.6097217539914099,
+          "sky": 0.02948863576893539,
+          "above_water": 0.02932975802842874,
+          "light": 0.0,
+          "unresolved": 0.03331816874497506
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_face",
+            "reflect_side",
+            0.16444023518867254
+          ],
+          [
+            "pool_overhead",
+            "enter_side > exit_bottom",
+            0.15898869606401111
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > exit_side",
+            0.08841704095306155
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.08481841693646591
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.04852510971322509
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > exit_side",
+            0.032531937044939375
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > exit_side",
+            0.02618209542220216
+          ],
+          [
+            "sky",
+            "enter_side > reflect_bottom > exit_top",
+            0.025362100486670543
+          ]
+        ],
+        "objects": [
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.47696032835365165
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.16790956027166762
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.142",
+            0.08341032168110976
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.143",
+            0.05972795903849631
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt",
+            0.029873700945358128
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.01075645354767804
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.009226029065595415
+          ],
+          [
+            "above_water",
+            "Plunge end basalt",
+            0.008774289284235305
+          ]
+        ]
+      },
+      {
+        "index": 18,
+        "group": "side_transmit/wall",
+        "pixel": [
+          317,
+          131
+        ],
+        "position": [
+          1.954693078994751,
+          4.100000381469727,
+          0.39809316396713257
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.05134192726267734,
+        "fractions": {
+          "pool_overhead": 0.2489036234672513,
+          "pool_face": 0.6532524820526671,
+          "sky": 0.030889877268430035,
+          "above_water": 0.023892852416542824,
+          "light": 0.0,
+          "unresolved": 0.04306116479510979
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.24316525582853077,
+          "pool_face": 0.594164196353556,
+          "sky": 0.02985077792450591,
+          "above_water": 0.02241612374216502,
+          "light": 0.0,
+          "unresolved": 0.03669924413997706
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "enter_side > exit_bottom",
+            0.18080737034270755
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.15163836894358979
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > exit_side",
+            0.08970670098065947
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.08798756347701485
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.04862821852236619
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > exit_side",
+            0.029883297464266028
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > exit_side",
+            0.0259480041587237
+          ],
+          [
+            "sky",
+            "enter_side > reflect_bottom > exit_top",
+            0.025645892748556897
+          ]
+        ],
+        "objects": [
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.4823886260893522
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.15028975212216628
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.175",
+            0.1164564722930853
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.174",
+            0.03234965502750449
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt",
+            0.021737017444758838
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.021473984192474354
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.159",
+            0.01681043173056611
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.009653916095749572
+          ]
+        ]
+      }
+    ],
+    "evening": [
+      {
+        "index": 0,
+        "group": "bottom/base",
+        "pixel": [
+          204,
+          130
+        ],
+        "position": [
+          0.23832905292510986,
+          3.4289357662200928,
+          0.20000001788139343
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1423832892221021,
+        "fractions": {
+          "pool_overhead": 0.3784178723542994,
+          "pool_face": 0.0047730061828638376,
+          "sky": 0.012695693728736048,
+          "above_water": 0.5977518446176353,
+          "light": 0.0,
+          "unresolved": 0.006361583116465811
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.374244601480702,
+          "pool_face": 0.004642802363020043,
+          "sky": 0.011853193949845192,
+          "above_water": 0.5828057977813309,
+          "light": 0.0,
+          "unresolved": 0.005583697400407105
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.5853708811207801
+          ],
+          [
+            "pool_overhead",
+            "direct",
+            0.18028338667572621
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.11717724803628152
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > tir_side > tir_side > exit_bottom",
+            0.0745102435796752
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > tir_side > tir_side > reflect_bottom > exit_top",
+            0.010310741062849118
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.005387305986862352
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > tir_side > tir_side > reflect_bottom > exit_top",
+            0.0047574685272211
+          ],
+          [
+            "pool_face",
+            "enter_bottom > exit_top",
+            0.003806799191771757
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Plunge side basalt",
+            0.3346392320951776
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.20891663854584291
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.028",
+            0.1816815013003364
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.029",
+            0.1318051297709462
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.030",
+            0.03168918197386944
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.014",
+            0.015790594800655512
+          ],
+          [
+            "above_water",
+            "Honed pool coping",
+            0.01175321630061033
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.010606220640679643
+          ]
+        ]
+      },
+      {
+        "index": 1,
+        "group": "bottom/base",
+        "pixel": [
+          251,
+          148
+        ],
+        "position": [
+          1.259766936302185,
+          3.130133867263794,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.12757245071162,
+        "fractions": {
+          "pool_overhead": 0.9230795066057214,
+          "pool_face": 0.002425930452144957,
+          "sky": 0.005383607224668546,
+          "above_water": 0.06901295110803175,
+          "light": 0.0,
+          "unresolved": 9.800460943410849e-05
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9229708655977901,
+          "pool_face": 0.0023258798220658116,
+          "sky": 0.0052788078977379985,
+          "above_water": 0.06746921774831552,
+          "light": 0.0,
+          "unresolved": 8.659362001448968e-05
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9161286210724667
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.06839913239440364
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.005313237038845049
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.00447348650661175
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.002410837540170974
+          ],
+          [
+            "pool_face",
+            "enter_bottom > tir_top > exit_side",
+            0.0020837060012788068
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.0005538101967308774
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.00011091035668911498
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.107",
+            0.9197702824914386
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.05422529562033904
+          ],
+          [
+            "above_water",
+            "Spillway fixture",
+            0.009311758656603924
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.00313084936477241
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.0021917057217236548
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.095",
+            0.0009237638898370042
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.000911577924948659
+          ],
+          [
+            "above_water",
+            "V4 flowing spring ribbon",
+            0.0008602658726734817
+          ]
+        ]
+      },
+      {
+        "index": 2,
+        "group": "bottom/base",
+        "pixel": [
+          215,
+          166
+        ],
+        "position": [
+          1.1282947063446045,
+          2.2726869583129883,
+          0.20000004768371582
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.09977290151271281,
+        "fractions": {
+          "pool_overhead": 0.9828020517244419,
+          "pool_face": 2.429526945018984e-05,
+          "sky": 0.010585969872740705,
+          "above_water": 0.006578462913888066,
+          "light": 0.0,
+          "unresolved": 9.220219478971735e-06
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9827813019040961,
+          "pool_face": 2.293005623931051e-05,
+          "sky": 0.010384509916927845,
+          "above_water": 0.006442016749989843,
+          "light": 0.0,
+          "unresolved": 8.779751294017338e-06
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.981732360255381
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.010581304094000054
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.006574092761803388
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.0005677407936863818
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.000500528597657102
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > reflect_bottom > exit_side",
+            2.429526945018984e-05
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > reflect_bottom",
+            8.034265165434215e-06
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > reflect_side > exit_top",
+            4.665778740651234e-06
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.103",
+            0.9820833690431523
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.004114095952411947
+          ],
+          [
+            "above_water",
+            "Sauna insulated flat roof",
+            0.0010961572936264172
+          ],
+          [
+            "above_water",
+            "Fine canopy leaves.086",
+            0.00038060062137375153
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.0002962217750469604
+          ],
+          [
+            "above_water",
+            "V8 slender shade louver.014",
+            0.00025492798890098997
+          ],
+          [
+            "above_water",
+            "Plunge side basalt",
+            0.00022382772462104658
+          ],
+          [
+            "above_water",
+            "Honed pool coping",
+            0.00020927565607825838
+          ]
+        ]
+      },
+      {
+        "index": 3,
+        "group": "bottom/tile",
+        "pixel": [
+          192,
+          135
+        ],
+        "position": [
+          0.19297105073928833,
+          3.112562894821167,
+          0.20249998569488525
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1404128453270668,
+        "fractions": {
+          "pool_overhead": 0.26636195502625865,
+          "pool_face": 0.03139307845932365,
+          "sky": 0.016889212754061522,
+          "above_water": 0.677401355349317,
+          "light": 0.0,
+          "unresolved": 0.007954398411040441
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.26219771175413503,
+          "pool_face": 0.030585532378010753,
+          "sky": 0.015803301012212147,
+          "above_water": 0.6603869591674503,
+          "light": 0.0,
+          "unresolved": 0.006931762472759206
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.4938325779027445
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.18285544279752933
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.16319315336726803
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > tir_side > exit_bottom",
+            0.031951847482726975
+          ],
+          [
+            "pool_face",
+            "enter_bottom > exit_top",
+            0.02750105758234019
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > tir_side > exit_bottom",
+            0.022474650717851118
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > tir_side > tir_side > exit_bottom",
+            0.015273745823932641
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > exit_bottom",
+            0.007964052444483132
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Plunge side basalt",
+            0.45259336755312485
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.027",
+            0.1446626218091845
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.11671314662007451
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.031",
+            0.04886824666711734
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.030690139586887464
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.02768039991025807
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.02708905146884634
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.028",
+            0.021066844716597925
+          ]
+        ]
+      },
+      {
+        "index": 4,
+        "group": "bottom/tile",
+        "pixel": [
+          212,
+          151
+        ],
+        "position": [
+          0.8167595267295837,
+          2.717432737350464,
+          0.20249998569488525
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.13094399330912676,
+        "fractions": {
+          "pool_overhead": 0.277670003203488,
+          "pool_face": 0.002336687791925848,
+          "sky": 0.01142347960376888,
+          "above_water": 0.7015248041117131,
+          "light": 0.0,
+          "unresolved": 0.0070450252891027755
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.27236821886451906,
+          "pool_face": 0.0021936638869065063,
+          "sky": 0.010904026940331133,
+          "above_water": 0.6834983403989559,
+          "light": 0.0,
+          "unresolved": 0.006181415835124454
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.6818280295736926
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.17623272978423674
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.09493182504890324
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > exit_top",
+            0.014749768114712753
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.007031417134410505
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > reflect_top > tir_side > exit_bottom",
+            0.003366365666991703
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > tir_side > exit_top",
+            0.002980180307892388
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > reflect_bottom > tir_side > tir_side > reflect_top > exit_bottom",
+            0.001840624872199103
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Garden enclosure",
+            0.4322373073800817
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.073",
+            0.1391820782417596
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.09245896014225685
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.06725333203321598
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.04191585599097979
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.030",
+            0.03867528837115003
+          ],
+          [
+            "above_water",
+            "Cedar rear wall board 31",
+            0.025041701824852897
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.046",
+            0.0223985922538278
+          ]
+        ]
+      },
+      {
+        "index": 5,
+        "group": "bottom/tile",
+        "pixel": [
+          239,
+          168
+        ],
+        "position": [
+          1.451127052307129,
+          2.387484550476074,
+          0.20250000059604645
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.10891294573877736,
+        "fractions": {
+          "pool_overhead": 0.21615944878874074,
+          "pool_face": 0.050965196188226515,
+          "sky": 0.014795350612008094,
+          "above_water": 0.702232727731004,
+          "light": 0.0,
+          "unresolved": 0.01584727668002109
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.21291211486029765,
+          "pool_face": 0.047149632373416815,
+          "sky": 0.014503695006506955,
+          "above_water": 0.6847889094839766,
+          "light": 0.0,
+          "unresolved": 0.013760272777700913
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.6912628513733938
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.15161134057695605
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.061412579481974684
+          ],
+          [
+            "pool_face",
+            "enter_bottom > tir_top > tir_bottom > exit_side",
+            0.035219968776504455
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.014725009466412848
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > tir_bottom > exit_side",
+            0.008646378537313643
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.006500490184818578
+          ],
+          [
+            "unresolved",
+            "enter_bottom > tir_top > tir_bottom > reflect_side > tir_top > tir_bottom > tir_top > tir_side",
+            0.004048042263394037
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Garden enclosure",
+            0.6320759303485513
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.119",
+            0.07404659467198793
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.120",
+            0.06285082387322193
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.05064027721447202
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.092",
+            0.03516209808844947
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.02897552803477029
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.016356163836208644
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.011203831769798486
+          ]
+        ]
+      },
+      {
+        "index": 6,
+        "group": "side_tir/base",
+        "pixel": [
+          196,
+          114
+        ],
+        "position": [
+          0.03161776065826416,
+          4.070158004760742,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.16668265568783863,
+        "fractions": {
+          "pool_overhead": 0.8819353751576697,
+          "pool_face": 0.002758676021392374,
+          "sky": 0.09140023993815934,
+          "above_water": 0.023871510986156176,
+          "light": 0.0,
+          "unresolved": 3.4197896624759985e-05
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.8816937140199413,
+          "pool_face": 0.0027577408275389894,
+          "sky": 0.08934523910640677,
+          "above_water": 0.02358908023202735,
+          "light": 0.0,
+          "unresolved": 3.221071104373294e-05
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.8757099986573599
+          ],
+          [
+            "sky",
+            "enter_bottom > tir_side > exit_top",
+            0.08917831271734186
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.011084114142240798
+          ],
+          [
+            "above_water",
+            "direct",
+            0.008737391950511214
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > exit_bottom",
+            0.005217816378367332
+          ],
+          [
+            "above_water",
+            "reflect_bottom",
+            0.0028745618090037436
+          ],
+          [
+            "pool_face",
+            "reflect_bottom",
+            0.00263051001463671
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.0016440392927786847
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.8755409013914505
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.005120577544118361
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.003616814406392851
+          ],
+          [
+            "above_water",
+            "V8 canopy side rail",
+            0.0033112021456439163
+          ],
+          [
+            "above_water",
+            "Limestone terrace paver.006",
+            0.0026220375695363758
+          ],
+          [
+            "pool_face",
+            "Limestone terrace paver.006",
+            0.001761875366215624
+          ],
+          [
+            "above_water",
+            "V8 slender shade louver.001",
+            0.0016862315940865415
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.060",
+            0.0015844377565757412
+          ]
+        ]
+      },
+      {
+        "index": 7,
+        "group": "side_tir/base",
+        "pixel": [
+          280,
+          120
+        ],
+        "position": [
+          1.172846794128418,
+          3.6682863235473633,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.10233108165478824,
+        "fractions": {
+          "pool_overhead": 0.9277625165211031,
+          "pool_face": 0.0003697930240298629,
+          "sky": 0.04747264069289701,
+          "above_water": 0.024327291420171017,
+          "light": 0.0,
+          "unresolved": 6.775834179956842e-05
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9276400237673049,
+          "pool_face": 0.0003575789267919546,
+          "sky": 0.04646558822848658,
+          "above_water": 0.023813027517626276,
+          "light": 0.0,
+          "unresolved": 6.145563211210718e-05
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9222549952983792
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.04734377960460478
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.024097128566767583
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.0027236713171475994
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.0027039077577203823
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_side > exit_top",
+            0.00017952702377160897
+          ],
+          [
+            "pool_face",
+            "enter_bottom > exit_top",
+            0.00017565453492330465
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.0001220645729659794
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.109",
+            0.9244608400612365
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.010813646629216382
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.007799160629217646
+          ],
+          [
+            "above_water",
+            "Sauna insulated flat roof",
+            0.0029098686978419924
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.0010809894009656798
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.089",
+            0.0007154038118310945
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.073",
+            0.000680433126191183
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.0005761986687274847
+          ]
+        ]
+      },
+      {
+        "index": 8,
+        "group": "side_tir/base",
+        "pixel": [
+          116,
+          146
+        ],
+        "position": [
+          0.23752015829086304,
+          2.117300510406494,
+          0.19999992847442627
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.12787903061351363,
+        "fractions": {
+          "pool_overhead": 0.5079908793811223,
+          "pool_face": 1.9783859532219624e-05,
+          "sky": 0.013814953842552881,
+          "above_water": 0.47789600090441503,
+          "light": 0.0,
+          "unresolved": 0.0002783820123779878
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.5058430220076993,
+          "pool_face": 1.8028052623308276e-05,
+          "sky": 0.013541273700594983,
+          "above_water": 0.4662544352951015,
+          "light": 0.0,
+          "unresolved": 0.00025591269705077085
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.4733654829028781
+          ],
+          [
+            "pool_overhead",
+            "direct",
+            0.403823702904631
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.05930379595642253
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.044545807982078245
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.013814216411351077
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.004311407284212024
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > reflect_bottom > reflect_top > exit_bottom",
+            0.00027995591137296275
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.00020973670836414647
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.038",
+            0.46275268917749746
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.4490436377036463
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.090",
+            0.031057931465738844
+          ],
+          [
+            "above_water",
+            "Fine canopy leaves.094",
+            0.006368173495904859
+          ],
+          [
+            "above_water",
+            "V8 canopy timber beam.001",
+            0.004801720568048931
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.089",
+            0.004533834660682242
+          ],
+          [
+            "above_water",
+            "Fine canopy leaves.091",
+            0.00295603849538383
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.106",
+            0.0029123831558216895
+          ]
+        ]
+      },
+      {
+        "index": 9,
+        "group": "side_tir/tile",
+        "pixel": [
+          188,
+          114
+        ],
+        "position": [
+          0.13569024205207825,
+          3.986302137374878,
+          0.20250000059604645
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.16565948524407084,
+        "fractions": {
+          "pool_overhead": 0.2707027557407588,
+          "pool_face": 0.005383170604662336,
+          "sky": 0.4389616040371195,
+          "above_water": 0.27947535241652144,
+          "light": 0.0,
+          "unresolved": 0.005477117200938727
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.26542306529119797,
+          "pool_face": 0.005321138815321165,
+          "sky": 0.4274961437338497,
+          "above_water": 0.27374174906115584,
+          "light": 0.0,
+          "unresolved": 0.004736643390788385
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "sky",
+            "enter_bottom > tir_side > exit_top",
+            0.4212817863748184
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > exit_top",
+            0.20817250155702646
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.11814732643991423
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > tir_side > reflect_top > exit_bottom",
+            0.09624770874050545
+          ],
+          [
+            "above_water",
+            "reflect_bottom",
+            0.059756063071210855
+          ],
+          [
+            "pool_overhead",
+            "direct",
+            0.049811206340907806
+          ],
+          [
+            "sky",
+            "enter_bottom > tir_side > reflect_top > reflect_bottom > exit_top",
+            0.01430547379918085
+          ],
+          [
+            "above_water",
+            "enter_bottom > tir_side > reflect_top > reflect_bottom > exit_top",
+            0.0043453144105045855
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "V8 canopy bronze post",
+            0.10324398824018037
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.031",
+            0.07573457080810422
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.075",
+            0.06157224768889695
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.061179305223912135
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.05083370073322149
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.04420868474321691
+          ],
+          [
+            "above_water",
+            "V8 canopy side rail",
+            0.037710200628727916
+          ],
+          [
+            "above_water",
+            "V8 canopy timber beam",
+            0.031190040351884434
+          ]
+        ]
+      },
+      {
+        "index": 10,
+        "group": "side_tir/tile",
+        "pixel": [
+          288,
+          124
+        ],
+        "position": [
+          1.344686508178711,
+          3.792386054992676,
+          0.20250000059604645
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1340955990045603,
+        "fractions": {
+          "pool_overhead": 0.2438989708418989,
+          "pool_face": 0.06880105429672846,
+          "sky": 0.6011820565638344,
+          "above_water": 0.07675344368004666,
+          "light": 0.0,
+          "unresolved": 0.009364474617492116
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.24047924632053938,
+          "pool_face": 0.06062681606889303,
+          "sky": 0.5862242890197865,
+          "above_water": 0.07458277670762145,
+          "light": 0.0,
+          "unresolved": 0.008018155295684259
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.5941242878461204
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.17975147667173247
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.06918859576466921
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.05840994447373245
+          ],
+          [
+            "pool_face",
+            "enter_bottom > reflect_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.047893595462719214
+          ],
+          [
+            "pool_face",
+            "enter_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.011617893432613166
+          ],
+          [
+            "sky",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.006659967632375956
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > tir_bottom > tir_top > tir_bottom > reflect_side > tir_top > tir_bottom",
+            0.004146518585793949
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Individual submerged tile.126",
+            0.11398611543153163
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.06761131034771647
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.125",
+            0.0381019668157569
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.02709948156822008
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.088",
+            0.02401062670168509
+          ],
+          [
+            "above_water",
+            "V10 garden woodland 03 / V6 clustered tree leaves.021",
+            0.012729073239380287
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.089",
+            0.012525158348514637
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.109",
+            0.011333240293333465
+          ]
+        ]
+      },
+      {
+        "index": 11,
+        "group": "side_tir/tile",
+        "pixel": [
+          145,
+          144
+        ],
+        "position": [
+          -0.09258992969989777,
+          2.4105606079101562,
+          0.20249998569488525
+        ],
+        "material": "V10 | submerged light / Teal glazed pool tile",
+        "roughness": 0.30000001192092896,
+        "f0": 0.04,
+        "samples": 1024,
+        "lobe_weight_mean": 0.1359909246559473,
+        "fractions": {
+          "pool_overhead": 0.2805875425079443,
+          "pool_face": 0.001968898816054194,
+          "sky": 0.01486297973768703,
+          "above_water": 0.6934730630638447,
+          "light": 0.0,
+          "unresolved": 0.009107515874468659
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.27561131105026476,
+          "pool_face": 0.0018125740103846033,
+          "sky": 0.014565432976103396,
+          "above_water": 0.6756216255858527,
+          "light": 0.0,
+          "unresolved": 0.007757077971438387
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.6737231058002519
+          ],
+          [
+            "pool_overhead",
+            "reflect_bottom",
+            0.18220181148877615
+          ],
+          [
+            "pool_overhead",
+            "enter_bottom > reflect_top > exit_bottom",
+            0.0942559995054908
+          ],
+          [
+            "above_water",
+            "enter_bottom > reflect_top > reflect_bottom > exit_top",
+            0.018170329229174314
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.013421560967940728
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > reflect_bottom > tir_top > tir_side > tir_bottom > tir_top > tir_bottom",
+            0.0023514606320284713
+          ],
+          [
+            "unresolved",
+            "enter_bottom > reflect_top > reflect_bottom > tir_top > tir_side > tir_bottom > tir_top > tir_side",
+            0.0021007951387208294
+          ],
+          [
+            "sky",
+            "enter_bottom > tir_side > exit_top",
+            0.0013793305305167688
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Garden enclosure",
+            0.5644663688589069
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.008",
+            0.09559064360419221
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.007",
+            0.04239013908930754
+          ],
+          [
+            "above_water",
+            "Spillway fixture",
+            0.04187889210697649
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.076",
+            0.04162572388563586
+          ],
+          [
+            "above_water",
+            "V4 flowing spring ribbon",
+            0.040123975601050736
+          ],
+          [
+            "above_water",
+            "Honed pool coping.003",
+            0.02625696787843135
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.024",
+            0.019231702450856522
+          ]
+        ]
+      },
+      {
+        "index": 12,
+        "group": "side_tir/wall",
+        "pixel": [
+          253,
+          114
+        ],
+        "position": [
+          -0.1600000560283661,
+          2.415076732635498,
+          0.8439290523529053
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.021423809869682453,
+        "fractions": {
+          "pool_overhead": 0.2589368174538019,
+          "pool_face": 0.02062350558243973,
+          "sky": 0.31944987815346726,
+          "above_water": 0.3975974663982328,
+          "light": 0.0,
+          "unresolved": 0.003392332412057409
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.25256829917344553,
+          "pool_face": 0.020029781121655585,
+          "sky": 0.31922541407057003,
+          "above_water": 0.3962020707176461,
+          "light": 0.0,
+          "unresolved": 0.0029490037891404235
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "above_water",
+            "direct",
+            0.3048194701610998
+          ],
+          [
+            "sky",
+            "direct",
+            0.29472997884796004
+          ],
+          [
+            "pool_overhead",
+            "enter_top > exit_bottom",
+            0.2522722094756351
+          ],
+          [
+            "above_water",
+            "reflect_top",
+            0.06685169228062583
+          ],
+          [
+            "above_water",
+            "enter_top > reflect_bottom > exit_top",
+            0.02117823803635252
+          ],
+          [
+            "sky",
+            "reflect_top",
+            0.019860947243034378
+          ],
+          [
+            "pool_face",
+            "enter_top > reflect_bottom > exit_side",
+            0.006922352465782139
+          ],
+          [
+            "pool_face",
+            "direct",
+            0.005622138950774836
+          ]
+        ],
+        "objects": [
+          [
+            "above_water",
+            "Plunge end basalt",
+            0.10739296703910524
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.03769616862928991
+          ],
+          [
+            "above_water",
+            "Honed pool coping.002",
+            0.030563726718809883
+          ],
+          [
+            "above_water",
+            "Honed pool coping",
+            0.0225505572496893
+          ],
+          [
+            "above_water",
+            "Right garden wall",
+            0.020794653957451247
+          ],
+          [
+            "above_water",
+            "Plunge side basalt.001",
+            0.018556090450487665
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.020",
+            0.013746506377612369
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.013309982907421043
+          ]
+        ]
+      },
+      {
+        "index": 13,
+        "group": "side_transmit/base",
+        "pixel": [
+          249,
+          123
+        ],
+        "position": [
+          0.7399306297302246,
+          4.101654052734375,
+          0.19996784627437592
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.03148720274939512,
+        "fractions": {
+          "pool_overhead": 0.9673686915811308,
+          "pool_face": 0.014472447842857008,
+          "sky": 0.005917589382529621,
+          "above_water": 0.010271261642586205,
+          "light": 0.0,
+          "unresolved": 0.0019700095508961304
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9673197523947731,
+          "pool_face": 0.01405773859156377,
+          "sky": 0.005781849499207401,
+          "above_water": 0.010141066409210529,
+          "light": 0.0,
+          "unresolved": 0.001677016391653915
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9644037254791931
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.008725024670334671
+          ],
+          [
+            "above_water",
+            "direct",
+            0.00439968281428232
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.004292259174016189
+          ],
+          [
+            "sky",
+            "enter_side > exit_top",
+            0.00396225870068325
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.0018519431901197786
+          ],
+          [
+            "above_water",
+            "enter_side > exit_top",
+            0.0014839745838045046
+          ],
+          [
+            "pool_overhead",
+            "reflect_side",
+            0.001151058617730973
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.9655547840969241
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.008725024670334671
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.003143281674673562
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.002179509663076591
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.002070370671409834
+          ],
+          [
+            "above_water",
+            "Sauna insulated flat roof",
+            0.001862598589476356
+          ],
+          [
+            "above_water",
+            "Plunge end basalt.001",
+            0.0012564011396087576
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.0012081172963928541
+          ]
+        ]
+      },
+      {
+        "index": 14,
+        "group": "side_transmit/base",
+        "pixel": [
+          302,
+          131
+        ],
+        "position": [
+          1.673371434211731,
+          4.1008620262146,
+          0.19999998807907104
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.031278011585140056,
+        "fractions": {
+          "pool_overhead": 0.7319456684002764,
+          "pool_face": 0.15320649048212398,
+          "sky": 0.08338679562118527,
+          "above_water": 0.023849621181785473,
+          "light": 0.0,
+          "unresolved": 0.007611424314629099
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.7313427302299991,
+          "pool_face": 0.15069352083721896,
+          "sky": 0.08151538829507078,
+          "above_water": 0.023163436425924944,
+          "light": 0.0,
+          "unresolved": 0.0064599529498821275
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.7094056510166025
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.13202693273357646
+          ],
+          [
+            "sky",
+            "enter_side > exit_top",
+            0.06688406389625037
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.015855791919744854
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.013365515934277383
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.010081986695429226
+          ],
+          [
+            "pool_overhead",
+            "enter_side > reflect_top > exit_bottom",
+            0.00946516667438302
+          ],
+          [
+            "above_water",
+            "enter_side > exit_top",
+            0.008553076073196053
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.7175349584551441
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.13202693273357646
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.01816287714018552
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.009386070912735554
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.003774521912159386
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.107",
+            0.002916820377112087
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.0017387043304513147
+          ],
+          [
+            "above_water",
+            "Facade mullion.002",
+            0.0016540279992087945
+          ]
+        ]
+      },
+      {
+        "index": 15,
+        "group": "side_transmit/base",
+        "pixel": [
+          315,
+          135
+        ],
+        "position": [
+          1.9015018939971924,
+          4.1024298667907715,
+          0.19963416457176208
+        ],
+        "material": "Blackened bronze",
+        "roughness": 0.30000001192092896,
+        "f0": 0.03159999943375587,
+        "samples": 1024,
+        "lobe_weight_mean": 0.03138262850324506,
+        "fractions": {
+          "pool_overhead": 0.9777788384089736,
+          "pool_face": 0.007336184905257643,
+          "sky": 0.005695098625616498,
+          "above_water": 0.008064250089315949,
+          "light": 0.0,
+          "unresolved": 0.001125627970836094
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.9777110350030495,
+          "pool_face": 0.007083437447774763,
+          "sky": 0.005556553133062806,
+          "above_water": 0.007921966035779758,
+          "light": 0.0,
+          "unresolved": 0.0009602745956578873
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "direct",
+            0.9751788920757701
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.005389884702713202
+          ],
+          [
+            "sky",
+            "enter_side > exit_top",
+            0.004619195398816579
+          ],
+          [
+            "above_water",
+            "enter_bottom > exit_top",
+            0.004269292810374008
+          ],
+          [
+            "above_water",
+            "direct",
+            0.0022518430320299177
+          ],
+          [
+            "above_water",
+            "enter_side > exit_top",
+            0.0014142349944521533
+          ],
+          [
+            "pool_overhead",
+            "enter_side > reflect_top > exit_bottom",
+            0.0010772611149591233
+          ],
+          [
+            "sky",
+            "enter_bottom > exit_top",
+            0.0009205790802520823
+          ]
+        ],
+        "objects": [
+          [
+            "pool_overhead",
+            "Plunge end basalt.001",
+            0.9760870375709724
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.005389884702713202
+          ],
+          [
+            "above_water",
+            "Garden enclosure",
+            0.0022518430320299177
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.0015291298638547741
+          ],
+          [
+            "above_water",
+            "Plunge side basalt.001",
+            0.0010502819666178022
+          ],
+          [
+            "above_water",
+            "V5 light filtering canopy",
+            0.0009363003215690537
+          ],
+          [
+            "above_water",
+            "V8 coping shadow joint.001",
+            0.0009031864962554533
+          ],
+          [
+            "above_water",
+            "Sauna glass return wall",
+            0.0008750703902287734
+          ]
+        ]
+      },
+      {
+        "index": 16,
+        "group": "side_transmit/wall",
+        "pixel": [
+          298,
+          122
+        ],
+        "position": [
+          1.5854593515396118,
+          4.100000381469727,
+          0.6286140084266663
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.07331652845781775,
+        "fractions": {
+          "pool_overhead": 0.19635521936752265,
+          "pool_face": 0.695211898146205,
+          "sky": 0.03427682630814927,
+          "above_water": 0.022813066438760056,
+          "light": 0.0,
+          "unresolved": 0.051342989739364055
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.1889025099673068,
+          "pool_face": 0.6335831325162177,
+          "sky": 0.03295495236822651,
+          "above_water": 0.021173719800430483,
+          "light": 0.0,
+          "unresolved": 0.04347040237431905
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_face",
+            "reflect_side",
+            0.18018758275164218
+          ],
+          [
+            "pool_overhead",
+            "enter_side > exit_bottom",
+            0.14582279364023115
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > exit_side",
+            0.10646324037036366
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.06015338979071844
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.048003362714052034
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > exit_side",
+            0.0387572995135038
+          ],
+          [
+            "sky",
+            "enter_side > reflect_bottom > exit_top",
+            0.025505470685607313
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_side > tir_top > exit_side",
+            0.024048863211703457
+          ]
+        ],
+        "objects": [
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.48816696902040635
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.18060352999538698
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.125",
+            0.04241187289810111
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.142",
+            0.03299575169027627
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.141",
+            0.03234828842744398
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.126",
+            0.027325830452747914
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt",
+            0.024101898833875215
+          ],
+          [
+            "above_water",
+            "Plunge end basalt",
+            0.008908346733066883
+          ]
+        ]
+      },
+      {
+        "index": 17,
+        "group": "side_transmit/wall",
+        "pixel": [
+          299,
+          127
+        ],
+        "position": [
+          1.630793809890747,
+          4.100000381469727,
+          0.4295201301574707
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.05581207908726361,
+        "fractions": {
+          "pool_overhead": 0.22951295145298795,
+          "pool_face": 0.6695125589232949,
+          "sky": 0.030509219668344276,
+          "above_water": 0.031237554327011797,
+          "light": 0.0,
+          "unresolved": 0.03922771562836199
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.2220224357889984,
+          "pool_face": 0.6097217539914099,
+          "sky": 0.02948863576893539,
+          "above_water": 0.02932975802842874,
+          "light": 0.0,
+          "unresolved": 0.03331816874497506
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_face",
+            "reflect_side",
+            0.16444023518867254
+          ],
+          [
+            "pool_overhead",
+            "enter_side > exit_bottom",
+            0.15898869606401111
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > exit_side",
+            0.08841704095306155
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.08481841693646591
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.04852510971322509
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > exit_side",
+            0.032531937044939375
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > exit_side",
+            0.02618209542220216
+          ],
+          [
+            "sky",
+            "enter_side > reflect_bottom > exit_top",
+            0.025362100486670543
+          ]
+        ],
+        "objects": [
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.47696032835365165
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.16790956027166762
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.142",
+            0.08341032168110976
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.143",
+            0.05972795903849631
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt",
+            0.029873700945358128
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.01075645354767804
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.009226029065595415
+          ],
+          [
+            "above_water",
+            "Plunge end basalt",
+            0.008774289284235305
+          ]
+        ]
+      },
+      {
+        "index": 18,
+        "group": "side_transmit/wall",
+        "pixel": [
+          317,
+          131
+        ],
+        "position": [
+          1.954693078994751,
+          4.100000381469727,
+          0.39809316396713257
+        ],
+        "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+        "roughness": 0.7890565991401672,
+        "f0": 0.02240000009536743,
+        "samples": 1024,
+        "lobe_weight_mean": 0.05134192726267734,
+        "fractions": {
+          "pool_overhead": 0.2489036234672513,
+          "pool_face": 0.6532524820526671,
+          "sky": 0.030889877268430035,
+          "above_water": 0.023892852416542824,
+          "light": 0.0,
+          "unresolved": 0.04306116479510979
+        },
+        "absorbed_fractions": {
+          "pool_overhead": 0.24316525582853077,
+          "pool_face": 0.594164196353556,
+          "sky": 0.02985077792450591,
+          "above_water": 0.02241612374216502,
+          "light": 0.0,
+          "unresolved": 0.03669924413997706
+        },
+        "sun_disk_fraction": 0.0,
+        "paths": [
+          [
+            "pool_overhead",
+            "enter_side > exit_bottom",
+            0.18080737034270755
+          ],
+          [
+            "pool_face",
+            "reflect_side",
+            0.15163836894358979
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > exit_side",
+            0.08970670098065947
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.08798756347701485
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > tir_bottom > exit_side",
+            0.04862821852236619
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > tir_top > exit_side",
+            0.029883297464266028
+          ],
+          [
+            "pool_face",
+            "enter_side > tir_bottom > exit_side",
+            0.0259480041587237
+          ],
+          [
+            "sky",
+            "enter_side > reflect_bottom > exit_top",
+            0.025645892748556897
+          ]
+        ],
+        "objects": [
+          [
+            "pool_face",
+            "Plunge end basalt",
+            0.4823886260893522
+          ],
+          [
+            "pool_face",
+            "Plunge end basalt.001",
+            0.15028975212216628
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.175",
+            0.1164564722930853
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.174",
+            0.03234965502750449
+          ],
+          [
+            "pool_overhead",
+            "Plunge end basalt",
+            0.021737017444758838
+          ],
+          [
+            "pool_overhead",
+            "V8 recessed pool plinth",
+            0.021473984192474354
+          ],
+          [
+            "pool_overhead",
+            "Individual submerged tile.159",
+            0.01681043173056611
+          ],
+          [
+            "pool_face",
+            "Plunge side basalt",
+            0.009653916095749572
+          ]
+        ]
+      }
+    ]
+  },
+  "population": {
+    "day": {
+      "all": {
+        "count": 10056,
+        "mean_fractions": {
+          "pool_overhead": 0.2812018972888354,
+          "pool_face": 0.07499538792524559,
+          "sky": 0.07138104348939366,
+          "above_water": 0.5511414292927865,
+          "light": 0.0009502243857089086,
+          "unresolved": 0.020330017618030216
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.27746154979813736,
+          "pool_face": 0.07034054632438669,
+          "sky": 0.06950923846932949,
+          "above_water": 0.5377328110761992,
+          "light": 0.0009010467422120974,
+          "unresolved": 0.01757655856424115
+        },
+        "mean_sun_disk_fraction": 4.665422994206597e-09
+      },
+      "base": {
+        "count": 479,
+        "mean_fractions": {
+          "pool_overhead": 0.7250937716772826,
+          "pool_face": 0.021974299772902765,
+          "sky": 0.026818317363808943,
+          "above_water": 0.22229795714714123,
+          "light": 0.0001639195068842884,
+          "unresolved": 0.0036517345319803407
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.7240648942315118,
+          "pool_face": 0.021458768523023253,
+          "sky": 0.02618793629063978,
+          "above_water": 0.2170793817682408,
+          "light": 0.00015747678474285358,
+          "unresolved": 0.003157091684967292
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "bottom": {
+        "count": 7751,
+        "mean_fractions": {
+          "pool_overhead": 0.27404557054691464,
+          "pool_face": 0.048581713836180276,
+          "sky": 0.051669326291935255,
+          "above_water": 0.6080708803047599,
+          "light": 0.00035298522162308604,
+          "unresolved": 0.01727952379858885
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2706234814508457,
+          "pool_face": 0.046891031850121015,
+          "sky": 0.05031194389732173,
+          "above_water": 0.593449782354118,
+          "light": 0.0003344394277138528,
+          "unresolved": 0.015029120387784709
+        },
+        "mean_sun_disk_fraction": 4.5877148809680825e-09
+      },
+      "bottom/base": {
+        "count": 348,
+        "mean_fractions": {
+          "pool_overhead": 0.6922687228609677,
+          "pool_face": 0.011988834051353476,
+          "sky": 0.017849493301252906,
+          "above_water": 0.2740071821333023,
+          "light": 0.00010235048005712001,
+          "unresolved": 0.003783417173066993
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.6910733388629167,
+          "pool_face": 0.011569492454464172,
+          "sky": 0.017426931386784215,
+          "above_water": 0.2674989960685471,
+          "light": 9.877542236707694e-05,
+          "unresolved": 0.003277891060733666
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "bottom/other": {
+        "count": 115,
+        "mean_fractions": {
+          "pool_overhead": 0.048545680769988,
+          "pool_face": 0.0383376748610151,
+          "sky": 0.006866716773872866,
+          "above_water": 0.9060928650338306,
+          "light": 0.0,
+          "unresolved": 0.00015706256129323606
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.04851834571263337,
+          "pool_face": 0.03804024531468997,
+          "sky": 0.006849537395220898,
+          "above_water": 0.9060390105785258,
+          "light": 0.0,
+          "unresolved": 0.00013410819039211575
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "bottom/tile": {
+        "count": 7288,
+        "mean_fractions": {
+          "pool_overhead": 0.2576337744875097,
+          "pool_face": 0.05049065821697938,
+          "sky": 0.053991170690307205,
+          "above_water": 0.6193197330379941,
+          "light": 0.00037052284381732464,
+          "unresolved": 0.018194140723392704
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2540517937766542,
+          "pool_face": 0.04871728543975641,
+          "sky": 0.05256800332396947,
+          "above_water": 0.6040813839432466,
+          "light": 0.00035096956054148326,
+          "unresolved": 0.015825272172707038
+        },
+        "mean_sun_disk_fraction": 4.8791682275498914e-09
+      },
+      "other": {
+        "count": 127,
+        "mean_fractions": {
+          "pool_overhead": 0.0476737320594545,
+          "pool_face": 0.035801529878487094,
+          "sky": 0.006684859925779531,
+          "above_water": 0.9096975653678866,
+          "light": 0.0,
+          "unresolved": 0.0001423127683921788
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.04764866319854409,
+          "pool_face": 0.03551892705709054,
+          "sky": 0.006668080117538855,
+          "above_water": 0.9096487995225319,
+          "light": 0.0,
+          "unresolved": 0.00012151223781274574
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_tir": {
+        "count": 1724,
+        "mean_fractions": {
+          "pool_overhead": 0.307331049885606,
+          "pool_face": 0.01686503270810467,
+          "sky": 0.173778196357263,
+          "above_water": 0.4711237316624959,
+          "light": 0.003955508750882394,
+          "unresolved": 0.026946480635647925
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.3028196369375412,
+          "pool_face": 0.015349401609325596,
+          "sky": 0.16930907909041856,
+          "above_water": 0.4591512003173539,
+          "light": 0.0037520445291595664,
+          "unresolved": 0.023091726798280674
+        },
+        "mean_sun_disk_fraction": 6.5870740065881264e-09
+      },
+      "side_tir/base": {
+        "count": 56,
+        "mean_fractions": {
+          "pool_overhead": 0.7750878886580448,
+          "pool_face": 0.0042048959454725554,
+          "sky": 0.0711083258322971,
+          "above_water": 0.14546762252751597,
+          "light": 0.0007660620846017208,
+          "unresolved": 0.0033652049520681636
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.7740383326779258,
+          "pool_face": 0.0037748301687928858,
+          "sky": 0.06937376821283878,
+          "above_water": 0.14194157241925043,
+          "light": 0.0007331702305015015,
+          "unresolved": 0.0029173957901258937
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_tir/other": {
+        "count": 12,
+        "mean_fractions": {
+          "pool_overhead": 0.03931755691684185,
+          "pool_face": 0.011496807129260463,
+          "sky": 0.0049420651315517355,
+          "above_water": 0.9442426102359223,
+          "light": 0.0,
+          "unresolved": 9.605864237134918e-07
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.03931420577185515,
+          "pool_face": 0.011356293755096081,
+          "sky": 0.004929114539752608,
+          "above_water": 0.9442426102359223,
+          "light": 0.0,
+          "unresolved": 8.010255937829751e-07
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_tir/tile": {
+        "count": 1655,
+        "mean_fractions": {
+          "pool_overhead": 0.2934894658303049,
+          "pool_face": 0.01733431197345995,
+          "sky": 0.17837575574929754,
+          "above_water": 0.47876375099800733,
+          "light": 0.004084119138793014,
+          "unresolved": 0.0279525963101362
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2888289463341594,
+          "pool_face": 0.015771397301709022,
+          "sky": 0.17377912852020194,
+          "above_water": 0.4664121114626889,
+          "light": 0.0038732850756990314,
+          "unresolved": 0.02395272348649066
+        },
+        "mean_sun_disk_fraction": 6.861701261243462e-09
+      },
+      "side_tir/wall": {
+        "count": 1,
+        "mean_fractions": {
+          "pool_overhead": 0.23693160577660174,
+          "pool_face": 0.013594214198651563,
+          "sky": 0.3403637266466266,
+          "above_water": 0.38620730006831905,
+          "light": 0.01718043508111234,
+          "unresolved": 0.005722718228688667
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2312307980615301,
+          "pool_face": 0.013039825635337303,
+          "sky": 0.3403142565512059,
+          "above_water": 0.38498549805864496,
+          "light": 0.01718043508111234,
+          "unresolved": 0.0049958535396642
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_transmit": {
+        "count": 581,
+        "mean_fractions": {
+          "pool_overhead": 0.2991399859287935,
+          "pool_face": 0.5998647859608711,
+          "sky": 0.030508114837574096,
+          "above_water": 0.029093814698649093,
+          "light": 2.9411939249590026e-07,
+          "unresolved": 0.04139300445471915
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.293441800282691,
+          "pool_face": 0.5463507359608758,
+          "sky": 0.029480503524181675,
+          "above_water": 0.02759933874071089,
+          "light": 2.775683368207607e-07,
+          "unresolved": 0.03519625438219382
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_transmit/base": {
+        "count": 75,
+        "mean_fractions": {
+          "pool_overhead": 0.8400730575060151,
+          "pool_face": 0.0815746822453727,
+          "sky": 0.0353637880242643,
+          "above_water": 0.03973380306067495,
+          "light": 0.0,
+          "unresolved": 0.0032546691636727034
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.8398322104351386,
+          "pool_face": 0.08054901678562945,
+          "sky": 0.03459357787595423,
+          "above_water": 0.03923526906206625,
+          "light": 0.0,
+          "unresolved": 0.002775555516226205
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_transmit/wall": {
+        "count": 506,
+        "mean_fractions": {
+          "pool_overhead": 0.21896215911398761,
+          "pool_face": 0.6766864416499274,
+          "sky": 0.029788400432432263,
+          "above_water": 0.027516741324831034,
+          "light": 3.3771416411090524e-07,
+          "unresolved": 0.047045919764656864
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2124550794102929,
+          "pool_face": 0.615392492755626,
+          "sky": 0.02872263677243673,
+          "above_water": 0.025874645511260987,
+          "light": 3.187098887210711e-07,
+          "unresolved": 0.0400016939374262
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "tile": {
+        "count": 8943,
+        "mean_fractions": {
+          "pool_overhead": 0.2642692624862034,
+          "pool_face": 0.04435471356384005,
+          "sky": 0.07700989911171278,
+          "above_water": 0.5933083106656175,
+          "light": 0.0010577644705851577,
+          "unresolved": 0.02000004970204209
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.26048768637227926,
+          "pool_face": 0.042620288361765964,
+          "sky": 0.07499944827530237,
+          "above_water": 0.5786041787598291,
+          "light": 0.0010028125861017805,
+          "unresolved": 0.01732934596498156
+        },
+        "mean_sun_disk_fraction": 5.2460576573567645e-09
+      },
+      "wall": {
+        "count": 507,
+        "mean_fractions": {
+          "pool_overhead": 0.2189976018095746,
+          "pool_face": 0.6753785674340472,
+          "sky": 0.030400975040349807,
+          "above_water": 0.02822421777205686,
+          "light": 3.422350778728295e-05,
+          "unresolved": 0.04696441443618356
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.21249211238593635,
+          "pool_face": 0.6142044204338898,
+          "sky": 0.029337215904150286,
+          "above_water": 0.026582950940348533,
+          "light": 3.420454099567102e-05,
+          "unresolved": 0.039932648887331994
+        },
+        "mean_sun_disk_fraction": 0.0
+      }
+    },
+    "evening": {
+      "all": {
+        "count": 10056,
+        "mean_fractions": {
+          "pool_overhead": 0.2812018972888354,
+          "pool_face": 0.07499538792524559,
+          "sky": 0.0723310515438092,
+          "above_water": 0.5511414515953555,
+          "light": 0.0,
+          "unresolved": 0.020330211646754862
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.27746154979813736,
+          "pool_face": 0.07034054632438669,
+          "sky": 0.07041012741283081,
+          "above_water": 0.5377328333787681,
+          "light": 0.0,
+          "unresolved": 0.017576737926346724
+        },
+        "mean_sun_disk_fraction": 2.5721694509456296e-05
+      },
+      "base": {
+        "count": 479,
+        "mean_fractions": {
+          "pool_overhead": 0.7250937716772826,
+          "pool_face": 0.021974299772902765,
+          "sky": 0.026982236870693226,
+          "above_water": 0.22229795714714123,
+          "light": 0.0,
+          "unresolved": 0.0036517345319803407
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.7240648942315118,
+          "pool_face": 0.021458768523023253,
+          "sky": 0.026345413075382632,
+          "above_water": 0.2170793817682408,
+          "light": 0.0,
+          "unresolved": 0.003157091684967292
+        },
+        "mean_sun_disk_fraction": 2.6738356133031184e-05
+      },
+      "bottom": {
+        "count": 7751,
+        "mean_fractions": {
+          "pool_overhead": 0.27404557054691464,
+          "pool_face": 0.048581713836180276,
+          "sky": 0.05202205978438084,
+          "above_water": 0.6080708803047599,
+          "light": 0.0,
+          "unresolved": 0.01727977552776638
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2706234814508457,
+          "pool_face": 0.046891031850121015,
+          "sky": 0.050646207534917796,
+          "above_water": 0.593449782354118,
+          "light": 0.0,
+          "unresolved": 0.01502935308876957
+        },
+        "mean_sun_disk_fraction": 2.9234163211049864e-05
+      },
+      "bottom/base": {
+        "count": 348,
+        "mean_fractions": {
+          "pool_overhead": 0.6922687228609677,
+          "pool_face": 0.011988834051353476,
+          "sky": 0.017951843781310026,
+          "above_water": 0.2740071821333023,
+          "light": 0.0,
+          "unresolved": 0.003783417173066993
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.6910733388629167,
+          "pool_face": 0.011569492454464172,
+          "sky": 0.017525706809151293,
+          "above_water": 0.2674989960685471,
+          "light": 0.0,
+          "unresolved": 0.003277891060733666
+        },
+        "mean_sun_disk_fraction": 2.589808624777592e-05
+      },
+      "bottom/other": {
+        "count": 115,
+        "mean_fractions": {
+          "pool_overhead": 0.048545680769988,
+          "pool_face": 0.0383376748610151,
+          "sky": 0.006866716773872866,
+          "above_water": 0.9060928650338306,
+          "light": 0.0,
+          "unresolved": 0.00015706256129323606
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.04851834571263337,
+          "pool_face": 0.03804024531468997,
+          "sky": 0.006849537395220898,
+          "above_water": 0.9060390105785258,
+          "light": 0.0,
+          "unresolved": 0.00013410819039211575
+        },
+        "mean_sun_disk_fraction": 0.00010114993814890629
+      },
+      "bottom/tile": {
+        "count": 7288,
+        "mean_fractions": {
+          "pool_overhead": 0.2576337744875097,
+          "pool_face": 0.05049065821697938,
+          "sky": 0.054361425812821725,
+          "above_water": 0.6193197330379941,
+          "light": 0.0,
+          "unresolved": 0.018194408444695536
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2540517937766542,
+          "pool_face": 0.04871728543975641,
+          "sky": 0.05291878592660716,
+          "above_water": 0.6040813839432466,
+          "light": 0.0,
+          "unresolved": 0.015825519656973455
+        },
+        "mean_sun_disk_fraction": 2.825867482814178e-05
+      },
+      "other": {
+        "count": 127,
+        "mean_fractions": {
+          "pool_overhead": 0.0476737320594545,
+          "pool_face": 0.035801529878487094,
+          "sky": 0.006684859925779531,
+          "above_water": 0.9096975653678866,
+          "light": 0.0,
+          "unresolved": 0.0001423127683921788
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.04764866319854409,
+          "pool_face": 0.03551892705709054,
+          "sky": 0.006668080117538855,
+          "above_water": 0.9096487995225319,
+          "light": 0.0,
+          "unresolved": 0.00012151223781274574
+        },
+        "mean_sun_disk_fraction": 9.159246367814349e-05
+      },
+      "side_tir": {
+        "count": 1724,
+        "mean_fractions": {
+          "pool_overhead": 0.307331049885606,
+          "pool_face": 0.01686503270810467,
+          "sky": 0.1777335750184509,
+          "above_water": 0.4711238617521905,
+          "light": 0.0,
+          "unresolved": 0.026946480635647925
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.3028196369375412,
+          "pool_face": 0.015349401609325596,
+          "sky": 0.17306099352988324,
+          "above_water": 0.4591513304070486,
+          "light": 0.0,
+          "unresolved": 0.023091726798280674
+        },
+        "mean_sun_disk_fraction": 1.8598237203158374e-05
+      },
+      "side_tir/base": {
+        "count": 56,
+        "mean_fractions": {
+          "pool_overhead": 0.7750878886580448,
+          "pool_face": 0.0042048959454725554,
+          "sky": 0.0718743879168988,
+          "above_water": 0.14546762252751597,
+          "light": 0.0,
+          "unresolved": 0.0033652049520681636
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.7740383326779258,
+          "pool_face": 0.0037748301687928858,
+          "sky": 0.07010693844334027,
+          "above_water": 0.14194157241925043,
+          "light": 0.0,
+          "unresolved": 0.0029173957901258937
+        },
+        "mean_sun_disk_fraction": 6.777033166956997e-05
+      },
+      "side_tir/other": {
+        "count": 12,
+        "mean_fractions": {
+          "pool_overhead": 0.03931755691684185,
+          "pool_face": 0.011496807129260463,
+          "sky": 0.0049420651315517355,
+          "above_water": 0.9442426102359223,
+          "light": 0.0,
+          "unresolved": 9.605864237134918e-07
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.03931420577185515,
+          "pool_face": 0.011356293755096081,
+          "sky": 0.004929114539752608,
+          "above_water": 0.9442426102359223,
+          "light": 0.0,
+          "unresolved": 8.010255937829751e-07
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_tir/tile": {
+        "count": 1655,
+        "mean_fractions": {
+          "pool_overhead": 0.2934894658303049,
+          "pool_face": 0.01733431197345995,
+          "sky": 0.18245987488809068,
+          "above_water": 0.47876375099800733,
+          "light": 0.0,
+          "unresolved": 0.0279525963101362
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2888289463341594,
+          "pool_face": 0.015771397301709022,
+          "sky": 0.1776524135959008,
+          "above_water": 0.4664121114626889,
+          "light": 0.0,
+          "unresolved": 0.02395272348649066
+        },
+        "mean_sun_disk_fraction": 1.708049689712938e-05
+      },
+      "side_tir/wall": {
+        "count": 1,
+        "mean_fractions": {
+          "pool_overhead": 0.23693160577660174,
+          "pool_face": 0.013594214198651563,
+          "sky": 0.3573198870941994,
+          "above_water": 0.38643157470185857,
+          "light": 0.0,
+          "unresolved": 0.005722718228688667
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2312307980615301,
+          "pool_face": 0.013039825635337303,
+          "sky": 0.3572704169987787,
+          "above_water": 0.38520977269218454,
+          "light": 0.0,
+          "unresolved": 0.0049958535396642
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_transmit": {
+        "count": 581,
+        "mean_fractions": {
+          "pool_overhead": 0.2991399859287935,
+          "pool_face": 0.5998647859608711,
+          "sky": 0.030508408956966594,
+          "above_water": 0.029093814698649093,
+          "light": 0.0,
+          "unresolved": 0.04139300445471915
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.293441800282691,
+          "pool_face": 0.5463507359608758,
+          "sky": 0.029480781092518494,
+          "above_water": 0.02759933874071089,
+          "light": 0.0,
+          "unresolved": 0.03519625438219382
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_transmit/base": {
+        "count": 75,
+        "mean_fractions": {
+          "pool_overhead": 0.8400730575060151,
+          "pool_face": 0.0815746822453727,
+          "sky": 0.0353637880242643,
+          "above_water": 0.03973380306067495,
+          "light": 0.0,
+          "unresolved": 0.0032546691636727034
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.8398322104351386,
+          "pool_face": 0.08054901678562945,
+          "sky": 0.03459357787595423,
+          "above_water": 0.03923526906206625,
+          "light": 0.0,
+          "unresolved": 0.002775555516226205
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "side_transmit/wall": {
+        "count": 506,
+        "mean_fractions": {
+          "pool_overhead": 0.21896215911398761,
+          "pool_face": 0.6766864416499274,
+          "sky": 0.029788738146596373,
+          "above_water": 0.027516741324831034,
+          "light": 0.0,
+          "unresolved": 0.047045919764656864
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.2124550794102929,
+          "pool_face": 0.615392492755626,
+          "sky": 0.028722955482325452,
+          "above_water": 0.025874645511260987,
+          "light": 0.0,
+          "unresolved": 0.0400016939374262
+        },
+        "mean_sun_disk_fraction": 0.0
+      },
+      "tile": {
+        "count": 8943,
+        "mean_fractions": {
+          "pool_overhead": 0.2642692624862034,
+          "pool_face": 0.04435471356384005,
+          "sky": 0.07806744540575179,
+          "above_water": 0.5933083106656175,
+          "light": 0.0,
+          "unresolved": 0.020000267878588558
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.26048768637227926,
+          "pool_face": 0.042620288361765964,
+          "sky": 0.07600210850210609,
+          "above_water": 0.5786041787598291,
+          "light": 0.0,
+          "unresolved": 0.017329547649576622
+        },
+        "mean_sun_disk_fraction": 2.6190030695767236e-05
+      },
+      "wall": {
+        "count": 507,
+        "mean_fractions": {
+          "pool_overhead": 0.2189976018095746,
+          "pool_face": 0.6753785674340472,
+          "sky": 0.03043475619185792,
+          "above_water": 0.028224660128336028,
+          "light": 0.0,
+          "unresolved": 0.04696441443618356
+        },
+        "mean_absorbed_fractions": {
+          "pool_overhead": 0.21249211238593635,
+          "pool_face": 0.6142044204338898,
+          "sky": 0.029370978088866784,
+          "above_water": 0.026583393296627702,
+          "light": 0.0,
+          "unresolved": 0.039932648887331994
+        },
+        "mean_sun_disk_fraction": 0.0
+      }
+    }
+  },
+  "lights": {
+    "day": [
+      "V10 path grazing light 1 / day",
+      "V10 path grazing light 4 / day",
+      "V10 path grazing light 7 / day",
+      "V10 specimen uplight / day",
+      "V10 concealed deck edge -3.7 / day",
+      "V10 concealed deck edge 0 / day",
+      "V10 concealed deck edge 4.4 / day",
+      "V10 lounge dusk fill / day",
+      "Warm under-bench wash",
+      "Warm under-bench wash.001",
+      "Garden lantern glow",
+      "Garden lantern glow.001",
+      "Garden lantern glow.002",
+      "Garden lantern glow.003",
+      "Sauna ceiling soft amber",
+      "Sauna wall wash",
+      "Sky softbox",
+      "Sunlit courtyard",
+      "Steam soft backlight",
+      "V7 water reflection soft strip",
+      "V7 concealed backrest wash",
+      "V8 maple garden grazing light",
+      "V9 lounge patch of sunlight"
+    ],
+    "evening": [
+      "Warm under-bench wash.004",
+      "Warm under-bench wash.005",
+      "Garden lantern glow.008",
+      "Garden lantern glow.009",
+      "Garden lantern glow.010",
+      "Garden lantern glow.011",
+      "Sauna ceiling soft amber.002",
+      "Sauna wall wash.002",
+      "Sky softbox.002",
+      "Sunlit courtyard.002",
+      "Steam soft backlight.002",
+      "V7 water reflection soft strip.002",
+      "V7 concealed backrest wash.002",
+      "V8 maple garden grazing light.001",
+      "V10 path grazing light 1 / dusk",
+      "V10 path grazing light 4 / dusk",
+      "V10 path grazing light 7 / dusk",
+      "V10 specimen uplight / dusk",
+      "V10 concealed deck edge -3.7 / dusk",
+      "V10 concealed deck edge 0 / dusk",
+      "V10 concealed deck edge 4.4 / dusk",
+      "V10 lounge dusk fill / dusk"
+    ]
+  },
+  "cycles_settings": {
+    "SUI \u2022 Daylight": {
+      "caustics_reflective": true,
+      "caustics_refractive": true,
+      "blur_glossy": 1.0,
+      "world": "Forest late afternoon sky",
+      "world_nodes": [
+        "BACKGROUND",
+        "OUTPUT_WORLD"
+      ],
+      "world_visibility": {
+        "camera": true,
+        "diffuse": true,
+        "glossy": true,
+        "transmission": true
+      },
+      "glossy_visible_lights": [
+        "V10 concealed deck edge -3.7 / day",
+        "V10 concealed deck edge 0 / day",
+        "V10 concealed deck edge 4.4 / day",
+        "V10 lounge dusk fill / day",
+        "V10 path grazing light 1 / day",
+        "V10 path grazing light 4 / day",
+        "V10 path grazing light 7 / day",
+        "V10 specimen uplight / day",
+        "V7 concealed backrest wash",
+        "V7 water reflection soft strip",
+        "V8 maple garden grazing light",
+        "V9 lounge patch of sunlight"
+      ]
+    },
+    "SUI \u2022 Blue hour": {
+      "caustics_reflective": true,
+      "caustics_refractive": true,
+      "blur_glossy": 1.0,
+      "world": "Forest late afternoon sky.002",
+      "world_nodes": [
+        "BACKGROUND",
+        "OUTPUT_WORLD"
+      ],
+      "world_visibility": {
+        "camera": true,
+        "diffuse": true,
+        "glossy": true,
+        "transmission": true
+      },
+      "glossy_visible_lights": [
+        "V10 concealed deck edge -3.7 / dusk",
+        "V10 concealed deck edge 0 / dusk",
+        "V10 concealed deck edge 4.4 / dusk",
+        "V10 lounge dusk fill / dusk",
+        "V10 path grazing light 1 / dusk",
+        "V10 path grazing light 4 / dusk",
+        "V10 path grazing light 7 / dusk",
+        "V10 specimen uplight / dusk",
+        "V7 concealed backrest wash.002",
+        "V7 water reflection soft strip.002",
+        "V8 maple garden grazing light.001"
+      ]
+    }
+  },
+  "rows_columns": [
+    "pixel",
+    "family",
+    "pool_overhead",
+    "pool_face",
+    "sky",
+    "above_water",
+    "light",
+    "unresolved"
+  ],
+  "limitations": [
+    "Geometry only: lobe weight x water-boundary Fresnel, no radiance of the targets.",
+    "Single-scattering GGX with exported roughness and a scalar Schlick F0; Cycles uses multiscatter GGX and F82 metals.",
+    "Geometric normals of viewport-evaluated meshes; no bump or shading normals; water treated as smooth (source roughness 0.018).",
+    "Other transparent materials are opaque; the water mesh is the only refractive boundary.",
+    "Lights: front face of area lights and point/spot spheres (cone only) with their ray visibility; the sun is not a surface and only its disk fraction of escaping weight is reported.",
+    "pool_* = hit inside the water XY bounds +-0.2 m and below the water top; overhead uses the capture rule (continuous ray, same object within 2 mm); pool_face is everything else there and still needs a face-coordinate capture.",
+    "Camera 03 static waves only; same endpoint set as water-side-continuation."
+  ],
+  "source_unchanged": true
+}
