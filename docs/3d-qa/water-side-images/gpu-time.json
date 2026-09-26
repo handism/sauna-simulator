@@ -1,0 +1,110 @@
+[
+  {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "before_ms": [
+      63.017291,
+      62.698624
+    ],
+    "after_ms": [
+      63.3985,
+      63.607249
+    ],
+    "before_calls": "93",
+    "after_calls": "113",
+    "before_triangles": "560966",
+    "after_triangles": "645276",
+    "side_images_shown": "20"
+  },
+  {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "before_ms": [
+      98.356166,
+      98.675624
+    ],
+    "after_ms": [
+      100.494541,
+      100.473333
+    ],
+    "before_calls": "93",
+    "after_calls": "113",
+    "before_triangles": "560966",
+    "after_triangles": "645276",
+    "side_images_shown": "20"
+  },
+  {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "before_ms": [
+      46.942833,
+      52.338166
+    ],
+    "after_ms": [
+      54.50575,
+      48.948333
+    ],
+    "before_calls": "84",
+    "after_calls": "104",
+    "before_triangles": "548800",
+    "after_triangles": "633110",
+    "side_images_shown": "32"
+  },
+  {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "before_ms": [
+      109.3085,
+      107.7375
+    ],
+    "after_ms": [
+      114.081333,
+      111.237083
+    ],
+    "before_calls": "84",
+    "after_calls": "104",
+    "before_triangles": "548800",
+    "after_triangles": "633110",
+    "side_images_shown": "32"
+  },
+  {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "before_ms": [
+      68.687249,
+      69.033875
+    ],
+    "after_ms": [
+      70.246833,
+      71.283541
+    ],
+    "before_calls": "67",
+    "after_calls": "79",
+    "before_triangles": "556332",
+    "after_triangles": "606918",
+    "side_images_shown": "12"
+  },
+  {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "before_ms": [
+      101.554333,
+      102.28925
+    ],
+    "after_ms": [
+      104.371333,
+      105.682624
+    ],
+    "before_calls": "67",
+    "after_calls": "79",
+    "before_triangles": "556332",
+    "after_triangles": "606918",
+    "side_images_shown": "12"
+  }
+]
