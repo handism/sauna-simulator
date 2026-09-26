@@ -1,0 +1,1123 @@
+{
+  "selected_points": 19,
+  "rendered_exrs": 288,
+  "skipped_directions": 8,
+  "invalid_positions": 4,
+  "position_error_max_m": 0.0009918994222698734,
+  "pass_reconstruction_max_abs": 1.4692021746837147e-06,
+  "two_seed_total_rgb_difference": {
+    "median": 0.05940012432612357,
+    "p90": 0.22363567969196343,
+    "max": 0.583968256764563
+  },
+  "two_seed_component_difference_over_total": {
+    "diffuse_emission": {
+      "median": 0.03680304996248726,
+      "p90": 0.1286622030009271,
+      "max": 0.3033195966378526
+    },
+    "glossy": {
+      "median": 0.023896746429990973,
+      "p90": 0.15365204036247848,
+      "max": 0.4530065192303645
+    }
+  },
+  "aggregates": {
+    "camera": {
+      "count": 36,
+      "combined": {
+        "median": 0.07040680702844263,
+        "p90": 0.45441416376883087,
+        "max": 0.7907413275675127
+      },
+      "diffuse_emission": {
+        "median": 0.02196715290415077,
+        "p90": 0.09951178523749177,
+        "max": 0.30787465185838636
+      },
+      "glossy": {
+        "median": 0.07963595233611184,
+        "p90": 0.4488312346436547,
+        "max": 0.7814303453673299
+      }
+    },
+    "overhead": {
+      "count": 30,
+      "combined": {
+        "median": 0.19335714408147703,
+        "p90": 0.6143092539784882,
+        "max": 0.8865282040524491
+      },
+      "diffuse_emission": {
+        "median": 0.03885147007782046,
+        "p90": 0.12435911286528172,
+        "max": 0.18230536509840173
+      },
+      "glossy": {
+        "median": 0.19322910737917792,
+        "p90": 0.6128276892511344,
+        "max": 0.7561905549000667
+      }
+    },
+    "normal": {
+      "count": 38,
+      "combined": {
+        "median": 0.15635623452653732,
+        "p90": 0.6779836139031625,
+        "max": 1.2064256541360485
+      },
+      "diffuse_emission": {
+        "median": 0.03290602335781281,
+        "p90": 0.09867032740801895,
+        "max": 0.12364345522369846
+      },
+      "glossy": {
+        "median": 0.17126642143375465,
+        "p90": 0.6570418747666544,
+        "max": 1.2745526808256515
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "scene": "day",
+      "index": 0,
+      "group": "bottom/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.024835955327548256,
+      "diffuse_emission_rgb_l1_over_path_total": 0.04008461173625252,
+      "glossy_rgb_l1_over_path_total": 0.01830935803661466,
+      "path_glossy_fraction": 0.7799766652269483
+    },
+    {
+      "scene": "day",
+      "index": 0,
+      "group": "bottom/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.1889073345403075,
+      "diffuse_emission_rgb_l1_over_path_total": 0.038050605381073674,
+      "glossy_rgb_l1_over_path_total": 0.22695581403325923,
+      "path_glossy_fraction": 0.7799766652269483
+    },
+    {
+      "scene": "day",
+      "index": 0,
+      "group": "bottom/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.19223829293936703,
+      "diffuse_emission_rgb_l1_over_path_total": 0.035921804893906964,
+      "glossy_rgb_l1_over_path_total": 0.22815798090076558,
+      "path_glossy_fraction": 0.7799766652269483
+    },
+    {
+      "scene": "day",
+      "index": 1,
+      "group": "bottom/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.049027862674021115,
+      "diffuse_emission_rgb_l1_over_path_total": 0.02603865999254153,
+      "glossy_rgb_l1_over_path_total": 0.0750668589926681,
+      "path_glossy_fraction": 0.8941095925752698
+    },
+    {
+      "scene": "day",
+      "index": 1,
+      "group": "bottom/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.4004428216368255,
+      "diffuse_emission_rgb_l1_over_path_total": 0.060250225807335925,
+      "glossy_rgb_l1_over_path_total": 0.4606928043620127,
+      "path_glossy_fraction": 0.8941095925752698
+    },
+    {
+      "scene": "day",
+      "index": 1,
+      "group": "bottom/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.3995215007042697,
+      "diffuse_emission_rgb_l1_over_path_total": 0.06033998219132008,
+      "glossy_rgb_l1_over_path_total": 0.45986139196766485,
+      "path_glossy_fraction": 0.8941095925752698
+    },
+    {
+      "scene": "day",
+      "index": 2,
+      "group": "bottom/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.03727173905853674,
+      "diffuse_emission_rgb_l1_over_path_total": 0.039327482505549516,
+      "glossy_rgb_l1_over_path_total": 0.07230406939563269,
+      "path_glossy_fraction": 0.7694436759990667
+    },
+    {
+      "scene": "day",
+      "index": 2,
+      "group": "bottom/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.1472555024059559,
+      "diffuse_emission_rgb_l1_over_path_total": 0.12072118001432065,
+      "glossy_rgb_l1_over_path_total": 0.1862483419412709,
+      "path_glossy_fraction": 0.7694436759990667
+    },
+    {
+      "scene": "day",
+      "index": 2,
+      "group": "bottom/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.14790261253948958,
+      "diffuse_emission_rgb_l1_over_path_total": 0.1207233185952804,
+      "glossy_rgb_l1_over_path_total": 0.18597749357262278,
+      "path_glossy_fraction": 0.7694436759990667
+    },
+    {
+      "scene": "day",
+      "index": 3,
+      "group": "bottom/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.02925241866096654,
+      "diffuse_emission_rgb_l1_over_path_total": 0.02559551282762096,
+      "glossy_rgb_l1_over_path_total": 0.0036596083598038347,
+      "path_glossy_fraction": 0.1333924526287998
+    },
+    {
+      "scene": "day",
+      "index": 3,
+      "group": "bottom/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.06303811635504966,
+      "diffuse_emission_rgb_l1_over_path_total": 0.07235640842428877,
+      "glossy_rgb_l1_over_path_total": 0.01963430040291137,
+      "path_glossy_fraction": 0.1333924526287998
+    },
+    {
+      "scene": "day",
+      "index": 3,
+      "group": "bottom/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.06723451156784832,
+      "diffuse_emission_rgb_l1_over_path_total": 0.07654169931090483,
+      "glossy_rgb_l1_over_path_total": 0.01957636412728277,
+      "path_glossy_fraction": 0.1333924526287998
+    },
+    {
+      "scene": "day",
+      "index": 4,
+      "group": "bottom/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.018148691395561484,
+      "diffuse_emission_rgb_l1_over_path_total": 0.02757320998007152,
+      "glossy_rgb_l1_over_path_total": 0.04572170366746987,
+      "path_glossy_fraction": 0.2944753840187589
+    },
+    {
+      "scene": "day",
+      "index": 4,
+      "group": "bottom/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.10017278470472259,
+      "diffuse_emission_rgb_l1_over_path_total": 0.06526246978535002,
+      "glossy_rgb_l1_over_path_total": 0.16543691132962152,
+      "path_glossy_fraction": 0.2944753840187589
+    },
+    {
+      "scene": "day",
+      "index": 4,
+      "group": "bottom/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.10019135273385213,
+      "diffuse_emission_rgb_l1_over_path_total": 0.06541449367798072,
+      "glossy_rgb_l1_over_path_total": 0.16560827694315433,
+      "path_glossy_fraction": 0.2944753840187589
+    },
+    {
+      "scene": "day",
+      "index": 5,
+      "group": "bottom/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.016712578781575588,
+      "diffuse_emission_rgb_l1_over_path_total": 0.013036616628615343,
+      "glossy_rgb_l1_over_path_total": 0.003838983886903755,
+      "path_glossy_fraction": 0.24644150507303042
+    },
+    {
+      "scene": "day",
+      "index": 5,
+      "group": "bottom/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.10216259692150455,
+      "diffuse_emission_rgb_l1_over_path_total": 0.053005328706453636,
+      "glossy_rgb_l1_over_path_total": 0.15517071807175692,
+      "path_glossy_fraction": 0.24644150507303042
+    },
+    {
+      "scene": "day",
+      "index": 5,
+      "group": "bottom/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.09944103795570276,
+      "diffuse_emission_rgb_l1_over_path_total": 0.05566161978009121,
+      "glossy_rgb_l1_over_path_total": 0.1551047544870944,
+      "path_glossy_fraction": 0.24644150507303042
+    },
+    {
+      "scene": "day",
+      "index": 6,
+      "group": "side_tir/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.356875401992848,
+      "diffuse_emission_rgb_l1_over_path_total": 0.12597598445586708,
+      "glossy_rgb_l1_over_path_total": 0.2308992785138075,
+      "path_glossy_fraction": 0.6012479549093125
+    },
+    {
+      "scene": "day",
+      "index": 6,
+      "group": "side_tir/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.4492578345985254,
+      "diffuse_emission_rgb_l1_over_path_total": 0.02975942473329209,
+      "glossy_rgb_l1_over_path_total": 0.41949837290445363,
+      "path_glossy_fraction": 0.6012479549093125
+    },
+    {
+      "scene": "day",
+      "index": 6,
+      "group": "side_tir/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.4530538363551557,
+      "diffuse_emission_rgb_l1_over_path_total": 0.033302797102351275,
+      "glossy_rgb_l1_over_path_total": 0.41975141118109605,
+      "path_glossy_fraction": 0.6012479549093125
+    },
+    {
+      "scene": "day",
+      "index": 7,
+      "group": "side_tir/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.2511588286597399,
+      "diffuse_emission_rgb_l1_over_path_total": 0.07304758601911647,
+      "glossy_rgb_l1_over_path_total": 0.32420624271412685,
+      "path_glossy_fraction": 0.6866500989792638
+    },
+    {
+      "scene": "day",
+      "index": 7,
+      "group": "side_tir/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.36332615521306694,
+      "diffuse_emission_rgb_l1_over_path_total": 0.061018338442075264,
+      "glossy_rgb_l1_over_path_total": 0.3023092397390782,
+      "path_glossy_fraction": 0.6866500989792638
+    },
+    {
+      "scene": "day",
+      "index": 7,
+      "group": "side_tir/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.39284616383938586,
+      "diffuse_emission_rgb_l1_over_path_total": 0.06723813007995935,
+      "glossy_rgb_l1_over_path_total": 0.32561020319689093,
+      "path_glossy_fraction": 0.6866500989792638
+    },
+    {
+      "scene": "day",
+      "index": 8,
+      "group": "side_tir/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.12588406375216604,
+      "diffuse_emission_rgb_l1_over_path_total": 0.04750768558570242,
+      "glossy_rgb_l1_over_path_total": 0.1178361742231076,
+      "path_glossy_fraction": 0.786145949216028
+    },
+    {
+      "scene": "day",
+      "index": 8,
+      "group": "side_tir/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.18908112848620637,
+      "diffuse_emission_rgb_l1_over_path_total": 0.12428733835831669,
+      "glossy_rgb_l1_over_path_total": 0.06479305550274793,
+      "path_glossy_fraction": 0.786145949216028
+    },
+    {
+      "scene": "day",
+      "index": 8,
+      "group": "side_tir/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.16204989508777426,
+      "diffuse_emission_rgb_l1_over_path_total": 0.10429988495886712,
+      "glossy_rgb_l1_over_path_total": 0.05774859992640569,
+      "path_glossy_fraction": 0.786145949216028
+    },
+    {
+      "scene": "day",
+      "index": 9,
+      "group": "side_tir/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.019398101692184415,
+      "diffuse_emission_rgb_l1_over_path_total": 0.026371292547716915,
+      "glossy_rgb_l1_over_path_total": 0.045769266489349904,
+      "path_glossy_fraction": 0.12980308727352807
+    },
+    {
+      "scene": "day",
+      "index": 9,
+      "group": "side_tir/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.07557611894129121,
+      "diffuse_emission_rgb_l1_over_path_total": 0.12500508342796693,
+      "glossy_rgb_l1_over_path_total": 0.04943253869816538,
+      "path_glossy_fraction": 0.12980308727352807
+    },
+    {
+      "scene": "day",
+      "index": 9,
+      "group": "side_tir/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.07410441628548624,
+      "diffuse_emission_rgb_l1_over_path_total": 0.12364345522369846,
+      "glossy_rgb_l1_over_path_total": 0.04954216457938418,
+      "path_glossy_fraction": 0.12980308727352807
+    },
+    {
+      "scene": "day",
+      "index": 10,
+      "group": "side_tir/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.08592805456208265,
+      "diffuse_emission_rgb_l1_over_path_total": 0.005114628548214808,
+      "glossy_rgb_l1_over_path_total": 0.09104310827792111,
+      "path_glossy_fraction": 0.13320068594277695
+    },
+    {
+      "scene": "day",
+      "index": 10,
+      "group": "side_tir/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.12427902753431733,
+      "diffuse_emission_rgb_l1_over_path_total": 0.11168071386627075,
+      "glossy_rgb_l1_over_path_total": 0.018339332279036898,
+      "path_glossy_fraction": 0.13320068594277695
+    },
+    {
+      "scene": "day",
+      "index": 10,
+      "group": "side_tir/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.12514159676245304,
+      "diffuse_emission_rgb_l1_over_path_total": 0.11255399529465421,
+      "glossy_rgb_l1_over_path_total": 0.018331654752995582,
+      "path_glossy_fraction": 0.13320068594277695
+    },
+    {
+      "scene": "day",
+      "index": 11,
+      "group": "side_tir/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.2407692273183507,
+      "diffuse_emission_rgb_l1_over_path_total": 0.04499575605733232,
+      "glossy_rgb_l1_over_path_total": 0.19577620999085468,
+      "path_glossy_fraction": 0.08182601266990439
+    },
+    {
+      "scene": "day",
+      "index": 11,
+      "group": "side_tir/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.1531054048473495,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0986347334530843,
+      "glossy_rgb_l1_over_path_total": 0.05447071448797091,
+      "path_glossy_fraction": 0.08182601266990439
+    },
+    {
+      "scene": "day",
+      "index": 11,
+      "group": "side_tir/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.1506625739653004,
+      "diffuse_emission_rgb_l1_over_path_total": 0.09625765988622684,
+      "glossy_rgb_l1_over_path_total": 0.05440412647323238,
+      "path_glossy_fraction": 0.08182601266990439
+    },
+    {
+      "scene": "day",
+      "index": 12,
+      "group": "side_tir/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.08795755377215685,
+      "diffuse_emission_rgb_l1_over_path_total": 0.003753332611559247,
+      "glossy_rgb_l1_over_path_total": 0.08420504567955557,
+      "path_glossy_fraction": 0.1836094675407843
+    },
+    {
+      "scene": "day",
+      "index": 12,
+      "group": "side_tir/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.08685764950691893,
+      "diffuse_emission_rgb_l1_over_path_total": 0.008519474609177999,
+      "glossy_rgb_l1_over_path_total": 0.09538177709806159,
+      "path_glossy_fraction": 0.1836094675407843
+    },
+    {
+      "scene": "day",
+      "index": 13,
+      "group": "side_transmit/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.21915512445084723,
+      "diffuse_emission_rgb_l1_over_path_total": 0.19385597914492783,
+      "glossy_rgb_l1_over_path_total": 0.41301098671649955,
+      "path_glossy_fraction": 0.484359818820942
+    },
+    {
+      "scene": "day",
+      "index": 13,
+      "group": "side_transmit/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.8865282040524491,
+      "diffuse_emission_rgb_l1_over_path_total": 0.1303376554855611,
+      "glossy_rgb_l1_over_path_total": 0.7561905549000667,
+      "path_glossy_fraction": 0.484359818820942
+    },
+    {
+      "scene": "day",
+      "index": 13,
+      "group": "side_transmit/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 1.018209457955103,
+      "diffuse_emission_rgb_l1_over_path_total": 0.008169500001285895,
+      "glossy_rgb_l1_over_path_total": 1.0100407549489028,
+      "path_glossy_fraction": 0.484359818820942
+    },
+    {
+      "scene": "day",
+      "index": 14,
+      "group": "side_transmit/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.7062950593447042,
+      "diffuse_emission_rgb_l1_over_path_total": 0.245608827200705,
+      "glossy_rgb_l1_over_path_total": 0.4606852491688109,
+      "path_glossy_fraction": 0.4920785260620639
+    },
+    {
+      "scene": "day",
+      "index": 14,
+      "group": "side_transmit/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.7640037489829486,
+      "diffuse_emission_rgb_l1_over_path_total": 0.02482497974288165,
+      "glossy_rgb_l1_over_path_total": 0.7391807874713282,
+      "path_glossy_fraction": 0.4920785260620639
+    },
+    {
+      "scene": "day",
+      "index": 14,
+      "group": "side_transmit/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.7668915076585942,
+      "diffuse_emission_rgb_l1_over_path_total": 0.025087970782086483,
+      "glossy_rgb_l1_over_path_total": 0.7418052122610251,
+      "path_glossy_fraction": 0.4920785260620639
+    },
+    {
+      "scene": "day",
+      "index": 15,
+      "group": "side_transmit/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.31316470934753315,
+      "diffuse_emission_rgb_l1_over_path_total": 0.18230536509840173,
+      "glossy_rgb_l1_over_path_total": 0.49547017592509235,
+      "path_glossy_fraction": 0.29075701923965974
+    },
+    {
+      "scene": "day",
+      "index": 15,
+      "group": "side_transmit/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 1.2064256541360485,
+      "diffuse_emission_rgb_l1_over_path_total": 0.06812618044918074,
+      "glossy_rgb_l1_over_path_total": 1.2745526808256515,
+      "path_glossy_fraction": 0.29075701923965974
+    },
+    {
+      "scene": "day",
+      "index": 16,
+      "group": "side_transmit/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.2736945454219333,
+      "diffuse_emission_rgb_l1_over_path_total": 0.05773686716856339,
+      "glossy_rgb_l1_over_path_total": 0.215958112102787,
+      "path_glossy_fraction": 0.29503450753560195
+    },
+    {
+      "scene": "day",
+      "index": 16,
+      "group": "side_transmit/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.2942537108528296,
+      "diffuse_emission_rgb_l1_over_path_total": 0.08125059724000604,
+      "glossy_rgb_l1_over_path_total": 0.21300353485079207,
+      "path_glossy_fraction": 0.29503450753560195
+    },
+    {
+      "scene": "day",
+      "index": 17,
+      "group": "side_transmit/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.02452715484541798,
+      "diffuse_emission_rgb_l1_over_path_total": 0.03441357568125547,
+      "glossy_rgb_l1_over_path_total": 0.05894064717860682,
+      "path_glossy_fraction": 0.09290210887537623
+    },
+    {
+      "scene": "day",
+      "index": 17,
+      "group": "side_transmit/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.016604695700975117,
+      "diffuse_emission_rgb_l1_over_path_total": 0.03763202923652064,
+      "glossy_rgb_l1_over_path_total": 0.05423616921131749,
+      "path_glossy_fraction": 0.09290210887537623
+    },
+    {
+      "scene": "day",
+      "index": 18,
+      "group": "side_transmit/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.028935481943264667,
+      "diffuse_emission_rgb_l1_over_path_total": 0.020621655728780684,
+      "glossy_rgb_l1_over_path_total": 0.04955805818593471,
+      "path_glossy_fraction": 0.10655228930836583
+    },
+    {
+      "scene": "day",
+      "index": 18,
+      "group": "side_transmit/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.03238539257679528,
+      "diffuse_emission_rgb_l1_over_path_total": 0.005336378969777629,
+      "glossy_rgb_l1_over_path_total": 0.03772216665882511,
+      "path_glossy_fraction": 0.10655228930836583
+    },
+    {
+      "scene": "evening",
+      "index": 0,
+      "group": "bottom/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.054885559494802616,
+      "diffuse_emission_rgb_l1_over_path_total": 0.00236730478378974,
+      "glossy_rgb_l1_over_path_total": 0.05725329964145979,
+      "path_glossy_fraction": 0.8930815820966871
+    },
+    {
+      "scene": "evening",
+      "index": 0,
+      "group": "bottom/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.33597023662662706,
+      "diffuse_emission_rgb_l1_over_path_total": 0.013827919948352327,
+      "glossy_rgb_l1_over_path_total": 0.34979783312361223,
+      "path_glossy_fraction": 0.8930815820966871
+    },
+    {
+      "scene": "evening",
+      "index": 0,
+      "group": "bottom/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.3387848236683281,
+      "diffuse_emission_rgb_l1_over_path_total": 0.011414716939771195,
+      "glossy_rgb_l1_over_path_total": 0.350199415754879,
+      "path_glossy_fraction": 0.8930815820966871
+    },
+    {
+      "scene": "evening",
+      "index": 1,
+      "group": "bottom/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.020788159850576464,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0012199806995955085,
+      "glossy_rgb_l1_over_path_total": 0.02200872387485882,
+      "path_glossy_fraction": 0.9388671267370733
+    },
+    {
+      "scene": "evening",
+      "index": 1,
+      "group": "bottom/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.6117333543696364,
+      "diffuse_emission_rgb_l1_over_path_total": 0.009902332777371896,
+      "glossy_rgb_l1_over_path_total": 0.6216358052511757,
+      "path_glossy_fraction": 0.9388671267370733
+    },
+    {
+      "scene": "evening",
+      "index": 1,
+      "group": "bottom/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.6110630460579641,
+      "diffuse_emission_rgb_l1_over_path_total": 0.009651488457133884,
+      "glossy_rgb_l1_over_path_total": 0.6207147301262091,
+      "path_glossy_fraction": 0.9388671267370733
+    },
+    {
+      "scene": "evening",
+      "index": 2,
+      "group": "bottom/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.1042797185669963,
+      "diffuse_emission_rgb_l1_over_path_total": 0.01732913873609814,
+      "glossy_rgb_l1_over_path_total": 0.12160849709844686,
+      "path_glossy_fraction": 0.8191110322697343
+    },
+    {
+      "scene": "evening",
+      "index": 2,
+      "group": "bottom/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.2900257808615601,
+      "diffuse_emission_rgb_l1_over_path_total": 0.025371470922151976,
+      "glossy_rgb_l1_over_path_total": 0.26465308521178493,
+      "path_glossy_fraction": 0.8191110322697343
+    },
+    {
+      "scene": "evening",
+      "index": 2,
+      "group": "bottom/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.29808357395484925,
+      "diffuse_emission_rgb_l1_over_path_total": 0.028823113021235705,
+      "glossy_rgb_l1_over_path_total": 0.26925978964909303,
+      "path_glossy_fraction": 0.8191110322697343
+    },
+    {
+      "scene": "evening",
+      "index": 3,
+      "group": "bottom/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.007232207439067078,
+      "diffuse_emission_rgb_l1_over_path_total": 0.002421934215901787,
+      "glossy_rgb_l1_over_path_total": 0.004809305502706757,
+      "path_glossy_fraction": 0.22890160136001708
+    },
+    {
+      "scene": "evening",
+      "index": 3,
+      "group": "bottom/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.08584119139343405,
+      "diffuse_emission_rgb_l1_over_path_total": 0.023534328644700387,
+      "glossy_rgb_l1_over_path_total": 0.08108664955430388,
+      "path_glossy_fraction": 0.22890160136001708
+    },
+    {
+      "scene": "evening",
+      "index": 3,
+      "group": "bottom/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.08594426000675591,
+      "diffuse_emission_rgb_l1_over_path_total": 0.026590771506137454,
+      "glossy_rgb_l1_over_path_total": 0.08125461122084039,
+      "path_glossy_fraction": 0.22890160136001708
+    },
+    {
+      "scene": "evening",
+      "index": 4,
+      "group": "bottom/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.04809512201983192,
+      "diffuse_emission_rgb_l1_over_path_total": 0.005782694091785797,
+      "glossy_rgb_l1_over_path_total": 0.053876743974351854,
+      "path_glossy_fraction": 0.44555599248305683
+    },
+    {
+      "scene": "evening",
+      "index": 4,
+      "group": "bottom/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.3106976086746877,
+      "diffuse_emission_rgb_l1_over_path_total": 0.017102832618012247,
+      "glossy_rgb_l1_over_path_total": 0.32779853055518277,
+      "path_glossy_fraction": 0.44555599248305683
+    },
+    {
+      "scene": "evening",
+      "index": 4,
+      "group": "bottom/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.30777925905858666,
+      "diffuse_emission_rgb_l1_over_path_total": 0.020059540370352832,
+      "glossy_rgb_l1_over_path_total": 0.3278383834422744,
+      "path_glossy_fraction": 0.44555599248305683
+    },
+    {
+      "scene": "evening",
+      "index": 5,
+      "group": "bottom/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.002400672652086481,
+      "diffuse_emission_rgb_l1_over_path_total": 0.011275355570297777,
+      "glossy_rgb_l1_over_path_total": 0.008876507572353599,
+      "path_glossy_fraction": 0.3086736398454445
+    },
+    {
+      "scene": "evening",
+      "index": 5,
+      "group": "bottom/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.19763315967674772,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0034695399816267905,
+      "glossy_rgb_l1_over_path_total": 0.2002098728170849,
+      "path_glossy_fraction": 0.3086736398454445
+    },
+    {
+      "scene": "evening",
+      "index": 5,
+      "group": "bottom/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.19520013438997175,
+      "diffuse_emission_rgb_l1_over_path_total": 0.00507704259471984,
+      "glossy_rgb_l1_over_path_total": 0.20027783657868045,
+      "path_glossy_fraction": 0.3086736398454445
+    },
+    {
+      "scene": "evening",
+      "index": 6,
+      "group": "side_tir/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.4750977488567748,
+      "diffuse_emission_rgb_l1_over_path_total": 0.058674792910558826,
+      "glossy_rgb_l1_over_path_total": 0.41642293350926574,
+      "path_glossy_fraction": 0.768035093145678
+    },
+    {
+      "scene": "evening",
+      "index": 6,
+      "group": "side_tir/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.6374923504581547,
+      "diffuse_emission_rgb_l1_over_path_total": 0.025643215569484606,
+      "glossy_rgb_l1_over_path_total": 0.6118490096955742,
+      "path_glossy_fraction": 0.768035093145678
+    },
+    {
+      "scene": "evening",
+      "index": 6,
+      "group": "side_tir/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.6398802308651196,
+      "diffuse_emission_rgb_l1_over_path_total": 0.030083219032987576,
+      "glossy_rgb_l1_over_path_total": 0.6097968720807567,
+      "path_glossy_fraction": 0.768035093145678
+    },
+    {
+      "scene": "evening",
+      "index": 7,
+      "group": "side_tir/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.7907413275675127,
+      "diffuse_emission_rgb_l1_over_path_total": 0.009311266921346236,
+      "glossy_rgb_l1_over_path_total": 0.7814303453673299,
+      "path_glossy_fraction": 0.8057408623166374
+    },
+    {
+      "scene": "evening",
+      "index": 7,
+      "group": "side_tir/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.21434448931215178,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0306617512663701,
+      "glossy_rgb_l1_over_path_total": 0.18368318324431682,
+      "path_glossy_fraction": 0.8057408623166374
+    },
+    {
+      "scene": "evening",
+      "index": 7,
+      "group": "side_tir/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.19741282428516121,
+      "diffuse_emission_rgb_l1_over_path_total": 0.020488770685005677,
+      "glossy_rgb_l1_over_path_total": 0.176924565924355,
+      "path_glossy_fraction": 0.8057408623166374
+    },
+    {
+      "scene": "evening",
+      "index": 8,
+      "group": "side_tir/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.43373057868088694,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0126561062478898,
+      "glossy_rgb_l1_over_path_total": 0.4369772201184985,
+      "path_glossy_fraction": 0.8917891416562066
+    },
+    {
+      "scene": "evening",
+      "index": 8,
+      "group": "side_tir/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.4325602792518866,
+      "diffuse_emission_rgb_l1_over_path_total": 0.003988835652164406,
+      "glossy_rgb_l1_over_path_total": 0.43569549180298606,
+      "path_glossy_fraction": 0.8917891416562066
+    },
+    {
+      "scene": "evening",
+      "index": 8,
+      "group": "side_tir/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.4338908699188371,
+      "diffuse_emission_rgb_l1_over_path_total": 0.004429067126054427,
+      "glossy_rgb_l1_over_path_total": 0.437316413751393,
+      "path_glossy_fraction": 0.8917891416562066
+    },
+    {
+      "scene": "evening",
+      "index": 9,
+      "group": "side_tir/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.025720256686868944,
+      "diffuse_emission_rgb_l1_over_path_total": 0.017203043671795915,
+      "glossy_rgb_l1_over_path_total": 0.024460649799904373,
+      "path_glossy_fraction": 0.0937212511859148
+    },
+    {
+      "scene": "evening",
+      "index": 9,
+      "group": "side_tir/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.018421566715259304,
+      "diffuse_emission_rgb_l1_over_path_total": 0.033180975942592346,
+      "glossy_rgb_l1_over_path_total": 0.023099785437102296,
+      "path_glossy_fraction": 0.0937212511859148
+    },
+    {
+      "scene": "evening",
+      "index": 9,
+      "group": "side_tir/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.01803056257696071,
+      "diffuse_emission_rgb_l1_over_path_total": 0.03250924961327434,
+      "glossy_rgb_l1_over_path_total": 0.023184843080716357,
+      "path_glossy_fraction": 0.0937212511859148
+    },
+    {
+      "scene": "evening",
+      "index": 10,
+      "group": "side_tir/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.13976680225617114,
+      "diffuse_emission_rgb_l1_over_path_total": 0.013784542220660452,
+      "glossy_rgb_l1_over_path_total": 0.15355092625315822,
+      "path_glossy_fraction": 0.2566184416402071
+    },
+    {
+      "scene": "evening",
+      "index": 10,
+      "group": "side_tir/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.026576139525997272,
+      "diffuse_emission_rgb_l1_over_path_total": 0.058911381409627706,
+      "glossy_rgb_l1_over_path_total": 0.05058023816085896,
+      "path_glossy_fraction": 0.2566184416402071
+    },
+    {
+      "scene": "evening",
+      "index": 10,
+      "group": "side_tir/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.02618024824027106,
+      "diffuse_emission_rgb_l1_over_path_total": 0.054494718187521086,
+      "glossy_rgb_l1_over_path_total": 0.05107640990131412,
+      "path_glossy_fraction": 0.2566184416402071
+    },
+    {
+      "scene": "evening",
+      "index": 11,
+      "group": "side_tir/tile",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.3113913200858828,
+      "diffuse_emission_rgb_l1_over_path_total": 0.014144159887692931,
+      "glossy_rgb_l1_over_path_total": 0.29724725299213095,
+      "path_glossy_fraction": 0.16628484210391006
+    },
+    {
+      "scene": "evening",
+      "index": 11,
+      "group": "side_tir/tile",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.1067257127823503,
+      "diffuse_emission_rgb_l1_over_path_total": 0.06211545249059821,
+      "glossy_rgb_l1_over_path_total": 0.04460971652560241,
+      "path_glossy_fraction": 0.16628484210391006
+    },
+    {
+      "scene": "evening",
+      "index": 11,
+      "group": "side_tir/tile",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.10168575642343307,
+      "diffuse_emission_rgb_l1_over_path_total": 0.057409803268428476,
+      "glossy_rgb_l1_over_path_total": 0.04427594781829513,
+      "path_glossy_fraction": 0.16628484210391006
+    },
+    {
+      "scene": "evening",
+      "index": 12,
+      "group": "side_tir/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.04155487738942799,
+      "diffuse_emission_rgb_l1_over_path_total": 0.012917474137294507,
+      "glossy_rgb_l1_over_path_total": 0.054471678067963346,
+      "path_glossy_fraction": 0.1697547480177045
+    },
+    {
+      "scene": "evening",
+      "index": 12,
+      "group": "side_tir/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.0847211896751983,
+      "diffuse_emission_rgb_l1_over_path_total": 0.002487056800595386,
+      "glossy_rgb_l1_over_path_total": 0.08479769297473876,
+      "path_glossy_fraction": 0.1697547480177045
+    },
+    {
+      "scene": "evening",
+      "index": 13,
+      "group": "side_transmit/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.41082994455836014,
+      "diffuse_emission_rgb_l1_over_path_total": 0.30787465185838636,
+      "glossy_rgb_l1_over_path_total": 0.7187050863324869,
+      "path_glossy_fraction": 0.8044878696635477
+    },
+    {
+      "scene": "evening",
+      "index": 13,
+      "group": "side_transmit/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.12237941716406313,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0318144811263358,
+      "glossy_rgb_l1_over_path_total": 0.15419410385413201,
+      "path_glossy_fraction": 0.8044878696635477
+    },
+    {
+      "scene": "evening",
+      "index": 13,
+      "group": "side_transmit/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.13750862434199398,
+      "diffuse_emission_rgb_l1_over_path_total": 0.06264146103631747,
+      "glossy_rgb_l1_over_path_total": 0.12456781524347661,
+      "path_glossy_fraction": 0.8044878696635477
+    },
+    {
+      "scene": "evening",
+      "index": 14,
+      "group": "side_transmit/base",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.7035501968372694,
+      "diffuse_emission_rgb_l1_over_path_total": 0.02441085414565061,
+      "glossy_rgb_l1_over_path_total": 0.727961247032491,
+      "path_glossy_fraction": 0.7769472645776739
+    },
+    {
+      "scene": "evening",
+      "index": 14,
+      "group": "side_transmit/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.07374220145925875,
+      "diffuse_emission_rgb_l1_over_path_total": 0.039652334774567234,
+      "glossy_rgb_l1_over_path_total": 0.045966525294291884,
+      "path_glossy_fraction": 0.7769472645776739
+    },
+    {
+      "scene": "evening",
+      "index": 14,
+      "group": "side_transmit/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.07707870071753566,
+      "diffuse_emission_rgb_l1_over_path_total": 0.043408474754834295,
+      "glossy_rgb_l1_over_path_total": 0.04858811712954454,
+      "path_glossy_fraction": 0.7769472645776739
+    },
+    {
+      "scene": "evening",
+      "index": 15,
+      "group": "side_transmit/base",
+      "mode": "overhead",
+      "combined_rgb_l1_over_path_total": 0.552564987130271,
+      "diffuse_emission_rgb_l1_over_path_total": 0.006991992223567851,
+      "glossy_rgb_l1_over_path_total": 0.5455742523107283,
+      "path_glossy_fraction": 0.6807562895023808
+    },
+    {
+      "scene": "evening",
+      "index": 15,
+      "group": "side_transmit/base",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.9167644954045417,
+      "diffuse_emission_rgb_l1_over_path_total": 0.010280466995494548,
+      "glossy_rgb_l1_over_path_total": 0.9064853824660061,
+      "path_glossy_fraction": 0.6807562895023808
+    },
+    {
+      "scene": "evening",
+      "index": 16,
+      "group": "side_transmit/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.23836890611937872,
+      "diffuse_emission_rgb_l1_over_path_total": 0.023312650079520852,
+      "glossy_rgb_l1_over_path_total": 0.26121187572398646,
+      "path_glossy_fraction": 0.35146727780222936
+    },
+    {
+      "scene": "evening",
+      "index": 16,
+      "group": "side_transmit/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.28854686746584046,
+      "diffuse_emission_rgb_l1_over_path_total": 0.01984213290996598,
+      "glossy_rgb_l1_over_path_total": 0.26870500598996716,
+      "path_glossy_fraction": 0.35146727780222936
+    },
+    {
+      "scene": "evening",
+      "index": 17,
+      "group": "side_transmit/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.009941136938384734,
+      "diffuse_emission_rgb_l1_over_path_total": 0.004002400563232135,
+      "glossy_rgb_l1_over_path_total": 0.013943339755362355,
+      "path_glossy_fraction": 0.02014805085304528
+    },
+    {
+      "scene": "evening",
+      "index": 17,
+      "group": "side_transmit/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.011026078393448373,
+      "diffuse_emission_rgb_l1_over_path_total": 0.003002867906453938,
+      "glossy_rgb_l1_over_path_total": 0.014028268906010567,
+      "path_glossy_fraction": 0.02014805085304528
+    },
+    {
+      "scene": "evening",
+      "index": 18,
+      "group": "side_transmit/wall",
+      "mode": "camera",
+      "combined_rgb_l1_over_path_total": 0.00905125578155371,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0037735016334982134,
+      "glossy_rgb_l1_over_path_total": 0.012824249611606973,
+      "path_glossy_fraction": 0.02455224102323275
+    },
+    {
+      "scene": "evening",
+      "index": 18,
+      "group": "side_transmit/wall",
+      "mode": "normal",
+      "combined_rgb_l1_over_path_total": 0.011900849392674002,
+      "diffuse_emission_rgb_l1_over_path_total": 0.0008654593615339729,
+      "glossy_rgb_l1_over_path_total": 0.012765698486618748,
+      "path_glossy_fraction": 0.02455224102323275
+    }
+  ]
+}
