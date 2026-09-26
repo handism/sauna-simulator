@@ -14,10 +14,17 @@ averaged) while the source scene is changed one assumption of the lobe trace
   clamp0     no indirect clamp
   nobump     water Principled BSDF without its bump normal
   noabsorb   water without volume absorption
-  flat       water faces flat shaded (the trace uses geometric normals; the
-             source side and bottom faces are single smooth strips whose corner
-             normals lean 45 degrees)
+  flat       water faces flat shaded (the trace uses geometric normals; in the
+             V11 source the side and bottom faces were single smooth strips whose
+             corner normals leaned 45 degrees)
   model      every change above at once
+  smooth     every water face smooth shaded (the V11 source before
+             flatten_water_sides.py)
+  walls      side strip and bottom flat, top smooth (flatten_water_sides.py)
+  sides      side strip flat only
+  bottom     bottom face flat only
+The shading variants mark the edges between flat and smooth faces sharp, as
+flatten_water_sides.py does for the rim.
 
 Glossy is GlossCol x (GlossDir + GlossInd). Every change is undone before the
 next variant and the source blend is not saved.
@@ -33,11 +40,14 @@ import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from blend_lineage import same_geometry  # noqa: E402
 from diagnose_water_radiance import combine_passes, select_records  # noqa: E402
 from diagnose_water_reflection_targets import SCENES, WATER  # noqa: E402
 
 SINGLE = ['bounces', 'blur0', 'clamp0', 'nobump', 'noabsorb', 'flat']
-VARIANTS = {'base': [], **{name: [name] for name in SINGLE}, 'model': SINGLE}
+SHADING = ['smooth', 'walls', 'sides', 'bottom']
+VARIANTS = {'base': [], **{name: [name] for name in SINGLE}, 'model': SINGLE,
+            **{name: [name] for name in SHADING}}
 BOUNCES = ('max_bounces', 'diffuse_bounces', 'glossy_bounces', 'transmission_bounces',
            'transparent_max_bounces', 'volume_bounces')
 SIZE = 5
@@ -66,7 +76,7 @@ def main():
     source = Path(bpy.data.filepath)
     source_hash = sha(source)
     metadata = json.loads((args.input / 'trace-summary.json').read_text())
-    if source_hash != metadata['input_sha256']:
+    if not same_geometry(source_hash, metadata['input_sha256']):
         raise RuntimeError('Endpoint fixture belongs to a different blend')
     with gzip.open(args.input / 'trace-rays.json.gz', 'rt') as stream:
         selected = select_records(json.load(stream)['original'], 3)[:args.limit]
@@ -77,6 +87,14 @@ def main():
     sharp_saved = [False] * len(mesh.polygons)
     if sharp is not None:
         sharp.data.foreach_get('value', sharp_saved)
+    edges_saved = [e.use_edge_sharp for e in mesh.edges]
+    edge_faces = {}
+    for poly in mesh.polygons:
+        for key in poly.edge_keys:
+            edge_faces.setdefault(key, []).append(poly.index)
+    # The top grid is at 0.765 m +- 1 cm, the bottom at 0.215 m; the side strip spans both.
+    heights = [[mesh.vertices[v].co.z for v in p.vertices] for p in mesh.polygons]
+    parts = ['top' if min(z) > 0.5 else 'bottom' if max(z) < 0.5 else 'side' for z in heights]
     shaders = []
     for slot in water.material_slots:
         tree = slot.material.node_tree
@@ -100,9 +118,21 @@ def main():
                     links.remove(link)
                 if source_socket is not None:
                     links.new(source_socket, socket)
-        flat = 'flat' in changes
+        sharp = sharp_saved
+        if 'flat' in changes:
+            sharp = [True] * len(mesh.polygons)
+        elif 'smooth' in changes:
+            sharp = [False] * len(mesh.polygons)
+        elif any(name in changes for name in ('walls', 'sides', 'bottom')):
+            flat_part = {'walls': ('side', 'bottom'), 'sides': ('side',), 'bottom': ('bottom',)}[changes[0]]
+            sharp = [part in flat_part for part in parts]
         attribute = mesh.attributes.get('sharp_face') or mesh.attributes.new('sharp_face', 'BOOLEAN', 'FACE')
-        attribute.data.foreach_set('value', [True] * len(mesh.polygons) if flat else sharp_saved)
+        attribute.data.foreach_set('value', sharp)
+        # Cycles shades smooth faces with vertex normals that average in the flat neighbours
+        # unless the edge between them is sharp (as flatten_water_sides.py marks the rim).
+        for edge in mesh.edges:
+            edge.use_edge_sharp = (edges_saved[edge.index] if sharp is sharp_saved else
+                                   len({sharp[f] for f in edge_faces[edge.key]}) > 1)
         mesh.update()
         if 'bounces' in changes:
             for name in BOUNCES:
@@ -138,6 +168,7 @@ def main():
               'water_materials': [{'material': e['material'], 'bump': e['normal'] is not None,
                                    'volume': e['volume'] is not None} for e in shaders],
               'water_faces': len(mesh.polygons), 'water_sharp_faces': sum(sharp_saved),
+              'water_sharp_edges': sum(edges_saved),
               'samples_per_pixel': args.samples, 'pixels': SIZE * SIZE, 'seeds': seeds,
               'footprint_m': cam_data.ortho_scale, 'camera_distance_m': 0.001,
               'variants': {v: VARIANTS[v] for v in variants}, 'color_space': 'scene-linear Rec.709',

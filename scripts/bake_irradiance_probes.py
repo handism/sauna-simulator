@@ -58,6 +58,7 @@ import numpy as np
 import OpenImageIO as oiio
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from blend_lineage import same_geometry
 from probe_sampling import fill_invalid  # shared with refill_enclosed_probes.py
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -441,7 +442,10 @@ if ONLY_GRIDS:
     shipped = ROOT / 'public/models'
     old = json.loads((shipped / f'{NAME}.json').read_text())
     old_data = np.frombuffer((shipped / f'{NAME}.bin').read_bytes(), dtype='<f2')
-    assert old['input_sha256'] == source_hash, 'shipped probes come from another input blend'
+    # A parent that differs only in the water's shading flags (blend_lineage.py) keeps the dry grids valid.
+    assert old['input_sha256'] == source_hash or (
+        'water' in ONLY_GRIDS and same_geometry(old['input_sha256'], source_hash)
+    ), 'shipped probes come from another input blend'
     assert hashlib.sha256(old_data.tobytes()).hexdigest() == old['bin_sha256']
     old_report = json.loads((ROOT / f'docs/3d-export/{NAME}-report.json').read_text())
     for grid in grids:
@@ -456,7 +460,7 @@ if ONLY_GRIDS:
             report['scenes'][key]['grids'][grid['name']] = old_report['scenes'][key]['grids'][grid['name']]
     for key, _ in SCENES:
         report['scenes'][key]['grids'] = {g['name']: report['scenes'][key]['grids'][g['name']] for g in grids}
-    report['copied_grids'] = dict(bin_sha256=old['bin_sha256'], seconds=old_report['seconds'],
+    report['copied_grids'] = dict(input_sha256=old['input_sha256'], bin_sha256=old['bin_sha256'], seconds=old_report['seconds'],
                                   grids=[g['name'] for g in grids if g['name'] not in ONLY_GRIDS])
 # Grid by grid, scene by scene, probe (x fastest, then y, then z), 9 RGB coefficients.
 chunks = []

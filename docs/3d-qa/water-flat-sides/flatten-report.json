@@ -1,0 +1,22 @@
+{
+  "input": "SUI_Retreat.blend",
+  "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "object": "V4 rippled spring water volume",
+  "faces": {
+    "total": 15005,
+    "top_smooth": 14520,
+    "walls_flat": 485,
+    "top_at_rim": 480
+  },
+  "sharp_rim_edges": 484,
+  "all_smooth_before": true,
+  "max_corner_to_face_deg": {
+    "walls_before": 54.829602772498305,
+    "walls_after": 0.0,
+    "rim_top_before": 54.847515271185166,
+    "rim_top_after": 7.249634648308687,
+    "interior_top_after": 7.9672902139613235
+  },
+  "saved": true,
+  "output_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0"
+}

@@ -1,0 +1,783 @@
+{
+  "before_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
+  "after_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
+  "samples_per_pixel": 1024,
+  "seeds": [
+    17,
+    83
+  ],
+  "water_sharp_faces": 485,
+  "water_sharp_edges": 484,
+  "units": "glossy pass, RGB sum x 1000, seed mean",
+  "scenes": {
+    "day": {
+      "endpoints": [
+        {
+          "index": 0,
+          "group": "bottom/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 36.69351007595083,
+          "v11_flat": 37.584440691718285,
+          "fixed": 36.930099499383246,
+          "fixed_flat": 37.58448445929035,
+          "fixed_smooth": 36.69717040552844,
+          "fixed_walls": 36.93010114974726,
+          "fixed_sides": 36.930099499383246,
+          "fixed_bottom": 32.314896069559246,
+          "fixed_over_v11_flat": 0.9825901043013466,
+          "fixed_over_v11_smooth": 1.0064477184914362
+        },
+        {
+          "index": 1,
+          "group": "bottom/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 58.99442080283419,
+          "v11_flat": 39.24510807397004,
+          "fixed": 39.23452913749832,
+          "fixed_flat": 39.245137939604895,
+          "fixed_smooth": 58.99467727520997,
+          "fixed_walls": 39.23452510402077,
+          "fixed_sides": 39.23452813260749,
+          "fixed_bottom": 38.48173670894169,
+          "fixed_over_v11_flat": 0.9997304393594285,
+          "fixed_over_v11_smooth": 0.6650549086433852
+        },
+        {
+          "index": 2,
+          "group": "bottom/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 28.641023951940028,
+          "v11_flat": 28.204153606109212,
+          "fixed": 28.182643612689795,
+          "fixed_flat": 28.204125016848796,
+          "fixed_smooth": 28.641029556819394,
+          "fixed_walls": 28.18264399587131,
+          "fixed_sides": 28.182643612689795,
+          "fixed_bottom": 28.04592440981875,
+          "fixed_over_v11_flat": 0.9992373466078855,
+          "fixed_over_v11_smooth": 0.9839956720814381
+        },
+        {
+          "index": 3,
+          "group": "bottom/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 32.313182028664095,
+          "v11_flat": 28.665273729147984,
+          "fixed": 28.885608229945987,
+          "fixed_flat": 28.664750858490212,
+          "fixed_smooth": 32.313138316004604,
+          "fixed_walls": 28.885608510155343,
+          "fixed_sides": 28.88561103203954,
+          "fixed_bottom": 26.33109785214552,
+          "fixed_over_v11_flat": 1.0076864607287512,
+          "fixed_over_v11_smooth": 0.8939264540496938
+        },
+        {
+          "index": 4,
+          "group": "bottom/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 113.06343736849193,
+          "v11_flat": 90.9416718697539,
+          "fixed": 90.67335201635498,
+          "fixed_flat": 90.94232051964981,
+          "fixed_smooth": 113.0627855127481,
+          "fixed_walls": 90.67335201635498,
+          "fixed_sides": 90.67335415358693,
+          "fixed_bottom": 89.34523227124994,
+          "fixed_over_v11_flat": 0.9970495390299927,
+          "fixed_over_v11_smooth": 0.8019688249954399
+        },
+        {
+          "index": 5,
+          "group": "bottom/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 99.91242419166826,
+          "v11_flat": 110.74748290971218,
+          "fixed": 112.35795315135636,
+          "fixed_flat": 110.74275227874966,
+          "fixed_smooth": 99.91239839157731,
+          "fixed_walls": 112.35795499422,
+          "fixed_sides": 112.35795683708363,
+          "fixed_bottom": 111.83108027969627,
+          "fixed_over_v11_flat": 1.0145418225257286,
+          "fixed_over_v11_smooth": 1.1245643778576833
+        },
+        {
+          "index": 6,
+          "group": "side_tir/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 10.644537857442828,
+          "v11_flat": 15.08029764635612,
+          "fixed": 14.345275437734957,
+          "fixed_flat": 15.080297007151126,
+          "fixed_smooth": 10.644538339563491,
+          "fixed_walls": 14.345274963230564,
+          "fixed_sides": 14.34527511813246,
+          "fixed_bottom": 12.929748068360995,
+          "fixed_over_v11_flat": 0.9512594362619382,
+          "fixed_over_v11_smooth": 1.3476654064135358
+        },
+        {
+          "index": 7,
+          "group": "side_tir/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 19.4011137779979,
+          "v11_flat": 19.337243498569883,
+          "fixed": 19.596505178974375,
+          "fixed_flat": 19.33724848928385,
+          "fixed_smooth": 19.401114789537544,
+          "fixed_walls": 19.596504780095252,
+          "fixed_sides": 19.596504977139535,
+          "fixed_bottom": 18.76199410537706,
+          "fixed_over_v11_flat": 1.0134073752768158,
+          "fixed_over_v11_smooth": 1.0100711435030119
+        },
+        {
+          "index": 8,
+          "group": "side_tir/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 29.457804362901655,
+          "v11_flat": 131.1529628061233,
+          "fixed": 129.6754334028781,
+          "fixed_flat": 131.15279360308483,
+          "fixed_smooth": 29.456275884273293,
+          "fixed_walls": 129.67542749000015,
+          "fixed_sides": 129.67544148062368,
+          "fixed_bottom": 129.84355207091832,
+          "fixed_over_v11_flat": 0.9887343040398611,
+          "fixed_over_v11_smooth": 4.402073956543338
+        },
+        {
+          "index": 9,
+          "group": "side_tir/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 42.44678814783009,
+          "v11_flat": 53.49687926879931,
+          "fixed": 53.28659051009566,
+          "fixed_flat": 53.50962455266828,
+          "fixed_smooth": 42.44677777843408,
+          "fixed_walls": 53.28659180627015,
+          "fixed_sides": 53.286589862008405,
+          "fixed_bottom": 25.879171546787816,
+          "fixed_over_v11_flat": 0.9960691397035135,
+          "fixed_over_v11_smooth": 1.2553739124975396
+        },
+        {
+          "index": 10,
+          "group": "side_tir/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 36.59934875891348,
+          "v11_flat": 46.61238386432599,
+          "fixed": 47.052236383422496,
+          "fixed_flat": 46.612377858537016,
+          "fixed_smooth": 36.59938124477203,
+          "fixed_walls": 47.05223419949923,
+          "fixed_sides": 47.052236929403314,
+          "fixed_bottom": 46.93388302995195,
+          "fixed_over_v11_flat": 1.0094363875569372,
+          "fixed_over_v11_smooth": 1.2856031043984983
+        },
+        {
+          "index": 11,
+          "group": "side_tir/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 22.056207110463298,
+          "v11_flat": 171.00969085995231,
+          "fixed": 171.01840834561366,
+          "fixed_flat": 171.0097616259445,
+          "fixed_smooth": 22.056435164930274,
+          "fixed_walls": 171.0184017113019,
+          "fixed_sides": 171.01840613417642,
+          "fixed_bottom": 171.07973592358428,
+          "fixed_over_v11_flat": 1.000050976559384,
+          "fixed_over_v11_smooth": 7.753754192146837
+        },
+        {
+          "index": 12,
+          "group": "side_tir/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 32.72777725136508,
+          "v11_flat": 33.78384754494832,
+          "fixed": 33.72038335221354,
+          "fixed_flat": 33.78387933916112,
+          "fixed_smooth": 32.72780896913287,
+          "fixed_walls": 33.72037929550839,
+          "fixed_sides": 33.72037994208726,
+          "fixed_bottom": 33.541686221266396,
+          "fixed_over_v11_flat": 0.9981214634404697,
+          "fixed_over_v11_smooth": 1.0303291633044542
+        },
+        {
+          "index": 13,
+          "group": "side_transmit/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 7.11330014080213,
+          "v11_flat": 6.940653451312295,
+          "fixed": 6.798740508818036,
+          "fixed_flat": 6.945134063612878,
+          "fixed_smooth": 7.11778023265083,
+          "fixed_walls": 6.798740666291984,
+          "fixed_sides": 6.79874067836624,
+          "fixed_bottom": 7.071044558251832,
+          "fixed_over_v11_flat": 0.9795533744063497,
+          "fixed_over_v11_smooth": 0.9557786645076638
+        },
+        {
+          "index": 14,
+          "group": "side_transmit/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 12.19058086623446,
+          "v11_flat": 11.662029932187178,
+          "fixed": 11.637226610610641,
+          "fixed_flat": 11.661974409516203,
+          "fixed_smooth": 12.190578700728283,
+          "fixed_walls": 11.637227245538504,
+          "fixed_sides": 11.637226822194581,
+          "fixed_bottom": 12.672851233981989,
+          "fixed_over_v11_flat": 0.9978731557266819,
+          "fixed_over_v11_smooth": 0.9546080484846704
+        },
+        {
+          "index": 15,
+          "group": "side_transmit/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 3.8762895977844223,
+          "v11_flat": 4.1074058839054866,
+          "fixed": 4.100035046362047,
+          "fixed_flat": 4.107406972591561,
+          "fixed_smooth": 3.8762897157341154,
+          "fixed_walls": 4.100035151235238,
+          "fixed_sides": 4.100035167060426,
+          "fixed_bottom": 4.1368941765080045,
+          "fixed_over_v11_flat": 0.9982054762174049,
+          "fixed_over_v11_smooth": 1.0577215512240135
+        },
+        {
+          "index": 16,
+          "group": "side_transmit/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 19.165521597119,
+          "v11_flat": 27.82720644133268,
+          "fixed": 27.92098205078334,
+          "fixed_flat": 27.827205149975335,
+          "fixed_smooth": 19.165563829708287,
+          "fixed_walls": 27.92097994584828,
+          "fixed_sides": 27.92098240360482,
+          "fixed_bottom": 25.64161818772065,
+          "fixed_over_v11_flat": 1.003369925387529,
+          "fixed_over_v11_smooth": 1.4568339248841775
+        },
+        {
+          "index": 17,
+          "group": "side_transmit/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 21.90277765804651,
+          "v11_flat": 24.497099683911333,
+          "fixed": 24.36277730427699,
+          "fixed_flat": 24.497089856567456,
+          "fixed_smooth": 21.902750493760006,
+          "fixed_walls": 24.36277911850677,
+          "fixed_sides": 24.362782003874468,
+          "fixed_bottom": 22.223046890350812,
+          "fixed_over_v11_flat": 0.9945168047904641,
+          "fixed_over_v11_smooth": 1.1123145057050214
+        },
+        {
+          "index": 18,
+          "group": "side_transmit/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 15.965965007416173,
+          "v11_flat": 14.733267459171985,
+          "fixed": 14.756402297504907,
+          "fixed_flat": 14.733269897013374,
+          "fixed_smooth": 15.966010613584054,
+          "fixed_walls": 14.756402330630957,
+          "fixed_sides": 14.756401241820516,
+          "fixed_bottom": 14.600434815538453,
+          "fixed_over_v11_flat": 1.0015702449166168,
+          "fixed_over_v11_smooth": 0.9242411774453079
+        }
+      ],
+      "fixed_over_v11_flat": {
+        "median": 0.9982054762174049,
+        "min": 0.9512594362619382,
+        "max": 1.0145418225257286
+      },
+      "fixed_over_v11_smooth": {
+        "median": 1.0303291633044542,
+        "min": 0.6650549086433852,
+        "max": 7.753754192146837
+      },
+      "fixed_seed_spread": {
+        "median": 0.05618703028573782,
+        "min": 0.006793585734523464,
+        "max": 0.4117691570964016
+      }
+    },
+    "evening": {
+      "endpoints": [
+        {
+          "index": 0,
+          "group": "bottom/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 7.7927033788921625,
+          "v11_flat": 6.268777828619916,
+          "fixed": 6.330274881565398,
+          "fixed_flat": 6.2687766024286,
+          "fixed_smooth": 7.873490560423791,
+          "fixed_walls": 6.330274881565398,
+          "fixed_sides": 6.330274881565398,
+          "fixed_bottom": 5.23173988399497,
+          "fixed_over_v11_flat": 1.00981005462735,
+          "fixed_over_v11_smooth": 0.8123336118133283
+        },
+        {
+          "index": 1,
+          "group": "bottom/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 11.239955718728712,
+          "v11_flat": 7.66583018234371,
+          "fixed": 7.593814346356116,
+          "fixed_flat": 7.665829212055193,
+          "fixed_smooth": 11.179219829913489,
+          "fixed_walls": 7.593814220744762,
+          "fixed_sides": 7.593814468507239,
+          "fixed_bottom": 7.556179604154752,
+          "fixed_over_v11_flat": 0.9906056050976105,
+          "fixed_over_v11_smooth": 0.6756089202115655
+        },
+        {
+          "index": 2,
+          "group": "bottom/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 3.4157276960011926,
+          "v11_flat": 3.5828709300274504,
+          "fixed": 3.5486081743945093,
+          "fixed_flat": 3.582869498036584,
+          "fixed_smooth": 3.452265028201624,
+          "fixed_walls": 3.5486081743945093,
+          "fixed_sides": 3.5486082983451177,
+          "fixed_bottom": 3.50815641454016,
+          "fixed_over_v11_flat": 0.9904370667260741,
+          "fixed_over_v11_smooth": 1.0389025385568293
+        },
+        {
+          "index": 3,
+          "group": "bottom/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 10.804322985753178,
+          "v11_flat": 5.895847505621332,
+          "fixed": 5.900312221390674,
+          "fixed_flat": 5.897775626198031,
+          "fixed_smooth": 10.804327889416903,
+          "fixed_walls": 5.900312011233658,
+          "fixed_sides": 5.900312151338335,
+          "fixed_bottom": 5.815195477235899,
+          "fixed_over_v11_flat": 1.0007572644586016,
+          "fixed_over_v11_smooth": 0.5461066120636118
+        },
+        {
+          "index": 4,
+          "group": "bottom/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 31.197861377838755,
+          "v11_flat": 22.232389220706143,
+          "fixed": 22.57156606061309,
+          "fixed_flat": 22.232411928795578,
+          "fixed_smooth": 31.19787794138634,
+          "fixed_walls": 22.57156686207507,
+          "fixed_sides": 22.571566594921077,
+          "fixed_bottom": 22.550580045817757,
+          "fixed_over_v11_flat": 1.0152559779580979,
+          "fixed_over_v11_smooth": 0.7234972226861258
+        },
+        {
+          "index": 5,
+          "group": "bottom/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 25.904871805071593,
+          "v11_flat": 29.361775082694862,
+          "fixed": 29.729911512621698,
+          "fixed_flat": 29.363519813845528,
+          "fixed_smooth": 25.90490428554324,
+          "fixed_walls": 29.729910591189878,
+          "fixed_sides": 29.729911512621698,
+          "fixed_bottom": 29.608583820621902,
+          "fixed_over_v11_flat": 1.0125379487067798,
+          "fixed_over_v11_smooth": 1.1476571563963982
+        },
+        {
+          "index": 6,
+          "group": "side_tir/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 2.281256284671915,
+          "v11_flat": 2.2282808510055183,
+          "fixed": 2.016896152468151,
+          "fixed_flat": 2.22828083089396,
+          "fixed_smooth": 2.2812566258140206,
+          "fixed_walls": 2.0168961727151844,
+          "fixed_sides": 2.016896192962218,
+          "fixed_bottom": 2.038173997050987,
+          "fixed_over_v11_flat": 0.9051355225522943,
+          "fixed_over_v11_smooth": 0.8841164256817451
+        },
+        {
+          "index": 7,
+          "group": "side_tir/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 3.276202487477891,
+          "v11_flat": 4.736739559720069,
+          "fixed": 4.488909011780367,
+          "fixed_flat": 4.736739813802619,
+          "fixed_smooth": 3.276196367050563,
+          "fixed_walls": 4.488908958332035,
+          "fixed_sides": 4.488908856219959,
+          "fixed_bottom": 4.513001911951488,
+          "fixed_over_v11_flat": 0.9476790849876601,
+          "fixed_over_v11_smooth": 1.3701561576055241
+        },
+        {
+          "index": 8,
+          "group": "side_tir/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 7.946542543687207,
+          "v11_flat": 24.957459310627836,
+          "fixed": 24.767577536265758,
+          "fixed_flat": 24.957069816071506,
+          "fixed_smooth": 7.9466395863078825,
+          "fixed_walls": 24.767577782630937,
+          "fixed_sides": 24.767577782630937,
+          "fixed_bottom": 24.831897985596004,
+          "fixed_over_v11_flat": 0.9923917826731177,
+          "fixed_over_v11_smooth": 3.116774043567074
+        },
+        {
+          "index": 9,
+          "group": "side_tir/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 11.539869450726602,
+          "v11_flat": 12.370745254671453,
+          "fixed": 12.13622734905212,
+          "fixed_flat": 12.368602273166662,
+          "fixed_smooth": 11.539903232274536,
+          "fixed_walls": 12.136226376921243,
+          "fixed_sides": 12.136227430063027,
+          "fixed_bottom": 5.658961408774734,
+          "fixed_over_v11_flat": 0.9810425402195738,
+          "fixed_over_v11_smooth": 1.0516780454815258
+        },
+        {
+          "index": 10,
+          "group": "side_tir/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 11.009062519082942,
+          "v11_flat": 14.7786685178536,
+          "fixed": 15.12464072758103,
+          "fixed_flat": 14.778670565281661,
+          "fixed_smooth": 11.009064361768196,
+          "fixed_walls": 15.124640591085827,
+          "fixed_sides": 15.124641000571438,
+          "fixed_bottom": 15.056598004868095,
+          "fixed_over_v11_flat": 1.0234102422223945,
+          "fixed_over_v11_smooth": 1.3738354833905435
+        },
+        {
+          "index": 11,
+          "group": "side_tir/tile",
+          "material": "V10 | submerged light / Teal glazed pool tile",
+          "v11_smooth": 5.897013888000996,
+          "v11_flat": 34.55306953448183,
+          "fixed": 34.595625327308795,
+          "fixed_flat": 34.55285944794255,
+          "fixed_smooth": 5.89701264406754,
+          "fixed_walls": 34.59562311587154,
+          "fixed_sides": 34.595625603738455,
+          "fixed_bottom": 34.50766955691457,
+          "fixed_over_v11_flat": 1.0012316067255471,
+          "fixed_over_v11_smooth": 5.866634534760477
+        },
+        {
+          "index": 12,
+          "group": "side_tir/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 4.295436097999335,
+          "v11_flat": 4.379540439408788,
+          "fixed": 4.378348568940456,
+          "fixed_flat": 4.379536192371645,
+          "fixed_smooth": 4.2954320379490865,
+          "fixed_walls": 4.378348680846533,
+          "fixed_sides": 4.378348582836082,
+          "fixed_bottom": 4.396740053631692,
+          "fixed_over_v11_flat": 0.999727854900572,
+          "fixed_over_v11_smooth": 1.0193024570845644
+        },
+        {
+          "index": 13,
+          "group": "side_transmit/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 3.778683978026538,
+          "v11_flat": 2.724269358821542,
+          "fixed": 2.7406027101520762,
+          "fixed_flat": 2.7242694442431303,
+          "fixed_smooth": 3.7786839795626537,
+          "fixed_walls": 2.740602812711211,
+          "fixed_sides": 2.7406027677787415,
+          "fixed_bottom": 2.7720418375900118,
+          "fixed_over_v11_flat": 1.0059954979406294,
+          "fixed_over_v11_smooth": 0.7252796809918431
+        },
+        {
+          "index": 14,
+          "group": "side_transmit/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 2.0485512228589977,
+          "v11_flat": 1.5204011812193938,
+          "fixed": 1.5380880929472007,
+          "fixed_flat": 1.5204004546590808,
+          "fixed_smooth": 2.04855125384047,
+          "fixed_walls": 1.5380881087275304,
+          "fixed_sides": 1.5380881858531228,
+          "fixed_bottom": 1.8379724814124763,
+          "fixed_over_v11_flat": 1.011633055765993,
+          "fixed_over_v11_smooth": 0.7508174927647722
+        },
+        {
+          "index": 15,
+          "group": "side_transmit/base",
+          "material": "Blackened bronze",
+          "v11_smooth": 1.1494098825001078,
+          "v11_flat": 1.095184317680707,
+          "fixed": 1.0963614138333302,
+          "fixed_flat": 1.0951842649013732,
+          "fixed_smooth": 1.149409912929357,
+          "fixed_walls": 1.0963614375827422,
+          "fixed_sides": 1.0963613818054594,
+          "fixed_bottom": 1.1039214671316693,
+          "fixed_over_v11_flat": 1.0010747927391035,
+          "fixed_over_v11_smooth": 0.9538472137098816
+        },
+        {
+          "index": 16,
+          "group": "side_transmit/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 3.0901045794360966,
+          "v11_flat": 4.319688313358112,
+          "fixed": 4.301719468213435,
+          "fixed_flat": 4.319684526489851,
+          "fixed_smooth": 3.090134676903189,
+          "fixed_walls": 4.301719945865982,
+          "fixed_sides": 4.301719358308246,
+          "fixed_bottom": 4.148349576312167,
+          "fixed_over_v11_flat": 0.995840244980382,
+          "fixed_over_v11_smooth": 1.3920951079909543
+        },
+        {
+          "index": 17,
+          "group": "side_transmit/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 3.319220571159894,
+          "v11_flat": 3.936523668356691,
+          "fixed": 3.9788638637938254,
+          "fixed_flat": 3.9365066038795784,
+          "fixed_smooth": 3.3192205028805883,
+          "fixed_walls": 3.9788638146327164,
+          "fixed_sides": 3.978863231869533,
+          "fixed_bottom": 3.6322131731932097,
+          "fixed_over_v11_flat": 1.0107557324696106,
+          "fixed_over_v11_smooth": 1.1987343951665799
+        },
+        {
+          "index": 18,
+          "group": "side_transmit/wall",
+          "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+          "v11_smooth": 1.9496531775359662,
+          "v11_flat": 2.1224572187006943,
+          "fixed": 2.122726787094618,
+          "fixed_flat": 2.1224574609195264,
+          "fixed_smooth": 1.9496523332033542,
+          "fixed_walls": 2.1227266976909744,
+          "fixed_sides": 2.1227266398067295,
+          "fixed_bottom": 1.9671920343577776,
+          "fixed_over_v11_flat": 1.000127007692569,
+          "fixed_over_v11_smooth": 1.0887714858995525
+        }
+      ],
+      "fixed_over_v11_flat": {
+        "median": 1.0007572644586016,
+        "min": 0.9051355225522943,
+        "max": 1.0234102422223945
+      },
+      "fixed_over_v11_smooth": {
+        "median": 1.0389025385568293,
+        "min": 0.5461066120636118,
+        "max": 5.866634534760477
+      },
+      "fixed_seed_spread": {
+        "median": 0.04789824608093159,
+        "min": 0.0032020326149460212,
+        "max": 0.3263673857725683
+      }
+    }
+  },
+  "renders": {
+    "threshold_8bit": 8,
+    "images": [
+      {
+        "kind": "final",
+        "render": "01",
+        "mean_abs": 0.0236,
+        "changed_share": 0.000342,
+        "changed_box": [
+          0.0148,
+          0.0071,
+          0.9219,
+          0.8621
+        ],
+        "max_step": 41
+      },
+      {
+        "kind": "final",
+        "render": "02",
+        "mean_abs": 0.0964,
+        "changed_share": 0.001652,
+        "changed_box": [
+          0.1524,
+          0.1764,
+          0.8052,
+          0.7607
+        ],
+        "max_step": 100
+      },
+      {
+        "kind": "final",
+        "render": "03",
+        "mean_abs": 1.9268,
+        "changed_share": 0.066431,
+        "changed_box": [
+          0.0238,
+          0.1386,
+          0.8286,
+          0.6871
+        ],
+        "max_step": 117
+      },
+      {
+        "kind": "final",
+        "render": "04",
+        "mean_abs": 0.0379,
+        "changed_share": 2e-05,
+        "changed_box": [
+          0.0667,
+          0.0,
+          0.7595,
+          0.4386
+        ],
+        "max_step": 23
+      },
+      {
+        "kind": "final",
+        "render": "05",
+        "mean_abs": 0.0219,
+        "changed_share": 1.9e-05,
+        "changed_box": [
+          0.3438,
+          0.0036,
+          0.9848,
+          0.9993
+        ],
+        "max_step": 40
+      },
+      {
+        "kind": "final",
+        "render": "06",
+        "mean_abs": 0.0164,
+        "changed_share": 0.000241,
+        "changed_box": [
+          0.2429,
+          0.0521,
+          0.8024,
+          0.5236
+        ],
+        "max_step": 52
+      },
+      {
+        "kind": "final",
+        "render": "07",
+        "mean_abs": 0.004,
+        "changed_share": 4e-06,
+        "changed_box": [
+          0.19,
+          0.1636,
+          0.9719,
+          0.9571
+        ],
+        "max_step": 39
+      },
+      {
+        "kind": "bluehour",
+        "render": "02",
+        "mean_abs": 0.0646,
+        "changed_share": 0.001235,
+        "changed_box": [
+          0.4524,
+          0.5629,
+          0.8048,
+          0.7514
+        ],
+        "max_step": 99
+      },
+      {
+        "kind": "bluehour",
+        "render": "03",
+        "mean_abs": 1.2922,
+        "changed_share": 0.054448,
+        "changed_box": [
+          0.0895,
+          0.3157,
+          0.901,
+          0.6871
+        ],
+        "max_step": 99
+      },
+      {
+        "kind": "bluehour",
+        "render": "04",
+        "mean_abs": 0.0385,
+        "changed_share": 1e-06,
+        "changed_box": [
+          0.1,
+          0.8,
+          0.101,
+          0.8014
+        ],
+        "max_step": 9
+      },
+      {
+        "kind": "bluehour",
+        "render": "05",
+        "mean_abs": 0.0178,
+        "changed_share": 1e-05,
+        "changed_box": [
+          0.1524,
+          0.0014,
+          0.9571,
+          0.2486
+        ],
+        "max_step": 12
+      },
+      {
+        "kind": "bluehour",
+        "render": "07",
+        "mean_abs": 0.0098,
+        "changed_share": 3e-06,
+        "changed_box": [
+          0.5114,
+          0.4043,
+          0.561,
+          0.4071
+        ],
+        "max_step": 10
+      }
+    ]
+  }
+}
