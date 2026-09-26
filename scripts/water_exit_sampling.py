@@ -101,12 +101,14 @@ def water_exits(point, direction, lower, upper, surface_normal=flat_normal, max_
     return exits
 
 
-def exit_samples(point, view, normal, alpha, f0, uvs, lower, upper, probe, boxes, surface_normal=flat_normal):
+def exit_samples(point, view, normal, alpha, f0, uvs, lower, upper, probe, boxes, surface_normal=flat_normal,
+                 with_sample=False):
     """Per lobe sample: [(weight, lookup direction)] of the light it brings from above the water.
 
     weight is the GGX sample weight (G2/G1 x Schlick) times the Fresnel factors;
     the estimate is sum(weight x L) / len(uvs). An endpoint above the level
-    looks up the capture without refraction.
+    looks up the capture without refraction. with_sample appends the lobe sample's
+    direction at the endpoint, for a correction that depends on it.
     """
     results = []
     for u1, u2 in uvs:
@@ -121,7 +123,8 @@ def exit_samples(point, view, normal, alpha, f0, uvs, lower, upper, probe, boxes
             exits = water_exits(point, direction, lower, upper, surface_normal)
         for origin, out, transmittance in exits:
             lookup = nested_box_lookup(origin, out, probe, boxes) or out
-            results.append((weight * transmittance, lookup))
+            results.append((weight * transmittance, lookup, direction) if with_sample else
+                           (weight * transmittance, lookup))
     return results
 
 
