@@ -18,6 +18,7 @@ import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
 import { applyCaustics } from './caustics';
+import { applyWaterBottom } from './waterBottom';
 import { createHdrOutput, type RenderStats } from './hdrOutput';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
 
@@ -212,6 +213,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         setData('glassMeshes', String(applyGlass(gltf.scene, lighting.irradiance)));
         setData('irradianceMaterials', String(applyIrradiance(gltf.scene, lighting.irradiance)));
         setData('reflectionMaterials', String(applyReflection(gltf.scene, lighting.irradiance)));
+        setData('waterBottomMaterials', String(applyWaterBottom(gltf.scene)));
         const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
         // After every material change: the mirrored images copy the finished materials.
         const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
