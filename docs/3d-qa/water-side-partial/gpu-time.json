@@ -1,0 +1,750 @@
+{
+ "note": "EXT_disjoint_timer_query_webgl2, median GPU ms per frame over 8 s, standard quality, 1200x800, headless Chrome/macOS. before = HEAD f901395 worktree; final = this change; no-key = this change without the program cache keys of the copies. Runs alternated.",
+ "runs": {
+  "before-1": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 68.27,
+    "p10Ms": 64.62,
+    "p90Ms": 72.51,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 118.84,
+    "p10Ms": 112.27,
+    "p90Ms": 125.56,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 57.1,
+    "p10Ms": 50.34,
+    "p90Ms": 61.83,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 120.32,
+    "p10Ms": 111.82,
+    "p90Ms": 131.63,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 73.27,
+    "p10Ms": 68.24,
+    "p90Ms": 76.79,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 111.72,
+    "p10Ms": 105.84,
+    "p90Ms": 116.32,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   }
+  ],
+  "before-2": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 69.05,
+    "p10Ms": 64.8,
+    "p90Ms": 73.37,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 118.96,
+    "p10Ms": 113.47,
+    "p90Ms": 125.37,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 55.13,
+    "p10Ms": 47.4,
+    "p90Ms": 60.58,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 115.25,
+    "p10Ms": 104.9,
+    "p90Ms": 127.11,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 72.91,
+    "p10Ms": 68.07,
+    "p90Ms": 76.56,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 113.0,
+    "p10Ms": 108.52,
+    "p90Ms": 119.41,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   }
+  ],
+  "before-3": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 69.83,
+    "p10Ms": 65.78,
+    "p90Ms": 73.48,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 117.16,
+    "p10Ms": 111.91,
+    "p90Ms": 124.69,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 55.55,
+    "p10Ms": 48.4,
+    "p90Ms": 60.34,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 118.57,
+    "p10Ms": 108.7,
+    "p90Ms": 129.02,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 74.97,
+    "p10Ms": 71.19,
+    "p90Ms": 78.43,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 111.72,
+    "p10Ms": 108.5,
+    "p90Ms": 114.69,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   }
+  ],
+  "before-4": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 68.94,
+    "p10Ms": 65.33,
+    "p90Ms": 72.11,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 118.52,
+    "p10Ms": 112.83,
+    "p90Ms": 124.02,
+    "drawCalls": "113",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 54.05,
+    "p10Ms": 47.23,
+    "p90Ms": 59.22,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 118.6,
+    "p10Ms": 108.47,
+    "p90Ms": 127.7,
+    "drawCalls": "104",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 73.36,
+    "p10Ms": 68.91,
+    "p90Ms": 77.93,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 110.67,
+    "p10Ms": 107.32,
+    "p90Ms": 115.15,
+    "drawCalls": "79",
+    "sideImagesShown": "12"
+   }
+  ],
+  "final-1": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 74.54,
+    "p10Ms": 68.87,
+    "p90Ms": 81.19,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 128.62,
+    "p10Ms": 120.59,
+    "p90Ms": 139.8,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 58.1,
+    "p10Ms": 51.15,
+    "p90Ms": 63.8,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 122.87,
+    "p10Ms": 112.76,
+    "p90Ms": 132.28,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 75.43,
+    "p10Ms": 71.18,
+    "p90Ms": 78.32,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 112.36,
+    "p10Ms": 108.68,
+    "p90Ms": 117.67,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ],
+  "final-2": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 70.35,
+    "p10Ms": 66.31,
+    "p90Ms": 74.92,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 122.56,
+    "p10Ms": 114.94,
+    "p90Ms": 131.02,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 61.33,
+    "p10Ms": 55.92,
+    "p90Ms": 66.94,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 128.64,
+    "p10Ms": 117.17,
+    "p90Ms": 142.62,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 75.81,
+    "p10Ms": 71.26,
+    "p90Ms": 79.46,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 112.78,
+    "p10Ms": 108.29,
+    "p90Ms": 116.36,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ],
+  "final-3": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 71.84,
+    "p10Ms": 67.98,
+    "p90Ms": 75.8,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 124.06,
+    "p10Ms": 117.1,
+    "p90Ms": 131.41,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 57.01,
+    "p10Ms": 51.56,
+    "p90Ms": 63.0,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 121.32,
+    "p10Ms": 111.45,
+    "p90Ms": 132.03,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 74.08,
+    "p10Ms": 68.81,
+    "p90Ms": 79.01,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 111.32,
+    "p10Ms": 106.1,
+    "p90Ms": 115.43,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ],
+  "final-4": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 72.0,
+    "p10Ms": 67.68,
+    "p90Ms": 77.09,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 122.25,
+    "p10Ms": 114.86,
+    "p90Ms": 130.01,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 57.79,
+    "p10Ms": 51.99,
+    "p90Ms": 63.72,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 125.49,
+    "p10Ms": 115.42,
+    "p90Ms": 135.74,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 77.06,
+    "p10Ms": 73.76,
+    "p90Ms": 81.92,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 115.81,
+    "p10Ms": 112.28,
+    "p90Ms": 120.06,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ],
+  "final-5": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 72.21,
+    "p10Ms": 67.75,
+    "p90Ms": 76.23,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 124.09,
+    "p10Ms": 117.97,
+    "p90Ms": 134.13,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 58.65,
+    "p10Ms": 51.62,
+    "p90Ms": 64.42,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 122.52,
+    "p10Ms": 111.97,
+    "p90Ms": 132.78,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 74.9,
+    "p10Ms": 69.59,
+    "p90Ms": 78.68,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 111.47,
+    "p10Ms": 106.94,
+    "p90Ms": 116.86,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ],
+  "final-6": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 71.81,
+    "p10Ms": 67.62,
+    "p90Ms": 76.09,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 123.82,
+    "p10Ms": 116.4,
+    "p90Ms": 131.14,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 57.56,
+    "p10Ms": 51.08,
+    "p90Ms": 63.54,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 122.57,
+    "p10Ms": 112.4,
+    "p90Ms": 135.66,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 74.61,
+    "p10Ms": 69.83,
+    "p90Ms": 78.21,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 112.78,
+    "p10Ms": 109.18,
+    "p90Ms": 117.35,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ],
+  "nokey-1": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 70.41,
+    "p10Ms": 66.23,
+    "p90Ms": 74.23,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 122.2,
+    "p10Ms": 115.99,
+    "p90Ms": 129.19,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 55.64,
+    "p10Ms": 49.73,
+    "p90Ms": 61.24,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 118.71,
+    "p10Ms": 108.4,
+    "p90Ms": 132.68,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 73.72,
+    "p10Ms": 69.48,
+    "p90Ms": 78.0,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 110.5,
+    "p10Ms": 106.21,
+    "p90Ms": 114.81,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ],
+  "nokey-2": [
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "day",
+    "medianMs": 69.32,
+    "p10Ms": 65.0,
+    "p90Ms": 73.22,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "sauna",
+    "lighting": "evening",
+    "medianMs": 121.99,
+    "p10Ms": 115.15,
+    "p90Ms": 130.35,
+    "drawCalls": "117",
+    "sideImagesShown": "20"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 58.79,
+    "p10Ms": 51.68,
+    "p90Ms": 64.73,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "stage",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 124.21,
+    "p10Ms": 112.92,
+    "p90Ms": 135.45,
+    "drawCalls": "108",
+    "sideImagesShown": "32"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "day",
+    "medianMs": 73.45,
+    "p10Ms": 69.39,
+    "p90Ms": 77.39,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   },
+   {
+    "view": "camera-03",
+    "stage": "water",
+    "lighting": "evening",
+    "medianMs": 110.62,
+    "p10Ms": 106.98,
+    "p90Ms": 115.54,
+    "drawCalls": "83",
+    "sideImagesShown": "12"
+   }
+  ]
+ },
+ "browser": "154.0.8037.57"
+}
