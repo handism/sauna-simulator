@@ -91,7 +91,7 @@ def trace_branches(origin, direction, water, surface, weight=1.0, inside=False,
     boundary on either side, or None. surface(origin, direction, visibility)
     -> hit dict with 'distance', or None. Returns terminal dicts with keys
     kind (surface/escape/event_limit/pruned/boundary_miss), weight, inside,
-    direction (of the last segment), events (list of 'reflect'/'tir'/'enter'/'exit' with face), water_length
+    origin and direction (of the last segment), events (list of 'reflect'/'tir'/'enter'/'exit' with face), water_length
     and hit. The water object itself must be excluded from surface().
     """
     results = []
@@ -101,7 +101,7 @@ def trace_branches(origin, direction, water, surface, weight=1.0, inside=False,
         o = advance(o, d, EPSILON)
         edge = water(o, d)
         hit = surface(o, d, visibility)
-        common = {'weight': w, 'inside': inner, 'direction': d, 'events': list(events), 'water_length': length}
+        common = {'weight': w, 'inside': inner, 'origin': o, 'direction': d, 'events': list(events), 'water_length': length}
         if hit is not None and (edge is None or hit['distance'] < edge[0]):
             results.append({'kind': 'surface', 'hit': hit, **common,
                             'water_length': length + (hit['distance'] if inner else 0)})
