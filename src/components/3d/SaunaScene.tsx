@@ -8,6 +8,7 @@ import { QUALITY, type QualityMode } from './quality';
 // Replaces three's AgX curve with Blender's before any material compiles.
 import './agx';
 import { createLighting, eveningAmount, type LightingMode } from './lighting';
+import { createGlossyLights } from './glossyLights';
 import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
 import { attachLookControls } from './lookControls';
@@ -223,6 +224,9 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         setData('leafClusterMaterials', String(stats.leafClusterMaterials));
         scene.add(gltf.scene);
         scene.add(waterEffects.group);
+        // Seen only in the water's mirror, like the source's glossy-only area lights.
+        const glossyLights = createGlossyLights();
+        scene.add(glossyLights.mesh);
         if (output.hdr) {
           mirror = createPlanarReflection(renderer, definition.water.center[1], mirrorUniforms);
           mirror.setScale(QUALITY[qualityRef.current].mirror);
@@ -262,6 +266,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           if (mirror) {
             // What else the reflection shows changing: lighting and the quality's lights.
             mirrorState[0] = lighting.irradiance.suiIrradianceEvening.value;
+            glossyLights.update(mirrorState[0]);
             mirrorState[1] = qualityIndex;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
             // Counts of the last mirror pass; frames that keep its image add no draws.
