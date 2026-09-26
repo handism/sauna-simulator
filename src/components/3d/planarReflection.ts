@@ -36,6 +36,9 @@ export const createMirrorUniforms = (): PlanarReflectionUniforms => ({
   suiMirrorAmount: { value: 0 },
 });
 
+/** The layer that only the mirror's camera renders, besides the default one (glossyLights.ts). */
+export const MIRROR_LAYER = 3;
+
 /** Reflection in the horizontal plane y = level. */
 export function mirrorMatrix(level: number) {
   return new THREE.Matrix4().set(1, 0, 0, 0, 0, -1, 0, 2 * level, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -109,6 +112,7 @@ export function createPlanarReflection(
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   uniforms.suiMirror.value = target.texture;
   const camera = new THREE.PerspectiveCamera();
+  camera.layers.enable(MIRROR_LAYER);
   camera.matrixAutoUpdate = false;
   camera.matrixWorldAutoUpdate = false;
   const mirror = mirrorMatrix(level);
