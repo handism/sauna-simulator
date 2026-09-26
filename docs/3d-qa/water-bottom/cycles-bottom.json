@@ -1,0 +1,70 @@
+{
+  "blend_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
+  "blender": "4.5.11 LTS",
+  "render": "640x400, 256 samples, no denoising, Combined (scene linear)",
+  "variant": "nobottom: the 484 bottom vertices of V4 rippled spring water volume moved from 0.215 to 0.19 m (below the tile tops at 0.202), not saved",
+  "views": {
+    "day-1-down": {
+      "mean_Y_base": 0.14984,
+      "mean_Y_nobottom": 0.14724,
+      "abs_diff_p99": 0.2258,
+      "diff_max": 0.6904
+    },
+    "day-0-level": {
+      "mean_Y_base": 0.08333,
+      "mean_Y_nobottom": 0.0809,
+      "abs_diff_p99": 0.1616,
+      "diff_max": 0.3667
+    },
+    "day-2-level": {
+      "mean_Y_base": 0.07189,
+      "mean_Y_nobottom": 0.07114,
+      "abs_diff_p99": 0.1479,
+      "diff_max": 0.3448
+    },
+    "day-4-level": {
+      "mean_Y_base": 0.31127,
+      "mean_Y_nobottom": 0.31138,
+      "abs_diff_p99": 0.1496,
+      "diff_max": 0.8037
+    },
+    "evening-1-down": {
+      "mean_Y_base": 0.03356,
+      "mean_Y_nobottom": 0.02768,
+      "abs_diff_p99": 0.2962,
+      "diff_max": 0.6371
+    },
+    "evening-0-level": {
+      "mean_Y_base": 0.02908,
+      "mean_Y_nobottom": 0.02827,
+      "abs_diff_p99": 0.0362,
+      "diff_max": 0.0912
+    },
+    "evening-2-level": {
+      "mean_Y_base": 0.03894,
+      "mean_Y_nobottom": 0.02591,
+      "abs_diff_p99": 0.4072,
+      "diff_max": 0.7179
+    },
+    "evening-4-level": {
+      "mean_Y_base": 0.06857,
+      "mean_Y_nobottom": 0.0647,
+      "abs_diff_p99": 0.096,
+      "diff_max": 0.8748
+    }
+  },
+  "lamp_only_evening_1_down": {
+    "note": "only V10 lounge dusk fill / dusk lit, world 0; pixels where its contribution > 0.3",
+    "pixels": 2672,
+    "lamp_contribution_mean_rgb": [
+      0.4855,
+      0.3842,
+      0.2089
+    ],
+    "with_tile_specular_0_rgb": [
+      0.3932,
+      0.3074,
+      0.1674
+    ]
+  }
+}

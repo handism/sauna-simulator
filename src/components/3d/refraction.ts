@@ -234,15 +234,27 @@ vec3 suiMirror( vec3 p ) {
 // follows the waves (closer to the source's reflecting region than a flat surface). Returns the
 // sides it reflects off; first is the first side it meets and reflectance its Fresnel reflectance
 // there.
-vec2 suiSidePath( vec3 image, out vec2 first, out float reflectance ) {
+// waterAirReflectance: unpolarized Fresnel of the water meeting air, 1 past the critical angle.
+float suiWaterAirReflectance( float cosine ) {
+	float sinOut = ${WATER_IOR} * sqrt( max( 0.0, 1.0 - cosine * cosine ) );
+	if ( sinOut >= 1.0 ) return 1.0;
+	float cosOut = sqrt( 1.0 - sinOut * sinOut );
+	float rs = ( ${WATER_IOR} * cosine - cosOut ) / ( ${WATER_IOR} * cosine + cosOut );
+	float rp = ( ${WATER_IOR} * cosOut - cosine ) / ( ${WATER_IOR} * cosOut + cosine );
+	return 0.5 * ( rs * rs + rp * rp );
+}
+// refracted is the view just under the surface (zero when it enters outside the volume).
+vec2 suiSidePath( vec3 image, out vec2 first, out float reflectance, out vec3 refracted ) {
 	vec3 view = normalize( image - cameraPosition );
 	vec2 sides = vec2( 0.0 );
 	first = vec2( 0.0 );
 	reflectance = 0.0;
+	refracted = vec3( 0.0 );
 	if ( cameraPosition.y <= ${level} || view.y >= 0.0 ) return sides;
 	vec3 p = cameraPosition + view * ( ( cameraPosition.y - ${level} ) / - view.y );
 	if ( any( lessThan( p.xz, ${vec2(WATER_VOLUME.min)} ) ) || any( greaterThan( p.xz, ${vec2(WATER_VOLUME.max)} ) ) ) return sides;
 	vec3 d = refract( view, suiWaveNormal( p.xz, suiWaterTime ), ${(1 / WATER_IOR).toFixed(6)} );
+	refracted = d;
 	for ( int i = 0; i < 2; i ++ ) {
 		vec2 wall = mix( ${vec2(WATER_VOLUME.min)}, ${vec2(WATER_VOLUME.max)}, step( 0.0, d.xz ) );
 		vec2 t = ( wall - p.xz ) / mix( vec2( 1e-6 ), d.xz, step( 1e-6, abs( d.xz ) ) );
@@ -252,15 +264,7 @@ vec2 suiSidePath( vec3 image, out vec2 first, out float reflectance ) {
 		p += d * min( t.x, t.y );
 		float across = abs( alongX ? d.x : d.z );
 		if ( i == 0 ) {
-			// waterAirReflectance: unpolarized Fresnel, 1 past the critical angle.
-			float sinOut = ${WATER_IOR} * sqrt( max( 0.0, 1.0 - across * across ) );
-			if ( sinOut >= 1.0 ) reflectance = 1.0;
-			else {
-				float cosOut = sqrt( 1.0 - sinOut * sinOut );
-				float rs = ( ${WATER_IOR} * across - cosOut ) / ( ${WATER_IOR} * across + cosOut );
-				float rp = ( ${WATER_IOR} * cosOut - across ) / ( ${WATER_IOR} * cosOut + across );
-				reflectance = 0.5 * ( rs * rs + rp * rp );
-			}
+			reflectance = suiWaterAirReflectance( across );
 			first = alongX ? vec2( sign( d.x ), 0.0 ) : vec2( 0.0, sign( d.z ) );
 		} else if ( across >= ${SIDE_CRITICAL.toFixed(6)} ) break;
 		if ( alongX ) { sides.x = sign( d.x ); d.x = - d.x; }
@@ -319,6 +323,8 @@ vSuiWaterPath = 0.0;
 const sideImage = (level: string) => /* glsl */ `
 #ifdef SUI_REFRACTION
 float suiSideWeight = 1.0;
+// The view in the water where it reaches this fragment, going down (zero when not seen through it).
+vec3 suiWetView = vec3( 0.0 );
 {
 	vec3 suiTrue = ( ( vec4( - vViewPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
 	bool suiWet = cameraPosition.y > ${level} && suiTrue.y < ${level} && ${inBox('suiTrue')};
@@ -328,7 +334,12 @@ float suiSideWeight = 1.0;
 	if ( suiWet ) {
 		vec2 suiFirst;
 		float suiReflectance;
-		vec2 suiPath = suiSidePath( vSuiImage, suiFirst, suiReflectance );
+		vec3 suiRefracted;
+		vec2 suiPath = suiSidePath( vSuiImage, suiFirst, suiReflectance, suiRefracted );
+		suiWetView = suiRefracted;
+		#ifdef SUI_SIDE_IMAGE
+		suiWetView.xz *= 1.0 - 2.0 * abs( suiSide );
+		#endif
 		bool suiInside = all( greaterThan( suiTrue.xz, ${vec2(WATER_VOLUME.min)} ) ) && all( lessThan( suiTrue.xz, ${vec2(WATER_VOLUME.max)} ) );
 		#ifdef SUI_SIDE_IMAGE
 		bool suiAlong = all( equal( suiSide * ( suiSide - suiPath ), vec2( 0.0 ) ) );
@@ -361,8 +372,12 @@ const sideView = /* glsl */ `
 #endif
 `;
 
+/** Starts the view tint in opaque_fragment (waterBottom.ts adds its reflection before it). */
+export const VIEW_TINT = '// The view through the water: tint and absorption.';
+
 // suiWorldPosition is the fragment's true position (interiorLights.ts, lights_fragment_begin).
 const tint = (level: string) => /* glsl */ `
+${VIEW_TINT}
 #ifdef SUI_REFRACTION
 if ( cameraPosition.y > ${level} && suiWorldPosition.y < ${level} && ${inBox('suiWorldPosition')} )
 	gl_FragColor.rgb *= ${glslVec3(WATER_TINT)} * exp( - ${glslVec3(WATER_ABSORPTION)} * vSuiWaterPath );
