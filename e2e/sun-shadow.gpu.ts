@@ -6,7 +6,7 @@ import { rendererCaptureStyle } from './scene-capture';
 
 // Diagnostic only: change the directional lookup, retaining all spot lights, light intensity,
 // shadow maps and the unconditional receiver derivatives. Only evening is evaluated here.
-function patchSun(mode: 'original' | 'hard' | 'off') {
+function patchSun(mode: 'original' | 'hard' | 'off' | 'pcf') {
   const original = WebGL2RenderingContext.prototype.shaderSource;
   (window as unknown as { sunPatches: number }).sunPatches = 0;
   WebGL2RenderingContext.prototype.shaderSource = function (shader, source) {
@@ -20,7 +20,26 @@ ${
     : `
   coord.xyz /= coord.w;
   if (coord.x < 0.0 || coord.x > 1.0 || coord.y < 0.0 || coord.y > 1.0 || coord.z > 1.0) return 1.0;
-  return mix(1.0, step(coord.z + bias, texture2D(map, coord.xy).r), intensity);`
+  ${
+    mode === 'pcf'
+      ? `
+  vec3 dx = suiShadowDx, dy = suiShadowDy;
+  float det = dx.x * dy.y - dx.y * dy.x;
+  vec2 slope = abs(det) > 1e-12 ? vec2(dy.y * dx.z - dx.y * dy.z, dx.x * dy.z - dy.x * dx.z) / det : vec2(0.0);
+  slope = clamp(slope, -4.0, 4.0);
+  // Bilinear interpolation of four depth comparisons, not of the stored depths.
+  vec2 pixel = coord.xy * size - 0.5;
+  vec2 base = floor(pixel), fraction = fract(pixel);
+  float lit = 0.0;
+  for (int y = 0; y < 2; y++) for (int x = 0; x < 2; x++) {
+    vec2 corner = vec2(float(x), float(y));
+    vec2 uv = (base + corner + 0.5) / size;
+    vec2 weight = mix(1.0 - fraction, fraction, corner);
+    lit += weight.x * weight.y * step(coord.z + bias + dot(slope, uv - coord.xy), texture2D(map, uv).r);
+  }
+  return mix(1.0, lit, intensity);`
+      : 'return mix(1.0, step(coord.z + bias, texture2D(map, coord.xy).r), intensity);'
+  }`
 }
 }
 `;
@@ -42,18 +61,24 @@ const stages = [
 ] as const;
 
 test.use({ viewport: { width: 1200, height: 800 } });
-for (const mode of ['original', 'hard', 'off', 'original-repeat'] as const) {
+const review = process.env.SUN_SHADOW_REVIEW === '1';
+const modes = review
+  ? (['original', 'hard', 'pcf', 'original-repeat', 'pcf-repeat', 'hard-repeat', 'original-final'] as const)
+  : (['original', 'hard', 'off', 'original-repeat'] as const);
+for (const mode of modes) {
   test(`evening sun shadow ${mode}`, async ({ page, browser }, info) => {
-    test.setTimeout(240_000);
+    test.setTimeout(480_000);
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('console', (message) => {
       if (message.type() === 'error') errors.push(message.text());
     });
     await page.addInitScript(timeFrames);
-    await page.addInitScript(patchSun, mode === 'original-repeat' ? 'original' : mode);
+    await page.addInitScript(patchSun, mode.split('-')[0] as 'original' | 'hard' | 'off' | 'pcf');
     const samples: object[] = [];
-    for (const [pass, renders] of [null, ['02.png', '03.png', '07.png'], ['01.png', '04.png', '05.png']].entries()) {
+    const timingOnly = review && ['pcf-repeat', 'hard-repeat', 'original-final'].includes(mode);
+    const passes = timingOnly ? [null] : [null, ['02.png', '03.png', '07.png'], ['01.png', '04.png', '05.png']];
+    for (const [pass, renders] of passes.entries()) {
       if (renders) {
         await page.route('**/sauna.scene.json', async (route) => {
           const definition = await (await route.fetch()).json();
@@ -100,6 +125,53 @@ for (const mode of ['original', 'hard', 'off', 'original-repeat'] as const) {
           times,
           metrics: await scene.evaluate((e) => ({ ...(e as HTMLElement).dataset })),
         });
+        if (review && pass === 0 && !timingOnly) {
+          const canvas = scene.locator('canvas');
+          const frame = () =>
+            page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+          const capture = async (suffix: string) => {
+            await frame();
+            const file = `${stage}-${suffix}.png`;
+            await canvas.screenshot({ path: info.outputPath(file), style: rendererCaptureStyle });
+            samples.push({ file, stage, timer: false, times: [], metrics: {} });
+          };
+          // Small drags measure the change of candidate-minus-original error between frames.
+          for (let step = 0; step <= 8; step++) {
+            if (step > 0) {
+              await page.mouse.move(600, 400);
+              await page.mouse.down();
+              await page.mouse.move(601, 400);
+              await page.mouse.up();
+            }
+            await capture(`move-${step}`);
+          }
+          await page.mouse.move(600, 400);
+          await page.mouse.down();
+          await page.mouse.move(592, 400);
+          await page.mouse.up();
+          // Same 8 headings x 3 pitches as the full-surround survey, with DOM effects excluded.
+          for (let heading = 0; heading < 8; heading++) {
+            for (const pitch of [0, -0.45, 0.45]) {
+              if (pitch) {
+                await page.mouse.move(600, 400);
+                await page.mouse.down();
+                await page.mouse.move(600, 400 + pitch / 0.004);
+                await page.mouse.up();
+              }
+              await capture(`survey-${heading}-${pitch}`);
+              if (pitch) {
+                await page.mouse.move(600, 400);
+                await page.mouse.down();
+                await page.mouse.move(600, 400 - pitch / 0.004);
+                await page.mouse.up();
+              }
+            }
+            await page.mouse.move(600, 400);
+            await page.mouse.down();
+            await page.mouse.move(600 + Math.PI / 4 / 0.004, 400);
+            await page.mouse.up();
+          }
+        }
         await page.getByRole('button', { name: 'UI表示', exact: true }).click();
         if (next) await page.getByRole('button', { name: next, exact: true }).click();
       }
