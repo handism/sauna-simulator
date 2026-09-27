@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { timeFrames } from './gpu-timer';
 
 type Camera = { render: string; position: number[]; target: number[]; fov: number };
 const cameras: Camera[] = JSON.parse(
@@ -12,48 +13,6 @@ const views = {
 };
 
 test.use({ viewport: { width: 1200, height: 800 } });
-
-// GPU time of every animation frame callback (all passes of a frame), from
-// EXT_disjoint_timer_query_webgl2 around each callback. Installed before the app loads.
-function timeFrames() {
-  type Timed = Window & {
-    suiGl?: WebGL2RenderingContext;
-    suiTimer?: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null;
-    suiMeasure?: boolean;
-    suiGpuMs: number[];
-  };
-  const w = window as unknown as Timed;
-  w.suiGpuMs = [];
-  const getContext = HTMLCanvasElement.prototype.getContext;
-  HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, options?: unknown) {
-    const context = getContext.call(this, type, options) as RenderingContext | null;
-    if (type === 'webgl2' && context && !w.suiGl) {
-      w.suiGl = context as WebGL2RenderingContext;
-      w.suiTimer = w.suiGl.getExtension('EXT_disjoint_timer_query_webgl2');
-    }
-    return context;
-  } as typeof getContext;
-  const pending: WebGLQuery[] = [];
-  const frame = window.requestAnimationFrame.bind(window);
-  window.requestAnimationFrame = (callback) =>
-    frame((time) => {
-      const gl = w.suiGl;
-      const timer = w.suiTimer;
-      const query = gl && timer && w.suiMeasure ? gl.createQuery() : null;
-      if (query) gl!.beginQuery(timer!.TIME_ELAPSED_EXT, query);
-      callback(time);
-      if (query) {
-        gl!.endQuery(timer!.TIME_ELAPSED_EXT);
-        pending.push(query);
-      }
-      while (gl && timer && pending.length && gl.getQueryParameter(pending[0], gl.QUERY_RESULT_AVAILABLE)) {
-        const done = pending.shift()!;
-        if (!gl.getParameter(timer.GPU_DISJOINT_EXT))
-          w.suiGpuMs.push(gl.getQueryParameter(done, gl.QUERY_RESULT) / 1e6);
-        gl.deleteQuery(done);
-      }
-    });
-}
 
 // Relative costs on one machine and browser, not frame budgets of other devices.
 test('measure the GPU time of the sauna and plunge views', async ({ page, browser }, info) => {
