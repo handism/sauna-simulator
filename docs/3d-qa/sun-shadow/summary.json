@@ -1,0 +1,794 @@
+{
+  "conditions": {
+    "browser": "154.0.8037.57",
+    "viewport": {
+      "width": 1200,
+      "height": 800
+    },
+    "quality": "high",
+    "reducedMotion": true,
+    "hashes": {
+      "src/components/3d/softShadows.ts": "2eb285ee7836124f6eb7b93fe1c7a72a5b2bf711c928fb08e051a04a6ef3b5a2",
+      "e2e/sun-shadow.gpu.ts": "fa94322fa147ef0fa9620e364d64a17d144d4a3d7080fb3984da05b855b07f69",
+      "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+      "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+      "public/models/irradiance.bin": "cf61064558e46e732ef7036a7cea22c0e58d7af9fca9e4105d0aec7034e3a8d2",
+      "public/models/reflection.bin": "e083f38ac05a1736cd0e7ce2882cf9aeb11ef23e8bb83b53a385b84db98b7061",
+      "e2e/fixtures/cycles-cameras.json": "96ae74b22212564c8ab1f783649a550be27553c7e5ec8bd8935c4111a8888b6a"
+    }
+  },
+  "durationSeconds": 274.51569600000005,
+  "views": {
+    "stage-sauna.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.04113915030078333,
+          "p99": 0.8333069755466203,
+          "over2Percent": 0.0,
+          "overHalfPercent": 5.043125,
+          "maximum": 1.8916282682094656
+        },
+        "off": {
+          "mean": 0.23335119021219955,
+          "p99": 0.9882333390097757,
+          "over2Percent": 0.0004166666666666667,
+          "overHalfPercent": 27.780208333333334,
+          "maximum": 2.1116807477831316
+        }
+      }
+    },
+    "stage-water.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.01168873221005347,
+          "p99": 0.5761969140795347,
+          "over2Percent": 0.00010416666666666667,
+          "overHalfPercent": 1.3272916666666668,
+          "maximum": 2.1565789019299855
+        },
+        "off": {
+          "mean": 0.024958507737104917,
+          "p99": 0.7448348592743929,
+          "over2Percent": 0.000625,
+          "overHalfPercent": 2.806979166666667,
+          "maximum": 2.2798028006997613
+        }
+      }
+    },
+    "stage-totonou.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.0352943344075027,
+          "p99": 0.8485606552034881,
+          "over2Percent": 0.0,
+          "overHalfPercent": 4.287395833333333,
+          "maximum": 1.6875660513408792
+        },
+        "off": {
+          "mean": 0.047270664413761675,
+          "p99": 0.8760871338997374,
+          "over2Percent": 0.0007291666666666667,
+          "overHalfPercent": 5.604895833333334,
+          "maximum": 5.86405316552954
+        }
+      }
+    },
+    "cycles-02.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.02959890765686214,
+          "p99": 0.7853464603033962,
+          "over2Percent": 0.0,
+          "overHalfPercent": 3.663020833333333,
+          "maximum": 1.9455923501111567
+        },
+        "off": {
+          "mean": 0.3129241865952607,
+          "p99": 1.0316590531977619,
+          "over2Percent": 0.0007291666666666667,
+          "overHalfPercent": 35.54416666666667,
+          "maximum": 6.308314792378874
+        }
+      },
+      "cycles600x400": {
+        "original": {
+          "mean": 7.156922451367113,
+          "p99": 34.46522437675263,
+          "over2Percent": 86.41875,
+          "overHalfPercent": 98.39666666666666,
+          "maximum": 61.318044701761636
+        },
+        "hard": {
+          "mean": 7.157340255204794,
+          "p99": 34.46522437675263,
+          "over2Percent": 86.40791666666667,
+          "overHalfPercent": 98.40041666666667,
+          "maximum": 61.318044701761636
+        },
+        "off": {
+          "mean": 7.156528844008382,
+          "p99": 34.50840058911267,
+          "over2Percent": 86.34208333333333,
+          "overHalfPercent": 98.48916666666668,
+          "maximum": 61.318044701761636
+        },
+        "original-repeat": {
+          "mean": 7.156922451367113,
+          "p99": 34.46522437675263,
+          "over2Percent": 86.41875,
+          "overHalfPercent": 98.39666666666666,
+          "maximum": 61.318044701761636
+        }
+      },
+      "changedRegionsVsCycles": {
+        "hard": {
+          "thresholdDeltaE": 0.5,
+          "percent": 3.732916666666666,
+          "original": {
+            "mean": 7.389396150442338,
+            "p99": 28.82050311618332,
+            "over2Percent": 91.2378613684563,
+            "overHalfPercent": 98.82799419578078,
+            "maximum": 54.538268819390815
+          },
+          "candidate": {
+            "mean": 7.396735487904434,
+            "p99": 28.632829035816133,
+            "over2Percent": 90.96997432749191,
+            "overHalfPercent": 98.83915615582096,
+            "maximum": 54.48530461447899
+          }
+        },
+        "off": {
+          "thresholdDeltaE": 0.5,
+          "percent": 35.88458333333333,
+          "original": {
+            "mean": 6.962085198450067,
+            "p99": 31.01237860269528,
+            "over2Percent": 89.46855079363236,
+            "overHalfPercent": 99.07806277068843,
+            "maximum": 58.53262510274476
+          },
+          "candidate": {
+            "mean": 7.001464675690729,
+            "p99": 31.052129288089404,
+            "over2Percent": 89.53125181426564,
+            "overHalfPercent": 99.29751634290491,
+            "maximum": 58.34676969816527
+          }
+        }
+      }
+    },
+    "cycles-03.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.040699263338302344,
+          "p99": 0.801167096595374,
+          "over2Percent": 0.0,
+          "overHalfPercent": 4.840208333333333,
+          "maximum": 1.7633571669088168
+        },
+        "off": {
+          "mean": 0.26842460820760183,
+          "p99": 1.0107478607334495,
+          "over2Percent": 0.0075,
+          "overHalfPercent": 28.319166666666668,
+          "maximum": 9.653266264702932
+        }
+      },
+      "cycles600x400": {
+        "original": {
+          "mean": 6.917438936411791,
+          "p99": 35.13129448181093,
+          "over2Percent": 81.44958333333334,
+          "overHalfPercent": 98.86125,
+          "maximum": 61.30145375330287
+        },
+        "hard": {
+          "mean": 6.917354135838757,
+          "p99": 35.13129448181093,
+          "over2Percent": 81.45291666666667,
+          "overHalfPercent": 98.85875,
+          "maximum": 61.30145375330287
+        },
+        "off": {
+          "mean": 6.8740273698550824,
+          "p99": 35.17188313423537,
+          "over2Percent": 81.2375,
+          "overHalfPercent": 98.84958333333333,
+          "maximum": 61.30145375330287
+        },
+        "original-repeat": {
+          "mean": 6.917438936411791,
+          "p99": 35.13129448181093,
+          "over2Percent": 81.44958333333334,
+          "overHalfPercent": 98.86125,
+          "maximum": 61.30145375330287
+        }
+      },
+      "changedRegionsVsCycles": {
+        "hard": {
+          "thresholdDeltaE": 0.5,
+          "percent": 5.145833333333334,
+          "original": {
+            "mean": 5.510950282848839,
+            "p99": 23.962071190412583,
+            "over2Percent": 90.90688259109312,
+            "overHalfPercent": 99.58704453441297,
+            "maximum": 43.81667161192646
+          },
+          "candidate": {
+            "mean": 5.533523329820249,
+            "p99": 24.0576054745345,
+            "over2Percent": 90.8825910931174,
+            "overHalfPercent": 99.50607287449392,
+            "maximum": 44.1653875076734
+          }
+        },
+        "off": {
+          "thresholdDeltaE": 0.5,
+          "percent": 28.635416666666668,
+          "original": {
+            "mean": 9.085019112196266,
+            "p99": 38.71276135858388,
+            "over2Percent": 92.65914878137505,
+            "overHalfPercent": 99.72499090578391,
+            "maximum": 58.70979565227788
+          },
+          "candidate": {
+            "mean": 9.007822287574086,
+            "p99": 38.72147297261186,
+            "over2Percent": 92.2371771553292,
+            "overHalfPercent": 99.67697344488904,
+            "maximum": 58.8397082616238
+          }
+        }
+      }
+    },
+    "cycles-07.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.049097848571118353,
+          "p99": 0.8698553897627169,
+          "over2Percent": 0.0,
+          "overHalfPercent": 5.973958333333333,
+          "maximum": 1.4610217924290814
+        },
+        "off": {
+          "mean": 0.061595667189902316,
+          "p99": 0.8788690047013962,
+          "over2Percent": 0.00020833333333333335,
+          "overHalfPercent": 7.3573958333333325,
+          "maximum": 2.513094537378947
+        }
+      },
+      "cycles600x400": {
+        "original": {
+          "mean": 3.532547222333901,
+          "p99": 22.237470164498234,
+          "over2Percent": 50.16083333333333,
+          "overHalfPercent": 84.28458333333333,
+          "maximum": 80.19302695340869
+        },
+        "hard": {
+          "mean": 3.5323619983900016,
+          "p99": 22.237915908102423,
+          "over2Percent": 50.141666666666666,
+          "overHalfPercent": 84.3,
+          "maximum": 80.19302695340869
+        },
+        "off": {
+          "mean": 3.5356635023963503,
+          "p99": 22.231621561097565,
+          "over2Percent": 50.16666666666667,
+          "overHalfPercent": 84.24125000000001,
+          "maximum": 80.19302695340869
+        },
+        "original-repeat": {
+          "mean": 3.532547222333901,
+          "p99": 22.237470164498234,
+          "over2Percent": 50.16083333333333,
+          "overHalfPercent": 84.28458333333333,
+          "maximum": 80.19302695340869
+        }
+      },
+      "changedRegionsVsCycles": {
+        "hard": {
+          "thresholdDeltaE": 0.5,
+          "percent": 5.730833333333334,
+          "original": {
+            "mean": 3.648034923354071,
+            "p99": 21.37360561822901,
+            "over2Percent": 60.23702195724881,
+            "overHalfPercent": 93.1438127090301,
+            "maximum": 58.604960956459124
+          },
+          "candidate": {
+            "mean": 3.644161144433913,
+            "p99": 21.442182369945264,
+            "over2Percent": 59.96073869419806,
+            "overHalfPercent": 93.37647229896757,
+            "maximum": 58.791800642645256
+          }
+        },
+        "off": {
+          "thresholdDeltaE": 0.5,
+          "percent": 7.529166666666668,
+          "original": {
+            "mean": 4.107765737860863,
+            "p99": 29.851788758402694,
+            "over2Percent": 59.9169894853348,
+            "overHalfPercent": 94.6596568898727,
+            "maximum": 58.66018889470923
+          },
+          "candidate": {
+            "mean": 4.147428579118073,
+            "p99": 29.611864831998822,
+            "over2Percent": 60.094078583287214,
+            "overHalfPercent": 93.80741560597676,
+            "maximum": 58.352837585790525
+          }
+        }
+      }
+    },
+    "cycles-01.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.07851582180481702,
+          "p99": 0.9244024960279721,
+          "over2Percent": 0.0011458333333333333,
+          "overHalfPercent": 8.670208333333333,
+          "maximum": 2.312202996673206
+        },
+        "off": {
+          "mean": 0.1851864887385744,
+          "p99": 1.1291372811581823,
+          "over2Percent": 0.025625000000000002,
+          "overHalfPercent": 19.736562499999998,
+          "maximum": 3.011568285332858
+        }
+      },
+      "cycles600x400": {
+        "original": {
+          "mean": 5.585885635992904,
+          "p99": 26.021965903288876,
+          "over2Percent": 74.33916666666667,
+          "overHalfPercent": 95.24458333333334,
+          "maximum": 92.092125382241
+        },
+        "hard": {
+          "mean": 5.5860987964623146,
+          "p99": 26.019856134000193,
+          "over2Percent": 74.33208333333333,
+          "overHalfPercent": 95.255,
+          "maximum": 92.092125382241
+        },
+        "off": {
+          "mean": 5.634449364530912,
+          "p99": 26.056201088401263,
+          "over2Percent": 74.69041666666666,
+          "overHalfPercent": 95.44500000000001,
+          "maximum": 92.092125382241
+        },
+        "original-repeat": {
+          "mean": 5.585885635992904,
+          "p99": 26.021965903288876,
+          "over2Percent": 74.33916666666667,
+          "overHalfPercent": 95.24458333333334,
+          "maximum": 92.092125382241
+        }
+      },
+      "changedRegionsVsCycles": {
+        "hard": {
+          "thresholdDeltaE": 0.5,
+          "percent": 8.765833333333333,
+          "original": {
+            "mean": 6.087841097633603,
+            "p99": 23.834064747767663,
+            "over2Percent": 82.20838482745508,
+            "overHalfPercent": 98.23177108090123,
+            "maximum": 60.97005108173062
+          },
+          "candidate": {
+            "mean": 6.089375007017665,
+            "p99": 23.72484367145766,
+            "over2Percent": 82.16085179199544,
+            "overHalfPercent": 98.44091643692366,
+            "maximum": 60.93987723920388
+          }
+        },
+        "off": {
+          "thresholdDeltaE": 0.5,
+          "percent": 21.34166666666667,
+          "original": {
+            "mean": 6.8111306330450825,
+            "p99": 24.796137208116207,
+            "over2Percent": 85.0507614213198,
+            "overHalfPercent": 98.43420538852011,
+            "maximum": 61.51218402376733
+          },
+          "candidate": {
+            "mean": 7.028928602260004,
+            "p99": 24.961838070852103,
+            "over2Percent": 86.46427176884029,
+            "overHalfPercent": 99.02381882077313,
+            "maximum": 61.15841268474399
+          }
+        }
+      }
+    },
+    "cycles-04.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.10246282834948713,
+          "p99": 0.8409401490483068,
+          "over2Percent": 0.00010416666666666667,
+          "overHalfPercent": 12.629687500000001,
+          "maximum": 2.013530742290841
+        },
+        "off": {
+          "mean": 0.26270968782802245,
+          "p99": 1.1944755609995596,
+          "over2Percent": 0.021041666666666667,
+          "overHalfPercent": 28.420104166666665,
+          "maximum": 12.175507863283125
+        }
+      },
+      "cycles600x400": {
+        "original": {
+          "mean": 6.741045144859372,
+          "p99": 32.82755114087939,
+          "over2Percent": 83.96291666666667,
+          "overHalfPercent": 98.74541666666666,
+          "maximum": 62.485290528247575
+        },
+        "hard": {
+          "mean": 6.741187793125234,
+          "p99": 32.83159056592029,
+          "over2Percent": 83.95375,
+          "overHalfPercent": 98.7275,
+          "maximum": 62.485290528247575
+        },
+        "off": {
+          "mean": 6.741589902737025,
+          "p99": 33.113342792172375,
+          "over2Percent": 83.59291666666667,
+          "overHalfPercent": 98.73791666666666,
+          "maximum": 62.52948146729025
+        },
+        "original-repeat": {
+          "mean": 6.741045144859372,
+          "p99": 32.82755114087939,
+          "over2Percent": 83.96291666666667,
+          "overHalfPercent": 98.74541666666666,
+          "maximum": 62.485290528247575
+        }
+      },
+      "changedRegionsVsCycles": {
+        "hard": {
+          "thresholdDeltaE": 0.5,
+          "percent": 13.087499999999999,
+          "original": {
+            "mean": 6.031907350791578,
+            "p99": 30.183431631694873,
+            "over2Percent": 89.22317733205986,
+            "overHalfPercent": 99.735752944922,
+            "maximum": 44.660659817599814
+          },
+          "candidate": {
+            "mean": 6.037945391699839,
+            "p99": 30.024055752419617,
+            "over2Percent": 89.18178923909583,
+            "overHalfPercent": 99.6147723654887,
+            "maximum": 45.009000179888176
+          }
+        },
+        "off": {
+          "thresholdDeltaE": 0.5,
+          "percent": 28.74875,
+          "original": {
+            "mean": 8.212278228677581,
+            "p99": 33.68801992693935,
+            "over2Percent": 92.8156296650579,
+            "overHalfPercent": 99.83187674826442,
+            "maximum": 62.485290528247575
+          },
+          "candidate": {
+            "mean": 8.23868209482977,
+            "p99": 34.11533431447425,
+            "over2Percent": 91.65470962505616,
+            "overHalfPercent": 99.78694725857646,
+            "maximum": 62.52948146729025
+          }
+        }
+      }
+    },
+    "cycles-05.png": {
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "over2Percent": 0.0,
+        "overHalfPercent": 0.0,
+        "maximum": 0.0
+      },
+      "change": {
+        "hard": {
+          "mean": 0.0790185087592791,
+          "p99": 0.9324832395117147,
+          "over2Percent": 0.0016666666666666668,
+          "overHalfPercent": 8.720729166666667,
+          "maximum": 2.1670154759545524
+        },
+        "off": {
+          "mean": 0.16422714189202944,
+          "p99": 1.0252974032810727,
+          "over2Percent": 0.004895833333333334,
+          "overHalfPercent": 17.811875,
+          "maximum": 2.345702169393607
+        }
+      },
+      "cycles600x400": {
+        "original": {
+          "mean": 5.948706235938102,
+          "p99": 28.024957618136078,
+          "over2Percent": 75.17625,
+          "overHalfPercent": 97.02958333333333,
+          "maximum": 87.96292940031017
+        },
+        "hard": {
+          "mean": 5.947725188851205,
+          "p99": 28.024894407113926,
+          "over2Percent": 75.14583333333333,
+          "overHalfPercent": 97.0325,
+          "maximum": 87.96292940031017
+        },
+        "off": {
+          "mean": 5.965794416529202,
+          "p99": 28.07440559708938,
+          "over2Percent": 75.22416666666668,
+          "overHalfPercent": 97.05875,
+          "maximum": 87.96292940031017
+        },
+        "original-repeat": {
+          "mean": 5.948706235938102,
+          "p99": 28.024957618136078,
+          "over2Percent": 75.17625,
+          "overHalfPercent": 97.02958333333333,
+          "maximum": 87.96292940031017
+        }
+      },
+      "changedRegionsVsCycles": {
+        "hard": {
+          "thresholdDeltaE": 0.5,
+          "percent": 8.789583333333335,
+          "original": {
+            "mean": 5.810409097612518,
+            "p99": 28.095416666446887,
+            "over2Percent": 82.42237497037212,
+            "overHalfPercent": 99.2130836691159,
+            "maximum": 61.40029938378217
+          },
+          "candidate": {
+            "mean": 5.799366298306555,
+            "p99": 28.031457204261464,
+            "over2Percent": 82.00521450580706,
+            "overHalfPercent": 99.2178241289405,
+            "maximum": 61.5723415941953
+          }
+        },
+        "off": {
+          "thresholdDeltaE": 0.5,
+          "percent": 18.65375,
+          "original": {
+            "mean": 7.198427250886874,
+            "p99": 30.20781880015317,
+            "over2Percent": 87.54495298085729,
+            "overHalfPercent": 99.3812682883245,
+            "maximum": 62.067987901561175
+          },
+          "candidate": {
+            "mean": 7.306784850772581,
+            "p99": 30.360999997216982,
+            "over2Percent": 87.84873461547052,
+            "overHalfPercent": 99.46838213942684,
+            "maximum": 62.067987901561175
+          }
+        }
+      }
+    }
+  },
+  "gpu": {
+    "original": {
+      "sauna": {
+        "frames": 76,
+        "quantilesMs": [
+          93.63772850000001,
+          95.66010349999999,
+          115.859208
+        ],
+        "calls": "117",
+        "triangles": "646308"
+      },
+      "water": {
+        "frames": 69,
+        "quantilesMs": [
+          89.93998239999999,
+          109.509874,
+          122.31951600000001
+        ],
+        "calls": "108",
+        "triangles": "634142"
+      },
+      "totonou": {
+        "frames": 108,
+        "quantilesMs": [
+          61.0204497,
+          69.8576875,
+          83.0212999
+        ],
+        "calls": "82",
+        "triangles": "538654"
+      }
+    },
+    "hard": {
+      "sauna": {
+        "frames": 87,
+        "quantilesMs": [
+          76.8434158,
+          83.202958,
+          109.9796082
+        ],
+        "calls": "117",
+        "triangles": "646308"
+      },
+      "water": {
+        "frames": 86,
+        "quantilesMs": [
+          71.760937,
+          88.37216599999999,
+          97.68516650000001
+        ],
+        "calls": "108",
+        "triangles": "634142"
+      },
+      "totonou": {
+        "frames": 128,
+        "quantilesMs": [
+          50.365995600000005,
+          58.1600205,
+          66.4618034
+        ],
+        "calls": "82",
+        "triangles": "538654"
+      }
+    },
+    "off": {
+      "sauna": {
+        "frames": 91,
+        "quantilesMs": [
+          74.258708,
+          81.270624,
+          95.612166
+        ],
+        "calls": "117",
+        "triangles": "646308"
+      },
+      "water": {
+        "frames": 88,
+        "quantilesMs": [
+          74.4723206,
+          85.730187,
+          95.6315123
+        ],
+        "calls": "108",
+        "triangles": "634142"
+      },
+      "totonou": {
+        "frames": 148,
+        "quantilesMs": [
+          46.6593035,
+          49.933416,
+          56.732978700000004
+        ],
+        "calls": "82",
+        "triangles": "538654"
+      }
+    },
+    "original-repeat": {
+      "sauna": {
+        "frames": 71,
+        "quantilesMs": [
+          97.952625,
+          102.14875,
+          134.306499
+        ],
+        "calls": "117",
+        "triangles": "646308"
+      },
+      "water": {
+        "frames": 72,
+        "quantilesMs": [
+          81.10763750000001,
+          107.274687,
+          118.7443407
+        ],
+        "calls": "108",
+        "triangles": "634142"
+      },
+      "totonou": {
+        "frames": 117,
+        "quantilesMs": [
+          59.4057332,
+          63.047,
+          74.0035158
+        ],
+        "calls": "82",
+        "triangles": "538654"
+      }
+    }
+  },
+  "referenceHashes": {
+    "blender/renders/web-bluehour/02.png": "349c306f1a5a38f96a0fe11aea226a078d2e178295ea1d675ab6af1cb72bca35",
+    "blender/renders/web-bluehour/03.png": "67cafaf36028c2c83ec86414e9145c1ba3a8bb523e524430f7d32b5bb0ea76f5",
+    "blender/renders/web-bluehour/07.png": "11c3012fd63bf54dc197ac84ef565b1216473e1da212d2c0f0f6f7d63f8405ca",
+    "blender/renders/06.png": "becba4581d68c2d992bb14bad5c9595691b8bfddcf69e8b2095a5663b61cf5ff",
+    "blender/renders/web-bluehour/04.png": "67f7c319cccd5473bf1a7ae360f78452f2e8a595858596cd09b717d74459920c",
+    "blender/renders/web-bluehour/05.png": "7acd7a237f24e8f4dd33bb9bc75eceb7b783979a47c8fef5378c83158e3c99f4"
+  }
+}
