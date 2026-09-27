@@ -29,6 +29,16 @@ only with the lights that are visible to transmission rays, and the sun does not
 Courtyard and outer probes inside the water are filled from outside as before (their dark values
 would otherwise leak onto the deck around the plunge).
 
+The water grid's irradiance is not a panorama: light reaches the tiles only along refracted
+(caustic) paths, which the source's indirect clamp (10) and Filter Glossy (1.0) change on a
+surface's diffuse bounce but not on a camera ray, so a panorama saw V9 through the surface about
+1.4x brighter than the tiles receive it (docs/3d-qa/water-floor-irradiance). Each water probe is a
+small diffuse sphere with the tiles' albedo, visible to camera rays only, seen by six orthographic
+cameras (the water hidden from them); its DiffDir+DiffInd passes give the irradiance per normal,
+fitted with L2 SH. The lower layer lies in the 1.3 cm air gap between the tiles and the water's
+bottom face, so the floor reads the light that crossed that face (the browser samples this grid
+without the normal offset). The reflection bake keeps panoramas on the same layout.
+
 With --grids NAME[,NAME] only those grids are baked; the other grids are copied from the shipped
 file, which must come from the same input blend and have the same layout.
 
@@ -89,8 +99,14 @@ GRIDS = (
     ('room', (-5.9, 0.25, -4.34), (-0.75, 3.11, -0.5), 0.5),
     ('courtyard', (-9.0, 0.25, -8.0), (9.0, 4.25, 16.0), 1.0),
     ('outer', (-30.0, 0.25, -30.0), (30.0, 9.25, 30.0), 3.0),
-    ('water', (0.05, 0.33, -3.9), (2.31, 0.66, -1.1), 0.5),
+    # The lower layer is in the air gap between the tiles (0.202) and the water's bottom (0.215).
+    ('water', (0.05, 0.2085, -3.9), (2.31, 0.66, -1.1), 0.5),
 )
+# Water receivers: radius and camera distance fit in the air gap; the albedo is the mean DiffCol
+# of the tiles in the water stage's downward view (the clamp acts on albedo x radiance).
+RECEIVER_RADIUS, RECEIVER_DISTANCE, RECEIVER_RES, RECEIVER_SAMPLES = 0.004, 0.005, 32, 256
+RECEIVER_ALBEDO = (0.109, 0.290, 0.254)
+WATER_OBJECT = 'V4 rippled spring water volume'
 # The plunge water volume ('V4 rippled spring water volume'), glTF axes, and its material. The
 # browser's WATER_BOX (interiorLights.ts) extends it down and out to the tiles.
 WATER = ((-0.155, 0.215, -4.095), (2.515, 0.771, -0.905))
@@ -215,6 +231,115 @@ def render_all(scene, points, label):
         if i % 100 == 99:
             print('IRRADIANCE progress', label, i + 1, len(points), flush=True)
     return np.array(rows)
+
+
+def receiver_sh(scene, points):
+    """L2 SH (probes, 27) of the irradiance on a diffuse receiver sphere at each point, and a
+    validity mask (the six views see only the sphere). Restores the scene's render settings."""
+    material = bpy.data.materials.new('SUI irradiance receiver')
+    material.use_nodes = True
+    nodes = material.node_tree.nodes
+    nodes.clear()
+    bsdf = nodes.new('ShaderNodeBsdfDiffuse')
+    bsdf.inputs['Color'].default_value = (*RECEIVER_ALBEDO, 1)
+    material.node_tree.links.new(bsdf.outputs[0], nodes.new('ShaderNodeOutputMaterial').inputs['Surface'])
+    mesh = bpy.data.meshes.new('SUI irradiance receiver')
+    import bmesh
+    bm = bmesh.new()
+    bmesh.ops.create_uvsphere(bm, u_segments=64, v_segments=32, radius=RECEIVER_RADIUS)
+    bm.to_mesh(mesh)
+    bm.free()
+    mesh.shade_smooth()
+    mesh.materials.append(material)
+    # One sphere per probe, placed once: moving an object between renders made Cycles rebuild the
+    # scene (about 12 s per render); the camera's short clip range sees only its own sphere.
+    spheres = []
+    for p in points:
+        sphere = bpy.data.objects.new('SUI irradiance receiver', mesh)
+        sphere.location = (p[0], -p[2], p[1])
+        for flag in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter', 'visible_shadow'):
+            setattr(sphere, flag, False)
+        scene.collection.objects.link(sphere)
+        spheres.append(sphere)
+    ortho = bpy.data.cameras.new('SUI irradiance receiver')
+    ortho.type = 'ORTHO'
+    ortho.ortho_scale = 2.2 * RECEIVER_RADIUS
+    ortho.clip_start, ortho.clip_end = 0.0005, 0.01
+    viewer = bpy.data.objects.new('SUI irradiance receiver camera', ortho)
+    scene.collection.objects.link(viewer)
+    water = scene.objects[WATER_OBJECT]
+    water_camera = water.visible_camera
+    water.visible_camera = False
+    layer = scene.view_layers[0]
+    passes = ('use_pass_diffuse_direct', 'use_pass_diffuse_indirect', 'use_pass_normal', 'use_pass_position')
+    saved_passes = {k: getattr(layer, k) for k in passes}
+    for k in passes:
+        setattr(layer, k, True)
+    render_settings = scene.render
+    saved = (scene.camera, render_settings.resolution_x, render_settings.resolution_y, render_settings.film_transparent,
+             render_settings.use_compositing, render_settings.image_settings.file_format, scene.cycles.samples)
+    scene.camera = viewer
+    render_settings.resolution_x = render_settings.resolution_y = RECEIVER_RES
+    render_settings.film_transparent = True
+    render_settings.use_compositing = False
+    render_settings.image_settings.file_format = 'OPEN_EXR_MULTILAYER'
+    scene.cycles.samples = RECEIVER_SAMPLES
+    from mathutils import Vector
+    saved_seed = scene.cycles.seed
+    bands = np.array([math.pi, *[2 * math.pi / 3] * 3, *[math.pi / 4] * 5])
+    rows, valid, residuals = [], [], []
+    for i, p in enumerate(points):
+        center = Vector((p[0], -p[2], p[1]))
+        normals, values, on_sphere = [], [], []
+        for axis in ((0, 0, -1), (0, 0, 1), (1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0)):
+            d = Vector(axis)
+            viewer.location = center - d * RECEIVER_DISTANCE
+            viewer.rotation_euler = d.to_track_quat('-Z', 'Y' if abs(d.y) < 0.9 else 'Z').to_euler()
+            # A new seed per render: with one seed the noise (clamped V9 paths through the surface,
+            # about 10% at 64 samples) repeated at every probe and biased the whole grid. With
+            # persistent data a new seed takes effect only with a new output path.
+            scene.cycles.seed = len(rows) * 6 + len(normals)
+            path = tmp / f'receiver-{scene.cycles.seed}.exr'
+            render_settings.filepath = str(path)
+            bpy.ops.render.render(write_still=True, scene=scene.name)
+            image = oiio.ImageInput.open(str(path))
+            spec = image.spec()
+            px = np.asarray(image.read_image(0, 0, 0, spec.nchannels, 'float'), dtype=np.float64).reshape(-1, spec.nchannels)
+            image.close()
+            path.unlink()
+            channel = {'.'.join(n.split('.')[-2:]): j for j, n in enumerate(spec.channelnames)}
+            pick = lambda name, keys: px[:, [channel[f'{name}.{k}'] for k in keys]]
+            covered = px[:, channel['Combined.A']] > 0.999
+            position = pick('Position', 'XYZ')[covered]
+            on_sphere.append(np.abs(np.linalg.norm(position - np.array(center), axis=1) - RECEIVER_RADIUS) < 2e-4)
+            n = pick('Normal', 'XYZ')[covered]
+            # Pixels facing the camera (grazing silhouette pixels mix normals).
+            keep = on_sphere[-1] & (n @ -np.array(axis) > 0.3)
+            normals.append(n[keep])
+            values.append((pick('DiffDir', 'RGB') + pick('DiffInd', 'RGB'))[covered][keep] * math.pi)
+        n = np.concatenate(normals)
+        n = np.stack([n[:, 0], n[:, 2], -n[:, 1]], axis=1)
+        n /= np.linalg.norm(n, axis=1, keepdims=True)
+        e = np.concatenate(values)
+        fit, *_ = np.linalg.lstsq(sh_basis(n), e, rcond=None)
+        rows.append((fit / bands[:, None]).reshape(-1))
+        valid.append(bool(np.concatenate(on_sphere).mean() > 0.99))
+        residuals.append(float(np.abs(sh_basis(n) @ fit - e).mean() / max(np.abs(e).mean(), 1e-9)))
+        if i % 20 == 19:
+            print('IRRADIANCE receivers', i + 1, len(points), round(time.time() - started, 1), flush=True)
+    (scene.camera, render_settings.resolution_x, render_settings.resolution_y, render_settings.film_transparent,
+     render_settings.use_compositing, render_settings.image_settings.file_format, scene.cycles.samples) = saved
+    scene.cycles.seed = saved_seed
+    for k, v in saved_passes.items():
+        setattr(layer, k, v)
+    water.visible_camera = water_camera
+    for sphere in spheres:
+        bpy.data.objects.remove(sphere)
+    bpy.data.objects.remove(viewer)
+    bpy.data.meshes.remove(mesh)
+    bpy.data.materials.remove(material)
+    bpy.data.cameras.remove(ortho)
+    return np.array(rows), np.array(valid), residuals
 
 
 def calibrate():
@@ -397,6 +522,22 @@ for key, scene_name in SCENES:
         if ONLY_GRIDS and grid['name'] not in ONLY_GRIDS:
             continue
         t = time.time()
+        if grid['name'] == 'water' and not REFLECTION:
+            sh, valid, residuals = receiver_sh(scene, grid['points'])
+            dark = valid & (np.abs(sh).sum(axis=1) < 1e-3)
+            assert not dark.any(), f'{key} water: {int(dark.sum())} receivers see no light'
+            filled, rounds = fill_invalid(sh, valid, grid['resolution'])
+            coefficients[(key, grid['name'])] = filled
+            e_up = 0.886227 * filled[:, 0:3] + 1.023328 * filled[:, 3:6] - 0.247708 * filled[:, 18:21] - 0.429043 * filled[:, 24:27]
+            scene_report['grids'][grid['name']] = dict(
+                probes=len(grid['points']), invalid=int((~valid).sum()), fill_rounds=rounds, method='receiver',
+                receiver=dict(radius=RECEIVER_RADIUS, albedo=RECEIVER_ALBEDO, resolution=RECEIVER_RES, samples=RECEIVER_SAMPLES,
+                              fit_residual_median=round(float(np.median(residuals)), 3), fit_residual_max=round(float(max(residuals)), 3)),
+                seconds=round(time.time() - t, 1),
+                upward_irradiance_mean=np.round(e_up.mean(axis=0), 4).tolist(),
+            )
+            print('IRRADIANCE', key, grid['name'], scene_report['grids'][grid['name']], flush=True)
+            continue
         rgba = render_all(scene, grid['points'], f'{key} {grid["name"]}')
         # (probes, 9 coefficients, RGB) flattened to 27 per probe.
         sh = np.einsum('pk,npc->nkc', basis, rgba[:, :, :3]).reshape(len(grid['points']), -1)

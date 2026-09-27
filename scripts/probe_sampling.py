@@ -118,8 +118,12 @@ class ProbeSampler:
 
     def sample(self, scene, position, normal, offset=.5):
         position, normal = np.asarray(position), np.asarray(normal)
-        return sum(weight * self.grid(i, scene, position, normal, offset)
+        return sum(weight * self.grid(i, scene, position, normal, self.offset(i, offset))
                    for i, weight in self.grid_weights(position))
+
+    def offset(self, index, offset):
+        # irradiance.ts reads the water grid without the normal offset.
+        return 0. if self.header['grids'][index]['name'] == 'water' else offset
 
     def contributors(self, scene, position, normal, offset=.5):
         """Trace the shipped interpolation, retaining signed SH until each grid is clamped."""
@@ -129,7 +133,7 @@ class ProbeSampler:
             grid = self.header['grids'][i]
             lo, hi, res = (np.array(grid[k]) for k in ('min', 'max', 'resolution'))
             spacing = (hi - lo) / (res - 1)
-            coordinate = (position - lo) / spacing + normal * offset
+            coordinate = (position - lo) / spacing + normal * self.offset(i, offset)
             for index, weight in stencil(res, coordinate):
                 x, y, z = index
                 start = int(grid['offset'][scene] + (x + res[0] * (y + res[1] * z)) * 27)

@@ -62,6 +62,16 @@ class ProbeSamplingTests(unittest.TestCase):
         np.testing.assert_allclose(sampler.grid(0, 'day', p, n, 0), 1)
         np.testing.assert_allclose(sampler.grid(0, 'day', p, n, .5), 1.5)
 
+    def test_water_grid_has_no_normal_offset(self):
+        sampler = ProbeSampler('public/models')
+        names = [g['name'] for g in sampler.header['grids']]
+        self.assertEqual([sampler.offset(i, .5) for i in range(len(names))], [0. if n == 'water' else .5 for n in names])
+        # A floor tile (0.202 m) reads only the lower layer, in the air gap under the water's bottom.
+        lower = sampler.header['grids'][names.index('water')]['min'][1]
+        self.assertTrue(.202 < lower < .215)
+        rows = sampler.contributors('day', [1.18, .202, -2.5], [0, 1, 0])
+        self.assertTrue(rows and all(abs(r['position'][1] - lower) < 1e-9 for r in rows))
+
     def test_room_selection_and_outer_transition(self):
         sampler = ProbeSampler('public/models')
         sampler.grid = lambda index, *_: np.full(3, index + 1.)
