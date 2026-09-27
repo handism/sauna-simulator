@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
+import { BLOCKER_SAMPLES, FILTER_SAMPLES } from '../src/components/3d/softShadows.ts';
 import { timeFrames } from './gpu-timer';
+import { PCSS_VARIANTS, patchShadows } from './shadow-variants';
 
 test('GPU timer excludes callbacks without WebGL draws', async ({ page }) => {
   await page.addInitScript(timeFrames);
@@ -48,8 +50,7 @@ test('GPU timer excludes callbacks without WebGL draws', async ({ page }) => {
   expect(await page.evaluate(() => (window as unknown as { suiGpuMs: number[] }).suiGpuMs.length)).toBe(4);
 });
 
-// Ablations run only in this browser: the production bundle and light uniforms stay intact.
-// Hard shadows are a cost floor, not a proposed visual replacement.
+// Ablations run only in this browser (shadow-variants.ts): 16+24 samples, 8+12, and hard shadows.
 for (const [run, variants] of [
   ['forward', ['original', 'half', 'hard']],
   ['reverse', ['hard', 'half', 'original']],
@@ -62,35 +63,10 @@ for (const [run, variants] of [
         if (message.type() === 'error') errors.push(message.text());
       });
       await page.addInitScript(timeFrames);
-      await page.addInitScript((mode) => {
-        const original = WebGL2RenderingContext.prototype.shaderSource;
-        (window as unknown as { shadowPatches: number }).shadowPatches = 0;
-        WebGL2RenderingContext.prototype.shaderSource = function (shader, source) {
-          if (source.includes('float pcssNoise(')) {
-            if (mode === 'half') {
-              const before = source;
-              source = source
-                .replace('i < 16; i ++', 'i < 8; i ++')
-                .replace('pcssDisk( i, 16, phi )', 'pcssDisk( i, 8, phi )')
-                .replace('slope, radius, 24, phi + 1.0', 'slope, radius, 12, phi + 1.0')
-                .replace('lit / 24.0', 'lit / 12.0');
-              if (before === source || source.includes('pcssDisk( i, 16, phi )'))
-                throw new Error('PCSS half-sample diagnostic no longer matches');
-            } else if (mode === 'hard') {
-              const start = source.indexOf('float getShadow(', source.indexOf('float pcssNoise('));
-              const body = source.indexOf('{', start);
-              if (start < 0 || body < 0) throw new Error('PCSS diagnostic no longer matches');
-              source = `${source.slice(0, body + 1)}
-                vec3 diagnosticCoord = shadowCoord.xyz / shadowCoord.w;
-                if (diagnosticCoord.x < 0.0 || diagnosticCoord.x > 1.0 || diagnosticCoord.y < 0.0 || diagnosticCoord.y > 1.0 || diagnosticCoord.z > 1.0) return 1.0;
-                return mix(1.0, step(diagnosticCoord.z + shadowBias, texture2D(shadowMap, diagnosticCoord.xy).r), shadowIntensity);
-                ${source.slice(body + 1)}`;
-            }
-            (window as unknown as { shadowPatches: number }).shadowPatches++;
-          }
-          original.call(this, shader, source);
-        };
-      }, variant);
+      await page.addInitScript(patchShadows, {
+        from: [BLOCKER_SAMPLES, FILTER_SAMPLES],
+        to: PCSS_VARIANTS[variant],
+      });
       await page.goto('?view=3d');
       await page.getByRole('button', { name: '静かに入室する' }).click();
       const scene = page.locator('.sauna-3d-canvas');
