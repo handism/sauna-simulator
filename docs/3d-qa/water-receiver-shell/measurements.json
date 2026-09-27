@@ -1,0 +1,440 @@
+{
+ "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
+ "blender": "4.5.11 LTS",
+ "scene": "SUI • Daylight",
+ "setup": "orthographic camera straight down over the plunge, 280x330, 256 samples, BOX filter, no denoising; light groups: V9 alone, emission of all meshes; means of luminance over the tile pixels (Position of the water-hidden render within 6 mm of the tiles 0.202 m, inside the tub). through = water visible to the camera, hidden = water hidden from camera rays only.",
+ "variants": {
+  "base": "source settings (clamp indirect 10, Filter Glossy 1.0, bounces 10/4/4/8)",
+  "noclamp": "indirect clamp 0",
+  "noblur": "Filter Glossy 0",
+  "bounces": "all bounce limits 64",
+  "novol": "water volume absorption disconnected",
+  "notree": "light tree off",
+  "norr": "min_light_bounces 64 (no Russian roulette)"
+ },
+ "through_vs_hidden": {
+  "base": {
+   "v9": {
+    "through": 0.06825,
+    "hidden": 0.08273,
+    "ratio": 0.825
+   },
+   "emis": {
+    "through": 0.00848,
+    "hidden": 0.00917,
+    "ratio": 0.9248
+   },
+   "v9_over_emis": 0.8921
+  },
+  "noclamp": {
+   "v9": {
+    "through": 0.13786,
+    "hidden": 0.15017,
+    "ratio": 0.918
+   },
+   "emis": {
+    "through": 0.00848,
+    "hidden": 0.00917,
+    "ratio": 0.9248
+   },
+   "v9_over_emis": 0.9926
+  },
+  "noblur": {
+   "v9": {
+    "through": 0.0277,
+    "hidden": 0.03491,
+    "ratio": 0.7935
+   },
+   "emis": {
+    "through": 0.0084,
+    "hidden": 0.00909,
+    "ratio": 0.9241
+   },
+   "v9_over_emis": 0.8587
+  },
+  "bounces": {
+   "v9": {
+    "through": 0.0684,
+    "hidden": 0.08279,
+    "ratio": 0.8262
+   },
+   "emis": {
+    "through": 0.00848,
+    "hidden": 0.00917,
+    "ratio": 0.9248
+   },
+   "v9_over_emis": 0.8934
+  },
+  "novol": {
+   "v9": {
+    "through": 0.06943,
+    "hidden": 0.08332,
+    "ratio": 0.8333
+   },
+   "emis": {
+    "through": 0.0086,
+    "hidden": 0.00918,
+    "ratio": 0.9368
+   },
+   "v9_over_emis": 0.8895
+  },
+  "notree": {
+   "v9": {
+    "through": 0.03695,
+    "hidden": 0.04593,
+    "ratio": 0.8045
+   },
+   "emis": {
+    "through": 0.00848,
+    "hidden": 0.00917,
+    "ratio": 0.9248
+   },
+   "v9_over_emis": 0.8699
+  },
+  "noclamp+noblur": {
+   "v9": {
+    "through": 0.21042,
+    "hidden": 0.22687,
+    "ratio": 0.9275
+   },
+   "emis": {
+    "through": 0.0084,
+    "hidden": 0.00909,
+    "ratio": 0.9241
+   },
+   "v9_over_emis": 1.0037
+  },
+  "norr": {
+   "v9": {
+    "through": 0.10152,
+    "hidden": 0.10787,
+    "ratio": 0.9411
+   },
+   "emis": {
+    "through": 0.00848,
+    "hidden": 0.00917,
+    "ratio": 0.9248
+   },
+   "v9_over_emis": 1.0176
+  },
+  "norr+noclamp": {
+   "v9": {
+    "through": 0.13793,
+    "hidden": 0.14953,
+    "ratio": 0.9224
+   },
+   "emis": {
+    "through": 0.00848,
+    "hidden": 0.00917,
+    "ratio": 0.9248
+   },
+   "v9_over_emis": 0.9974
+  }
+ },
+ "plates": {
+  "shell1": {
+   "description": "IOR 1 refraction plate, white, camera-only, in the air gap",
+   "v9": {
+    "over_hidden": 0.8805,
+    "over_through": 1.0672
+   },
+   "emis": {
+    "over_hidden": 0.9999,
+    "over_through": 1.0809
+   }
+  },
+  "shell2": {
+   "description": "two plates (camera-only, then transmission-only)",
+   "v9": {
+    "over_hidden": 0.8786,
+    "over_through": 1.0649
+   },
+   "emis": {
+    "over_hidden": 0.9997,
+    "over_through": 1.0806
+   }
+  },
+  "shellG": {
+   "description": "one camera-only plate, gray 0.925",
+   "v9": {
+    "over_hidden": 0.822,
+    "over_through": 0.9963
+   },
+   "emis": {
+    "over_hidden": 0.9249,
+    "over_through": 0.9998
+   }
+  }
+ },
+ "plate_note": "Plates above the water were invalid: past a camera-only plate the ray is a transmission ray and sees the water again, so every such plate reproduced the through render. The plates here lie in the air gap below the water bottom (z 0.212 / 0.208).",
+ "receiver_probe_test": {
+  "grid": "water, first 12 probes (z -3.9 m row, both layers), day",
+  "note": "bare = the shipped method (matches the shipped grid within float16), shell = camera-only gray 0.925 IOR 1 shell, divided out",
+  "probes": [
+   {
+    "position": [
+     0.05,
+     0.2085,
+     -3.9
+    ],
+    "up_bare": [
+     1.1575,
+     1.1106,
+     0.8583
+    ],
+    "up_shell": [
+     1.0284,
+     0.9988,
+     0.775
+    ],
+    "ratio": [
+     0.888,
+     0.899,
+     0.903
+    ]
+   },
+   {
+    "position": [
+     0.502,
+     0.2085,
+     -3.9
+    ],
+    "up_bare": [
+     1.1471,
+     1.1026,
+     0.8536
+    ],
+    "up_shell": [
+     1.0683,
+     1.0377,
+     0.8086
+    ],
+    "ratio": [
+     0.931,
+     0.941,
+     0.947
+    ]
+   },
+   {
+    "position": [
+     0.954,
+     0.2085,
+     -3.9
+    ],
+    "up_bare": [
+     1.1483,
+     1.0973,
+     0.8526
+    ],
+    "up_shell": [
+     1.0449,
+     1.0061,
+     0.7864
+    ],
+    "ratio": [
+     0.91,
+     0.917,
+     0.922
+    ]
+   },
+   {
+    "position": [
+     1.406,
+     0.2085,
+     -3.9
+    ],
+    "up_bare": [
+     1.26,
+     1.204,
+     0.9281
+    ],
+    "up_shell": [
+     1.1204,
+     1.0828,
+     0.8407
+    ],
+    "ratio": [
+     0.889,
+     0.899,
+     0.906
+    ]
+   },
+   {
+    "position": [
+     1.858,
+     0.2085,
+     -3.9
+    ],
+    "up_bare": [
+     1.3564,
+     1.3009,
+     1.0007
+    ],
+    "up_shell": [
+     1.1723,
+     1.1223,
+     0.8723
+    ],
+    "ratio": [
+     0.864,
+     0.863,
+     0.872
+    ]
+   },
+   {
+    "position": [
+     2.31,
+     0.2085,
+     -3.9
+    ],
+    "up_bare": [
+     0.873,
+     0.8599,
+     0.6781
+    ],
+    "up_shell": [
+     0.8398,
+     0.8213,
+     0.652
+    ],
+    "ratio": [
+     0.962,
+     0.955,
+     0.962
+    ]
+   },
+   {
+    "position": [
+     0.05,
+     0.66,
+     -3.9
+    ],
+    "up_bare": [
+     1.2622,
+     1.1558,
+     0.9016
+    ],
+    "up_shell": [
+     1.0938,
+     1.0108,
+     0.7954
+    ],
+    "ratio": [
+     0.867,
+     0.875,
+     0.882
+    ]
+   },
+   {
+    "position": [
+     0.502,
+     0.66,
+     -3.9
+    ],
+    "up_bare": [
+     1.4074,
+     1.2907,
+     1.0037
+    ],
+    "up_shell": [
+     1.1686,
+     1.0727,
+     0.8453
+    ],
+    "ratio": [
+     0.83,
+     0.831,
+     0.842
+    ]
+   },
+   {
+    "position": [
+     0.954,
+     0.66,
+     -3.9
+    ],
+    "up_bare": [
+     1.4977,
+     1.3673,
+     1.0632
+    ],
+    "up_shell": [
+     1.2729,
+     1.1615,
+     0.9133
+    ],
+    "ratio": [
+     0.85,
+     0.849,
+     0.859
+    ]
+   },
+   {
+    "position": [
+     1.406,
+     0.66,
+     -3.9
+    ],
+    "up_bare": [
+     1.5134,
+     1.378,
+     1.0698
+    ],
+    "up_shell": [
+     1.2191,
+     1.1202,
+     0.8816
+    ],
+    "ratio": [
+     0.806,
+     0.813,
+     0.824
+    ]
+   },
+   {
+    "position": [
+     1.858,
+     0.66,
+     -3.9
+    ],
+    "up_bare": [
+     1.5229,
+     1.3752,
+     1.0657
+    ],
+    "up_shell": [
+     1.2194,
+     1.1135,
+     0.8734
+    ],
+    "ratio": [
+     0.801,
+     0.81,
+     0.82
+    ]
+   },
+   {
+    "position": [
+     2.31,
+     0.66,
+     -3.9
+    ],
+    "up_bare": [
+     1.5447,
+     1.4029,
+     1.0871
+    ],
+    "up_shell": [
+     1.2884,
+     1.1814,
+     0.9254
+    ],
+    "ratio": [
+     0.834,
+     0.842,
+     0.851
+    ]
+   }
+  ]
+ }
+}

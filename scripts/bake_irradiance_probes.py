@@ -33,9 +33,14 @@ The water grid's irradiance is not a panorama: light reaches the tiles only alon
 (caustic) paths, which the source's indirect clamp (10) and Filter Glossy (1.0) change on a
 surface's diffuse bounce but not on a camera ray, so a panorama saw V9 through the surface about
 1.4x brighter than the tiles receive it (docs/3d-qa/water-floor-irradiance). Each water probe is a
-small diffuse sphere with the tiles' albedo, visible to camera rays only, seen by six orthographic
-cameras (the water hidden from them); its DiffDir+DiffInd passes give the irradiance per normal,
-fitted with L2 SH. The lower layer lies in the 1.3 cm air gap between the tiles and the water's
+small diffuse sphere with the tiles' albedo seen by six orthographic cameras (the water hidden
+from them), fitted with L2 SH per normal. The final image sees the tiles through the water, two
+bounces into the path, and Russian roulette with the clamp then cuts about another 11% of V9 than
+on a camera ray that reaches the tiles first (docs/3d-qa/water-receiver-shell). So each sphere sits
+in a camera-only shell (IOR 1 refraction, the tiles' 0.925 transmittance straight down through the
+water) that moves it one bounce in; the sphere is visible to the transmission rays past the shell,
+its irradiance is Combined / (0.925 x albedo) x pi, and its normals come from the camera geometry
+(the shell takes the Normal and Position passes). The lower layer lies in the 1.3 cm air gap between the tiles and the water's
 bottom face, so the floor reads the light that crossed that face (the browser samples this grid
 without the normal offset). The reflection bake keeps panoramas on the same layout.
 
@@ -108,6 +113,10 @@ GRIDS = (
 # of the tiles in the water stage's downward view (the clamp acts on albedo x radiance).
 RECEIVER_RADIUS, RECEIVER_DISTANCE, RECEIVER_RES, RECEIVER_SAMPLES = 0.004, 0.005, 32, 256
 RECEIVER_ALBEDO = (0.109, 0.290, 0.254)
+# The camera-only shell around each receiver: radius inside the camera distance, and the
+# transmittance of the camera path through the water to the tiles straight down in Cycles (it sets
+# how much the clamp cuts; the value is divided out again).
+RECEIVER_SHELL_RADIUS, RECEIVER_SHELL = 0.0044, 0.925
 WATER_OBJECT = 'V4 rippled spring water volume'
 # The plunge water volume ('V4 rippled spring water volume'), glTF axes, and its material. The
 # browser's WATER_BOX (interiorLights.ts) extends it down and out to the tiles.
@@ -235,9 +244,10 @@ def render_all(scene, points, label):
     return np.array(rows)
 
 
-def receiver_sh(scene, points):
+def receiver_sh(scene, points, shell=True):
     """L2 SH (probes, 27) of the irradiance on a diffuse receiver sphere at each point, and a
-    validity mask (the six views see only the sphere). Restores the scene's render settings."""
+    validity mask (the six views see only the shell, or the sphere without it). Restores the
+    scene's render settings."""
     material = bpy.data.materials.new('SUI irradiance receiver')
     material.use_nodes = True
     nodes = material.node_tree.nodes
@@ -245,8 +255,8 @@ def receiver_sh(scene, points):
     bsdf = nodes.new('ShaderNodeBsdfDiffuse')
     bsdf.inputs['Color'].default_value = (*RECEIVER_ALBEDO, 1)
     material.node_tree.links.new(bsdf.outputs[0], nodes.new('ShaderNodeOutputMaterial').inputs['Surface'])
-    mesh = bpy.data.meshes.new('SUI irradiance receiver')
     import bmesh
+    mesh = bpy.data.meshes.new('SUI irradiance receiver')
     bm = bmesh.new()
     bmesh.ops.create_uvsphere(bm, u_segments=64, v_segments=32, radius=RECEIVER_RADIUS)
     bm.to_mesh(mesh)
@@ -255,14 +265,36 @@ def receiver_sh(scene, points):
     mesh.materials.append(material)
     # One sphere per probe, placed once: moving an object between renders made Cycles rebuild the
     # scene (about 12 s per render); the camera's short clip range sees only its own sphere.
+    shell_material = bpy.data.materials.new('SUI irradiance receiver shell')
+    shell_material.use_nodes = True
+    nodes = shell_material.node_tree.nodes
+    nodes.clear()
+    refraction = nodes.new('ShaderNodeBsdfRefraction')
+    refraction.inputs['Color'].default_value = (RECEIVER_SHELL, RECEIVER_SHELL, RECEIVER_SHELL, 1)
+    refraction.inputs['IOR'].default_value = 1.0
+    refraction.inputs['Roughness'].default_value = 0.0
+    shell_material.node_tree.links.new(refraction.outputs[0], nodes.new('ShaderNodeOutputMaterial').inputs['Surface'])
+    shell_mesh = bpy.data.meshes.new('SUI irradiance receiver shell')
+    bm = bmesh.new()
+    bmesh.ops.create_uvsphere(bm, u_segments=64, v_segments=32, radius=RECEIVER_SHELL_RADIUS)
+    bm.to_mesh(shell_mesh)
+    bm.free()
+    shell_mesh.materials.append(shell_material)
     spheres = []
     for p in points:
         sphere = bpy.data.objects.new('SUI irradiance receiver', mesh)
         sphere.location = (p[0], -p[2], p[1])
         for flag in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter', 'visible_shadow'):
-            setattr(sphere, flag, False)
+            setattr(sphere, flag, shell and flag == 'visible_transmission')
         scene.collection.objects.link(sphere)
         spheres.append(sphere)
+        if shell:
+            cover = bpy.data.objects.new('SUI irradiance receiver shell', shell_mesh)
+            cover.location = sphere.location
+            for flag in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter', 'visible_shadow'):
+                setattr(cover, flag, False)
+            scene.collection.objects.link(cover)
+            spheres.append(cover)
     ortho = bpy.data.cameras.new('SUI irradiance receiver')
     ortho.type = 'ORTHO'
     ortho.ortho_scale = 2.2 * RECEIVER_RADIUS
@@ -273,7 +305,7 @@ def receiver_sh(scene, points):
     water_camera = water.visible_camera
     water.visible_camera = False
     layer = scene.view_layers[0]
-    passes = ('use_pass_diffuse_direct', 'use_pass_diffuse_indirect', 'use_pass_normal', 'use_pass_position')
+    passes = ('use_pass_position',)
     saved_passes = {k: getattr(layer, k) for k in passes}
     for k in passes:
         setattr(layer, k, True)
@@ -289,6 +321,16 @@ def receiver_sh(scene, points):
     from mathutils import Vector
     saved_seed = scene.cycles.seed
     bands = np.array([math.pi, *[2 * math.pi / 3] * 3, *[math.pi / 4] * 5])
+    # Pixel centers in the camera plane (top row first, like the EXR) and where they hit the sphere.
+    u = ((np.arange(RECEIVER_RES) + 0.5) / RECEIVER_RES - 0.5) * ortho.ortho_scale
+    px_x, px_y = np.meshgrid(u, -u)
+    px_x, px_y = px_x.reshape(-1), px_y.reshape(-1)
+    px_z = np.sqrt(np.maximum(RECEIVER_RADIUS ** 2 - px_x ** 2 - px_y ** 2, 0))
+    # Pixels facing the camera (grazing silhouette pixels mix normals).
+    facing = px_z > 0.3 * RECEIVER_RADIUS
+    first_radius = RECEIVER_SHELL_RADIUS if shell else RECEIVER_RADIUS
+    first_z = np.sqrt(np.maximum(first_radius ** 2 - px_x ** 2 - px_y ** 2, 0))
+    scale = np.array(RECEIVER_ALBEDO) * (RECEIVER_SHELL if shell else 1.0)
     rows, valid, residuals = [], [], []
     for i, p in enumerate(points):
         center = Vector((p[0], -p[2], p[1]))
@@ -311,14 +353,13 @@ def receiver_sh(scene, points):
             path.unlink()
             channel = {'.'.join(n.split('.')[-2:]): j for j, n in enumerate(spec.channelnames)}
             pick = lambda name, keys: px[:, [channel[f'{name}.{k}'] for k in keys]]
-            covered = px[:, channel['Combined.A']] > 0.999
-            position = pick('Position', 'XYZ')[covered]
-            on_sphere.append(np.abs(np.linalg.norm(position - np.array(center), axis=1) - RECEIVER_RADIUS) < 2e-4)
-            n = pick('Normal', 'XYZ')[covered]
-            # Pixels facing the camera (grazing silhouette pixels mix normals).
-            keep = on_sphere[-1] & (n @ -np.array(axis) > 0.3)
-            normals.append(n[keep])
-            values.append((pick('DiffDir', 'RGB') + pick('DiffInd', 'RGB'))[covered][keep] * math.pi)
+            # The camera's first hit must be the shell (or the sphere) at every facing pixel.
+            rotation = np.array(viewer.rotation_euler.to_matrix())
+            first = np.array(center) + np.stack([px_x, px_y, first_z], axis=1) @ rotation.T
+            on_sphere.append(np.linalg.norm(pick('Position', 'XYZ')[facing] - first[facing], axis=1) < 2e-4)
+            # The camera looks down its -Z axis: the sphere's normal toward it, in world axes.
+            normals.append((np.stack([px_x, px_y, px_z], axis=1)[facing] / RECEIVER_RADIUS) @ rotation.T)
+            values.append(pick('Combined', 'RGB')[facing] / scale * math.pi)
         n = np.concatenate(normals)
         n = np.stack([n[:, 0], n[:, 2], -n[:, 1]], axis=1)
         n /= np.linalg.norm(n, axis=1, keepdims=True)
@@ -339,7 +380,9 @@ def receiver_sh(scene, points):
         bpy.data.objects.remove(sphere)
     bpy.data.objects.remove(viewer)
     bpy.data.meshes.remove(mesh)
+    bpy.data.meshes.remove(shell_mesh)
     bpy.data.materials.remove(material)
+    bpy.data.materials.remove(shell_material)
     bpy.data.cameras.remove(ortho)
     return np.array(rows), np.array(valid), residuals
 
@@ -512,6 +555,15 @@ for key, scene_name in SCENES:
     if PROBE_TEST:
         t = time.time()
         points = next(g for g in grids if g['name'] == PROBE_GRID)['points'][PROBE_START:PROBE_START + PROBE_TEST]
+        if PROBE_GRID == 'water' and not REFLECTION:
+            # Receivers with and without the shell, and the upward irradiance of each.
+            up = lambda sh: 0.886227 * sh[:, 0:3] + 1.023328 * sh[:, 3:6] - 0.247708 * sh[:, 18:21] - 0.429043 * sh[:, 24:27]
+            bare, bare_valid, _ = receiver_sh(scene, points, shell=False)
+            covered, covered_valid, _ = receiver_sh(scene, points)
+            print('IRRADIANCE test seconds per probe', (time.time() - t) / PROBE_TEST, flush=True)
+            for p, a, b, va, vb in zip(points, up(bare), up(covered), bare_valid, covered_valid):
+                print('IRRADIANCE test', p, 'valid', va, vb, 'up bare', np.round(a, 4), 'shell', np.round(b, 4), 'ratio', np.round(b / a, 3), flush=True)
+            sys.exit(0)
         rgba = render_all(scene, points, 'test')
         print('IRRADIANCE test seconds per probe', (time.time() - t) / PROBE_TEST, flush=True)
         for p, row in zip(points, rgba):
@@ -534,6 +586,7 @@ for key, scene_name in SCENES:
             scene_report['grids'][grid['name']] = dict(
                 probes=len(grid['points']), invalid=int((~valid).sum()), fill_rounds=rounds, method='receiver',
                 receiver=dict(radius=RECEIVER_RADIUS, albedo=RECEIVER_ALBEDO, resolution=RECEIVER_RES, samples=RECEIVER_SAMPLES,
+                              shell=dict(radius=RECEIVER_SHELL_RADIUS, transmittance=RECEIVER_SHELL),
                               fit_residual_median=round(float(np.median(residuals)), 3), fit_residual_max=round(float(max(residuals)), 3)),
                 seconds=round(time.time() - t, 1),
                 upward_irradiance_mean=np.round(e_up.mean(axis=0), 4).tolist(),
