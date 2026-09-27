@@ -5,7 +5,7 @@
   "blender": "4.5.11 LTS",
   "source_objects": 7099,
   "policy": {
-    "compression": "lossless EXT_meshopt_compression; no quantization",
+    "compression": "meshopt KHR_meshopt_compression v1; positions/normals/UVs exponential filter at the fewest bits within 0.1 mm world / 0.1 deg / 1/8192 UV; indices, colors and images exact",
     "texture_size": 1024,
     "scope": "sauna, courtyard and woodland horizon",
     "materials": "simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean; image- and noise-driven roughness becomes its mean (image pixels, noise at 0.5); Specular IOR Level is kept (KHR_materials_specular)",
@@ -10392,21 +10392,75 @@
   },
   "compression": {
     "codec": "meshoptimizer 1.1.1",
-    "extension": "EXT_meshopt_compression",
-    "version": 0,
-    "floatBits": null,
-    "inputBytes": 29442320,
-    "outputBytes": 16369196,
-    "inputSha256": "94b12a0c43da85314404e01f21ddf0c1cf8ee866c6adf78074d06a5b02f2ce11",
-    "outputSha256": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "extension": "KHR_meshopt_compression",
+    "version": 1,
+    "filter": {
+      "name": "EXPONENTIAL",
+      "mode": {
+        "POSITION": "SharedComponent",
+        "NORMAL": "SharedVector",
+        "TEXCOORD_0": "SharedComponent",
+        "TEXCOORD_1": "SharedComponent"
+      },
+      "tolerance": {
+        "POSITION": 0.0001,
+        "NORMAL": 0.1,
+        "TEXCOORD_0": 0.0001220703125,
+        "TEXCOORD_1": 0.0001220703125
+      }
+    },
+    "inputBytes": 29442072,
+    "outputBytes": 9842672,
+    "inputSha256": "e6b4b0757389a20873e0cee09d9927dfda0a4c5da0750fbd66f43fd8dd973d3d",
+    "outputSha256": "64eb0d1a60d3080127f8f572e1c273af11f0af33732b30d7209ceefdcf4fdd55",
     "verification": {
       "compressedViews": 362,
-      "exactViews": 362,
+      "exactViews": 116,
+      "filteredViews": 246,
       "imageViews": 6,
-      "maxAbsoluteError": {}
+      "bits": {
+        "POSITION": {
+          "14": 38,
+          "15": 2,
+          "16": 5,
+          "17": 12,
+          "18": 17,
+          "19": 7,
+          "20": 7,
+          "21": 1
+        },
+        "NORMAL": {
+          "8": 2,
+          "10": 87
+        },
+        "TEXCOORD_0": {
+          "8": 6,
+          "12": 1,
+          "13": 12,
+          "14": 35,
+          "15": 8,
+          "16": 1
+        },
+        "TEXCOORD_1": {
+          "14": 4,
+          "16": 1
+        }
+      },
+      "maxError": {
+        "POSITION": 9.961624975405074e-05,
+        "NORMAL": 0.09489338891534714,
+        "TEXCOORD_0": 0.0001220703125,
+        "TEXCOORD_1": 0.00012195110321044922
+      }
     }
   },
-  "output_bytes": 16369196,
-  "output_sha256": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
-  "scene_definition_sha256": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8"
+  "output_bytes": 9842672,
+  "output_sha256": "64eb0d1a60d3080127f8f572e1c273af11f0af33732b30d7209ceefdcf4fdd55",
+  "scene_definition_sha256": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+  "recompressed": {
+    "date": "2026-09-27",
+    "method": "The shipped lossless GLB (sha256 15dcb2da…) was decoded back to the uncompressed export and recompressed with scripts/compress_web_glb.mjs; the decoded file recompresses to the previous GLB byte for byte. Its JSON chunk differs from the Blender output by whitespace/key layout only, so compression.inputSha256 differs from the original export. Blender was not rerun.",
+    "previous_output_sha256": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "previous_output_bytes": 16369196
+  }
 }

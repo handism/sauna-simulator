@@ -135,9 +135,9 @@ test('corrupt meshopt data falls back to 2D and a fresh model can recover', asyn
       const body = Buffer.from(await response.body());
       const jsonLength = body.readUInt32LE(12);
       const model = JSON.parse(body.subarray(20, 20 + jsonLength).toString());
-      expect(model.extensionsRequired).toContain('EXT_meshopt_compression');
-      const compressed = model.bufferViews.find((view: any) => view.extensions?.EXT_meshopt_compression).extensions
-        .EXT_meshopt_compression;
+      expect(model.extensionsRequired).toContain('KHR_meshopt_compression');
+      const compressed = model.bufferViews.find((view: any) => view.extensions?.KHR_meshopt_compression).extensions
+        .KHR_meshopt_compression;
       // Break the compressed stream header, leaving the GLB structure valid.
       body[28 + jsonLength + compressed.byteOffset] = 0;
       await route.fulfill({ response, body });
