@@ -1,0 +1,261 @@
+{
+ "note": "Cycles 4.5.11, source blend f1ee4ddd..., day water stage downward view (heading 1, pitch -0.85), 640x400, 512 spp, no denoise. Luminance = Rec.709 weights of linear RGB. Browser values are linear captures of a scratch build (tone mapping replaced by x/(1+x)) with isolation flags; HEAD 4cd6b01 probes unless marked after. 'tile' = pixels whose refracted view lands on a tile (not grout), pixel-aligned by refracting the Cycles view with its Normal pass to the tile plane and looking up a water-hidden render by position; 'no disc' drops the 1.1% of pixels where the browser's bottom reflection draws the V9 disk.",
+ "water_pixels_day_down": {
+  "cycles": {
+   "combined": 0.1502,
+   "surface_reflection": 0.0499,
+   "transmission": 0.0994
+  },
+  "browser_before": {
+   "full": 0.2121,
+   "surface_reflection": 0.0511,
+   "transmission": 0.161,
+   "transmission_without_bottom_reflection": 0.1209
+  },
+  "bottom_reflection_net": {
+   "cycles_bottom_face_lowered_below_tiles": 0.0028,
+   "browser": 0.0399,
+   "browser_v9_disk_pixels": 0.0434,
+   "browser_rest": -0.0035
+  },
+  "cycles_transmission_clamp_indirect_0": 0.2454
+ },
+ "tile_pixels_day_down_aligned": {
+  "albedo": {
+   "cycles_DiffCol": 0.2579,
+   "browser": 0.2732
+  },
+  "irradiance": {
+   "cycles": 1.263,
+   "browser": 1.26
+  },
+  "tile_gloss_seen_directly": {
+   "cycles": 0.0187,
+   "browser": 0.0283
+  },
+  "through_water_factor_caustic_emission_only": {
+   "cycles": 0.877,
+   "browser": 0.869
+  },
+  "through_water_factor_v9_group": {
+   "cycles_clamp_10": 0.783,
+   "cycles_clamp_off": 0.792
+  },
+  "tile_gloss_through_water_no_disc": {
+   "cycles_black_base_spec_on_minus_off": 0.0114,
+   "cycles_v9_group_share_via_spec_ior_0": 0.0025,
+   "browser_before": 0.0243,
+   "browser_after": 0.0031
+  },
+  "transmission_no_disc": {
+   "cycles": 0.1055,
+   "browser_before": 0.1315,
+   "browser_after": 0.1103
+  },
+  "browser_over_cycles_without_tile_gloss_before": 1.061
+ },
+ "points_day": [
+  {
+   "pixel": [
+    520,
+    140
+   ],
+   "xz_gltf": [
+    0.093,
+    -2.613
+   ],
+   "cos_refracted_view": 0.76,
+   "cycles_tile_gloss_through_water_7x7": 0.0068,
+   "receiver_direct": 0.0073,
+   "receiver_behind_camera_plate": 0.0059,
+   "browser_gloss_before": 0.0077,
+   "shipped_probe_L_reflected_before": 0.313,
+   "panorama_L2_L_reflected_v9_on": 0.289,
+   "panorama_L2_L_reflected_v9_off": 0.115
+  },
+  {
+   "pixel": [
+    120,
+    220
+   ],
+   "xz_gltf": [
+    1.206,
+    -1.909
+   ],
+   "cos_refracted_view": 0.82,
+   "cycles_tile_gloss_through_water_7x7": 0.0132,
+   "receiver_direct": 0.0314,
+   "receiver_behind_camera_plate": 0.0216,
+   "browser_gloss_before": 0.0463,
+   "shipped_probe_L_reflected_before": 1.235,
+   "panorama_L2_L_reflected_v9_on": 1.281,
+   "panorama_L2_L_reflected_v9_off": 0.072
+  },
+  {
+   "pixel": [
+    320,
+    220
+   ],
+   "xz_gltf": [
+    0.777,
+    -2.309
+   ],
+   "cos_refracted_view": 0.89,
+   "cycles_tile_gloss_through_water_7x7": 0.007,
+   "receiver_direct": 0.0094,
+   "receiver_behind_camera_plate": 0.0078,
+   "browser_gloss_before": 0.0327,
+   "shipped_probe_L_reflected_before": 0.876,
+   "panorama_L2_L_reflected_v9_on": 0.882,
+   "panorama_L2_L_reflected_v9_off": 0.097
+  },
+  {
+   "pixel": [
+    520,
+    220
+   ],
+   "xz_gltf": [
+    0.393,
+    -2.753
+   ],
+   "cos_refracted_view": 0.83,
+   "cycles_tile_gloss_through_water_7x7": 0.0037,
+   "receiver_direct": 0.0051,
+   "receiver_behind_camera_plate": 0.0059,
+   "browser_gloss_before": 0.0116,
+   "shipped_probe_L_reflected_before": 0.389,
+   "panorama_L2_L_reflected_v9_on": 0.373,
+   "panorama_L2_L_reflected_v9_off": 0.115
+  },
+  {
+   "pixel": [
+    120,
+    300
+   ],
+   "xz_gltf": [
+    1.314,
+    -2.133
+   ],
+   "cos_refracted_view": 0.88,
+   "cycles_tile_gloss_through_water_7x7": 0.0277,
+   "receiver_direct": 0.0874,
+   "receiver_behind_camera_plate": 0.0451,
+   "browser_gloss_before": 0.0535,
+   "shipped_probe_L_reflected_before": 1.364,
+   "panorama_L2_L_reflected_v9_on": 1.409,
+   "panorama_L2_L_reflected_v9_off": 0.093
+  },
+  {
+   "pixel": [
+    520,
+    300
+   ],
+   "xz_gltf": [
+    0.61,
+    -2.85
+   ],
+   "cos_refracted_view": 0.88,
+   "cycles_tile_gloss_through_water_7x7": 0.0022,
+   "receiver_direct": 0.0056,
+   "receiver_behind_camera_plate": 0.0055,
+   "browser_gloss_before": 0.0156,
+   "shipped_probe_L_reflected_before": 0.475,
+   "panorama_L2_L_reflected_v9_on": 0.46,
+   "panorama_L2_L_reflected_v9_off": 0.134
+  },
+  {
+   "pixel": [
+    320,
+    370
+   ],
+   "xz_gltf": [
+    1.069,
+    -2.593
+   ],
+   "cos_refracted_view": 0.99,
+   "cycles_tile_gloss_through_water_7x7": 0.0058,
+   "receiver_direct": 0.0096,
+   "receiver_behind_camera_plate": 0.0085,
+   "browser_gloss_before": 0.0376,
+   "shipped_probe_L_reflected_before": 1.111,
+   "panorama_L2_L_reflected_v9_on": 1.013,
+   "panorama_L2_L_reflected_v9_off": 0.144
+  },
+  {
+   "pixel": [
+    520,
+    370
+   ],
+   "xz_gltf": [
+    0.763,
+    -2.919
+   ],
+   "cos_refracted_view": 0.92,
+   "cycles_tile_gloss_through_water_7x7": 0.0027,
+   "receiver_direct": 0.0052,
+   "receiver_behind_camera_plate": 0.0048,
+   "browser_gloss_before": 0.0197,
+   "shipped_probe_L_reflected_before": 0.535,
+   "panorama_L2_L_reflected_v9_on": 0.601,
+   "panorama_L2_L_reflected_v9_off": 0.152
+  }
+ ],
+ "water_reflection_grid_upward_mean_rgb": {
+  "day": {
+   "before": [
+    1.8793,
+    1.6997,
+    1.2911
+   ],
+   "after": [
+    0.2689,
+    0.2955,
+    0.262
+   ]
+  },
+  "evening": {
+   "before": [
+    0.0871,
+    0.1023,
+    0.12
+   ],
+   "after": [
+    0.0702,
+    0.0897,
+    0.1131
+   ]
+  }
+ },
+ "stage_day_down_L_residual_by_cycles_L": [
+  {
+   "L": "0-20",
+   "share": 0.056,
+   "before": 11.32,
+   "after": 7.82
+  },
+  {
+   "L": "20-30",
+   "share": 0.088,
+   "before": 3.81,
+   "after": 1.94
+  },
+  {
+   "L": "30-40",
+   "share": 0.403,
+   "before": 2.8,
+   "after": 0.29
+  },
+  {
+   "L": "40-50",
+   "share": 0.359,
+   "before": 2.93,
+   "after": -1.57
+  },
+  {
+   "L": "50-101",
+   "share": 0.094,
+   "before": 2.21,
+   "after": -0.9
+  }
+ ]
+}
