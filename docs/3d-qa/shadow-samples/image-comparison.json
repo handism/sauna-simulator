@@ -1,0 +1,2427 @@
+{
+ "date": "2026-09-28",
+ "conditions": "Chrome headless, macOS, 1280x800, DPR1, vite preview, standard quality, reducedMotion; scene-survey (JPEG 85, water stage keeps .cooling-glow), cycles-compare and stage-compare (JPEG 90, DOM effects excluded). change = HEAD build (16+24) vs same tree with BLOCKER_SAMPLES=8, FILTER_SAMPLES=12; captureNoise = second HEAD run.",
+ "sourceSha256": {
+  "softShadows.ts": "c204484e7bb090f5774f2f5b72cab8a4c7f4b7b83fb03dac3cae3615dd51c239"
+ },
+ "groups": {
+  "cycles-day": {
+   "views": 6,
+   "meanDeltaE76": {
+    "mean": 0.858,
+    "max": 1.355
+   },
+   "over2Percent": {
+    "mean": 14.161,
+    "max": 23.3831
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "cycles-evening": {
+   "views": 6,
+   "meanDeltaE76": {
+    "mean": 0.332,
+    "max": 0.496
+   },
+   "over2Percent": {
+    "mean": 3.599,
+    "max": 6.3111
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "sauna-day": {
+   "views": 24,
+   "meanDeltaE76": {
+    "mean": 0.084,
+    "max": 0.413
+   },
+   "over2Percent": {
+    "mean": 0.979,
+    "max": 6.2115
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "sauna-evening": {
+   "views": 24,
+   "meanDeltaE76": {
+    "mean": 0.024,
+    "max": 0.1522
+   },
+   "over2Percent": {
+    "mean": 0.199,
+    "max": 1.8194
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "stage-water-day": {
+   "views": 4,
+   "meanDeltaE76": {
+    "mean": 0.236,
+    "max": 0.4469
+   },
+   "over2Percent": {
+    "mean": 2.676,
+    "max": 4.9771
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "stage-water-evening": {
+   "views": 4,
+   "meanDeltaE76": {
+    "mean": 0.103,
+    "max": 0.1529
+   },
+   "over2Percent": {
+    "mean": 0.934,
+    "max": 2.2371
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "totonou-day": {
+   "views": 24,
+   "meanDeltaE76": {
+    "mean": 0.975,
+    "max": 1.8622
+   },
+   "over2Percent": {
+    "mean": 15.64,
+    "max": 32.3076
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "totonou-evening": {
+   "views": 24,
+   "meanDeltaE76": {
+    "mean": 0.302,
+    "max": 0.504
+   },
+   "over2Percent": {
+    "mean": 2.715,
+    "max": 4.7689
+   },
+   "captureNoiseMeanDeltaE76Max": 0.0
+  },
+  "water-day": {
+   "views": 24,
+   "meanDeltaE76": {
+    "mean": 1.609,
+    "max": 3.1251
+   },
+   "over2Percent": {
+    "mean": 25.187,
+    "max": 41.8856
+   },
+   "captureNoiseMeanDeltaE76Max": 1.5352
+  },
+  "water-evening": {
+   "views": 24,
+   "meanDeltaE76": {
+    "mean": 1.647,
+    "max": 3.1164
+   },
+   "over2Percent": {
+    "mean": 24.826,
+    "max": 36.0641
+   },
+   "captureNoiseMeanDeltaE76Max": 1.3316
+  }
+ },
+ "views": {
+  "cycles-01-day.jpg": {
+   "change": {
+    "mean": 1.2238,
+    "p99": 6.068,
+    "p999": 10.144,
+    "over2Percent": 22.4708
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-01-evening.jpg": {
+   "change": {
+    "mean": 0.4524,
+    "p99": 3.383,
+    "p999": 5.43,
+    "over2Percent": 5.1404
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-02-day.jpg": {
+   "change": {
+    "mean": 0.3243,
+    "p99": 3.944,
+    "p999": 6.992,
+    "over2Percent": 4.7201
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-02-evening.jpg": {
+   "change": {
+    "mean": 0.1083,
+    "p99": 1.894,
+    "p999": 3.483,
+    "over2Percent": 0.8315
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-03-day.jpg": {
+   "change": {
+    "mean": 0.614,
+    "p99": 5.603,
+    "p999": 10.258,
+    "over2Percent": 8.8109
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-03-evening.jpg": {
+   "change": {
+    "mean": 0.2479,
+    "p99": 2.219,
+    "p999": 3.479,
+    "over2Percent": 1.5911
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-04-day.jpg": {
+   "change": {
+    "mean": 1.355,
+    "p99": 8.104,
+    "p999": 14.337,
+    "over2Percent": 23.3831
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-04-evening.jpg": {
+   "change": {
+    "mean": 0.3789,
+    "p99": 2.827,
+    "p999": 4.735,
+    "over2Percent": 3.3872
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-05-day.jpg": {
+   "change": {
+    "mean": 1.0054,
+    "p99": 5.856,
+    "p999": 11.476,
+    "over2Percent": 16.8163
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-05-evening.jpg": {
+   "change": {
+    "mean": 0.496,
+    "p99": 4.049,
+    "p999": 7.079,
+    "over2Percent": 6.3111
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-07-day.jpg": {
+   "change": {
+    "mean": 0.6245,
+    "p99": 4.283,
+    "p999": 7.962,
+    "over2Percent": 8.7636
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "cycles-07-evening.jpg": {
+   "change": {
+    "mean": 0.309,
+    "p99": 3.705,
+    "p999": 6.573,
+    "over2Percent": 4.3351
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-0-down.jpg": {
+   "change": {
+    "mean": 0.0638,
+    "p99": 1.589,
+    "p999": 3.089,
+    "over2Percent": 0.503
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-0-level.jpg": {
+   "change": {
+    "mean": 0.413,
+    "p99": 4.126,
+    "p999": 6.972,
+    "over2Percent": 6.2115
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-0-up.jpg": {
+   "change": {
+    "mean": 0.0483,
+    "p99": 1.571,
+    "p999": 4.013,
+    "over2Percent": 0.6134
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-1-down.jpg": {
+   "change": {
+    "mean": 0.0864,
+    "p99": 1.703,
+    "p999": 3.237,
+    "over2Percent": 0.6248
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-1-level.jpg": {
+   "change": {
+    "mean": 0.3112,
+    "p99": 3.414,
+    "p999": 5.876,
+    "over2Percent": 4.0966
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-1-up.jpg": {
+   "change": {
+    "mean": 0.0008,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0077
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-2-down.jpg": {
+   "change": {
+    "mean": 0.0797,
+    "p99": 1.742,
+    "p999": 3.526,
+    "over2Percent": 0.6918
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-2-level.jpg": {
+   "change": {
+    "mean": 0.1502,
+    "p99": 2.509,
+    "p999": 4.676,
+    "over2Percent": 1.8617
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-2-up.jpg": {
+   "change": {
+    "mean": 0.01,
+    "p99": 0.0,
+    "p999": 1.996,
+    "over2Percent": 0.0998
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-3-down.jpg": {
+   "change": {
+    "mean": 0.0905,
+    "p99": 1.881,
+    "p999": 3.946,
+    "over2Percent": 0.9007
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-3-level.jpg": {
+   "change": {
+    "mean": 0.0462,
+    "p99": 1.438,
+    "p999": 2.998,
+    "over2Percent": 0.405
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-3-up.jpg": {
+   "change": {
+    "mean": 0.0608,
+    "p99": 1.685,
+    "p999": 3.582,
+    "over2Percent": 0.6417
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-4-down.jpg": {
+   "change": {
+    "mean": 0.0644,
+    "p99": 1.63,
+    "p999": 3.328,
+    "over2Percent": 0.5999
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-4-level.jpg": {
+   "change": {
+    "mean": 0.0629,
+    "p99": 1.624,
+    "p999": 3.169,
+    "over2Percent": 0.5305
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-4-up.jpg": {
+   "change": {
+    "mean": 0.0673,
+    "p99": 1.692,
+    "p999": 3.347,
+    "over2Percent": 0.6123
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-5-down.jpg": {
+   "change": {
+    "mean": 0.0501,
+    "p99": 1.542,
+    "p999": 3.372,
+    "over2Percent": 0.5325
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-5-level.jpg": {
+   "change": {
+    "mean": 0.0251,
+    "p99": 0.924,
+    "p999": 2.218,
+    "over2Percent": 0.132
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-5-up.jpg": {
+   "change": {
+    "mean": 0.0639,
+    "p99": 1.619,
+    "p999": 3.057,
+    "over2Percent": 0.4776
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-6-down.jpg": {
+   "change": {
+    "mean": 0.0068,
+    "p99": 0.0,
+    "p999": 1.659,
+    "over2Percent": 0.0645
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-6-level.jpg": {
+   "change": {
+    "mean": 0.042,
+    "p99": 1.446,
+    "p999": 3.889,
+    "over2Percent": 0.4963
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-6-up.jpg": {
+   "change": {
+    "mean": 0.0701,
+    "p99": 1.703,
+    "p999": 3.819,
+    "over2Percent": 0.6717
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-7-down.jpg": {
+   "change": {
+    "mean": 0.0051,
+    "p99": 0.0,
+    "p999": 1.437,
+    "over2Percent": 0.0423
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-7-level.jpg": {
+   "change": {
+    "mean": 0.1635,
+    "p99": 3.099,
+    "p999": 5.939,
+    "over2Percent": 2.3872
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-day-7-up.jpg": {
+   "change": {
+    "mean": 0.031,
+    "p99": 1.124,
+    "p999": 2.903,
+    "over2Percent": 0.2947
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-0-down.jpg": {
+   "change": {
+    "mean": 0.0175,
+    "p99": 0.509,
+    "p999": 2.071,
+    "over2Percent": 0.1072
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-0-level.jpg": {
+   "change": {
+    "mean": 0.1522,
+    "p99": 2.568,
+    "p999": 5.151,
+    "over2Percent": 1.8194
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-0-up.jpg": {
+   "change": {
+    "mean": 0.0133,
+    "p99": 0.535,
+    "p999": 1.998,
+    "over2Percent": 0.0998
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-1-down.jpg": {
+   "change": {
+    "mean": 0.0288,
+    "p99": 1.062,
+    "p999": 2.239,
+    "over2Percent": 0.1581
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-1-level.jpg": {
+   "change": {
+    "mean": 0.103,
+    "p99": 2.111,
+    "p999": 4.295,
+    "over2Percent": 1.1444
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-1-up.jpg": {
+   "change": {
+    "mean": 0.0094,
+    "p99": 0.0,
+    "p999": 1.764,
+    "over2Percent": 0.0618
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-2-down.jpg": {
+   "change": {
+    "mean": 0.0172,
+    "p99": 0.543,
+    "p999": 1.812,
+    "over2Percent": 0.0826
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-2-level.jpg": {
+   "change": {
+    "mean": 0.0308,
+    "p99": 1.042,
+    "p999": 2.195,
+    "over2Percent": 0.1691
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-2-up.jpg": {
+   "change": {
+    "mean": 0.0054,
+    "p99": 0.0,
+    "p999": 1.284,
+    "over2Percent": 0.015
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-3-down.jpg": {
+   "change": {
+    "mean": 0.0163,
+    "p99": 0.749,
+    "p999": 1.697,
+    "over2Percent": 0.0719
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-3-level.jpg": {
+   "change": {
+    "mean": 0.0128,
+    "p99": 0.448,
+    "p999": 1.616,
+    "over2Percent": 0.0455
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-3-up.jpg": {
+   "change": {
+    "mean": 0.0078,
+    "p99": 0.0,
+    "p999": 1.434,
+    "over2Percent": 0.0233
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-4-down.jpg": {
+   "change": {
+    "mean": 0.0092,
+    "p99": 0.401,
+    "p999": 1.604,
+    "over2Percent": 0.0451
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-4-level.jpg": {
+   "change": {
+    "mean": 0.0103,
+    "p99": 0.373,
+    "p999": 1.719,
+    "over2Percent": 0.0836
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-4-up.jpg": {
+   "change": {
+    "mean": 0.0048,
+    "p99": 0.0,
+    "p999": 1.194,
+    "over2Percent": 0.0093
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-5-down.jpg": {
+   "change": {
+    "mean": 0.0107,
+    "p99": 0.431,
+    "p999": 1.639,
+    "over2Percent": 0.0522
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-5-level.jpg": {
+   "change": {
+    "mean": 0.0041,
+    "p99": 0.0,
+    "p999": 1.061,
+    "over2Percent": 0.0009
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-5-up.jpg": {
+   "change": {
+    "mean": 0.0054,
+    "p99": 0.0,
+    "p999": 1.182,
+    "over2Percent": 0.0086
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-6-down.jpg": {
+   "change": {
+    "mean": 0.007,
+    "p99": 0.0,
+    "p999": 1.524,
+    "over2Percent": 0.0382
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-6-level.jpg": {
+   "change": {
+    "mean": 0.0234,
+    "p99": 0.99,
+    "p999": 2.107,
+    "over2Percent": 0.1226
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-6-up.jpg": {
+   "change": {
+    "mean": 0.0108,
+    "p99": 0.449,
+    "p999": 1.82,
+    "over2Percent": 0.0748
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-7-down.jpg": {
+   "change": {
+    "mean": 0.0096,
+    "p99": 0.274,
+    "p999": 1.654,
+    "over2Percent": 0.0641
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-7-level.jpg": {
+   "change": {
+    "mean": 0.0533,
+    "p99": 1.448,
+    "p999": 3.194,
+    "over2Percent": 0.469
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "sauna-evening-7-up.jpg": {
+   "change": {
+    "mean": 0.0034,
+    "p99": 0.0,
+    "p999": 1.134,
+    "over2Percent": 0.0198
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-day-0-level.jpg": {
+   "change": {
+    "mean": 0.2872,
+    "p99": 3.447,
+    "p999": 6.229,
+    "over2Percent": 4.1129
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-day-1-down.jpg": {
+   "change": {
+    "mean": 0.0525,
+    "p99": 1.312,
+    "p999": 2.409,
+    "over2Percent": 0.2635
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-day-2-level.jpg": {
+   "change": {
+    "mean": 0.1593,
+    "p99": 2.232,
+    "p999": 8.561,
+    "over2Percent": 1.3522
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-day-4-level.jpg": {
+   "change": {
+    "mean": 0.4469,
+    "p99": 4.106,
+    "p999": 8.152,
+    "over2Percent": 4.9771
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-evening-0-level.jpg": {
+   "change": {
+    "mean": 0.1529,
+    "p99": 2.916,
+    "p999": 5.784,
+    "over2Percent": 2.2371
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-evening-1-down.jpg": {
+   "change": {
+    "mean": 0.0606,
+    "p99": 1.483,
+    "p999": 2.489,
+    "over2Percent": 0.4235
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-evening-2-level.jpg": {
+   "change": {
+    "mean": 0.0739,
+    "p99": 1.556,
+    "p999": 2.954,
+    "over2Percent": 0.4561
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "stage-water-evening-4-level.jpg": {
+   "change": {
+    "mean": 0.1232,
+    "p99": 1.677,
+    "p999": 2.931,
+    "over2Percent": 0.6188
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-0-down.jpg": {
+   "change": {
+    "mean": 1.8514,
+    "p99": 9.88,
+    "p999": 16.328,
+    "over2Percent": 32.3076
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-0-level.jpg": {
+   "change": {
+    "mean": 0.6748,
+    "p99": 5.837,
+    "p999": 10.718,
+    "over2Percent": 10.4207
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-0-up.jpg": {
+   "change": {
+    "mean": 0.184,
+    "p99": 2.705,
+    "p999": 5.189,
+    "over2Percent": 2.0804
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-1-down.jpg": {
+   "change": {
+    "mean": 1.7148,
+    "p99": 8.396,
+    "p999": 13.955,
+    "over2Percent": 29.9141
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-1-level.jpg": {
+   "change": {
+    "mean": 0.7544,
+    "p99": 6.651,
+    "p999": 11.237,
+    "over2Percent": 12.1282
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-1-up.jpg": {
+   "change": {
+    "mean": 0.1596,
+    "p99": 2.721,
+    "p999": 5.772,
+    "over2Percent": 1.9349
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-2-down.jpg": {
+   "change": {
+    "mean": 1.4602,
+    "p99": 7.451,
+    "p999": 12.47,
+    "over2Percent": 24.5298
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-2-level.jpg": {
+   "change": {
+    "mean": 0.6597,
+    "p99": 6.279,
+    "p999": 10.679,
+    "over2Percent": 9.4991
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-2-up.jpg": {
+   "change": {
+    "mean": 0.1993,
+    "p99": 2.897,
+    "p999": 5.623,
+    "over2Percent": 2.2778
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-3-down.jpg": {
+   "change": {
+    "mean": 1.0622,
+    "p99": 6.056,
+    "p999": 10.218,
+    "over2Percent": 16.0324
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-3-level.jpg": {
+   "change": {
+    "mean": 0.9262,
+    "p99": 5.858,
+    "p999": 10.153,
+    "over2Percent": 14.0219
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-3-up.jpg": {
+   "change": {
+    "mean": 0.4952,
+    "p99": 4.745,
+    "p999": 9.849,
+    "over2Percent": 6.9344
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-4-down.jpg": {
+   "change": {
+    "mean": 0.9739,
+    "p99": 5.992,
+    "p999": 10.2,
+    "over2Percent": 13.0781
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-4-level.jpg": {
+   "change": {
+    "mean": 1.4534,
+    "p99": 7.404,
+    "p999": 12.456,
+    "over2Percent": 24.2755
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-4-up.jpg": {
+   "change": {
+    "mean": 0.727,
+    "p99": 5.26,
+    "p999": 10.159,
+    "over2Percent": 10.3316
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-5-down.jpg": {
+   "change": {
+    "mean": 1.5142,
+    "p99": 9.216,
+    "p999": 14.62,
+    "over2Percent": 24.8364
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-5-level.jpg": {
+   "change": {
+    "mean": 1.5811,
+    "p99": 7.064,
+    "p999": 11.477,
+    "over2Percent": 28.0819
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-5-up.jpg": {
+   "change": {
+    "mean": 0.7179,
+    "p99": 5.089,
+    "p999": 9.403,
+    "over2Percent": 10.4136
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-6-down.jpg": {
+   "change": {
+    "mean": 1.7764,
+    "p99": 9.972,
+    "p999": 16.062,
+    "over2Percent": 30.4043
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-6-level.jpg": {
+   "change": {
+    "mean": 1.1503,
+    "p99": 6.017,
+    "p999": 9.722,
+    "over2Percent": 19.8379
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-6-up.jpg": {
+   "change": {
+    "mean": 0.4508,
+    "p99": 3.805,
+    "p999": 6.223,
+    "over2Percent": 5.3765
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-7-down.jpg": {
+   "change": {
+    "mean": 1.8622,
+    "p99": 10.13,
+    "p999": 15.851,
+    "over2Percent": 32.0469
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-7-level.jpg": {
+   "change": {
+    "mean": 0.7234,
+    "p99": 4.82,
+    "p999": 8.525,
+    "over2Percent": 10.6526
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-day-7-up.jpg": {
+   "change": {
+    "mean": 0.3281,
+    "p99": 3.416,
+    "p999": 6.052,
+    "over2Percent": 3.9415
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-0-down.jpg": {
+   "change": {
+    "mean": 0.4754,
+    "p99": 3.092,
+    "p999": 7.008,
+    "over2Percent": 4.2895
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-0-level.jpg": {
+   "change": {
+    "mean": 0.2245,
+    "p99": 3.077,
+    "p999": 6.152,
+    "over2Percent": 2.7761
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-0-up.jpg": {
+   "change": {
+    "mean": 0.2744,
+    "p99": 2.893,
+    "p999": 5.522,
+    "over2Percent": 2.9207
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-1-down.jpg": {
+   "change": {
+    "mean": 0.409,
+    "p99": 2.928,
+    "p999": 4.967,
+    "over2Percent": 3.6013
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-1-level.jpg": {
+   "change": {
+    "mean": 0.2311,
+    "p99": 3.487,
+    "p999": 6.811,
+    "over2Percent": 3.2236
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-1-up.jpg": {
+   "change": {
+    "mean": 0.2309,
+    "p99": 2.671,
+    "p999": 5.062,
+    "over2Percent": 2.4031
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-2-down.jpg": {
+   "change": {
+    "mean": 0.3447,
+    "p99": 2.667,
+    "p999": 4.503,
+    "over2Percent": 2.7396
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-2-level.jpg": {
+   "change": {
+    "mean": 0.1219,
+    "p99": 1.813,
+    "p999": 3.254,
+    "over2Percent": 0.762
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-2-up.jpg": {
+   "change": {
+    "mean": 0.2362,
+    "p99": 2.477,
+    "p999": 4.578,
+    "over2Percent": 2.0728
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-3-down.jpg": {
+   "change": {
+    "mean": 0.2859,
+    "p99": 2.457,
+    "p999": 4.259,
+    "over2Percent": 2.0008
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-3-level.jpg": {
+   "change": {
+    "mean": 0.2442,
+    "p99": 2.448,
+    "p999": 4.526,
+    "over2Percent": 1.9077
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-3-up.jpg": {
+   "change": {
+    "mean": 0.2905,
+    "p99": 2.839,
+    "p999": 5.257,
+    "over2Percent": 2.7996
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-4-down.jpg": {
+   "change": {
+    "mean": 0.2694,
+    "p99": 2.221,
+    "p999": 3.724,
+    "over2Percent": 1.4251
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-4-level.jpg": {
+   "change": {
+    "mean": 0.3106,
+    "p99": 2.683,
+    "p999": 4.903,
+    "over2Percent": 2.3613
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-4-up.jpg": {
+   "change": {
+    "mean": 0.3243,
+    "p99": 2.796,
+    "p999": 5.136,
+    "over2Percent": 2.6938
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-5-down.jpg": {
+   "change": {
+    "mean": 0.3423,
+    "p99": 2.542,
+    "p999": 4.326,
+    "over2Percent": 2.4109
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-5-level.jpg": {
+   "change": {
+    "mean": 0.2776,
+    "p99": 2.482,
+    "p999": 4.765,
+    "over2Percent": 2.0083
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-5-up.jpg": {
+   "change": {
+    "mean": 0.3298,
+    "p99": 2.801,
+    "p999": 4.859,
+    "over2Percent": 3.0021
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-6-down.jpg": {
+   "change": {
+    "mean": 0.4516,
+    "p99": 3.206,
+    "p999": 9.05,
+    "over2Percent": 4.0446
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-6-level.jpg": {
+   "change": {
+    "mean": 0.2299,
+    "p99": 2.508,
+    "p999": 4.839,
+    "over2Percent": 1.9371
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-6-up.jpg": {
+   "change": {
+    "mean": 0.2714,
+    "p99": 2.833,
+    "p999": 5.396,
+    "over2Percent": 2.7727
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-7-down.jpg": {
+   "change": {
+    "mean": 0.504,
+    "p99": 3.257,
+    "p999": 6.588,
+    "over2Percent": 4.7689
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-7-level.jpg": {
+   "change": {
+    "mean": 0.2389,
+    "p99": 3.029,
+    "p999": 5.871,
+    "over2Percent": 2.85
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "totonou-evening-7-up.jpg": {
+   "change": {
+    "mean": 0.3238,
+    "p99": 3.008,
+    "p999": 5.533,
+    "over2Percent": 3.3824
+   },
+   "captureNoise": {
+    "mean": 0.0,
+    "p99": 0.0,
+    "p999": 0.0,
+    "over2Percent": 0.0
+   }
+  },
+  "water-day-0-down.jpg": {
+   "change": {
+    "mean": 1.485,
+    "p99": 10.435,
+    "p999": 18.146,
+    "over2Percent": 25.2502
+   },
+   "captureNoise": {
+    "mean": 1.1243,
+    "p99": 6.465,
+    "p999": 9.73,
+    "over2Percent": 25.395
+   }
+  },
+  "water-day-0-level.jpg": {
+   "change": {
+    "mean": 0.9747,
+    "p99": 5.066,
+    "p999": 7.856,
+    "over2Percent": 17.5844
+   },
+   "captureNoise": {
+    "mean": 1.4501,
+    "p99": 10.411,
+    "p999": 15.688,
+    "over2Percent": 27.611
+   }
+  },
+  "water-day-0-up.jpg": {
+   "change": {
+    "mean": 1.7198,
+    "p99": 13.372,
+    "p999": 18.384,
+    "over2Percent": 25.9373
+   },
+   "captureNoise": {
+    "mean": 0.7172,
+    "p99": 6.406,
+    "p999": 8.976,
+    "over2Percent": 14.9791
+   }
+  },
+  "water-day-1-down.jpg": {
+   "change": {
+    "mean": 1.2719,
+    "p99": 9.286,
+    "p999": 14.732,
+    "over2Percent": 24.3364
+   },
+   "captureNoise": {
+    "mean": 1.2631,
+    "p99": 7.636,
+    "p999": 10.933,
+    "over2Percent": 27.6655
+   }
+  },
+  "water-day-1-level.jpg": {
+   "change": {
+    "mean": 2.7961,
+    "p99": 16.777,
+    "p999": 22.34,
+    "over2Percent": 36.1979
+   },
+   "captureNoise": {
+    "mean": 1.0437,
+    "p99": 5.21,
+    "p999": 7.958,
+    "over2Percent": 24.1695
+   }
+  },
+  "water-day-1-up.jpg": {
+   "change": {
+    "mean": 2.6499,
+    "p99": 18.498,
+    "p999": 24.991,
+    "over2Percent": 31.8909
+   },
+   "captureNoise": {
+    "mean": 0.3628,
+    "p99": 4.845,
+    "p999": 6.423,
+    "over2Percent": 5.8804
+   }
+  },
+  "water-day-2-down.jpg": {
+   "change": {
+    "mean": 2.1533,
+    "p99": 13.639,
+    "p999": 18.795,
+    "over2Percent": 32.2919
+   },
+   "captureNoise": {
+    "mean": 1.2486,
+    "p99": 8.981,
+    "p999": 13.224,
+    "over2Percent": 24.7357
+   }
+  },
+  "water-day-2-level.jpg": {
+   "change": {
+    "mean": 1.8209,
+    "p99": 9.519,
+    "p999": 13.761,
+    "over2Percent": 33.7598
+   },
+   "captureNoise": {
+    "mean": 0.3809,
+    "p99": 2.695,
+    "p999": 4.632,
+    "over2Percent": 3.5979
+   }
+  },
+  "water-day-2-up.jpg": {
+   "change": {
+    "mean": 0.5882,
+    "p99": 5.207,
+    "p999": 7.105,
+    "over2Percent": 11.2896
+   },
+   "captureNoise": {
+    "mean": 0.5619,
+    "p99": 4.926,
+    "p999": 7.81,
+    "over2Percent": 11.618
+   }
+  },
+  "water-day-3-down.jpg": {
+   "change": {
+    "mean": 1.4966,
+    "p99": 10.39,
+    "p999": 17.168,
+    "over2Percent": 25.8658
+   },
+   "captureNoise": {
+    "mean": 0.768,
+    "p99": 6.248,
+    "p999": 10.113,
+    "over2Percent": 16.8631
+   }
+  },
+  "water-day-3-level.jpg": {
+   "change": {
+    "mean": 0.5389,
+    "p99": 3.353,
+    "p999": 6.895,
+    "over2Percent": 5.1797
+   },
+   "captureNoise": {
+    "mean": 0.3979,
+    "p99": 2.764,
+    "p999": 4.473,
+    "over2Percent": 3.6198
+   }
+  },
+  "water-day-3-up.jpg": {
+   "change": {
+    "mean": 1.0119,
+    "p99": 6.307,
+    "p999": 9.0,
+    "over2Percent": 21.8994
+   },
+   "captureNoise": {
+    "mean": 1.5352,
+    "p99": 11.378,
+    "p999": 15.272,
+    "over2Percent": 25.8271
+   }
+  },
+  "water-day-4-down.jpg": {
+   "change": {
+    "mean": 0.2747,
+    "p99": 2.352,
+    "p999": 4.016,
+    "over2Percent": 1.9492
+   },
+   "captureNoise": {
+    "mean": 0.2887,
+    "p99": 2.715,
+    "p999": 4.662,
+    "over2Percent": 2.9691
+   }
+  },
+  "water-day-4-level.jpg": {
+   "change": {
+    "mean": 0.91,
+    "p99": 5.175,
+    "p999": 8.125,
+    "over2Percent": 15.8577
+   },
+   "captureNoise": {
+    "mean": 1.2723,
+    "p99": 6.847,
+    "p999": 9.835,
+    "over2Percent": 28.6372
+   }
+  },
+  "water-day-4-up.jpg": {
+   "change": {
+    "mean": 0.9683,
+    "p99": 5.017,
+    "p999": 7.692,
+    "over2Percent": 17.8515
+   },
+   "captureNoise": {
+    "mean": 0.8558,
+    "p99": 5.095,
+    "p999": 7.644,
+    "over2Percent": 18.9557
+   }
+  },
+  "water-day-5-down.jpg": {
+   "change": {
+    "mean": 1.1486,
+    "p99": 5.888,
+    "p999": 8.8,
+    "over2Percent": 23.5464
+   },
+   "captureNoise": {
+    "mean": 1.5195,
+    "p99": 10.828,
+    "p999": 17.777,
+    "over2Percent": 26.0837
+   }
+  },
+  "water-day-5-level.jpg": {
+   "change": {
+    "mean": 1.3823,
+    "p99": 7.096,
+    "p999": 10.449,
+    "over2Percent": 25.7357
+   },
+   "captureNoise": {
+    "mean": 0.9492,
+    "p99": 8.054,
+    "p999": 11.413,
+    "over2Percent": 19.3947
+   }
+  },
+  "water-day-5-up.jpg": {
+   "change": {
+    "mean": 2.4517,
+    "p99": 16.017,
+    "p999": 21.886,
+    "over2Percent": 33.8193
+   },
+   "captureNoise": {
+    "mean": 0.2898,
+    "p99": 2.449,
+    "p999": 4.371,
+    "over2Percent": 2.1026
+   }
+  },
+  "water-day-6-down.jpg": {
+   "change": {
+    "mean": 1.0561,
+    "p99": 5.29,
+    "p999": 8.131,
+    "over2Percent": 21.7323
+   },
+   "captureNoise": {
+    "mean": 0.5891,
+    "p99": 3.204,
+    "p999": 5.101,
+    "over2Percent": 7.1626
+   }
+  },
+  "water-day-6-level.jpg": {
+   "change": {
+    "mean": 2.8553,
+    "p99": 14.246,
+    "p999": 18.865,
+    "over2Percent": 41.8856
+   },
+   "captureNoise": {
+    "mean": 0.9345,
+    "p99": 7.538,
+    "p999": 10.684,
+    "over2Percent": 18.9567
+   }
+  },
+  "water-day-6-up.jpg": {
+   "change": {
+    "mean": 1.599,
+    "p99": 9.218,
+    "p999": 13.939,
+    "over2Percent": 29.2916
+   },
+   "captureNoise": {
+    "mean": 1.4752,
+    "p99": 10.233,
+    "p999": 15.093,
+    "over2Percent": 26.6125
+   }
+  },
+  "water-day-7-down.jpg": {
+   "change": {
+    "mean": 1.9036,
+    "p99": 12.281,
+    "p999": 19.697,
+    "over2Percent": 29.891
+   },
+   "captureNoise": {
+    "mean": 0.9483,
+    "p99": 4.688,
+    "p999": 7.757,
+    "over2Percent": 21.5622
+   }
+  },
+  "water-day-7-level.jpg": {
+   "change": {
+    "mean": 3.1251,
+    "p99": 18.751,
+    "p999": 25.548,
+    "over2Percent": 39.5366
+   },
+   "captureNoise": {
+    "mean": 1.2487,
+    "p99": 6.677,
+    "p999": 9.212,
+    "over2Percent": 28.9114
+   }
+  },
+  "water-day-7-up.jpg": {
+   "change": {
+    "mean": 2.4296,
+    "p99": 16.463,
+    "p999": 22.863,
+    "over2Percent": 31.9167
+   },
+   "captureNoise": {
+    "mean": 0.1942,
+    "p99": 3.299,
+    "p999": 6.248,
+    "over2Percent": 2.6933
+   }
+  },
+  "water-evening-0-down.jpg": {
+   "change": {
+    "mean": 1.7475,
+    "p99": 9.893,
+    "p999": 15.963,
+    "over2Percent": 30.984
+   },
+   "captureNoise": {
+    "mean": 1.3316,
+    "p99": 7.69,
+    "p999": 12.274,
+    "over2Percent": 27.8372
+   }
+  },
+  "water-evening-0-level.jpg": {
+   "change": {
+    "mean": 2.5881,
+    "p99": 14.644,
+    "p999": 19.669,
+    "over2Percent": 36.0641
+   },
+   "captureNoise": {
+    "mean": 1.0582,
+    "p99": 5.735,
+    "p999": 8.645,
+    "over2Percent": 23.4635
+   }
+  },
+  "water-evening-0-up.jpg": {
+   "change": {
+    "mean": 0.5751,
+    "p99": 3.787,
+    "p999": 6.7,
+    "over2Percent": 8.2776
+   },
+   "captureNoise": {
+    "mean": 0.8502,
+    "p99": 5.791,
+    "p999": 8.858,
+    "over2Percent": 18.1048
+   }
+  },
+  "water-evening-1-down.jpg": {
+   "change": {
+    "mean": 0.2789,
+    "p99": 2.988,
+    "p999": 5.55,
+    "over2Percent": 3.3636
+   },
+   "captureNoise": {
+    "mean": 0.0675,
+    "p99": 1.501,
+    "p999": 4.208,
+    "over2Percent": 0.7275
+   }
+  },
+  "water-evening-1-level.jpg": {
+   "change": {
+    "mean": 1.9811,
+    "p99": 11.972,
+    "p999": 16.364,
+    "over2Percent": 30.0972
+   },
+   "captureNoise": {
+    "mean": 0.3522,
+    "p99": 3.28,
+    "p999": 5.848,
+    "over2Percent": 5.0868
+   }
+  },
+  "water-evening-1-up.jpg": {
+   "change": {
+    "mean": 2.6312,
+    "p99": 17.615,
+    "p999": 23.517,
+    "over2Percent": 32.8548
+   },
+   "captureNoise": {
+    "mean": 0.7776,
+    "p99": 4.228,
+    "p999": 7.06,
+    "over2Percent": 13.0483
+   }
+  },
+  "water-evening-2-down.jpg": {
+   "change": {
+    "mean": 1.1527,
+    "p99": 6.921,
+    "p999": 9.998,
+    "over2Percent": 25.2262
+   },
+   "captureNoise": {
+    "mean": 0.6736,
+    "p99": 4.301,
+    "p999": 6.639,
+    "over2Percent": 9.8696
+   }
+  },
+  "water-evening-2-level.jpg": {
+   "change": {
+    "mean": 3.079,
+    "p99": 18.566,
+    "p999": 23.375,
+    "over2Percent": 35.1801
+   },
+   "captureNoise": {
+    "mean": 0.3296,
+    "p99": 3.027,
+    "p999": 6.002,
+    "over2Percent": 4.2977
+   }
+  },
+  "water-evening-2-up.jpg": {
+   "change": {
+    "mean": 1.7175,
+    "p99": 10.322,
+    "p999": 13.427,
+    "over2Percent": 30.7803
+   },
+   "captureNoise": {
+    "mean": 0.6337,
+    "p99": 4.29,
+    "p999": 7.609,
+    "over2Percent": 8.5789
+   }
+  },
+  "water-evening-3-down.jpg": {
+   "change": {
+    "mean": 2.4955,
+    "p99": 15.531,
+    "p999": 21.933,
+    "over2Percent": 32.4756
+   },
+   "captureNoise": {
+    "mean": 0.5434,
+    "p99": 3.848,
+    "p999": 6.227,
+    "over2Percent": 7.2409
+   }
+  },
+  "water-evening-3-level.jpg": {
+   "change": {
+    "mean": 1.4128,
+    "p99": 9.726,
+    "p999": 13.624,
+    "over2Percent": 24.5905
+   },
+   "captureNoise": {
+    "mean": 0.3475,
+    "p99": 3.144,
+    "p999": 5.521,
+    "over2Percent": 4.7672
+   }
+  },
+  "water-evening-3-up.jpg": {
+   "change": {
+    "mean": 0.2302,
+    "p99": 2.662,
+    "p999": 5.014,
+    "over2Percent": 2.1606
+   },
+   "captureNoise": {
+    "mean": 0.3021,
+    "p99": 2.733,
+    "p999": 4.966,
+    "over2Percent": 3.1254
+   }
+  },
+  "water-evening-4-down.jpg": {
+   "change": {
+    "mean": 0.8883,
+    "p99": 5.352,
+    "p999": 9.069,
+    "over2Percent": 20.4909
+   },
+   "captureNoise": {
+    "mean": 0.5958,
+    "p99": 3.722,
+    "p999": 5.65,
+    "over2Percent": 10.792
+   }
+  },
+  "water-evening-4-level.jpg": {
+   "change": {
+    "mean": 1.9863,
+    "p99": 14.99,
+    "p999": 19.791,
+    "over2Percent": 27.5719
+   },
+   "captureNoise": {
+    "mean": 0.7924,
+    "p99": 5.258,
+    "p999": 7.809,
+    "over2Percent": 16.9597
+   }
+  },
+  "water-evening-4-up.jpg": {
+   "change": {
+    "mean": 0.8422,
+    "p99": 5.163,
+    "p999": 7.811,
+    "over2Percent": 13.5297
+   },
+   "captureNoise": {
+    "mean": 0.9388,
+    "p99": 5.879,
+    "p999": 9.001,
+    "over2Percent": 18.1031
+   }
+  },
+  "water-evening-5-down.jpg": {
+   "change": {
+    "mean": 3.1164,
+    "p99": 18.435,
+    "p999": 25.563,
+    "over2Percent": 35.5937
+   },
+   "captureNoise": {
+    "mean": 0.4205,
+    "p99": 3.13,
+    "p999": 4.697,
+    "over2Percent": 7.2357
+   }
+  },
+  "water-evening-5-level.jpg": {
+   "change": {
+    "mean": 2.8899,
+    "p99": 17.251,
+    "p999": 22.169,
+    "over2Percent": 35.5883
+   },
+   "captureNoise": {
+    "mean": 0.4689,
+    "p99": 3.458,
+    "p999": 5.57,
+    "over2Percent": 5.2897
+   }
+  },
+  "water-evening-5-up.jpg": {
+   "change": {
+    "mean": 1.475,
+    "p99": 10.628,
+    "p999": 16.289,
+    "over2Percent": 23.7208
+   },
+   "captureNoise": {
+    "mean": 0.1067,
+    "p99": 1.837,
+    "p999": 3.82,
+    "over2Percent": 0.6895
+   }
+  },
+  "water-evening-6-down.jpg": {
+   "change": {
+    "mean": 1.5144,
+    "p99": 8.073,
+    "p999": 11.605,
+    "over2Percent": 31.9374
+   },
+   "captureNoise": {
+    "mean": 0.5277,
+    "p99": 3.228,
+    "p999": 5.039,
+    "over2Percent": 7.1964
+   }
+  },
+  "water-evening-6-level.jpg": {
+   "change": {
+    "mean": 1.3264,
+    "p99": 8.337,
+    "p999": 11.498,
+    "over2Percent": 24.2269
+   },
+   "captureNoise": {
+    "mean": 0.8142,
+    "p99": 5.93,
+    "p999": 8.707,
+    "over2Percent": 17.7188
+   }
+  },
+  "water-evening-6-up.jpg": {
+   "change": {
+    "mean": 2.0819,
+    "p99": 12.785,
+    "p999": 18.674,
+    "over2Percent": 31.7354
+   },
+   "captureNoise": {
+    "mean": 0.8042,
+    "p99": 5.744,
+    "p999": 8.237,
+    "over2Percent": 13.9946
+   }
+  },
+  "water-evening-7-down.jpg": {
+   "change": {
+    "mean": 0.6922,
+    "p99": 3.978,
+    "p999": 6.266,
+    "over2Percent": 9.8048
+   },
+   "captureNoise": {
+    "mean": 0.8054,
+    "p99": 4.812,
+    "p999": 7.086,
+    "over2Percent": 14.2032
+   }
+  },
+  "water-evening-7-level.jpg": {
+   "change": {
+    "mean": 2.0022,
+    "p99": 10.68,
+    "p999": 15.373,
+    "over2Percent": 33.4966
+   },
+   "captureNoise": {
+    "mean": 0.8828,
+    "p99": 6.351,
+    "p999": 9.159,
+    "over2Percent": 18.8644
+   }
+  },
+  "water-evening-7-up.jpg": {
+   "change": {
+    "mean": 0.8197,
+    "p99": 5.679,
+    "p999": 8.965,
+    "over2Percent": 16.0729
+   },
+   "captureNoise": {
+    "mean": 1.3306,
+    "p99": 8.728,
+    "p999": 12.691,
+    "over2Percent": 24.8502
+   }
+  }
+ }
+}
