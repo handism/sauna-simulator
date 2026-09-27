@@ -31,7 +31,7 @@ source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
 report = {'input': source.relative_to(ROOT).as_posix(), 'input_sha256': source_hash,
           'input_modified_utc': datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(),
           'blender': bpy.app.version_string, 'source_objects': len(bpy.context.scene.objects),
-          'policy': {'compression': 'lossless EXT_meshopt_compression; no quantization', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
+          'policy': {'compression': 'meshopt KHR_meshopt_compression v1; positions/normals/UVs exponential filter at the fewest bits within 0.1 mm world / 0.1 deg / 1/8192 UV; indices, colors and images exact', 'texture_size': 1024, 'scope': 'sauna, courtyard and woodland horizon',
                      'materials': 'simplified PBR; image diffuse/normal; no procedural baking; world-space FBM base-color ramps (ground moss, ferns) and image-luminance ramps with per-object random tints (stone, linen, timber) recorded in material extras for the browser shader; other FBM noise ramps (plaster, linen, bark, gravel) become the flat ramp color at the noise mean; image- and noise-driven roughness becomes its mean (image pixels, noise at 0.5); Specular IOR Level is kept (KHR_materials_specular)',
                      'geometry': 'visible meshes; small garden detail omitted; bevel segments capped at 1; solid meshes over 500 polygons reduced toward 350; seeded leaf sampling; near V7/V11 maple leaves keep every source leaf and lobed outline, V6 woodland leaves become alpha-tested cards, one per 20 source leaves with the same total leaf area; Fine canopy keeps every source leaf as a two-triangle silhouette; other leaves become two-triangle silhouettes (V5/V6 source leaves are already diamonds); render-visible woodland beyond the courtyard is kept (the Cycles views frame it); tree-bark curves meshed with bevel resolution capped at 1; render-hidden V5 overhead bough restored; limestone pavers lifted 3 mm above coplanar deck planks'},
           'materials': [], 'excluded': [], 'foliage_sampling': [], 'objects_beyond_courtyard': 0,
@@ -448,7 +448,7 @@ for objects in groups.values():
     if len(objects)>1: bpy.ops.object.join()
     bpy.ops.object.select_all(action='DESELECT')
 report['export_meshes']=len([o for o in bpy.context.scene.objects if o.type=='MESH'])
-# Export ordinary GLB first; the verified lossless meshopt pass runs after metadata injection.
+# Export ordinary GLB first; the verified meshopt pass runs after metadata injection.
 settings=dict(export_format='GLB',export_yup=True,export_cameras=False,export_lights=False,
               use_active_scene=True,export_animations=False,export_image_format='JPEG',export_jpeg_quality=82,
               export_vertex_color='ACTIVE',export_draco_mesh_compression_enable=False)

@@ -4,6 +4,8 @@ import { expect, test } from '@playwright/test';
 // These are explicit laboratory profiles, not labels for real mobile networks.
 const profiles = [
   { name: '12 Mbps completion', mbps: 12, latency: 80, outcome: 'ready' },
+  // Below the ~4.7 Mbps the lossless 16.4 MB model needed within the 30-second limit.
+  { name: '4 Mbps completion', mbps: 4, latency: 150, outcome: 'ready' },
   { name: '1.6 Mbps timeout', mbps: 1.6, latency: 150, outcome: 'timeout' },
   { name: '1.6 Mbps manual cancellation', mbps: 1.6, latency: 150, outcome: 'cancel' },
 ] as const;

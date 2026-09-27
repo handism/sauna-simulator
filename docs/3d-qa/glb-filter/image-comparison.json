@@ -1,0 +1,376 @@
+{
+  "date": "2026-09-27",
+  "conditions": "Chrome 154.0.8037.57 headless, macOS, 1280x800, DPR1, vite preview; e2e/cycles-compare.visual.ts and e2e/stage-compare.visual.ts (DOM effects excluded). change = old lossless GLB vs filtered GLB; captureNoise = two runs of the filtered GLB.",
+  "models": {
+    "before": {
+      "bytes": 16369196,
+      "sha256": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1"
+    },
+    "after": {
+      "bytes": 9842672,
+      "sha256": "64eb0d1a60d3080127f8f572e1c273af11f0af33732b30d7209ceefdcf4fdd55"
+    }
+  },
+  "views": {
+    "cycles-01-day.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 1.1448,
+        "over8of255Percent": 0.9057,
+        "meanDeltaE76": 0.6013,
+        "p999DeltaE76": 7.482,
+        "maxDeltaE76": 38.09
+      },
+      "captureNoise": {
+        "identical": false,
+        "meanAbs255": 0.008,
+        "over8of255Percent": 0.007,
+        "meanDeltaE76": 0.004,
+        "p999DeltaE76": 1.376,
+        "maxDeltaE76": 16.19
+      }
+    },
+    "cycles-01-evening.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.7025,
+        "over8of255Percent": 0.2783,
+        "meanDeltaE76": 0.3897,
+        "p999DeltaE76": 5.615,
+        "maxDeltaE76": 53.92
+      },
+      "captureNoise": {
+        "identical": false,
+        "meanAbs255": 0.0058,
+        "over8of255Percent": 0.0025,
+        "meanDeltaE76": 0.0031,
+        "p999DeltaE76": 1.296,
+        "maxDeltaE76": 8.04
+      }
+    },
+    "cycles-02-day.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.5072,
+        "over8of255Percent": 0.0977,
+        "meanDeltaE76": 0.2777,
+        "p999DeltaE76": 4.277,
+        "maxDeltaE76": 39.36
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "cycles-02-evening.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.4407,
+        "over8of255Percent": 0.0416,
+        "meanDeltaE76": 0.2467,
+        "p999DeltaE76": 3.786,
+        "maxDeltaE76": 19.31
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "cycles-03-day.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.529,
+        "over8of255Percent": 0.1588,
+        "meanDeltaE76": 0.2631,
+        "p999DeltaE76": 4.369,
+        "maxDeltaE76": 60.03
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "cycles-03-evening.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.4201,
+        "over8of255Percent": 0.0814,
+        "meanDeltaE76": 0.2325,
+        "p999DeltaE76": 4.001,
+        "maxDeltaE76": 67.1
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "cycles-04-day.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.7161,
+        "over8of255Percent": 0.2304,
+        "meanDeltaE76": 0.3467,
+        "p999DeltaE76": 4.737,
+        "maxDeltaE76": 36.26
+      },
+      "captureNoise": {
+        "identical": false,
+        "meanAbs255": 0.0034,
+        "over8of255Percent": 0.0032,
+        "meanDeltaE76": 0.0017,
+        "p999DeltaE76": 0.507,
+        "maxDeltaE76": 18.26
+      }
+    },
+    "cycles-04-evening.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.4045,
+        "over8of255Percent": 0.0848,
+        "meanDeltaE76": 0.2272,
+        "p999DeltaE76": 4.265,
+        "maxDeltaE76": 29.67
+      },
+      "captureNoise": {
+        "identical": false,
+        "meanAbs255": 0.0021,
+        "over8of255Percent": 0.0022,
+        "meanDeltaE76": 0.0011,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 17.62
+      }
+    },
+    "cycles-05-day.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.9804,
+        "over8of255Percent": 0.703,
+        "meanDeltaE76": 0.5213,
+        "p999DeltaE76": 7.153,
+        "maxDeltaE76": 60.11
+      },
+      "captureNoise": {
+        "identical": false,
+        "meanAbs255": 0.0025,
+        "over8of255Percent": 0.0013,
+        "meanDeltaE76": 0.0012,
+        "p999DeltaE76": 0.387,
+        "maxDeltaE76": 12.52
+      }
+    },
+    "cycles-05-evening.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.6158,
+        "over8of255Percent": 0.2292,
+        "meanDeltaE76": 0.3442,
+        "p999DeltaE76": 5.634,
+        "maxDeltaE76": 33.15
+      },
+      "captureNoise": {
+        "identical": false,
+        "meanAbs255": 0.002,
+        "over8of255Percent": 0.0005,
+        "meanDeltaE76": 0.0009,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 6.58
+      }
+    },
+    "cycles-07-day.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.5889,
+        "over8of255Percent": 0.3966,
+        "meanDeltaE76": 0.3086,
+        "p999DeltaE76": 5.99,
+        "maxDeltaE76": 34.64
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "cycles-07-evening.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.3536,
+        "over8of255Percent": 0.1328,
+        "meanDeltaE76": 0.2018,
+        "p999DeltaE76": 4.985,
+        "maxDeltaE76": 64.52
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-day-0-level.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.3976,
+        "over8of255Percent": 0.2282,
+        "meanDeltaE76": 0.2151,
+        "p999DeltaE76": 5.091,
+        "maxDeltaE76": 34.4
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-day-1-down.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.4163,
+        "over8of255Percent": 0.1741,
+        "meanDeltaE76": 0.217,
+        "p999DeltaE76": 4.53,
+        "maxDeltaE76": 21.13
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-day-2-level.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.3654,
+        "over8of255Percent": 0.047,
+        "meanDeltaE76": 0.2056,
+        "p999DeltaE76": 3.576,
+        "maxDeltaE76": 24.15
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-day-4-level.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.3558,
+        "over8of255Percent": 0.0546,
+        "meanDeltaE76": 0.1783,
+        "p999DeltaE76": 3.764,
+        "maxDeltaE76": 35.46
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-evening-0-level.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.2861,
+        "over8of255Percent": 0.1067,
+        "meanDeltaE76": 0.1623,
+        "p999DeltaE76": 4.821,
+        "maxDeltaE76": 24.12
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-evening-1-down.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.251,
+        "over8of255Percent": 0.061,
+        "meanDeltaE76": 0.1382,
+        "p999DeltaE76": 3.492,
+        "maxDeltaE76": 33.48
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-evening-2-level.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.3595,
+        "over8of255Percent": 0.0399,
+        "meanDeltaE76": 0.2118,
+        "p999DeltaE76": 3.82,
+        "maxDeltaE76": 39.33
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    },
+    "stage-water-evening-4-level.jpg": {
+      "change": {
+        "identical": false,
+        "meanAbs255": 0.2545,
+        "over8of255Percent": 0.0263,
+        "meanDeltaE76": 0.1456,
+        "p999DeltaE76": 2.91,
+        "maxDeltaE76": 20.09
+      },
+      "captureNoise": {
+        "identical": true,
+        "meanAbs255": 0.0,
+        "over8of255Percent": 0.0,
+        "meanDeltaE76": 0.0,
+        "p999DeltaE76": 0.0,
+        "maxDeltaE76": 0.0
+      }
+    }
+  }
+}
