@@ -1,0 +1,135 @@
+{
+  "stats": {
+    "startTime": "2026-09-27T15:06:38.479Z",
+    "duration": 333665.266,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "status": "passed",
+  "retry": 0,
+  "browser": "154.0.8037.57",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "elapsedMs": 331776,
+  "cycles": 6,
+  "sampleCount": 30,
+  "slowSamples": 0,
+  "errors": [],
+  "cyclesLog": [
+    {
+      "text": "Soak cycle 1: 36s, low\n"
+    },
+    {
+      "text": "Soak cycle 2: 108s, standard\n"
+    },
+    {
+      "text": "Soak cycle 3: 159s, high\n"
+    },
+    {
+      "text": "Soak cycle 4: 196s, low\n"
+    },
+    {
+      "text": "Soak cycle 5: 247s, standard\n"
+    },
+    {
+      "text": "Soak cycle 6: 327s, high\n"
+    }
+  ],
+  "groups": {
+    "low/day": {
+      "samples": 5,
+      "textures": [
+        "14"
+      ],
+      "geometries": [
+        "126"
+      ],
+      "slowSamples": 0,
+      "frameMeanMsRange": [
+        16.67,
+        17.22
+      ]
+    },
+    "standard/evening": {
+      "samples": 5,
+      "textures": [
+        "29"
+      ],
+      "geometries": [
+        "126"
+      ],
+      "slowSamples": 0,
+      "frameMeanMsRange": [
+        45.92,
+        70.37
+      ]
+    },
+    "high/day": {
+      "samples": 5,
+      "textures": [
+        "29"
+      ],
+      "geometries": [
+        "126"
+      ],
+      "slowSamples": 0,
+      "frameMeanMsRange": [
+        26.76,
+        46.85
+      ]
+    },
+    "low/evening": {
+      "samples": 5,
+      "textures": [
+        "14"
+      ],
+      "geometries": [
+        "126"
+      ],
+      "slowSamples": 0,
+      "frameMeanMsRange": [
+        16.67,
+        19.91
+      ]
+    },
+    "standard/day": {
+      "samples": 5,
+      "textures": [
+        "29"
+      ],
+      "geometries": [
+        "126"
+      ],
+      "slowSamples": 0,
+      "frameMeanMsRange": [
+        25.65,
+        45.46
+      ]
+    },
+    "high/evening": {
+      "samples": 5,
+      "textures": [
+        "29"
+      ],
+      "geometries": [
+        "126"
+      ],
+      "slowSamples": 0,
+      "frameMeanMsRange": [
+        50.37,
+        80.64
+      ]
+    }
+  },
+  "sha256": {
+    "e2e/scene-stability.soak.ts": "ce94e35668aeb5872a187cbbb20096a421d6cbe9d63b7a5664d3e660f3594571",
+    "playwright.soak.config.ts": "eae44a299fd51aa291f0df7d0c4e254c7d84b99a2d598114b96d81ebbf348261",
+    "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+    "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+    "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8"
+  }
+}
