@@ -3,7 +3,15 @@ import { expect, test } from '@playwright/test';
 test('five minutes of effects, stages, quality and mode changes remain usable', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  const samples: { cycle: number; elapsedMs: number; data: Record<string, string | undefined> }[] = [];
+  const timingPolicy = { frames: 180, previousWindowMs: 15_000, sampleTimeoutMs: 30_000 };
+  const samples: {
+    cycle: number;
+    elapsedMs: number;
+    waitMs: number;
+    frameWindowMs: number;
+    exceedsPreviousWindow: boolean;
+    data: Record<string, string | undefined>;
+  }[] = [];
   const baselines = new Map<string, { textures: string | undefined; geometries: string | undefined }>();
   const started = Date.now();
   let cycle = 0;
@@ -37,9 +45,22 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     await expect(scene).toHaveAttribute('data-quality', quality);
   };
   const sample = async () => {
-    await expect(scene).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: 15_000 });
+    const waitStarted = Date.now();
+    await expect(scene).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: timingPolicy.sampleTimeoutMs });
     const data = await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset }));
-    samples.push({ cycle, elapsedMs: Date.now() - started, data });
+    // Waiting may begin after steam has finished; use the renderer's complete
+    // 180-frame window to report slow rendering, not just the remaining wait.
+    const frameWindowMs = Number(data.frameMeanMs) * timingPolicy.frames;
+    expect(Number.isFinite(frameWindowMs)).toBe(true);
+    expect(frameWindowMs).toBeGreaterThan(0);
+    samples.push({
+      cycle,
+      elapsedMs: Date.now() - started,
+      waitMs: Date.now() - waitStarted,
+      frameWindowMs,
+      exceedsPreviousWindow: frameWindowMs > timingPolicy.previousWindowMs,
+      data,
+    });
     const key = `${data.stage}/${data.quality}`;
     const resources = { textures: data.textures, geometries: data.geometries };
     expect(Number(resources.textures)).toBeGreaterThan(0);
@@ -106,10 +127,12 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
           viewport: page.viewportSize(),
           elapsedMs: Date.now() - started,
           cycles: cycle,
+          timingPolicy,
+          slowSamples: samples.filter((sample) => sample.exceedsPreviousWindow).length,
           samples,
           errors,
           limitations:
-            'Renderer resource counts only; not total GPU memory, audio-node counts, real-device performance or proof of leak absence.',
+            'Resource stability and usability only; slow frame windows are reported, not a performance pass. Not total GPU memory, audio-node counts, real-device performance or proof of leak absence.',
         },
         null,
         2,
