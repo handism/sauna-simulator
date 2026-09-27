@@ -12,6 +12,28 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
     await expect(scene.locator('canvas')).toHaveCount(1);
   };
+  const stages = [
+    ['限界.. 水風呂へ 💧', 'water'],
+    ['外気浴へ 🍃', 'totonou'],
+    ['もう一度サウナへ 🔄', 'sauna'],
+  ];
+  const warmStages = async () => {
+    // Three uploads geometry only when first rendered. Visit every stage before
+    // comparing counts. Warm at high quality so a renderer created at low quality
+    // also has the mirror geometry retained by one previously used at standard/high.
+    const qualityControl = page.getByLabel('3Dの画質');
+    const quality = await qualityControl.inputValue();
+    await qualityControl.selectOption('high');
+    await expect(scene).toHaveAttribute('data-quality', 'high');
+    for (const [button, stage] of stages) {
+      await page.getByRole('button', { name: button, exact: true }).click();
+      // setView draws synchronously with this stage update; the sampled pass
+      // below waits for 180 frames. Do not collect another timing window here.
+      await expect(scene).toHaveAttribute('data-stage', stage);
+    }
+    await qualityControl.selectOption(quality);
+    await expect(scene).toHaveAttribute('data-quality', quality);
+  };
   const sample = async () => {
     await expect(scene).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: 15_000 });
     const data = await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset }));
@@ -42,15 +64,12 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       await expect(scene).toHaveAttribute('data-quality', quality);
       await page.getByLabel('3Dの時間帯').selectOption(cycle % 2 ? 'day' : 'evening');
       const canvas = await scene.locator('canvas').elementHandle();
+      await warmStages();
       await page.getByRole('button', { name: 'ロウリュ (Löyly)', exact: true }).click();
       // Let the entire six-second steam lifetime elapse before resource comparison.
       await page.waitForTimeout(6500);
       await sample();
-      for (const [button, stage] of [
-        ['限界.. 水風呂へ 💧', 'water'],
-        ['外気浴へ 🍃', 'totonou'],
-        ['もう一度サウナへ 🔄', 'sauna'],
-      ]) {
+      for (const [button, stage] of stages) {
         await page.getByRole('button', { name: button, exact: true }).click();
         await expect(scene).toHaveAttribute('data-stage', stage);
         await sample();
@@ -63,6 +82,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       await expect(scene).toHaveCount(0);
       await page.getByRole('button', { name: '3Dを試す' }).click();
       await ready();
+      await warmStages();
       // Warm the recreated renderer's steam resources before comparing it.
       await page.getByRole('button', { name: 'ロウリュ (Löyly)', exact: true }).click();
       await page.waitForTimeout(6500);

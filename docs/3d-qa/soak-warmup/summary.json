@@ -1,0 +1,67 @@
+{
+  "stats": {
+    "startTime": "2026-09-27T12:06:31.539Z",
+    "duration": 329384.28300000005,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "status": "passed",
+  "browser": "154.0.8037.57",
+  "elapsedMs": 327679,
+  "cycles": 6,
+  "sampleCount": 30,
+  "errors": [],
+  "cyclesLog": [
+    {
+      "text": "Soak cycle 1: 36s, low\n"
+    },
+    {
+      "text": "Soak cycle 2: 108s, standard\n"
+    },
+    {
+      "text": "Soak cycle 3: 160s, high\n"
+    },
+    {
+      "text": "Soak cycle 4: 197s, low\n"
+    },
+    {
+      "text": "Soak cycle 5: 245s, standard\n"
+    },
+    {
+      "text": "Soak cycle 6: 323s, high\n"
+    }
+  ],
+  "resourceCounts": {
+    "low": {
+      "textures": [
+        "14"
+      ],
+      "geometries": [
+        "126"
+      ]
+    },
+    "standard": {
+      "textures": [
+        "29"
+      ],
+      "geometries": [
+        "126"
+      ]
+    },
+    "high": {
+      "textures": [
+        "29"
+      ],
+      "geometries": [
+        "126"
+      ]
+    }
+  },
+  "sha256": {
+    "e2e/scene-stability.soak.ts": "88783aca088dc928283d64f09c23d8047b8bdf2df2f556dfa361b19670bc8468",
+    "public/models/sauna.glb": "15dcb2da44ee71d73d56645d8b037c80f1f0b1e2d656bf9582b5b9e4d8736ce1",
+    "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8"
+  }
+}
