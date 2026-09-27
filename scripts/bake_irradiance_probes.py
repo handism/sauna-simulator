@@ -54,7 +54,9 @@ reflection.bin / reflection.json / reflection-report.json with the same layout: 
 visible to the panorama camera exactly when it is visible to glossy rays in the source, except the
 lights whose highlights the browser draws itself (V9 and the five blue-hour accents); the sun,
 Sky softbox, Sunlit courtyard, the lanterns and the six sauna-room lights are invisible to glossy
-rays in the source. The world keeps its own glossy visibility.
+rays in the source. The world keeps its own glossy visibility. Inside the water the panoramas see
+lights by their transmission visibility instead, so the lights left out (V9, the blue-hour
+accents) are hidden from transmission rays too while the water grid renders.
 """
 import bpy
 import hashlib
@@ -538,7 +540,16 @@ for key, scene_name in SCENES:
             )
             print('IRRADIANCE', key, grid['name'], scene_report['grids'][grid['name']], flush=True)
             continue
+        # Inside the water the panorama sees the lights through the surface by their transmission
+        # visibility, so the lights left out of the reflection (V9, the blue-hour accents) came in
+        # there and L2 spread their disks over every direction (docs/3d-qa/water-floor-gloss).
+        hidden = [o for o in scene.objects if REFLECTION and grid['name'] == 'water' and o.type == 'LIGHT'
+                  and not o.hide_render and o.visible_transmission and not in_panorama(o, key)]
+        for o in hidden:
+            o.visible_transmission = False
         rgba = render_all(scene, grid['points'], f'{key} {grid["name"]}')
+        for o in hidden:
+            o.visible_transmission = True
         # (probes, 9 coefficients, RGB) flattened to 27 per probe.
         sh = np.einsum('pk,npc->nkc', basis, rgba[:, :, :3]).reshape(len(grid['points']), -1)
         # Valid: mostly front faces; courtyard/outer probes in the room or the water are filled
@@ -558,6 +569,7 @@ for key, scene_name in SCENES:
         scene_report['grids'][grid['name']] = dict(
             probes=len(grid['points']), invalid=int((~valid).sum()), fill_rounds=rounds,
             backface_share_max_valid=round(float(backface[valid].max()), 3),
+            **(dict(hidden_from_transmission=sorted(o.name for o in hidden)) if hidden else {}),
             seconds=round(time.time() - t, 1),
             upward_irradiance_mean=np.round(e_up.mean(axis=0), 4).tolist(),
         )
