@@ -24,6 +24,17 @@ export function spotPenumbra(near: number, far: number, fov: number, diameter: n
 }
 
 const pcss = /* glsl */ `
+	vec3 suiShadowDx = vec3( 0.0 ), suiShadowDy = vec3( 0.0 );
+
+	// Called for every pixel before the lights' shadow branch: derivatives inside the branch are
+	// undefined where a 2x2 quad takes it only partly (the edge of a face turning from a light).
+	void suiShadowSlope( vec4 shadowCoord ) {
+
+		suiShadowDx = dFdx( shadowCoord.xyz / shadowCoord.w );
+		suiShadowDy = dFdy( shadowCoord.xyz / shadowCoord.w );
+
+	}
+
 	float pcssNoise( vec2 position ) {
 
 		return fract( 52.9829189 * fract( dot( position, vec2( 0.06711056, 0.00583715 ) ) ) );
@@ -60,9 +71,10 @@ const pcss = /* glsl */ `
 		shadowCoord.z += shadowBias;
 
 		// Receiver plane depth bias: the depth of the receiving surface at each sample offset, so a
-		// wide kernel on a sloped floor or wall does not shadow itself.
-		vec3 dx = dFdx( shadowCoord.xyz );
-		vec3 dy = dFdy( shadowCoord.xyz );
+		// wide kernel on a sloped floor or wall does not shadow itself. The derivatives come from
+		// suiShadowSlope() outside the lights' branch.
+		vec3 dx = suiShadowDx;
+		vec3 dy = suiShadowDy;
 		float det = dx.x * dy.y - dx.y * dy.x;
 		vec2 slope = abs( det ) > 1e-12 ? vec2( dy.y * dx.z - dx.y * dy.z, dx.x * dy.z - dy.x * dx.z ) / det : vec2( 0.0 );
 		slope = clamp( slope, - 4.0, 4.0 );
@@ -111,6 +123,42 @@ if (!chunk.includes('pcssDisk')) {
   if (end < 0 || !chunk.slice(start, end).includes('float getShadow( sampler2D shadowMap'))
     throw new Error('three shadowmap_pars_fragment changed; update softShadows.ts');
   THREE.ShaderChunk.shadowmap_pars_fragment = `${chunk.slice(0, start)}\n\t#else\n${pcss}${chunk.slice(end)}`;
+}
+
+// Every material here takes a light's direct term as saturate( dot( N, L ) ) times its color (no
+// clearcoat, whose normal differs), so a pixel facing away from a light needs no shadow lookup; it
+// was a third of the evening's PCSS cost. The derivatives are taken before that branch.
+export const SHADOW_FACING = `
+#if defined( STANDARD ) && ! defined( USE_CLEARCOAT )
+#define SUI_SHADOW_FACING ( dot( geometryNormal, directLight.direction ) > 0.0 )
+#else
+#define SUI_SHADOW_FACING true
+#endif
+`;
+const SHADOW_BRANCH = '( directLight.visible && receiveShadow ) ? getShadow( ';
+const lights = THREE.ShaderChunk.lights_fragment_begin;
+if (!lights.includes('SUI_SHADOW_FACING')) {
+  const calls = [
+    ['spotShadowMap[ i ]', 'vSpotLightCoord[ i ]'],
+    ['directionalShadowMap[ i ]', 'vDirectionalShadowCoord[ i ]'],
+  ].map(([map, coord]) => {
+    const line = lights.split('\n').find((text) => text.includes(`${SHADOW_BRANCH}${map}`));
+    if (!line?.trim().startsWith('directLight.color *=') || !line.includes(`, ${coord} ) : 1.0;`))
+      throw new Error('three lighting chunks changed; update softShadows.ts');
+    return [line, coord];
+  });
+  let patched = SHADOW_FACING + lights;
+  for (const [line, coord] of calls) {
+    const indent = line.slice(0, line.indexOf('directLight'));
+    patched = patched.replace(
+      line,
+      `${indent}suiShadowSlope( ${coord} );\n${line.replace(
+        SHADOW_BRANCH,
+        '( directLight.visible && receiveShadow && SUI_SHADOW_FACING ) ? getShadow( ',
+      )}`,
+    );
+  }
+  THREE.ShaderChunk.lights_fragment_begin = patched;
 }
 
 // three offsets the shadow lookup along the vertex normal (normalBias), but shades a double-sided

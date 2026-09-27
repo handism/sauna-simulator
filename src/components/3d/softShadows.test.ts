@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { BLOCKER_SAMPLES, FACING_NORMAL_BIAS, FILTER_SAMPLES, directionalPenumbra, spotPenumbra } from './softShadows';
+import {
+  BLOCKER_SAMPLES,
+  FACING_NORMAL_BIAS,
+  FILTER_SAMPLES,
+  SHADOW_FACING,
+  directionalPenumbra,
+  spotPenumbra,
+} from './softShadows';
 
 describe('soft shadows', () => {
   it('replaces only the BasicShadowMap filter of the shared chunk', () => {
@@ -36,5 +43,30 @@ describe('soft shadows', () => {
     expect(vertex.lastIndexOf('#ifdef DOUBLE_SIDED', flip)).toBeGreaterThan(
       vertex.indexOf('vec4 shadowWorldPosition;'),
     );
+  });
+
+  it('skips the lookup of pixels facing away and takes the derivatives before the branch', () => {
+    const lights = THREE.ShaderChunk.lights_fragment_begin;
+    expect(lights.startsWith(SHADOW_FACING)).toBe(true);
+    // Clearcoat has its own normal, so only the other standard materials skip.
+    expect(SHADOW_FACING).toContain('#if defined( STANDARD ) && ! defined( USE_CLEARCOAT )');
+    expect(lights).not.toContain('( directLight.visible && receiveShadow ) ? getShadow(');
+    for (const [map, coord] of [
+      ['spotShadowMap[ i ]', 'vSpotLightCoord[ i ]'],
+      ['directionalShadowMap[ i ]', 'vDirectionalShadowCoord[ i ]'],
+    ]) {
+      const call = lights.indexOf(`( directLight.visible && receiveShadow && SUI_SHADOW_FACING ) ? getShadow( ${map}`);
+      const slope = lights.indexOf(`suiShadowSlope( ${coord} );`);
+      expect(call).toBeGreaterThan(0);
+      expect(slope).toBeGreaterThan(0);
+      // The slope call sits on the line before the branch, inside the same shadow #if.
+      expect(lights.slice(slope, call)).not.toContain('#');
+      expect(lights.slice(slope, call).split('\n')).toHaveLength(2);
+    }
+    const pars = THREE.ShaderChunk.shadowmap_pars_fragment;
+    expect(pars).toContain('void suiShadowSlope( vec4 shadowCoord )');
+    // three's own shadow code has no derivatives; the PCSS takes them only in suiShadowSlope().
+    expect(pars.match(/dFdx\(/g)).toHaveLength(1);
+    expect(pars.match(/dFdy\(/g)).toHaveLength(1);
   });
 });
