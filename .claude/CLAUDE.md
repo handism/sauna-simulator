@@ -46,7 +46,7 @@
 - 見回しはPointer Events／矢印キー。3DはUI外で入力を受け、UI復帰・モード切り替えは常に残す。モデル失敗・30秒タイムアウト・WebGLコンテキスト喪失時は3Dを解放し2D表示を継続。
 - Blender元データは `blender/` に置くがGit管理外。元blendは水の側面・底をフラット化済み（`scripts/flatten_water_sides.py`、修正前は `SUI_Retreat_v11.blend`）。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`、書き出しレポート（配信しない）は `docs/3d-export/`。入力を保存しない。再実行方法・未完了事項は `docs/3d-sauna-progress.md`。
 - `bunx tsc -b` / `bun run test` / `bun run lint` / `bun run format:check` / `bun run build` を検証する。ESLintはTS/TSXも対象（react-hooks・react-refreshルールを含む）。既存テストの段階的移行のため `no-explicit-any` は無効。
-- 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual`）は `e2e/CLAUDE.md`。
+- 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual` / `:network`）は `e2e/CLAUDE.md`。
 
 - 空間音響は `src/hooks/spatialAudio.ts`。既存AudioContextの2本の固定バスでストーブ（サウナ環境音・ロウリュ）と注水口（水風呂音）をHRTF定位する。風・バイノーラル音は従来の経路を維持。
 - `App → SceneMode → SaunaScene` に同一 `audio` を渡す。シーン定義の座標とカメラの位置・前方・上方向を `audio.setSpatialPose()` で反映し、アンマウント時は `null` で2D音へクロスフェード。モデル再読込・新たなAudioContextや音源の作成は行わない。AudioListenerの位置パラメータ非対応時は従来音へフォールバック。
