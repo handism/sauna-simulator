@@ -72,7 +72,7 @@
       "name": "water",
       "min": [
         0.05,
-        0.33,
+        0.2085,
         -3.9
       ],
       "max": [
@@ -145,12 +145,12 @@
           "probes": 84,
           "invalid": 0,
           "fill_rounds": 0,
-          "backface_share_max_valid": 0.0,
-          "seconds": 37.4,
+          "backface_share_max_valid": 0.123,
+          "seconds": 32.4,
           "upward_irradiance_mean": [
-            1.8992,
-            1.7134,
-            1.3019
+            1.8793,
+            1.6997,
+            1.2911
           ]
         }
       }
@@ -207,21 +207,21 @@
           "probes": 84,
           "invalid": 0,
           "fill_rounds": 0,
-          "backface_share_max_valid": 0.0,
-          "seconds": 35.5,
+          "backface_share_max_valid": 0.123,
+          "seconds": 31.7,
           "upward_irradiance_mean": [
-            0.0869,
-            0.1021,
-            0.1201
+            0.0871,
+            0.1023,
+            0.12
           ]
         }
       }
     }
   },
   "copied_grids": {
-    "input_sha256": "edf3c35b93e162afe66786f626423bb42aeeb813c049930681586ee1fdfba6af",
-    "bin_sha256": "9116ed231df80dc477a8b2367ea5897741c2a0d2f13a486df2fa357c0dba461a",
-    "seconds": 77.6,
+    "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
+    "bin_sha256": "aeeb6414d48b01853476997a2f7130b96fe0c258d107f128aaa6af3f8c4d5fab",
+    "seconds": 73.7,
     "grids": [
       "room",
       "courtyard",
@@ -229,6 +229,6 @@
     ]
   },
   "bin_bytes": 530928,
-  "bin_sha256": "aeeb6414d48b01853476997a2f7130b96fe0c258d107f128aaa6af3f8c4d5fab",
-  "seconds": 73.7
+  "bin_sha256": "d13e0b711afb56f3e60b34df8f0c830d7705be0a0a2e08331e5109c0971afd07",
+  "seconds": 65.0
 }

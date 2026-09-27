@@ -217,10 +217,11 @@ vec3 suiEvaluateSH( const in highp sampler3D atlas, const in vec2 uv, const in f
 	return max( result, vec3( 0.0 ) );
 }
 
-// Sampled half a probe spacing off the surface along N, as three's probe grid does; D is the
-// direction the coefficients are evaluated in.
-vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 hi, const in vec3 res, const in vec3 P, const in vec3 N, const in vec3 D, const in vec3 band, const in float kind ) {
-	vec3 uvw = clamp( ( P + N * 0.5 * ( hi - lo ) / ( res - 1.0 ) - lo ) / ( hi - lo ), 0.0, 1.0 );
+// Sampled OFFSET probe spacings off the surface along N (half, as three's probe grid does, except
+// in the water, whose probes are all valid and whose lower layer is the floor's own irradiance);
+// D is the direction the coefficients are evaluated in.
+vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 hi, const in vec3 res, const in vec3 P, const in vec3 N, const in float offset, const in vec3 D, const in vec3 band, const in float kind ) {
+	vec3 uvw = clamp( ( P + N * offset * ( hi - lo ) / ( res - 1.0 ) - lo ) / ( hi - lo ), 0.0, 1.0 );
 	uvw = ( uvw * ( res - 1.0 ) + 0.5 ) / res;
 	float slices = res.z + 2.0;
 	float z = uvw.z * res.z + 1.0;
@@ -231,15 +232,15 @@ vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 
 }
 
 vec3 suiProbes( const in vec3 P, const in vec3 N, const in vec3 D, const in vec3 band, const in bool interior, const in bool underwater, const in float kind ) {
-	if ( interior ) return suiGridSH( suiProbeRoom, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N, D, band, kind );
-	if ( underwater ) return suiGridSH( suiProbeWater, suiIrradianceMin[ 3 ], suiIrradianceMax[ 3 ], suiIrradianceRes[ 3 ], P, N, D, band, kind );
+	if ( interior ) return suiGridSH( suiProbeRoom, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N, 0.5, D, band, kind );
+	if ( underwater ) return suiGridSH( suiProbeWater, suiIrradianceMin[ 3 ], suiIrradianceMax[ 3 ], suiIrradianceRes[ 3 ], P, N, 0.0, D, band, kind );
 	vec3 lo = suiIrradianceMin[ 1 ];
 	vec3 hi = suiIrradianceMax[ 1 ];
 	vec2 inside = min( P.xz - lo.xz, hi.xz - P.xz );
 	float weight = smoothstep( 0.0, ${COURTYARD_BLEND.toFixed(1)}, min( inside.x, inside.y ) ) * ( 1.0 - smoothstep( hi.y, hi.y + ${COURTYARD_BLEND.toFixed(1)}, P.y ) );
 	vec3 result = vec3( 0.0 );
-	if ( weight > 0.0 ) result += weight * suiGridSH( suiProbeCourtyard, lo, hi, suiIrradianceRes[ 1 ], P, N, D, band, kind );
-	if ( weight < 1.0 ) result += ( 1.0 - weight ) * suiGridSH( suiProbeOuter, suiIrradianceMin[ 2 ], suiIrradianceMax[ 2 ], suiIrradianceRes[ 2 ], P, N, D, band, kind );
+	if ( weight > 0.0 ) result += weight * suiGridSH( suiProbeCourtyard, lo, hi, suiIrradianceRes[ 1 ], P, N, 0.5, D, band, kind );
+	if ( weight < 1.0 ) result += ( 1.0 - weight ) * suiGridSH( suiProbeOuter, suiIrradianceMin[ 2 ], suiIrradianceMax[ 2 ], suiIrradianceRes[ 2 ], P, N, 0.5, D, band, kind );
 	return result;
 }
 

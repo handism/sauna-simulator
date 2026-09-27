@@ -1,0 +1,34 @@
+{
+  "note": "Cycles 4.5.11, source blend f1ee4ddd..., water stage downward view (heading 1, pitch -0.85), 640x400. Luminance = Rec.709 weights of linear RGB. Tile irradiance = pi x (DiffDir + DiffInd) on tile pixels (glTF y 0.15-0.26, normal up) with the water hidden from camera rays only.",
+  "light_groups_on_water_pixels_day_down": {
+    "combined": 0.1502,
+    "world": 0.0105, "sun": 0.0015, "v7": 0.0109, "v9": 0.1138, "dusk": 0.0005, "lights": 0.0043, "caustic_emission": 0.0085, "other_emission": 0.0,
+    "browser_linear_before": 0.2366,
+    "browser_caustic_emission": 0.0082
+  },
+  "light_groups_on_water_pixels_evening_down": {
+    "combined": 0.0337,
+    "world": 0.0034, "v7": 0.0135, "dusk": 0.0066, "lights": 0.0016, "caustic_emission": 0.0085,
+    "browser_linear_before": 0.0303
+  },
+  "tile_irradiance_day_down_luminance": {
+    "source_settings_clamp_indirect_10_filter_glossy_1": {"mean": 1.247, "median": 1.223, "samples": 512},
+    "clamp_indirect_0": {"mean": 2.186, "median": 1.691, "samples": 256},
+    "filter_glossy_0": {"mean": 0.737, "median": 0.651, "samples": 256}
+  },
+  "points_day_luminance": [
+    {"xz": [0.4, -3.0], "tile": 1.178, "panorama_gap_2cm": 1.515, "panorama_water_0_33": 1.608, "receiver_gap_256spp": 1.235, "receiver_water_0_33_256spp": 1.410},
+    {"xz": [0.4, -2.3], "tile": 1.295, "panorama_gap_2cm": 1.592, "panorama_water_0_33": 1.635},
+    {"xz": [1.0, -2.3], "tile": 1.358, "panorama_gap_2cm": 1.932, "panorama_water_0_33": 1.915, "receiver_gap_256spp": 1.421, "receiver_water_0_33_256spp": 1.63}
+  ],
+  "receiver_noise_day_luminance_at_0_5_0_2085_m2_97": {
+    "tile": 1.193,
+    "64spp_32px": 1.394, "64spp_48px": 1.224, "256spp_32px": 1.209, "1024spp_32px": 1.257
+  },
+  "grid_vs_tile_day_down_1723_points": {
+    "tile_mean": 1.228,
+    "shipped_before_mean": 1.695,
+    "receiver_64spp_fixed_seed_mean": 1.422,
+    "receiver_256spp_per_render_seed_mean": 1.297
+  }
+}
