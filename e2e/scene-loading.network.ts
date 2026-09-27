@@ -6,12 +6,16 @@ const profiles = [
   { name: '12 Mbps completion', mbps: 12, latency: 80, outcome: 'ready' },
   // Below the ~4.7 Mbps the lossless 16.4 MB model needed within the 30-second limit.
   { name: '4 Mbps completion', mbps: 4, latency: 150, outcome: 'ready' },
-  { name: '1.6 Mbps timeout', mbps: 1.6, latency: 150, outcome: 'timeout' },
-  { name: '1.6 Mbps manual cancellation', mbps: 1.6, latency: 150, outcome: 'cancel' },
+  // Below the ~3.0 Mbps the single 9.8 MB model needed; the scene without the garden fits.
+  { name: '1.6 Mbps completion', mbps: 1.6, latency: 150, outcome: 'ready' },
+  { name: '0.8 Mbps timeout', mbps: 0.8, latency: 150, outcome: 'timeout' },
+  { name: '0.8 Mbps manual cancellation', mbps: 0.8, latency: 150, outcome: 'cancel' },
 ] as const;
 
 for (const profile of profiles) {
   test(profile.name, async ({ page }, info) => {
+    // The garden follows the ready scene at the same bandwidth.
+    test.setTimeout(150_000);
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     const cdp = await page.context().newCDPSession(page);
@@ -65,7 +69,10 @@ for (const profile of profiles) {
     });
     const scene = page.locator('.sauna-3d-canvas');
     const model = () => [...requests.values()].filter((item) => item.path.endsWith('/sauna.glb'));
+    const garden = () => [...requests.values()].filter((item) => item.path.endsWith('/sauna-garden.glb'));
     let elapsedMs: number | undefined;
+    let gardenElapsedMs: number | undefined;
+    let internalGardenMs: number | undefined;
     let recoveryMs: number | undefined;
     let internalLoadMs: number | undefined;
     try {
@@ -105,6 +112,20 @@ for (const profile of profiles) {
         expect(model()[0].durationMs!).toBeGreaterThan(
           (model()[0].encodedBytes! / ((profile.mbps * 1_000_000) / 8)) * 700,
         );
+        // The garden is requested only after the scene is ready, and the scene stays usable.
+        await expect.poll(() => garden().length).toBe(1);
+        expect(garden()[0].start).toBeGreaterThanOrEqual(model()[0].start + model()[0].durationMs! / 1000 - 0.001);
+        if ((await scene.getAttribute('data-garden')) === 'loading')
+          await expect(page.getByRole('status')).toContainText('庭の木々を読み込み中');
+        await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 80_000 });
+        gardenElapsedMs = Date.now() - started;
+        internalGardenMs = Number(await scene.getAttribute('data-garden-ms'));
+        await expect(page.getByRole('status')).toHaveText('ドラッグ / スワイプで見回す');
+        expect(garden()[0].failure).toBeUndefined();
+        expect(garden()[0].encodedBytes).toBeGreaterThan(1_000_000);
+        expect(garden()[0].durationMs!).toBeGreaterThan(
+          (garden()[0].encodedBytes! / ((profile.mbps * 1_000_000) / 8)) * 700,
+        );
       } else {
         if (profile.outcome === 'cancel') {
           await page.getByRole('button', { name: '2Dに切り替え', exact: true }).click();
@@ -117,6 +138,7 @@ for (const profile of profiles) {
           expect(elapsedMs).toBeLessThan(35_000);
         }
         await expect(scene).toHaveCount(0);
+        expect(garden()).toHaveLength(0);
         await expect.poll(() => model()[0]?.canceled).toBe(true);
         expect(model()[0].receivedBytes).toBeGreaterThan(0);
         expect(model()[0].encodedBytes).toBeUndefined();
@@ -135,6 +157,8 @@ for (const profile of profiles) {
         await expect(scene).toHaveAttribute('data-stage', 'totonou');
         expect(model()).toHaveLength(2);
         expect(model()[1].encodedBytes).toBeGreaterThan(1_000_000);
+        await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
+        expect(garden()).toHaveLength(1);
       }
       await expect(scene.locator('canvas')).toHaveCount(1);
       await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute(
@@ -152,6 +176,8 @@ for (const profile of profiles) {
             viewport: page.viewportSize(),
             elapsedMs,
             internalLoadMs,
+            gardenElapsedMs,
+            internalGardenMs,
             recoveryMs,
             requests: [...requests.values()],
             errors,

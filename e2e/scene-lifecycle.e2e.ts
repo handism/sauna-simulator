@@ -9,6 +9,7 @@ async function enter(page: Page) {
 }
 async function ready(page: Page) {
   await expect(scene(page)).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+  await expect(scene(page)).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
   await expect(page.locator('.sauna-3d-canvas canvas')).toHaveCount(1);
 }
 async function retry(page: Page) {
@@ -152,5 +153,21 @@ test('corrupt meshopt data falls back to 2D and a fresh model can recover', asyn
   await retry(page);
   await expect(scene(page)).toHaveAttribute('data-stage', 'water');
   await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  expect(errors).toEqual([]);
+});
+
+test('a failed garden request keeps the ready 3D scene', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.route('**/models/sauna-garden.glb', (route) => route.abort(), { times: 1 });
+  await enter(page);
+  await expect(scene(page)).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+  await expect(scene(page)).toHaveAttribute('data-garden', 'failed');
+  await expect(fallback(page)).toHaveText('ドラッグ / スワイプで見回す');
+  await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+  await expect(scene(page)).toHaveAttribute('data-stage', 'water');
+  await expect(scene(page)).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: 15_000 });
+  // A new 3D scene requests the garden again.
+  await retry(page);
   expect(errors).toEqual([]);
 });

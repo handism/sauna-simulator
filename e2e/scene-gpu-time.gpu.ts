@@ -69,6 +69,8 @@ test('measure the GPU time of the sauna and plunge views', async ({ page, browse
     await page.getByRole('button', { name: '静かに入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+    // The woodland foliage loads after the ready scene.
+    await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
     const supported = await page.evaluate(() => Boolean((window as unknown as { suiTimer?: object }).suiTimer));
     test.skip(!supported, 'EXT_disjoint_timer_query_webgl2 is not available');
     await page.getByLabel('3Dの画質').selectOption('standard');
