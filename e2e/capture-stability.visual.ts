@@ -60,6 +60,8 @@ test('water renderer captures exclude the animated DOM glow and nearly repeat ac
       const scene = page.locator('.sauna-3d-canvas');
       const canvas = scene.locator('canvas');
       await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+      // The woodland foliage loads after the ready scene.
+      await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
       await page.getByLabel('3Dの画質').selectOption('standard');
       await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
       await expect(scene).toHaveAttribute('data-stage', 'water');

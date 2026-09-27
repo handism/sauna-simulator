@@ -36,6 +36,8 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
     const scene = page.locator('.sauna-3d-canvas');
     const canvas = scene.locator('canvas');
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+    // The woodland foliage loads after the ready scene.
+    await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
     await page.getByLabel('3Dの画質').selectOption('standard');
     const stages = [
       ['sauna', '限界.. 水風呂へ 💧'],
@@ -78,14 +80,20 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
   expect(errors).toEqual([]);
   const hashes = Object.fromEntries(
     await Promise.all(
-      ['sauna.glb', 'sauna.scene.json', 'irradiance.json', 'irradiance.bin', 'reflection.json', 'reflection.bin'].map(
-        async (file) => [
-          file,
-          createHash('sha256')
-            .update(await readFile(`public/models/${file}`))
-            .digest('hex'),
-        ],
-      ),
+      [
+        'sauna.glb',
+        'sauna-garden.glb',
+        'sauna.scene.json',
+        'irradiance.json',
+        'irradiance.bin',
+        'reflection.json',
+        'reflection.bin',
+      ].map(async (file) => [
+        file,
+        createHash('sha256')
+          .update(await readFile(`public/models/${file}`))
+          .digest('hex'),
+      ]),
     ),
   );
   await info.attach('cycles-compare', {

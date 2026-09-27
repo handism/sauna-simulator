@@ -5,7 +5,12 @@ import type { AudioEngine } from '../../hooks/useAudioEngine';
 import definition from '../../../public/models/sauna.scene.json';
 import SaunaScene from './SaunaScene';
 
-const mocks = vi.hoisted(() => ({ parse: vi.fn(), renderers: [] as any[] }));
+const mocks = vi.hoisted(() => ({
+  parse: vi.fn(),
+  renderers: [] as any[],
+  // The garden request stays pending unless a test answers it.
+  garden: vi.fn(() => new Promise<any>(() => {})),
+}));
 vi.mock('three', async (importOriginal) => {
   const actual = await importOriginal<typeof import('three')>();
   return {
@@ -20,6 +25,7 @@ vi.mock('three', async (importOriginal) => {
       getPixelRatio = () => 1;
       setSize = vi.fn();
       render = vi.fn();
+      compileAsync = vi.fn(async () => {});
       setAnimationLoop = vi.fn();
       dispose = vi.fn();
       constructor() {
@@ -69,6 +75,7 @@ function mountScene() {
   const audio = { setSpatialPose: vi.fn() } as unknown as AudioEngine;
   const onReady = vi.fn();
   const onError = vi.fn();
+  const onGardenLoading = vi.fn();
   const view = render(
     <SaunaScene
       audio={audio}
@@ -78,9 +85,10 @@ function mountScene() {
       loylyEvents={new EventTarget()}
       onReady={onReady}
       onError={onError}
+      onGardenLoading={onGardenLoading}
     />,
   );
-  return { ...view, audio, onReady, onError };
+  return { ...view, audio, onReady, onError, onGardenLoading };
 }
 async function flush() {
   await act(async () => {
@@ -104,14 +112,19 @@ beforeEach(() => {
     createRadialGradient: () => ({ addColorStop() {} }),
     fillRect() {},
   } as any);
+  mocks.garden.mockImplementation(() => new Promise(() => {}));
   vi.stubGlobal(
     'fetch',
-    vi.fn(async (url: string) => ({
-      ok: true,
-      json: async () => (/(irradiance|reflection)\.json$/.test(url) ? irradiance : definition),
-      arrayBuffer: async () => new ArrayBuffer(/(irradiance|reflection)\.bin$/.test(url) ? irradianceBytes : 0),
-      url,
-    })),
+    vi.fn(async (url: string) =>
+      url.endsWith('sauna-garden.glb')
+        ? mocks.garden()
+        : {
+            ok: true,
+            json: async () => (/(irradiance|reflection)\.json$/.test(url) ? irradiance : definition),
+            arrayBuffer: async () => new ArrayBuffer(/(irradiance|reflection)\.bin$/.test(url) ? irradianceBytes : 0),
+            url,
+          },
+    ),
   );
 });
 afterEach(() => {
@@ -267,5 +280,93 @@ describe('3D scene load and teardown', () => {
     expect(mocks.parse).not.toHaveBeenCalled();
     act(() => vi.advanceTimersByTime(30000));
     expect(view.onError).toHaveBeenCalledOnce();
+  });
+});
+
+describe('garden loaded after the ready scene', () => {
+  const standard = () => {
+    const loaded = model();
+    loaded.scene.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial()));
+    return loaded;
+  };
+  const ok = { ok: true, arrayBuffer: async () => new ArrayBuffer(0) };
+  const canvas = (view: ReturnType<typeof mountScene>) =>
+    view.container.querySelector('.sauna-3d-canvas') as HTMLElement;
+
+  it('requests the garden only once the scene is ready, then adds it and sums the counts', async () => {
+    const response = deferred<any>();
+    mocks.garden.mockReturnValue(response.promise);
+    const core = standard();
+    const garden = standard();
+    mocks.parse.mockResolvedValueOnce(core).mockResolvedValueOnce(garden);
+    const view = mountScene();
+    const requested = () => vi.mocked(fetch).mock.calls.map(([url]) => String(url).split('/').pop());
+    expect(requested()).not.toContain('sauna-garden.glb');
+    await flush();
+    expect(view.onReady).toHaveBeenCalledOnce();
+    expect(requested()[requested().length - 1]).toBe('sauna-garden.glb');
+    const element = canvas(view);
+    expect(element.dataset.garden).toBe('loading');
+    expect(view.onGardenLoading).toHaveBeenLastCalledWith(true);
+    expect(element.dataset.irradianceMaterials).toBe('1');
+    response.resolve(ok);
+    await flush();
+    const renderer = mocks.renderers[0];
+    expect(renderer.compileAsync).toHaveBeenCalledWith(garden.scene, expect.any(THREE.Camera), expect.any(THREE.Scene));
+    const scene = renderer.compileAsync.mock.calls[0][2] as THREE.Scene;
+    expect(garden.scene.parent).toBe(scene);
+    expect(core.scene.parent).toBe(scene);
+    expect(element.dataset.garden).toBe('ready');
+    expect(view.onGardenLoading).toHaveBeenLastCalledWith(false);
+    expect(element.dataset.gardenMs).toMatch(/^\d+$/);
+    expect(element.dataset.irradianceMaterials).toBe('2');
+    view.unmount();
+    for (const dispose of garden.disposals) expect(dispose).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    ['a failed request', () => mocks.garden.mockResolvedValue({ ok: false })],
+    ['a parse error', () => mocks.parse.mockRejectedValueOnce(Error('bad garden'))],
+  ])('keeps the ready scene after %s', async (_, arrange) => {
+    mocks.garden.mockResolvedValue(ok);
+    mocks.parse.mockResolvedValueOnce(model());
+    arrange();
+    const view = mountScene();
+    await flush();
+    await flush();
+    const renderer = mocks.renderers[0];
+    expect(canvas(view).dataset.garden).toBe('failed');
+    expect(view.onGardenLoading).toHaveBeenLastCalledWith(false);
+    expect(view.onError).not.toHaveBeenCalled();
+    expect(renderer.setAnimationLoop).toHaveBeenLastCalledWith(expect.any(Function));
+    act(() => vi.advanceTimersByTime(30000));
+    expect(view.onError).not.toHaveBeenCalled();
+  });
+
+  it.each(['download', 'compile'])('releases a garden left unfinished at exit during its %s', async (phase) => {
+    const response = deferred<any>();
+    const compiled = deferred<void>();
+    mocks.garden.mockReturnValue(response.promise);
+    const garden = model();
+    mocks.parse.mockResolvedValueOnce(model()).mockResolvedValueOnce(garden);
+    const view = mountScene();
+    await flush();
+    const renderer = mocks.renderers[0];
+    renderer.compileAsync.mockReturnValue(compiled.promise);
+    const calls = vi.mocked(fetch).mock.calls;
+    const signal = calls[calls.length - 1][1]!.signal!;
+    if (phase === 'compile') {
+      response.resolve(ok);
+      await flush();
+      expect(renderer.compileAsync).toHaveBeenCalledOnce();
+    }
+    view.unmount();
+    expect(signal.aborted).toBe(true);
+    response.resolve(ok);
+    compiled.resolve();
+    await flush();
+    expect(garden.scene.parent).toBeNull();
+    expect(mocks.parse).toHaveBeenCalledTimes(phase === 'compile' ? 2 : 1);
+    for (const dispose of garden.disposals) expect(dispose).toHaveBeenCalledTimes(phase === 'compile' ? 1 : 0);
   });
 });

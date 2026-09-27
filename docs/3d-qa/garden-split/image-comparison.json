@@ -1,0 +1,142 @@
+[
+  {
+    "image": "cycles-01-day.jpg",
+    "identical": false,
+    "meanDE76": 0.0043,
+    "maxDE76": 16.2,
+    "changedOver8Pct": 0.007
+  },
+  {
+    "image": "cycles-01-evening.jpg",
+    "identical": false,
+    "meanDE76": 0.0033,
+    "maxDE76": 8.0,
+    "changedOver8Pct": 0.003
+  },
+  {
+    "image": "cycles-02-day.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "cycles-02-evening.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "cycles-03-day.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "cycles-03-evening.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "cycles-04-day.jpg",
+    "identical": false,
+    "meanDE76": 0.0017,
+    "maxDE76": 18.3,
+    "changedOver8Pct": 0.003
+  },
+  {
+    "image": "cycles-04-evening.jpg",
+    "identical": false,
+    "meanDE76": 0.0011,
+    "maxDE76": 17.6,
+    "changedOver8Pct": 0.002
+  },
+  {
+    "image": "cycles-05-day.jpg",
+    "identical": false,
+    "meanDE76": 0.0014,
+    "maxDE76": 12.5,
+    "changedOver8Pct": 0.001
+  },
+  {
+    "image": "cycles-05-evening.jpg",
+    "identical": false,
+    "meanDE76": 0.001,
+    "maxDE76": 6.6,
+    "changedOver8Pct": 0.001
+  },
+  {
+    "image": "cycles-07-day.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "cycles-07-evening.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-day-0-level.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-day-1-down.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-day-2-level.jpg",
+    "identical": false,
+    "meanDE76": 0.0,
+    "maxDE76": 0.5,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-day-4-level.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-evening-0-level.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-evening-1-down.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-evening-2-level.jpg",
+    "identical": false,
+    "meanDE76": 0.0,
+    "maxDE76": 0.9,
+    "changedOver8Pct": 0.0
+  },
+  {
+    "image": "stage-water-evening-4-level.jpg",
+    "identical": true,
+    "meanDE76": 0.0,
+    "maxDE76": 0.0,
+    "changedOver8Pct": 0.0
+  }
+]

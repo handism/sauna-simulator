@@ -13,6 +13,8 @@ test('capture all seated views for manual geometry and lighting review', async (
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+  // The woodland foliage loads after the ready scene.
+  await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
   const original = await canvas.elementHandle();
   await page.getByLabel('3Dの画質').selectOption('standard');
   const press = async (key: string, count: number) => {
@@ -65,14 +67,20 @@ test('capture all seated views for manual geometry and lighting review', async (
   expect(errors).toEqual([]);
   const hashes = Object.fromEntries(
     await Promise.all(
-      ['sauna.glb', 'sauna.scene.json', 'irradiance.json', 'irradiance.bin', 'reflection.json', 'reflection.bin'].map(
-        async (file) => [
-          file,
-          createHash('sha256')
-            .update(await readFile(`public/models/${file}`))
-            .digest('hex'),
-        ],
-      ),
+      [
+        'sauna.glb',
+        'sauna-garden.glb',
+        'sauna.scene.json',
+        'irradiance.json',
+        'irradiance.bin',
+        'reflection.json',
+        'reflection.bin',
+      ].map(async (file) => [
+        file,
+        createHash('sha256')
+          .update(await readFile(`public/models/${file}`))
+          .digest('hex'),
+      ]),
     ),
   );
   await info.attach('survey', {

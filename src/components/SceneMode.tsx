@@ -52,6 +52,8 @@ function ActiveScene({
   const [status, setStatus] = useState<'loading' | 'ready' | 'failed' | 'reload-required'>('loading');
   const ready = useCallback(() => setStatus((current) => (current === 'loading' ? 'ready' : current)), []);
   const failed = useCallback(() => setStatus('failed'), []);
+  // The woodland foliage arrives after the scene is ready (SaunaScene).
+  const [gardenLoading, setGardenLoading] = useState(false);
   const boundaryFailed = useCallback((error: Error) => {
     setStatus(error instanceof SceneModuleError ? 'reload-required' : 'failed');
   }, []);
@@ -76,6 +78,7 @@ function ActiveScene({
                 loylyEvents={loylyEvents}
                 onReady={ready}
                 onError={failed}
+                onGardenLoading={setGardenLoading}
               />
             </Suspense>
           </SceneBoundary>
@@ -93,6 +96,8 @@ function ActiveScene({
           </>
         ) : status === 'failed' ? (
           '3Dを表示できないため、2Dで続けています'
+        ) : gardenLoading ? (
+          'ドラッグ / スワイプで見回す · 庭の木々を読み込み中'
         ) : (
           'ドラッグ / スワイプで見回す'
         )}

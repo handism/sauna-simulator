@@ -8,7 +8,15 @@ const audio = { init: vi.fn(), playAmbient: vi.fn(), playLoyly: vi.fn(), setMute
 const steam = vi.hoisted(() => vi.fn());
 const mountScene = vi.hoisted(() => vi.fn());
 vi.mock('./3d/SaunaScene', () => ({
-  default: function MockScene({ stage, quality, lightingMode, loylyEvents, onReady, onError }: SceneProps) {
+  default: function MockScene({
+    stage,
+    quality,
+    lightingMode,
+    loylyEvents,
+    onReady,
+    onError,
+    onGardenLoading,
+  }: SceneProps) {
     useEffect(() => {
       mountScene();
     }, []);
@@ -19,9 +27,13 @@ vi.mock('./3d/SaunaScene', () => ({
       return () => loylyEvents.removeEventListener('loyly', steam);
     }, [stage, loylyEvents, onReady]);
     return (
-      <button data-quality={quality} data-lighting={lightingMode} onClick={onError}>
-        simulate context loss
-      </button>
+      <>
+        <button data-quality={quality} data-lighting={lightingMode} onClick={onError}>
+          simulate context loss
+        </button>
+        <button onClick={() => onGardenLoading?.(true)}>simulate garden request</button>
+        <button onClick={() => onGardenLoading?.(false)}>simulate garden end</button>
+      </>
     );
   },
 }));
@@ -47,6 +59,14 @@ describe('3D mode lifecycle', () => {
     render(<SceneMode audio={audio} stage="sauna" loylyEvents={events} />);
     expect(screen.getByRole('button', { name: '3Dを試す' })).toBeInTheDocument();
     expect(localStorage.getItem('sui-view-mode')).toBe('2d');
+  });
+  it('tells that the garden is still loading in the ready scene', async () => {
+    render(<SceneMode audio={audio} stage="sauna" loylyEvents={new EventTarget()} />);
+    fireEvent.click(screen.getByRole('button', { name: '3Dを試す' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'simulate garden request' }));
+    expect(screen.getByRole('status')).toHaveTextContent('ドラッグ / スワイプで見回す · 庭の木々を読み込み中');
+    fireEvent.click(screen.getByRole('button', { name: 'simulate garden end' }));
+    expect(screen.getByRole('status')).toHaveTextContent(/^ドラッグ \/ スワイプで見回す$/);
   });
   it('consumes live loyly once and never replays events across modes or stages', async () => {
     const events = new EventTarget();

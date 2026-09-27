@@ -483,15 +483,17 @@ encoded+=b' '*((-len(encoded))%4)
 tail=data[20+json_size:]
 path.write_bytes(struct.pack('<III',0x46546C67,2,20+len(encoded)+len(tail))+struct.pack('<II',len(encoded),0x4E4F534A)+encoded+tail)
 report['export_settings']=settings
+# The woodland foliage goes to sauna-garden.glb, which the browser loads after the scene is ready.
 subprocess.run([NODE, str(ROOT/'scripts/compress_web_glb.mjs'), str(path), str(path),
-                str(REPORTS/'compression-report.json')], cwd=ROOT, check=True)
+                str(REPORTS/'compression-report.json'), '--garden', str(OUT/'sauna-garden.glb')], cwd=ROOT, check=True)
 report['compression'] = json.loads((REPORTS/'compression-report.json').read_text())
-report['output_bytes']=(OUT/'sauna.glb').stat().st_size
-report['output_sha256']=hashlib.sha256((OUT/'sauna.glb').read_bytes()).hexdigest()
+for key, name in (('output', 'sauna.glb'), ('garden_output', 'sauna-garden.glb')):
+    report[f'{key}_bytes']=(OUT/name).stat().st_size
+    report[f'{key}_sha256']=hashlib.sha256((OUT/name).read_bytes()).hexdigest()
 assert source_hash == hashlib.sha256(source.read_bytes()).hexdigest()
 (REPORTS/'export-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
 import sys
 sys.path.insert(0, str(ROOT / 'scripts'))
 from web_scene import write_definition
 write_definition(OUT, REPORTS)
-print('WEB_EXPORT',report['output_bytes'],report['triangles'],report['export_meshes'],flush=True)
+print('WEB_EXPORT',report['output_bytes'],report['garden_output_bytes'],report['triangles'],report['export_meshes'],flush=True)

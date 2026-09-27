@@ -18,47 +18,82 @@
     }
   },
   "inputBytes": 29442072,
-  "outputBytes": 9842672,
   "inputSha256": "e6b4b0757389a20873e0cee09d9927dfda0a4c5da0750fbd66f43fd8dd973d3d",
-  "outputSha256": "64eb0d1a60d3080127f8f572e1c273af11f0af33732b30d7209ceefdcf4fdd55",
-  "verification": {
-    "compressedViews": 362,
-    "exactViews": 116,
-    "filteredViews": 246,
-    "imageViews": 6,
-    "bits": {
-      "POSITION": {
-        "14": 38,
-        "15": 2,
-        "16": 5,
-        "17": 12,
-        "18": 17,
-        "19": 7,
-        "20": 7,
-        "21": 1
-      },
-      "NORMAL": {
-        "8": 2,
-        "10": 87
-      },
-      "TEXCOORD_0": {
-        "8": 6,
-        "12": 1,
-        "13": 12,
-        "14": 35,
-        "15": 8,
-        "16": 1
-      },
-      "TEXCOORD_1": {
-        "14": 4,
-        "16": 1
+  "files": {
+    "sauna.glb": {
+      "outputBytes": 2725640,
+      "outputSha256": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+      "nodes": 66,
+      "triangles": 107816,
+      "verification": {
+        "compressedViews": 309,
+        "exactViews": 100,
+        "filteredViews": 209,
+        "imageViews": 6,
+        "bits": {
+          "POSITION": {
+            "14": 38,
+            "15": 2,
+            "16": 5,
+            "17": 12,
+            "18": 14,
+            "20": 1,
+            "21": 1
+          },
+          "NORMAL": {
+            "8": 2,
+            "10": 71
+          },
+          "TEXCOORD_0": {
+            "8": 1,
+            "12": 1,
+            "13": 12,
+            "14": 35,
+            "15": 8,
+            "16": 1
+          },
+          "TEXCOORD_1": {
+            "14": 4,
+            "16": 1
+          }
+        },
+        "maxError": {
+          "POSITION": 0.00009961624975405074,
+          "NORMAL": 0.09449311055734992,
+          "TEXCOORD_0": 0.0001220703125,
+          "TEXCOORD_1": 0.00012195110321044922
+        }
       }
     },
-    "maxError": {
-      "POSITION": 0.00009961624975405074,
-      "NORMAL": 0.09489338891534714,
-      "TEXCOORD_0": 0.0001220703125,
-      "TEXCOORD_1": 0.00012195110321044922
+    "sauna-garden.glb": {
+      "outputBytes": 7117228,
+      "outputSha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+      "nodes": 7,
+      "triangles": 445504,
+      "verification": {
+        "compressedViews": 53,
+        "exactViews": 16,
+        "filteredViews": 37,
+        "imageViews": 0,
+        "bits": {
+          "POSITION": {
+            "18": 3,
+            "19": 7,
+            "20": 6
+          },
+          "NORMAL": {
+            "10": 16
+          },
+          "TEXCOORD_0": {
+            "8": 5
+          }
+        },
+        "maxError": {
+          "POSITION": 0.00009123927337132629,
+          "NORMAL": 0.09489338891534714,
+          "TEXCOORD_0": 0
+        }
+      }
     }
   }
 }

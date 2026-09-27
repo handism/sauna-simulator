@@ -36,14 +36,30 @@ export interface SceneProps {
   loylyEvents: EventTarget;
   onReady: () => void;
   onError: () => void;
+  /** Whether the garden that follows the ready scene is still loading. */
+  onGardenLoading?: (loading: boolean) => void;
 }
 
 const STEAM_LAYER = 1;
 
 const STAGE_LABELS: Record<AmbientEnv, string> = { sauna: 'サウナ', water: '水風呂', totonou: '外気浴' };
 
-export default function SaunaScene({ quality, audio, stage, lightingMode, loylyEvents, onReady, onError }: SceneProps) {
+export default function SaunaScene({
+  quality,
+  audio,
+  stage,
+  lightingMode,
+  loylyEvents,
+  onReady,
+  onError,
+  onGardenLoading,
+}: SceneProps) {
   const host = useRef<HTMLDivElement>(null);
+  // A ref: a new callback must not restart the scene.
+  const gardenLoadingRef = useRef(onGardenLoading);
+  useLayoutEffect(() => {
+    gardenLoadingRef.current = onGardenLoading;
+  }, [onGardenLoading]);
   const qualityRef = useRef(quality);
   const applyQualityRef = useRef<(() => void) | null>(null);
   useLayoutEffect(() => {
@@ -104,7 +120,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
     let mirror: PlanarReflection | null = null;
-    const mirrorState = [0, 0];
+    const mirrorState = [0, 0, 0];
+    let gardenAdded = 0;
     let qualityIndex = 0;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(90 * 3);
@@ -167,6 +184,8 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
     renderer.domElement.addEventListener('webglcontextlost', lost);
     const look = attachLookControls(element, camera);
     let releaseProbes = () => {};
+    // Parsed gardens not yet in the scene still hold GPU programs and geometry on exit.
+    const gardenScenes: THREE.Object3D[] = [];
     const start = performance.now();
     async function load() {
       try {
@@ -205,25 +224,32 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
           disposeTree(gltf.scene);
           return;
         }
-        const stats = prepareModel(gltf.scene);
-        const refraction = applyRefraction(gltf.scene, definition.water.center[1]);
-        setData('refractionMaterials', String(refraction.materials));
-        setData('refractionTriangles', String(refraction.triangles));
-        setData('causticMaterials', String(applyCaustics(gltf.scene)));
-        setData('glassMeshes', String(applyGlass(gltf.scene, lighting.irradiance)));
-        setData('irradianceMaterials', String(applyIrradiance(gltf.scene, lighting.irradiance)));
-        setData('reflectionMaterials', String(applyReflection(gltf.scene, lighting.irradiance)));
-        setData('waterBottomMaterials', String(applyWaterBottom(gltf.scene)));
+        // Material counts add up over the scene and the garden loaded after it.
+        const counts: Record<string, number> = {};
+        const count = (key: string, value: number) => {
+          counts[key] = (counts[key] ?? 0) + value;
+          setData(key, String(counts[key]));
+        };
+        const prepare = (root: THREE.Object3D) => {
+          const stats = prepareModel(root);
+          const refraction = applyRefraction(root, definition.water.center[1]);
+          count('refractionMaterials', refraction.materials);
+          count('refractionTriangles', refraction.triangles);
+          count('causticMaterials', applyCaustics(root));
+          count('glassMeshes', applyGlass(root, lighting.irradiance));
+          count('irradianceMaterials', applyIrradiance(root, lighting.irradiance));
+          count('reflectionMaterials', applyReflection(root, lighting.irradiance));
+          count('waterBottomMaterials', applyWaterBottom(root));
+          for (const [key, value] of Object.entries(stats)) count(key, value);
+          return refraction.triangles;
+        };
+        prepare(gltf.scene);
         const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
         // After every material change: the mirrored images copy the finished materials.
         const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
         setData('sideImageMeshes', String(sideImages.meshes));
         setData('sideImageTriangles', String(sideImages.triangles));
         camera.layers.enable(SIDE_IMAGE_LAYER);
-        setData('foliageMaterials', String(stats.foliageMaterials));
-        setData('noiseColorMaterials', String(stats.noiseColorMaterials));
-        setData('imageRampMaterials', String(stats.imageRampMaterials));
-        setData('leafClusterMaterials', String(stats.leafClusterMaterials));
         scene.add(gltf.scene);
         scene.add(waterEffects.group);
         // Seen only in the water's mirror, like the source's glossy-only area lights.
@@ -270,6 +296,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
             mirrorState[0] = lighting.irradiance.suiIrradianceEvening.value;
             glossyLights.update(mirrorState[0]);
             mirrorState[1] = qualityIndex;
+            mirrorState[2] = gardenAdded;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
             // Counts of the last mirror pass; frames that keep its image add no draws.
             setData('mirrorCalls', String(reflected.calls));
@@ -302,6 +329,38 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
         setData('loadMs', String(Math.round(performance.now() - start)));
         recordRenderInfo(firstFrame);
         onReady();
+        // The woodland foliage (compress_web_glb.mjs GARDEN) is most of the download; it follows the
+        // ready scene so a slow connection gets the room within the time limit. Its failure keeps
+        // the scene. None of it reaches the water, so it adds no refraction or side images.
+        const setGarden = (state: 'loading' | 'ready' | 'failed') => {
+          setData('garden', state);
+          gardenLoadingRef.current?.(state === 'loading');
+        };
+        setGarden('loading');
+        void (async () => {
+          try {
+            const garden = await get('sauna-garden.glb').then((r) => r.arrayBuffer());
+            if (disposed || failed) return;
+            const model = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(garden, base);
+            if (disposed || failed) {
+              disposeTree(model.scene);
+              return;
+            }
+            gardenScenes.push(model.scene);
+            if (prepare(model.scene)) throw Error('Garden under water');
+            // Compile for the pass it is drawn in, off the render loop where the browser can.
+            await output.compile(model.scene, camera, scene);
+            if (disposed || failed) return;
+            scene.add(model.scene);
+            gardenAdded = 1;
+            lighting.refreshShadows();
+            resetMetrics();
+            setData('gardenMs', String(Math.round(performance.now() - start)));
+            setGarden('ready');
+          } catch {
+            if (!disposed && !failed) setGarden('failed');
+          }
+        })();
         renderer.setAnimationLoop((now) => {
           if (document.hidden) {
             previous = 0;
@@ -349,6 +408,7 @@ export default function SaunaScene({ quality, audio, stage, lightingMode, loylyE
       look.dispose();
       renderer.domElement.removeEventListener('webglcontextlost', lost);
       disposeTree(scene);
+      for (const garden of gardenScenes) if (!garden.parent) disposeTree(garden);
       releaseProbes();
       mirror?.dispose();
       output.dispose();

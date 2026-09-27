@@ -10,6 +10,8 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
   const scene = page.locator('.sauna-3d-canvas');
   const ready = async () => {
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
+    // The woodland foliage loads after the ready scene.
+    await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
     await expect(scene.locator('canvas')).toHaveCount(1);
   };
   const stages = [

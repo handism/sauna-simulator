@@ -44,6 +44,9 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
         renderer.render(scene, camera);
         return record();
       },
+      compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
+        return renderer.compileAsync(object, camera, scene);
+      },
       dispose() {},
     };
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
@@ -73,6 +76,14 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       renderer.setRenderTarget(null);
       renderer.render(quad, screen);
       return stats;
+    },
+    /** Compiles `object` as lit by `scene` for the HDR pass (the programs differ from the canvas's). */
+    compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
+      // The programs are created synchronously; only the wait for the driver is asynchronous.
+      renderer.setRenderTarget(target);
+      const compiled = renderer.compileAsync(object, camera, scene);
+      renderer.setRenderTarget(null);
+      return compiled;
     },
     dispose() {
       target.dispose();

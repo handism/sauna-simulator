@@ -194,6 +194,10 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
         light.shadow.needsUpdate = true;
       }
     },
+    // The static shadows are drawn once; objects added later need them drawn again.
+    refreshShadows() {
+      for (const light of shadowLights) light.shadow.needsUpdate = true;
+    },
     // Light count is part of every shader, so this recompiles; only the quality setting calls it.
     setDuskLights(enabled: boolean) {
       for (const light of dusk) light.visible = enabled;
