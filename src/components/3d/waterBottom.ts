@@ -11,6 +11,8 @@ import {
 } from './refraction';
 // Patches lights_pars_begin first (suiReflection, suiIrradianceEvening).
 import './reflection';
+// Patches the spot lights' loop first (DRY_ONLY).
+import { DIRECT_CALL, DIRECTIONAL_START, DRY_ONLY, SPOT_START } from './lighting';
 
 // The bottom of the source water. Its flat bottom face lies 1.3 cm above the tiles with air
 // between, so in Cycles the view that reaches the pool floor crosses one more water–air boundary
@@ -415,11 +417,144 @@ export function applyWaterBottom(root: THREE.Object3D) {
   return materials.size;
 }
 
-// three 0.186 is pinned; refraction.ts has added the view tint.
+// The highlights of V9 and the lounge dusk fill on the pool floor. No browser light reaches the
+// floor under the water (lighting.ts DRY_ONLY): their diffuse light comes refracted and is in the
+// water probes, whose reflection leaves both lights out (they draw their own highlights). The
+// floor lies in the air below the water's flat bottom, so with a flat surface the light reaches it
+// along its direction in the air and the view leaves the bottom along the camera ray (parallel
+// faces): the spot light's own specular, with the view refracted out of the bottom and the light
+// passing both faces ((1 − R)², the transmission color twice) and the water between.
+//
+// In Cycles these paths are clamped. The floor is the third bounce from the camera, Russian
+// roulette amplifies the few paths that survive the dim tile gloss, and nearly every sample that
+// reaches V9 exceeds the source's indirect clamp of 10 (RGB sum): the V9 highlight seen through
+// the water is 0.138 of the one on the dry floor at clamp 10, 0.40 at 30 and 1.09 at 100
+// (docs/3d-qa/water-floor-highlight). Samples are scaled down by 10 / (WET_SAMPLE_WEIGHT × RGB
+// sum of the light's radiance); for V9 that leaves 0.17, the dusk fill's samples stay below it.
+// The disk's size widens the highlight: GGX α'² = α² + DISK_WIDENING (r/d)² matches three's
+// BRDF integrated over the V9 disk within 5% (a point light peaks 14% too high).
+
+/** The source scenes' indirect sample clamp (Cycles, RGB sum). */
+const SOURCE_CLAMP = 10;
+/** Fitted: the RGB sum of a clamped floor sample per unit RGB sum of the light's radiance. */
+export const WET_SAMPLE_WEIGHT = 0.0967;
+/** Widening of the GGX α² by the light disk's angular radius r/d. */
+export const DISK_WIDENING = 0.25;
+const WET_GLOSS_LIGHTS = ['V9 lounge patch of sunlight', 'V10 lounge dusk fill'];
+
+/** The lights that highlight the pool floor: position, disk radius and the clamp's scale. */
+export const wetGlossLights = () =>
+  GLOSSY_SOURCES.filter(([name]) => WET_GLOSS_LIGHTS.includes(name)).map(
+    ([name, size, color, dayWatts, eveningWatts, position]) => {
+      const radiance = areaRadiance(Math.max(dayWatts, eveningWatts), color, sourceArea(size));
+      const sum = radiance[0] + radiance[1] + radiance[2];
+      return { name, position, radius: size[0] / 2, scale: Math.min(1, SOURCE_CLAMP / (WET_SAMPLE_WEIGHT * sum)) };
+    },
+  );
+
+/** The part of a light arriving from `toLight` (unit, rising) that crosses the water to the floor. */
+export function lightThroughWater(toLight: THREE.Vector3, level = WATER_VOLUME.max.y) {
+  const cos = Math.sqrt(1 - (1 - toLight.y ** 2) / WATER_IOR ** 2);
+  const pass = (1 - waterAirReflectance(cos)) ** 2;
+  return WATER_TINT.map(
+    (tint, i) => pass * tint * tint * Math.exp((-WATER_ABSORPTION[i] * (level - WATER_BOTTOM)) / cos),
+  );
+}
+
+/**
+ * GLSL (lights_physical_pars_fragment): suiWetLight tells which of wetGlossLights() a spot light
+ * at a view-space position is (−1 for none); suiWetSpecular adds light `index`'s highlight
+ * (its color and view-space direction from the spot lights' loop) to the floor below the water.
+ */
+export function wetSpecularGlsl() {
+  const lights = wetGlossLights();
+  const pick = (values: string[]) => values.reduceRight((rest, value, i) => `index == ${i} ? ${value} : ${rest}`);
+  const { min, max } = WATER_VOLUME;
+  const m = SIDE_WALL_LAYER;
+  return /* glsl */ `
+#if defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION )
+int suiWetLight( const in vec3 lightPosition ) {
+	vec3 source = ( ( vec4( lightPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
+${lights
+  .map(
+    ({ name, position }, i) => `	if ( distance( source, ${vec3(position)} ) < 0.05 ) return ${i}; // ${name}
+`,
+  )
+  .join('')}	return - 1;
+}
+void suiWetSpecular( const in int index, const in vec3 color, const in vec3 lightDirection, const in vec3 point, const in vec3 wetView, const in vec3 normal, const in PhysicalMaterial material, inout ReflectedLight reflectedLight ) {
+	if ( color == vec3( 0.0 ) || wetView.y >= 0.0 || point.y >= ${f(WATER_BOTTOM)} || any( lessThan( point.xz, vec2( ${f(min.x - m)}, ${f(min.z - m)} ) ) ) || any( greaterThan( point.xz, vec2( ${f(max.x + m)}, ${f(max.z + m)} ) ) ) ) return;
+	vec3 toLight = inverseTransformDirection( lightDirection, viewMatrix );
+	if ( toLight.y <= 0.0 ) return;
+	float cosine = sqrt( 1.0 - ( 1.0 - toLight.y * toLight.y ) / ${f(WATER_IOR ** 2)} );
+	float pass = 1.0 - suiWaterAirReflectance( cosine );
+	vec3 through = pass * pass * ${vec3(WATER_TINT.map((t) => t * t))} * exp( - ${vec3(WATER_ABSORPTION)} * ( float( SUI_REFRACTION ) - ${f(WATER_BOTTOM)} ) / cosine );
+	vec3 below = refract( normalize( wetView ), vec3( 0.0, 1.0, 0.0 ), ${f(WATER_IOR)} );
+	if ( dot( below, below ) == 0.0 ) return;
+	vec3 viewDir = normalize( ( viewMatrix * vec4( - below, 0.0 ) ).xyz );
+	vec3 source = ${pick(lights.map(({ position }) => vec3(position)))};
+	float spread = ( ${pick(lights.map(({ radius }) => f(radius)))} ) / distance( source, point );
+	float alpha = pow2( material.roughness );
+	PhysicalMaterial disk = material;
+	disk.roughness = sqrt( sqrt( alpha * alpha + ${f(DISK_WIDENING)} * spread * spread ) );
+	reflectedLight.directSpecular += saturate( dot( normal, lightDirection ) ) * color * through * ( ${pick(lights.map(({ scale }) => f(scale)))} ) *
+		BRDF_GGX( lightDirection, viewDir, normal, disk ) * material.multiScatteringCompensation;
+}
+#endif
+`;
+}
+
+// The spot lights' loop of lights_fragment_begin after lighting.ts: under the water it only keeps
+// the color and direction of the lights in wetGlossLights(), whose highlights on the floor are
+// added after the loop (one BRDF each, not one per unrolled spot light).
+const WET = 'defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION )';
+const SPOT_DRY = DRY_ONLY + DIRECT_CALL;
+const SPOT_WET = `${SPOT_DRY}
+		#if ${WET}
+		else {
+			int suiWet = suiWetLight( spotLight.position );
+			if ( suiWet == 0 ) { suiWetColor0 = directLight.color; suiWetDirection0 = directLight.direction; }
+			else if ( suiWet == 1 ) { suiWetColor1 = directLight.color; suiWetDirection1 = directLight.direction; }
+		}
+		#endif`;
+const WET_BEFORE = `#if ${WET}
+vec3 suiWetColor0 = vec3( 0.0 ), suiWetDirection0 = vec3( 0.0 ), suiWetColor1 = vec3( 0.0 ), suiWetDirection1 = vec3( 0.0 );
+#endif
+`;
+const WET_AFTER = `#if ${WET} && ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )
+if ( suiUnderwater ) {
+	suiWetSpecular( 0, suiWetColor0, suiWetDirection0, suiWorldPosition, suiWetView, geometryNormal, material, reflectedLight );
+	suiWetSpecular( 1, suiWetColor1, suiWetDirection1, suiWorldPosition, suiWetView, geometryNormal, material, reflectedLight );
+}
+#endif
+`;
+
+// three 0.186 is pinned; refraction.ts has added the view tint and lighting.ts DRY_ONLY.
 if (!THREE.ShaderChunk.lights_pars_begin.includes('suiBottomReflection')) {
   const opaque = THREE.ShaderChunk.opaque_fragment;
   const at = opaque.indexOf(VIEW_TINT);
-  if (at < 0) throw new Error('three shader chunks changed; update waterBottom.ts');
+  const begin = THREE.ShaderChunk.lights_fragment_begin;
+  const start = begin.indexOf(SPOT_START);
+  const spot = begin.indexOf(SPOT_DRY, start);
+  const after = begin.indexOf(DIRECTIONAL_START);
+  if (
+    at < 0 ||
+    start < 0 ||
+    spot < 0 ||
+    after < spot ||
+    !begin.includes('suiWorldPosition') ||
+    wetGlossLights().length !== 2
+  )
+    throw new Error('three shader chunks changed; update waterBottom.ts');
   THREE.ShaderChunk.lights_pars_begin += bottomGlsl();
+  THREE.ShaderChunk.lights_physical_pars_fragment += wetSpecularGlsl();
+  THREE.ShaderChunk.lights_fragment_begin =
+    begin.slice(0, start) +
+    WET_BEFORE +
+    begin.slice(start, spot) +
+    SPOT_WET +
+    begin.slice(spot + SPOT_DRY.length, after) +
+    WET_AFTER +
+    begin.slice(after);
   THREE.ShaderChunk.opaque_fragment = opaque.slice(0, at) + BLEND + opaque.slice(at);
 }

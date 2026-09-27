@@ -9,14 +9,18 @@ import {
   bottomLights,
   bottomReflectance,
   clearsRim,
+  DISK_WIDENING,
   lightCoverage,
+  lightThroughWater,
   PROBE_POINT,
   RIM_HEIGHT,
   shBasis,
   sourceSH,
   upwardExit,
   WATER_BOTTOM,
+  wetGlossLights,
 } from './waterBottom';
+import { WATER_ABSORPTION, WATER_TINT } from './refraction';
 
 const LEVEL = WATER_VOLUME.max.y;
 const source = (name: string) => GLOSSY_SOURCES.find(([n]) => n === name)!;
@@ -162,5 +166,93 @@ describe('water bottom reflection', () => {
     expect(opaque.indexOf('suiBottomReflection(')).toBeLessThan(opaque.indexOf(VIEW_TINT));
     expect(THREE.ShaderChunk.lights_pars_begin).toContain('vec4 suiBottomReflection(');
     expect(THREE.ShaderChunk.lights_pars_begin.split('vec4 suiBottomReflection(')).toHaveLength(2);
+  });
+});
+
+/** three's BRDF_GGX (F0 0.04, f90 1) with UE4 alpha. */
+function ggx(l: THREE.Vector3, v: THREE.Vector3, n: THREE.Vector3, alpha: number) {
+  const h = l.clone().add(v).normalize();
+  const nl = Math.max(0, n.dot(l)),
+    nv = Math.max(1e-4, n.dot(v)),
+    nh = Math.max(0, n.dot(h));
+  const f = 0.04 + 0.96 * (1 - Math.max(0, v.dot(h))) ** 5;
+  const a2 = alpha * alpha;
+  const vis = 0.5 / (nl * Math.sqrt(a2 + (1 - a2) * nv * nv) + nv * Math.sqrt(a2 + (1 - a2) * nl * nl));
+  return (f * vis * a2) / (Math.PI * (nh * nh * (a2 - 1) + 1) ** 2);
+}
+
+describe('light highlights on the floor below the water', () => {
+  it('keeps V9 and the dusk fill, scaling V9 down as the source clamp does', () => {
+    const lights = wetGlossLights();
+    expect(lights.map(({ name }) => name)).toEqual(['V9 lounge patch of sunlight', 'V10 lounge dusk fill']);
+    expect(lights[0].radius).toBeCloseTo(0.625, 6);
+    expect(lights[0].scale).toBeCloseTo(0.17, 2);
+    expect(lights[1].scale).toBe(1);
+  });
+
+  it('passes both faces of the water, the tint twice and the absorption along the refracted path', () => {
+    const up = lightThroughWater(new THREE.Vector3(0, 1, 0));
+    const r = waterAirReflectance(1);
+    up.forEach((value, i) =>
+      expect(value).toBeCloseTo(
+        (1 - r) ** 2 * WATER_TINT[i] ** 2 * Math.exp(-WATER_ABSORPTION[i] * (LEVEL - WATER_BOTTOM)),
+        6,
+      ),
+    );
+    const low = lightThroughWater(new THREE.Vector3(1, 0.05, 0).normalize());
+    low.forEach((value, i) => expect(value).toBeLessThan(up[i]));
+  });
+
+  it('widens the highlight of a point at the V9 disk to its integral over the disk', () => {
+    const [v9] = wetGlossLights();
+    const [, , , , , , axis, facing] = source('V9 lounge patch of sunlight');
+    const n = new THREE.Vector3(0, 1, 0);
+    const center = new THREE.Vector3().fromArray(v9.position);
+    const back = new THREE.Vector3().fromArray(facing).normalize();
+    const x = new THREE.Vector3().fromArray(axis).normalize();
+    const y = new THREE.Vector3().crossVectors(back, x);
+    for (const [px, pz, tilt] of [
+      [0.2, -1.2, 0],
+      [1.2, -2.5, 0.1],
+      [2.3, -3.8, -0.1],
+    ]) {
+      const p = new THREE.Vector3(px, 0.202, pz);
+      const toCenter = center.clone().sub(p);
+      const d = toCenter.length();
+      toCenter.normalize();
+      // The view that sees the highlight's peak, tilted towards its tail.
+      const v = new THREE.Vector3(-toCenter.x + tilt, toCenter.y, -toCenter.z).normalize();
+      let exact = 0;
+      const steps = 60,
+        cell = (2 * v9.radius) / steps;
+      for (let i = 0; i < steps; i++)
+        for (let j = 0; j < steps; j++) {
+          const u = (i + 0.5) * cell - v9.radius,
+            w = (j + 0.5) * cell - v9.radius;
+          if (u * u + w * w > v9.radius ** 2) continue;
+          const l = center.clone().addScaledVector(x, u).addScaledVector(y, w).sub(p);
+          const r2 = l.lengthSq();
+          l.normalize();
+          exact += (ggx(l, v, n, 0.09) * Math.max(0, n.dot(l)) * Math.max(0, -l.dot(back)) * cell * cell) / r2;
+        }
+      const alpha = Math.sqrt(0.09 ** 2 + DISK_WIDENING * (v9.radius / d) ** 2);
+      const point =
+        (ggx(toCenter, v, n, alpha) * n.dot(toCenter) * Math.PI * v9.radius ** 2 * -toCenter.dot(back)) / d ** 2;
+      expect(point / exact).toBeGreaterThan(0.9);
+      expect(point / exact).toBeLessThan(1.1);
+    }
+  });
+
+  it('gives the floor under the water only the highlight of the spot lights', () => {
+    const begin = THREE.ShaderChunk.lights_fragment_begin;
+    const call = begin.indexOf('suiWetSpecular(');
+    expect(begin.split('suiWetSpecular(')).toHaveLength(3);
+    expect(call).toBeGreaterThan(begin.indexOf('spotLight = spotLights[ i ];'));
+    expect(call).toBeLessThan(begin.indexOf('#if ( NUM_DIR_LIGHTS > 0 ) && defined( RE_Direct )'));
+    expect(THREE.ShaderChunk.lights_physical_pars_fragment.split('void suiWetSpecular(')).toHaveLength(2);
+    // One highlight per light after the loop, not one per unrolled spot light.
+    expect(begin.indexOf('suiWetLight(')).toBeLessThan(
+      begin.indexOf('#pragma unroll_loop_end', begin.indexOf('spotLight = spotLights[ i ];')),
+    );
   });
 });
