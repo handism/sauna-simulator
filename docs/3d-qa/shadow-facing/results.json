@@ -1,0 +1,667 @@
+{
+ "date": "2026-09-28",
+ "conditions": "macOS, headless Chrome, 1280x800, DPR1, high quality, reduced motion, garden ready, default view per stage, 4 s GPU timer median (e2e/gpu-timer.ts)",
+ "singleRunAblations": [
+  {
+   "test": "shadow skip 0 original",
+   "status": "passed",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 42.996,
+    "sauna-evening": 74.915,
+    "water-day": 35.658,
+    "water-evening": 66.076,
+    "totonou-day": 22.012,
+    "totonou-evening": 43.487
+   },
+   "frames": {
+    "sauna-day": 83,
+    "sauna-evening": 51,
+    "water-day": 101,
+    "water-evening": 58,
+    "totonou-day": 148,
+    "totonou-evening": 87
+   }
+  },
+  {
+   "test": "shadow skip 1 facing",
+   "status": "passed",
+   "variant": "facing",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 37.947,
+    "sauna-evening": 60.865,
+    "water-day": 31.84,
+    "water-evening": 50.68,
+    "totonou-day": 18.97,
+    "totonou-evening": 35.817
+   },
+   "frames": {
+    "sauna-day": 91,
+    "sauna-evening": 59,
+    "water-day": 104,
+    "water-evening": 75,
+    "totonou-day": 169,
+    "totonou-evening": 96
+   }
+  },
+  {
+   "test": "shadow skip 2 no-sun",
+   "status": "passed",
+   "variant": "no-sun",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 28.677,
+    "sauna-evening": 54.659,
+    "water-day": 24.685,
+    "water-evening": 52.764,
+    "totonou-day": 13.633,
+    "totonou-evening": 33.097
+   },
+   "frames": {
+    "sauna-day": 120,
+    "sauna-evening": 65,
+    "water-day": 129,
+    "water-evening": 72,
+    "totonou-day": 221,
+    "totonou-evening": 114
+   }
+  },
+  {
+   "test": "shadow skip 3 no-spot0",
+   "status": "passed",
+   "variant": "no-spot0",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 30.508,
+    "sauna-evening": 67.494,
+    "water-day": 28.712,
+    "water-evening": 61.541,
+    "totonou-day": 16.802,
+    "totonou-evening": 42.681
+   },
+   "frames": {
+    "sauna-day": 113,
+    "sauna-evening": 53,
+    "water-day": 115,
+    "water-evening": 61,
+    "totonou-day": 188,
+    "totonou-evening": 90
+   }
+  },
+  {
+   "test": "shadow skip 4 no-spot1",
+   "status": "passed",
+   "variant": "no-spot1",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 41.081,
+    "sauna-evening": 60.669,
+    "water-day": 34.993,
+    "water-evening": 58.401,
+    "totonou-day": 21.957,
+    "totonou-evening": 42.422
+   },
+   "frames": {
+    "sauna-day": 92,
+    "sauna-evening": 59,
+    "water-day": 104,
+    "water-evening": 65,
+    "totonou-day": 149,
+    "totonou-evening": 81
+   }
+  },
+  {
+   "test": "shadow skip 5 no-spot2",
+   "status": "passed",
+   "variant": "no-spot2",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 40.998,
+    "sauna-evening": 60.083,
+    "water-day": 35.363,
+    "water-evening": 54.594,
+    "totonou-day": 22.004,
+    "totonou-evening": 36.931
+   },
+   "frames": {
+    "sauna-day": 87,
+    "sauna-evening": 64,
+    "water-day": 96,
+    "water-evening": 70,
+    "totonou-day": 148,
+    "totonou-evening": 97
+   }
+  },
+  {
+   "test": "shadow skip 6 no-spot3",
+   "status": "passed",
+   "variant": "no-spot3",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 42.205,
+    "sauna-evening": 60.704,
+    "water-day": 35.057,
+    "water-evening": 54.453,
+    "totonou-day": 22.032,
+    "totonou-evening": 36.227
+   },
+   "frames": {
+    "sauna-day": 88,
+    "sauna-evening": 60,
+    "water-day": 96,
+    "water-evening": 70,
+    "totonou-day": 158,
+    "totonou-evening": 105
+   }
+  },
+  {
+   "test": "shadow skip 7 no-spot4",
+   "status": "passed",
+   "variant": "no-spot4",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 41.507,
+    "sauna-evening": 60.225,
+    "water-day": 35.215,
+    "water-evening": 53.923,
+    "totonou-day": 21.915,
+    "totonou-evening": 36.234
+   },
+   "frames": {
+    "sauna-day": 92,
+    "sauna-evening": 65,
+    "water-day": 97,
+    "water-evening": 71,
+    "totonou-day": 149,
+    "totonou-evening": 99
+   }
+  },
+  {
+   "test": "shadow skip 8 no-spot5",
+   "status": "passed",
+   "variant": "no-spot5",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 41.442,
+    "sauna-evening": 62.541,
+    "water-day": 35.094,
+    "water-evening": 58.075,
+    "totonou-day": 21.984,
+    "totonou-evening": 37.352
+   },
+   "frames": {
+    "sauna-day": 92,
+    "sauna-evening": 62,
+    "water-day": 97,
+    "water-evening": 65,
+    "totonou-day": 149,
+    "totonou-evening": 101
+   }
+  },
+  {
+   "test": "shadow skip 9 facing",
+   "status": "passed",
+   "variant": "facing",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 37.744,
+    "sauna-evening": 60.337,
+    "water-day": 31.097,
+    "water-evening": 50.376,
+    "totonou-day": 18.932,
+    "totonou-evening": 36.069
+   },
+   "frames": {
+    "sauna-day": 93,
+    "sauna-evening": 61,
+    "water-day": 114,
+    "water-evening": 76,
+    "totonou-day": 168,
+    "totonou-evening": 95
+   }
+  },
+  {
+   "test": "shadow skip 10 original",
+   "status": "passed",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 42.24,
+    "sauna-evening": 69.108,
+    "water-day": 35.758,
+    "water-evening": 65.991,
+    "totonou-day": 22.32,
+    "totonou-evening": 43.691
+   },
+   "frames": {
+    "sauna-day": 83,
+    "sauna-evening": 51,
+    "water-day": 94,
+    "water-evening": 59,
+    "totonou-day": 147,
+    "totonou-evening": 87
+   }
+  },
+  {
+   "test": "shadow skip 11 original",
+   "status": "passed",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 42.026,
+    "sauna-evening": 69.833,
+    "water-day": 35.594,
+    "water-evening": 63.715,
+    "totonou-day": 22.282,
+    "totonou-evening": 43.884
+   },
+   "frames": {
+    "sauna-day": 89,
+    "sauna-evening": 55,
+    "water-day": 94,
+    "water-evening": 57,
+    "totonou-day": 152,
+    "totonou-evening": 83
+   }
+  },
+  {
+   "test": "shadow skip 12 facing",
+   "status": "passed",
+   "variant": "facing",
+   "browser": "154.0.8037.57",
+   "medianGpuMs": {
+    "sauna-day": 37.691,
+    "sauna-evening": 59.556,
+    "water-day": 31.089,
+    "water-evening": 49.717,
+    "totonou-day": 18.846,
+    "totonou-evening": 33.765
+   },
+   "frames": {
+    "sauna-day": 91,
+    "sauna-evening": 63,
+    "water-day": 108,
+    "water-evening": 78,
+    "totonou-day": 169,
+    "totonou-evening": 111
+   }
+  }
+ ],
+ "alternatingHeadVsChange": [
+  {
+   "pair": 1,
+   "build": "HEAD 2bf0583",
+   "medianGpuMs": {
+    "sauna-day": 41.417,
+    "sauna-evening": 68.978,
+    "water-day": 35.384,
+    "water-evening": 67.02,
+    "totonou-day": 21.752,
+    "totonou-evening": 41.382
+   },
+   "frames": {
+    "sauna-day": 90,
+    "sauna-evening": 54,
+    "water-day": 98,
+    "water-evening": 54,
+    "totonou-day": 155,
+    "totonou-evening": 90
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 1,
+   "build": "HEAD 2bf0583",
+   "medianGpuMs": {
+    "sauna-day": 41.281,
+    "sauna-evening": 66.62,
+    "water-day": 34.957,
+    "water-evening": 61.091,
+    "totonou-day": 21.502,
+    "totonou-evening": 41.739
+   },
+   "frames": {
+    "sauna-day": 86,
+    "sauna-evening": 56,
+    "water-day": 96,
+    "water-evening": 62,
+    "totonou-day": 150,
+    "totonou-evening": 85
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 1,
+   "build": "this change",
+   "medianGpuMs": {
+    "sauna-day": 38.398,
+    "sauna-evening": 59.737,
+    "water-day": 31.647,
+    "water-evening": 49.282,
+    "totonou-day": 19.541,
+    "totonou-evening": 34.674
+   },
+   "frames": {
+    "sauna-day": 101,
+    "sauna-evening": 67,
+    "water-day": 109,
+    "water-evening": 77,
+    "totonou-day": 164,
+    "totonou-evening": 108
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 1,
+   "build": "this change",
+   "medianGpuMs": {
+    "sauna-day": 38.611,
+    "sauna-evening": 60.558,
+    "water-day": 31.873,
+    "water-evening": 47.77,
+    "totonou-day": 19.523,
+    "totonou-evening": 34.446
+   },
+   "frames": {
+    "sauna-day": 93,
+    "sauna-evening": 67,
+    "water-day": 103,
+    "water-evening": 77,
+    "totonou-day": 164,
+    "totonou-evening": 107
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 2,
+   "build": "this change",
+   "medianGpuMs": {
+    "sauna-day": 38.647,
+    "sauna-evening": 59.525,
+    "water-day": 31.814,
+    "water-evening": 50.553,
+    "totonou-day": 19.34,
+    "totonou-evening": 34.285
+   },
+   "frames": {
+    "sauna-day": 91,
+    "sauna-evening": 63,
+    "water-day": 104,
+    "water-evening": 74,
+    "totonou-day": 167,
+    "totonou-evening": 109
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 2,
+   "build": "this change",
+   "medianGpuMs": {
+    "sauna-day": 38.876,
+    "sauna-evening": 60.368,
+    "water-day": 32.219,
+    "water-evening": 48.849,
+    "totonou-day": 19.47,
+    "totonou-evening": 34.588
+   },
+   "frames": {
+    "sauna-day": 90,
+    "sauna-evening": 61,
+    "water-day": 102,
+    "water-evening": 76,
+    "totonou-day": 167,
+    "totonou-evening": 109
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 2,
+   "build": "HEAD 2bf0583",
+   "medianGpuMs": {
+    "sauna-day": 40.893,
+    "sauna-evening": 66.336,
+    "water-day": 34.865,
+    "water-evening": 61.511,
+    "totonou-day": 21.6,
+    "totonou-evening": 41.727
+   },
+   "frames": {
+    "sauna-day": 87,
+    "sauna-evening": 56,
+    "water-day": 95,
+    "water-evening": 62,
+    "totonou-day": 151,
+    "totonou-evening": 90
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 2,
+   "build": "HEAD 2bf0583",
+   "medianGpuMs": {
+    "sauna-day": 41.063,
+    "sauna-evening": 66.786,
+    "water-day": 35.003,
+    "water-evening": 62.986,
+    "totonou-day": 21.504,
+    "totonou-evening": 41.959
+   },
+   "frames": {
+    "sauna-day": 88,
+    "sauna-evening": 56,
+    "water-day": 95,
+    "water-evening": 61,
+    "totonou-day": 151,
+    "totonou-evening": 88
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 3,
+   "build": "HEAD 2bf0583",
+   "medianGpuMs": {
+    "sauna-day": 40.801,
+    "sauna-evening": 67.473,
+    "water-day": 34.845,
+    "water-evening": 60.951,
+    "totonou-day": 21.444,
+    "totonou-evening": 41.336
+   },
+   "frames": {
+    "sauna-day": 86,
+    "sauna-evening": 55,
+    "water-day": 95,
+    "water-evening": 62,
+    "totonou-day": 151,
+    "totonou-evening": 91
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 3,
+   "build": "HEAD 2bf0583",
+   "medianGpuMs": {
+    "sauna-day": 40.853,
+    "sauna-evening": 67.238,
+    "water-day": 34.595,
+    "water-evening": 63.673,
+    "totonou-day": 21.462,
+    "totonou-evening": 41.261
+   },
+   "frames": {
+    "sauna-day": 86,
+    "sauna-evening": 60,
+    "water-day": 96,
+    "water-evening": 60,
+    "totonou-day": 149,
+    "totonou-evening": 89
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 3,
+   "build": "this change",
+   "medianGpuMs": {
+    "sauna-day": 38.284,
+    "sauna-evening": 59.49,
+    "water-day": 31.754,
+    "water-evening": 51.093,
+    "totonou-day": 19.451,
+    "totonou-evening": 34.38
+   },
+   "frames": {
+    "sauna-day": 92,
+    "sauna-evening": 61,
+    "water-day": 104,
+    "water-evening": 74,
+    "totonou-day": 166,
+    "totonou-evening": 109
+   },
+   "browser": "154.0.8037.57"
+  },
+  {
+   "pair": 3,
+   "build": "this change",
+   "medianGpuMs": {
+    "sauna-day": 38.478,
+    "sauna-evening": 59.085,
+    "water-day": 31.509,
+    "water-evening": 47.726,
+    "totonou-day": 19.342,
+    "totonou-evening": 34.324
+   },
+   "frames": {
+    "sauna-day": 91,
+    "sauna-evening": 65,
+    "water-day": 115,
+    "water-evening": 77,
+    "totonou-day": 169,
+    "totonou-evening": 109
+   },
+   "browser": "154.0.8037.57"
+  }
+ ],
+ "imageDiff": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "skipDisabledSameBuild": {
+    "changedPercent": 0.0,
+    "over2Percent": 0.0,
+    "maxDiff": 0
+   },
+   "head": {
+    "changedPercent": 0.001,
+    "over2Percent": 0.0,
+    "maxDiff": 2
+   },
+   "headSkipInsideBranch": {
+    "changedPercent": 1.0597,
+    "over2Percent": 0.1487,
+    "maxDiff": 35
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "skipDisabledSameBuild": {
+    "changedPercent": 0.0,
+    "over2Percent": 0.0,
+    "maxDiff": 0
+   },
+   "head": {
+    "changedPercent": 0.0059,
+    "over2Percent": 0.0,
+    "maxDiff": 2
+   },
+   "headSkipInsideBranch": {
+    "changedPercent": 0.4145,
+    "over2Percent": 0.0294,
+    "maxDiff": 58
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "skipDisabledSameBuild": {
+    "changedPercent": 0.0,
+    "over2Percent": 0.0,
+    "maxDiff": 0
+   },
+   "head": {
+    "changedPercent": 0.0018,
+    "over2Percent": 0.0002,
+    "maxDiff": 11
+   },
+   "headSkipInsideBranch": {
+    "changedPercent": 0.8198,
+    "over2Percent": 0.1835,
+    "maxDiff": 40
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "skipDisabledSameBuild": {
+    "changedPercent": 0.0,
+    "over2Percent": 0.0,
+    "maxDiff": 0
+   },
+   "head": {
+    "changedPercent": 0.0248,
+    "over2Percent": 0.0,
+    "maxDiff": 2
+   },
+   "headSkipInsideBranch": {
+    "changedPercent": 0.5293,
+    "over2Percent": 0.0643,
+    "maxDiff": 22
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "skipDisabledSameBuild": {
+    "changedPercent": 0.0,
+    "over2Percent": 0.0,
+    "maxDiff": 0
+   },
+   "head": {
+    "changedPercent": 0.0029,
+    "over2Percent": 0.0006,
+    "maxDiff": 17
+   },
+   "headSkipInsideBranch": {
+    "changedPercent": 1.0607,
+    "over2Percent": 0.2646,
+    "maxDiff": 62
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "skipDisabledSameBuild": {
+    "changedPercent": 0.0,
+    "over2Percent": 0.0,
+    "maxDiff": 0
+   },
+   "head": {
+    "changedPercent": 0.0141,
+    "over2Percent": 0.0005,
+    "maxDiff": 16
+   },
+   "headSkipInsideBranch": {
+    "changedPercent": 0.4713,
+    "over2Percent": 0.0615,
+    "maxDiff": 35
+   }
+  }
+ ],
+ "inputs": {
+  "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+  "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+  "src/components/3d/softShadows.ts": "2eb285ee7836124f6eb7b93fe1c7a72a5b2bf711c928fb08e051a04a6ef3b5a2"
+ }
+}
