@@ -13,10 +13,11 @@ import { agxInverse } from './agx';
 // Cycles, shadow rays stop at the refractive surface; the sun is invisible to transmission rays,
 // and V9 and the blue-hour accents reach the tiles only along refracted paths, which the water
 // probes already hold (their panoramas look through the surface, where transmission visibility
-// applies). The sauna-room lights are evaluated inside the room only.
-const DIRECTIONAL_START = '#if ( NUM_DIR_LIGHTS > 0 ) && defined( RE_Direct )';
-const SPOT_START = '#if ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )';
-const DIRECT_CALL =
+// applies). On the pool floor waterBottom.ts adds back the highlights of V9 and the dusk fill
+// (their probes leave them out). The sauna-room lights are evaluated inside the room only.
+export const DIRECTIONAL_START = '#if ( NUM_DIR_LIGHTS > 0 ) && defined( RE_Direct )';
+export const SPOT_START = '#if ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )';
+export const DIRECT_CALL =
   'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );';
 export const SUN_DIFFUSE_ONLY = 'reflectedLight.directSpecular = suiSpecularBeforeSun;';
 export const DRY_ONLY = 'if ( ! suiUnderwater ) ';

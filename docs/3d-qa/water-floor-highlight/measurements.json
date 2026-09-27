@@ -1,0 +1,522 @@
+{
+ "note": "Cycles 4.5.11, source blend f1ee4ddd..., METAL, 512 spp, BOX, no denoise. highlight = light-group Combined luminance with the pool tile Specular IOR Level 0.5 minus 0 (tile base black), summed over the tub pixels; through water the light is hidden from glossy rays (the floor path leaves the water as a transmission ray). Ratios are over the dry floor (water hidden, direct light). Browser GPU medians in ms per frame (headless Chrome 154, 1200x800, standard quality), before = HEAD 625a9ea worktree.",
+ "v9_day": {
+  "light": "V9 lounge patch of sunlight",
+  "scene": "SUI \u2022 Daylight",
+  "view": [
+   -0.321467787027359,
+   0.4907905161380768,
+   0.809804379940033
+  ],
+  "samples": 512,
+  "source_clamp_indirect": 10.0,
+  "sums": {
+   "through water": {
+    "highlight": 1125.669318436832,
+    "emission": 115.52254488725924,
+    "pixels": 16690
+   },
+   "clamp 30": {
+    "highlight": 3160.133057434251,
+    "emission": 115.51945233259235,
+    "pixels": 16690
+   },
+   "clamp 100": {
+    "highlight": 8548.00842327677,
+    "emission": 115.51860591138694,
+    "pixels": 16690
+   },
+   "no clamp": {
+    "highlight": 8749.909365823138,
+    "emission": 115.53488631653755,
+    "pixels": 16690
+   },
+   "no Russian roulette": {
+    "highlight": 8634.147010612134,
+    "emission": 115.52868052129305,
+    "pixels": 16690
+   },
+   "dry": {
+    "highlight": 7975.03309172282,
+    "emission": 127.04083190972482,
+    "pixels": 16159
+   }
+  },
+  "highlight_over_dry": {
+   "through water": 0.141149172108784,
+   "clamp 30": 0.39625328460569154,
+   "clamp 100": 1.0718461384377995,
+   "no clamp": 1.0971627659958616,
+   "no Russian roulette": 1.0826471704015121
+  },
+  "view_transmittance_emission": 0.9093339767276519
+ },
+ "dusk_fill_evening": {
+  "light": "V10 lounge dusk fill / dusk",
+  "scene": "SUI \u2022 Blue hour",
+  "view": [
+   -0.46253523230552673,
+   0.38217952847480774,
+   0.800000011920929
+  ],
+  "samples": 512,
+  "source_clamp_indirect": 10.0,
+  "sums": {
+   "through water": {
+    "highlight": 0.4043889717075727,
+    "emission": 91.49332215925955,
+    "pixels": 13571
+   },
+   "clamp 30": {
+    "highlight": 0.39772079410371874,
+    "emission": 91.49770286437284,
+    "pixels": 13571
+   },
+   "clamp 100": {
+    "highlight": 0.47553661830105887,
+    "emission": 91.51638172340193,
+    "pixels": 13571
+   },
+   "no clamp": {
+    "highlight": 0.43638603927585917,
+    "emission": 91.50913700930629,
+    "pixels": 13571
+   },
+   "no Russian roulette": {
+    "highlight": 0.4218906798046473,
+    "emission": 91.51065211902657,
+    "pixels": 13571
+   },
+   "dry": {
+    "highlight": 0.1692217819688076,
+    "emission": 104.45048834804824,
+    "pixels": 12907
+   }
+  },
+  "highlight_over_dry": {
+   "through water": 2.389698105070854,
+   "clamp 30": 2.3502931447503017,
+   "clamp 100": 2.8101383448893937,
+   "no clamp": 2.578781727734657,
+   "no Russian roulette": 2.493122781808395
+  },
+  "view_transmittance_emission": 0.8759492043195334
+ },
+ "cycles_diffcol_layering": {
+  "note": "Plane with the pool tile Principled (base 0.12/0.32/0.28, roughness 0.3) under a white world, ortho camera; DiffCol/base.",
+  "view_0deg": 0.96,
+  "view_40deg": 0.953,
+  "view_60deg": 0.913,
+  "specular_ior_level_0": 1.0
+ },
+ "disk_widening": {
+  "note": "three's BRDF_GGX over the V9 disk (quadrature) vs a point at its centre with alpha'^2 = alpha^2 + c (r/d)^2, 400 floor points and views around the mirror direction, r/d 0.066-0.088",
+  "c_0": {
+   "sum": 1.064,
+   "top_quartile": 1.142,
+   "max_error_of_peak": 0.215
+  },
+  "c_0.25": {
+   "sum": 0.975,
+   "top_quartile": 0.993,
+   "max_error_of_peak": 0.047
+  },
+  "c_0.5": {
+   "sum": 0.901,
+   "top_quartile": 0.878,
+   "max_error_of_peak": 0.154
+  }
+ },
+ "wet_sample_weight_fit": {
+  "through_water_over_dry": 0.138,
+  "view_transmittance": 0.909,
+  "light_transmittance_approx": 0.89,
+  "v9_scale": 0.17,
+  "WET_SAMPLE_WEIGHT": 0.0967
+ },
+ "gpu_first_version_in_loop": {
+  "stage sauna day": {
+   "base": [
+    65.67,
+    65.09,
+    67.9,
+    88.34,
+    67.58,
+    66.08,
+    69.99
+   ],
+   "after": [
+    66.3,
+    69.75,
+    73.05,
+    72.17,
+    72.08,
+    67.8,
+    69.05
+   ],
+   "pair_change_percent": [
+    1.0,
+    7.2,
+    7.6,
+    -18.3,
+    6.7,
+    2.6,
+    -1.3
+   ]
+  },
+  "stage sauna evening": {
+   "base": [
+    105.85,
+    109.58,
+    109.25,
+    163.04,
+    112.02,
+    108.8,
+    115.36
+   ],
+   "after": [
+    114.88,
+    116.26,
+    170.89,
+    126.04,
+    123.7,
+    110.59,
+    122.6
+   ],
+   "pair_change_percent": [
+    8.5,
+    6.1,
+    56.4,
+    -22.7,
+    10.4,
+    1.6,
+    6.3
+   ]
+  },
+  "stage water day": {
+   "base": [
+    63.32,
+    60.1,
+    59.81,
+    78.78,
+    58.96,
+    60.56,
+    60.26
+   ],
+   "after": [
+    68.46,
+    64.68,
+    83.08,
+    65.05,
+    62.42,
+    62.6,
+    63.67
+   ],
+   "pair_change_percent": [
+    8.1,
+    7.6,
+    38.9,
+    -17.4,
+    5.9,
+    3.4,
+    5.7
+   ]
+  },
+  "stage water evening": {
+   "base": [
+    125.27,
+    131.5,
+    125.59,
+    156.1,
+    125.79,
+    124.12,
+    126.47
+   ],
+   "after": [
+    131.63,
+    130.54,
+    166.12,
+    132.88,
+    131.1,
+    128.17,
+    132.8
+   ],
+   "pair_change_percent": [
+    5.1,
+    -0.7,
+    32.3,
+    -14.9,
+    4.2,
+    3.3,
+    5.0
+   ]
+  },
+  "camera-03 water day": {
+   "base": [
+    74.72,
+    76.6,
+    75.64,
+    77.68,
+    74.58,
+    74.14,
+    75.11
+   ],
+   "after": [
+    78.4,
+    79.99,
+    92.04,
+    80.79,
+    78.35,
+    77.5,
+    80.01
+   ],
+   "pair_change_percent": [
+    4.9,
+    4.4,
+    21.7,
+    4.0,
+    5.1,
+    4.5,
+    6.5
+   ]
+  },
+  "camera-03 water evening": {
+   "base": [
+    109.84,
+    112.38,
+    111.55,
+    114.92,
+    110.44,
+    107.71,
+    110.41
+   ],
+   "after": [
+    116.13,
+    113.86,
+    140.29,
+    118.82,
+    114.83,
+    114.11,
+    118.7
+   ],
+   "pair_change_percent": [
+    5.7,
+    1.3,
+    25.8,
+    3.4,
+    4.0,
+    5.9,
+    7.5
+   ]
+  }
+ },
+ "gpu_shipped": {
+  "stage sauna day": {
+   "base": [
+    72.92,
+    72.51,
+    72.65,
+    70.93,
+    73.21,
+    72.22
+   ],
+   "after": [
+    73.49,
+    73.94,
+    74.03,
+    73.54,
+    72.77,
+    74.64
+   ],
+   "pair_change_percent": [
+    0.8,
+    2.0,
+    1.9,
+    3.7,
+    -0.6,
+    3.4
+   ]
+  },
+  "stage sauna evening": {
+   "base": [
+    124.98,
+    126.67,
+    124.49,
+    124.65,
+    124.46,
+    126.03
+   ],
+   "after": [
+    125.1,
+    126.06,
+    126.47,
+    125.4,
+    124.29,
+    126.91
+   ],
+   "pair_change_percent": [
+    0.1,
+    -0.5,
+    1.6,
+    0.6,
+    -0.1,
+    0.7
+   ]
+  },
+  "stage water day": {
+   "base": [
+    57.76,
+    62.09,
+    59.77,
+    61.77,
+    61.22,
+    59.31
+   ],
+   "after": [
+    61.89,
+    62.62,
+    61.82,
+    63.68,
+    67.37,
+    64.35
+   ],
+   "pair_change_percent": [
+    7.2,
+    0.9,
+    3.4,
+    3.1,
+    10.0,
+    8.5
+   ]
+  },
+  "stage water evening": {
+   "base": [
+    124.2,
+    132.28,
+    127.96,
+    132.17,
+    127.19,
+    125.4
+   ],
+   "after": [
+    126.69,
+    128.86,
+    130.04,
+    124.53,
+    133.29,
+    128.15
+   ],
+   "pair_change_percent": [
+    2.0,
+    -2.6,
+    1.6,
+    -5.8,
+    4.8,
+    2.2
+   ]
+  },
+  "camera-03 water day": {
+   "base": [
+    75.67,
+    78.06,
+    77.83,
+    76.3,
+    78.2,
+    78.48
+   ],
+   "after": [
+    77.14,
+    78.32,
+    77.9,
+    77.32,
+    79.58,
+    79.16
+   ],
+   "pair_change_percent": [
+    1.9,
+    0.3,
+    0.1,
+    1.3,
+    1.8,
+    0.9
+   ]
+  },
+  "camera-03 water evening": {
+   "base": [
+    111.77,
+    115.31,
+    115.96,
+    114.22,
+    117.37,
+    118.28
+   ],
+   "after": [
+    115.14,
+    117.83,
+    115.69,
+    116.35,
+    119.32,
+    118.92
+   ],
+   "pair_change_percent": [
+    3.0,
+    2.2,
+    -0.2,
+    1.9,
+    1.7,
+    0.5
+   ]
+  }
+ },
+ "gpu_same_build_runs": {
+  "note": "six runs of the shipped build only (a shell loop bug): run-to-run spread",
+  "stage sauna day": [
+   69.73,
+   66.46,
+   73.3,
+   66.59,
+   66.07,
+   66.47
+  ],
+  "stage sauna evening": [
+   116.38,
+   109.39,
+   125.7,
+   109.78,
+   112.83,
+   110.3
+  ],
+  "stage water day": [
+   57.4,
+   57.62,
+   62.55,
+   59.22,
+   62.81,
+   59.74
+  ],
+  "stage water evening": [
+   122.43,
+   125.51,
+   127.8,
+   124.16,
+   125.88,
+   131.74
+  ],
+  "camera-03 water day": [
+   77.02,
+   75.51,
+   76.86,
+   75.4,
+   74.73,
+   77.84
+  ],
+  "camera-03 water evening": [
+   115.73,
+   111.71,
+   116.5,
+   111.08,
+   110.61,
+   116.58
+  ]
+ }
+}
