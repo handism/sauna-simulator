@@ -1,0 +1,594 @@
+{
+  "test": "e2e/scene-gpu-time.gpu.ts",
+  "quality": "standard",
+  "models": {
+    "sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+    "sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+    "sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+    "irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d"
+  },
+  "runs": [
+    {
+      "run": 1,
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1200,
+        "height": 800
+      },
+      "results": [
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 229,
+          "gpuMs": {
+            "p10": 61.088499,
+            "median": 64.176083,
+            "p90": 67.637083
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "663",
+          "frameMeanMs": "34.81"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "evening",
+          "frames": 174,
+          "gpuMs": {
+            "p10": 79.087791,
+            "median": 84.665166,
+            "p90": 91.516499
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "34.81"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 157,
+          "gpuMs": {
+            "p10": 91.162249,
+            "median": 94.34525,
+            "p90": 98.938
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "34.81"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 243,
+          "gpuMs": {
+            "p10": 46.677249,
+            "median": 53.010624,
+            "p90": 59.475291
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "40.83"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 168,
+          "gpuMs": {
+            "p10": 78.166624,
+            "median": 86.49975,
+            "p90": 95.9115
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "40.83"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 151,
+          "gpuMs": {
+            "p10": 86.750458,
+            "median": 95.73075,
+            "p90": 104.600999
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "40.83"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 186,
+          "gpuMs": {
+            "p10": 73.372958,
+            "median": 77.986249,
+            "p90": 82.832874
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "51.57"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 161,
+          "gpuMs": {
+            "p10": 85.128875,
+            "median": 90.308666,
+            "p90": 94.55125
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "51.57"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 141,
+          "gpuMs": {
+            "p10": 98.748999,
+            "median": 103.211041,
+            "p90": 107.515625
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "51.57"
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1200,
+        "height": 800
+      },
+      "results": [
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 234,
+          "gpuMs": {
+            "p10": 60.253708,
+            "median": 63.421166,
+            "p90": 65.494249
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "663",
+          "frameMeanMs": "34.07"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "evening",
+          "frames": 178,
+          "gpuMs": {
+            "p10": 78.944416,
+            "median": 82.729458,
+            "p90": 87.900124
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "34.07"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 157,
+          "gpuMs": {
+            "p10": 91.039499,
+            "median": 94.689416,
+            "p90": 99.263291
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "34.07"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 246,
+          "gpuMs": {
+            "p10": 48.438708,
+            "median": 54.937166,
+            "p90": 59.20725
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "41.66"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 170,
+          "gpuMs": {
+            "p10": 76.557166,
+            "median": 85.608124,
+            "p90": 94.683041
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "41.66"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 152,
+          "gpuMs": {
+            "p10": 88.801916,
+            "median": 96.757333,
+            "p90": 104.9375
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "41.66"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 187,
+          "gpuMs": {
+            "p10": 72.837999,
+            "median": 77.684083,
+            "p90": 81.360249
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "51.20"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 162,
+          "gpuMs": {
+            "p10": 85.460125,
+            "median": 89.422458,
+            "p90": 93.294958
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "51.20"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 141,
+          "gpuMs": {
+            "p10": 98.574625,
+            "median": 103.248708,
+            "p90": 107.645291
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "51.20"
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "browser": "154.0.8037.58",
+      "viewport": {
+        "width": 1200,
+        "height": 800
+      },
+      "results": [
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 228,
+          "gpuMs": {
+            "p10": 61.483333,
+            "median": 65.179249,
+            "p90": 68.747249
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "663",
+          "frameMeanMs": "35.00"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "evening",
+          "frames": 171,
+          "gpuMs": {
+            "p10": 79.7905,
+            "median": 85.4915,
+            "p90": 95.306916
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "35.00"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 149,
+          "gpuMs": {
+            "p10": 92.190499,
+            "median": 98.5915,
+            "p90": 107.760124
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "35.00"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 244,
+          "gpuMs": {
+            "p10": 49.667125,
+            "median": 56.467125,
+            "p90": 61.921291
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "42.41"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 169,
+          "gpuMs": {
+            "p10": 75.498291,
+            "median": 85.665708,
+            "p90": 96.456249
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "42.41"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 147,
+          "gpuMs": {
+            "p10": 91.706999,
+            "median": 99.821374,
+            "p90": 108.822416
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "42.41"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 189,
+          "gpuMs": {
+            "p10": 73.264874,
+            "median": 77.574124,
+            "p90": 81.227291
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "52.13"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 160,
+          "gpuMs": {
+            "p10": 86.497249,
+            "median": 90.572,
+            "p90": 95.010791
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "52.13"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 140,
+          "gpuMs": {
+            "p10": 99.356999,
+            "median": 103.441583,
+            "p90": 109.633875
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "52.13"
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "browser": "154.0.8037.58",
+      "viewport": {
+        "width": 1200,
+        "height": 800
+      },
+      "results": [
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 227,
+          "gpuMs": {
+            "p10": 61.211874,
+            "median": 65.006375,
+            "p90": 69.018208
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "663",
+          "frameMeanMs": "35.00"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "evening",
+          "frames": 171,
+          "gpuMs": {
+            "p10": 80.107,
+            "median": 85.997625,
+            "p90": 92.857374
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "35.00"
+        },
+        {
+          "view": "stage",
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 148,
+          "gpuMs": {
+            "p10": 91.413625,
+            "median": 99.306999,
+            "p90": 108.996541
+          },
+          "drawCalls": "118",
+          "triangles": "647268",
+          "mirrorCalls": "78",
+          "frameMeanMs": "35.00"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 243,
+          "gpuMs": {
+            "p10": 49.747,
+            "median": 55.101708,
+            "p90": 60.50125
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "42.78"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 165,
+          "gpuMs": {
+            "p10": 79.649624,
+            "median": 88.200041,
+            "p90": 96.159333
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "42.78"
+        },
+        {
+          "view": "stage",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 151,
+          "gpuMs": {
+            "p10": 87.7705,
+            "median": 96.992666,
+            "p90": 105.393124
+          },
+          "drawCalls": "109",
+          "triangles": "635102",
+          "mirrorCalls": "52",
+          "frameMeanMs": "42.78"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "day",
+          "frames": 187,
+          "gpuMs": {
+            "p10": 73.402249,
+            "median": 77.725041,
+            "p90": 81.775833
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "52.31"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "evening",
+          "frames": 161,
+          "gpuMs": {
+            "p10": 86.771499,
+            "median": 91.212291,
+            "p90": 95.402041
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "52.31"
+        },
+        {
+          "view": "camera-03",
+          "stage": "water",
+          "lighting": "night",
+          "frames": 139,
+          "gpuMs": {
+            "p10": 100.249,
+            "median": 104.363333,
+            "p90": 108.84475
+          },
+          "drawCalls": "84",
+          "triangles": "608566",
+          "mirrorCalls": "79",
+          "frameMeanMs": "52.31"
+        }
+      ]
+    }
+  ],
+  "note": "run 3 timed out (wall time 452 s during a 2.5 s wait, likely machine idle); not recorded"
+}

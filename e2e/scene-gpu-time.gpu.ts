@@ -44,7 +44,7 @@ test('measure the GPU time of the sauna and plunge views', async ({ page, browse
         continue;
       }
       await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
-      for (const lighting of ['day', 'evening']) {
+      for (const lighting of ['day', 'evening', 'night']) {
         await page.getByLabel('3Dの時間帯').selectOption(lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         // Past the stage fade and the shader compiles of the lighting change.
