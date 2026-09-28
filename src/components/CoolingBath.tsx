@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { getSecureRandom } from '../utils/saunaUtils';
+import { beatSeconds, getSecureRandom } from '../utils/saunaUtils';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
+import { useSecondTicker } from '../hooks/useSecondTicker';
+import HeartRateRow from './HeartRateRow';
 
 interface Ripple {
   id: number;
@@ -25,7 +27,6 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   const [heartRate, setHeartRate] = useState<number>(initialHeartRate);
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const secondsRef = useRef<number>(0);
   const rippleIdRef = useRef<number>(0);
 
   // 波紋（リップル）の定期生成
@@ -41,23 +42,17 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
     return () => clearInterval(int);
   }, []);
 
-  // 心拍数低下シミュレーション (1秒ごと)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      secondsRef.current += 1;
-
-      setHeartRate((prev) => {
-        // 目標心拍数 TARGET_HR bpm に向けてイージングで急低下
-        const diff = (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
-        const nextHR = prev + diff;
-        // わずかにランダムなゆらぎを加えて自然にする
-        const jitter = (getSecureRandom() - 0.5) * 0.5;
-        return Math.max(nextHR + jitter, COOLING_CONFIG.MIN_HR);
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  // 心拍数低下シミュレーション (1秒ごと。滞在時間も数える)
+  const secondsRef = useSecondTicker(() => {
+    setHeartRate((prev) => {
+      // 目標心拍数 TARGET_HR bpm に向けてイージングで急低下
+      const diff = (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
+      const nextHR = prev + diff;
+      // わずかにランダムなゆらぎを加えて自然にする
+      const jitter = (getSecureRandom() - 0.5) * 0.5;
+      return Math.max(nextHR + jitter, COOLING_CONFIG.MIN_HR);
+    });
+  });
 
   const handleLeave = () => {
     onNext(Math.round(heartRate), secondsRef.current);
@@ -65,16 +60,13 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
 
   useKeyboardShortcut(' ', handleLeave, { scope: rootRef });
 
-  // 心拍に同期するアニメーション速度
-  const pulseSpeed = 60 / heartRate;
-
   return (
     <div ref={rootRef} className="scene-container">
       {/* 冷気インセットグローオーバーレイ。心拍と同期して脈動 */}
       <div
         className="cooling-glow"
         style={{
-          animation: `glow-pulse ${pulseSpeed}s infinite ease-in-out`,
+          animation: `glow-pulse ${beatSeconds(heartRate)}s infinite ease-in-out`,
         }}
       />
 
@@ -85,27 +77,12 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
 
         {/* シミュレーター情報ダッシュボード */}
         <div className="cooling-info-panel">
-          <div className="cooling-info-row">
-            <span className="cooling-info-label">水温:</span>
+          <div className="stage-info-row">
+            <span className="stage-info-label">水温:</span>
             <span className="dashboard-value cooling-info-val-temp">16.0°C</span>
           </div>
 
-          <div className="cooling-info-row-bottom">
-            <span className="cooling-info-label">心拍数:</span>
-            <span className="cooling-info-val-hr">
-              <span
-                className="cooling-heart-icon"
-                style={{
-                  animation: `breathe ${pulseSpeed}s infinite ease-in-out`,
-                }}
-              >
-                💙
-              </span>
-              <span className="dashboard-value cooling-hr-bpm-val">
-                {Math.round(heartRate)} <span className="cooling-hr-bpm-label">BPM</span>
-              </span>
-            </span>
-          </div>
+          <HeartRateRow heartRate={heartRate} icon="💙" />
         </div>
       </div>
 

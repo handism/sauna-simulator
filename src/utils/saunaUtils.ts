@@ -50,3 +50,6 @@ export const calculateTotonouScore = (saunaTime: number, waterTime: number, loyl
 
   return { maxTotonou: totalScore, feedback: text };
 };
+
+// 心拍1回あたりの秒数。脈動アニメーションの周期に使う
+export const beatSeconds = (heartRate: number): number => 60 / heartRate;
