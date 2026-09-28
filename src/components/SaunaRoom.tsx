@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
+import { useSecondTicker } from '../hooks/useSecondTicker';
 import { calculateHeatIndex, getSecureRandom } from '../utils/saunaUtils';
+import HeartRateRow from './HeartRateRow';
 
 interface Steam {
   id: number;
@@ -48,7 +50,6 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const [steamBurst, setSteamBurst] = useState<number>(0);
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const secondsRef = useRef<number>(0);
   const loylyCountRef = useRef<number>(0);
   const steamIdRef = useRef<number>(0);
   // 蒸気パーティクルは連打で複数同時に存在するため、個別に削除タイマーを持つ
@@ -94,38 +95,31 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
 
   useKeyboardShortcut(' ', handleLoyly, { scope: rootRef });
 
-  // メインシミュレーションループ (1秒ごと)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // 滞在時間カウント
-      secondsRef.current += 1;
+  // メインシミュレーションループ (1秒ごと。滞在時間も数える)
+  const secondsRef = useSecondTicker(() => {
+    setSaunaState((prev) => {
+      // 自然減衰 (温度と湿度は徐々に下がる)
+      const nextTemp = Math.max(prev.temperature - SAUNA_CONFIG.TEMP_DECAY, SAUNA_CONFIG.MIN_TEMP);
+      const nextHum = Math.max(prev.humidity - SAUNA_CONFIG.HUMIDITY_DECAY, SAUNA_CONFIG.MIN_HUMIDITY);
 
-      setSaunaState((prev) => {
-        // 自然減衰 (温度と湿度は徐々に下がる)
-        const nextTemp = Math.max(prev.temperature - SAUNA_CONFIG.TEMP_DECAY, SAUNA_CONFIG.MIN_TEMP);
-        const nextHum = Math.max(prev.humidity - SAUNA_CONFIG.HUMIDITY_DECAY, SAUNA_CONFIG.MIN_HUMIDITY);
+      // 体感温度の算出 (簡易Heat Index)
+      // 湿度が上がると体感温度が急激に上がる
+      const heatIndex = calculateHeatIndex(nextTemp, nextHum);
 
-        // 体感温度の算出 (簡易Heat Index)
-        // 湿度が上がると体感温度が急激に上がる
-        const heatIndex = calculateHeatIndex(nextTemp, nextHum);
+      // 体感温度に応じて心拍数が徐々に上昇
+      const hrIncrease = (heatIndex - SAUNA_CONFIG.HEAT_INDEX_BASE) * SAUNA_CONFIG.HR_INCREASE_MULTIPLIER;
+      const nextHeartRate = Math.min(
+        prev.heartRate + Math.max(hrIncrease, SAUNA_CONFIG.HR_BASE_INCREASE),
+        SAUNA_CONFIG.MAX_HEART_RATE,
+      );
 
-        // 体感温度に応じて心拍数が徐々に上昇
-        const hrIncrease = (heatIndex - SAUNA_CONFIG.HEAT_INDEX_BASE) * SAUNA_CONFIG.HR_INCREASE_MULTIPLIER;
-        const nextHeartRate = Math.min(
-          prev.heartRate + Math.max(hrIncrease, SAUNA_CONFIG.HR_BASE_INCREASE),
-          SAUNA_CONFIG.MAX_HEART_RATE,
-        );
-
-        return {
-          temperature: nextTemp,
-          humidity: nextHum,
-          heartRate: nextHeartRate,
-        };
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+      return {
+        temperature: nextTemp,
+        humidity: nextHum,
+        heartRate: nextHeartRate,
+      };
+    });
+  });
 
   // 体感温度のリアルタイム計算
   const heatIndex = calculateHeatIndex(temperature, humidity);
@@ -133,9 +127,6 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const handleLeave = () => {
     onNext(Math.round(heartRate), secondsRef.current, loylyCountRef.current);
   };
-
-  // 心拍数に応じたアニメーション周期 (BPMを1秒あたりの秒数に変換)
-  const pulseSpeed = 60 / heartRate;
 
   return (
     <div ref={rootRef} className="scene-container">
@@ -159,27 +150,12 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
 
         {/* 体感温度 & 心拍数情報 */}
         <div className="sauna-info-panel">
-          <div className="sauna-info-row">
-            <span className="sauna-info-label">体感温度:</span>
+          <div className="stage-info-row">
+            <span className="stage-info-label">体感温度:</span>
             <span className="dashboard-value sauna-info-val-heat">{heatIndex.toFixed(1)}°C</span>
           </div>
 
-          <div className="sauna-info-row-bottom">
-            <span className="sauna-info-label">心拍数:</span>
-            <span className="sauna-info-val-hr">
-              <span
-                className="sauna-heart-icon"
-                style={{
-                  animation: `breathe ${pulseSpeed}s infinite ease-in-out`,
-                }}
-              >
-                ❤️
-              </span>
-              <span className="dashboard-value" style={{ fontWeight: 600 }}>
-                {Math.round(heartRate)} <span className="sauna-hr-bpm">BPM</span>
-              </span>
-            </span>
-          </div>
+          <HeartRateRow heartRate={heartRate} icon="❤️" />
         </div>
 
         <div className="sauna-action-btn-container">

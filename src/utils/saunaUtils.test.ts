@@ -1,7 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { calculateHeatIndex, calculateTotonouScore, getSecureRandom } from './saunaUtils';
+import { beatSeconds, calculateHeatIndex, calculateTotonouScore, getSecureRandom } from './saunaUtils';
 
 describe('saunaUtils', () => {
+  it('beatSeconds converts BPM to seconds per beat', () => {
+    expect(beatSeconds(60)).toBe(1);
+    expect(beatSeconds(120)).toBe(0.5);
+  });
+
   describe('calculateHeatIndex', () => {
     it('should calculate heat index correctly with typical sauna values', () => {
       expect(calculateHeatIndex(100, 50)).toBe(122.5);

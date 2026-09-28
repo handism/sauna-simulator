@@ -425,44 +425,45 @@ p {
   gap: 10px;
 }
 
-.sauna-info-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.95rem;
-}
-
-.sauna-info-row-bottom {
+/* サウナ・水風呂の情報パネル共通の行（色は各パネルで上書き） */
+.stage-info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.95rem;
+}
+
+.stage-info-row-divided {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding-top: 10px;
 }
 
-.sauna-info-label {
+.stage-info-label {
   color: #cbd5e1;
 }
 
-.sauna-info-val-heat {
-  color: #f87171;
-  font-weight: 600;
-}
-
-.sauna-info-val-hr {
+.heart-rate {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.sauna-heart-icon {
-  color: #ef4444;
+.heart-rate-icon {
   display: inline-block;
 }
 
-.sauna-hr-bpm {
+.heart-rate-value {
+  font-weight: 600;
+}
+
+.heart-rate-unit {
   font-size: 0.75rem;
   font-weight: 300;
+}
+
+.sauna-info-val-heat {
+  color: #f87171;
+  font-weight: 600;
 }
 
 .sauna-action-btn-container {
@@ -539,23 +540,7 @@ p {
   border: 1px solid rgba(56, 189, 248, 0.1);
 }
 
-.cooling-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.95rem;
-}
-
-.cooling-info-row-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.95rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 10px;
-}
-
-.cooling-info-label {
+.cooling-info-panel .stage-info-label {
   color: #bae6fd;
 }
 
@@ -564,25 +549,8 @@ p {
   font-weight: 600;
 }
 
-.cooling-info-val-hr {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.cooling-heart-icon {
-  color: #38bdf8;
-  display: inline-block;
-}
-
-.cooling-hr-bpm-val {
-  font-weight: 600;
+.cooling-info-panel .heart-rate-value {
   color: #e0f2fe;
-}
-
-.cooling-hr-bpm-label {
-  font-size: 0.75rem;
-  font-weight: 300;
 }
 
 .cooling-next-btn-container {
