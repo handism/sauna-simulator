@@ -46,16 +46,7 @@
 - 見回しはPointer Events／矢印キー。3DはUI外で入力を受け、UI復帰・モード切り替えは常に残す。モデル失敗・30秒タイムアウト・WebGLコンテキスト喪失時は3Dを解放し2D表示を継続。
 - Blender元データは `blender/` に置くがGit管理外。元blendは水の側面・底をフラット化済み（`scripts/flatten_water_sides.py`、修正前は `SUI_Retreat_v11.blend`）。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`、書き出しレポート（配信しない）は `docs/3d-export/`。QA記録 `docs/3d-qa/` はREADME・JSONのみGit管理し、画像（jpg/png）はローカルに置く（履歴の肥大を避けるため）。入力を保存しない。再実行方法・未完了事項は `docs/3d-sauna-progress.md`。
 - `bunx tsc -b` / `bun run test` / `bun run lint` / `bun run format:check` / `bun run build` を検証する。ESLintはTS/TSXも対象（react-hooks・react-refreshルールを含む）。既存テストの段階的移行のため `no-explicit-any` は無効。
-- 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual` / `:network`）は `e2e/CLAUDE.md`。
+- 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual` / `:network`）は `e2e/CLAUDE.md`。3D表示の失敗・読み込み期限・外気浴背景の契約は `src/components/CLAUDE.md`。
 
 - 空間音響は `src/hooks/spatialAudio.ts`。既存AudioContextの2本の固定バスでストーブ（サウナ環境音・ロウリュ）と注水口（水風呂音）をHRTF定位する。風・バイノーラル音は従来の経路を維持。
 - `App → SceneMode → SaunaScene` に同一 `audio` を渡す。シーン定義の座標とカメラの位置・前方・上方向を `audio.setSpatialPose()` で反映し、アンマウント時は `null` で2D音へクロスフェード。モデル再読込・新たなAudioContextや音源の作成は行わない。AudioListenerの位置パラメータ非対応時は従来音へフォールバック。
-
-- 3Dの取得失敗・タイムアウト・コンテキスト喪失は `SaunaScene` 内で一度だけ失敗確定し、通信・描画を停止して2D音へ戻す。非同期取得／解析の完了時にも失敗・解除を判定し、遅着モデルは解放する。`SaunaScene.test.tsx` は模擬レンダラーでこの競合と解放を検証する（実GPUの検証ではない）。
-
-- `SceneMode` の `ActiveScene` は遅延JavaScript取得も含む読み込み全体に30秒の期限を設ける。ステージ・画質・時間帯の変更で期限を延長せず、準備完了・失敗・2D切り替え時にタイマーを解除する。期限後にモジュールが届いても自動で3Dを開始しない。`scene-chunk.e2e.ts` は通常2Dで3D用JS／モデルを取得しないことと、JS取得保留中の期限切れ・遅着・手動再試行を本番ビルドで検証する。通信帯域の性能測定ではない。
-
-- 3D用JavaScriptのimport拒否は `SceneModuleError` で通常のモデル／WebGL失敗と区別する。`React.lazy` とブラウザが失敗を保持するため、モードの再選択で復帰できるとは案内しない。2Dを継続しつつ「最初から再読み込み」を表示し、体験が初期化されることを明示する。ページ更新は利用者の押下時だけ。取得保留・タイムアウト・モデル失敗にはこの案内を出さず、従来の再試行を維持する。
-
-- 外気浴の2D用 `.aurora-container` は、3Dの `data-load-ms` が付いた準備完了時だけ非表示にする。昼夕の3D照明を濃紺の全画面背景で覆わない。読み込み中・2D切り替え・失敗後は従来の背景へ戻す。`scene-aurora.e2e.ts` でこの境界と実コンテキスト喪失後の操作継続を検証する。
-
