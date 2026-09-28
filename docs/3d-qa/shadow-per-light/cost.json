@@ -1,0 +1,3023 @@
+{
+ "browser": "154.0.8037.57",
+ "viewport": {
+  "width": 1280,
+  "height": 800
+ },
+ "invocations": [
+  "SHADOW_COST_VARIANTS=original,sun-split,sun-half,sun-quarter,spots-half",
+  "SHADOW_COST_VARIANTS=spots-half,original,sun-quarter (x2)"
+ ],
+ "summary": {
+  "sauna-day": {
+   "original": {
+    "n": 6,
+    "median": 39.2,
+    "min": 38.6,
+    "max": 40.1
+   },
+   "sun-split": {
+    "n": 2,
+    "median": 39.5,
+    "min": 39.2,
+    "max": 39.7
+   },
+   "sun-half": {
+    "n": 2,
+    "median": 33.7,
+    "min": 33.5,
+    "max": 33.9
+   },
+   "sun-quarter": {
+    "n": 6,
+    "median": 31.1,
+    "min": 30.8,
+    "max": 31.5
+   },
+   "spots-half": {
+    "n": 6,
+    "median": 34.4,
+    "min": 34.1,
+    "max": 34.7
+   }
+  },
+  "sauna-evening": {
+   "original": {
+    "n": 6,
+    "median": 65.1,
+    "min": 60.9,
+    "max": 68.4
+   },
+   "sun-split": {
+    "n": 2,
+    "median": 66.2,
+    "min": 62.8,
+    "max": 69.6
+   },
+   "sun-half": {
+    "n": 2,
+    "median": 61.5,
+    "min": 58.6,
+    "max": 64.3
+   },
+   "sun-quarter": {
+    "n": 6,
+    "median": 54.7,
+    "min": 53.4,
+    "max": 56.6
+   },
+   "spots-half": {
+    "n": 6,
+    "median": 46.2,
+    "min": 45.9,
+    "max": 46.9
+   }
+  },
+  "water-day": {
+   "original": {
+    "n": 6,
+    "median": 32.9,
+    "min": 32.7,
+    "max": 35.0
+   },
+   "sun-split": {
+    "n": 2,
+    "median": 34.1,
+    "min": 32.9,
+    "max": 35.3
+   },
+   "sun-half": {
+    "n": 2,
+    "median": 28.7,
+    "min": 28.5,
+    "max": 28.8
+   },
+   "sun-quarter": {
+    "n": 6,
+    "median": 26.8,
+    "min": 26.5,
+    "max": 28.3
+   },
+   "spots-half": {
+    "n": 6,
+    "median": 30.0,
+    "min": 29.9,
+    "max": 30.1
+   }
+  },
+  "water-evening": {
+   "original": {
+    "n": 6,
+    "median": 54.2,
+    "min": 52.7,
+    "max": 55.9
+   },
+   "sun-split": {
+    "n": 2,
+    "median": 55.8,
+    "min": 53.5,
+    "max": 58.1
+   },
+   "sun-half": {
+    "n": 2,
+    "median": 53.8,
+    "min": 49.8,
+    "max": 57.9
+   },
+   "sun-quarter": {
+    "n": 6,
+    "median": 47.5,
+    "min": 46.3,
+    "max": 49.3
+   },
+   "spots-half": {
+    "n": 6,
+    "median": 39.2,
+    "min": 38.9,
+    "max": 40.0
+   }
+  },
+  "totonou-day": {
+   "original": {
+    "n": 6,
+    "median": 19.4,
+    "min": 19.1,
+    "max": 20.8
+   },
+   "sun-split": {
+    "n": 2,
+    "median": 19.8,
+    "min": 19.1,
+    "max": 20.6
+   },
+   "sun-half": {
+    "n": 2,
+    "median": 16.5,
+    "min": 16.2,
+    "max": 16.9
+   },
+   "sun-quarter": {
+    "n": 6,
+    "median": 15.0,
+    "min": 14.9,
+    "max": 15.3
+   },
+   "spots-half": {
+    "n": 6,
+    "median": 17.3,
+    "min": 17.2,
+    "max": 17.5
+   }
+  },
+  "totonou-evening": {
+   "original": {
+    "n": 6,
+    "median": 38.0,
+    "min": 36.1,
+    "max": 41.5
+   },
+   "sun-split": {
+    "n": 2,
+    "median": 37.2,
+    "min": 35.3,
+    "max": 39.0
+   },
+   "sun-half": {
+    "n": 2,
+    "median": 36.5,
+    "min": 32.9,
+    "max": 40.2
+   },
+   "sun-quarter": {
+    "n": 6,
+    "median": 31.7,
+    "min": 31.1,
+    "max": 32.8
+   },
+   "spots-half": {
+    "n": 6,
+    "median": 25.3,
+    "min": 25.1,
+    "max": 26.5
+   }
+  }
+ },
+ "runs": [
+  {
+   "run": "forward",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 97,
+     "gpuMs": {
+      "p10": 36.003791,
+      "median": 39.105583,
+      "p90": 43.381041
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 62,
+     "gpuMs": {
+      "p10": 53.811625,
+      "median": 60.871041,
+      "p90": 73.024916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 112,
+     "gpuMs": {
+      "p10": 30.860666,
+      "median": 32.891791,
+      "p90": 35.147291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 66,
+     "gpuMs": {
+      "p10": 50.383541,
+      "median": 55.923041,
+      "p90": 60.804
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 163,
+     "gpuMs": {
+      "p10": 18.96675,
+      "median": 20.796083,
+      "p90": 24.199624
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 88,
+     "gpuMs": {
+      "p10": 35.322249,
+      "median": 41.518416,
+      "p90": 47.239999
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "forward",
+   "variant": "sun-split",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 88,
+     "gpuMs": {
+      "p10": 36.557333,
+      "median": 39.679208,
+      "p90": 47.438416
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 53,
+     "gpuMs": {
+      "p10": 59.2135,
+      "median": 69.614124,
+      "p90": 79.649874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 97,
+     "gpuMs": {
+      "p10": 32.7525,
+      "median": 35.285375,
+      "p90": 38.599749
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 63,
+     "gpuMs": {
+      "p10": 51.494291,
+      "median": 58.051999,
+      "p90": 64.621625
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 163,
+     "gpuMs": {
+      "p10": 18.904875,
+      "median": 20.612,
+      "p90": 23.224999
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 89,
+     "gpuMs": {
+      "p10": 34.179916,
+      "median": 38.956208,
+      "p90": 45.54875
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "forward",
+   "variant": "sun-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 103,
+     "gpuMs": {
+      "p10": 31.18375,
+      "median": 33.938333,
+      "p90": 37.290583
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 57,
+     "gpuMs": {
+      "p10": 51.645041,
+      "median": 64.317249,
+      "p90": 76.317208
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 114,
+     "gpuMs": {
+      "p10": 27.465416,
+      "median": 28.812666,
+      "p90": 31.335416
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 63,
+     "gpuMs": {
+      "p10": 51.296,
+      "median": 57.892416,
+      "p90": 65.585874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 193,
+     "gpuMs": {
+      "p10": 15.869499,
+      "median": 16.895541,
+      "p90": 18.740125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 90,
+     "gpuMs": {
+      "p10": 33.380249,
+      "median": 40.206624,
+      "p90": 45.731916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "forward",
+   "variant": "sun-quarter",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 110,
+     "gpuMs": {
+      "p10": 29.281416,
+      "median": 31.545416,
+      "p90": 34.309583
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 64,
+     "gpuMs": {
+      "p10": 47.399999,
+      "median": 56.643458,
+      "p90": 67.782416
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 122,
+     "gpuMs": {
+      "p10": 25.81375,
+      "median": 26.894875,
+      "p90": 28.36875
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 73,
+     "gpuMs": {
+      "p10": 42.765208,
+      "median": 47.671666,
+      "p90": 54.325333
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 206,
+     "gpuMs": {
+      "p10": 14.737041,
+      "median": 15.330374,
+      "p90": 16.659458
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 108,
+     "gpuMs": {
+      "p10": 30.382166,
+      "median": 31.120875,
+      "p90": 35.718874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "forward",
+   "variant": "spots-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 103,
+     "gpuMs": {
+      "p10": 31.888833,
+      "median": 34.075041,
+      "p90": 36.823666
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 76,
+     "gpuMs": {
+      "p10": 41.481541,
+      "median": 46.079833,
+      "p90": 54.00375
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 109,
+     "gpuMs": {
+      "p10": 28.565708,
+      "median": 30.020416,
+      "p90": 31.626416
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 87,
+     "gpuMs": {
+      "p10": 36.274375,
+      "median": 39.10325,
+      "p90": 42.532624
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 181,
+     "gpuMs": {
+      "p10": 16.9155,
+      "median": 17.209125,
+      "p90": 18.754499
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 130,
+     "gpuMs": {
+      "p10": 24.879999,
+      "median": 25.275874,
+      "p90": 28.80975
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "reverse",
+   "variant": "spots-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 102,
+     "gpuMs": {
+      "p10": 31.935,
+      "median": 34.309374,
+      "p90": 37.112125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 79,
+     "gpuMs": {
+      "p10": 41.473958,
+      "median": 45.894875,
+      "p90": 50.404125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 111,
+     "gpuMs": {
+      "p10": 28.497208,
+      "median": 29.975625,
+      "p90": 31.828291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 88,
+     "gpuMs": {
+      "p10": 36.51075,
+      "median": 39.140791,
+      "p90": 41.50525
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 185,
+     "gpuMs": {
+      "p10": 16.821375,
+      "median": 17.162999,
+      "p90": 18.258249
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 130,
+     "gpuMs": {
+      "p10": 24.745749,
+      "median": 25.1365,
+      "p90": 28.717374
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "reverse",
+   "variant": "sun-quarter",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 112,
+     "gpuMs": {
+      "p10": 28.965666,
+      "median": 31.042624,
+      "p90": 32.675958
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 65,
+     "gpuMs": {
+      "p10": 46.950999,
+      "median": 53.773458,
+      "p90": 66.804874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 122,
+     "gpuMs": {
+      "p10": 25.631458,
+      "median": 26.536833,
+      "p90": 27.892333
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 75,
+     "gpuMs": {
+      "p10": 41.779625,
+      "median": 47.276541,
+      "p90": 51.743916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 212,
+     "gpuMs": {
+      "p10": 14.623166,
+      "median": 14.965708,
+      "p90": 16.404916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 105,
+     "gpuMs": {
+      "p10": 30.272333,
+      "median": 32.77325,
+      "p90": 38.939458
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "reverse",
+   "variant": "sun-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 105,
+     "gpuMs": {
+      "p10": 31.103125,
+      "median": 33.542125,
+      "p90": 35.472374
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 62,
+     "gpuMs": {
+      "p10": 49.783041,
+      "median": 58.623041,
+      "p90": 68.357208
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 117,
+     "gpuMs": {
+      "p10": 27.341875,
+      "median": 28.534375,
+      "p90": 30.273583
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 72,
+     "gpuMs": {
+      "p10": 43.967708,
+      "median": 49.798,
+      "p90": 54.790416
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 197,
+     "gpuMs": {
+      "p10": 15.895,
+      "median": 16.165124,
+      "p90": 17.402625
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 103,
+     "gpuMs": {
+      "p10": 31.5935,
+      "median": 32.887125,
+      "p90": 38.513374
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "reverse",
+   "variant": "sun-split",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 90,
+     "gpuMs": {
+      "p10": 36.324375,
+      "median": 39.24125,
+      "p90": 42.857499
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 58,
+     "gpuMs": {
+      "p10": 54.684125,
+      "median": 62.785749,
+      "p90": 71.974874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 102,
+     "gpuMs": {
+      "p10": 31.035541,
+      "median": 32.918375,
+      "p90": 35.359041
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 66,
+     "gpuMs": {
+      "p10": 47.834249,
+      "median": 53.545999,
+      "p90": 60.679416
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 168,
+     "gpuMs": {
+      "p10": 18.752874,
+      "median": 19.058666,
+      "p90": 20.753999
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 95,
+     "gpuMs": {
+      "p10": 34.359999,
+      "median": 35.34425,
+      "p90": 42.876333
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "reverse",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 89,
+     "gpuMs": {
+      "p10": 36.356124,
+      "median": 39.259625,
+      "p90": 42.031333
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 57,
+     "gpuMs": {
+      "p10": 54.393333,
+      "median": 62.541791,
+      "p90": 76.689749
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 101,
+     "gpuMs": {
+      "p10": 30.994874,
+      "median": 32.855875,
+      "p90": 35.450374
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 66,
+     "gpuMs": {
+      "p10": 48.859375,
+      "median": 52.718833,
+      "p90": 59.684874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 168,
+     "gpuMs": {
+      "p10": 18.832875,
+      "median": 19.405958,
+      "p90": 21.834833
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 93,
+     "gpuMs": {
+      "p10": 34.531208,
+      "median": 37.466333,
+      "p90": 43.361041
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 1
+  },
+  {
+   "run": "forward",
+   "variant": "spots-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 104,
+     "gpuMs": {
+      "p10": 31.896833,
+      "median": 34.190375,
+      "p90": 37.200208
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 81,
+     "gpuMs": {
+      "p10": 41.571041,
+      "median": 46.132999,
+      "p90": 51.111124
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 111,
+     "gpuMs": {
+      "p10": 28.725083,
+      "median": 30.128875,
+      "p90": 32.702541
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 88,
+     "gpuMs": {
+      "p10": 36.9305,
+      "median": 39.41925,
+      "p90": 42.436833
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 186,
+     "gpuMs": {
+      "p10": 16.901249,
+      "median": 17.529999,
+      "p90": 19.659999
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 127,
+     "gpuMs": {
+      "p10": 24.945041,
+      "median": 26.467041,
+      "p90": 30.660958
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 2
+  },
+  {
+   "run": "forward",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 89,
+     "gpuMs": {
+      "p10": 36.173125,
+      "median": 40.069333,
+      "p90": 43.649291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 55,
+     "gpuMs": {
+      "p10": 59.361624,
+      "median": 68.439,
+      "p90": 77.322291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 101,
+     "gpuMs": {
+      "p10": 31.503958,
+      "median": 33.434124,
+      "p90": 35.280749
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 65,
+     "gpuMs": {
+      "p10": 48.985125,
+      "median": 54.484749,
+      "p90": 60.165416
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 170,
+     "gpuMs": {
+      "p10": 18.667041,
+      "median": 19.144874,
+      "p90": 21.682541
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 92,
+     "gpuMs": {
+      "p10": 34.256166,
+      "median": 36.573333,
+      "p90": 45.021583
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 2
+  },
+  {
+   "run": "forward",
+   "variant": "sun-quarter",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 113,
+     "gpuMs": {
+      "p10": 28.999791,
+      "median": 31.202666,
+      "p90": 32.815916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 67,
+     "gpuMs": {
+      "p10": 46.778833,
+      "median": 53.5525,
+      "p90": 64.200583
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 123,
+     "gpuMs": {
+      "p10": 25.492874,
+      "median": 26.512875,
+      "p90": 28.111041
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 75,
+     "gpuMs": {
+      "p10": 42.349666,
+      "median": 47.409374,
+      "p90": 54.208249
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 212,
+     "gpuMs": {
+      "p10": 14.547874,
+      "median": 14.8515,
+      "p90": 16.140583
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 107,
+     "gpuMs": {
+      "p10": 30.164249,
+      "median": 31.117666,
+      "p90": 38.672916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 2
+  },
+  {
+   "run": "reverse",
+   "variant": "sun-quarter",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 113,
+     "gpuMs": {
+      "p10": 28.456625,
+      "median": 30.791666,
+      "p90": 32.38025
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 66,
+     "gpuMs": {
+      "p10": 46.299624,
+      "median": 53.429624,
+      "p90": 65.45675
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 118,
+     "gpuMs": {
+      "p10": 26.815208,
+      "median": 28.300083,
+      "p90": 30.373124
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 72,
+     "gpuMs": {
+      "p10": 43.876791,
+      "median": 49.333749,
+      "p90": 54.763916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 213,
+     "gpuMs": {
+      "p10": 14.749666,
+      "median": 15.005083,
+      "p90": 16.328125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 106,
+     "gpuMs": {
+      "p10": 30.009333,
+      "median": 31.721541,
+      "p90": 38.590291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 2
+  },
+  {
+   "run": "reverse",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 91,
+     "gpuMs": {
+      "p10": 36.078999,
+      "median": 39.032916,
+      "p90": 42.651291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 55,
+     "gpuMs": {
+      "p10": 58.813374,
+      "median": 66.158624,
+      "p90": 77.168749
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 103,
+     "gpuMs": {
+      "p10": 30.943583,
+      "median": 32.655416,
+      "p90": 35.204749
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 66,
+     "gpuMs": {
+      "p10": 47.437124,
+      "median": 53.875249,
+      "p90": 60.125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 170,
+     "gpuMs": {
+      "p10": 18.672625,
+      "median": 19.338291,
+      "p90": 21.52275
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 90,
+     "gpuMs": {
+      "p10": 34.324749,
+      "median": 38.442875,
+      "p90": 49.109208
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 2
+  },
+  {
+   "run": "reverse",
+   "variant": "spots-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 102,
+     "gpuMs": {
+      "p10": 31.973833,
+      "median": 34.729999,
+      "p90": 36.976375
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 77,
+     "gpuMs": {
+      "p10": 41.638624,
+      "median": 46.573958,
+      "p90": 53.962999
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 110,
+     "gpuMs": {
+      "p10": 28.532541,
+      "median": 29.980499,
+      "p90": 32.743541
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 86,
+     "gpuMs": {
+      "p10": 36.839708,
+      "median": 39.97925,
+      "p90": 43.263125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 185,
+     "gpuMs": {
+      "p10": 16.839624,
+      "median": 17.292583,
+      "p90": 19.450958
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 131,
+     "gpuMs": {
+      "p10": 24.832249,
+      "median": 25.336499,
+      "p90": 28.531249
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 2
+  },
+  {
+   "run": "forward",
+   "variant": "spots-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 102,
+     "gpuMs": {
+      "p10": 32.019124,
+      "median": 34.588499,
+      "p90": 38.462124
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 78,
+     "gpuMs": {
+      "p10": 41.340874,
+      "median": 46.359583,
+      "p90": 52.597874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 110,
+     "gpuMs": {
+      "p10": 28.308458,
+      "median": 29.982,
+      "p90": 31.975624
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 89,
+     "gpuMs": {
+      "p10": 36.792124,
+      "median": 38.9005,
+      "p90": 42.371541
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 185,
+     "gpuMs": {
+      "p10": 16.818666,
+      "median": 17.2865,
+      "p90": 19.754458
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 131,
+     "gpuMs": {
+      "p10": 24.9215,
+      "median": 25.196999,
+      "p90": 27.703916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 3
+  },
+  {
+   "run": "forward",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 94,
+     "gpuMs": {
+      "p10": 35.26825,
+      "median": 38.601624,
+      "p90": 41.794666
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 56,
+     "gpuMs": {
+      "p10": 52.865166,
+      "median": 63.966916,
+      "p90": 82.336041
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 98,
+     "gpuMs": {
+      "p10": 32.603874,
+      "median": 34.962125,
+      "p90": 36.546583
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 64,
+     "gpuMs": {
+      "p10": 50.591208,
+      "median": 54.944833,
+      "p90": 60.768875
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 169,
+     "gpuMs": {
+      "p10": 18.860166,
+      "median": 19.478249,
+      "p90": 21.943125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 94,
+     "gpuMs": {
+      "p10": 34.244499,
+      "median": 36.068999,
+      "p90": 42.168333
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 3
+  },
+  {
+   "run": "forward",
+   "variant": "sun-quarter",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 112,
+     "gpuMs": {
+      "p10": 29.172124,
+      "median": 31.017958,
+      "p90": 32.388083
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 63,
+     "gpuMs": {
+      "p10": 49.676458,
+      "median": 56.244749,
+      "p90": 71.739166
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 120,
+     "gpuMs": {
+      "p10": 25.780625,
+      "median": 26.873625,
+      "p90": 28.311208
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 76,
+     "gpuMs": {
+      "p10": 42.151625,
+      "median": 46.3365,
+      "p90": 50.595291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 207,
+     "gpuMs": {
+      "p10": 14.71575,
+      "median": 15.184791,
+      "p90": 16.696125
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 107,
+     "gpuMs": {
+      "p10": 30.28575,
+      "median": 31.677166,
+      "p90": 36.887458
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 3
+  },
+  {
+   "run": "reverse",
+   "variant": "sun-quarter",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 113,
+     "gpuMs": {
+      "p10": 29.13575,
+      "median": 31.33425,
+      "p90": 34.091916
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 64,
+     "gpuMs": {
+      "p10": 47.878625,
+      "median": 55.625458,
+      "p90": 67.978041
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 122,
+     "gpuMs": {
+      "p10": 25.70325,
+      "median": 26.683,
+      "p90": 27.959375
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 73,
+     "gpuMs": {
+      "p10": 43.475124,
+      "median": 47.85875,
+      "p90": 53.498875
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 212,
+     "gpuMs": {
+      "p10": 14.662125,
+      "median": 14.998375,
+      "p90": 16.295749
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 104,
+     "gpuMs": {
+      "p10": 30.388875,
+      "median": 32.246166,
+      "p90": 40.583124
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 3
+  },
+  {
+   "run": "reverse",
+   "variant": "original",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 90,
+     "gpuMs": {
+      "p10": 36.383666,
+      "median": 39.576875,
+      "p90": 42.81225
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 57,
+     "gpuMs": {
+      "p10": 54.521124,
+      "median": 66.270874,
+      "p90": 78.328791
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 103,
+     "gpuMs": {
+      "p10": 31.168833,
+      "median": 32.838166,
+      "p90": 34.859874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 66,
+     "gpuMs": {
+      "p10": 48.172124,
+      "median": 53.804208,
+      "p90": 62.293208
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 165,
+     "gpuMs": {
+      "p10": 18.761833,
+      "median": 19.654125,
+      "p90": 22.388874
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 91,
+     "gpuMs": {
+      "p10": 34.601624,
+      "median": 38.675,
+      "p90": 45.759
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 3
+  },
+  {
+   "run": "reverse",
+   "variant": "spots-half",
+   "browser": "154.0.8037.57",
+   "viewport": {
+    "width": 1280,
+    "height": 800
+   },
+   "patches": 21,
+   "samples": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 104,
+     "gpuMs": {
+      "p10": 32.02475,
+      "median": 34.511749,
+      "p90": 37.480541
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 76,
+     "gpuMs": {
+      "p10": 41.308916,
+      "median": 46.92575,
+      "p90": 53.466291
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "sauna",
+      "drawCalls": "118",
+      "triangles": "647268",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "118"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "frames": 110,
+     "gpuMs": {
+      "p10": 28.662374,
+      "median": 29.947,
+      "p90": 31.929749
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 88,
+     "gpuMs": {
+      "p10": 36.632749,
+      "median": 39.320458,
+      "p90": 43.473875
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "water",
+      "drawCalls": "109",
+      "triangles": "635102",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "frames": 185,
+     "gpuMs": {
+      "p10": 16.838999,
+      "median": 17.257375,
+      "p90": 19.445708
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "day",
+      "textures": "28",
+      "geometries": "126"
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "frames": 130,
+     "gpuMs": {
+      "p10": 24.945749,
+      "median": 25.287541,
+      "p90": 29.207166
+     },
+     "metrics": {
+      "quality": "high",
+      "stage": "totonou",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "lighting": "evening",
+      "textures": "28",
+      "geometries": "126"
+     }
+    }
+   ],
+   "errors": [],
+   "invocation": 3
+  }
+ ]
+}
