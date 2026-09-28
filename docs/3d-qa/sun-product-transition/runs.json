@@ -1,0 +1,3414 @@
+{
+  "standard": {
+    "product": {
+      "mode": "product",
+      "quality": "standard",
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+        "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+        "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+        "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+        "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+        "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+        "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+      },
+      "dir": "/Users/mac/git/sauna-simulator/test-results/visual/sun-transition.visual.ts-sun-transition-standard-product",
+      "samples": [
+        {
+          "file": "sauna-evening-53.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 53,
+          "now": 6400,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-54.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 54,
+          "now": 6500,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-55.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 55,
+          "now": 6600,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-56.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 56,
+          "now": 6700,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-57.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 57,
+          "now": 6800,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-58.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 58,
+          "now": 6900,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-59.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 59,
+          "now": 7000,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-60.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 60,
+          "now": 7100,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-61.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 61,
+          "now": 7200,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-62.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 62,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-0.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 0,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-1.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 1,
+          "now": 7400,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-2.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 2,
+          "now": 7500,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-3.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 3,
+          "now": 7600,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-53.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 53,
+          "now": 13000,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-54.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 54,
+          "now": 13100,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-55.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 55,
+          "now": 13200,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-56.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 56,
+          "now": 13300,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-57.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 57,
+          "now": 13400,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-58.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 58,
+          "now": 13500,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-59.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 59,
+          "now": 13600,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-60.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 60,
+          "now": 13700,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-61.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 61,
+          "now": 13800,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-62.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 62,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-0.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 0,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-1.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 1,
+          "now": 14000,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-2.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 2,
+          "now": 14100,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-3.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 3,
+          "now": 14200,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-53.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 53,
+          "now": 19600,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-54.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 54,
+          "now": 19700,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-55.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 55,
+          "now": 19800,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-56.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 56,
+          "now": 19900,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-57.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 57,
+          "now": 20000,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-58.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 58,
+          "now": 20100,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-59.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 59,
+          "now": 20200,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-60.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 60,
+          "now": 20300,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-61.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 61,
+          "now": 20400,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-62.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 62,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-0.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 0,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-1.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 1,
+          "now": 20600,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-2.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 2,
+          "now": 20700,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-3.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 3,
+          "now": 20800,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        }
+      ],
+      "errors": []
+    },
+    "before": {
+      "mode": "before",
+      "quality": "standard",
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+        "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+        "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+        "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+        "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+        "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+        "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+      },
+      "dir": "/Users/mac/git/sauna-simulator/test-results/visual/sun-transition.visual.ts-sun-transition-standard-before",
+      "samples": [
+        {
+          "file": "sauna-evening-53.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 53,
+          "now": 6400,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-54.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 54,
+          "now": 6500,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-55.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 55,
+          "now": 6600,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-56.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 56,
+          "now": 6700,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-57.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 57,
+          "now": 6800,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-58.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 58,
+          "now": 6900,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-59.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 59,
+          "now": 7000,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-60.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 60,
+          "now": 7100,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-61.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 61,
+          "now": 7200,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-62.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 62,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-0.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 0,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-1.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 1,
+          "now": 7400,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-2.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 2,
+          "now": 7500,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-3.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 3,
+          "now": 7600,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-53.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 53,
+          "now": 13000,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-54.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 54,
+          "now": 13100,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-55.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 55,
+          "now": 13200,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-56.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 56,
+          "now": 13300,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-57.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 57,
+          "now": 13400,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-58.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 58,
+          "now": 13500,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-59.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 59,
+          "now": 13600,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-60.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 60,
+          "now": 13700,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-61.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 61,
+          "now": 13800,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-62.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 62,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-0.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 0,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-1.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 1,
+          "now": 14000,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-2.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 2,
+          "now": 14100,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-3.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 3,
+          "now": 14200,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-53.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 53,
+          "now": 19600,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-54.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 54,
+          "now": 19700,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-55.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 55,
+          "now": 19800,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-56.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 56,
+          "now": 19900,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-57.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 57,
+          "now": 20000,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-58.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 58,
+          "now": 20100,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-59.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 59,
+          "now": 20200,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-60.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 60,
+          "now": 20300,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-61.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 61,
+          "now": 20400,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-62.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 62,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-0.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 0,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-1.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 1,
+          "now": 20600,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-2.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 2,
+          "now": 20700,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-3.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 3,
+          "now": 20800,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        }
+      ],
+      "errors": []
+    },
+    "product-repeat": {
+      "mode": "product-repeat",
+      "quality": "standard",
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+        "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+        "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+        "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+        "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+        "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+        "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+      },
+      "dir": "/Users/mac/git/sauna-simulator/test-results/visual/sun-transition.visual.ts-s-f2c2f-ion-standard-product-repeat",
+      "samples": [
+        {
+          "file": "sauna-evening-53.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 53,
+          "now": 6400,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-54.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 54,
+          "now": 6500,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-55.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 55,
+          "now": 6600,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-56.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 56,
+          "now": 6700,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-57.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 57,
+          "now": 6800,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-58.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 58,
+          "now": 6900,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-59.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 59,
+          "now": 7000,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-60.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 60,
+          "now": 7100,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-61.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 61,
+          "now": 7200,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-62.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 62,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-0.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 0,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-1.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 1,
+          "now": 7400,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-2.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 2,
+          "now": 7500,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-3.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 3,
+          "now": 7600,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-53.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 53,
+          "now": 13000,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-54.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 54,
+          "now": 13100,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-55.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 55,
+          "now": 13200,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-56.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 56,
+          "now": 13300,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-57.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 57,
+          "now": 13400,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-58.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 58,
+          "now": 13500,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-59.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 59,
+          "now": 13600,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-60.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 60,
+          "now": 13700,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-61.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 61,
+          "now": 13800,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-62.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 62,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-0.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 0,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-1.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 1,
+          "now": 14000,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-2.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 2,
+          "now": 14100,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-3.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 3,
+          "now": 14200,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-53.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 53,
+          "now": 19600,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-54.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 54,
+          "now": 19700,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-55.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 55,
+          "now": 19800,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-56.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 56,
+          "now": 19900,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-57.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 57,
+          "now": 20000,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-58.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 58,
+          "now": 20100,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-59.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 59,
+          "now": 20200,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-60.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 60,
+          "now": 20300,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-61.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 61,
+          "now": 20400,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-62.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 62,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-0.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 0,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-1.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 1,
+          "now": 20600,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-2.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 2,
+          "now": 20700,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-3.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 3,
+          "now": 20800,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        }
+      ],
+      "errors": []
+    }
+  },
+  "high": {
+    "product": {
+      "mode": "product",
+      "quality": "high",
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+        "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+        "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+        "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+        "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+        "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+        "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+      },
+      "dir": "/Users/mac/git/sauna-simulator/test-results/visual/sun-transition.visual.ts-sun-transition-high-product",
+      "samples": [
+        {
+          "file": "sauna-evening-53.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 53,
+          "now": 6400,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-54.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 54,
+          "now": 6500,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-55.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 55,
+          "now": 6600,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-56.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 56,
+          "now": 6700,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-57.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 57,
+          "now": 6800,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-58.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 58,
+          "now": 6900,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-59.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 59,
+          "now": 7000,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-60.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 60,
+          "now": 7100,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-61.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 61,
+          "now": 7200,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-62.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 62,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-0.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 0,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-1.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 1,
+          "now": 7400,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-2.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 2,
+          "now": 7500,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-3.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 3,
+          "now": 7600,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-53.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 53,
+          "now": 13000,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-54.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 54,
+          "now": 13100,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-55.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 55,
+          "now": 13200,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-56.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 56,
+          "now": 13300,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-57.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 57,
+          "now": 13400,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-58.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 58,
+          "now": 13500,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-59.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 59,
+          "now": 13600,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-60.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 60,
+          "now": 13700,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-61.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 61,
+          "now": 13800,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-62.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 62,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-0.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 0,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-1.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 1,
+          "now": 14000,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-2.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 2,
+          "now": 14100,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-3.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 3,
+          "now": 14200,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-53.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 53,
+          "now": 19600,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-54.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 54,
+          "now": 19700,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-55.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 55,
+          "now": 19800,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-56.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 56,
+          "now": 19900,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-57.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 57,
+          "now": 20000,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-58.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 58,
+          "now": 20100,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-59.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 59,
+          "now": 20200,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-60.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 60,
+          "now": 20300,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-61.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 61,
+          "now": 20400,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-62.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 62,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-0.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 0,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-1.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 1,
+          "now": 20600,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-2.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 2,
+          "now": 20700,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-3.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 3,
+          "now": 20800,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        }
+      ],
+      "errors": []
+    },
+    "before": {
+      "mode": "before",
+      "quality": "high",
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+        "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+        "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+        "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+        "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+        "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+        "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+      },
+      "dir": "/Users/mac/git/sauna-simulator/test-results/visual/sun-transition.visual.ts-sun-transition-high-before",
+      "samples": [
+        {
+          "file": "sauna-evening-53.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 53,
+          "now": 6400,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-54.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 54,
+          "now": 6500,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-55.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 55,
+          "now": 6600,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-56.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 56,
+          "now": 6700,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-57.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 57,
+          "now": 6800,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-58.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 58,
+          "now": 6900,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-59.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 59,
+          "now": 7000,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-60.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 60,
+          "now": 7100,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-61.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 61,
+          "now": 7200,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-62.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 62,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-0.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 0,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-1.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 1,
+          "now": 7400,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-2.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 2,
+          "now": 7500,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-3.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 3,
+          "now": 7600,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-53.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 53,
+          "now": 13000,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-54.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 54,
+          "now": 13100,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-55.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 55,
+          "now": 13200,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-56.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 56,
+          "now": 13300,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-57.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 57,
+          "now": 13400,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-58.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 58,
+          "now": 13500,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-59.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 59,
+          "now": 13600,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-60.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 60,
+          "now": 13700,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-61.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 61,
+          "now": 13800,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-62.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 62,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-0.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 0,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-1.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 1,
+          "now": 14000,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-2.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 2,
+          "now": 14100,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-3.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 3,
+          "now": 14200,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-53.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 53,
+          "now": 19600,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-54.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 54,
+          "now": 19700,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-55.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 55,
+          "now": 19800,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-56.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 56,
+          "now": 19900,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-57.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 57,
+          "now": 20000,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-58.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 58,
+          "now": 20100,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-59.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 59,
+          "now": 20200,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-60.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 60,
+          "now": 20300,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-61.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 61,
+          "now": 20400,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-62.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 62,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-0.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 0,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-1.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 1,
+          "now": 20600,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-2.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 2,
+          "now": 20700,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-3.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 3,
+          "now": 20800,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        }
+      ],
+      "errors": []
+    },
+    "product-repeat": {
+      "mode": "product-repeat",
+      "quality": "high",
+      "browser": "154.0.8037.57",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+        "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+        "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+        "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+        "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+        "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+        "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+      },
+      "dir": "/Users/mac/git/sauna-simulator/test-results/visual/sun-transition.visual.ts-sun-transition-high-product-repeat",
+      "samples": [
+        {
+          "file": "sauna-evening-53.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 53,
+          "now": 6400,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-54.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 54,
+          "now": 6500,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-55.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 55,
+          "now": 6600,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-56.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 56,
+          "now": 6700,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-57.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 57,
+          "now": 6800,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-58.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 58,
+          "now": 6900,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-59.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 59,
+          "now": 7000,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-60.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 60,
+          "now": 7100,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-61.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 61,
+          "now": 7200,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-evening-62.png",
+          "stage": "sauna",
+          "direction": "evening",
+          "step": 62,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-0.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 0,
+          "now": 7300,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-1.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 1,
+          "now": 7400,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-2.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 2,
+          "now": 7500,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "sauna-day-3.png",
+          "stage": "sauna",
+          "direction": "day",
+          "step": 3,
+          "now": 7600,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-53.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 53,
+          "now": 13000,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-54.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 54,
+          "now": 13100,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-55.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 55,
+          "now": 13200,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-56.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 56,
+          "now": 13300,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-57.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 57,
+          "now": 13400,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-58.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 58,
+          "now": 13500,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-59.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 59,
+          "now": 13600,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-60.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 60,
+          "now": 13700,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-61.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 61,
+          "now": 13800,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-evening-62.png",
+          "stage": "water",
+          "direction": "evening",
+          "step": 62,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-0.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 0,
+          "now": 13900,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-1.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 1,
+          "now": 14000,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-2.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 2,
+          "now": 14100,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "water-day-3.png",
+          "stage": "water",
+          "direction": "day",
+          "step": 3,
+          "now": 14200,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-53.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 53,
+          "now": 19600,
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-54.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 54,
+          "now": 19700,
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-55.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 55,
+          "now": 19800,
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-56.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 56,
+          "now": 19900,
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-57.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 57,
+          "now": 20000,
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-58.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 58,
+          "now": 20100,
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-59.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 59,
+          "now": 20200,
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-60.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 60,
+          "now": 20300,
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-61.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 61,
+          "now": 20400,
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-evening-62.png",
+          "stage": "totonou",
+          "direction": "evening",
+          "step": 62,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-0.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 0,
+          "now": 20500,
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-1.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 1,
+          "now": 20600,
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-2.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 2,
+          "now": 20700,
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "patches": 21
+        },
+        {
+          "file": "totonou-day-3.png",
+          "stage": "totonou",
+          "direction": "day",
+          "step": 3,
+          "now": 20800,
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "patches": 21
+        }
+      ],
+      "errors": []
+    }
+  }
+}
