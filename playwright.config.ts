@@ -5,6 +5,8 @@ export default defineConfig({
   testMatch: '**/*.e2e.ts',
   timeout: 90_000,
   workers: 1,
+  // A sibling of the other configs' folders: the default test-results/ is wiped on every run.
+  outputDir: 'test-results/e2e',
   use: {
     channel: 'chrome',
     baseURL: 'http://127.0.0.1:4175/sauna-simulator/',
