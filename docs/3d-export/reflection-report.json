@@ -5,7 +5,7 @@
     "V10 woodland floor extension"
   ],
   "input": "SUI_Retreat.blend",
-  "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
+  "input_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
   "blender": "4.5.11 LTS",
   "panorama": [
     64,
@@ -110,11 +110,11 @@
           "invalid": 4,
           "fill_rounds": 1,
           "backface_share_max_valid": 0.198,
-          "seconds": 276.7,
+          "seconds": 302.3,
           "upward_irradiance_mean": [
-            0.2086,
-            0.1241,
-            0.0846
+            0.4011,
+            0.3464,
+            0.3754
           ]
         },
         "courtyard": {
@@ -122,11 +122,11 @@
           "invalid": 295,
           "fill_rounds": 3,
           "backface_share_max_valid": 0.249,
-          "seconds": 627.9,
+          "seconds": 592.8,
           "upward_irradiance_mean": [
-            0.2807,
-            0.3637,
-            0.4174
+            1.3361,
+            1.4775,
+            2.1029
           ]
         },
         "outer": {
@@ -134,11 +134,11 @@
           "invalid": 303,
           "fill_rounds": 3,
           "backface_share_max_valid": 0.25,
-          "seconds": 652.3,
+          "seconds": 919.9,
           "upward_irradiance_mean": [
-            0.2051,
-            0.2957,
-            0.3645
+            1.3907,
+            1.5738,
+            2.3356
           ]
         },
         "water": {
@@ -149,13 +149,17 @@
           "hidden_from_transmission": [
             "V9 lounge patch of sunlight"
           ],
-          "seconds": 37.7,
+          "seconds": 590.1,
           "upward_irradiance_mean": [
-            0.2689,
-            0.2955,
-            0.262
+            0.5601,
+            0.6187,
+            0.777
           ]
         }
+      },
+      "sky_gates": {
+        "sky": 1,
+        "disk": 0
       }
     },
     "evening": {
@@ -175,11 +179,11 @@
           "invalid": 4,
           "fill_rounds": 1,
           "backface_share_max_valid": 0.198,
-          "seconds": 240.4,
+          "seconds": 252.8,
           "upward_irradiance_mean": [
-            0.1493,
-            0.0632,
-            0.0396
+            0.1931,
+            0.1169,
+            0.1622
           ]
         },
         "courtyard": {
@@ -187,11 +191,11 @@
           "invalid": 295,
           "fill_rounds": 3,
           "backface_share_max_valid": 0.249,
-          "seconds": 5253.7,
+          "seconds": 2609.5,
           "upward_irradiance_mean": [
-            0.1296,
-            0.1691,
-            0.2472
+            0.3306,
+            0.4208,
+            0.9099
           ]
         },
         "outer": {
@@ -199,11 +203,11 @@
           "invalid": 303,
           "fill_rounds": 3,
           "backface_share_max_valid": 0.25,
-          "seconds": 298.9,
+          "seconds": 1023.3,
           "upward_irradiance_mean": [
-            0.0585,
-            0.0959,
-            0.1798
+            0.3044,
+            0.4051,
+            0.9855
           ]
         },
         "water": {
@@ -218,27 +222,21 @@
             "V10 path grazing light 7 / dusk",
             "V10 specimen uplight / dusk"
           ],
-          "seconds": 36.3,
+          "seconds": 37.7,
           "upward_irradiance_mean": [
-            0.0702,
-            0.0897,
-            0.1131
+            0.1192,
+            0.1557,
+            0.2986
           ]
         }
+      },
+      "sky_gates": {
+        "sky": 1,
+        "disk": 0
       }
     }
   },
-  "copied_grids": {
-    "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
-    "bin_sha256": "d13e0b711afb56f3e60b34df8f0c830d7705be0a0a2e08331e5109c0971afd07",
-    "seconds": 65.0,
-    "grids": [
-      "room",
-      "courtyard",
-      "outer"
-    ]
-  },
   "bin_bytes": 530928,
-  "bin_sha256": "e083f38ac05a1736cd0e7ce2882cf9aeb11ef23e8bb83b53a385b84db98b7061",
-  "seconds": 74.7
+  "bin_sha256": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a",
+  "seconds": 6329.2
 }
