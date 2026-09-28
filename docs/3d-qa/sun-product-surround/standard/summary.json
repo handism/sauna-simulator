@@ -1,0 +1,2258 @@
+{
+  "durationSeconds": 360.00466500000005,
+  "qualities": {
+    "standard": {
+      "conditions": {
+        "hashes": {
+          "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+          "e2e/sun-shadow.gpu.ts": "8f70323a78e0049ccbc493c98b65d5dd7778dbf0d6e31f3cf81a9c869889bf36",
+          "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+          "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+          "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+          "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a",
+          "e2e/fixtures/cycles-cameras.json": "96ae74b22212564c8ab1f783649a550be27553c7e5ec8bd8935c4111a8888b6a"
+        },
+        "browser": "154.0.8037.57",
+        "viewport": {
+          "width": 1200,
+          "height": 800
+        },
+        "quality": "standard"
+      },
+      "views": {
+        "stage-sauna.png": {
+          "change": {
+            "mean": 0.021036708187004573,
+            "p99": 0.7740179192637637,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5775,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-0.png": {
+          "change": {
+            "mean": 0.021036708187004573,
+            "p99": 0.7740179192637637,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5775,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-1.png": {
+          "change": {
+            "mean": 0.02091796809981986,
+            "p99": 0.7722177257318399,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5678125,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-2.png": {
+          "change": {
+            "mean": 0.021043030006563684,
+            "p99": 0.7743381440658755,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5840625,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-3.png": {
+          "change": {
+            "mean": 0.021087801204840273,
+            "p99": 0.774338144065874,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5928125,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-4.png": {
+          "change": {
+            "mean": 0.02105778037007657,
+            "p99": 0.7746943322668055,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5879166666666666,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-5.png": {
+          "change": {
+            "mean": 0.020950193064312103,
+            "p99": 0.7738250036414196,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5832291666666665,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-6.png": {
+          "change": {
+            "mean": 0.02085406004270054,
+            "p99": 0.7744475064030286,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.56125,
+            "maximum": 1.3826045389079742
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-7.png": {
+          "change": {
+            "mean": 0.02089085104928693,
+            "p99": 0.7769971318988298,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5728125,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-8.png": {
+          "change": {
+            "mean": 0.02073138245643791,
+            "p99": 0.7724368506036098,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5586458333333333,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-0-0.png": {
+          "change": {
+            "mean": 0.021036708187004573,
+            "p99": 0.7740179192637637,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.5775,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-0--0.45.png": {
+          "change": {
+            "mean": 0.021160707333434437,
+            "p99": 0.7704810360420324,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.578125,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-0-0.45.png": {
+          "change": {
+            "mean": 0.008095917717674019,
+            "p99": 0.4806963912589453,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.9734375,
+            "maximum": 0.995181373598085
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-1-0.png": {
+          "change": {
+            "mean": 0.009397407785079278,
+            "p99": 0.5021642598308789,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.0083333333333333,
+            "maximum": 1.2742098967547881
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-1--0.45.png": {
+          "change": {
+            "mean": 0.008899241074065364,
+            "p99": 0.48734998747705577,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.9391666666666666,
+            "maximum": 0.9969801150115213
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-1-0.45.png": {
+          "change": {
+            "mean": 0.005524351707313805,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.62625,
+            "maximum": 1.0083378093282143
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-2-0.png": {
+          "change": {
+            "mean": 0.005717169739401736,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.6217708333333333,
+            "maximum": 1.0023677815383158
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-2--0.45.png": {
+          "change": {
+            "mean": 0.005237891709912933,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.5495833333333333,
+            "maximum": 0.9961256541230138
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-2-0.45.png": {
+          "change": {
+            "mean": 0.003966611807197147,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.4485416666666667,
+            "maximum": 1.2025241505998236
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-3-0.png": {
+          "change": {
+            "mean": 0.0012352469842826467,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.13802083333333334,
+            "maximum": 0.8439290661029245
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-3--0.45.png": {
+          "change": {
+            "mean": 0.0008564240322385316,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.1,
+            "maximum": 0.8497725137888997
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-3-0.45.png": {
+          "change": {
+            "mean": 0.002125386446349388,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.23197916666666665,
+            "maximum": 0.849575016646757
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-4-0.png": {
+          "change": {
+            "mean": 0.0016896916691601027,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.1884375,
+            "maximum": 0.8506782155392538
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-4--0.45.png": {
+          "change": {
+            "mean": 0.001168048118844639,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.13875,
+            "maximum": 0.8668977893829924
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-4-0.45.png": {
+          "change": {
+            "mean": 0.0013116592155465458,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.14145833333333332,
+            "maximum": 0.8312564251543929
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-5-0.png": {
+          "change": {
+            "mean": 0.0013042598685580429,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.1478125,
+            "maximum": 0.8506782155392538
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-5--0.45.png": {
+          "change": {
+            "mean": 0.0008322770706360854,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.09812499999999999,
+            "maximum": 0.8663838577870725
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-5-0.45.png": {
+          "change": {
+            "mean": 0.0013952625102509842,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.15260416666666665,
+            "maximum": 0.8312564251543929
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-6-0.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-6--0.45.png": {
+          "change": {
+            "mean": 0.00011164716056429258,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.014166666666666668,
+            "maximum": 0.9469548330480158
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-6-0.45.png": {
+          "change": {
+            "mean": 1.3282748782827303e-05,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.00125,
+            "maximum": 0.7319075663078707
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-7-0.png": {
+          "change": {
+            "mean": 0.011205280630498578,
+            "p99": 0.6163671570300189,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.4232291666666668,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-7--0.45.png": {
+          "change": {
+            "mean": 0.011537210107111383,
+            "p99": 0.6193401016356042,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.47125,
+            "maximum": 1.772313804720631
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-survey-7-0.45.png": {
+          "change": {
+            "mean": 0.0036840708341013065,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.44875000000000004,
+            "maximum": 1.3508886968543037
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "stage-water.png": {
+          "change": {
+            "mean": 0.0074831733686549174,
+            "p99": 0.368120782758798,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.8160416666666667,
+            "maximum": 1.0764853121978546
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-0.png": {
+          "change": {
+            "mean": 0.0074831733686549174,
+            "p99": 0.368120782758798,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.8160416666666667,
+            "maximum": 1.0764853121978546
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-1.png": {
+          "change": {
+            "mean": 0.007606193674375524,
+            "p99": 0.3733681390466235,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.8260416666666666,
+            "maximum": 1.0418987309766157
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-2.png": {
+          "change": {
+            "mean": 0.007442811970266524,
+            "p99": 0.36619272767465744,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.8083333333333333,
+            "maximum": 1.0416684641013834
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-3.png": {
+          "change": {
+            "mean": 0.007409600732758095,
+            "p99": 0.36323724824404363,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.8017708333333333,
+            "maximum": 1.4974624521374025
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-4.png": {
+          "change": {
+            "mean": 0.007614139220224463,
+            "p99": 0.37112056048462855,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.8245833333333334,
+            "maximum": 1.0614521659298986
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-5.png": {
+          "change": {
+            "mean": 0.00729445474472875,
+            "p99": 0.36079437162985345,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.7872916666666667,
+            "maximum": 1.0599941433785658
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-6.png": {
+          "change": {
+            "mean": 0.007359130126788571,
+            "p99": 0.36087370260358625,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.7977083333333332,
+            "maximum": 1.0533878625732587
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-7.png": {
+          "change": {
+            "mean": 0.007391400839065547,
+            "p99": 0.3628935545848929,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.7969791666666667,
+            "maximum": 1.285856000513124
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-8.png": {
+          "change": {
+            "mean": 0.00737994349402657,
+            "p99": 0.36079437162985345,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.7947916666666668,
+            "maximum": 1.2864539151643188
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-0-0.png": {
+          "change": {
+            "mean": 0.0074831733686549174,
+            "p99": 0.368120782758798,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.8160416666666667,
+            "maximum": 1.0764853121978546
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-0--0.45.png": {
+          "change": {
+            "mean": 0.009328874358680385,
+            "p99": 0.5208615765907194,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.0465624999999998,
+            "maximum": 1.2904066859080194
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-0-0.45.png": {
+          "change": {
+            "mean": 0.007661132195752643,
+            "p99": 0.363112096592191,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.7697916666666667,
+            "maximum": 1.1461259506345007
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-1-0.png": {
+          "change": {
+            "mean": 0.0028885261730826613,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.2792708333333333,
+            "maximum": 1.0470499215119502
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-1--0.45.png": {
+          "change": {
+            "mean": 0.003389918694256917,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.3310416666666667,
+            "maximum": 1.0357313518236295
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-1-0.45.png": {
+          "change": {
+            "mean": 0.0029910906698241584,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.28802083333333334,
+            "maximum": 1.0587167518699285
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-2-0.png": {
+          "change": {
+            "mean": 0.0001923470669840318,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.022187500000000002,
+            "maximum": 1.0012860779862092
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-2--0.45.png": {
+          "change": {
+            "mean": 0.0007811194583215406,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.08895833333333333,
+            "maximum": 0.9922434250976588
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-2-0.45.png": {
+          "change": {
+            "mean": 8.160728480111655e-05,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.008541666666666666,
+            "maximum": 1.0280502560199654
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-3-0.png": {
+          "change": {
+            "mean": 0.009693012390926651,
+            "p99": 0.5866839794612448,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.1610416666666667,
+            "maximum": 0.9723185142815679
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-3--0.45.png": {
+          "change": {
+            "mean": 0.021121875501341425,
+            "p99": 0.7452031965991515,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.57625,
+            "maximum": 0.9724155880535971
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-3-0.45.png": {
+          "change": {
+            "mean": 0.0012770820069621636,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.12645833333333334,
+            "maximum": 1.0311189653466117
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-4-0.png": {
+          "change": {
+            "mean": 0.06744805040231602,
+            "p99": 0.7876560702994952,
+            "over2Percent": 0.0,
+            "overHalfPercent": 8.361875000000001,
+            "maximum": 1.270144211340836
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-4--0.45.png": {
+          "change": {
+            "mean": 0.07150351892629854,
+            "p99": 0.7869549694168404,
+            "over2Percent": 0.0,
+            "overHalfPercent": 8.890833333333333,
+            "maximum": 1.2722854508935897
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-4-0.45.png": {
+          "change": {
+            "mean": 0.02983002793030116,
+            "p99": 0.7917201574918098,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.551354166666667,
+            "maximum": 1.0597398645984917
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-5-0.png": {
+          "change": {
+            "mean": 0.10613002547407586,
+            "p99": 0.8432217586510834,
+            "over2Percent": 0.0,
+            "overHalfPercent": 13.253229166666666,
+            "maximum": 1.530616512155334
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-5--0.45.png": {
+          "change": {
+            "mean": 0.11155659319164388,
+            "p99": 0.8227772543871655,
+            "over2Percent": 0.0,
+            "overHalfPercent": 14.081666666666667,
+            "maximum": 1.9498257732804334
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-5-0.45.png": {
+          "change": {
+            "mean": 0.052919464705906714,
+            "p99": 0.8266999853877682,
+            "over2Percent": 0.0,
+            "overHalfPercent": 6.3055208333333335,
+            "maximum": 1.53581369444286
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-6-0.png": {
+          "change": {
+            "mean": 0.07398757875295169,
+            "p99": 0.8569544238291908,
+            "over2Percent": 0.0,
+            "overHalfPercent": 9.363958333333333,
+            "maximum": 1.4768240886573167
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-6--0.45.png": {
+          "change": {
+            "mean": 0.07213641529695156,
+            "p99": 0.8245231313010053,
+            "over2Percent": 0.0,
+            "overHalfPercent": 9.280833333333334,
+            "maximum": 1.4674987577075969
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-6-0.45.png": {
+          "change": {
+            "mean": 0.048339075278354134,
+            "p99": 0.8412202049354958,
+            "over2Percent": 0.0,
+            "overHalfPercent": 5.754166666666666,
+            "maximum": 1.828846673805833
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-7-0.png": {
+          "change": {
+            "mean": 0.03605562426945082,
+            "p99": 0.8234502407679286,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.5808333333333335,
+            "maximum": 1.8543700423080476
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-7--0.45.png": {
+          "change": {
+            "mean": 0.03558933958656786,
+            "p99": 0.8137045647097898,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.649166666666667,
+            "maximum": 1.2989695394491385
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-survey-7-0.45.png": {
+          "change": {
+            "mean": 0.02277599565449328,
+            "p99": 0.7687419811190016,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.7194791666666664,
+            "maximum": 1.2807311212942378
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "stage-totonou.png": {
+          "change": {
+            "mean": 0.017456293935719725,
+            "p99": 0.8079532470449639,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8829166666666668,
+            "maximum": 1.0629168898339292
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-0.png": {
+          "change": {
+            "mean": 0.017456293935719725,
+            "p99": 0.8079532470449639,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8829166666666668,
+            "maximum": 1.0629168898339292
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-1.png": {
+          "change": {
+            "mean": 0.01761063357568425,
+            "p99": 0.8124918306203236,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8987500000000002,
+            "maximum": 1.0740331217043284
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-2.png": {
+          "change": {
+            "mean": 0.01738056501605426,
+            "p99": 0.8063050367302024,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8765625000000001,
+            "maximum": 1.0740331217043284
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-3.png": {
+          "change": {
+            "mean": 0.01727323976699414,
+            "p99": 0.8019959643687739,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8548958333333334,
+            "maximum": 1.082951663726858
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-4.png": {
+          "change": {
+            "mean": 0.017200563412420832,
+            "p99": 0.8015411774422896,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8584375,
+            "maximum": 1.0938864084884778
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-5.png": {
+          "change": {
+            "mean": 0.017465419177253316,
+            "p99": 0.8052849398763205,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8938541666666666,
+            "maximum": 1.0863378156871533
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-6.png": {
+          "change": {
+            "mean": 0.01720444585143351,
+            "p99": 0.8055910629003626,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8578125,
+            "maximum": 1.3179876310437342
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-7.png": {
+          "change": {
+            "mean": 0.017100080781814103,
+            "p99": 0.7996030440778533,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8494791666666666,
+            "maximum": 1.0829262626359375
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-8.png": {
+          "change": {
+            "mean": 0.017188756828031698,
+            "p99": 0.8030116143284223,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8621874999999999,
+            "maximum": 1.0782293763729895
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-0-0.png": {
+          "change": {
+            "mean": 0.017456293935719725,
+            "p99": 0.8079532470449639,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.8829166666666668,
+            "maximum": 1.0629168898339292
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-0--0.45.png": {
+          "change": {
+            "mean": 0.007612547238908371,
+            "p99": 0.44469605932674366,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.966875,
+            "maximum": 1.204891831464588
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-0-0.45.png": {
+          "change": {
+            "mean": 0.03390701314385992,
+            "p99": 0.8562389756504308,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.9428125,
+            "maximum": 1.5572035472121888
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-1-0.png": {
+          "change": {
+            "mean": 0.00891423815145752,
+            "p99": 0.46896344007824087,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.9044791666666666,
+            "maximum": 1.2519207483124417
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-1--0.45.png": {
+          "change": {
+            "mean": 0.0018956740310934472,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.199375,
+            "maximum": 1.0364547671388697
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-1-0.45.png": {
+          "change": {
+            "mean": 0.016999213906014433,
+            "p99": 0.7432929399010606,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.9322916666666665,
+            "maximum": 1.0924744929276577
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-2-0.png": {
+          "change": {
+            "mean": 0.027151601573610552,
+            "p99": 0.7622102880554755,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.3529166666666663,
+            "maximum": 1.061843850364776
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-2--0.45.png": {
+          "change": {
+            "mean": 0.022730358687616532,
+            "p99": 0.7532550823663208,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.791770833333333,
+            "maximum": 1.0627483516567249
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-2-0.45.png": {
+          "change": {
+            "mean": 0.020228162828960065,
+            "p99": 0.7319246085943006,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.568020833333333,
+            "maximum": 1.0307556784313125
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-3-0.png": {
+          "change": {
+            "mean": 0.08057679834592636,
+            "p99": 0.8073607997066645,
+            "over2Percent": 0.0,
+            "overHalfPercent": 10.005104166666667,
+            "maximum": 1.971780598594174
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-3--0.45.png": {
+          "change": {
+            "mean": 0.06155926896901281,
+            "p99": 0.8002857819483422,
+            "over2Percent": 0.0003125,
+            "overHalfPercent": 7.7184375,
+            "maximum": 2.248872284695313
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-3-0.45.png": {
+          "change": {
+            "mean": 0.05569344071556653,
+            "p99": 0.7996871726485645,
+            "over2Percent": 0.00010416666666666667,
+            "overHalfPercent": 6.935,
+            "maximum": 2.0879997506714862
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-4-0.png": {
+          "change": {
+            "mean": 0.14546487915498874,
+            "p99": 0.854783883509082,
+            "over2Percent": 0.00020833333333333335,
+            "overHalfPercent": 18.152083333333334,
+            "maximum": 2.1134727313536845
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-4--0.45.png": {
+          "change": {
+            "mean": 0.09159837710746772,
+            "p99": 0.838463941379365,
+            "over2Percent": 0.0004166666666666667,
+            "overHalfPercent": 11.669479166666667,
+            "maximum": 2.0879997506714862
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-4-0.45.png": {
+          "change": {
+            "mean": 0.1161409239952969,
+            "p99": 0.8286106840475348,
+            "over2Percent": 0.00010416666666666667,
+            "overHalfPercent": 14.346041666666668,
+            "maximum": 2.0879997506714862
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-5-0.png": {
+          "change": {
+            "mean": 0.18072816994663748,
+            "p99": 0.8434253542426304,
+            "over2Percent": 0.0,
+            "overHalfPercent": 22.707395833333333,
+            "maximum": 1.959998695155051
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-5--0.45.png": {
+          "change": {
+            "mean": 0.11752381049594472,
+            "p99": 0.8475639649069859,
+            "over2Percent": 0.0,
+            "overHalfPercent": 15.162604166666666,
+            "maximum": 1.6635078662000398
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-5-0.45.png": {
+          "change": {
+            "mean": 0.17373331443161835,
+            "p99": 0.8341734269976957,
+            "over2Percent": 0.0,
+            "overHalfPercent": 21.675625,
+            "maximum": 1.896359352759516
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-6-0.png": {
+          "change": {
+            "mean": 0.12997358617071836,
+            "p99": 0.8366045758850317,
+            "over2Percent": 0.0,
+            "overHalfPercent": 16.321145833333333,
+            "maximum": 1.3394381346870474
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-6--0.45.png": {
+          "change": {
+            "mean": 0.09437973397241604,
+            "p99": 0.8499830641023508,
+            "over2Percent": 0.0,
+            "overHalfPercent": 12.44,
+            "maximum": 1.959998695155051
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-6-0.45.png": {
+          "change": {
+            "mean": 0.15593393035667677,
+            "p99": 0.8639627750658916,
+            "over2Percent": 0.0,
+            "overHalfPercent": 19.373541666666664,
+            "maximum": 1.6588416684101526
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-7-0.png": {
+          "change": {
+            "mean": 0.05072480651844574,
+            "p99": 0.8386933649668963,
+            "over2Percent": 0.0,
+            "overHalfPercent": 6.483541666666667,
+            "maximum": 1.3151931117949407
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-7--0.45.png": {
+          "change": {
+            "mean": 0.03604506466262902,
+            "p99": 0.7858539871466189,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.892291666666667,
+            "maximum": 1.4361645305402142
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-survey-7-0.45.png": {
+          "change": {
+            "mean": 0.0733250600657742,
+            "p99": 0.8908943227620765,
+            "over2Percent": 0.0,
+            "overHalfPercent": 9.165208333333332,
+            "maximum": 1.6588416684101526
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "cycles-02.png": {
+          "change": {
+            "mean": 0.016326329646835322,
+            "p99": 0.6573001608741302,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.0505208333333336,
+            "maximum": 1.8793952781574816
+          },
+          "captureNoise": {
+            "mean": 7.038361261059915e-06,
+            "p99": 0.0,
+            "over2Percent": 0.00010416666666666667,
+            "overHalfPercent": 0.00020833333333333335,
+            "maximum": 5.683651497015056
+          },
+          "cycles600x400": {
+            "before": {
+              "mean": 7.476571762230713,
+              "p99": 36.11667401902395,
+              "over2Percent": 87.37208333333332,
+              "overHalfPercent": 99.60916666666667,
+              "maximum": 65.49795176897733
+            },
+            "product": {
+              "mean": 7.477052359568863,
+              "p99": 36.111057362663395,
+              "over2Percent": 87.3725,
+              "overHalfPercent": 99.61458333333333,
+              "maximum": 65.49795176897733
+            }
+          }
+        },
+        "cycles-03.png": {
+          "change": {
+            "mean": 0.02685537490586759,
+            "p99": 0.7844111456172954,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.2392708333333333,
+            "maximum": 1.244850078713575
+          },
+          "captureNoise": {
+            "mean": 9.998959191637194e-05,
+            "p99": 0.0,
+            "over2Percent": 0.0019791666666666664,
+            "overHalfPercent": 0.0019791666666666664,
+            "maximum": 9.255853745019119
+          },
+          "cycles600x400": {
+            "before": {
+              "mean": 6.97767007092821,
+              "p99": 35.074313083866585,
+              "over2Percent": 84.80791666666667,
+              "overHalfPercent": 99.34333333333333,
+              "maximum": 61.180728704641574
+            },
+            "product": {
+              "mean": 6.975874331217664,
+              "p99": 35.074313083866585,
+              "over2Percent": 84.79833333333333,
+              "overHalfPercent": 99.34458333333333,
+              "maximum": 61.180728704641574
+            }
+          }
+        },
+        "cycles-07.png": {
+          "change": {
+            "mean": 0.022925487907459432,
+            "p99": 0.8584275368313881,
+            "over2Percent": 0.0,
+            "overHalfPercent": 2.4860416666666665,
+            "maximum": 1.0723013959164207
+          },
+          "captureNoise": {
+            "mean": 2.8515471774538056e-06,
+            "p99": 0.0,
+            "over2Percent": 0.00010416666666666667,
+            "overHalfPercent": 0.00010416666666666667,
+            "maximum": 2.7374852903556532
+          },
+          "cycles600x400": {
+            "before": {
+              "mean": 6.674060846092652,
+              "p99": 45.33753206912163,
+              "over2Percent": 67.35208333333334,
+              "overHalfPercent": 86.40541666666667,
+              "maximum": 83.3056322439612
+            },
+            "product": {
+              "mean": 6.672767526124263,
+              "p99": 45.33797675717899,
+              "over2Percent": 67.33958333333334,
+              "overHalfPercent": 86.39875,
+              "maximum": 83.3056322439612
+            }
+          }
+        },
+        "cycles-01.png": {
+          "change": {
+            "mean": 0.046216431438259105,
+            "p99": 0.9063880163293223,
+            "over2Percent": 0.0043749999999999995,
+            "overHalfPercent": 5.123854166666667,
+            "maximum": 11.887404303385866
+          },
+          "captureNoise": {
+            "mean": 0.00022554364049755206,
+            "p99": 0.0,
+            "over2Percent": 0.0040625,
+            "overHalfPercent": 0.004583333333333333,
+            "maximum": 11.887404303385866
+          },
+          "cycles600x400": {
+            "before": {
+              "mean": 7.816238129727234,
+              "p99": 44.881763359348064,
+              "over2Percent": 84.58083333333335,
+              "overHalfPercent": 98.70333333333333,
+              "maximum": 89.63804859280758
+            },
+            "product": {
+              "mean": 7.816754699972299,
+              "p99": 44.87421968266316,
+              "over2Percent": 84.58291666666666,
+              "overHalfPercent": 98.7025,
+              "maximum": 89.63804859280758
+            }
+          }
+        },
+        "cycles-04.png": {
+          "change": {
+            "mean": 0.06399429209352579,
+            "p99": 0.8086272407380739,
+            "over2Percent": 0.0016666666666666668,
+            "overHalfPercent": 8.174166666666666,
+            "maximum": 11.764776589121128
+          },
+          "captureNoise": {
+            "mean": 8.359181005500214e-05,
+            "p99": 0.0,
+            "over2Percent": 0.0015625,
+            "overHalfPercent": 0.001875,
+            "maximum": 11.764776589121128
+          },
+          "cycles600x400": {
+            "before": {
+              "mean": 6.894836927343283,
+              "p99": 32.92027653719379,
+              "over2Percent": 84.32875,
+              "overHalfPercent": 99.27416666666666,
+              "maximum": 65.0603827638792
+            },
+            "product": {
+              "mean": 6.894277447739928,
+              "p99": 32.94081386760178,
+              "over2Percent": 84.28041666666667,
+              "overHalfPercent": 99.27625,
+              "maximum": 65.0603827638792
+            }
+          }
+        },
+        "cycles-05.png": {
+          "change": {
+            "mean": 0.04728696247157384,
+            "p99": 0.9267088052096565,
+            "over2Percent": 0.0022916666666666667,
+            "overHalfPercent": 5.306041666666666,
+            "maximum": 10.464131402210617
+          },
+          "captureNoise": {
+            "mean": 9.394185751374735e-05,
+            "p99": 0.0,
+            "over2Percent": 0.001875,
+            "overHalfPercent": 0.0020833333333333333,
+            "maximum": 10.464131402210617
+          },
+          "cycles600x400": {
+            "before": {
+              "mean": 8.551310220854651,
+              "p99": 49.049153905759816,
+              "over2Percent": 81.01458333333333,
+              "overHalfPercent": 98.85791666666667,
+              "maximum": 77.30939072982792
+            },
+            "product": {
+              "mean": 8.551430696594167,
+              "p99": 49.04682357767271,
+              "over2Percent": 81.00083333333333,
+              "overHalfPercent": 98.86833333333334,
+              "maximum": 77.30939072982792
+            }
+          }
+        }
+      },
+      "temporal": {
+        "sauna-move-1.png": {
+          "change": {
+            "mean": 0.037554921591244864,
+            "p99": 0.8651252081811457,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.3921875,
+            "maximum": 1.9575171265645464
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-2.png": {
+          "change": {
+            "mean": 0.03759763013718649,
+            "p99": 0.8637696257984077,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.4071875,
+            "maximum": 1.9393925493953053
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-3.png": {
+          "change": {
+            "mean": 0.03769039204879598,
+            "p99": 0.8652369542767654,
+            "over2Percent": 0.00010416666666666667,
+            "overHalfPercent": 4.422083333333333,
+            "maximum": 2.042470983331255
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-4.png": {
+          "change": {
+            "mean": 0.03772725613251331,
+            "p99": 0.866815475822478,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.4375,
+            "maximum": 1.9437427756500247
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-5.png": {
+          "change": {
+            "mean": 0.037620232417836796,
+            "p99": 0.8674155514509492,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.419583333333333,
+            "maximum": 1.9523160539592759
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-6.png": {
+          "change": {
+            "mean": 0.03743858366795653,
+            "p99": 0.8693926820941368,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.396354166666667,
+            "maximum": 1.9422334046388534
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-7.png": {
+          "change": {
+            "mean": 0.03729209657935124,
+            "p99": 0.8690309965557198,
+            "over2Percent": 0.00010416666666666667,
+            "overHalfPercent": 4.3753125,
+            "maximum": 2.0262497970527695
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-move-8.png": {
+          "change": {
+            "mean": 0.03716561568768082,
+            "p99": 0.8700014793911366,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.365625,
+            "maximum": 1.9477253427957728
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-1.png": {
+          "change": {
+            "mean": 0.013707992441952402,
+            "p99": 0.7049702225094274,
+            "over2Percent": 0.0028125,
+            "overHalfPercent": 1.4501041666666667,
+            "maximum": 2.0563578685046267
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-2.png": {
+          "change": {
+            "mean": 0.0137095531374999,
+            "p99": 0.7082684852832752,
+            "over2Percent": 0.0028125,
+            "overHalfPercent": 1.4470833333333333,
+            "maximum": 2.0679679962093678
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-3.png": {
+          "change": {
+            "mean": 0.0135111972755895,
+            "p99": 0.7029927767364919,
+            "over2Percent": 0.0033333333333333335,
+            "overHalfPercent": 1.4234375000000001,
+            "maximum": 2.0591127609432136
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-4.png": {
+          "change": {
+            "mean": 0.013691004740577266,
+            "p99": 0.7116867999813037,
+            "over2Percent": 0.003645833333333334,
+            "overHalfPercent": 1.4352083333333332,
+            "maximum": 2.071462703647259
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-5.png": {
+          "change": {
+            "mean": 0.013533290378771956,
+            "p99": 0.6981350044791176,
+            "over2Percent": 0.0033333333333333335,
+            "overHalfPercent": 1.42125,
+            "maximum": 2.0622891835445447
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-6.png": {
+          "change": {
+            "mean": 0.013349220298963845,
+            "p99": 0.697179212376455,
+            "over2Percent": 0.0032291666666666666,
+            "overHalfPercent": 1.4010416666666665,
+            "maximum": 2.071462703647259
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-7.png": {
+          "change": {
+            "mean": 0.013457828371076083,
+            "p99": 0.6978574765769874,
+            "over2Percent": 0.0046875,
+            "overHalfPercent": 1.4065625,
+            "maximum": 2.071462703647259
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-move-8.png": {
+          "change": {
+            "mean": 0.013428113881875647,
+            "p99": 0.6981337391738824,
+            "over2Percent": 0.0033333333333333335,
+            "overHalfPercent": 1.4010416666666665,
+            "maximum": 2.071462703647259
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-1.png": {
+          "change": {
+            "mean": 0.03201893731938286,
+            "p99": 0.9152643234224208,
+            "over2Percent": 0.0053124999999999995,
+            "overHalfPercent": 3.3728124999999998,
+            "maximum": 2.0622891835445447
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-2.png": {
+          "change": {
+            "mean": 0.0318564967381655,
+            "p99": 0.9161595901325507,
+            "over2Percent": 0.0060416666666666665,
+            "overHalfPercent": 3.3541666666666665,
+            "maximum": 2.071462703647259
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-3.png": {
+          "change": {
+            "mean": 0.0315592447663745,
+            "p99": 0.9135004635557443,
+            "over2Percent": 0.005729166666666666,
+            "overHalfPercent": 3.3237500000000004,
+            "maximum": 2.0729095342777395
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-4.png": {
+          "change": {
+            "mean": 0.03142214775127392,
+            "p99": 0.912305637292802,
+            "over2Percent": 0.0071874999999999994,
+            "overHalfPercent": 3.311354166666667,
+            "maximum": 2.0729095342777395
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-5.png": {
+          "change": {
+            "mean": 0.0315990042787911,
+            "p99": 0.9135004635557443,
+            "over2Percent": 0.005520833333333333,
+            "overHalfPercent": 3.345,
+            "maximum": 2.0729095342777395
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-6.png": {
+          "change": {
+            "mean": 0.031691225946102596,
+            "p99": 0.9131872361367703,
+            "over2Percent": 0.007083333333333334,
+            "overHalfPercent": 3.3469791666666664,
+            "maximum": 2.0729095342777395
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-7.png": {
+          "change": {
+            "mean": 0.031262410457348816,
+            "p99": 0.912668731566959,
+            "over2Percent": 0.0069791666666666665,
+            "overHalfPercent": 3.305104166666667,
+            "maximum": 2.0729095342777395
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-move-8.png": {
+          "change": {
+            "mean": 0.031214662577584706,
+            "p99": 0.9129705635894042,
+            "over2Percent": 0.005416666666666667,
+            "overHalfPercent": 3.3028125,
+            "maximum": 2.0729095342777395
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        }
+      },
+      "referenceHashes": {
+        "blender/renders/v13-sky/bh-02.png": "ca1c40e3ce8bfc3814209e1e27f575130124d25251b3d29fe4163e762c74484c",
+        "blender/renders/v13-sky/bh-03.png": "6e44d0928c69ab730880720c32f38ed67f3e6fd62db439f012a6ad28636121b1",
+        "blender/renders/v13-sky/bh-07.png": "7556b064539f74c777b6b089d7e5f2187614305551120e5ba9c53eff8bc2130a",
+        "blender/renders/v13-sky/06.png": "1b493d4fda73c9980e5842e92fb6cd8d369c86e24054c5d88b1c354f7da90af2",
+        "blender/renders/v13-sky/bh-04.png": "2b2fb61c90c34f649924a90e2c6f478824cfb1157589ba913ba5865aa46da476",
+        "blender/renders/v13-sky/bh-05.png": "820900e6cabfce9c7e0c21aa26fd54d2449c223be84edfc9c0508a5dd00cbf46"
+      },
+      "maxima": {
+        "change": {
+          "mean": 0.18072816994663748,
+          "over2Percent": 0.0043749999999999995,
+          "overHalfPercent": 22.707395833333333,
+          "maximum": 11.887404303385866
+        },
+        "captureNoise": {
+          "mean": 0.00022554364049755206,
+          "over2Percent": 0.0040625,
+          "overHalfPercent": 0.004583333333333333,
+          "maximum": 11.887404303385866
+        }
+      }
+    }
+  }
+}

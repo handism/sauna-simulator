@@ -1,0 +1,3081 @@
+{
+  "durationSeconds": 337.945295,
+  "qualities": {
+    "standard": {
+      "conditions": {
+        "hashes": {
+          "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+          "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+          "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+          "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+          "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+          "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+          "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+        },
+        "browser": "154.0.8037.57",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "quality": "standard"
+      },
+      "views": {
+        "sauna-evening-53.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "lite": false
+        },
+        "sauna-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "lite": false
+        },
+        "sauna-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "lite": false
+        },
+        "sauna-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "lite": false
+        },
+        "sauna-evening-57.png": {
+          "change": {
+            "mean": 0.03616370086395349,
+            "p99": 0.8242320988903691,
+            "over2Percent": 0.00146484375,
+            "overHalfPercent": 4.366796875,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "lite": true
+        },
+        "sauna-evening-58.png": {
+          "change": {
+            "mean": 0.03536304577000199,
+            "p99": 0.8220784938480807,
+            "over2Percent": 0.00126953125,
+            "overHalfPercent": 4.2686523437499995,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "lite": true
+        },
+        "sauna-evening-59.png": {
+          "change": {
+            "mean": 0.034449769853136164,
+            "p99": 0.821353377909045,
+            "over2Percent": 0.00126953125,
+            "overHalfPercent": 4.1669921875,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "lite": true
+        },
+        "sauna-evening-60.png": {
+          "change": {
+            "mean": 0.03352631069163379,
+            "p99": 0.8196492113054669,
+            "over2Percent": 0.0009765625,
+            "overHalfPercent": 4.0497070312500005,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "lite": true
+        },
+        "sauna-evening-61.png": {
+          "change": {
+            "mean": 0.032833103023478784,
+            "p99": 0.8186504436623347,
+            "over2Percent": 0.0010742187499999999,
+            "overHalfPercent": 3.9658203125,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "lite": true
+        },
+        "sauna-evening-62.png": {
+          "change": {
+            "mean": 0.032261527806946674,
+            "p99": 0.8159521033560637,
+            "over2Percent": 0.0008789062499999999,
+            "overHalfPercent": 3.90546875,
+            "maximum": 2.1412208079785575
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "sauna-day-0.png": {
+          "change": {
+            "mean": 0.032261527806946674,
+            "p99": 0.8159521033560637,
+            "over2Percent": 0.0008789062499999999,
+            "overHalfPercent": 3.90546875,
+            "maximum": 2.1412208079785575
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "sauna-day-1.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "lite": false
+        },
+        "sauna-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "lite": false
+        },
+        "sauna-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "lite": false
+        },
+        "water-evening-53.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "lite": false
+        },
+        "water-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "lite": false
+        },
+        "water-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "lite": false
+        },
+        "water-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "lite": false
+        },
+        "water-evening-57.png": {
+          "change": {
+            "mean": 0.014733004189299287,
+            "p99": 0.7491529787956693,
+            "over2Percent": 0.0001953125,
+            "overHalfPercent": 1.6148437500000001,
+            "maximum": 2.1891339616726357
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "lite": true
+        },
+        "water-evening-58.png": {
+          "change": {
+            "mean": 0.014283127596275915,
+            "p99": 0.7321316056007775,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.5756835937500002,
+            "maximum": 1.997414178434691
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "lite": true
+        },
+        "water-evening-59.png": {
+          "change": {
+            "mean": 0.013732957789696737,
+            "p99": 0.6956301876547151,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.50859375,
+            "maximum": 1.997414178434691
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "lite": true
+        },
+        "water-evening-60.png": {
+          "change": {
+            "mean": 0.013238862965966483,
+            "p99": 0.6898756978099784,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.4461914062499999,
+            "maximum": 1.9799636067061082
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "lite": true
+        },
+        "water-evening-61.png": {
+          "change": {
+            "mean": 0.013068221698912676,
+            "p99": 0.6889756502504011,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.43232421875,
+            "maximum": 1.8783418017242426
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "lite": true
+        },
+        "water-evening-62.png": {
+          "change": {
+            "mean": 0.012709252026671763,
+            "p99": 0.6821526740503169,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.4007812499999999,
+            "maximum": 1.9863003049360497
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "water-day-0.png": {
+          "change": {
+            "mean": 0.012709252026671763,
+            "p99": 0.6821526740503169,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.4007812499999999,
+            "maximum": 1.9863003049360497
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "water-day-1.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "lite": false
+        },
+        "water-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "lite": false
+        },
+        "water-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "lite": false
+        },
+        "totonou-evening-53.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "lite": false
+        },
+        "totonou-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "lite": false
+        },
+        "totonou-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "lite": false
+        },
+        "totonou-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "lite": false
+        },
+        "totonou-evening-57.png": {
+          "change": {
+            "mean": 0.03249493917110122,
+            "p99": 0.8977511879040887,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.5724609375000003,
+            "maximum": 2.957924000874529
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "lite": true
+        },
+        "totonou-evening-58.png": {
+          "change": {
+            "mean": 0.03162382362689321,
+            "p99": 0.893212821980749,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.46689453125,
+            "maximum": 2.147618203982893
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "lite": true
+        },
+        "totonou-evening-59.png": {
+          "change": {
+            "mean": 0.03094751936158079,
+            "p99": 0.8904862145806832,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.39892578125,
+            "maximum": 2.147618203982893
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "lite": true
+        },
+        "totonou-evening-60.png": {
+          "change": {
+            "mean": 0.029681867364617923,
+            "p99": 0.8853968832005803,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.25087890625,
+            "maximum": 1.9024620715762648
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "lite": true
+        },
+        "totonou-evening-61.png": {
+          "change": {
+            "mean": 0.028970583780937694,
+            "p99": 0.8848286415536749,
+            "over2Percent": 0.0001953125,
+            "overHalfPercent": 3.17412109375,
+            "maximum": 2.047763439856555
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "lite": true
+        },
+        "totonou-evening-62.png": {
+          "change": {
+            "mean": 0.028404894037782718,
+            "p99": 0.88280231667989,
+            "over2Percent": 0.0001953125,
+            "overHalfPercent": 3.10830078125,
+            "maximum": 2.047763439856555
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "totonou-day-0.png": {
+          "change": {
+            "mean": 0.028404894037782718,
+            "p99": 0.88280231667989,
+            "over2Percent": 0.0001953125,
+            "overHalfPercent": 3.10830078125,
+            "maximum": 2.047763439856555
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "totonou-day-1.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "lite": false
+        },
+        "totonou-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "lite": false
+        },
+        "totonou-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "lite": false
+        }
+      },
+      "temporal": {
+        "sauna-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-57.png": {
+          "change": {
+            "mean": 0.03616370086395349,
+            "p99": 0.8242320988903691,
+            "over2Percent": 0.00146484375,
+            "overHalfPercent": 4.366796875,
+            "maximum": 2.1272029915358406
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-58.png": {
+          "change": {
+            "mean": 0.04029858708128672,
+            "p99": 0.8997957728098471,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.40458984375,
+            "maximum": 1.8401120384270053
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-59.png": {
+          "change": {
+            "mean": 0.03834802180506917,
+            "p99": 0.8906532171687043,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.1958984375,
+            "maximum": 1.8555138446417017
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-60.png": {
+          "change": {
+            "mean": 0.03637163612575123,
+            "p99": 0.8794424595044515,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.9769531249999996,
+            "maximum": 1.8214225553580166
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-61.png": {
+          "change": {
+            "mean": 0.0347615261469777,
+            "p99": 0.8701899861423626,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.79951171875,
+            "maximum": 1.8492097068364908
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-62.png": {
+          "change": {
+            "mean": 0.03303026966532306,
+            "p99": 0.8588748176646184,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.61416015625,
+            "maximum": 1.7850513884936674
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-day-1.png": {
+          "change": {
+            "mean": 0.032261527806946674,
+            "p99": 0.8159521033560637,
+            "over2Percent": 0.0008789062499999999,
+            "overHalfPercent": 3.90546875,
+            "maximum": 2.1412208079785575
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-57.png": {
+          "change": {
+            "mean": 0.014733004189299287,
+            "p99": 0.7491529787956693,
+            "over2Percent": 0.0001953125,
+            "overHalfPercent": 1.6148437500000001,
+            "maximum": 2.1891339616726357
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-58.png": {
+          "change": {
+            "mean": 0.017581704431980164,
+            "p99": 0.7903170355727384,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.87001953125,
+            "maximum": 1.8723581025502396
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-59.png": {
+          "change": {
+            "mean": 0.016603917419922346,
+            "p99": 0.7690890192395475,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.7716796875,
+            "maximum": 1.8723581025502396
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-60.png": {
+          "change": {
+            "mean": 0.015609642836930405,
+            "p99": 0.7596047065713324,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.6641601562500001,
+            "maximum": 1.8760728418717774
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-61.png": {
+          "change": {
+            "mean": 0.01489543957099118,
+            "p99": 0.7479812641238891,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.5910156250000003,
+            "maximum": 1.8873000045234107
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-62.png": {
+          "change": {
+            "mean": 0.014260021665647582,
+            "p99": 0.7219565801418035,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.5197265625,
+            "maximum": 1.9319664647222807
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-day-1.png": {
+          "change": {
+            "mean": 0.012709252026671763,
+            "p99": 0.6821526740503169,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.4007812499999999,
+            "maximum": 1.9863003049360497
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-57.png": {
+          "change": {
+            "mean": 0.03249493917110122,
+            "p99": 0.8977511879040887,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.5724609375000003,
+            "maximum": 2.957924000874529
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-58.png": {
+          "change": {
+            "mean": 0.04604033723481052,
+            "p99": 0.9844008411900002,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.802539062499999,
+            "maximum": 1.886159746957988
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-59.png": {
+          "change": {
+            "mean": 0.044103217436359116,
+            "p99": 0.9724260473162575,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.6073242187500005,
+            "maximum": 1.868769121047334
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-60.png": {
+          "change": {
+            "mean": 0.04222465842133769,
+            "p99": 0.9600508636811688,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.4166015625,
+            "maximum": 1.8725526749656183
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-61.png": {
+          "change": {
+            "mean": 0.04015270261432477,
+            "p99": 0.9424818458440344,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.2107421875,
+            "maximum": 1.8805063431469187
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-62.png": {
+          "change": {
+            "mean": 0.03822107205135742,
+            "p99": 0.9278277326525598,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.01416015625,
+            "maximum": 1.8805063431469187
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-day-1.png": {
+          "change": {
+            "mean": 0.028404894037782718,
+            "p99": 0.88280231667989,
+            "over2Percent": 0.0001953125,
+            "overHalfPercent": 3.10830078125,
+            "maximum": 2.047763439856555
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        }
+      },
+      "referenceHashes": {},
+      "maxima": {
+        "change": {
+          "mean": 0.03616370086395349,
+          "over2Percent": 0.00146484375,
+          "overHalfPercent": 4.366796875,
+          "maximum": 2.957924000874529
+        },
+        "captureNoise": {
+          "mean": 0.0,
+          "over2Percent": 0.0,
+          "overHalfPercent": 0.0,
+          "maximum": 0.0
+        }
+      }
+    },
+    "high": {
+      "conditions": {
+        "hashes": {
+          "src/components/3d/softShadows.ts": "14fa45036939a5aa781e374238f703979a94969fe8d93ed84009b1abb18c0288",
+          "src/components/3d/lighting.ts": "ee45c902425aa98829b24838215027aa37c131dbff94fab17a7388d9ebc04bc4",
+          "e2e/sun-transition.visual.ts": "49b9f14f100bb5ad393a83b532f0c24935084b04ab8930b6681a249bd7d1e875",
+          "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+          "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+          "public/models/irradiance.bin": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+          "public/models/reflection.bin": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a"
+        },
+        "browser": "154.0.8037.57",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "quality": "high"
+      },
+      "views": {
+        "sauna-evening-53.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "lite": false
+        },
+        "sauna-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "lite": false
+        },
+        "sauna-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "lite": false
+        },
+        "sauna-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "lite": false
+        },
+        "sauna-evening-57.png": {
+          "change": {
+            "mean": 0.03582235319834546,
+            "p99": 0.8229134790561565,
+            "over2Percent": 0.00078125,
+            "overHalfPercent": 4.3041015625,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "lite": true
+        },
+        "sauna-evening-58.png": {
+          "change": {
+            "mean": 0.034908695161441454,
+            "p99": 0.821353377909045,
+            "over2Percent": 0.0010742187499999999,
+            "overHalfPercent": 4.204296875,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "lite": true
+        },
+        "sauna-evening-59.png": {
+          "change": {
+            "mean": 0.0340531121184235,
+            "p99": 0.819885694095436,
+            "over2Percent": 0.0008789062499999999,
+            "overHalfPercent": 4.09736328125,
+            "maximum": 2.1296365504085957
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "lite": true
+        },
+        "sauna-evening-60.png": {
+          "change": {
+            "mean": 0.03330479870549691,
+            "p99": 0.8191505770626819,
+            "over2Percent": 0.000390625,
+            "overHalfPercent": 4.00810546875,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "lite": true
+        },
+        "sauna-evening-61.png": {
+          "change": {
+            "mean": 0.03268644144545682,
+            "p99": 0.8165419309438067,
+            "over2Percent": 0.00048828125,
+            "overHalfPercent": 3.9378906249999996,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "lite": true
+        },
+        "sauna-evening-62.png": {
+          "change": {
+            "mean": 0.03193898651496605,
+            "p99": 0.8125823799103583,
+            "over2Percent": 0.00029296875,
+            "overHalfPercent": 3.8691406249999996,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "sauna-day-0.png": {
+          "change": {
+            "mean": 0.03193898651496605,
+            "p99": 0.8125823799103583,
+            "over2Percent": 0.00029296875,
+            "overHalfPercent": 3.8691406249999996,
+            "maximum": 2.1272029915358406
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "sauna-day-1.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "lite": false
+        },
+        "sauna-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "lite": false
+        },
+        "sauna-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "lite": false
+        },
+        "water-evening-53.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "lite": false
+        },
+        "water-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "lite": false
+        },
+        "water-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "lite": false
+        },
+        "water-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "lite": false
+        },
+        "water-evening-57.png": {
+          "change": {
+            "mean": 0.011841777222372169,
+            "p99": 0.6517925859279297,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.23583984375,
+            "maximum": 1.997414178434691
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "lite": true
+        },
+        "water-evening-58.png": {
+          "change": {
+            "mean": 0.011402892546057586,
+            "p99": 0.6357297662607732,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.189453125,
+            "maximum": 1.997414178434691
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "lite": true
+        },
+        "water-evening-59.png": {
+          "change": {
+            "mean": 0.011066306322303866,
+            "p99": 0.6080464684922718,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.15634765625,
+            "maximum": 1.997414178434691
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "lite": true
+        },
+        "water-evening-60.png": {
+          "change": {
+            "mean": 0.01076600033059505,
+            "p99": 0.5771628852721178,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 1.12646484375,
+            "maximum": 2.0321310584994494
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "lite": true
+        },
+        "water-evening-61.png": {
+          "change": {
+            "mean": 0.010559272299436014,
+            "p99": 0.5551271188984174,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 1.0962890625000001,
+            "maximum": 2.0321310584994494
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "lite": true
+        },
+        "water-evening-62.png": {
+          "change": {
+            "mean": 0.010287748209990056,
+            "p99": 0.5337155136548862,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.06923828125,
+            "maximum": 1.8783418017242426
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "water-day-0.png": {
+          "change": {
+            "mean": 0.010287748209990056,
+            "p99": 0.5337155136548862,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.06923828125,
+            "maximum": 1.8783418017242426
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "water-day-1.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "lite": false
+        },
+        "water-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "lite": false
+        },
+        "water-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "lite": false
+        },
+        "totonou-evening-53.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05620209679820767,
+            0.07297601218588884,
+            0.1157099671999161
+          ],
+          "lite": false
+        },
+        "totonou-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05373043409796372,
+            0.06984152369134473,
+            0.1108703121410148
+          ],
+          "lite": false
+        },
+        "totonou-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.05143651842342163,
+            0.06692672220349889,
+            0.10635964434945544
+          ],
+          "lite": false
+        },
+        "totonou-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04930711694690287,
+            0.06421598332769789,
+            0.1021559027229305
+          ],
+          "lite": false
+        },
+        "totonou-evening-57.png": {
+          "change": {
+            "mean": 0.03195451560858817,
+            "p99": 0.8971519616159868,
+            "over2Percent": 0.00029296875,
+            "overHalfPercent": 3.48359375,
+            "maximum": 2.0521911410130813
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.047330039460436873,
+            0.06169482364135564,
+            0.0982384646720999
+          ],
+          "lite": true
+        },
+        "totonou-evening-58.png": {
+          "change": {
+            "mean": 0.03109587098659006,
+            "p99": 0.8928719880411611,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.38271484375,
+            "maximum": 2.0521911410130813
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.045494049143284206,
+            0.05934981353603709,
+            0.09458805791186299
+          ],
+          "lite": true
+        },
+        "totonou-evening-59.png": {
+          "change": {
+            "mean": 0.030212820873032877,
+            "p99": 0.889537715675031,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.28505859375,
+            "maximum": 2.0521911410130813
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04378878179152291,
+            0.05716849719983511,
+            0.09118667687469806
+          ],
+          "lite": true
+        },
+        "totonou-evening-60.png": {
+          "change": {
+            "mean": 0.0292808228053983,
+            "p99": 0.8863330902193549,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.1878906249999996,
+            "maximum": 2.0409373699076365
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04220467261875013,
+            0.05513931909712913,
+            0.08801750362163073
+          ],
+          "lite": true
+        },
+        "totonou-evening-61.png": {
+          "change": {
+            "mean": 0.028483955179877833,
+            "p99": 0.884110101883293,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.0900390625,
+            "maximum": 2.0409373699076365
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.04073288983932092,
+            0.053251556367197875,
+            0.0850648331091264
+          ],
+          "lite": true
+        },
+        "totonou-evening-62.png": {
+          "change": {
+            "mean": 0.028020444393486693,
+            "p99": 0.8823821620631285,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.04345703125,
+            "maximum": 2.0409373699076365
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "totonou-day-0.png": {
+          "change": {
+            "mean": 0.028020444393486693,
+            "p99": 0.8823821620631285,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.04345703125,
+            "maximum": 2.0409373699076365
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.03936527433540381,
+            0.05149525662042555,
+            0.08231400265755522
+          ],
+          "lite": true
+        },
+        "totonou-day-1.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.1524697635125183,
+            0.19066193957483835,
+            0.2895762039436336
+          ],
+          "lite": false
+        },
+        "totonou-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.2717257948378706,
+            0.32706765497870033,
+            0.47374391788894266
+          ],
+          "lite": false
+        },
+        "totonou-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "captureNoise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "sun": [
+            0.39485242434715834,
+            0.4599931400089778,
+            0.6375815416919023
+          ],
+          "lite": false
+        }
+      },
+      "temporal": {
+        "sauna-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-57.png": {
+          "change": {
+            "mean": 0.03582235319834546,
+            "p99": 0.8229134790561565,
+            "over2Percent": 0.00078125,
+            "overHalfPercent": 4.3041015625,
+            "maximum": 2.1272029915358406
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-58.png": {
+          "change": {
+            "mean": 0.03861690726645945,
+            "p99": 0.889249930628573,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.22783203125,
+            "maximum": 1.8680513263910343
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-59.png": {
+          "change": {
+            "mean": 0.03671963792177407,
+            "p99": 0.879366210130131,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.0216796875,
+            "maximum": 1.820135209981291
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-60.png": {
+          "change": {
+            "mean": 0.03494146266164381,
+            "p99": 0.8689319342970647,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.8072265625,
+            "maximum": 1.803667222147558
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-61.png": {
+          "change": {
+            "mean": 0.03352526668596842,
+            "p99": 0.8561289514849286,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.65673828125,
+            "maximum": 1.8567782161505424
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-evening-62.png": {
+          "change": {
+            "mean": 0.03181392630740416,
+            "p99": 0.843973170290865,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.46005859375,
+            "maximum": 1.9290434421032674
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-day-1.png": {
+          "change": {
+            "mean": 0.03193898651496605,
+            "p99": 0.8125823799103583,
+            "over2Percent": 0.00029296875,
+            "overHalfPercent": 3.8691406249999996,
+            "maximum": 2.1272029915358406
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "sauna-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-57.png": {
+          "change": {
+            "mean": 0.011841777222372169,
+            "p99": 0.6517925859279297,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.23583984375,
+            "maximum": 1.997414178434691
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-58.png": {
+          "change": {
+            "mean": 0.013247522222276795,
+            "p99": 0.6979616030580145,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.3448242187500001,
+            "maximum": 1.8863176627936253
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-59.png": {
+          "change": {
+            "mean": 0.012541236804756863,
+            "p99": 0.6714424362795794,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.2734375,
+            "maximum": 1.8650210378468248
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-60.png": {
+          "change": {
+            "mean": 0.01181983217268819,
+            "p99": 0.6498151478161488,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.20458984375,
+            "maximum": 1.87391357023132
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-61.png": {
+          "change": {
+            "mean": 0.011388609114032246,
+            "p99": 0.6315311544734395,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.1640625,
+            "maximum": 1.886159746957988
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-evening-62.png": {
+          "change": {
+            "mean": 0.010823094116831146,
+            "p99": 0.5663497479520054,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.1001953125,
+            "maximum": 1.8805063431469187
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-day-1.png": {
+          "change": {
+            "mean": 0.010287748209990056,
+            "p99": 0.5337155136548862,
+            "over2Percent": 0.0,
+            "overHalfPercent": 1.06923828125,
+            "maximum": 1.8783418017242426
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "water-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-54.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-55.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-56.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-57.png": {
+          "change": {
+            "mean": 0.03195451560858817,
+            "p99": 0.8971519616159868,
+            "over2Percent": 0.00029296875,
+            "overHalfPercent": 3.48359375,
+            "maximum": 2.0521911410130813
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-58.png": {
+          "change": {
+            "mean": 0.04346567381782141,
+            "p99": 0.9805906549285778,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.4892578125,
+            "maximum": 1.886159746957988
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-59.png": {
+          "change": {
+            "mean": 0.04155573263050601,
+            "p99": 0.9664125775823519,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.2935546875,
+            "maximum": 1.8766616211293987
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-60.png": {
+          "change": {
+            "mean": 0.03950996065697963,
+            "p99": 0.9479102259296167,
+            "over2Percent": 0.0,
+            "overHalfPercent": 4.0857421875,
+            "maximum": 1.8863176627936253
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-61.png": {
+          "change": {
+            "mean": 0.03774173819944912,
+            "p99": 0.92854987308695,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.9173828124999996,
+            "maximum": 1.8805063431469187
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-evening-62.png": {
+          "change": {
+            "mean": 0.03617169391888193,
+            "p99": 0.9147710547157537,
+            "over2Percent": 0.0,
+            "overHalfPercent": 3.76416015625,
+            "maximum": 1.886159746957988
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-day-1.png": {
+          "change": {
+            "mean": 0.028020444393486693,
+            "p99": 0.8823821620631285,
+            "over2Percent": 9.765625e-05,
+            "overHalfPercent": 3.04345703125,
+            "maximum": 2.0409373699076365
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-day-2.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "totonou-day-3.png": {
+          "change": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          },
+          "noise": {
+            "mean": 0.0,
+            "p99": 0.0,
+            "over2Percent": 0.0,
+            "overHalfPercent": 0.0,
+            "maximum": 0.0
+          }
+        }
+      },
+      "referenceHashes": {},
+      "maxima": {
+        "change": {
+          "mean": 0.03582235319834546,
+          "over2Percent": 0.0010742187499999999,
+          "overHalfPercent": 4.3041015625,
+          "maximum": 2.1296365504085957
+        },
+        "captureNoise": {
+          "mean": 0.0,
+          "over2Percent": 0.0,
+          "overHalfPercent": 0.0,
+          "maximum": 0.0
+        }
+      }
+    }
+  }
+}

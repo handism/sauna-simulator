@@ -6,7 +6,7 @@ import { rendererCaptureStyle } from './scene-capture';
 
 // Diagnostic only: change the directional lookup, retaining all spot lights, light intensity,
 // shadow maps and the unconditional receiver derivatives. Only evening is evaluated here.
-function patchSun(mode: 'original' | 'hard' | 'off' | 'pcf') {
+function patchSun(mode: 'original' | 'hard' | 'off' | 'pcf' | 'before') {
   const original = WebGL2RenderingContext.prototype.shaderSource;
   (window as unknown as { sunPatches: number }).sunPatches = 0;
   WebGL2RenderingContext.prototype.shaderSource = function (shader, source) {
@@ -14,7 +14,12 @@ function patchSun(mode: 'original' | 'hard' | 'off' | 'pcf') {
       source.includes('float pcssNoise(') &&
       /suiSunShadow\( directLight\.color, directionalShadowMap\[/.test(source)
     ) {
-      if (mode !== 'original') {
+      if (mode === 'before') {
+        source = source.replaceAll(
+          'suiSunShadow( directLight.color, directionalShadowMap[',
+          'getShadow( directionalShadowMap[',
+        );
+      } else if (mode !== 'original') {
         const helper = `
 float suiDiagnosticSun(sampler2D map, vec2 size, float intensity, float bias, float radius, vec4 coord) {
 ${
@@ -67,10 +72,14 @@ const stages = [
 ] as const;
 
 test.use({ viewport: { width: 1200, height: 800 } });
-const review = process.env.SUN_SHADOW_REVIEW === '1';
-const modes = review
-  ? (['original', 'hard', 'pcf', 'original-repeat', 'pcf-repeat', 'hard-repeat', 'original-final'] as const)
-  : (['original', 'hard', 'off', 'original-repeat'] as const);
+const product = process.env.SUN_SHADOW_PRODUCT === '1';
+const quality = process.env.SUN_SHADOW_QUALITY === 'standard' ? 'standard' : 'high';
+const review = product || process.env.SUN_SHADOW_REVIEW === '1';
+const modes = product
+  ? (['original', 'before', 'original-repeat'] as const)
+  : review
+    ? (['original', 'hard', 'pcf', 'original-repeat', 'pcf-repeat', 'hard-repeat', 'original-final'] as const)
+    : (['original', 'hard', 'off', 'original-repeat'] as const);
 for (const mode of modes) {
   test(`evening sun shadow ${mode}`, async ({ page, browser }, info) => {
     test.setTimeout(480_000);
@@ -80,7 +89,7 @@ for (const mode of modes) {
       if (message.type() === 'error') errors.push(message.text());
     });
     await page.addInitScript(timeFrames);
-    await page.addInitScript(patchSun, mode.split('-')[0] as 'original' | 'hard' | 'off' | 'pcf');
+    await page.addInitScript(patchSun, mode.split('-')[0] as 'original' | 'hard' | 'off' | 'pcf' | 'before');
     const samples: object[] = [];
     const timingOnly = review && ['pcf-repeat', 'hard-repeat', 'original-final'].includes(mode);
     const passes = timingOnly ? [null] : [null, ['02.png', '03.png', '07.png'], ['01.png', '04.png', '05.png']];
@@ -99,7 +108,7 @@ for (const mode of modes) {
       await page.getByRole('button', { name: '静かに入室する' }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-      await page.getByLabel('3Dの画質').selectOption('high');
+      await page.getByLabel('3Dの画質').selectOption(quality);
       for (const [index, [stage, next]] of stages.entries()) {
         await expect(scene).toHaveAttribute('data-stage', stage);
         await page.getByLabel('3Dの時間帯').selectOption('evening');
@@ -203,7 +212,7 @@ for (const mode of modes) {
           mode,
           browser: browser.version(),
           viewport: page.viewportSize(),
-          quality: 'high',
+          quality,
           reducedMotion: true,
           dir: info.outputDir,
           samples,
