@@ -99,7 +99,7 @@ def crops(renders, bluehour, before, after, out):
 def stage_sheets(stage, before, after, out):
     """Cycles / before / after rows of every stage view, per lighting."""
     from PIL import Image
-    for light in ('day', 'evening'):
+    for light in ('day', 'evening', 'night'):
         names = sorted(p.stem for p in stage.glob(f'{light}-*.png'))
         rows = [(stage / f'{n}.png', before / f'stage-water-{n}.jpg', after / f'stage-water-{n}.jpg') for n in names]
         rows = [r for r in rows if all(p.exists() for p in r)]

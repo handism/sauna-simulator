@@ -1,0 +1,213 @@
+{
+  "blend": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "method": "blender_stage_reference.py (128 spp, denoised, 1280x800) vs stage-compare.visual.ts (standard quality), CIELAB at 600x400 BOX; web minus Cycles",
+  "models": {
+    "sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+    "sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+    "sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+    "irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d"
+  },
+  "v15": {
+    "views": {
+      "day-0-level": {
+        "dL": 0.07,
+        "absdL": 4.58,
+        "dC": -0.48,
+        "dE76": 5.82,
+        "L_cycles": 53.06,
+        "L_web": 53.13
+      },
+      "day-1-down": {
+        "dL": -1.95,
+        "absdL": 4.49,
+        "dC": -0.33,
+        "dE76": 5.72,
+        "L_cycles": 45.87,
+        "L_web": 43.93
+      },
+      "day-2-level": {
+        "dL": -0.38,
+        "absdL": 6.34,
+        "dC": -0.83,
+        "dE76": 8.15,
+        "L_cycles": 38.32,
+        "L_web": 37.94
+      },
+      "day-4-level": {
+        "dL": -1.73,
+        "absdL": 5.11,
+        "dC": 0.24,
+        "dE76": 5.83,
+        "L_cycles": 55.01,
+        "L_web": 53.28
+      },
+      "evening-0-level": {
+        "dL": 0.36,
+        "absdL": 4.41,
+        "dC": 0.71,
+        "dE76": 5.84,
+        "L_cycles": 38.37,
+        "L_web": 38.73
+      },
+      "evening-1-down": {
+        "dL": -1.3,
+        "absdL": 4.69,
+        "dC": 0.22,
+        "dE76": 5.81,
+        "L_cycles": 23.82,
+        "L_web": 22.52
+      },
+      "evening-2-level": {
+        "dL": 0.65,
+        "absdL": 6.88,
+        "dC": 1.24,
+        "dE76": 9.09,
+        "L_cycles": 26.75,
+        "L_web": 27.4
+      },
+      "evening-4-level": {
+        "dL": -1.68,
+        "absdL": 5.51,
+        "dC": -1.21,
+        "dE76": 6.58,
+        "L_cycles": 33.77,
+        "L_web": 32.08
+      },
+      "night-0-level": {
+        "dL": 0.49,
+        "absdL": 4.07,
+        "dC": -0.04,
+        "dE76": 5.16,
+        "L_cycles": 24.35,
+        "L_web": 24.84
+      },
+      "night-1-down": {
+        "dL": -1.35,
+        "absdL": 5.13,
+        "dC": -0.35,
+        "dE76": 5.83,
+        "L_cycles": 22.91,
+        "L_web": 21.56
+      },
+      "night-2-level": {
+        "dL": 0.65,
+        "absdL": 7.3,
+        "dC": 0.64,
+        "dE76": 9.53,
+        "L_cycles": 23.06,
+        "L_web": 23.71
+      },
+      "night-4-level": {
+        "dL": -0.32,
+        "absdL": 5.07,
+        "dC": 0.55,
+        "dE76": 6.1,
+        "L_cycles": 29.83,
+        "L_web": 29.51
+      }
+    },
+    "means": {
+      "day": {
+        "dL": -1.0,
+        "absdL": 5.13,
+        "dC": -0.35,
+        "dE76": 6.38
+      },
+      "evening": {
+        "dL": -0.49,
+        "absdL": 5.37,
+        "dC": 0.24,
+        "dE76": 6.83
+      },
+      "night": {
+        "dL": -0.13,
+        "absdL": 5.39,
+        "dC": 0.2,
+        "dE76": 6.65
+      }
+    }
+  },
+  "v12_references_day_evening": {
+    "views": {
+      "day-0-level": {
+        "dL": 19.97,
+        "absdL": 21.24,
+        "dC": -2.88,
+        "dE76": 23.1,
+        "L_cycles": 33.16,
+        "L_web": 53.13
+      },
+      "day-1-down": {
+        "dL": 4.89,
+        "absdL": 6.52,
+        "dC": -2.72,
+        "dE76": 8.59,
+        "L_cycles": 39.04,
+        "L_web": 43.93
+      },
+      "day-2-level": {
+        "dL": 7.67,
+        "absdL": 11.41,
+        "dC": -2.52,
+        "dE76": 13.9,
+        "L_cycles": 30.28,
+        "L_web": 37.94
+      },
+      "day-4-level": {
+        "dL": 1.71,
+        "absdL": 5.11,
+        "dC": -0.19,
+        "dE76": 5.95,
+        "L_cycles": 51.56,
+        "L_web": 53.28
+      },
+      "evening-0-level": {
+        "dL": 20.17,
+        "absdL": 21.12,
+        "dC": 2.92,
+        "dE76": 23.45,
+        "L_cycles": 18.56,
+        "L_web": 38.73
+      },
+      "evening-1-down": {
+        "dL": 2.8,
+        "absdL": 5.16,
+        "dC": 1.78,
+        "dE76": 8.08,
+        "L_cycles": 19.72,
+        "L_web": 22.52
+      },
+      "evening-2-level": {
+        "dL": 7.6,
+        "absdL": 11.56,
+        "dC": 0.48,
+        "dE76": 14.75,
+        "L_cycles": 19.8,
+        "L_web": 27.4
+      },
+      "evening-4-level": {
+        "dL": 0.83,
+        "absdL": 5.89,
+        "dC": -0.14,
+        "dE76": 6.91,
+        "L_cycles": 31.26,
+        "L_web": 32.08
+      }
+    },
+    "means": {
+      "day": {
+        "dL": 8.56,
+        "absdL": 11.07,
+        "dC": -2.08,
+        "dE76": 12.89
+      },
+      "evening": {
+        "dL": 7.85,
+        "absdL": 10.93,
+        "dC": 1.26,
+        "dE76": 13.3
+      }
+    }
+  }
+}

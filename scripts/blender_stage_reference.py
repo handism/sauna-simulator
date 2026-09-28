@@ -1,10 +1,10 @@
-"""Run with Blender -b blender/scene/SUI_Retreat.blend [-S "SUI • Blue hour"] --python-exit-code 1 --python scripts/blender_stage_reference.py -- day|evening
+"""Run with Blender -b blender/scene/SUI_Retreat.blend [-S "SUI • Blue hour"|-S "SUI • Night"] --python-exit-code 1 --python scripts/blender_stage_reference.py -- day|evening|night
 Renders the water stage's seated view of public/models/sauna.scene.json in Cycles, turned as
 e2e/scene-survey.visual.ts turns it (heading n is 0.8n rad right of the stage view; level is
 -0.01 rad, down -0.85 rad; 1280x800, vertical FOV of the view), to
 blender/renders/stage-water/<lighting>-<heading>-<pitch>.png. 128 denoised samples: references
 for the survey captures (scripts/summarize_water_side_images.py), not final renders. The day
-lighting is the default scene, the evening one the blue-hour scene. Never saves the input blend.
+lighting is the default scene, the evening one the blue-hour scene, the night one the night scene. Never saves the input blend.
 """
 import hashlib
 import json
@@ -38,7 +38,8 @@ def camera_matrix(position, yaw, pitch):
 def main():
     lighting = sys.argv[sys.argv.index('--') + 1]
     scene = bpy.context.scene
-    assert (scene.name == 'SUI • Blue hour') == (lighting == 'evening'), scene.name
+    named = {'evening': 'SUI • Blue hour', 'night': 'SUI • Night'}
+    assert scene.name == named[lighting] if lighting in named else scene.name not in named.values(), scene.name
     source = Path(bpy.data.filepath)
     source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
     view = json.loads((ROOT / 'public/models/sauna.scene.json').read_text())['views']['water']

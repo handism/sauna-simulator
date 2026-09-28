@@ -31,7 +31,7 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
     for (let n = 0; n < count; n++) await page.keyboard.press(key);
   };
   const samples: object[] = [];
-  for (const lighting of ['day', 'evening']) {
+  for (const lighting of ['day', 'evening', 'night']) {
     await page.getByLabel('3Dの時間帯').selectOption(lighting);
     await expect(scene).toHaveAttribute('data-lighting', lighting);
     for (const [heading, pitch] of VIEWS) {
