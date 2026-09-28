@@ -3,7 +3,7 @@ import type { AmbientEnv } from '../../hooks/useAudioEngine';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
 import { createInteriorLights } from './interiorLights';
 import { createIrradianceUniforms } from './irradiance';
-import { agxInverse } from './agx';
+import { createSky } from './sky';
 
 // The source sun (both scenes) is invisible to glossy rays: it lights the diffuse layer (still
 // reduced by the specular Fresnel) but draws no highlights. Its browser specular doubled the
@@ -64,14 +64,11 @@ export function eveningAmount(mode: LightingMode, stage: AmbientEnv): number {
   return mode === 'evening' ? 1 : mode === 'day' ? 0 : { sauna: 0, water: 0.5, totonou: 1 }[stage];
 }
 
-/**
- * `hdr`: the scene is tone mapped once in hdrOutput.ts, so the sky background is the
- * scene-linear color that the view maps to the source's displayed sky.
- */
-export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer, hdr = false) {
-  // Cycles renders the courtyard without mist, so distant trees keep their color.
-  const sky = new THREE.Color();
-  scene.background = sky;
+export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer) {
+  // Cycles renders the courtyard without mist, so distant trees keep their color. The sky is the
+  // source worlds' sky in scene-linear radiance (sky.ts), tone mapped with the rest of the scene.
+  const sky = createSky();
+  scene.add(sky.mesh);
   // Sky, the remaining Cycles area lights and all bounce light, baked per scene (irradiance.ts).
   const irradiance = createIrradianceUniforms();
   const sun = new THREE.DirectionalLight('#fff1d5', 5.5);
@@ -173,13 +170,9 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   // Both source scenes light the courtyard along the 'Late afternoon sunlight' direction; the
   // Blue hour one is a faint blue 0.045. A fixed direction keeps the cached shadow valid.
   sun.position.set(-0.556, 0.6178, 0.556).multiplyScalar(50);
-  // Displayed sky pixels of the Daylight (07.png) and Blue hour (06.png) Cycles renders.
-  const daySky = new THREE.Color('#4f616c'),
-    duskSky = new THREE.Color('#283d54');
   const daySun = new THREE.Color('#fff1d5'),
     duskSun = new THREE.Color().setRGB(0.47, 0.62, 1, THREE.LinearSRGBColorSpace);
   let current = 0;
-  let skyAmount = NaN;
   return {
     irradiance,
     setShadowSize(size: number) {
@@ -209,11 +202,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
       // Exponential smoothing is independent of frame rate; reduced motion snaps.
       current = immediate ? target : THREE.MathUtils.lerp(current, target, 1 - Math.exp(-delta / 1.4));
       const exposure = 2 ** THREE.MathUtils.lerp(DAY_EXPOSURE, EVENING_EXPOSURE, current);
-      if (current !== skyAmount) {
-        skyAmount = current;
-        sky.copy(daySky).lerp(duskSky, current);
-        if (hdr) sky.fromArray(agxInverse(sky.toArray(), exposure));
-      }
+      sky.update(current);
       // Every light uses the source values of each scene; the probes mix the two bakes.
       irradiance.suiIrradianceEvening.value = current;
       sun.color.copy(daySun).lerp(duskSun, current);

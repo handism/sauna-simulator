@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from blend_lineage import SHADING_ONLY, geometry_root, same_geometry
+from blend_lineage import SHADING_ONLY, WORLD_ONLY, geometry_root, same_geometry
 from diagnose_water_gloss_mismatch import SHADING, VARIANTS
 from summarize_water_flat_sides import THRESHOLD, glossy, image_change
 
@@ -14,6 +14,13 @@ class LineageTest(unittest.TestCase):
             self.assertEqual(geometry_root(child), geometry_root(parent))
         self.assertFalse(same_geometry(next(iter(SHADING_ONLY)), '0' * 64))
         self.assertEqual(geometry_root('0' * 64), '0' * 64)
+
+    def test_sky_blend_shares_the_v11_geometry(self):
+        # build_sky_world.py only changed the worlds of the flattened blend.
+        for child, parent in WORLD_ONLY.items():
+            self.assertIn(parent, SHADING_ONLY)
+            self.assertTrue(same_geometry(child, SHADING_ONLY[parent]))
+            self.assertEqual(geometry_root(child), SHADING_ONLY[parent])
 
 
 class ShadingVariantsTest(unittest.TestCase):

@@ -19,10 +19,8 @@ const MAIN = 'void main() {';
 const PROJECT_INCLUDE = '#include <project_vertex>';
 const EMISSIVE_INCLUDE = '#include <emissivemap_fragment>';
 
-// Blender's float hashes (Jenkins lookup3 on the float bits) and its 3D Voronoi distance to
-// edge with randomness 1, in the order of Blender's loops. The noise color adds two more FBM
-// channels at Blender's fixed random offsets. Needs FBM_GLSL before it.
-export const CAUSTIC_GLSL = /* glsl */ `
+// Blender's float hashes (Jenkins lookup3 on the float bits). Needs FBM_GLSL before it (sui_rot).
+export const BLENDER_HASH_GLSL = /* glsl */ `
 void sui_final( inout uint a, inout uint b, inout uint c ) {
 	c ^= b; c -= sui_rot( b, 14u ); a ^= c; a -= sui_rot( c, 11u );
 	b ^= a; b -= sui_rot( a, 25u ); c ^= b; c -= sui_rot( b, 16u );
@@ -60,6 +58,11 @@ float sui_hash4f( vec4 k ) {
 vec3 sui_hash3v( vec3 k ) {
 	return vec3( sui_hash3f( k ), sui_hash4f( vec4( k, 1.0 ) ), sui_hash4f( vec4( k, 2.0 ) ) );
 }
+`;
+
+// Blender's 3D Voronoi distance to edge with randomness 1, in the order of Blender's loops. The
+// noise color adds two more FBM channels at Blender's fixed random offsets. Needs FBM_GLSL before it.
+export const CAUSTIC_GLSL = /* glsl */ `${BLENDER_HASH_GLSL}
 vec3 sui_random_offset( float seed ) {
 	return 100.0 + 100.0 * vec3( sui_hash2f( vec2( seed, 0.0 ) ), sui_hash2f( vec2( seed, 1.0 ) ), sui_hash2f( vec2( seed, 2.0 ) ) );
 }

@@ -62,6 +62,11 @@ Sky softbox, Sunlit courtyard, the lanterns and the six sauna-room lights are in
 rays in the source. The world keeps its own glossy visibility. Inside the water the panoramas see
 lights by their transmission visibility instead, so the lights left out (V9, the blue-hour
 accents) are hidden from transmission rays too while the water grid renders.
+
+The worlds show a sky only on paths without a diffuse bounce (scripts/build_sky_world.py). The
+irradiance panoramas stand for rays after one, so they see the flat colour everywhere ('SUI sky
+gate' 0); the reflection panoramas stand for glossy rays and see the sky without the sun's disk
+('SUI sun disk gate' 0).
 """
 import bpy
 import hashlib
@@ -75,7 +80,7 @@ import numpy as np
 import OpenImageIO as oiio
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from blend_lineage import same_geometry
+from blend_lineage import WORLD_ONLY, same_geometry
 from probe_sampling import fill_invalid  # shared with refill_enclosed_probes.py
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -518,6 +523,26 @@ for name, lo, hi, spacing in GRIDS:
 plain_materials = add_backface_aov()
 flipped_meshes = flip_downward_meshes(bpy.data.scenes[SCENES[0][1]])
 print('IRRADIANCE flipped', flipped_meshes, flush=True)
+
+
+def set_sky_gates(world, sky, disk):
+    """Sets the gates of scripts/build_sky_world.py and returns the old values. The panoramas
+    stand for rays leaving a surface: after a diffuse bounce every ray sees the flat colour
+    (irradiance: sky 0), and a glossy ray sees the sky without the sun's disk (reflection)."""
+    old = {}
+    for name, value in (('SUI sky gate', sky), ('SUI sun disk gate', disk)):
+        node = world.node_tree.nodes.get(name)
+        assert node or name == 'SUI sun disk gate', f'{world.name} has no {name}; run scripts/build_sky_world.py'
+        if node:
+            old[name] = node.inputs[1].default_value
+            node.inputs[1].default_value = float(value)
+    return old
+
+
+def restore_sky_gates(world, old):
+    for name, value in old.items():
+        world.node_tree.nodes[name].inputs[1].default_value = value
+
 report = dict(mode=NAME, plain_materials=plain_materials, flipped_meshes=flipped_meshes, input=source.name, input_sha256=source_hash, blender=bpy.app.version_string,
               panorama=[WIDTH, HEIGHT], samples=SAMPLES, quick=QUICK, grids=[], scenes={})
 coefficients = {}
@@ -540,6 +565,7 @@ for key, scene_name in SCENES:
         if o.visible_camera:
             shown.append(o.name)
     world_camera = scene.world.cycles_visibility.camera
+    gates = set_sky_gates(scene.world, sky=REFLECTION, disk=False)
     if REFLECTION:
         scene.world.cycles_visibility.camera = scene.world.cycles_visibility.glossy
     configure(scene, SAMPLES, backface=True)
@@ -551,6 +577,7 @@ for key, scene_name in SCENES:
             if o.name in visible:
                 o.visible_camera = visible[o.name]
         scene.world.cycles_visibility.camera = world_camera
+        restore_sky_gates(scene.world, gates)
         continue
     if PROBE_TEST:
         t = time.time()
@@ -631,6 +658,8 @@ for key, scene_name in SCENES:
         if o.name in visible:
             o.visible_camera = visible[o.name]
     scene.world.cycles_visibility.camera = world_camera
+    restore_sky_gates(scene.world, gates)
+    scene_report['sky_gates'] = dict(sky=int(REFLECTION), disk=0)
     report['scenes'][key] = scene_report
 
 if SURFACE_SAMPLES:
@@ -648,10 +677,12 @@ if ONLY_GRIDS:
     shipped = ROOT / 'public/models'
     old = json.loads((shipped / f'{NAME}.json').read_text())
     old_data = np.frombuffer((shipped / f'{NAME}.bin').read_bytes(), dtype='<f2')
-    # A parent that differs only in the water's shading flags (blend_lineage.py) keeps the dry grids valid.
+    # A parent that differs only in the water's shading flags (blend_lineage.py) keeps the dry grids
+    # valid; one that differs only in the sky keeps every irradiance grid (diffuse bounces see the
+    # parent's flat colour, build_sky_world.py) but no reflection grid.
     assert old['input_sha256'] == source_hash or (
         'water' in ONLY_GRIDS and same_geometry(old['input_sha256'], source_hash)
-    ), 'shipped probes come from another input blend'
+    ) or (not REFLECTION and WORLD_ONLY.get(source_hash) == old['input_sha256']), 'shipped probes come from another input blend'
     assert hashlib.sha256(old_data.tobytes()).hexdigest() == old['bin_sha256']
     old_report = json.loads((ROOT / f'docs/3d-export/{NAME}-report.json').read_text())
     for grid in grids:

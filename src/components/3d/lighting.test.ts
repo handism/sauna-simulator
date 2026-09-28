@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { createLighting, DRY_ONLY, eveningAmount, SPOT_COSINE, SUN_DIFFUSE_ONLY } from './lighting';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
-import { agx } from './agx';
 
 describe('3D lighting', () => {
   it('keeps the specular of the sun only out of the directional light loop', () => {
@@ -58,28 +57,24 @@ describe('3D lighting', () => {
     expect(renderer.toneMappingExposure).toBeLessThan(2 ** 0.55);
     lighting.update(1, 0, true);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.55);
-    // Sun, six sauna area lights, lounge spot light, five dusk spot lights, and targets; no
+    // Sky, sun, six sauna area lights, lounge spot light, five dusk spot lights, and targets; no
     // hemisphere light (the baked probes replace it) and the probes follow the evening amount.
-    expect(scene.children).toHaveLength(19);
+    expect(scene.children).toHaveLength(20);
     expect(scene.children.some((child) => child instanceof THREE.HemisphereLight)).toBe(false);
     expect(lighting.irradiance.suiIrradianceEvening.value).toBe(1);
     lighting.update(0, 0, true);
     expect(lighting.irradiance.suiIrradianceEvening.value).toBe(0);
     lighting.update(1, 0, true);
     expect(scene.fog).toBeNull();
-    expect((scene.background as THREE.Color).getHexString(THREE.SRGBColorSpace)).toBe('283d54');
   });
-  it('gives the tone-mapped HDR output the scene-linear sky that displays as the source sky', () => {
+  it('draws the source sky as a mesh that follows the evening amount', () => {
     const scene = new THREE.Scene();
-    const renderer = { toneMappingExposure: 0 } as THREE.WebGLRenderer;
-    const lighting = createLighting(scene, renderer, true);
-    for (const [amount, hex] of [
-      [0, '4f616c'],
-      [1, '283d54'],
-    ] as const) {
+    const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    expect(scene.background).toBeNull();
+    const sky = scene.getObjectByName('sky') as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
+    for (const amount of [0, 0.25, 1]) {
       lighting.update(amount, 0, true);
-      const shown = agx((scene.background as THREE.Color).toArray(), renderer.toneMappingExposure);
-      expect(new THREE.Color().fromArray(shown).getHexString(THREE.SRGBColorSpace)).toBe(hex);
+      expect(sky.material.uniforms.suiSkyEvening.value).toBe(amount);
     }
   });
 });

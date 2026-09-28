@@ -1,0 +1,210 @@
+{
+  "note": "Written by scripts/build_sky_world.py. Radiance is scene-linear Rec.709; directions are in Blender axes (the browser turns its glTF view direction (x, y, z) into (x, -z, y)).",
+  "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
+  "output_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+  "blender": "4.5.11 LTS",
+  "scenes": {
+    "day": {
+      "zenith": [
+        0.07455,
+        0.16974,
+        0.58147
+      ],
+      "horizon": [
+        0.61932,
+        0.9565,
+        1.3992
+      ],
+      "gradient_power": 0.45,
+      "glow": [
+        {
+          "color": [
+            2.52314,
+            1.60564,
+            0.63079
+          ],
+          "power": 24.0
+        },
+        {
+          "color": [
+            0.40141,
+            0.28672,
+            0.13763
+          ],
+          "power": 3.0
+        }
+      ],
+      "clouds": {
+        "scale": 1.6,
+        "offset": [
+          3.1,
+          -7.4,
+          0.37
+        ],
+        "detail": 6.0,
+        "roughness": 0.55,
+        "lacunarity": 2.1,
+        "low": 0.47,
+        "high": 0.68,
+        "opacity": 0.92,
+        "bend": 0.12,
+        "horizon_fade": 0.12,
+        "shade": [
+          0.367,
+          0.45875,
+          0.64225
+        ],
+        "lit": [
+          4.12878,
+          3.8994,
+          3.44065
+        ],
+        "lit_power": 4.0
+      },
+      "stars": {
+        "scale": 150.0,
+        "radius": 0.08,
+        "density": 0.006,
+        "color": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "power": 3.0
+      },
+      "disk": true,
+      "glow_direction": [
+        -0.556022,
+        -0.556022,
+        0.617802
+      ],
+      "disk_cos": 0.9990970109119499,
+      "disk_radiance": [
+        564.0111,
+        485.0495,
+        389.1676
+      ],
+      "irradiance": {
+        "target": [
+          1.8279,
+          1.9215,
+          2.0446
+        ],
+        "before": [
+          1.4679,
+          1.6468,
+          2.4366
+        ],
+        "scale": 1.1469
+      },
+      "sun_direction": [
+        -0.556022,
+        -0.556022,
+        0.617802
+      ],
+      "flat": [
+        0.0748,
+        0.10880000000000001,
+        0.136
+      ]
+    },
+    "evening": {
+      "zenith": [
+        0.05152,
+        0.07728,
+        0.23683
+      ],
+      "horizon": [
+        0.24264,
+        0.38308,
+        0.86421
+      ],
+      "gradient_power": 0.5,
+      "glow": [
+        {
+          "color": [
+            2.49291,
+            0.83097,
+            0.37394
+          ],
+          "power": 40.0
+        },
+        {
+          "color": [
+            0.24929,
+            0.14957,
+            0.13296
+          ],
+          "power": 6.0
+        }
+      ],
+      "clouds": {
+        "scale": 1.6,
+        "offset": [
+          3.1,
+          -7.4,
+          0.37
+        ],
+        "detail": 6.0,
+        "roughness": 0.55,
+        "lacunarity": 2.1,
+        "low": 0.5,
+        "high": 0.72,
+        "opacity": 0.85,
+        "bend": 0.12,
+        "horizon_fade": 0.12,
+        "shade": [
+          0.13296,
+          0.16619,
+          0.37394
+        ],
+        "lit": [
+          0.99716,
+          0.66478,
+          0.83097
+        ],
+        "lit_power": 3.0
+      },
+      "stars": {
+        "scale": 150.0,
+        "radius": 0.08,
+        "density": 0.006,
+        "color": [
+          6.0,
+          6.2,
+          7.0
+        ],
+        "power": 3.0
+      },
+      "disk": false,
+      "glow_direction": [
+        -0.705384,
+        -0.705384,
+        -0.069756
+      ],
+      "irradiance": {
+        "target": [
+          0.3644,
+          0.4967,
+          0.8534
+        ],
+        "before": [
+          0.042,
+          0.0566,
+          0.1398
+        ],
+        "scale": 8.3097
+      },
+      "sun_direction": [
+        -0.556022,
+        -0.556022,
+        0.617802
+      ],
+      "flat": [
+        0.020000000000000004,
+        0.034,
+        0.066
+      ]
+    }
+  }
+}

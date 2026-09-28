@@ -116,7 +116,7 @@ export default function SaunaScene({
     element.appendChild(renderer.domElement);
     // Transparent surfaces blend in scene-linear light, tone mapped once (hdrOutput.ts).
     const output = createHdrOutput(renderer);
-    const lighting = createLighting(scene, renderer, output.hdr);
+    const lighting = createLighting(scene, renderer);
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
     let mirror: PlanarReflection | null = null;
