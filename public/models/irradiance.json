@@ -1,9 +1,10 @@
 {
-  "input_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
   "format": "float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear radiance)",
   "scenes": [
     "day",
-    "evening"
+    "evening",
+    "night"
   ],
   "grids": [
     {
@@ -25,7 +26,8 @@
       ],
       "offset": {
         "day": 0,
-        "evening": 18711
+        "evening": 18711,
+        "night": 37422
       }
     },
     {
@@ -46,8 +48,9 @@
         25
       ],
       "offset": {
-        "day": 37422,
-        "evening": 101547
+        "day": 56133,
+        "evening": 120258,
+        "night": 184383
       }
     },
     {
@@ -68,8 +71,9 @@
         21
       ],
       "offset": {
-        "day": 165672,
-        "evening": 213300
+        "day": 248508,
+        "evening": 296136,
+        "night": 343764
       }
     },
     {
@@ -90,10 +94,11 @@
         7
       ],
       "offset": {
-        "day": 260928,
-        "evening": 263196
+        "day": 391392,
+        "evening": 393660,
+        "night": 395928
       }
     }
   ],
-  "bin_sha256": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6"
+  "bin_sha256": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd"
 }

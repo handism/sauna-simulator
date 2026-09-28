@@ -1,16 +1,18 @@
 """Give the source worlds a sky that camera and glossy rays see, keeping what diffuse rays see.
 
 Blender -b blender/scene/SUI_Retreat.blend --python-exit-code 1 --python
-scripts/build_sky_world.py -- [--preview DIR [--cameras 01,07] [--percentage 25] [--samples 32]]
+scripts/build_sky_world.py -- [--keys day,evening,night] [--irradiance-report PATH]
+[--preview DIR [--cameras 01,07] [--percentage 25] [--samples 32]]
 
-The source worlds ('Forest late afternoon sky' for SUI • Daylight, '.002' for SUI • Blue hour) are
-a flat colour; the scenes are lit by hidden area lights (Sky softbox, Sunlit courtyard) and the
+The source worlds ('Forest late afternoon sky' for SUI • Daylight, '.002' for SUI • Blue hour,
+'Night sky' for SUI • Night from scripts/build_night_scene.py) are a flat colour; the scenes are lit by hidden area lights (Sky softbox, Sunlit courtyard) and the
 sun, so that flat world is a dim backdrop that the browser draws as a single colour. This keeps
 the flat colour for every path that has had a diffuse bounce (Light Path 'Diffuse Depth' > 0, or a
 volume scatter) and shows a sky on the others: a zenith-horizon gradient, a glow around a
-direction (the sun by day, a point under the horizon at the sun's azimuth at blue hour), FBM
-clouds on a curved plane, Voronoi stars and, on paths without any glossy bounce, the sun's disk
-(the source sun lamp's angle and strength; the lamp itself stays invisible to glossy rays). The
+direction (the sun by day and the moon at night, a point under the horizon at the sun's azimuth at
+blue hour), FBM clouds on a curved plane, Voronoi stars and, on paths without any glossy bounce,
+the disk of the sun lamp (the sun by day, the moon at night: the lamp's angle and strength; the lamp
+itself stays invisible to glossy rays). The
 gate keeps the lighting unchanged: a Cycles test with world MIS on and off lit a diffuse plane
 by the flat colour and a rough metal by the sky alone. The sky only reads the ray direction, so
 the browser evaluates the same graph (src/components/3d/sky.ts).
@@ -19,8 +21,13 @@ Two Math nodes gate the sky for the probe bake (scripts/bake_irradiance_probes.p
 (0: every ray sees the flat colour, as after a diffuse bounce) and 'SUI sun disk gate' (0: no
 disk, as on a glossy ray). Both multiply by 1 in the saved blend.
 
-Writes src/components/3d/sky.json (the parameters, the input and output blend hashes). With --preview it renders the named cameras of both scenes into DIR instead and saves
-nothing. Otherwise it saves the source blend (keep a copy first, e.g. SUI_Retreat_v12.blend).
+Writes src/components/3d/sky.json (the parameters, the input and output blend hashes). With --keys
+only those worlds are rebuilt and the others keep their parameters from the current sky.json (the
+night was added so, on SUI_Retreat_v14.blend). --irradiance-report reads the courtyard irradiance
+of the rebuilt scenes from another bake report (a --quick bake of a new scene, before its full
+bake can match the final blend). With --preview it renders the named cameras of the rebuilt scenes
+into DIR instead and saves nothing. Otherwise it saves the source blend (keep a copy first, e.g.
+SUI_Retreat_v12.blend).
 """
 import argparse
 import hashlib
@@ -34,15 +41,22 @@ import numpy as np
 import OpenImageIO as oiio
 
 ROOT = Path(__file__).resolve().parents[1]
-WORLDS = {'day': ('SUI • Daylight', 'Forest late afternoon sky'), 'evening': ('SUI • Blue hour', 'Forest late afternoon sky.002')}
-# The source's flat colours (Color x Strength of the Background nodes), kept for diffuse rays.
-FLAT = {'day': [0.22 * 0.34, 0.32 * 0.34, 0.40 * 0.34], 'evening': [0.10 * 0.20, 0.17 * 0.20, 0.33 * 0.20]}
+WORLDS = {'day': ('SUI • Daylight', 'Forest late afternoon sky'), 'evening': ('SUI • Blue hour', 'Forest late afternoon sky.002'),
+          'night': ('SUI • Night', 'Night sky')}
+# The source's flat colours (Color x Strength of the Background nodes), kept for diffuse rays. The
+# night's is the one scripts/build_night_scene.py set.
+FLAT = {'day': [0.22 * 0.34, 0.32 * 0.34, 0.40 * 0.34], 'evening': [0.10 * 0.20, 0.17 * 0.20, 0.33 * 0.20],
+        'night': [0.10 * 0.03, 0.17 * 0.03, 0.33 * 0.03]}
 SUN = 'Late afternoon sunlight'
 EVENING_GLOW_ELEVATION = math.radians(-4)
 LUMA = np.array([0.2126, 0.7152, 0.0722])
-# Mean upward irradiance of the courtyard probe grid (docs/3d-export/irradiance-report.json).
-COURTYARD = {key: scene['grids']['courtyard']['upward_irradiance_mean'] for key, scene in
-             json.loads((ROOT / 'docs/3d-export/irradiance-report.json').read_text())['scenes'].items()}
+
+
+def courtyard(path):
+    """Mean upward irradiance of the courtyard probe grid per scene (a bake report)."""
+    return {key: scene['grids']['courtyard']['upward_irradiance_mean'] for key, scene in
+            json.loads(Path(path).read_text())['scenes'].items()}
+
 
 # Scene-linear radiance. Displayed colours through AgX at each scene's exposure are in comments.
 SKY = {
@@ -68,6 +82,19 @@ SKY = {
                     shade=[0.016, 0.02, 0.045], lit=[0.12, 0.08, 0.1], lit_power=3.0),
         stars=dict(scale=150.0, radius=0.08, density=0.006, color=[6.0, 6.2, 7.0], power=3.0),
         disk=False,
+    ),
+    # Moonlit: a dark navy gradient, a faint cool halo around the moon, clouds lit at their edges
+    # by it, twice the stars of blue hour, and the moon's disk.
+    'night': dict(
+        zenith=[0.0012, 0.0018, 0.0052],  # #05080f
+        horizon=[0.0045, 0.0068, 0.0145],  # #111a2a
+        gradient_power=0.55,
+        glow=[dict(color=[0.012, 0.014, 0.02], power=60.0), dict(color=[0.003, 0.0035, 0.005], power=6.0)],
+        clouds=dict(scale=1.6, offset=[3.1, -7.4, 0.37], detail=6.0, roughness=0.55, lacunarity=2.1,
+                    low=0.52, high=0.74, opacity=0.8, bend=0.12, horizon_fade=0.12,
+                    shade=[0.0022, 0.0028, 0.005], lit=[0.012, 0.013, 0.016], lit_power=6.0),
+        stars=dict(scale=150.0, radius=0.08, density=0.012, color=[8.0, 8.2, 9.0], power=3.0),
+        disk=True,
     ),
 }
 
@@ -273,18 +300,28 @@ def main():
     parser.add_argument('--cameras', default='01,07')
     parser.add_argument('--percentage', type=int, default=25)
     parser.add_argument('--samples', type=int, default=32)
+    parser.add_argument('--keys', default=','.join(WORLDS))
+    parser.add_argument('--irradiance-report', default=str(ROOT / 'docs/3d-export/irradiance-report.json'))
     args = parser.parse_args(argv)
+    keys = args.keys.split(',')
+    assert set(keys) <= set(WORLDS), keys
+    COURTYARD = courtyard(args.irradiance_report)
     source = Path(bpy.data.filepath)
     before = sha256(source)
 
+    # Worlds that are not rebuilt keep the parameters they were built with.
+    kept = json.loads((ROOT / 'src/components/3d/sky.json').read_text())['scenes'] if set(keys) != set(WORLDS) else {}
     params = {}
     for key, (scene_name, world_name) in WORLDS.items():
+        if key not in keys:
+            params[key] = kept[key]
+            continue
         scene = bpy.data.scenes[scene_name]
         world = bpy.data.worlds[world_name]
         assert scene.world == world, (scene_name, scene.world.name)
         lamp, sun_dir = sun_lamp(scene)
         p = SKY[key]
-        if key == 'day':
+        if key in ('day', 'night'):
             p['glow_direction'] = sun_dir
         else:
             azimuth = math.atan2(sun_dir[1], sun_dir[0])
@@ -319,8 +356,8 @@ def main():
         prefs = bpy.context.preferences.addons['cycles'].preferences
         prefs.compute_device_type = 'METAL'
         prefs.get_devices()
-        for key, (scene_name, _) in WORLDS.items():
-            scene = bpy.data.scenes[scene_name]
+        for key in keys:
+            scene = bpy.data.scenes[WORLDS[key][0]]
             scene.render.resolution_percentage = args.percentage
             scene.render.image_settings.file_format = 'PNG'
             scene.cycles.samples = args.samples

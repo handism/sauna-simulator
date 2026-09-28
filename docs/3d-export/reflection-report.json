@@ -5,7 +5,7 @@
     "V10 woodland floor extension"
   ],
   "input": "SUI_Retreat.blend",
-  "input_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
   "blender": "4.5.11 LTS",
   "panorama": [
     64,
@@ -234,9 +234,97 @@
         "sky": 1,
         "disk": 0
       }
+    },
+    "night": {
+      "scene": "SUI \u2022 Night",
+      "lights_in_probes": [
+        "V10 concealed deck edge -3.7 / night",
+        "V10 concealed deck edge 0 / night",
+        "V10 concealed deck edge 4.4 / night",
+        "V7 concealed backrest wash.002 / night",
+        "V7 water reflection soft strip.002 / night",
+        "V8 maple garden grazing light.001 / night"
+      ],
+      "world_in_probes": true,
+      "grids": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "seconds": 261.0,
+          "upward_irradiance_mean": [
+            0.1516,
+            0.0643,
+            0.0455
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "seconds": 553.3,
+          "upward_irradiance_mean": [
+            0.1403,
+            0.1697,
+            0.2724
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "seconds": 297.9,
+          "upward_irradiance_mean": [
+            0.0724,
+            0.0995,
+            0.2136
+          ]
+        },
+        "water": {
+          "probes": 84,
+          "invalid": 0,
+          "fill_rounds": 0,
+          "backface_share_max_valid": 0.123,
+          "hidden_from_transmission": [
+            "V10 lounge dusk fill / night",
+            "V10 path grazing light 1 / night",
+            "V10 path grazing light 4 / night",
+            "V10 path grazing light 7 / night",
+            "V10 specimen uplight / night"
+          ],
+          "seconds": 31.1,
+          "upward_irradiance_mean": [
+            0.0637,
+            0.0763,
+            0.0995
+          ]
+        }
+      },
+      "sky_gates": {
+        "sky": 1,
+        "disk": 0
+      }
     }
   },
-  "bin_bytes": 530928,
-  "bin_sha256": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a",
-  "seconds": 6329.2
+  "copied_grids": {
+    "input_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+    "bin_sha256": "74e3e9b39f3b6bad06ccc8cb784e9d4a1ec9d12807208360d2c24c9c33cc9d3a",
+    "seconds": 6329.2,
+    "grids": [
+      "room",
+      "courtyard",
+      "outer",
+      "water"
+    ],
+    "scenes": [
+      "day",
+      "evening"
+    ]
+  },
+  "bin_bytes": 796392,
+  "bin_sha256": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+  "seconds": 1144.0
 }

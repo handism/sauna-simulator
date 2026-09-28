@@ -54,14 +54,22 @@ if (!pars.includes(SPOT_COSINE)) {
   THREE.ShaderChunk.lights_pars_begin = pars.replace(SPOT_SMOOTHSTEP, SPOT_COSINE);
 }
 
-// AgX view exposure (stops) of the source Daylight and Blue hour scenes.
-const DAY_EXPOSURE = 0.15,
-  EVENING_EXPOSURE = 0.55;
-export type LightingMode = 'auto' | 'day' | 'evening';
+// AgX view exposure (stops) of the source Daylight, Blue hour and Night scenes.
+const EXPOSURE = [0.15, 0.55, 0.9];
+export type LightingMode = 'auto' | 'day' | 'evening' | 'night';
 
-// Each round follows the same afternoon-to-evening progression.
-export function eveningAmount(mode: LightingMode, stage: AmbientEnv): number {
-  return mode === 'evening' ? 1 : mode === 'day' ? 0 : { sauna: 0, water: 0.5, totonou: 1 }[stage];
+// The time of day: 0 is the Daylight scene, 1 Blue hour and 2 Night; in between, the two
+// neighbouring scenes blend. Automatic lighting moves on with the rounds: the first goes from
+// afternoon to dusk, later ones from dusk into the night.
+export function timeOfDay(mode: LightingMode, stage: AmbientEnv, round: number): number {
+  if (mode !== 'auto') return { day: 0, evening: 1, night: 2 }[mode];
+  return (round > 1 ? 1 : 0) + { sauna: 0, water: 0.5, totonou: 1 }[stage];
+}
+
+/** Weights of the Daylight, Blue hour and Night scenes at a time of day (at most two are not 0). */
+export function sceneWeights(time: number): [number, number, number] {
+  const t = THREE.MathUtils.clamp(time, 0, 2);
+  return [Math.max(0, 1 - t), 1 - Math.abs(t - 1), Math.max(0, t - 1)];
 }
 
 export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer) {
@@ -82,11 +90,13 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   sun.shadow.camera.updateProjectionMatrix();
   sun.shadow.bias = -0.00015;
   sun.shadow.normalBias = 0.035;
-  // Penumbra of the source sun's 0.085 rad disk (see softShadows.ts).
-  sun.shadow.radius = directionalPenumbra(sun.shadow.camera, 0.085);
+  // Penumbra of the source sun's 0.085 rad disk and of the night's 0.0093 rad moon (softShadows.ts).
+  const sunPenumbra = directionalPenumbra(sun.shadow.camera, 0.085),
+    moonPenumbra = directionalPenumbra(sun.shadow.camera, 0.0093);
+  sun.shadow.radius = sunPenumbra;
   sun.shadow.autoUpdate = false;
   // The sauna room's source area lights, confined to the room (see interiorLights.ts). They keep
-  // the same power in both source scenes.
+  // the same power in every source scene.
   const interior = createInteriorLights();
   // Cycles 'V9 lounge patch of sunlight': a 950 W, 1.25 m disk above the lounge and plunge.
   // A Lambertian disk emits P/π candela on its axis with a cosine falloff (a 90° cone with full
@@ -112,9 +122,9 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   lounge.shadow.autoUpdate = false;
   // Blue-hour accent lights of the source (Blender W, position, direction in glTF axes), all
   // 180° spread disks: P/π candela on the axis with a cosine falloff (SPOT_COSINE). The Daylight
-  // scene keeps them near zero.
+  // scene keeps them near zero; the Night scene keeps the Blue hour power.
   const duskColor = new THREE.Color().setRGB(1, 0.7, 0.39, THREE.LinearSRGBColorSpace);
-  const dusk = (
+  const duskLights = (
     [
       // 'V10 lounge dusk fill': 2 m disk over the loungers.
       [42, [5.9, 2.8, 1.4], [-0.3142, -0.6569, -0.6854]],
@@ -134,7 +144,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   });
   // The lounge fill is below/among the pergola beams: cache their occlusion instead of
   // letting its direct light pass through them.
-  const duskLounge = dusk[0];
+  const duskLounge = duskLights[0];
   duskLounge.shadow.focus = 0.8;
   duskLounge.shadow.camera.near = 0.1;
   duskLounge.shadow.camera.far = 20;
@@ -144,7 +154,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   duskLounge.shadow.autoUpdate = false;
   // The maple uplight must not shine through the trunk and canopy. The source is a 0.6 m
   // disk; its center-based shadow is an approximation of the disk's visibility.
-  const maple = dusk[4];
+  const maple = duskLights[4];
   maple.shadow.focus = 0.8;
   maple.shadow.camera.near = 0.1;
   maple.shadow.camera.far = 20;
@@ -154,7 +164,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   maple.shadow.autoUpdate = false;
   // The three low path disks are occluded by stepping stones and planting. Use the
   // source 0.28 m diameter; as with the other disks, visibility is sampled at the center.
-  const pathLights = dusk.slice(1, 4);
+  const pathLights = duskLights.slice(1, 4);
   for (const light of pathLights) {
     light.shadow.focus = 0.8;
     light.shadow.camera.near = 0.1;
@@ -164,14 +174,20 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     light.shadow.radius = spotPenumbra(0.1, 20, 144, 0.28);
     light.shadow.autoUpdate = false;
   }
-  const shadowLights = [sun, lounge, ...dusk];
+  const shadowLights = [sun, lounge, ...duskLights];
   scene.add(sun, ...interior, lounge, lounge.target);
-  for (const light of dusk) scene.add(light, light.target);
-  // Both source scenes light the courtyard along the 'Late afternoon sunlight' direction; the
-  // Blue hour one is a faint blue 0.045. A fixed direction keeps the cached shadow valid.
+  for (const light of duskLights) scene.add(light, light.target);
+  // Every source scene lights the courtyard along the 'Late afternoon sunlight' direction: the
+  // Blue hour sun is a faint blue 0.045 and the night's moon (scripts/build_night_scene.py) a
+  // pale 0.1 with a 0.5° disk. A fixed direction keeps the cached shadow valid.
   sun.position.set(-0.556, 0.6178, 0.556).multiplyScalar(50);
-  const daySun = new THREE.Color('#fff1d5'),
-    duskSun = new THREE.Color().setRGB(0.47, 0.62, 1, THREE.LinearSRGBColorSpace);
+  const sunColors = [
+    new THREE.Color('#fff1d5'),
+    new THREE.Color().setRGB(0.47, 0.62, 1, THREE.LinearSRGBColorSpace),
+    new THREE.Color().setRGB(0.62, 0.74, 1, THREE.LinearSRGBColorSpace),
+  ];
+  const sunIntensity = [3.2, 0.045, 0.1];
+  const dot = (weights: number[], values: number[]) => weights.reduce((sum, w, i) => sum + w * values[i], 0);
   let current = 0;
   return {
     irradiance,
@@ -193,23 +209,33 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     },
     // Light count is part of every shader, so this recompiles; only the quality setting calls it.
     setDuskLights(enabled: boolean) {
-      for (const light of dusk) light.visible = enabled;
+      for (const light of duskLights) light.visible = enabled;
     },
     dispose() {
       for (const light of shadowLights) light.shadow.dispose();
     },
+    /** The smoothed time of day (see timeOfDay). */
+    get time() {
+      return current;
+    },
     update(target: number, delta: number, immediate: boolean) {
       // Exponential smoothing is independent of frame rate; reduced motion snaps.
       current = immediate ? target : THREE.MathUtils.lerp(current, target, 1 - Math.exp(-delta / 1.4));
-      const exposure = 2 ** THREE.MathUtils.lerp(DAY_EXPOSURE, EVENING_EXPOSURE, current);
-      sky.update(current);
-      // Every light uses the source values of each scene; the probes mix the two bakes.
-      irradiance.suiIrradianceEvening.value = current;
-      sun.color.copy(daySun).lerp(duskSun, current);
-      sun.intensity = THREE.MathUtils.lerp(3.2, 0.045, current);
-      lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, current);
-      for (const light of dusk) light.intensity = light.userData.candela * current;
-      renderer.toneMappingExposure = exposure;
+      const weights = sceneWeights(current);
+      // Blue hour and Night share the powers of every light but the sun and the baked sky fills.
+      const dusk = 1 - weights[0];
+      sky.update(dusk, weights[2]);
+      // Every light uses the source values of each scene; the probes mix the bakes.
+      irradiance.suiIrradianceEvening.value = dusk;
+      irradiance.suiIrradianceNight.value = weights[2];
+      sun.color.setRGB(0, 0, 0);
+      weights.forEach((w, i) => sun.color.add(sunColors[i].clone().multiplyScalar(w * sunIntensity[i])));
+      sun.intensity = Math.max(sun.color.r, sun.color.g, sun.color.b);
+      if (sun.intensity > 0) sun.color.multiplyScalar(1 / sun.intensity);
+      sun.shadow.radius = THREE.MathUtils.lerp(sunPenumbra, moonPenumbra, weights[2]);
+      lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, dusk);
+      for (const light of duskLights) light.intensity = light.userData.candela * dusk;
+      renderer.toneMappingExposure = 2 ** dot(weights, EXPOSURE);
     },
   };
 }

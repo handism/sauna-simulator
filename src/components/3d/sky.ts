@@ -6,9 +6,9 @@ import record from './sky.json' with { type: 'json' };
 
 // The sky of the source worlds (scripts/build_sky_world.py), which camera and glossy rays see
 // before any diffuse bounce: a zenith-horizon gradient, a glow, FBM clouds on a curved plane,
-// Voronoi stars and the sun's disk. Diffuse light from the sky is in the irradiance probes (the
-// source's flat colour) and glossy light in the reflection probes, so this only draws the
-// background, in the main pass and the water's mirror. The graph reads the view direction alone
+// Voronoi stars and the sun's disk (the moon's at night). Diffuse light from the sky is in the
+// irradiance probes (the source's flat colour) and glossy light in the reflection probes, so this
+// only draws the background, in the main pass and the water's mirror. The graph reads the view direction alone
 // and is evaluated here node by node, in Blender axes (z up): Math Power and Divide are safe
 // versions, Mix clamps its factor, Map Range clamps. The Blender graph is sharp; here the stars
 // and the sun's disk keep their flux over a pixel and cloud octaves below a pixel fade to their
@@ -43,7 +43,7 @@ export interface SkyParameters {
   sun_direction: Color;
 }
 
-export const SKY = record.scenes as Record<'day' | 'evening', SkyParameters>;
+export const SKY = record.scenes as Record<'day' | 'evening' | 'night', SkyParameters>;
 /** Hash of the source blend the sky came from; the probes are baked from the same blend. */
 export const SKY_BLEND_SHA256 = record.output_sha256;
 
@@ -129,12 +129,16 @@ float sui_sky_disk( vec3 d, vec3 sun, float diskCos ) {
 }
 ${skyFunction('day', SKY.day)}
 ${skyFunction('evening', SKY.evening)}
-// Direction in glTF axes (y up) to Blender axes (z up).
-vec3 sui_sky( vec3 direction, float evening ) {
+${skyFunction('night', SKY.night)}
+// Direction in glTF axes (y up) to Blender axes (z up). dusk is the weight of Blue hour and Night
+// together, night that of Night (lighting.ts); only skies with a weight are evaluated.
+vec3 sui_sky( vec3 direction, float dusk, float night ) {
 	vec3 d = normalize( vec3( direction.x, - direction.z, direction.y ) );
-	vec3 day = evening < 1.0 ? sui_sky_day( d ) : vec3( 0.0 );
-	vec3 dusk = evening > 0.0 ? sui_sky_evening( d ) : vec3( 0.0 );
-	return mix( day, dusk, evening );
+	vec3 sky = vec3( 0.0 );
+	if ( dusk < 1.0 ) sky += ( 1.0 - dusk ) * sui_sky_day( d );
+	if ( dusk > night ) sky += ( dusk - night ) * sui_sky_evening( d );
+	if ( night > 0.0 ) sky += night * sui_sky_night( d );
+	return sky;
 }
 `;
 
@@ -149,10 +153,11 @@ void main() {
 
 const fragmentShader = /* glsl */ `
 uniform float suiSkyEvening;
+uniform float suiSkyNight;
 varying vec3 vSuiSkyDirection;
 ${SKY_GLSL}
 void main() {
-	gl_FragColor = vec4( sui_sky( vSuiSkyDirection, suiSkyEvening ), 1.0 );
+	gl_FragColor = vec4( sui_sky( vSuiSkyDirection, suiSkyEvening, suiSkyNight ), 1.0 );
 	#include <tonemapping_fragment>
 	#include <colorspace_fragment>
 }`;
@@ -163,7 +168,7 @@ void main() {
  * shows only on paths without a glossy bounce.
  */
 export function createSky() {
-  const uniforms = { suiSkyEvening: { value: 0 }, suiSkyDisk: { value: 1 } };
+  const uniforms = { suiSkyEvening: { value: 0 }, suiSkyNight: { value: 0 }, suiSkyDisk: { value: 1 } };
   const material = new THREE.ShaderMaterial({
     name: 'sky',
     uniforms,
@@ -181,9 +186,10 @@ export function createSky() {
   };
   return {
     mesh,
-    /** 0 for the Daylight sky, 1 for Blue hour. */
-    update(evening: number) {
-      uniforms.suiSkyEvening.value = evening;
+    /** Weights of Blue hour and Night together (0 is the Daylight sky) and of Night alone. */
+    update(dusk: number, night: number) {
+      uniforms.suiSkyEvening.value = dusk;
+      uniforms.suiSkyNight.value = night;
     },
   };
 }

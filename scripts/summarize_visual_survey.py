@@ -33,7 +33,7 @@ survey = json.loads(base64.b64decode(attachment["body"]))
 root = Path(report["config"]["projects"][0]["outputDir"])
 args.output.mkdir(parents=True, exist_ok=True)
 for stage in ("sauna", "water", "totonou"):
-    for lighting in ("day", "evening"):
+    for lighting in ("day", "evening", "night"):
         sheet = Image.new("RGB", (1600, 1644), "#182020")
         draw = ImageDraw.Draw(sheet)
         for heading in range(8):

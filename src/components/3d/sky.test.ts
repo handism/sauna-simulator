@@ -17,11 +17,19 @@ describe('source sky', () => {
     const record = JSON.parse(readFileSync('src/components/3d/sky.json', 'utf8'));
     expect(record.scenes.day.flat.map((v: number) => +v.toFixed(4))).toEqual([0.0748, 0.1088, 0.136]);
     expect(record.scenes.evening.flat.map((v: number) => +v.toFixed(4))).toEqual([0.02, 0.034, 0.066]);
+    expect(record.scenes.night.flat.map((v: number) => +v.toFixed(4))).toEqual([0.003, 0.0051, 0.0099]);
   });
 
-  it('shows the sun disk by day only, with the source lamp radiance', () => {
+  it('shows the sun disk by day and the moon disk at night, with the source lamp radiance', () => {
     expect(SKY.day.disk).toBe(true);
     expect(SKY.evening.disk).toBe(false);
+    expect(SKY.night.disk).toBe(true);
+    // The moon: 0.1 W/m² over its 0.0093 rad disk, in the sun's direction.
+    const moon = 2 * Math.PI * (1 - Math.cos(0.0093 / 2));
+    expect(SKY.night.disk_radiance![2] / (0.1 / moon)).toBeCloseTo(1, 3);
+    expect(SKY.night.sun_direction).toEqual(SKY.day.sun_direction);
+    expect(skyFunction('night', SKY.night)).toContain('sui_sky_disk(');
+    expect(skyFunction('night', SKY.night)).toContain('sui_sky_star(');
     // 3.2 W/m² over the solid angle of the lamp's 0.085 rad disk.
     const solid = 2 * Math.PI * (1 - Math.cos(0.085 / 2));
     expect(SKY.day.disk_radiance![0]).toBeCloseTo(3.2 / solid, 0);
@@ -62,7 +70,10 @@ describe('source sky', () => {
     expect(material.uniforms.suiSkyDisk.value).toBe(0);
     render(main);
     expect(material.uniforms.suiSkyDisk.value).toBe(1);
-    sky.update(0.4);
-    expect(material.uniforms.suiSkyEvening.value).toBe(0.4);
+    sky.update(1, 0.4);
+    expect(material.uniforms.suiSkyEvening.value).toBe(1);
+    expect(material.uniforms.suiSkyNight.value).toBe(0.4);
+    // Only skies with a weight are evaluated.
+    expect(SKY_GLSL).toContain('if ( night > 0.0 ) sky += night * sui_sky_night( d );');
   });
 });

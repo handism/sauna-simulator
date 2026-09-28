@@ -16,11 +16,19 @@ WORLD_ONLY = {
         'f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0',
 }
 
+# SUI_Retreat.blend -> (the revision before a scene was added, that scene's key). The other scenes,
+# their worlds and all objects are unchanged (scripts/build_night_scene.py compares them).
+ADDED_SCENE = {
+    # scripts/build_night_scene.py, then scripts/build_sky_world.py --keys night (SUI_Retreat_v13.blend).
+    'd7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753':
+        ('f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901', 'night'),
+}
+
 
 def geometry_root(sha):
     """Oldest revision with the same geometry as `sha`."""
-    while sha in SHADING_ONLY or sha in WORLD_ONLY:
-        sha = SHADING_ONLY.get(sha) or WORLD_ONLY[sha]
+    while sha in SHADING_ONLY or sha in WORLD_ONLY or sha in ADDED_SCENE:
+        sha = SHADING_ONLY.get(sha) or WORLD_ONLY.get(sha) or ADDED_SCENE[sha][0]
     return sha
 
 

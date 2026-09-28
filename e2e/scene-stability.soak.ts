@@ -85,7 +85,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       const quality = ['low', 'standard', 'high'][(cycle - 1) % 3];
       await page.getByLabel('3Dの画質').selectOption(quality);
       await expect(scene).toHaveAttribute('data-quality', quality);
-      await page.getByLabel('3Dの時間帯').selectOption(cycle % 2 ? 'day' : 'evening');
+      await page.getByLabel('3Dの時間帯').selectOption(['day', 'evening', 'night'][cycle % 3]);
       const canvas = await scene.locator('canvas').elementHandle();
       await warmStages();
       await page.getByRole('button', { name: 'ロウリュ (Löyly)', exact: true }).click();

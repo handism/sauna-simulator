@@ -5,7 +5,7 @@
     "V10 woodland floor extension"
   ],
   "input": "SUI_Retreat.blend",
-  "input_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
   "blender": "4.5.11 LTS",
   "panorama": [
     64,
@@ -266,19 +266,111 @@
         "sky": 0,
         "disk": 0
       }
+    },
+    "night": {
+      "scene": "SUI \u2022 Night",
+      "lights_in_probes": [
+        "Garden lantern glow.008 / night",
+        "Garden lantern glow.009 / night",
+        "Garden lantern glow.010 / night",
+        "Garden lantern glow.011 / night",
+        "Sky softbox.002 / night",
+        "Sunlit courtyard.002 / night",
+        "V10 concealed deck edge -3.7 / night",
+        "V10 concealed deck edge 0 / night",
+        "V10 concealed deck edge 4.4 / night",
+        "V7 water reflection soft strip.002 / night",
+        "V8 maple garden grazing light.001 / night"
+      ],
+      "world_in_probes": true,
+      "grids": {
+        "room": {
+          "probes": 693,
+          "invalid": 4,
+          "fill_rounds": 1,
+          "backface_share_max_valid": 0.198,
+          "seconds": 293.7,
+          "upward_irradiance_mean": [
+            0.1434,
+            0.0521,
+            0.0195
+          ]
+        },
+        "courtyard": {
+          "probes": 2375,
+          "invalid": 295,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.249,
+          "seconds": 537.4,
+          "upward_irradiance_mean": [
+            0.1151,
+            0.1318,
+            0.1771
+          ]
+        },
+        "outer": {
+          "probes": 1764,
+          "invalid": 303,
+          "fill_rounds": 3,
+          "backface_share_max_valid": 0.25,
+          "seconds": 295.5,
+          "upward_irradiance_mean": [
+            0.018,
+            0.0244,
+            0.041
+          ]
+        },
+        "water": {
+          "probes": 84,
+          "invalid": 0,
+          "fill_rounds": 0,
+          "method": "receiver",
+          "receiver": {
+            "radius": 0.004,
+            "albedo": [
+              0.109,
+              0.29,
+              0.254
+            ],
+            "resolution": 32,
+            "samples": 256,
+            "shell": {
+              "radius": 0.0044,
+              "transmittance": 0.925
+            },
+            "fit_residual_median": 0.388,
+            "fit_residual_max": 0.603
+          },
+          "seconds": 152.9,
+          "upward_irradiance_mean": [
+            0.1208,
+            0.1351,
+            0.1405
+          ]
+        }
+      },
+      "sky_gates": {
+        "sky": 0,
+        "disk": 0
+      }
     }
   },
   "copied_grids": {
-    "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
-    "bin_sha256": "cf61064558e46e732ef7036a7cea22c0e58d7af9fca9e4105d0aec7034e3a8d2",
-    "seconds": 356.6,
+    "input_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+    "bin_sha256": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
+    "seconds": 2409.5,
     "grids": [
       "room",
       "courtyard",
-      "outer"
+      "outer",
+      "water"
+    ],
+    "scenes": [
+      "day",
+      "evening"
     ]
   },
-  "bin_bytes": 530928,
-  "bin_sha256": "7f684c474080976284067d6b68763e9ab8ce0406baa28f2b75bb5630fed5f8b6",
-  "seconds": 2409.5
+  "bin_bytes": 796392,
+  "bin_sha256": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+  "seconds": 1280.3
 }

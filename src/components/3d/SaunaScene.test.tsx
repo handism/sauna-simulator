@@ -43,18 +43,18 @@ vi.mock('three/addons/loaders/GLTFLoader.js', () => ({
   },
 }));
 
-// Smallest valid probe layout: 2×2×2 probes per grid, day and evening.
+// Smallest valid probe layout: 2×2×2 probes per grid, day, evening and night.
 const irradiance = {
-  scenes: ['day', 'evening'],
+  scenes: ['day', 'evening', 'night'],
   grids: ['room', 'courtyard', 'outer', 'water'].map((name, i) => ({
     name,
     min: [0, 0, 0],
     max: [1, 1, 1],
     resolution: [2, 2, 2],
-    offset: { day: i * 432, evening: i * 432 + 216 },
+    offset: { day: i * 648, evening: i * 648 + 216, night: i * 648 + 432 },
   })),
 };
-const irradianceBytes = 4 * 432 * 2;
+const irradianceBytes = 4 * 648 * 2;
 
 function deferred<T>() {
   let resolve!: (value: T) => void;

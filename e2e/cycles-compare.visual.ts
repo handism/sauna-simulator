@@ -48,7 +48,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
       await expect(scene).toHaveAttribute('data-stage', stage);
       await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
       await page.waitForTimeout(1200);
-      for (const lighting of ['day', 'evening']) {
+      for (const lighting of ['day', 'evening', 'night']) {
         await page.getByLabel('3Dの時間帯').selectOption(lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         const camera = views[stage];

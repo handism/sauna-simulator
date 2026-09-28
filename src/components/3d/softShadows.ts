@@ -13,9 +13,10 @@ export const BLOCKER_SAMPLES = 16,
 // The blue-hour sun (0.045) adds little light, so its grain at 4+6 samples was invisible while
 // the evening GPU time fell by 12–17% (docs/3d-qa/shadow-per-light). The lighting blend decides
 // per frame from the sun's color × intensity, a uniform, so the branch is coherent and needs no
-// recompile; the daylight sun (3.2) and every spot light keep 16+24.
+// recompile; the daylight sun (3.2), the night's moon (0.1, whose sharp shadows stay visible) and
+// every spot light keep 16+24.
 export const SUN_LITE_SAMPLES = [4, 6] as const,
-  SUN_LITE_BELOW = 0.1;
+  SUN_LITE_BELOW = 0.09;
 // Caps the search and filter radius (shadow-map UV) so a distant blocker cannot blur without bound.
 const MAX_RADIUS = 0.02;
 

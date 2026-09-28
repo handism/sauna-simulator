@@ -13,12 +13,12 @@ import './interiorLights';
 // (about 0.5 m, for fragments below the surface only). The courtyard probes in the water are
 // filled from the dry deck around it; the water grid sees the courtyard through the surface as
 // Cycles does, only with the lights that transmission rays see (2.3x less light on the tiles by
-// day, 14x at blue hour). Day and blue-hour
-// coefficients are mixed with the evening amount. three's own LightProbeGrid picks one grid per
+// day, 14x at blue hour). The coefficients of the Daylight, Blue hour and Night bakes are mixed
+// by the time of day (lighting.ts sceneWeights). three's own LightProbeGrid picks one grid per
 // object, but the model's meshes are merged by material and span the room and the courtyard.
 
 export const GRID_NAMES = ['room', 'courtyard', 'outer', 'water'] as const;
-export const SCENES = ['day', 'evening'] as const;
+export const SCENES = ['day', 'evening', 'night'] as const;
 /** 9 RGB coefficients packed into 7 RGBA texels (the last channel unused). */
 const TEXELS = 7;
 const COEFFICIENTS = 27;
@@ -49,8 +49,11 @@ export function createIrradianceUniforms() {
     suiIrradianceMin: { value: GRID_NAMES.map(() => new THREE.Vector3()) },
     suiIrradianceMax: { value: GRID_NAMES.map(() => new THREE.Vector3()) },
     suiIrradianceRes: { value: GRID_NAMES.map(() => new THREE.Vector3()) },
-    /** 0 = Daylight, 1 = Blue hour. */
+    /** Weight of the Blue hour and Night scenes together (1 − the Daylight weight): they share
+     * the powers of the browser's accent lights (waterBottom.ts). */
     suiIrradianceEvening: { value: 0 },
+    /** Weight of the Night scene (at most suiIrradianceEvening). */
+    suiIrradianceNight: { value: 0 },
   };
 }
 export type IrradianceUniforms = ReturnType<typeof createIrradianceUniforms>;
@@ -98,8 +101,8 @@ const gridLayout = (header: IrradianceHeader) =>
   JSON.stringify(header.grids.map(({ name, min, max, resolution }) => [name, min, max, resolution]));
 
 /**
- * One RGBA half-float 3D texture per grid. Along Z it stacks 28 sub-volumes (7 texels of the
- * irradiance by day and by evening, then of the reflection by day and by evening), each padded by
+ * One RGBA half-float 3D texture per grid. Along Z it stacks 42 sub-volumes (7 texels of the
+ * irradiance of each scene, then of the reflection of each scene), each padded by
  * a copy of its first and last slice so that the linear filter never blends two sub-volumes (the
  * atlas layout of three's LightProbeGrid). Both files must have the same grids.
  */
@@ -201,6 +204,7 @@ uniform vec3 suiIrradianceMin[ ${GRID_NAMES.length} ];
 uniform vec3 suiIrradianceMax[ ${GRID_NAMES.length} ];
 uniform vec3 suiIrradianceRes[ ${GRID_NAMES.length} ];
 uniform float suiIrradianceEvening;
+uniform float suiIrradianceNight;
 
 vec3 suiEvaluateSH( const in highp sampler3D atlas, const in vec2 uv, const in float z, const in float first, const in float slices, const in vec3 n, const in vec3 band ) {
 	float depth = ${(TEXELS * SCENES.length * KINDS.length).toFixed(1)} * slices;
@@ -226,8 +230,11 @@ vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 
 	float slices = res.z + 2.0;
 	float z = uvw.z * res.z + 1.0;
 	vec3 result = vec3( 0.0 );
+	// At most two scenes have a weight (lighting.ts sceneWeights).
+	float evening = suiIrradianceEvening - suiIrradianceNight;
 	if ( suiIrradianceEvening < 1.0 ) result += ( 1.0 - suiIrradianceEvening ) * suiEvaluateSH( atlas, uvw.xy, z, kind, slices, D, band );
-	if ( suiIrradianceEvening > 0.0 ) result += suiIrradianceEvening * suiEvaluateSH( atlas, uvw.xy, z, kind + ${TEXELS.toFixed(1)}, slices, D, band );
+	if ( evening > 0.0 ) result += evening * suiEvaluateSH( atlas, uvw.xy, z, kind + ${TEXELS.toFixed(1)}, slices, D, band );
+	if ( suiIrradianceNight > 0.0 ) result += suiIrradianceNight * suiEvaluateSH( atlas, uvw.xy, z, kind + ${(2 * TEXELS).toFixed(1)}, slices, D, band );
 	return result;
 }
 
