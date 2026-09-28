@@ -38,3 +38,7 @@ playwright-report/
 # Python bytecode
 __pycache__/
 *.pyc
+
+# QA images stay local; README/JSON records are tracked
+docs/3d-qa/**/*.jpg
+docs/3d-qa/**/*.png
