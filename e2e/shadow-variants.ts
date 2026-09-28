@@ -8,8 +8,12 @@
 //   every pixel's samples on the same rings).
 // - adaptive [first, extra]: filter with `first` samples, and only where they disagree (a
 //   penumbra) add `extra` samples from a second, differently rotated disk.
+//
+// Per-light counts: `lite` routes one light type's lookups to a copy of getShadow with `samples`
+// (constant loops, as a production split would compile), leaving the other type at the bundle's.
 export type ShadowSamples = readonly [blocker: number, filter: number];
 export type ShadowPlacement = { jitter?: boolean; adaptive?: readonly [first: number, extra: number] };
+export type ShadowPerLight = { lite: 'directional' | 'spot'; samples: ShadowSamples };
 
 export const PCSS_VARIANTS = {
   original: [16, 24],
@@ -26,7 +30,12 @@ export const PCSS_VARIANTS = {
   'jitter-adaptive-8-24': { jitter: true, adaptive: [8, 24] },
   'adaptive-12-36': { adaptive: [12, 36] },
   'adaptive-16-32': { adaptive: [16, 32] },
-} as const satisfies Record<string, ShadowSamples | 'hard' | ShadowPlacement>;
+  'sun-half': { lite: 'directional', samples: [8, 12] },
+  'sun-quarter': { lite: 'directional', samples: [4, 6] },
+  'spots-half': { lite: 'spot', samples: [8, 12] },
+  // The split itself at unchanged counts: the cost of a second PCSS function in the shader.
+  'sun-split': { lite: 'directional', samples: [16, 24] },
+} as const satisfies Record<string, ShadowSamples | 'hard' | ShadowPlacement | ShadowPerLight>;
 
 export type ShadowVariant = keyof typeof PCSS_VARIANTS;
 
@@ -35,7 +44,7 @@ export function patchShadows({
   to,
 }: {
   from: readonly number[];
-  to: readonly number[] | 'hard' | ShadowPlacement;
+  to: readonly number[] | 'hard' | ShadowPlacement | ShadowPerLight;
 }) {
   const original = WebGL2RenderingContext.prototype.shaderSource;
   (window as unknown as { shadowPatches: number }).shadowPatches = 0;
@@ -64,6 +73,19 @@ export function patchShadows({
           pcss = replace(pcss, `slope, radius, ${from[1]}, phi + 1.0`, `slope, radius, ${to[1]}, phi + 1.0`);
           pcss = replace(pcss, `lit / ${from[1]}.0`, `lit / ${to[1]}.0`);
         }
+      } else if ('lite' in to) {
+        const tail = `return mix( 1.0, lit / ${from[1]}.0, shadowIntensity );\n\n\t}`;
+        const start = pcss.indexOf('float getShadow(');
+        const end = pcss.indexOf(tail, start) + tail.length;
+        if (start < 0 || end < tail.length) throw new Error('PCSS diagnostic no longer matches');
+        let lite = pcss.slice(start, end).replace('float getShadow(', 'float getShadowLite(');
+        lite = replace(lite, `i < ${from[0]}; i ++`, `i < ${to.samples[0]}; i ++`);
+        lite = replace(lite, `pcssDisk( i, ${from[0]}, phi )`, `pcssDisk( i, ${to.samples[0]}, phi )`);
+        lite = replace(lite, `slope, radius, ${from[1]}, phi + 1.0`, `slope, radius, ${to.samples[1]}, phi + 1.0`);
+        lite = replace(lite, `lit / ${from[1]}.0`, `lit / ${to.samples[1]}.0`);
+        const call = `getShadow( ${to.lite}ShadowMap[`;
+        if (!pcss.includes(call)) throw new Error(`PCSS diagnostic no longer matches: ${call}`);
+        pcss = `${pcss.slice(0, end)}\n\n\t${lite}${pcss.slice(end).replaceAll(call, `getShadowLite( ${to.lite}ShadowMap[`)}`;
       } else {
         const placement = to as ShadowPlacement;
         if (placement.jitter) {
