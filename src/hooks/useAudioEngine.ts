@@ -179,6 +179,21 @@ function applyFilterSettings(filter: BiquadFilterNode, settings: AudioEffectSett
   if (settings.gain !== undefined) filter.gain.value = settings.gain;
 }
 
+// ループするノイズ → フィルタ → ゲイン。出力先への接続と開始は呼び出し側で行う
+function createNoiseLoop(ctx: AudioContext, buffer: AudioBuffer, filterSettings: AudioEffectSettings) {
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+
+  const filter = ctx.createBiquadFilter();
+  applyFilterSettings(filter, filterSettings);
+
+  const gain = ctx.createGain();
+  source.connect(filter);
+  filter.connect(gain);
+  return { source, gain };
+}
+
 export function useAudioEngine(): AudioEngine {
   const ctxRef = useRef<AudioContext | null>(null);
   const spatialRef = useRef<ReturnType<typeof createSpatialAudio>>(null);
@@ -232,10 +247,11 @@ export function useAudioEngine(): AudioEngine {
       const bufferSize = Math.floor(ctx.sampleRate * bufferSeconds);
       try {
         const generatedData = await generateBufferAsync(noiseType, bufferSize);
-        if (env && currentEnvRef.current !== env) return null;
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         buffer.copyToChannel(generatedData, 0);
+        // 環境が切り替わっていても生成結果は次回のためにキャッシュする
         noiseBuffersRef.current.set(noiseType, buffer);
+        if (env && currentEnvRef.current !== env) return null;
         return buffer;
       } catch (e) {
         console.error(`Failed to generate ${label} buffer`, e);
@@ -283,19 +299,9 @@ export function useAudioEngine(): AudioEngine {
       if (!buffer) return;
 
       const now = ctx.currentTime;
-      const source = ctx.createBufferSource();
-      source.buffer = buffer;
-      source.loop = true;
-
-      const filter = ctx.createBiquadFilter();
-      applyFilterSettings(filter, preset.filterSettings);
-
-      const gain = ctx.createGain();
+      const { source, gain } = createNoiseLoop(ctx, buffer, preset.filterSettings);
       gain.gain.value = 0;
       gain.gain.setTargetAtTime(preset.targetGain, now, preset.fadeInTimeConstant);
-
-      source.connect(filter);
-      filter.connect(gain);
       gain.connect(spatialRef.current?.[preset.spatialBus] ?? masterGainRef.current);
       source.start();
 
@@ -343,14 +349,7 @@ export function useAudioEngine(): AudioEngine {
     const windBuffer = await getNoiseBuffer(ctx, wind, 'wind noise', 'totonou');
     if (!windBuffer) return;
 
-    const windSource = ctx.createBufferSource();
-    windSource.buffer = windBuffer;
-    windSource.loop = true;
-
-    const windFilter = ctx.createBiquadFilter();
-    applyFilterSettings(windFilter, wind.filterSettings);
-
-    const windGain = ctx.createGain();
+    const { source: windSource, gain: windGain } = createNoiseLoop(ctx, windBuffer, wind.filterSettings);
     windGain.gain.value = wind.baseGain;
 
     const lfo = ctx.createOscillator();
@@ -361,9 +360,6 @@ export function useAudioEngine(): AudioEngine {
 
     lfo.connect(lfoGain);
     lfoGain.connect(windGain.gain);
-
-    windSource.connect(windFilter);
-    windFilter.connect(windGain);
     windGain.connect(masterGainRef.current);
 
     windSource.start();

@@ -1,3 +1,6 @@
+// 入室時の安静時心拍数。セッションの初期値とサウナ室の開始値で共有する
+export const RESTING_HEART_RATE = 75;
+
 export const calculateHeatIndex = (temperature: number, humidity: number): number => {
   return temperature + humidity * 0.45;
 };
