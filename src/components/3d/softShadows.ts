@@ -10,6 +10,12 @@ import * as THREE from 'three';
 // so the shader reads k from the light's shadow.radius uniform.
 export const BLOCKER_SAMPLES = 16,
   FILTER_SAMPLES = 24;
+// The blue-hour sun (0.045) adds little light, so its grain at 4+6 samples was invisible while
+// the evening GPU time fell by 12–17% (docs/3d-qa/shadow-per-light). The lighting blend decides
+// per frame from the sun's color × intensity, a uniform, so the branch is coherent and needs no
+// recompile; the daylight sun (3.2) and every spot light keep 16+24.
+export const SUN_LITE_SAMPLES = [4, 6] as const,
+  SUN_LITE_BELOW = 0.1;
 // Caps the search and filter radius (shadow-map UV) so a distant blocker cannot blur without bound.
 const MAX_RADIUS = 0.02;
 
@@ -22,6 +28,55 @@ export function directionalPenumbra(camera: THREE.OrthographicCamera, angle: num
 export function spotPenumbra(near: number, far: number, fov: number, diameter: number): number {
   return (diameter * (far - near)) / (2 * Math.tan(THREE.MathUtils.degToRad(fov) / 2) * far * near);
 }
+
+const pcssShadow = (name: string, blocker: number, filter: number) => /* glsl */ `
+	// shadowRadius carries k: penumbra width in UV per unit of stored depth between receiver and blocker.
+	float ${name}( sampler2D shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
+
+		shadowCoord.xyz /= shadowCoord.w;
+		shadowCoord.z += shadowBias;
+
+		// Receiver plane depth bias: the depth of the receiving surface at each sample offset, so a
+		// wide kernel on a sloped floor or wall does not shadow itself. The derivatives come from
+		// suiShadowSlope() outside the lights' branch.
+		vec3 dx = suiShadowDx;
+		vec3 dy = suiShadowDy;
+		float det = dx.x * dy.y - dx.y * dy.x;
+		vec2 slope = abs( det ) > 1e-12 ? vec2( dy.y * dx.z - dx.y * dy.z, dx.x * dy.z - dy.x * dx.z ) / det : vec2( 0.0 );
+		slope = clamp( slope, - 4.0, 4.0 );
+
+		bool inFrustum = shadowCoord.x >= 0.0 && shadowCoord.x <= 1.0 && shadowCoord.y >= 0.0 && shadowCoord.y <= 1.0;
+		if ( ! inFrustum || shadowCoord.z > 1.0 ) return 1.0;
+
+		float phi = pcssNoise( gl_FragCoord.xy ) * PI2;
+
+		float texel = 1.0 / shadowMapSize.x;
+		float search = clamp( shadowRadius * shadowCoord.z * 0.5, 2.0 * texel, ${MAX_RADIUS.toFixed(4)} );
+		float blockerDepth = 0.0;
+		float blockers = 0.0;
+
+		for ( int i = 0; i < ${blocker}; i ++ ) {
+
+			vec2 offset = pcssDisk( i, ${blocker}, phi ) * search;
+			float depth = texture2D( shadowMap, shadowCoord.xy + offset ).r;
+			if ( depth < shadowCoord.z + dot( slope, offset ) ) {
+
+				blockerDepth += depth;
+				blockers += 1.0;
+
+			}
+
+		}
+
+		if ( blockers == 0.0 ) return 1.0;
+
+		blockerDepth /= blockers;
+		float radius = clamp( shadowRadius * ( shadowCoord.z - blockerDepth ) * 0.5, 1.5 * texel, ${MAX_RADIUS.toFixed(4)} );
+		float lit = pcssFilter( shadowMap, shadowCoord.xyz, slope, radius, ${filter}, phi + 1.0 );
+		return mix( 1.0, lit / ${filter}.0, shadowIntensity );
+
+	}
+`;
 
 const pcss = /* glsl */ `
 	vec3 suiShadowDx = vec3( 0.0 ), suiShadowDy = vec3( 0.0 );
@@ -64,50 +119,13 @@ const pcss = /* glsl */ `
 
 	}
 
-	// shadowRadius carries k: penumbra width in UV per unit of stored depth between receiver and blocker.
-	float getShadow( sampler2D shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
+${pcssShadow('getShadow', BLOCKER_SAMPLES, FILTER_SAMPLES)}
+${pcssShadow('suiGetShadowSunLite', ...SUN_LITE_SAMPLES)}
+	float suiSunShadow( vec3 sunColor, sampler2D shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
 
-		shadowCoord.xyz /= shadowCoord.w;
-		shadowCoord.z += shadowBias;
-
-		// Receiver plane depth bias: the depth of the receiving surface at each sample offset, so a
-		// wide kernel on a sloped floor or wall does not shadow itself. The derivatives come from
-		// suiShadowSlope() outside the lights' branch.
-		vec3 dx = suiShadowDx;
-		vec3 dy = suiShadowDy;
-		float det = dx.x * dy.y - dx.y * dy.x;
-		vec2 slope = abs( det ) > 1e-12 ? vec2( dy.y * dx.z - dx.y * dy.z, dx.x * dy.z - dy.x * dx.z ) / det : vec2( 0.0 );
-		slope = clamp( slope, - 4.0, 4.0 );
-
-		bool inFrustum = shadowCoord.x >= 0.0 && shadowCoord.x <= 1.0 && shadowCoord.y >= 0.0 && shadowCoord.y <= 1.0;
-		if ( ! inFrustum || shadowCoord.z > 1.0 ) return 1.0;
-
-		float phi = pcssNoise( gl_FragCoord.xy ) * PI2;
-
-		float texel = 1.0 / shadowMapSize.x;
-		float search = clamp( shadowRadius * shadowCoord.z * 0.5, 2.0 * texel, ${MAX_RADIUS.toFixed(4)} );
-		float blockerDepth = 0.0;
-		float blockers = 0.0;
-
-		for ( int i = 0; i < ${BLOCKER_SAMPLES}; i ++ ) {
-
-			vec2 offset = pcssDisk( i, ${BLOCKER_SAMPLES}, phi ) * search;
-			float depth = texture2D( shadowMap, shadowCoord.xy + offset ).r;
-			if ( depth < shadowCoord.z + dot( slope, offset ) ) {
-
-				blockerDepth += depth;
-				blockers += 1.0;
-
-			}
-
-		}
-
-		if ( blockers == 0.0 ) return 1.0;
-
-		blockerDepth /= blockers;
-		float radius = clamp( shadowRadius * ( shadowCoord.z - blockerDepth ) * 0.5, 1.5 * texel, ${MAX_RADIUS.toFixed(4)} );
-		float lit = pcssFilter( shadowMap, shadowCoord.xyz, slope, radius, ${FILTER_SAMPLES}, phi + 1.0 );
-		return mix( 1.0, lit / ${FILTER_SAMPLES}.0, shadowIntensity );
+		return max( sunColor.r, max( sunColor.g, sunColor.b ) ) < ${SUN_LITE_BELOW.toFixed(4)}
+			? suiGetShadowSunLite( shadowMap, shadowMapSize, shadowIntensity, shadowBias, shadowRadius, shadowCoord )
+			: getShadow( shadowMap, shadowMapSize, shadowIntensity, shadowBias, shadowRadius, shadowCoord );
 
 	}
 `;
@@ -138,23 +156,25 @@ export const SHADOW_FACING = `
 const SHADOW_BRANCH = '( directLight.visible && receiveShadow ) ? getShadow( ';
 const lights = THREE.ShaderChunk.lights_fragment_begin;
 if (!lights.includes('SUI_SHADOW_FACING')) {
+  // The sun (the only directional light) passes its color × intensity to choose its sample count;
+  // the right-hand side reads directLight.color before the product is assigned.
   const calls = [
-    ['spotShadowMap[ i ]', 'vSpotLightCoord[ i ]'],
-    ['directionalShadowMap[ i ]', 'vDirectionalShadowCoord[ i ]'],
-  ].map(([map, coord]) => {
+    ['spotShadowMap[ i ]', 'vSpotLightCoord[ i ]', 'getShadow( '],
+    ['directionalShadowMap[ i ]', 'vDirectionalShadowCoord[ i ]', 'suiSunShadow( directLight.color, '],
+  ].map(([map, coord, call]) => {
     const line = lights.split('\n').find((text) => text.includes(`${SHADOW_BRANCH}${map}`));
     if (!line?.trim().startsWith('directLight.color *=') || !line.includes(`, ${coord} ) : 1.0;`))
       throw new Error('three lighting chunks changed; update softShadows.ts');
-    return [line, coord];
+    return [line, coord, call];
   });
   let patched = SHADOW_FACING + lights;
-  for (const [line, coord] of calls) {
+  for (const [line, coord, call] of calls) {
     const indent = line.slice(0, line.indexOf('directLight'));
     patched = patched.replace(
       line,
       `${indent}suiShadowSlope( ${coord} );\n${line.replace(
         SHADOW_BRANCH,
-        '( directLight.visible && receiveShadow && SUI_SHADOW_FACING ) ? getShadow( ',
+        `( directLight.visible && receiveShadow && SUI_SHADOW_FACING ) ? ${call}`,
       )}`,
     );
   }

@@ -10,7 +10,10 @@ function patchSun(mode: 'original' | 'hard' | 'off' | 'pcf') {
   const original = WebGL2RenderingContext.prototype.shaderSource;
   (window as unknown as { sunPatches: number }).sunPatches = 0;
   WebGL2RenderingContext.prototype.shaderSource = function (shader, source) {
-    if (source.includes('float pcssNoise(') && /getShadow\( directionalShadowMap\[/.test(source)) {
+    if (
+      source.includes('float pcssNoise(') &&
+      /suiSunShadow\( directLight\.color, directionalShadowMap\[/.test(source)
+    ) {
       if (mode !== 'original') {
         const helper = `
 float suiDiagnosticSun(sampler2D map, vec2 size, float intensity, float bias, float radius, vec4 coord) {
@@ -44,7 +47,10 @@ ${
 }
 `;
         source = source.replace('float pcssNoise(', helper + '\nfloat pcssNoise(');
-        source = source.replace(/getShadow\( directionalShadowMap\[/g, 'suiDiagnosticSun( directionalShadowMap[');
+        source = source.replace(
+          /suiSunShadow\( directLight\.color, directionalShadowMap\[/g,
+          'suiDiagnosticSun( directionalShadowMap[',
+        );
       }
       (window as unknown as { sunPatches: number }).sunPatches++;
     }

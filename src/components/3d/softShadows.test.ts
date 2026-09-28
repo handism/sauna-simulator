@@ -5,6 +5,8 @@ import {
   FACING_NORMAL_BIAS,
   FILTER_SAMPLES,
   SHADOW_FACING,
+  SUN_LITE_BELOW,
+  SUN_LITE_SAMPLES,
   directionalPenumbra,
   spotPenumbra,
 } from './softShadows';
@@ -51,11 +53,11 @@ describe('soft shadows', () => {
     // Clearcoat has its own normal, so only the other standard materials skip.
     expect(SHADOW_FACING).toContain('#if defined( STANDARD ) && ! defined( USE_CLEARCOAT )');
     expect(lights).not.toContain('( directLight.visible && receiveShadow ) ? getShadow(');
-    for (const [map, coord] of [
-      ['spotShadowMap[ i ]', 'vSpotLightCoord[ i ]'],
-      ['directionalShadowMap[ i ]', 'vDirectionalShadowCoord[ i ]'],
+    for (const [map, coord, fn] of [
+      ['spotShadowMap[ i ]', 'vSpotLightCoord[ i ]', 'getShadow( '],
+      ['directionalShadowMap[ i ]', 'vDirectionalShadowCoord[ i ]', 'suiSunShadow( directLight.color, '],
     ]) {
-      const call = lights.indexOf(`( directLight.visible && receiveShadow && SUI_SHADOW_FACING ) ? getShadow( ${map}`);
+      const call = lights.indexOf(`( directLight.visible && receiveShadow && SUI_SHADOW_FACING ) ? ${fn}${map}`);
       const slope = lights.indexOf(`suiShadowSlope( ${coord} );`);
       expect(call).toBeGreaterThan(0);
       expect(slope).toBeGreaterThan(0);
@@ -68,5 +70,32 @@ describe('soft shadows', () => {
     // three's own shadow code has no derivatives; the PCSS takes them only in suiShadowSlope().
     expect(pars.match(/dFdx\(/g)).toHaveLength(1);
     expect(pars.match(/dFdy\(/g)).toHaveLength(1);
+  });
+
+  it('filters the faint blue-hour sun with fewer samples and every other shadow with the full count', () => {
+    const pars = THREE.ShaderChunk.shadowmap_pars_fragment;
+    const lights = THREE.ShaderChunk.lights_fragment_begin;
+    const [blocker, filter] = SUN_LITE_SAMPLES;
+    expect(pars).toContain('float suiGetShadowSunLite( sampler2D shadowMap');
+    expect(pars).toContain(`i < ${blocker}; i ++`);
+    expect(pars).toContain(`lit / ${filter}.0`);
+    // Chosen per light from its color × intensity: below the threshold the lite filter, else getShadow.
+    expect(pars).toMatch(
+      new RegExp(
+        `max\\( sunColor\\.r, max\\( sunColor\\.g, sunColor\\.b \\) \\) < ${SUN_LITE_BELOW.toFixed(4)}\\s*\\? suiGetShadowSunLite\\([^;]*: getShadow\\(`,
+      ),
+    );
+    // Only the directional (sun) lookup goes through the branch; the spot lights keep getShadow.
+    expect(lights.match(/suiSunShadow\(/g)).toHaveLength(1);
+    expect(lights).toContain('? getShadow( spotShadowMap[ i ]');
+    expect(lights).not.toContain('getShadow( directionalShadowMap');
+  });
+
+  it('switches only at the end of the blend to evening, where the sun is faint', () => {
+    // lighting.ts: the sun goes from 3.2 (day, #fff1d5) to 0.045 (blue hour, blue 1.0).
+    const sunMax = (evening: number) => THREE.MathUtils.lerp(3.2, 0.045, evening);
+    expect(sunMax(1)).toBeLessThan(SUN_LITE_BELOW);
+    expect(sunMax(0.5)).toBeGreaterThan(SUN_LITE_BELOW);
+    expect(sunMax(0.97)).toBeGreaterThan(SUN_LITE_BELOW);
   });
 });

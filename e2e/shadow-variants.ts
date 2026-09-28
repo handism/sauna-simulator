@@ -10,7 +10,9 @@
 //   penumbra) add `extra` samples from a second, differently rotated disk.
 //
 // Per-light counts: `lite` routes one light type's lookups to a copy of getShadow with `samples`
-// (constant loops, as a production split would compile), leaving the other type at the bundle's.
+// (constant loops), leaving the other type at the bundle's. For the sun this replaces the
+// production intensity branch, so `sun-split` is the sun at 16+24 by day and evening alike (the
+// behavior before the blue-hour sun used SUN_LITE_SAMPLES).
 export type ShadowSamples = readonly [blocker: number, filter: number];
 export type ShadowPlacement = { jitter?: boolean; adaptive?: readonly [first: number, extra: number] };
 export type ShadowPerLight = { lite: 'directional' | 'spot'; samples: ShadowSamples };
@@ -33,7 +35,7 @@ export const PCSS_VARIANTS = {
   'sun-half': { lite: 'directional', samples: [8, 12] },
   'sun-quarter': { lite: 'directional', samples: [4, 6] },
   'spots-half': { lite: 'spot', samples: [8, 12] },
-  // The split itself at unchanged counts: the cost of a second PCSS function in the shader.
+  // The sun at the bundle's counts whatever its intensity (before the blue-hour branch).
   'sun-split': { lite: 'directional', samples: [16, 24] },
 } as const satisfies Record<string, ShadowSamples | 'hard' | ShadowPlacement | ShadowPerLight>;
 
@@ -57,6 +59,14 @@ export function patchShadows({
       // Only the PCSS functions: other chunks may contain the same loop text.
       const head = source.indexOf('float pcssNoise(');
       let pcss = source.slice(head);
+      // Every variant but `lite` and the bundle's own counts applies to all lights alike, so the
+      // sun leaves the production intensity branch (its blue-hour SUN_LITE_SAMPLES) for getShadow.
+      const unchanged = Array.isArray(to) && to[0] === from[0] && to[1] === from[1];
+      if (!unchanged && !(typeof to === 'object' && 'lite' in to))
+        pcss = pcss.replaceAll(
+          'suiSunShadow( directLight.color, directionalShadowMap[',
+          'getShadow( directionalShadowMap[',
+        );
       if (to === 'hard') {
         const start = pcss.indexOf('float getShadow(');
         const body = pcss.indexOf('{', start);
@@ -83,7 +93,11 @@ export function patchShadows({
         lite = replace(lite, `pcssDisk( i, ${from[0]}, phi )`, `pcssDisk( i, ${to.samples[0]}, phi )`);
         lite = replace(lite, `slope, radius, ${from[1]}, phi + 1.0`, `slope, radius, ${to.samples[1]}, phi + 1.0`);
         lite = replace(lite, `lit / ${from[1]}.0`, `lit / ${to.samples[1]}.0`);
-        const call = `getShadow( ${to.lite}ShadowMap[`;
+        // The sun's lookup already goes through softShadows.ts's intensity branch (suiSunShadow).
+        const call =
+          to.lite === 'directional'
+            ? 'suiSunShadow( directLight.color, directionalShadowMap['
+            : 'getShadow( spotShadowMap[';
         if (!pcss.includes(call)) throw new Error(`PCSS diagnostic no longer matches: ${call}`);
         pcss = `${pcss.slice(0, end)}\n\n\t${lite}${pcss.slice(end).replaceAll(call, `getShadowLite( ${to.lite}ShadowMap[`)}`;
       } else {
