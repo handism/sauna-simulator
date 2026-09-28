@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
-import { calculateHeatIndex, getSecureRandom } from '../utils/saunaUtils';
+import { calculateHeatIndex, getSecureRandom, RESTING_HEART_RATE } from '../utils/saunaUtils';
 import HeartRateRow from './HeartRateRow';
 
 interface Steam {
@@ -19,7 +19,6 @@ export interface SaunaRoomProps {
 const SAUNA_CONFIG = {
   INITIAL_TEMP: 90,
   INITIAL_HUMIDITY: 15,
-  INITIAL_HEART_RATE: 75,
   MAX_TEMP: 110,
   MAX_HUMIDITY: 90,
   LOYLY_TEMP_INC: 3,
@@ -43,7 +42,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   }>({
     temperature: SAUNA_CONFIG.INITIAL_TEMP,
     humidity: SAUNA_CONFIG.INITIAL_HUMIDITY,
-    heartRate: SAUNA_CONFIG.INITIAL_HEART_RATE,
+    heartRate: RESTING_HEART_RATE,
   });
   const [steams, setSteams] = useState<Steam[]>([]);
   // ロウリュごとに増やし、曇り演出の要素を作り直してアニメーションを最初から再生する

@@ -34,6 +34,52 @@ class SceneBoundary extends Component<{ children: ReactNode; onError: (error: Er
     return this.state.failed ? null : this.props.children;
   }
 }
+function usePreference<T extends string>(key: string, allowed: readonly T[], fallback: T) {
+  const [value, setValue] = useState<T>(() => readPreference(key, allowed, fallback));
+  const update = (next: T) => {
+    setValue(next);
+    writePreference(key, next);
+  };
+  return [value, update] as const;
+}
+function PreferenceSelect<T extends string>({
+  label,
+  ariaLabel,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  ariaLabel: string;
+  value: T;
+  options: readonly (readonly [T, string])[];
+  onChange: (next: T) => void;
+}) {
+  return (
+    <label className="scene-lighting-control">
+      {label}
+      <select aria-label={ariaLabel} value={value} onChange={(event) => onChange(event.target.value as T)}>
+        {options.map(([optionValue, optionLabel]) => (
+          <option key={optionValue} value={optionValue}>
+            {optionLabel}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+const LIGHTING_OPTIONS = [
+  ['auto', '自動'],
+  ['day', '昼'],
+  ['evening', '夕暮れ'],
+] as const satisfies readonly (readonly [LightingMode, string])[];
+const QUALITY_OPTIONS = [
+  ['low', '軽量'],
+  ['standard', '標準'],
+  ['high', '高精細'],
+] as const satisfies readonly (readonly [QualityMode, string])[];
+const LIGHTING_VALUES = LIGHTING_OPTIONS.map(([value]) => value);
+const QUALITY_VALUES = QUALITY_OPTIONS.map(([value]) => value);
 function ActiveScene({
   stage,
   opacity,
@@ -116,12 +162,8 @@ export default function SceneMode({
   opacity?: number;
   loylyEvents: EventTarget;
 }) {
-  const [lightingMode, setLightingMode] = useState<LightingMode>(() =>
-    readPreference(LIGHTING_KEY, ['auto', 'day', 'evening'], 'auto'),
-  );
-  const [quality, setQuality] = useState<QualityMode>(() =>
-    readPreference(QUALITY_KEY, ['low', 'standard', 'high'], 'standard'),
-  );
+  const [lightingMode, setLightingMode] = usePreference<LightingMode>(LIGHTING_KEY, LIGHTING_VALUES, 'auto');
+  const [quality, setQuality] = usePreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard');
   const [enabled, setEnabled] = useState(initialSceneMode);
   const toggle = () => {
     const next = !enabled;
@@ -148,51 +190,30 @@ export default function SceneMode({
       )}
       <div className="scene-mode-controls">
         <button type="button" onClick={toggle} aria-pressed={enabled}>
-          {' '}
-          {enabled ? '2Dに切り替え' : '3Dを試す'}{' '}
+          {enabled ? '2Dに切り替え' : '3Dを試す'}
         </button>
         {enabled && (
-          <label className="scene-lighting-control">
-            時間帯
-            <select
-              aria-label="3Dの時間帯"
+          <>
+            <PreferenceSelect
+              label="時間帯"
+              ariaLabel="3Dの時間帯"
               value={lightingMode}
-              onChange={(event) => {
-                const next = event.target.value as LightingMode;
-                setLightingMode(next);
-                writePreference(LIGHTING_KEY, next);
-              }}
-            >
-              <option value="auto">自動</option>
-              <option value="day">昼</option>
-              <option value="evening">夕暮れ</option>
-            </select>
-          </label>
-        )}
-        {enabled && (
-          <label className="scene-lighting-control">
-            画質
-            <select
-              aria-label="3Dの画質"
+              options={LIGHTING_OPTIONS}
+              onChange={setLightingMode}
+            />
+            <PreferenceSelect
+              label="画質"
+              ariaLabel="3Dの画質"
               value={quality}
-              onChange={(event) => {
-                const next = event.target.value as QualityMode;
-                setQuality(next);
-                writePreference(QUALITY_KEY, next);
-              }}
-            >
-              <option value="low">軽量</option>
-              <option value="standard">標準</option>
-              <option value="high">高精細</option>
-            </select>
-          </label>
+              options={QUALITY_OPTIONS}
+              onChange={setQuality}
+            />
+            <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
+              素材クレジット
+            </a>
+            {stage === 'start' && <span>入室すると3Dで体験できます</span>}
+          </>
         )}
-        {enabled && (
-          <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
-            素材クレジット
-          </a>
-        )}
-        {enabled && stage === 'start' && <span>入室すると3Dで体験できます</span>}
       </div>
     </>
   );

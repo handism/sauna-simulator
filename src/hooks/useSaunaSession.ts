@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { AmbientEnv, useAudioEngine } from './useAudioEngine';
+import { RESTING_HEART_RATE } from '../utils/saunaUtils';
 
 export type Stage = 'start' | AmbientEnv;
 
@@ -11,7 +12,7 @@ interface SessionResults {
 }
 
 const INITIAL_RESULTS: SessionResults = {
-  heartRate: 75,
+  heartRate: RESTING_HEART_RATE,
   saunaTime: 0,
   loylyCount: 0,
   waterTime: 0,

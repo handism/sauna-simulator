@@ -390,6 +390,27 @@ describe('useAudioEngine', () => {
     expect(initialSource.stop).toHaveBeenCalledWith(1.2);
   });
 
+  it('keeps a buffer generated for an environment that was left before it arrived', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+    act(() => result.current.init());
+
+    const postMessage = vi.spyOn((window as any).Worker.prototype, 'postMessage');
+
+    // Leave the sauna while its noise is still being generated
+    await act(async () => {
+      await Promise.all([result.current.playAmbient('sauna'), result.current.playAmbient('totonou')]);
+    });
+    expect(mockCreateBufferSource).toHaveBeenCalledTimes(1); // wind only; the sauna loop was not started
+
+    // Water uses the same noise, so the abandoned sauna buffer is reused
+    await act(async () => {
+      await result.current.playAmbient('water');
+    });
+    const saunaNoiseRequests = postMessage.mock.calls.filter(([msg]) => (msg as any).type === 'saunaNoise');
+    expect(saunaNoiseRequests).toHaveLength(1);
+    expect(mockCreateBufferSource).toHaveBeenCalledTimes(2);
+  });
+
   it('catches and logs errors when fading out gains during stopAmbient', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
