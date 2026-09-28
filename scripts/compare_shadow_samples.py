@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare PCSS sample counts in browser captures (docs/3d-qa/shadow-samples).
+"""Compare PCSS sample counts and placements in browser captures (docs/3d-qa/shadow-samples).
 
 sweep: reads the `shadow-samples` attachments of e2e/shadow-samples.visual.ts (one Playwright
 JSON report) and measures, per stage and lighting, each variant's CIELAB error against the
@@ -64,9 +64,10 @@ def sweep(args):
                     raise SystemExit("A capture did not pass; inspect the Playwright report first")
                 record = json.loads(base64.b64decode(item["body"]))
                 runs[record["label"]] = record
-    missing = {"reference", "original", "half", "original-repeat"} - runs.keys()
-    if missing:
-        raise SystemExit(f"Missing variants: {sorted(missing)}")
+    missing = {"reference", "original", "original-repeat"} - runs.keys()
+    if missing or len(runs) < 4:
+        raise SystemExit(f"Missing variants: {sorted(missing) or 'a candidate'}")
+    candidates = [label for label in runs if label not in {"reference", "original", "original-repeat"}]
     conditions = {}
     for frame in runs["reference"]["frames"]:
         conditions.setdefault((frame["stage"], frame["lighting"]), []).append(frame["file"])
@@ -81,28 +82,31 @@ def sweep(args):
         frames = {label: [lab(Path(run["dir"]) / file) for file in files] for label, run in runs.items()}
         entry = {"stage": stage, "lighting": lighting, "frames": len(files)}
         entry["captureNoise"] = stats(np.linalg.norm(frames["original"][0] - frames["original-repeat"][0], axis=-1))
-        entry["halfVsOriginal"] = stats(np.linalg.norm(frames["half"][0] - frames["original"][0], axis=-1))
-        for label in ["original", "half", "original-repeat"]:
+        for label in candidates:
+            entry[f"{label}VsOriginal"] = stats(np.linalg.norm(frames[label][0] - frames["original"][0], axis=-1))
+        for label in ["original", *candidates, "original-repeat"]:
             errors = [f - r for f, r in zip(frames[label], frames["reference"])]
             entry[label] = {
                 "stillVsReference": stats(np.linalg.norm(errors[0], axis=-1)),
                 "flicker": stats(np.stack([np.linalg.norm(b - a, axis=-1) for a, b in zip(errors, errors[1:])])),
             }
         summary["conditions"].append(entry)
-        # The 320x200 tile where the half-sample still differs most from the reference, at 2x.
-        error = np.linalg.norm(frames["half"][0] - frames["reference"][0], axis=-1)
+        # The 320x200 tile where the original still differs most from the reference, at 2x:
+        # reference, original, then each candidate.
+        error = np.linalg.norm(frames["original"][0] - frames["reference"][0], axis=-1)
         tile = 320, 200
         error = error[: error.shape[0] // tile[1] * tile[1], : error.shape[1] // tile[0] * tile[0]]
         sums = error.reshape(error.shape[0] // tile[1], tile[1], error.shape[1] // tile[0], tile[0]).sum((1, 3))
         row, column = np.unravel_index(np.argmax(sums), sums.shape)
         box = (column * tile[0], row * tile[1], (column + 1) * tile[0], (row + 1) * tile[1])
-        sheet = Image.new("RGB", (tile[0] * 2 * 3, tile[1] * 2))
-        for index, label in enumerate(["reference", "original", "half"]):
+        order = ["reference", "original", *candidates]
+        sheet = Image.new("RGB", (tile[0] * 2 * len(order), tile[1] * 2))
+        for index, label in enumerate(order):
             with Image.open(Path(runs[label]["dir"]) / files[0]) as image:
                 crop = image.convert("RGB").crop(box).resize((tile[0] * 2, tile[1] * 2), Image.Resampling.NEAREST)
             sheet.paste(crop, (index * tile[0] * 2, 0))
         sheet.save(args.output / f"crop-{stage}-{lighting}.png")
-        entry["crop"] = {"file": f"crop-{stage}-{lighting}.png", "box": [int(v) for v in box]}
+        entry["crop"] = {"file": f"crop-{stage}-{lighting}.png", "box": [int(v) for v in box], "order": order}
     (args.output / "sweep.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(summary, ensure_ascii=False, indent=1))
 

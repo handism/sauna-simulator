@@ -1,0 +1,861 @@
+{
+  "browser": "154.0.8037.57",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "samples": {
+    "reference": [
+      64,
+      96
+    ],
+    "original": [
+      16,
+      24
+    ],
+    "jitter": {
+      "jitter": true
+    },
+    "adaptive-8-24": {
+      "adaptive": [
+        8,
+        24
+      ]
+    },
+    "adaptive-8-40": {
+      "adaptive": [
+        8,
+        40
+      ]
+    },
+    "jitter-adaptive-8-24": {
+      "jitter": true,
+      "adaptive": [
+        8,
+        24
+      ]
+    },
+    "original-repeat": [
+      16,
+      24
+    ]
+  },
+  "conditions": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "jitterVsOriginal": {
+        "mean": 0.0726,
+        "p99": 1.535,
+        "p999": 3.399,
+        "over2Percent": 0.4838
+      },
+      "adaptive-8-24VsOriginal": {
+        "mean": 0.1479,
+        "p99": 2.335,
+        "p999": 4.845,
+        "over2Percent": 1.3299
+      },
+      "adaptive-8-40VsOriginal": {
+        "mean": 0.1437,
+        "p99": 2.301,
+        "p999": 4.767,
+        "over2Percent": 1.254
+      },
+      "jitter-adaptive-8-24VsOriginal": {
+        "mean": 0.1577,
+        "p99": 2.466,
+        "p999": 5.241,
+        "over2Percent": 1.5479
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.1394,
+          "p99": 2.055,
+          "p999": 4.236,
+          "over2Percent": 1.0715
+        },
+        "flicker": {
+          "mean": 0.2016,
+          "p99": 2.558,
+          "p999": 5.126,
+          "over2Percent": 1.7963
+        }
+      },
+      "jitter": {
+        "stillVsReference": {
+          "mean": 0.1392,
+          "p99": 2.059,
+          "p999": 4.211,
+          "over2Percent": 1.075
+        },
+        "flicker": {
+          "mean": 0.2015,
+          "p99": 2.556,
+          "p999": 5.099,
+          "over2Percent": 1.798
+        }
+      },
+      "adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.1502,
+          "p99": 2.347,
+          "p999": 5.079,
+          "over2Percent": 1.3329
+        },
+        "flicker": {
+          "mean": 0.2149,
+          "p99": 2.878,
+          "p999": 5.987,
+          "over2Percent": 2.1193
+        }
+      },
+      "adaptive-8-40": {
+        "stillVsReference": {
+          "mean": 0.1361,
+          "p99": 2.082,
+          "p999": 4.986,
+          "over2Percent": 1.0878
+        },
+        "flicker": {
+          "mean": 0.1987,
+          "p99": 2.704,
+          "p999": 5.796,
+          "over2Percent": 1.7909
+        }
+      },
+      "jitter-adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.1515,
+          "p99": 2.363,
+          "p999": 5.114,
+          "over2Percent": 1.3742
+        },
+        "flicker": {
+          "mean": 0.2155,
+          "p99": 2.885,
+          "p999": 5.98,
+          "over2Percent": 2.1303
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.1394,
+          "p99": 2.055,
+          "p999": 4.236,
+          "over2Percent": 1.0715
+        },
+        "flicker": {
+          "mean": 0.2016,
+          "p99": 2.558,
+          "p999": 5.126,
+          "over2Percent": 1.7963
+        }
+      },
+      "crop": {
+        "file": "crop-sauna-day.png",
+        "box": [
+          0,
+          200,
+          320,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "jitter",
+          "adaptive-8-24",
+          "adaptive-8-40",
+          "jitter-adaptive-8-24"
+        ]
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "jitterVsOriginal": {
+        "mean": 0.0111,
+        "p99": 0.591,
+        "p999": 0.973,
+        "over2Percent": 0.0176
+      },
+      "adaptive-8-24VsOriginal": {
+        "mean": 0.0244,
+        "p99": 0.78,
+        "p999": 1.411,
+        "over2Percent": 0.0404
+      },
+      "adaptive-8-40VsOriginal": {
+        "mean": 0.0236,
+        "p99": 0.775,
+        "p999": 1.391,
+        "over2Percent": 0.0391
+      },
+      "jitter-adaptive-8-24VsOriginal": {
+        "mean": 0.0259,
+        "p99": 0.788,
+        "p999": 1.504,
+        "over2Percent": 0.0501
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.024,
+          "p99": 0.778,
+          "p999": 1.486,
+          "over2Percent": 0.0501
+        },
+        "flicker": {
+          "mean": 0.0438,
+          "p99": 0.882,
+          "p999": 2.019,
+          "over2Percent": 0.1016
+        }
+      },
+      "jitter": {
+        "stillVsReference": {
+          "mean": 0.0242,
+          "p99": 0.779,
+          "p999": 1.482,
+          "over2Percent": 0.0513
+        },
+        "flicker": {
+          "mean": 0.0439,
+          "p99": 0.883,
+          "p999": 2.004,
+          "over2Percent": 0.1003
+        }
+      },
+      "adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.0261,
+          "p99": 0.789,
+          "p999": 1.567,
+          "over2Percent": 0.0591
+        },
+        "flicker": {
+          "mean": 0.0469,
+          "p99": 0.895,
+          "p999": 2.178,
+          "over2Percent": 0.1179
+        }
+      },
+      "adaptive-8-40": {
+        "stillVsReference": {
+          "mean": 0.0235,
+          "p99": 0.774,
+          "p999": 1.498,
+          "over2Percent": 0.0513
+        },
+        "flicker": {
+          "mean": 0.0427,
+          "p99": 0.877,
+          "p999": 2.037,
+          "over2Percent": 0.1036
+        }
+      },
+      "jitter-adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.0264,
+          "p99": 0.79,
+          "p999": 1.56,
+          "over2Percent": 0.0594
+        },
+        "flicker": {
+          "mean": 0.0472,
+          "p99": 0.896,
+          "p999": 2.182,
+          "over2Percent": 0.1193
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.024,
+          "p99": 0.778,
+          "p999": 1.486,
+          "over2Percent": 0.0501
+        },
+        "flicker": {
+          "mean": 0.0438,
+          "p99": 0.882,
+          "p999": 2.019,
+          "over2Percent": 0.1016
+        }
+      },
+      "crop": {
+        "file": "crop-sauna-evening.png",
+        "box": [
+          0,
+          200,
+          320,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "jitter",
+          "adaptive-8-24",
+          "adaptive-8-40",
+          "jitter-adaptive-8-24"
+        ]
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "jitterVsOriginal": {
+        "mean": 0.0297,
+        "p99": 0.914,
+        "p999": 3.067,
+        "over2Percent": 0.2695
+      },
+      "adaptive-8-24VsOriginal": {
+        "mean": 0.0651,
+        "p99": 1.5,
+        "p999": 3.909,
+        "over2Percent": 0.5396
+      },
+      "adaptive-8-40VsOriginal": {
+        "mean": 0.0644,
+        "p99": 1.482,
+        "p999": 3.885,
+        "over2Percent": 0.5216
+      },
+      "jitter-adaptive-8-24VsOriginal": {
+        "mean": 0.0707,
+        "p99": 1.62,
+        "p999": 4.312,
+        "over2Percent": 0.6484
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.0668,
+          "p99": 1.503,
+          "p999": 3.925,
+          "over2Percent": 0.5548
+        },
+        "flicker": {
+          "mean": 0.0996,
+          "p99": 1.914,
+          "p999": 4.855,
+          "over2Percent": 0.9376
+        }
+      },
+      "jitter": {
+        "stillVsReference": {
+          "mean": 0.0671,
+          "p99": 1.506,
+          "p999": 3.96,
+          "over2Percent": 0.5555
+        },
+        "flicker": {
+          "mean": 0.0996,
+          "p99": 1.916,
+          "p999": 4.825,
+          "over2Percent": 0.9375
+        }
+      },
+      "adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.072,
+          "p99": 1.6,
+          "p999": 4.488,
+          "over2Percent": 0.6291
+        },
+        "flicker": {
+          "mean": 0.1053,
+          "p99": 2.054,
+          "p999": 5.42,
+          "over2Percent": 1.0391
+        }
+      },
+      "adaptive-8-40": {
+        "stillVsReference": {
+          "mean": 0.0673,
+          "p99": 1.482,
+          "p999": 4.353,
+          "over2Percent": 0.5391
+        },
+        "flicker": {
+          "mean": 0.099,
+          "p99": 1.855,
+          "p999": 5.208,
+          "over2Percent": 0.892
+        }
+      },
+      "jitter-adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.0723,
+          "p99": 1.609,
+          "p999": 4.472,
+          "over2Percent": 0.6372
+        },
+        "flicker": {
+          "mean": 0.1057,
+          "p99": 2.063,
+          "p999": 5.417,
+          "over2Percent": 1.0441
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.0668,
+          "p99": 1.503,
+          "p999": 3.925,
+          "over2Percent": 0.5548
+        },
+        "flicker": {
+          "mean": 0.0996,
+          "p99": 1.914,
+          "p999": 4.855,
+          "over2Percent": 0.9376
+        }
+      },
+      "crop": {
+        "file": "crop-water-day.png",
+        "box": [
+          0,
+          400,
+          320,
+          600
+        ],
+        "order": [
+          "reference",
+          "original",
+          "jitter",
+          "adaptive-8-24",
+          "adaptive-8-40",
+          "jitter-adaptive-8-24"
+        ]
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "jitterVsOriginal": {
+        "mean": 0.0106,
+        "p99": 0.459,
+        "p999": 1.55,
+        "over2Percent": 0.0548
+      },
+      "adaptive-8-24VsOriginal": {
+        "mean": 0.0262,
+        "p99": 0.854,
+        "p999": 2.45,
+        "over2Percent": 0.15
+      },
+      "adaptive-8-40VsOriginal": {
+        "mean": 0.0269,
+        "p99": 0.857,
+        "p999": 2.477,
+        "over2Percent": 0.1568
+      },
+      "jitter-adaptive-8-24VsOriginal": {
+        "mean": 0.0279,
+        "p99": 0.864,
+        "p999": 2.607,
+        "over2Percent": 0.1749
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.0258,
+          "p99": 0.854,
+          "p999": 2.325,
+          "over2Percent": 0.1368
+        },
+        "flicker": {
+          "mean": 0.0427,
+          "p99": 0.968,
+          "p999": 3.042,
+          "over2Percent": 0.2536
+        }
+      },
+      "jitter": {
+        "stillVsReference": {
+          "mean": 0.0258,
+          "p99": 0.855,
+          "p999": 2.316,
+          "over2Percent": 0.1362
+        },
+        "flicker": {
+          "mean": 0.0428,
+          "p99": 0.969,
+          "p999": 3.051,
+          "over2Percent": 0.2553
+        }
+      },
+      "adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.0283,
+          "p99": 0.867,
+          "p999": 2.677,
+          "over2Percent": 0.1804
+        },
+        "flicker": {
+          "mean": 0.0459,
+          "p99": 0.991,
+          "p999": 3.429,
+          "over2Percent": 0.3062
+        }
+      },
+      "adaptive-8-40": {
+        "stillVsReference": {
+          "mean": 0.0268,
+          "p99": 0.852,
+          "p999": 2.511,
+          "over2Percent": 0.156
+        },
+        "flicker": {
+          "mean": 0.0442,
+          "p99": 0.969,
+          "p999": 3.237,
+          "over2Percent": 0.2663
+        }
+      },
+      "jitter-adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.0284,
+          "p99": 0.867,
+          "p999": 2.639,
+          "over2Percent": 0.1832
+        },
+        "flicker": {
+          "mean": 0.0462,
+          "p99": 0.994,
+          "p999": 3.441,
+          "over2Percent": 0.3081
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.0258,
+          "p99": 0.854,
+          "p999": 2.325,
+          "over2Percent": 0.1368
+        },
+        "flicker": {
+          "mean": 0.0427,
+          "p99": 0.968,
+          "p999": 3.042,
+          "over2Percent": 0.2536
+        }
+      },
+      "crop": {
+        "file": "crop-water-evening.png",
+        "box": [
+          640,
+          200,
+          960,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "jitter",
+          "adaptive-8-24",
+          "adaptive-8-40",
+          "jitter-adaptive-8-24"
+        ]
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "jitterVsOriginal": {
+        "mean": 0.0837,
+        "p99": 1.727,
+        "p999": 4.918,
+        "over2Percent": 0.7678
+      },
+      "adaptive-8-24VsOriginal": {
+        "mean": 0.1467,
+        "p99": 1.943,
+        "p999": 4.477,
+        "over2Percent": 0.9571
+      },
+      "adaptive-8-40VsOriginal": {
+        "mean": 0.1432,
+        "p99": 1.918,
+        "p999": 4.447,
+        "over2Percent": 0.9309
+      },
+      "jitter-adaptive-8-24VsOriginal": {
+        "mean": 0.1684,
+        "p99": 2.457,
+        "p999": 5.776,
+        "over2Percent": 1.4501
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.1897,
+          "p99": 3.232,
+          "p999": 6.823,
+          "over2Percent": 1.9812
+        },
+        "flicker": {
+          "mean": 0.2339,
+          "p99": 2.887,
+          "p999": 6.319,
+          "over2Percent": 2.0594
+        }
+      },
+      "jitter": {
+        "stillVsReference": {
+          "mean": 0.1893,
+          "p99": 3.214,
+          "p999": 6.702,
+          "over2Percent": 1.9797
+        },
+        "flicker": {
+          "mean": 0.2338,
+          "p99": 2.884,
+          "p999": 6.273,
+          "over2Percent": 2.0612
+        }
+      },
+      "adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.2005,
+          "p99": 3.487,
+          "p999": 7.174,
+          "over2Percent": 2.1563
+        },
+        "flicker": {
+          "mean": 0.2437,
+          "p99": 3.095,
+          "p999": 7.058,
+          "over2Percent": 2.2528
+        }
+      },
+      "adaptive-8-40": {
+        "stillVsReference": {
+          "mean": 0.1874,
+          "p99": 3.367,
+          "p999": 7.191,
+          "over2Percent": 1.9573
+        },
+        "flicker": {
+          "mean": 0.2278,
+          "p99": 2.859,
+          "p999": 6.95,
+          "over2Percent": 1.9713
+        }
+      },
+      "jitter-adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.2002,
+          "p99": 3.451,
+          "p999": 7.095,
+          "over2Percent": 2.156
+        },
+        "flicker": {
+          "mean": 0.2441,
+          "p99": 3.094,
+          "p999": 7.04,
+          "over2Percent": 2.2588
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.1897,
+          "p99": 3.232,
+          "p999": 6.823,
+          "over2Percent": 1.9812
+        },
+        "flicker": {
+          "mean": 0.2339,
+          "p99": 2.887,
+          "p999": 6.319,
+          "over2Percent": 2.0594
+        }
+      },
+      "crop": {
+        "file": "crop-totonou-day.png",
+        "box": [
+          960,
+          600,
+          1280,
+          800
+        ],
+        "order": [
+          "reference",
+          "original",
+          "jitter",
+          "adaptive-8-24",
+          "adaptive-8-40",
+          "jitter-adaptive-8-24"
+        ]
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "jitterVsOriginal": {
+        "mean": 0.0174,
+        "p99": 0.706,
+        "p999": 1.751,
+        "over2Percent": 0.076
+      },
+      "adaptive-8-24VsOriginal": {
+        "mean": 0.0554,
+        "p99": 1.139,
+        "p999": 4.432,
+        "over2Percent": 0.4251
+      },
+      "adaptive-8-40VsOriginal": {
+        "mean": 0.0544,
+        "p99": 1.125,
+        "p999": 4.48,
+        "over2Percent": 0.4341
+      },
+      "jitter-adaptive-8-24VsOriginal": {
+        "mean": 0.0585,
+        "p99": 1.201,
+        "p999": 4.543,
+        "over2Percent": 0.4601
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.0504,
+          "p99": 1.032,
+          "p999": 3.113,
+          "over2Percent": 0.3008
+        },
+        "flicker": {
+          "mean": 0.0782,
+          "p99": 1.413,
+          "p999": 3.67,
+          "over2Percent": 0.4713
+        }
+      },
+      "jitter": {
+        "stillVsReference": {
+          "mean": 0.0505,
+          "p99": 1.041,
+          "p999": 3.168,
+          "over2Percent": 0.3063
+        },
+        "flicker": {
+          "mean": 0.0784,
+          "p99": 1.417,
+          "p999": 3.683,
+          "over2Percent": 0.475
+        }
+      },
+      "adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.0585,
+          "p99": 1.175,
+          "p999": 4.376,
+          "over2Percent": 0.4295
+        },
+        "flicker": {
+          "mean": 0.0858,
+          "p99": 1.532,
+          "p999": 4.608,
+          "over2Percent": 0.5935
+        }
+      },
+      "adaptive-8-40": {
+        "stillVsReference": {
+          "mean": 0.0528,
+          "p99": 1.028,
+          "p999": 4.214,
+          "over2Percent": 0.3557
+        },
+        "flicker": {
+          "mean": 0.0786,
+          "p99": 1.408,
+          "p999": 4.397,
+          "over2Percent": 0.4926
+        }
+      },
+      "jitter-adaptive-8-24": {
+        "stillVsReference": {
+          "mean": 0.059,
+          "p99": 1.188,
+          "p999": 4.402,
+          "over2Percent": 0.4405
+        },
+        "flicker": {
+          "mean": 0.0864,
+          "p99": 1.541,
+          "p999": 4.623,
+          "over2Percent": 0.5992
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.0504,
+          "p99": 1.032,
+          "p999": 3.113,
+          "over2Percent": 0.3008
+        },
+        "flicker": {
+          "mean": 0.0782,
+          "p99": 1.413,
+          "p999": 3.67,
+          "over2Percent": 0.4713
+        }
+      },
+      "crop": {
+        "file": "crop-totonou-evening.png",
+        "box": [
+          640,
+          200,
+          960,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "jitter",
+          "adaptive-8-24",
+          "adaptive-8-40",
+          "jitter-adaptive-8-24"
+        ]
+      }
+    }
+  ]
+}

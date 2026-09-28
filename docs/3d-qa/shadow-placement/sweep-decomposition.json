@@ -1,0 +1,595 @@
+{
+  "browser": "154.0.8037.57",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "samples": {
+    "reference": [
+      64,
+      96
+    ],
+    "original": [
+      16,
+      24
+    ],
+    "blocker-64": [
+      64,
+      24
+    ],
+    "filter-96": [
+      16,
+      96
+    ],
+    "original-repeat": [
+      16,
+      24
+    ]
+  },
+  "conditions": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "blocker-64VsOriginal": {
+        "mean": 0.1048,
+        "p99": 1.963,
+        "p999": 4.315,
+        "over2Percent": 0.9588
+      },
+      "filter-96VsOriginal": {
+        "mean": 0.1168,
+        "p99": 1.678,
+        "p999": 3.11,
+        "over2Percent": 0.5819
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.1394,
+          "p99": 2.055,
+          "p999": 4.236,
+          "over2Percent": 1.0715
+        },
+        "flicker": {
+          "mean": 0.2016,
+          "p99": 2.558,
+          "p999": 5.126,
+          "over2Percent": 1.7962
+        }
+      },
+      "blocker-64": {
+        "stillVsReference": {
+          "mean": 0.1175,
+          "p99": 1.684,
+          "p999": 3.118,
+          "over2Percent": 0.5955
+        },
+        "flicker": {
+          "mean": 0.1747,
+          "p99": 2.161,
+          "p999": 3.918,
+          "over2Percent": 1.1952
+        }
+      },
+      "filter-96": {
+        "stillVsReference": {
+          "mean": 0.0843,
+          "p99": 1.392,
+          "p999": 3.505,
+          "over2Percent": 0.4085
+        },
+        "flicker": {
+          "mean": 0.1262,
+          "p99": 1.699,
+          "p999": 4.247,
+          "over2Percent": 0.6723
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.1394,
+          "p99": 2.055,
+          "p999": 4.236,
+          "over2Percent": 1.0715
+        },
+        "flicker": {
+          "mean": 0.2016,
+          "p99": 2.558,
+          "p999": 5.126,
+          "over2Percent": 1.7963
+        }
+      },
+      "crop": {
+        "file": "crop-sauna-day.png",
+        "box": [
+          0,
+          200,
+          320,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "blocker-64",
+          "filter-96"
+        ]
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "blocker-64VsOriginal": {
+        "mean": 0.0174,
+        "p99": 0.716,
+        "p999": 1.449,
+        "over2Percent": 0.0487
+      },
+      "filter-96VsOriginal": {
+        "mean": 0.0188,
+        "p99": 0.745,
+        "p999": 1.002,
+        "over2Percent": 0.0166
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.024,
+          "p99": 0.778,
+          "p999": 1.486,
+          "over2Percent": 0.0501
+        },
+        "flicker": {
+          "mean": 0.0438,
+          "p99": 0.882,
+          "p999": 2.018,
+          "over2Percent": 0.1015
+        }
+      },
+      "blocker-64": {
+        "stillVsReference": {
+          "mean": 0.0191,
+          "p99": 0.75,
+          "p999": 0.994,
+          "over2Percent": 0.0146
+        },
+        "flicker": {
+          "mean": 0.0349,
+          "p99": 0.833,
+          "p999": 1.553,
+          "over2Percent": 0.0368
+        }
+      },
+      "filter-96": {
+        "stillVsReference": {
+          "mean": 0.014,
+          "p99": 0.636,
+          "p999": 1.044,
+          "over2Percent": 0.0304
+        },
+        "flicker": {
+          "mean": 0.0261,
+          "p99": 0.802,
+          "p999": 1.605,
+          "over2Percent": 0.0624
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.024,
+          "p99": 0.778,
+          "p999": 1.486,
+          "over2Percent": 0.0501
+        },
+        "flicker": {
+          "mean": 0.0438,
+          "p99": 0.882,
+          "p999": 2.019,
+          "over2Percent": 0.1016
+        }
+      },
+      "crop": {
+        "file": "crop-sauna-evening.png",
+        "box": [
+          0,
+          200,
+          320,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "blocker-64",
+          "filter-96"
+        ]
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "blocker-64VsOriginal": {
+        "mean": 0.0437,
+        "p99": 1.334,
+        "p999": 3.991,
+        "over2Percent": 0.4892
+      },
+      "filter-96VsOriginal": {
+        "mean": 0.0517,
+        "p99": 1.069,
+        "p999": 2.752,
+        "over2Percent": 0.2752
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.0668,
+          "p99": 1.503,
+          "p999": 3.925,
+          "over2Percent": 0.5548
+        },
+        "flicker": {
+          "mean": 0.0996,
+          "p99": 1.914,
+          "p999": 4.855,
+          "over2Percent": 0.9376
+        }
+      },
+      "blocker-64": {
+        "stillVsReference": {
+          "mean": 0.0524,
+          "p99": 1.071,
+          "p999": 2.775,
+          "over2Percent": 0.2781
+        },
+        "flicker": {
+          "mean": 0.0823,
+          "p99": 1.601,
+          "p999": 3.925,
+          "over2Percent": 0.6213
+        }
+      },
+      "filter-96": {
+        "stillVsReference": {
+          "mean": 0.0369,
+          "p99": 0.914,
+          "p999": 3.235,
+          "over2Percent": 0.2719
+        },
+        "flicker": {
+          "mean": 0.0552,
+          "p99": 1.331,
+          "p999": 3.633,
+          "over2Percent": 0.4064
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.0668,
+          "p99": 1.503,
+          "p999": 3.925,
+          "over2Percent": 0.5548
+        },
+        "flicker": {
+          "mean": 0.0996,
+          "p99": 1.914,
+          "p999": 4.855,
+          "over2Percent": 0.9376
+        }
+      },
+      "crop": {
+        "file": "crop-water-day.png",
+        "box": [
+          0,
+          400,
+          320,
+          600
+        ],
+        "order": [
+          "reference",
+          "original",
+          "blocker-64",
+          "filter-96"
+        ]
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "blocker-64VsOriginal": {
+        "mean": 0.0167,
+        "p99": 0.7,
+        "p999": 2.098,
+        "over2Percent": 0.1078
+      },
+      "filter-96VsOriginal": {
+        "mean": 0.0204,
+        "p99": 0.795,
+        "p999": 1.727,
+        "over2Percent": 0.074
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.0258,
+          "p99": 0.854,
+          "p999": 2.325,
+          "over2Percent": 0.1368
+        },
+        "flicker": {
+          "mean": 0.0427,
+          "p99": 0.968,
+          "p999": 3.042,
+          "over2Percent": 0.2536
+        }
+      },
+      "blocker-64": {
+        "stillVsReference": {
+          "mean": 0.0204,
+          "p99": 0.796,
+          "p999": 1.726,
+          "over2Percent": 0.0756
+        },
+        "flicker": {
+          "mean": 0.034,
+          "p99": 0.921,
+          "p999": 2.265,
+          "over2Percent": 0.1356
+        }
+      },
+      "filter-96": {
+        "stillVsReference": {
+          "mean": 0.0144,
+          "p99": 0.657,
+          "p999": 1.601,
+          "over2Percent": 0.0615
+        },
+        "flicker": {
+          "mean": 0.0255,
+          "p99": 0.852,
+          "p999": 2.326,
+          "over2Percent": 0.1356
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.0258,
+          "p99": 0.854,
+          "p999": 2.325,
+          "over2Percent": 0.1368
+        },
+        "flicker": {
+          "mean": 0.0427,
+          "p99": 0.968,
+          "p999": 3.042,
+          "over2Percent": 0.2536
+        }
+      },
+      "crop": {
+        "file": "crop-water-evening.png",
+        "box": [
+          640,
+          200,
+          960,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "blocker-64",
+          "filter-96"
+        ]
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "blocker-64VsOriginal": {
+        "mean": 0.1469,
+        "p99": 3.212,
+        "p999": 6.882,
+        "over2Percent": 1.8648
+      },
+      "filter-96VsOriginal": {
+        "mean": 0.1199,
+        "p99": 1.554,
+        "p999": 3.205,
+        "over2Percent": 0.4774
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.1897,
+          "p99": 3.232,
+          "p999": 6.823,
+          "over2Percent": 1.9812
+        },
+        "flicker": {
+          "mean": 0.2339,
+          "p99": 2.887,
+          "p999": 6.319,
+          "over2Percent": 2.0593
+        }
+      },
+      "blocker-64": {
+        "stillVsReference": {
+          "mean": 0.1238,
+          "p99": 1.577,
+          "p999": 3.211,
+          "over2Percent": 0.4988
+        },
+        "flicker": {
+          "mean": 0.1894,
+          "p99": 2.135,
+          "p999": 4.453,
+          "over2Percent": 1.1283
+        }
+      },
+      "filter-96": {
+        "stillVsReference": {
+          "mean": 0.1347,
+          "p99": 2.908,
+          "p999": 6.794,
+          "over2Percent": 1.5103
+        },
+        "flicker": {
+          "mean": 0.1536,
+          "p99": 2.153,
+          "p999": 5.642,
+          "over2Percent": 1.1193
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.1897,
+          "p99": 3.232,
+          "p999": 6.823,
+          "over2Percent": 1.9812
+        },
+        "flicker": {
+          "mean": 0.2339,
+          "p99": 2.887,
+          "p999": 6.319,
+          "over2Percent": 2.0594
+        }
+      },
+      "crop": {
+        "file": "crop-totonou-day.png",
+        "box": [
+          960,
+          600,
+          1280,
+          800
+        ],
+        "order": [
+          "reference",
+          "original",
+          "blocker-64",
+          "filter-96"
+        ]
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "frames": 9,
+      "captureNoise": {
+        "mean": 0.0,
+        "p99": 0.0,
+        "p999": 0.0,
+        "over2Percent": 0.0
+      },
+      "blocker-64VsOriginal": {
+        "mean": 0.0257,
+        "p99": 0.825,
+        "p999": 2.211,
+        "over2Percent": 0.126
+      },
+      "filter-96VsOriginal": {
+        "mean": 0.0412,
+        "p99": 0.915,
+        "p999": 2.718,
+        "over2Percent": 0.2188
+      },
+      "original": {
+        "stillVsReference": {
+          "mean": 0.0504,
+          "p99": 1.032,
+          "p999": 3.113,
+          "over2Percent": 0.3008
+        },
+        "flicker": {
+          "mean": 0.0782,
+          "p99": 1.413,
+          "p999": 3.67,
+          "over2Percent": 0.4712
+        }
+      },
+      "blocker-64": {
+        "stillVsReference": {
+          "mean": 0.0416,
+          "p99": 0.918,
+          "p999": 2.707,
+          "over2Percent": 0.2201
+        },
+        "flicker": {
+          "mean": 0.0651,
+          "p99": 1.229,
+          "p999": 3.198,
+          "over2Percent": 0.3453
+        }
+      },
+      "filter-96": {
+        "stillVsReference": {
+          "mean": 0.0218,
+          "p99": 0.788,
+          "p999": 1.739,
+          "over2Percent": 0.0771
+        },
+        "flicker": {
+          "mean": 0.0374,
+          "p99": 0.894,
+          "p999": 2.269,
+          "over2Percent": 0.1319
+        }
+      },
+      "original-repeat": {
+        "stillVsReference": {
+          "mean": 0.0504,
+          "p99": 1.032,
+          "p999": 3.113,
+          "over2Percent": 0.3008
+        },
+        "flicker": {
+          "mean": 0.0782,
+          "p99": 1.413,
+          "p999": 3.67,
+          "over2Percent": 0.4713
+        }
+      },
+      "crop": {
+        "file": "crop-totonou-evening.png",
+        "box": [
+          640,
+          200,
+          960,
+          400
+        ],
+        "order": [
+          "reference",
+          "original",
+          "blocker-64",
+          "filter-96"
+        ]
+      }
+    }
+  ]
+}
