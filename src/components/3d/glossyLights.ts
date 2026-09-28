@@ -10,7 +10,8 @@ import { MIRROR_LAYER } from './planarReflection';
 // Every one is a 180° spread light: a Lambertian emitter of radiance P·color / (π·A) on its front
 // (the side it shines to), in the same watt units as the other browser lights. They are drawn as
 // one mesh on MIRROR_LAYER, which only the mirror's camera renders, and blend between the powers
-// of the Daylight and Blue hour scenes (the same positions in both).
+// of the Daylight and Blue hour scenes (the same positions in both; the Night scene keeps the Blue
+// hour powers, scripts/build_night_scene.py).
 
 // Blender name, shape and size in meters ([width, height] for rectangles, [diameter] for disks),
 // linear color, W in the Daylight and Blue hour scenes, location, local X and the direction it
@@ -163,7 +164,7 @@ export function createGlossyLights() {
   mesh.layers.set(MIRROR_LAYER);
   return {
     mesh,
-    /** 0 for the Daylight powers, 1 for Blue hour. */
+    /** 0 for the Daylight powers, 1 for Blue hour and Night. */
     update(eveningAmount: number) {
       amount.value = eveningAmount;
     },

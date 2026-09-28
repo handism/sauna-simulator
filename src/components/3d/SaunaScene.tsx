@@ -7,7 +7,7 @@ import type { AmbientEnv, AudioEngine } from '../../hooks/useAudioEngine';
 import { QUALITY, type QualityMode } from './quality';
 // Replaces three's AgX curve with Blender's before any material compiles.
 import './agx';
-import { createLighting, eveningAmount, type LightingMode } from './lighting';
+import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects, type WaterDefinition } from './waterEffects';
 import { updateSteamPositions } from './steam';
@@ -33,6 +33,8 @@ export interface SceneProps {
   quality: QualityMode;
   stage: AmbientEnv;
   lightingMode: LightingMode;
+  /** The sauna round (1 on entering); automatic lighting moves on with it. */
+  round?: number;
   loylyEvents: EventTarget;
   onReady: () => void;
   onError: () => void;
@@ -49,6 +51,7 @@ export default function SaunaScene({
   audio,
   stage,
   lightingMode,
+  round = 1,
   loylyEvents,
   onReady,
   onError,
@@ -71,6 +74,11 @@ export default function SaunaScene({
   useLayoutEffect(() => {
     lightingRef.current = lightingMode;
   }, [lightingMode]);
+  // Set before the stage effect below: a new round arrives with the stage it starts.
+  const roundRef = useRef(round);
+  useLayoutEffect(() => {
+    roundRef.current = round;
+  }, [round]);
   const setViewRef = useRef<((next: AmbientEnv) => void) | null>(null);
   useLayoutEffect(() => {
     stageRef.current = stage;
@@ -293,8 +301,8 @@ export default function SaunaScene({
           setData('sideImagesShown', String(sideImages.update(camera)));
           if (mirror) {
             // What else the reflection shows changing: lighting and the quality's lights.
-            mirrorState[0] = lighting.irradiance.suiIrradianceEvening.value;
-            glossyLights.update(mirrorState[0]);
+            mirrorState[0] = lighting.time;
+            glossyLights.update(lighting.irradiance.suiIrradianceEvening.value);
             mirrorState[1] = qualityIndex;
             mirrorState[2] = gardenAdded;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
@@ -317,7 +325,7 @@ export default function SaunaScene({
           look.cancel();
           resetMetrics();
           setData('stage', next);
-          lighting.update(eveningAmount(lightingRef.current, next), 0, true);
+          lighting.update(timeOfDay(lightingRef.current, next, roundRef.current), 0, true);
           recordRenderInfo(draw());
         };
         setViewRef.current = setView;
@@ -368,7 +376,11 @@ export default function SaunaScene({
           }
           updateAudio();
           const delta = previous ? Math.min((now - previous) / 1000, 0.1) : 0;
-          lighting.update(eveningAmount(lightingRef.current, stageRef.current), delta, reducedMotion.matches);
+          lighting.update(
+            timeOfDay(lightingRef.current, stageRef.current, roundRef.current),
+            delta,
+            reducedMotion.matches,
+          );
           setData('lighting', lightingRef.current);
           if (previous && frameTimes.length < 180) frameTimes.push(now - previous);
           previous = now;

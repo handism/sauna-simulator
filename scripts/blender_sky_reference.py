@@ -18,7 +18,7 @@ import numpy as np
 import OpenImageIO as oiio
 
 ROOT = Path(__file__).resolve().parents[1]
-SCENES = {'day': 'SUI • Daylight', 'evening': 'SUI • Blue hour'}
+SCENES = {'day': 'SUI • Daylight', 'evening': 'SUI • Blue hour', 'night': 'SUI • Night'}
 WIDTH = 512
 RANDOM_POINTS = 480
 source = Path(bpy.data.filepath)

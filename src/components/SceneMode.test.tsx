@@ -12,6 +12,7 @@ vi.mock('./3d/SaunaScene', () => ({
     stage,
     quality,
     lightingMode,
+    round,
     loylyEvents,
     onReady,
     onError,
@@ -28,7 +29,7 @@ vi.mock('./3d/SaunaScene', () => ({
     }, [stage, loylyEvents, onReady]);
     return (
       <>
-        <button data-quality={quality} data-lighting={lightingMode} onClick={onError}>
+        <button data-quality={quality} data-lighting={lightingMode} data-round={round} onClick={onError}>
           simulate context loss
         </button>
         <button onClick={() => onGardenLoading?.(true)}>simulate garden request</button>
@@ -102,6 +103,10 @@ describe('3D mode lifecycle', () => {
     expect(localStorage.getItem('sui-lighting-mode')).toBe('evening');
     view.rerender(<SceneMode audio={audio} stage="water" loylyEvents={events} />);
     expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-lighting', 'evening');
+    // The round reaches the scene for the automatic lighting without remounting it.
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-round', '1');
+    view.rerender(<SceneMode audio={audio} stage="sauna" round={2} loylyEvents={events} />);
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-round', '2');
     expect(mountScene).toHaveBeenCalledTimes(mounts);
     fireEvent.click(screen.getByRole('button', { name: '2Dに切り替え' }));
     fireEvent.click(screen.getByRole('button', { name: '3Dを試す' }));
@@ -112,6 +117,9 @@ describe('3D mode lifecycle', () => {
     view.unmount();
     render(<SceneMode audio={audio} stage="sauna" loylyEvents={events} />);
     expect(screen.getByRole('combobox', { name: '3Dの時間帯' })).toHaveValue('evening');
+    fireEvent.change(screen.getByRole('combobox', { name: '3Dの時間帯' }), { target: { value: 'night' } });
+    expect(localStorage.getItem('sui-lighting-mode')).toBe('night');
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-lighting', 'night');
   });
   it('persists quality without remounting the scene or resetting it across stages and modes', async () => {
     localStorage.setItem('sui-view-mode', '3d');

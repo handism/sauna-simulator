@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
+import { createLighting } from './lighting';
 import {
   BLOCKER_SAMPLES,
   FACING_NORMAL_BIAS,
@@ -92,10 +93,19 @@ describe('soft shadows', () => {
   });
 
   it('switches only at the end of the blend to evening, where the sun is faint', () => {
-    // lighting.ts: the sun goes from 3.2 (day, #fff1d5) to 0.045 (blue hour, blue 1.0).
-    const sunMax = (evening: number) => THREE.MathUtils.lerp(3.2, 0.045, evening);
+    // The sun's color × intensity of lighting.ts at a time of day (0 day, 1 blue hour, 2 night).
+    const scene = new THREE.Scene();
+    const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
+    const sunMax = (time: number) => {
+      lighting.update(time, 0, true);
+      return sun.intensity * Math.max(sun.color.r, sun.color.g, sun.color.b);
+    };
     expect(sunMax(1)).toBeLessThan(SUN_LITE_BELOW);
     expect(sunMax(0.5)).toBeGreaterThan(SUN_LITE_BELOW);
     expect(sunMax(0.97)).toBeGreaterThan(SUN_LITE_BELOW);
+    // The moon keeps every sample; from dusk into the night they return near the end (about 1.82).
+    expect(sunMax(2)).toBeGreaterThan(SUN_LITE_BELOW);
+    expect(sunMax(1.9)).toBeGreaterThan(SUN_LITE_BELOW);
   });
 });

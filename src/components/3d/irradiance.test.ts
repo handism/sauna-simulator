@@ -23,10 +23,10 @@ function fixture(resolution: [number, number, number], shift = 0) {
     min: [0, 0, 0] as [number, number, number],
     max: [1, 2, 3] as [number, number, number],
     resolution,
-    offset: { day: 2 * g * perScene, evening: (2 * g + 1) * perScene },
+    offset: { day: 3 * g * perScene, evening: (3 * g + 1) * perScene, night: (3 * g + 2) * perScene },
   }));
-  const data = new Uint16Array(2 * GRID_NAMES.length * perScene).map((_, i) => (i + shift) % 60000);
-  return { header: { scenes: ['day', 'evening'], grids }, buffer: data.buffer, data, perScene };
+  const data = new Uint16Array(3 * GRID_NAMES.length * perScene).map((_, i) => (i + shift) % 60000);
+  return { header: { scenes: ['day', 'evening', 'night'], grids }, buffer: data.buffer, data, perScene };
 }
 const shipped = (name: string): ProbeFile => {
   const buffer = readFileSync(`public/models/${name}.bin`);
@@ -37,7 +37,7 @@ const shipped = (name: string): ProbeFile => {
 };
 
 describe('baked irradiance probes', () => {
-  it('packs the irradiance and the reflection of a grid into 28 padded sub-volumes', () => {
+  it('packs the irradiance and the reflection of a grid into 42 padded sub-volumes', () => {
     const irradianceFile = fixture([2, 3, 4]);
     const reflectionFile = fixture([2, 3, 4], 17);
     const probes = createProbeTextures(irradianceFile, reflectionFile);
@@ -47,12 +47,14 @@ describe('baked irradiance probes', () => {
     const texture = uniforms.suiProbeCourtyard.value!;
     const { width, height, depth } = texture.image;
     const slices = 4 + 2;
-    expect([width, height, depth]).toEqual([2, 3, 28 * slices]);
+    expect([width, height, depth]).toEqual([2, 3, 42 * slices]);
     expect(texture.type).toBe(THREE.HalfFloatType);
     const texels = texture.image.data as Uint16Array;
     const at = (x: number, y: number, slice: number, c: number) => texels[((slice * 3 + y) * 2 + x) * 4 + c];
     const probe = (file: typeof irradianceFile, scene: number, x: number, y: number, z: number, k: number) =>
-      file.data[file.header.grids[1].offset[scene ? 'evening' : 'day'] + ((z * 3 + y) * 2 + x) * 27 + k];
+      file.data[
+        file.header.grids[1].offset[(['day', 'evening', 'night'] as const)[scene]] + ((z * 3 + y) * 2 + x) * 27 + k
+      ];
     // Irradiance evening (sub-volumes 7..13), texel 2 holds coefficients 8..11, probe (1, 2, 3).
     let base = (7 + 2) * slices;
     for (let c = 0; c < 4; c++) expect(at(1, 2, base + 1 + 3, c)).toBe(probe(irradianceFile, 1, 1, 2, 3, 8 + c));
@@ -60,11 +62,16 @@ describe('baked irradiance probes', () => {
     expect(at(0, 1, base, 0)).toBe(probe(irradianceFile, 1, 0, 1, 0, 8));
     expect(at(0, 1, base + 5, 0)).toBe(probe(irradianceFile, 1, 0, 1, 3, 8));
     expect(at(0, 0, 6 * slices + 1, 3)).toBe(0);
-    // Reflection day and evening follow (sub-volumes 14..27).
-    base = (14 + 2) * slices;
+    // Irradiance night (sub-volumes 14..20), texel 6 holds coefficients 24..26.
+    base = (14 + 6) * slices;
+    expect(at(1, 0, base + 1 + 2, 2)).toBe(probe(irradianceFile, 2, 1, 0, 2, 26));
+    // Reflection day, evening and night follow (sub-volumes 21..41).
+    base = (21 + 2) * slices;
     for (let c = 0; c < 4; c++) expect(at(1, 2, base + 1 + 3, c)).toBe(probe(reflectionFile, 0, 1, 2, 3, 8 + c));
-    base = (21 + 6) * slices;
+    base = (28 + 6) * slices;
     expect(at(0, 1, base + 1, 0)).toBe(probe(reflectionFile, 1, 0, 1, 0, 24));
+    base = (35 + 6) * slices;
+    expect(at(0, 1, base + 4, 1)).toBe(probe(reflectionFile, 2, 0, 1, 3, 25));
     expect(uniforms.suiIrradianceMax.value[1].toArray()).toEqual([1, 2, 3]);
     expect(uniforms.suiIrradianceRes.value[2].toArray()).toEqual([2, 3, 4]);
     const released: string[] = [];
@@ -87,6 +94,7 @@ describe('baked irradiance probes', () => {
         createProbeTextures({ header, buffer }, file);
     expect(create(file.header, file.buffer.slice(2))).toThrow('irradiance');
     expect(create({ ...file.header, scenes: ['day'] })).toThrow();
+    expect(create({ ...file.header, scenes: ['day', 'evening'] })).toThrow();
     expect(create({ ...file.header, grids: file.header.grids.slice(1) })).toThrow();
     const flat = structuredClone(file.header);
     flat.grids[0].resolution = [1, 2, 2];
@@ -115,6 +123,7 @@ describe('baked irradiance probes', () => {
     } as unknown as THREE.WebGLProgramParametersWithUniforms;
     leaf.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
     expect(shader.uniforms.suiIrradianceEvening).toBe(uniforms.suiIrradianceEvening);
+    expect(shader.uniforms.suiIrradianceNight).toBe(uniforms.suiIrradianceNight);
     // The probe line lives in the shared chunk (checked below).
     expect(shader.fragmentShader).toContain('#include <lights_fragment_begin>');
     expect(shader.fragmentShader).toContain('// earlier hook');

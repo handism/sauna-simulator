@@ -5,6 +5,8 @@ import { readFile } from 'node:fs/promises';
 // Capture through public controls, without a test-only camera API. These are
 // review artifacts, not golden-image assertions or a visual-quality pass.
 test('capture all seated views for manual geometry and lighting review', async ({ page, browser }, info) => {
+  // 216 captures: three stages, three times of day, eight headings, three pitches.
+  test.setTimeout(360_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   const samples: object[] = [];
@@ -31,7 +33,7 @@ test('capture all seated views for manual geometry and lighting review', async (
     await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
     // Wait for the UI/scene opacity transitions, not just the stage attribute.
     await page.waitForTimeout(1200);
-    for (const lighting of ['day', 'evening']) {
+    for (const lighting of ['day', 'evening', 'night']) {
       await page.getByLabel('3Dの時間帯').selectOption(lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
       for (let heading = 0; heading < 8; heading++) {
@@ -54,7 +56,7 @@ test('capture all seated views for manual geometry and lighting review', async (
         }
         await press('ArrowRight', 10);
       }
-      // Restore the exact initial heading before the second lighting pass.
+      // Restore the exact initial heading before the next lighting pass.
       await press('ArrowLeft', 80);
     }
     expect(await original!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(

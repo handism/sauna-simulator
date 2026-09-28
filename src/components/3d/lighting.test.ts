@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { createLighting, DRY_ONLY, eveningAmount, SPOT_COSINE, SUN_DIFFUSE_ONLY } from './lighting';
+import { createLighting, DRY_ONLY, sceneWeights, SPOT_COSINE, SUN_DIFFUSE_ONLY, timeOfDay } from './lighting';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
 
 describe('3D lighting', () => {
@@ -35,15 +35,29 @@ describe('3D lighting', () => {
     expect(Math.cos(light.angle)).toBeCloseTo(0, 12);
     expect(Math.cos(light.angle * (1 - light.penumbra))).toBe(1);
   });
-  it('repeats the automatic progression and honors fixed choices in every stage', () => {
-    expect(
-      ['sauna', 'water', 'totonou', 'sauna'].map((stage) =>
-        eveningAmount('auto', stage as 'sauna' | 'water' | 'totonou'),
-      ),
-    ).toEqual([0, 0.5, 1, 0]);
-    for (const stage of ['sauna', 'water', 'totonou'] as const) {
-      expect(eveningAmount('day', stage)).toBe(0);
-      expect(eveningAmount('evening', stage)).toBe(1);
+  it('moves the automatic progression on with the rounds and honors fixed choices', () => {
+    const stages = ['sauna', 'water', 'totonou'] as const;
+    // The first round goes from afternoon to dusk, later ones from dusk into the night.
+    expect(stages.map((stage) => timeOfDay('auto', stage, 1))).toEqual([0, 0.5, 1]);
+    expect(stages.map((stage) => timeOfDay('auto', stage, 2))).toEqual([1, 1.5, 2]);
+    expect(stages.map((stage) => timeOfDay('auto', stage, 5))).toEqual([1, 1.5, 2]);
+    for (const stage of stages)
+      for (const round of [1, 3]) {
+        expect(timeOfDay('day', stage, round)).toBe(0);
+        expect(timeOfDay('evening', stage, round)).toBe(1);
+        expect(timeOfDay('night', stage, round)).toBe(2);
+      }
+  });
+  it('blends the two neighbouring source scenes', () => {
+    expect(sceneWeights(0)).toEqual([1, 0, 0]);
+    expect(sceneWeights(0.5)).toEqual([0.5, 0.5, 0]);
+    expect(sceneWeights(1)).toEqual([0, 1, 0]);
+    expect(sceneWeights(1.25)).toEqual([0, 0.75, 0.25]);
+    expect(sceneWeights(2)).toEqual([0, 0, 1]);
+    for (let t = 0; t <= 2; t += 0.1) {
+      const weights = sceneWeights(t);
+      expect(weights.reduce((a, b) => a + b)).toBeCloseTo(1, 12);
+      expect(weights.filter((w) => w > 0).length).toBeLessThanOrEqual(2);
     }
   });
   it('smooths manual changes and snaps for reduced motion with a fixed set of lights', () => {
@@ -57,24 +71,38 @@ describe('3D lighting', () => {
     expect(renderer.toneMappingExposure).toBeLessThan(2 ** 0.55);
     lighting.update(1, 0, true);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.55);
+    lighting.update(2, 0, true);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.9);
+    expect(lighting.time).toBe(2);
+    lighting.update(1, 0, true);
     // Sky, sun, six sauna area lights, lounge spot light, five dusk spot lights, and targets; no
-    // hemisphere light (the baked probes replace it) and the probes follow the evening amount.
+    // hemisphere light (the baked probes replace it) and the probes follow the time of day.
     expect(scene.children).toHaveLength(20);
     expect(scene.children.some((child) => child instanceof THREE.HemisphereLight)).toBe(false);
     expect(lighting.irradiance.suiIrradianceEvening.value).toBe(1);
+    expect(lighting.irradiance.suiIrradianceNight.value).toBe(0);
     lighting.update(0, 0, true);
     expect(lighting.irradiance.suiIrradianceEvening.value).toBe(0);
+    lighting.update(1.5, 0, true);
+    expect(lighting.irradiance.suiIrradianceEvening.value).toBe(1);
+    expect(lighting.irradiance.suiIrradianceNight.value).toBe(0.5);
     lighting.update(1, 0, true);
     expect(scene.fog).toBeNull();
   });
-  it('draws the source sky as a mesh that follows the evening amount', () => {
+  it('draws the source sky as a mesh that follows the time of day', () => {
     const scene = new THREE.Scene();
     const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
     expect(scene.background).toBeNull();
     const sky = scene.getObjectByName('sky') as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
-    for (const amount of [0, 0.25, 1]) {
-      lighting.update(amount, 0, true);
-      expect(sky.material.uniforms.suiSkyEvening.value).toBe(amount);
+    for (const [time, dusk, night] of [
+      [0, 0, 0],
+      [0.25, 0.25, 0],
+      [1, 1, 0],
+      [1.75, 1, 0.75],
+    ]) {
+      lighting.update(time, 0, true);
+      expect(sky.material.uniforms.suiSkyEvening.value).toBe(dusk);
+      expect(sky.material.uniforms.suiSkyNight.value).toBe(night);
     }
   });
 });
@@ -143,6 +171,30 @@ describe('Cycles Blue hour lights', () => {
   });
 });
 
+describe('Cycles Night lights', () => {
+  it('turns the sun into the pale moon and keeps the Blue hour accent lights', () => {
+    const scene = new THREE.Scene();
+    const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
+    const [lounge, ...dusk] = scene.children.filter((child) => child instanceof THREE.SpotLight);
+    lighting.update(2, 0, true);
+    // scripts/build_night_scene.py: 0.1 W/m² of linear (0.62, 0.74, 1).
+    expect(sun.intensity).toBeCloseTo(0.1);
+    expect(sun.color.toArray().map((v) => +v.toFixed(3))).toEqual([0.62, 0.74, 1]);
+    expect(lounge.intensity).toBe(0);
+    expect(dusk.map((light) => +(light.intensity * Math.PI).toFixed(3))).toEqual([42, 8, 8, 8, 35]);
+    // The moon's 0.0093 rad disk casts sharper shadows than the sun's.
+    expect(sun.shadow.radius).toBeCloseTo(directionalPenumbra(sun.shadow.camera, 0.0093));
+    // Between the scenes the sun's colored power blends linearly, like the probes.
+    lighting.update(1.5, 0, true);
+    expect(sun.intensity).toBeCloseTo(0.5 * 0.045 + 0.5 * 0.1);
+    expect(sun.color.r * sun.intensity).toBeCloseTo(0.5 * 0.47 * 0.045 + 0.5 * 0.62 * 0.1);
+    lighting.update(0, 0, true);
+    expect(sun.intensity).toBeCloseTo(3.2);
+    expect(sun.shadow.radius).toBeCloseTo(directionalPenumbra(sun.shadow.camera, 0.085));
+  });
+});
+
 describe('cached shadows', () => {
   it('updates only when quality changes and releases shadow targets', () => {
     const scene = new THREE.Scene();
@@ -171,6 +223,7 @@ describe('cached shadows', () => {
     // None of these lights move, so lighting changes keep the cached shadows.
     lighting.update(1, 0, true);
     lighting.update(0.5, 0.016, false);
+    lighting.update(2, 0, true);
     for (const light of shadowLights) expect(light.shadow.needsUpdate).toBe(false);
     lighting.setShadowSize(2048);
     expect(sun.shadow.mapSize.x).toBe(2048);

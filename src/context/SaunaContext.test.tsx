@@ -172,6 +172,31 @@ describe('SaunaContext', () => {
     expect(result.current.stage).toBe('sauna');
     expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith('sauna');
   });
+  it('counts sauna rounds when the sauna stage commits', () => {
+    const { result } = renderHook(() => useSaunaContext(), { wrapper });
+    expect(result.current.round).toBe(0);
+    const advance = (action: () => void) => {
+      act(action);
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+    };
+    advance(() => result.current.handleStart(false));
+    expect(result.current.round).toBe(1);
+    advance(() => result.current.completeSauna(120, 600, 3));
+    advance(() => result.current.completeWater(80, 60));
+    expect(result.current.round).toBe(1);
+    // The round changes with the stage, not while the outdoor rest fades out.
+    act(() => {
+      result.current.completeTotonou();
+    });
+    expect(result.current.round).toBe(1);
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(result.current.stage).toBe('sauna');
+    expect(result.current.round).toBe(2);
+  });
   it('uses one deadline and ignores duplicate transitions and result overwrites', () => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
     act(() => {

@@ -43,7 +43,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   const original = await canvas.elementHandle();
   await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
   await page.waitForTimeout(1200);
-  for (const lighting of ['day', 'evening']) {
+  for (const lighting of ['day', 'evening', 'night']) {
     await page.getByLabel('3Dの時間帯').selectOption(lighting);
     await expect(scene).toHaveAttribute('data-lighting', lighting);
     // Reconstruct the old overlay at a fixed point of its .45-.75 breathing

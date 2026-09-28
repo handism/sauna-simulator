@@ -72,6 +72,7 @@ const LIGHTING_OPTIONS = [
   ['auto', '自動'],
   ['day', '昼'],
   ['evening', '夕暮れ'],
+  ['night', '夜'],
 ] as const satisfies readonly (readonly [LightingMode, string])[];
 const QUALITY_OPTIONS = [
   ['low', '軽量'],
@@ -82,6 +83,7 @@ const LIGHTING_VALUES = LIGHTING_OPTIONS.map(([value]) => value);
 const QUALITY_VALUES = QUALITY_OPTIONS.map(([value]) => value);
 function ActiveScene({
   stage,
+  round,
   opacity,
   loylyEvents,
   lightingMode,
@@ -92,6 +94,7 @@ function ActiveScene({
   audio: AudioEngine;
   lightingMode: LightingMode;
   stage: Exclude<Stage, 'start'>;
+  round: number;
   opacity: number;
   loylyEvents: EventTarget;
 }) {
@@ -121,6 +124,7 @@ function ActiveScene({
                 audio={audio}
                 lightingMode={lightingMode}
                 stage={stage}
+                round={round}
                 loylyEvents={loylyEvents}
                 onReady={ready}
                 onError={failed}
@@ -153,12 +157,15 @@ function ActiveScene({
 }
 export default function SceneMode({
   stage,
+  round = 1,
   opacity = 1,
   loylyEvents,
   audio,
 }: {
   audio: AudioEngine;
   stage: Stage;
+  /** The sauna round, for the automatic lighting. */
+  round?: number;
   opacity?: number;
   loylyEvents: EventTarget;
 }) {
@@ -184,6 +191,7 @@ export default function SceneMode({
           audio={audio}
           lightingMode={lightingMode}
           stage={stage}
+          round={round}
           opacity={opacity}
           loylyEvents={loylyEvents}
         />

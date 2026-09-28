@@ -4,7 +4,8 @@ Usage: python3 scripts/cycles_tone_stats.py [capture dir, default test-results/v
 Prints CIELAB lightness (mean, 10/50/90th percentiles) and chroma per camera, whole frame and
 for green pixels. A calibration aid for exposure and light balance, not an equivalence test.
 Blue-hour references of the daylight cameras from scripts/blender_bluehour_reference.py, when
-present, are compared with the evening captures and summarized separately.
+present, are compared with the evening captures and summarized separately; so are the night
+references (blender/renders/web-night, the same script with -S "SUI • Night") with the night captures.
 """
 import json, sys
 from pathlib import Path
@@ -21,6 +22,7 @@ def lab(path):
     L = 116 * f[..., 1] - 16; A = 500 * (f[..., 0] - f[..., 1]); B = 200 * (f[..., 1] - f[..., 2])
     return L, np.hypot(A, B), np.degrees(np.arctan2(B, A)) % 360
 bluehour = root/'blender/renders/web-bluehour'
+night = root/'blender/renders/web-night'
 pairs = []
 for c in cams:
     # 06 is camera 01 in the blue-hour scene.
@@ -28,6 +30,8 @@ for c in cams:
     pairs.append((c['render'], c['lighting'], root/'blender/renders'/c['render'], num))
     if c['lighting'] == 'day' and (bluehour/c['render']).exists():
         pairs.append((f"bh-{num}", 'evening', bluehour/c['render'], num))
+    if c['lighting'] == 'day' and (night/c['render']).exists():
+        pairs.append((f"n-{num}", 'night', night/c['render'], num))
 rows = []
 for render, light, ref, num in pairs:
     web = list(cap.rglob(f'cycles-{num}-{light}.jpg'))
@@ -54,5 +58,6 @@ def summary(rows, label):
     print(label, 'mean dL*', d[:, 0].mean().round(2), 'mean |dL*|', np.abs(d[:, 0]).mean().round(2), 'mean dC*', d[:, 1].mean().round(2))
     print(label, 'percentile |dL| L10/L50/L90', P.mean(0).round(2), 'all', P.mean().round(2), '| green |dC|', np.nanmean(G).round(2))
 # The seven source renders keep their earlier summary; blue-hour references are reported apart.
-summary([r for r in rows if not r['render'].startswith('bh-')], 'source')
+summary([r for r in rows if r['light'] == 'day' or r['render'] == '06.png'], 'source')
 summary([r for r in rows if r['light'] == 'evening'], 'evening')
+summary([r for r in rows if r['light'] == 'night'], 'night')

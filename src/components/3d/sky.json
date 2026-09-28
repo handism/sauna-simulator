@@ -1,7 +1,7 @@
 {
   "note": "Written by scripts/build_sky_world.py. Radiance is scene-linear Rec.709; directions are in Blender axes (the browser turns its glTF view direction (x, y, z) into (x, -z, y)).",
-  "input_sha256": "f1ee4ddda36d6532420fc12107d24bd1eedcbaa13fd5466f476f612e8f005ed0",
-  "output_sha256": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+  "input_sha256": "bcc6fbf8cc7d1fc18417aef9ba654fc943b961f91253ca3c43269eb7656c4392",
+  "output_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
   "blender": "4.5.11 LTS",
   "scenes": {
     "day": {
@@ -204,6 +204,110 @@
         0.020000000000000004,
         0.034,
         0.066
+      ]
+    },
+    "night": {
+      "zenith": [
+        0.01147,
+        0.01721,
+        0.04971
+      ],
+      "horizon": [
+        0.04302,
+        0.065,
+        0.13861
+      ],
+      "gradient_power": 0.55,
+      "glow": [
+        {
+          "color": [
+            0.11471,
+            0.13383,
+            0.19119
+          ],
+          "power": 60.0
+        },
+        {
+          "color": [
+            0.02868,
+            0.03346,
+            0.0478
+          ],
+          "power": 6.0
+        }
+      ],
+      "clouds": {
+        "scale": 1.6,
+        "offset": [
+          3.1,
+          -7.4,
+          0.37
+        ],
+        "detail": 6.0,
+        "roughness": 0.55,
+        "lacunarity": 2.1,
+        "low": 0.52,
+        "high": 0.74,
+        "opacity": 0.8,
+        "bend": 0.12,
+        "horizon_fade": 0.12,
+        "shade": [
+          0.02103,
+          0.02677,
+          0.0478
+        ],
+        "lit": [
+          0.11471,
+          0.12427,
+          0.15295
+        ],
+        "lit_power": 6.0
+      },
+      "stars": {
+        "scale": 150.0,
+        "radius": 0.08,
+        "density": 0.012,
+        "color": [
+          8.0,
+          8.2,
+          9.0
+        ],
+        "power": 3.0
+      },
+      "disk": true,
+      "glow_direction": [
+        -0.556022,
+        -0.556022,
+        0.617802
+      ],
+      "disk_cos": 0.9999891887694008,
+      "disk_radiance": [
+        912.7182,
+        1089.3733,
+        1472.1261
+      ],
+      "irradiance": {
+        "target": [
+          0.0996,
+          0.1145,
+          0.1568
+        ],
+        "before": [
+          0.0083,
+          0.0116,
+          0.0259
+        ],
+        "scale": 9.5594
+      },
+      "sun_direction": [
+        -0.556022,
+        -0.556022,
+        0.617802
+      ],
+      "flat": [
+        0.003,
+        0.0051,
+        0.0099
       ]
     }
   }

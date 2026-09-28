@@ -171,7 +171,8 @@ export function lightCoverage(
   return 1 - THREE.MathUtils.smoothstep(distance, 1 - LIGHT_EDGE, 1 + LIGHT_EDGE);
 }
 
-/** Radiance of the bottom lights along a ray leaving the surface, `evening` 0 (Daylight) to 1 (Blue hour). */
+/** Radiance of the bottom lights along a ray leaving the surface, `evening` 0 (Daylight) to 1 (Blue hour or
+ * Night, which keeps the Blue hour powers of these lights). */
 export function bottomLightRadiance(level: number, origin: THREE.Vector3, direction: THREE.Vector3, evening: number) {
   const sum = [0, 0, 0];
   if (!clearsRim(origin, direction)) return sum;

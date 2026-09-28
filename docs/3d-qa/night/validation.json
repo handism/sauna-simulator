@@ -1,0 +1,104 @@
+{
+  "blend": {
+    "before": "f8fa0a979149fd8cd6c62f1c920e2ea7a19c1ec0b603ec1724b5bb7242b19901",
+    "night_scene": "bcc6fbf8cc7d1fc18417aef9ba654fc943b961f91253ca3c43269eb7656c4392",
+    "after": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753"
+  },
+  "night_lights": {
+    "moon": {
+      "energy": 0.1,
+      "color": [
+        0.62,
+        0.74,
+        1.0
+      ],
+      "angle": 0.0093
+    },
+    "sky_softbox": 45,
+    "sunlit_courtyard": 12,
+    "exposure": 0.9,
+    "flat": [
+      0.003,
+      0.0051,
+      0.0099
+    ]
+  },
+  "courtyard_upward_irradiance": {
+    "quick_v14": [
+      0.0996,
+      0.1145,
+      0.1568
+    ],
+    "full": [
+      0.1151,
+      0.1318,
+      0.1771
+    ],
+    "evening": [
+      0.3644,
+      0.4967,
+      0.8534
+    ]
+  },
+  "sky_scale": 9.5594,
+  "bake_seconds": {
+    "irradiance": 1280.3,
+    "reflection": 1144.0
+  },
+  "day_evening_probes_identical_to_v13": true,
+  "cycles_compare_night": [
+    {
+      "reference": "n-01",
+      "L_cycles": 13.6,
+      "L_web": 13.5,
+      "C_cycles": 7.8,
+      "C_web": 7.5
+    },
+    {
+      "reference": "n-02",
+      "L_cycles": 28.4,
+      "L_web": 30.2,
+      "C_cycles": 24.5,
+      "C_web": 26.6
+    },
+    {
+      "reference": "n-03",
+      "L_cycles": 25.1,
+      "L_web": 24.3,
+      "C_cycles": 10.6,
+      "C_web": 11.7
+    },
+    {
+      "reference": "n-04",
+      "L_cycles": 27.9,
+      "L_web": 28.6,
+      "C_cycles": 11.6,
+      "C_web": 13.1
+    },
+    {
+      "reference": "n-05",
+      "L_cycles": 16.1,
+      "L_web": 16.3,
+      "C_cycles": 8.8,
+      "C_web": 9.0
+    },
+    {
+      "reference": "n-07",
+      "L_cycles": 22.8,
+      "L_web": 21.3,
+      "C_cycles": 11.2,
+      "C_web": 11.5
+    }
+  ],
+  "hashes": {
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+    "src/components/3d/sky.json": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d",
+    "e2e/fixtures/blender-sky.json": "30d2f642840564b0176b9c8f2c124db0ef4ced277eef5aeba1b7b3b6fb565dd1"
+  },
+  "script_sha256": {
+    "scripts/build_night_scene.py": "695891dd3a9c8dbb738412ed0daef87aa823877542ddb1ec0f7f7bd0335bc8cd",
+    "scripts/build_sky_world.py": "6c8a9c83dc42ee3c0bbdf6aba1def0f4da7a1e6dfaf2f4ee0123cd3f0144271f",
+    "scripts/bake_irradiance_probes.py": "959bbd657d7cddf4fb5ea9c5d7087adc07cf5b870dab94d6ca7c2817b0bcc7ef"
+  }
+}

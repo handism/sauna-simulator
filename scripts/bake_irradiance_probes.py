@@ -1,7 +1,7 @@
 """Run: Blender -b blender/scene/SUI_Retreat.blend --python-exit-code 1 --python scripts/bake_irradiance_probes.py [-- --quick]
 
 Bakes the diffuse irradiance that the browser does not light directly into L2 spherical-harmonic
-probe grids, for the Daylight ('day') and Blue hour ('evening') scenes. At every probe Cycles
+probe grids, for the Daylight ('day'), Blue hour ('evening') and Night ('night') scenes. At every probe Cycles
 renders a small equirectangular panorama with the scene's own world, materials, bounces and
 clamping; it is projected to SH in glTF axes (three's basis, see src/components/3d/irradiance.ts).
 
@@ -45,7 +45,10 @@ bottom face, so the floor reads the light that crossed that face (the browser sa
 without the normal offset). The reflection bake keeps panoramas on the same layout.
 
 With --grids NAME[,NAME] only those grids are baked; the other grids are copied from the shipped
-file, which must come from the same input blend and have the same layout.
+file, which must come from the same input blend and have the same layout. With --scenes KEY[,KEY]
+only those scenes are baked and the others are copied the same way; the shipped file may also come
+from the parent blend that lacks a scene added since (blend_lineage.py ADDED_SCENE), provided that
+scene is baked now. With --quick nothing is copied and the output holds only the baked scenes.
 
 Writes public/models/irradiance.bin (float16) and irradiance.json (grid layout, input hash) and
 docs/3d-export/irradiance-report.json. Never saves the input blend.
@@ -80,7 +83,7 @@ import numpy as np
 import OpenImageIO as oiio
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from blend_lineage import WORLD_ONLY, same_geometry
+from blend_lineage import ADDED_SCENE, WORLD_ONLY, same_geometry
 from probe_sampling import fill_invalid  # shared with refill_enclosed_probes.py
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -99,9 +102,15 @@ PROBE_START = int(ARGS[ARGS.index('--probe-start') + 1]) if '--probe-start' in A
 ONLY_GRIDS = ARGS[ARGS.index('--grids') + 1].split(',') if '--grids' in ARGS else None
 if ONLY_GRIDS and (SURFACE_SAMPLES or PROBE_TEST or QUICK):
     raise ValueError('--grids cannot combine with other bake modes')
+ONLY_SCENES = ARGS[ARGS.index('--scenes') + 1].split(',') if '--scenes' in ARGS else None
 OUT = Path(sys.argv[sys.argv.index('--out') + 1]) if '--out' in sys.argv else ROOT / 'public/models'
 REPORT = OUT if '--out' in sys.argv else ROOT / 'docs/3d-export'
-SCENES = (('day', 'SUI • Daylight'), ('evening', 'SUI • Blue hour'))
+ALL_SCENES = (('day', 'SUI • Daylight'), ('evening', 'SUI • Blue hour'), ('night', 'SUI • Night'))
+assert not ONLY_SCENES or set(ONLY_SCENES) <= {key for key, _ in ALL_SCENES}, ONLY_SCENES
+# The scenes rendered now, and the scenes written (copied scenes keep their shipped values).
+SCENES = tuple((key, name) for key, name in ALL_SCENES if not ONLY_SCENES or key in ONLY_SCENES)
+OUT_SCENES = SCENES if QUICK or SURFACE_SAMPLES or PROBE_TEST else ALL_SCENES
+COPY = bool(ONLY_GRIDS) or OUT_SCENES != SCENES
 WIDTH, HEIGHT, SAMPLES = (128, 64, 128) if SURFACE_SAMPLES else (64, 32, 64)
 # The room's inner volume (src/components/3d/interiorLights.ts INTERIOR_BOX), glTF axes.
 ROOM = ((-6.15, 0.0, -4.59), (-0.5, 3.36, -0.25))
@@ -132,6 +141,7 @@ DRAWN = {
     'Late afternoon sunlight', 'V9 lounge patch of sunlight', 'Warm under-bench wash',
     'Sauna ceiling soft amber', 'Sauna wall wash', 'Steam soft backlight', 'V7 concealed backrest wash',
 }
+# Drawn in the Blue hour and Night scenes (their Daylight copies are left in the probes).
 DRAWN_EVENING = {
     'V10 lounge dusk fill', 'V10 path grazing light 1', 'V10 path grazing light 4',
     'V10 path grazing light 7', 'V10 specimen uplight',
@@ -144,7 +154,7 @@ DRAWN_SPECULAR = {'V9 lounge patch of sunlight'}
 def in_panorama(o, key):
     """Whether a light is visible to the probe camera in this bake."""
     name = base_name(o.name)
-    evening = key == 'evening' and name in DRAWN_EVENING
+    evening = key in ('evening', 'night') and name in DRAWN_EVENING
     if REFLECTION:
         return o.visible_glossy and name not in DRAWN_SPECULAR and not evening
     return name not in DRAWN and not evening
@@ -672,40 +682,50 @@ if SURFACE_SAMPLES:
 
 OUT.mkdir(parents=True, exist_ok=True)
 REPORT.mkdir(parents=True, exist_ok=True)
-if ONLY_GRIDS:
-    # Copy the grids that were not baked from the shipped file of the same input and layout.
+if COPY:
+    # Copy the grids and scenes that were not baked from the shipped file of the same input and layout.
     shipped = ROOT / 'public/models'
     old = json.loads((shipped / f'{NAME}.json').read_text())
     old_data = np.frombuffer((shipped / f'{NAME}.bin').read_bytes(), dtype='<f2')
+    baked = {key for key, _ in SCENES}
+    copied_scenes = [key for key, _ in OUT_SCENES if key not in baked]
     # A parent that differs only in the water's shading flags (blend_lineage.py) keeps the dry grids
     # valid; one that differs only in the sky keeps every irradiance grid (diffuse bounces see the
-    # parent's flat colour, build_sky_world.py) but no reflection grid.
+    # parent's flat colour, build_sky_world.py) but no reflection grid; one that lacks a scene added
+    # since keeps every grid of its other scenes (they are unchanged), and the new scene is baked now.
+    added = ADDED_SCENE.get(source_hash)
     assert old['input_sha256'] == source_hash or (
-        'water' in ONLY_GRIDS and same_geometry(old['input_sha256'], source_hash)
-    ) or (not REFLECTION and WORLD_ONLY.get(source_hash) == old['input_sha256']), 'shipped probes come from another input blend'
+        ONLY_GRIDS and 'water' in ONLY_GRIDS and same_geometry(old['input_sha256'], source_hash)
+    ) or (not REFLECTION and WORLD_ONLY.get(source_hash) == old['input_sha256']) or (
+        added and added[0] == old['input_sha256'] and added[1] in baked
+    ), 'shipped probes come from another input blend'
     assert hashlib.sha256(old_data.tobytes()).hexdigest() == old['bin_sha256']
     old_report = json.loads((ROOT / f'docs/3d-export/{NAME}-report.json').read_text())
+    for key in copied_scenes:
+        report['scenes'][key] = dict(old_report['scenes'][key], grids={})
     for grid in grids:
-        if grid['name'] in ONLY_GRIDS:
-            continue
         entry = next(g for g in old['grids'] if g['name'] == grid['name'])
         assert [entry[k] for k in ('min', 'max', 'resolution')] == [list(grid[k]) for k in ('min', 'max', 'resolution')]
         count = int(np.prod(grid['resolution'])) * 27
-        for key, _ in SCENES:
+        for key, _ in OUT_SCENES:
+            if key in baked and (not ONLY_GRIDS or grid['name'] in ONLY_GRIDS):
+                continue
             start = entry['offset'][key]
             coefficients[(key, grid['name'])] = old_data[start:start + count].astype(np.float64).reshape(-1, 27)
             report['scenes'][key]['grids'][grid['name']] = old_report['scenes'][key]['grids'][grid['name']]
-    for key, _ in SCENES:
+    for key, _ in OUT_SCENES:
         report['scenes'][key]['grids'] = {g['name']: report['scenes'][key]['grids'][g['name']] for g in grids}
+    report['scenes'] = {key: report['scenes'][key] for key, _ in OUT_SCENES}
     report['copied_grids'] = dict(input_sha256=old['input_sha256'], bin_sha256=old['bin_sha256'], seconds=old_report['seconds'],
-                                  grids=[g['name'] for g in grids if g['name'] not in ONLY_GRIDS])
+                                  grids=[g['name'] for g in grids if not ONLY_GRIDS or g['name'] not in ONLY_GRIDS],
+                                  scenes=copied_scenes or [key for key, _ in OUT_SCENES])
 # Grid by grid, scene by scene, probe (x fastest, then y, then z), 9 RGB coefficients.
 chunks = []
 layout = []
 offset = 0
 for grid in grids:
     entry = dict(name=grid['name'], min=grid['min'], max=grid['max'], resolution=grid['resolution'], offset={})
-    for key, _ in SCENES:
+    for key, _ in OUT_SCENES:
         data = coefficients[(key, grid['name'])].reshape(-1, 9, 3).astype(np.float16)
         assert np.isfinite(data).all()
         entry['offset'][key] = offset
@@ -716,7 +736,7 @@ binary = np.concatenate(chunks).astype('<f2').tobytes()
 (OUT / f'{NAME}.bin').write_bytes(binary)
 header = dict(
     input_sha256=source_hash, format='float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear radiance)',
-    scenes=[key for key, _ in SCENES], grids=layout, bin_sha256=hashlib.sha256(binary).hexdigest(),
+    scenes=[key for key, _ in OUT_SCENES], grids=layout, bin_sha256=hashlib.sha256(binary).hexdigest(),
 )
 (OUT / f'{NAME}.json').write_text(json.dumps(header, indent=2) + '\n')
 report['grids'] = [{k: v for k, v in g.items() if k != 'points'} for g in grids]
