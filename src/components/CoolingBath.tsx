@@ -26,12 +26,13 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
 
   const rootRef = useRef<HTMLDivElement>(null);
   const secondsRef = useRef<number>(0);
+  const rippleIdRef = useRef<number>(0);
 
   // 波紋（リップル）の定期生成
   useEffect(() => {
     const int = setInterval(() => {
       const newRipple: Ripple = {
-        id: Date.now(),
+        id: rippleIdRef.current++,
         left: getSecureRandom() * 80 + 10 + '%',
         top: getSecureRandom() * 80 + 10 + '%',
       };

@@ -119,6 +119,17 @@ type ResolverType = {
 const resolvers = new Map<number, ResolverType>();
 const ongoingGenerations = new Map<string, Promise<Float32Array<ArrayBuffer>>>();
 
+// Worker が落ちたら待機中の要求をタイムアウトまで待たせず失敗させ、次の要求で作り直す
+function failPendingGenerations(reason: unknown) {
+  resolvers.forEach(({ reject, timeoutId }) => {
+    clearTimeout(timeoutId);
+    reject(reason);
+  });
+  resolvers.clear();
+  audioWorker?.terminate();
+  audioWorker = null;
+}
+
 // A wrapper to handle concurrent requests to the worker
 function generateBufferAsync(type: NoiseType, length: number): Promise<Float32Array<ArrayBuffer>> {
   const cacheKey = `${type}-${length}`;
@@ -141,6 +152,7 @@ function generateBufferAsync(type: NoiseType, length: number): Promise<Float32Ar
       };
       audioWorker.onerror = (e) => {
         console.error('AudioWorker error:', e);
+        failPendingGenerations(new Error('AudioWorker failed'));
       };
     }
 
@@ -173,7 +185,7 @@ export function useAudioEngine(): AudioEngine {
   const masterGainRef = useRef<GainNode | null>(null);
 
   // 稼働中のソースとゲインを追跡し、フェードアウト後に安全に停止する
-  const activeSourcesRef = useRef<{ stop: () => void }[]>([]);
+  const activeSourcesRef = useRef<AudioScheduledSourceNode[]>([]);
   const activeGainsRef = useRef<GainNode[]>([]);
 
   // 音源バッファのキャッシュ（ノイズの種類ごと）
@@ -248,20 +260,16 @@ export function useAudioEngine(): AudioEngine {
       }
     });
 
-    const sourcesToStop = [...activeSourcesRef.current];
+    // フェードアウト完了後に停止するようオーディオクロック上で予約する
+    activeSourcesRef.current.forEach((src) => {
+      try {
+        src.stop(now + 1.2);
+      } catch (e) {
+        console.error('Failed to stop source', e);
+      }
+    });
     activeSourcesRef.current = [];
     activeGainsRef.current = [];
-
-    // フェードアウト完了後に停止
-    setTimeout(() => {
-      sourcesToStop.forEach((src) => {
-        try {
-          src.stop();
-        } catch (e) {
-          console.error('Failed to stop source', e);
-        }
-      });
-    }, 1200);
   }, []);
 
   // サウナ・水風呂: フィルタを通したノイズのループを定位用バスへ流す
@@ -313,22 +321,17 @@ export function useAudioEngine(): AudioEngine {
     oscR.type = 'sine';
     oscR.frequency.value = binaural.frequencyRight;
 
-    const pannerL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
-    const pannerR = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
-    if (pannerL) pannerL.pan.value = binaural.panLeft;
-    if (pannerR) pannerR.pan.value = binaural.panRight;
+    const pannerL = ctx.createStereoPanner();
+    const pannerR = ctx.createStereoPanner();
+    pannerL.pan.value = binaural.panLeft;
+    pannerR.pan.value = binaural.panRight;
 
     const humGain = ctx.createGain();
     humGain.gain.value = 0;
     humGain.gain.setTargetAtTime(binaural.targetGain, now, binaural.timeConstant);
 
-    if (pannerL && pannerR) {
-      oscL.connect(pannerL).connect(humGain);
-      oscR.connect(pannerR).connect(humGain);
-    } else {
-      oscL.connect(humGain);
-      oscR.connect(humGain);
-    }
+    oscL.connect(pannerL).connect(humGain);
+    oscR.connect(pannerR).connect(humGain);
 
     oscL.start();
     oscR.start();
@@ -394,49 +397,40 @@ export function useAudioEngine(): AudioEngine {
     if (!buffer) return;
 
     const now = ctx.currentTime;
+    const output = spatialRef.current?.stove ?? masterGainRef.current;
+
+    // ノイズ → フィルタ → ゲイン → ストーブ位置、の一発音を duration 秒だけ鳴らす
+    const playBurst = (duration: number, shape: (filter: BiquadFilterNode, gain: GainNode) => void) => {
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      const gain = ctx.createGain();
+      shape(filter, gain);
+      source.connect(filter).connect(gain).connect(output);
+      source.start(now);
+      source.stop(now + duration);
+    };
 
     // --- 1. 高音のジュワー音 (瞬発的な沸騰) ---
-    const sourceSizzle = ctx.createBufferSource();
-    sourceSizzle.buffer = buffer;
-
-    const filterSizzle = ctx.createBiquadFilter();
-    filterSizzle.type = 'highpass';
-    filterSizzle.frequency.setValueAtTime(3500, now);
-    filterSizzle.frequency.exponentialRampToValueAtTime(7000, now + 0.6);
-
-    const gainSizzle = ctx.createGain();
-    gainSizzle.gain.setValueAtTime(0.55, now);
-    gainSizzle.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
-
-    sourceSizzle
-      .connect(filterSizzle)
-      .connect(gainSizzle)
-      .connect(spatialRef.current?.stove ?? masterGainRef.current);
-    sourceSizzle.start(now);
-    sourceSizzle.stop(now + 0.8);
+    playBurst(0.8, (filter, gain) => {
+      filter.type = 'highpass';
+      filter.frequency.setValueAtTime(3500, now);
+      filter.frequency.exponentialRampToValueAtTime(7000, now + 0.6);
+      gain.gain.setValueAtTime(0.55, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+    });
 
     // --- 2. 低音・中音のフシュー音 (スチームの対流・部屋への拡散) ---
-    const sourceSteam = ctx.createBufferSource();
-    sourceSteam.buffer = buffer;
-
-    const filterSteam = ctx.createBiquadFilter();
-    filterSteam.type = 'bandpass';
-    filterSteam.frequency.setValueAtTime(800, now);
-    filterSteam.frequency.exponentialRampToValueAtTime(2500, now + 1.2);
-    filterSteam.Q.value = 1.0;
-
-    const gainSteam = ctx.createGain();
-    // 少し遅れて立ち上がるようにする
-    gainSteam.gain.setValueAtTime(0, now);
-    gainSteam.gain.linearRampToValueAtTime(0.35, now + 0.25);
-    gainSteam.gain.exponentialRampToValueAtTime(0.005, now + 2.0);
-
-    sourceSteam
-      .connect(filterSteam)
-      .connect(gainSteam)
-      .connect(spatialRef.current?.stove ?? masterGainRef.current);
-    sourceSteam.start(now);
-    sourceSteam.stop(now + 2.0);
+    playBurst(2.0, (filter, gain) => {
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(800, now);
+      filter.frequency.exponentialRampToValueAtTime(2500, now + 1.2);
+      filter.Q.value = 1.0;
+      // 少し遅れて立ち上がるようにする
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.35, now + 0.25);
+      gain.gain.exponentialRampToValueAtTime(0.005, now + 2.0);
+    });
   }, [getNoiseBuffer]);
 
   const setMuted = useCallback((muted: boolean) => {

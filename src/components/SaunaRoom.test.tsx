@@ -116,6 +116,23 @@ describe('SaunaRoom', () => {
     expect(container.querySelectorAll('.sauna-steam-particle')).toHaveLength(0);
   });
 
+  it('restarts the steam overlay animation on every Loyly press', () => {
+    const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    const loylyButton = screen.getByText(/ロウリュ/);
+
+    expect(container.querySelector('.steam-overlay')).not.toHaveClass('active');
+
+    fireEvent.click(loylyButton);
+    const firstOverlay = container.querySelector('.steam-overlay');
+    expect(firstOverlay).toHaveClass('active');
+
+    fireEvent.click(loylyButton);
+    const secondOverlay = container.querySelector('.steam-overlay');
+    expect(secondOverlay).toHaveClass('active');
+    // A fresh element makes the CSS animation start over
+    expect(secondOverlay).not.toBe(firstOverlay);
+  });
+
   it('handles leave button interaction and passes correct stats', () => {
     render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
 

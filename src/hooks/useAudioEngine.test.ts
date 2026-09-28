@@ -386,12 +386,8 @@ describe('useAudioEngine', () => {
     expect(initialGain.gain.cancelScheduledValues).toHaveBeenCalled();
     expect(initialGain.gain.setTargetAtTime).toHaveBeenCalledWith(0, expect.any(Number), 0.4);
 
-    // Fade out takes 1200ms
-    act(() => {
-      vi.advanceTimersByTime(1200);
-    });
-
-    expect(initialSource.stop).toHaveBeenCalled();
+    // Stop is scheduled on the audio clock after the 1.2s fade-out
+    expect(initialSource.stop).toHaveBeenCalledWith(1.2);
   });
 
   it('catches and logs errors when fading out gains during stopAmbient', async () => {
@@ -437,10 +433,6 @@ describe('useAudioEngine', () => {
 
     await act(async () => {
       await result.current.playAmbient('water');
-    });
-
-    act(() => {
-      vi.advanceTimersByTime(1200);
     });
 
     expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to stop source', testError);
@@ -571,20 +563,16 @@ describe('useAudioEngine', () => {
       }
     };
 
-    const playPromise = act(async () => {
-      const p = result.current.playAmbient('sauna');
-      // Advance to avoid the test hanging, but also we just want onerror to fire
-      vi.advanceTimersByTime(100);
-      return p;
+    // The pending request fails right away instead of waiting for the 10s timeout
+    await act(async () => {
+      await result.current.playAmbient('sauna');
     });
-
-    act(() => {
-      vi.advanceTimersByTime(10000);
-    });
-
-    await playPromise;
 
     expect(consoleErrorSpy).toHaveBeenCalledWith('AudioWorker error:', expect.any(ErrorEvent));
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to generate sauna noise buffer',
+      expect.objectContaining({ message: 'AudioWorker failed' }),
+    );
 
     (window as any).Worker.prototype.postMessage = originalPostMessage;
   });
