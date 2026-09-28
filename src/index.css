@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-
 :root {
   /* Color Palette */
   --sauna-bg-start: #3b1d12;
@@ -81,7 +79,11 @@ body {
   font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.5s ease;
   backdrop-filter: blur(10px);
 }
 .primary-btn:hover {
@@ -157,17 +159,6 @@ body {
     transform: scale(1);
     filter: brightness(1);
   }
-}
-
-.breathing-circle {
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
-  animation: breathe 8s infinite ease-in-out;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* --- Premium Animations & Styles --- */
@@ -321,7 +312,8 @@ body {
   transition:
     transform 4s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1),
-    background 4s ease;
+    background 4s ease,
+    opacity 0.5s ease;
   z-index: 10;
 }
 
@@ -336,20 +328,6 @@ body {
 h2,
 p {
   transition: opacity 0.5s ease;
-}
-
-.breathing-circle-premium {
-  transition:
-    transform 4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1),
-    background 4s ease,
-    opacity 0.5s ease;
-}
-
-.primary-btn {
-  transition:
-    all 0.3s ease,
-    opacity 0.5s ease;
 }
 
 /* UI Hidden State */

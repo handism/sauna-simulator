@@ -30,7 +30,6 @@ const SAUNA_CONFIG = {
   HR_INCREASE_MULTIPLIER: 0.006,
   HR_BASE_INCREASE: 0.02,
   MAX_HEART_RATE: 155,
-  STEAM_DURATION_MS: 7000,
   STEAM_PARTICLE_DURATION_MS: 4000,
 };
 
@@ -45,22 +44,19 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
     heartRate: SAUNA_CONFIG.INITIAL_HEART_RATE,
   });
   const [steams, setSteams] = useState<Steam[]>([]);
-  const [isSteaming, setIsSteaming] = useState<boolean>(false);
+  // ロウリュごとに増やし、曇り演出の要素を作り直してアニメーションを最初から再生する
+  const [steamBurst, setSteamBurst] = useState<number>(0);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const secondsRef = useRef<number>(0);
   const loylyCountRef = useRef<number>(0);
   const steamIdRef = useRef<number>(0);
-  const steamTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const steamResetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // 蒸気パーティクルは連打で複数同時に存在するため、個別に削除タイマーを持つ
   const steamParticleTimeoutsRef = useRef(new Set<ReturnType<typeof setTimeout>>());
 
   useEffect(() => {
     const particleTimeouts = steamParticleTimeoutsRef.current;
     return () => {
-      if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
-      if (steamResetTimeoutRef.current) clearTimeout(steamResetTimeoutRef.current);
       particleTimeouts.forEach(clearTimeout);
       particleTimeouts.clear();
     };
@@ -79,19 +75,8 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
     }));
     loylyCountRef.current += 1;
 
-    // スチーム曇り演出トリガー
-    setIsSteaming(false); // 一度リセットして再起動できるようにする
-    if (steamResetTimeoutRef.current) clearTimeout(steamResetTimeoutRef.current);
-    steamResetTimeoutRef.current = setTimeout(() => {
-      steamResetTimeoutRef.current = null;
-      setIsSteaming(true);
-    }, 10);
-
-    if (steamTimeoutRef.current) clearTimeout(steamTimeoutRef.current);
-    steamTimeoutRef.current = setTimeout(() => {
-      steamTimeoutRef.current = null;
-      setIsSteaming(false);
-    }, SAUNA_CONFIG.STEAM_DURATION_MS); // index.css の steam-blur-fade アニメーション長と同期
+    // スチーム曇り演出トリガー（終了後は index.css の forwards で透明のまま残る）
+    setSteamBurst((prev) => prev + 1);
 
     // サウナストーンからの蒸気パーティクル
     const newSteam: Steam = {
@@ -155,7 +140,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   return (
     <div ref={rootRef} className="scene-container">
       {/* スチームオーバーレイ曇り演出 */}
-      <div className={`steam-overlay ${isSteaming ? 'active' : ''}`} />
+      <div key={steamBurst} className={`steam-overlay ${steamBurst > 0 ? 'active' : ''}`} />
 
       <div className="glass-panel sauna-room-panel">
         <h2 className="sauna-room-title">サウナルーム</h2>
