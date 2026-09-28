@@ -1,5 +1,23 @@
 # GLB書き出し・シーン定義（scripts）
 
+## 目次（ファイルは平置き）
+
+診断スクリプトは同じディレクトリの補助モジュールを `sys.path`／`with_name()` で読み、`parents[1]` をリポジトリ直下とみなす。QA記録（`docs/3d-qa/*/validation.json` など）は実行時の `script_sha256` を残すため、サブフォルダへの移動や改名はしない。
+
+| 分類 | ファイル |
+| --- | --- |
+| 配信物の書き出し | `export_web_glb.py`, `compress_web_glb.mjs`, `web_scene.py`（シーン定義の正本） |
+| 元blendの加工・来歴 | `flatten_water_sides.py`, `blend_lineage.py` |
+| ベイク・当てはめ（製品の定数を作る） | `bake_irradiance_probes.py`, `refill_enclosed_probes.py`, `fit_blender_agx.py`, `fit_water_waves.py` |
+| Blender参照画像（e2e比較用） | `blender_{bluehour,camera,caustic,noise,stage}_reference.py`, `cycles_tone_stats.py`, `summarize_cycles_compare.py` |
+| ブラウザ撮影の集計 | `summarize_visual_survey.py`, `compare_shadow_samples.py`, `summarize_sun_shadow.py`, `summarize_sun_pcf.py`, `summarize_water_side_images.py` |
+| 診断：プローブ・床の拡散光 | `probe_sampling.py`（補間のCPU版）, `diagnose_probe_{depth,visibility}.py`, `survey_probe_enclosure.py`, `check_probe_visibility.py`, `compare_probe_weights.py`, `sample_room_floor.py`, `summarize_floor_irradiance.py` |
+| 診断：水面（補助モジュール） | `water_path_trace.py`, `water_reflection_trace.py`, `water_capture_parallax.py`, `water_capture_radiance.py`, `water_exit_sampling.py`, `water_exit_visibility.py` |
+| 診断：水面（実行・集計） | `diagnose_water_*.py`, `summarize_water_*.py`（`summarize_water_side_images.py` は上の撮影集計） |
+| テスト（Blender不要） | `test_*.py`。`python3 -m unittest discover -s scripts -p 'test_*.py'` で一括実行（NumPy・Pillow・SciPyが必要） |
+
+## 詳細
+
 - 体験用視点と水面位置の正本は `scripts/web_scene.py`。水面の高さ0.765mは元の `V4 rippled spring water volume` の上面の平均。`python3 scripts/web_scene.py` でシーン定義だけ再生成できる。GLB再出力時も同じ関数を呼ぶ。
 - 葉の書き出しは `export_web_glb.py` の `sample_whole_leaves()`。接続成分を葉として名前をseedに選ぶ。近景V11 maple 3体とV7 mapleは全枚数を元の5裂の輪郭・水平の向き・元の面のスムーズ設定のまま残す（元形状は1枚10三角形）。V6林の葉（`V6 clustered tree leaves`、1本約4,000枚）は元の葉20枚につき1枚の切り抜きカード（元の葉の面積を保つ長方形、UVは4隅・90度単位の回転）へ置換する。カードは複製した専用材質（名前末尾 ` card`）を使い、その `extras.suiLeafCluster` に枚数を記録する（同じ色材質を使う `V8 selective low grass` にはカードUVがないため共有しない）。`Fine canopy leaves` とその複製は各480枚を間引かず2三角形の平面へ変換する。それ以外は1オブジェクト175枚を上限に、元の位置・向き・広がりを近似した2三角形の平面へ変換する（V5/V6の葉は元から菱形）。建物のDecimateとは分離。中庭外の距離による除外はしない（該当する表示対象は林・植栽帯の木だけで、Cyclesの視点に写る）。奥の植栽帯のモミジは菱形のまま。
 - 樹皮（`Tree bark`）のカーブは書き出し時にメッシュ化する（断面分割1、UV削除）。元blendで `hide_render` の `V5 overhead canopy bough` は、見上げ可能なWeb用に限り復元する。V5頭上キャノピーの葉は間引かず全960枚。`Limestone terrace paver` はデッキ材と上面が一致するため書き出し時に3mm持ち上げる。
