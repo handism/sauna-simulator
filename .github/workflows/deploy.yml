@@ -44,6 +44,12 @@ jobs:
       - name: Format
         run: bun run format:check
 
+      # scripts/ の書き出し・診断処理の単体テスト（Blender不要）。ルートからの相対パスで配信物を読む。
+      - name: Python script tests
+        run: |
+          python3 -m pip install --quiet numpy pillow
+          python3 -m unittest discover -s scripts -t scripts -p 'test_*.py'
+
       - name: Build
         run: bun run build
 
