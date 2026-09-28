@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { BLOCKER_SAMPLES, FILTER_SAMPLES } from '../src/components/3d/softShadows.ts';
 import { timeFrames } from './gpu-timer';
-import { PCSS_VARIANTS, patchShadows } from './shadow-variants';
+import { PCSS_VARIANTS, type ShadowVariant, patchShadows } from './shadow-variants';
 
 test('GPU timer excludes callbacks without WebGL draws', async ({ page }) => {
   await page.addInitScript(timeFrames);
@@ -51,9 +51,12 @@ test('GPU timer excludes callbacks without WebGL draws', async ({ page }) => {
 });
 
 // Ablations run only in this browser (shadow-variants.ts): 16+24 samples, 8+12, and hard shadows.
+// SHADOW_COST_VARIANTS=a,b,... measures those variants instead, in that order and reversed.
+const COST_VARIANTS = (process.env.SHADOW_COST_VARIANTS?.split(',') ?? ['original', 'half', 'hard']) as ShadowVariant[];
+for (const variant of COST_VARIANTS) if (!(variant in PCSS_VARIANTS)) throw new Error(`Unknown variant ${variant}`);
 for (const [run, variants] of [
-  ['forward', ['original', 'half', 'hard']],
-  ['reverse', ['hard', 'half', 'original']],
+  ['forward', COST_VARIANTS],
+  ['reverse', [...COST_VARIANTS].reverse()],
 ] as const) {
   for (const variant of variants) {
     test(`shadow cost ${run} ${variant}`, async ({ page, browser }, info) => {

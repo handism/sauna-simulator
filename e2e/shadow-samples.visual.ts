@@ -1,19 +1,22 @@
 import { expect, test } from '@playwright/test';
 import { BLOCKER_SAMPLES, FILTER_SAMPLES } from '../src/components/3d/softShadows.ts';
 import { rendererCaptureStyle } from './scene-capture';
-import { PCSS_VARIANTS, patchShadows } from './shadow-variants';
+import { PCSS_VARIANTS, type ShadowVariant, patchShadows } from './shadow-variants';
 
 // PCSS sample counts compared at the same poses: each stage's default view, then a slow drag
 // (1 px = 0.004 rad per step). The per-pixel rotation of the sample disk is fixed to the screen,
 // so fewer samples can make penumbra grain crawl while looking around; scripts/compare_shadow_samples.py
 // measures each variant's error against the many-sample reference and how it changes between
 // frames. 'original' runs twice to bound the capture noise. Review artifacts, not a quality pass.
+// SHADOW_CANDIDATES=a,b,... compares those variants of shadow-variants.ts instead of 8+12.
 const STEPS = 8;
+const CANDIDATES = (process.env.SHADOW_CANDIDATES?.split(',') ?? ['half']) as ShadowVariant[];
+for (const variant of CANDIDATES) if (!(variant in PCSS_VARIANTS)) throw new Error(`Unknown variant ${variant}`);
 
 for (const [label, variant] of [
   ['reference', 'reference'],
   ['original', 'original'],
-  ['half', 'half'],
+  ...CANDIDATES.map((candidate) => [candidate, candidate] as const),
   ['original-repeat', 'original'],
 ] as const) {
   test(`capture shadow samples ${label}`, async ({ page, browser }, info) => {
