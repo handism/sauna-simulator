@@ -1492,3 +1492,12 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [近似の誤差・撮影・画素比較・次の候補](3d-qa/water-floor-disk/README.md)、[値](3d-qa/water-floor-disk/disk.json)。
 
 検証：Python（`test_water_floor_disk.py` 4件）、候補ビルドでの型検査・単体テスト（候補の `waterBottom.test.ts`）・水風呂ステージ撮影（候補2種、変更前はHEADのworktree）。製品コードは変更前に戻した。
+
+## フェーズ5：寝椅子灯とタイルだけで光沢の式を較正（2026-09-30）
+
+- 前回の残件「解析の式・光源の換算がCyclesと合うか」を、水・縁石を除いた独立シーンで確認した。元の寝椅子灯（42W・2m円盤）と黒い下地のタイルを正投影で描き、49点の線形RGBを円盤の立体角積分と比較。2048 samples × 2 seed、白いLambert／元のMULTI_GGXタイル／単散乱GGXの計6枚。
+- 光源の換算はCycles÷解析が1.00002〜1.00004。元タイルはThree相当のSchlick Fresnelの解析より14.78%強いが、厳密Fresnelにすると差0.33%、単散乱タイルでは差0.01%未満（相対L1 0.068%）。元タイル自身の発光が初回のCombinedに混じったため、最終値は寝椅子灯だけのライトグループから取った。
+- **製品は変更しない。** 前回の解析は既に水越しのCyclesより1.5〜1.6倍強く、Fresnelを厳密にして明るくするだけでは差を広げる。光源の換算に約2倍の誤りはこの条件ではなく、次は平らな水の層を加えて光源側の屈折／視線側の屈折／クランプを順に切り分ける。
+- [条件・結果・再実行](3d-qa/water-gloss-calibration/README.md)、[全49点・seed・ハッシュ](3d-qa/water-gloss-calibration/calibration.json)。元blendの保存なし・前後ハッシュ一致。
+
+検証：Python 128テスト（追加3件）、型検査、37ファイル220単体テスト、Lint、整形、本番ビルド成功。最終診断6枚・画像確認。3Dチャンク738.18KBの既存警告は継続。製品変更はなく、ブラウザ回帰・GPU時間・水越しの再撮影は未実施。初回Blenderは制限内で終了139、許可環境で実行した。
