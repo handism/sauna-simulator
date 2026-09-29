@@ -172,9 +172,10 @@ describe('SaunaContext', () => {
     expect(result.current.stage).toBe('sauna');
     expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith('sauna');
   });
-  it('counts sauna rounds when the sauna stage commits', () => {
+  it('records the entry time once, when entering is accepted', () => {
+    vi.setSystemTime(50_000);
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
-    expect(result.current.round).toBe(0);
+    expect(result.current.enteredAt).toBeNull();
     const advance = (action: () => void) => {
       act(action);
       act(() => {
@@ -182,20 +183,13 @@ describe('SaunaContext', () => {
       });
     };
     advance(() => result.current.handleStart(false));
-    expect(result.current.round).toBe(1);
+    expect(result.current.enteredAt).toBe(50_000);
+    // Later rounds keep it: the automatic lighting follows the real time since entering.
     advance(() => result.current.completeSauna(120, 600, 3));
     advance(() => result.current.completeWater(80, 60));
-    expect(result.current.round).toBe(1);
-    // The round changes with the stage, not while the outdoor rest fades out.
-    act(() => {
-      result.current.completeTotonou();
-    });
-    expect(result.current.round).toBe(1);
-    act(() => {
-      vi.advanceTimersByTime(1000);
-    });
+    advance(() => result.current.completeTotonou());
     expect(result.current.stage).toBe('sauna');
-    expect(result.current.round).toBe(2);
+    expect(result.current.enteredAt).toBe(50_000);
   });
   it('uses one deadline and ignores duplicate transitions and result overwrites', () => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });

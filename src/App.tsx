@@ -36,7 +36,7 @@ function App() {
     opacity,
     isMuted,
     isUiHidden,
-    round,
+    enteredAt,
     heartRate,
     saunaTime,
     loylyCount,
@@ -71,7 +71,13 @@ function App() {
           />
         )}
       </div>
-      <SceneMode audio={audio} stage={stage} round={round} opacity={opacity} loylyEvents={loylyEvents} />
+      <SceneMode
+        audio={audio}
+        stage={stage}
+        enteredAt={enteredAt ?? undefined}
+        opacity={opacity}
+        loylyEvents={loylyEvents}
+      />
       <div className="app-main-ui-container">
         {stage !== 'start' && (
           <>

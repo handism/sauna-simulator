@@ -54,6 +54,8 @@ test('GPU timer excludes callbacks without WebGL draws', async ({ page }) => {
 // SHADOW_COST_VARIANTS=a,b,... measures those variants instead, in that order and reversed.
 const COST_VARIANTS = (process.env.SHADOW_COST_VARIANTS?.split(',') ?? ['original', 'half', 'hard']) as ShadowVariant[];
 for (const variant of COST_VARIANTS) if (!(variant in PCSS_VARIANTS)) throw new Error(`Unknown variant ${variant}`);
+// SHADOW_COST_LIGHTINGS=night measures other times of day (the moon for sun-quarter, for example).
+const COST_LIGHTINGS = process.env.SHADOW_COST_LIGHTINGS?.split(',') ?? ['day', 'evening'];
 for (const [run, variants] of [
   ['forward', COST_VARIANTS],
   ['reverse', [...COST_VARIANTS].reverse()],
@@ -87,7 +89,7 @@ for (const [run, variants] of [
         ['totonou', null],
       ] as const) {
         await expect(scene).toHaveAttribute('data-stage', stage);
-        for (const lighting of ['day', 'evening']) {
+        for (const lighting of COST_LIGHTINGS) {
           await page.getByLabel('3Dの時間帯').selectOption(lighting);
           await expect(scene).toHaveAttribute('data-lighting', lighting);
           await page.waitForTimeout(3000);

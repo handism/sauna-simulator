@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import type { AmbientEnv } from '../../hooks/useAudioEngine';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
 import { createInteriorLights } from './interiorLights';
 import { createIrradianceUniforms } from './irradiance';
@@ -59,11 +58,18 @@ const EXPOSURE = [0.15, 0.55, 0.9];
 export type LightingMode = 'auto' | 'day' | 'evening' | 'night';
 
 // The time of day: 0 is the Daylight scene, 1 Blue hour and 2 Night; in between, the two
-// neighbouring scenes blend. Automatic lighting moves on with the rounds: the first goes from
-// afternoon to dusk, later ones from dusk into the night.
-export function timeOfDay(mode: LightingMode, stage: AmbientEnv, round: number): number {
+// neighbouring scenes blend. Automatic lighting follows the real time since entering: dusk at 15
+// minutes and night at 30, each reached over the last 3 minutes of its 15, and the night stays
+// (there is no morning scene to return through). Holding each scene keeps the costliest blend,
+// between day and dusk (the day's sun shadows with the dusk lights and two probe sets), to 3 minutes.
+export const AUTO_SECONDS_PER_SCENE = 15 * 60,
+  AUTO_TRANSITION_SECONDS = 3 * 60;
+export function timeOfDay(mode: LightingMode, elapsedSeconds: number): number {
   if (mode !== 'auto') return { day: 0, evening: 1, night: 2 }[mode];
-  return (round > 1 ? 1 : 0) + { sauna: 0, water: 0.5, totonou: 1 }[stage];
+  const scenes = Math.max(0, elapsedSeconds) / AUTO_SECONDS_PER_SCENE;
+  const scene = Math.floor(scenes);
+  const hold = 1 - AUTO_TRANSITION_SECONDS / AUTO_SECONDS_PER_SCENE;
+  return Math.min(2, scene + THREE.MathUtils.clamp((scenes - scene - hold) / (1 - hold), 0, 1));
 }
 
 /** Weights of the Daylight, Blue hour and Night scenes at a time of day (at most two are not 0). */
