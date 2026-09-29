@@ -523,6 +523,77 @@ export function lightThroughWater(toLight: THREE.Vector3, level = WATER_VOLUME.m
   );
 }
 
+// The highlights' shadows. The light reaches the floor refracted: from the tile it rises along its
+// direction in the air through the 1.3 cm gap, much steeper through the water, and on along the
+// same direction again above the surface. The straight line from the floor to the lounge dusk fill
+// runs under the far coping, so its shadow at the floor removed 85% of that highlight inside the
+// dusk disks, where in Cycles it makes a fifth of their light and shows the tiles' joints and a
+// brighter middle (docs/3d-qa/water-bottom-gloss). Under the water the spot lights' shadows (used
+// by nothing but these highlights there) are looked up where the refracted path to the light
+// leaves the surface; a path that meets a side of the water first does not reach the light.
+// The floor is told by its own height: the shadows' normal offset (1.5 cm for the dusk fill) lifts
+// the tiles' tops over the water's bottom.
+
+/** Horizontal run from a floor point to where the refracted path to the light leaves the surface. */
+export function wetExitRun(floorY: number, toLight: THREE.Vector3, level = WATER_VOLUME.max.y) {
+  const d = toLight.clone().normalize();
+  const sine = Math.hypot(d.x, d.z);
+  const water = sine / WATER_IOR;
+  return ((WATER_BOTTOM - floorY) * sine) / d.y + ((level - WATER_BOTTOM) * water) / Math.sqrt(1 - water * water);
+}
+
+/** The position of a spot light from its shadow matrix: the point its x, y and w rows map to 0. */
+export function shadowSource(matrix: THREE.Matrix4) {
+  const e = matrix.elements;
+  const row = (r: number) => [new THREE.Vector3(e[r], e[4 + r], e[8 + r]), e[12 + r]] as const;
+  const [[a, aw], [b, bw], [c, cw]] = [row(0), row(1), row(3)];
+  const bc = new THREE.Vector3().crossVectors(b, c);
+  const ca = new THREE.Vector3().crossVectors(c, a);
+  const ab = new THREE.Vector3().crossVectors(a, b);
+  const determinant = a.dot(bc);
+  return bc
+    .multiplyScalar(aw)
+    .addScaledVector(ca, bw)
+    .addScaledVector(ab, cw)
+    .multiplyScalar(-1 / determinant);
+}
+
+function wetExitGlsl() {
+  return /* glsl */ `
+float suiWetExitRun( const in float floorY, const in vec3 toLight ) {
+	float sine = length( toLight.xz );
+	float water = sine / ${f(WATER_IOR)};
+	return ( ${f(WATER_BOTTOM)} - floorY ) * sine / toLight.y + ( float( SUI_REFRACTION ) - ${f(WATER_BOTTOM)} ) * water / sqrt( 1.0 - water * water );
+}
+`;
+}
+
+/** GLSL (shadowmap_pars_vertex): suiWetShadowPoint moves a floor point to its path's exit. */
+export function wetShadowGlsl() {
+  const { min, max } = WATER_VOLUME;
+  const m = SIDE_WALL_LAYER;
+  return /* glsl */ `
+#if defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION ) && NUM_SPOT_LIGHT_COORDS > 0
+${wetExitGlsl()}
+vec4 suiWetShadowPoint( const in vec4 point, const in vec4 biased, const in mat4 matrix ) {
+	if ( point.y >= ${f(WATER_BOTTOM)} || any( lessThan( point.xz, vec2( ${f(min.x - m)}, ${f(min.z - m)} ) ) ) || any( greaterThan( point.xz, vec2( ${f(max.x + m)}, ${f(max.z + m)} ) ) ) ) return biased;
+	vec4 a = vec4( matrix[ 0 ][ 0 ], matrix[ 1 ][ 0 ], matrix[ 2 ][ 0 ], matrix[ 3 ][ 0 ] );
+	vec4 b = vec4( matrix[ 0 ][ 1 ], matrix[ 1 ][ 1 ], matrix[ 2 ][ 1 ], matrix[ 3 ][ 1 ] );
+	vec4 c = vec4( matrix[ 0 ][ 3 ], matrix[ 1 ][ 3 ], matrix[ 2 ][ 3 ], matrix[ 3 ][ 3 ] );
+	vec3 bc = cross( b.xyz, c.xyz );
+	float determinant = dot( a.xyz, bc );
+	if ( abs( determinant ) < 1e-12 ) return biased;
+	vec3 source = - ( a.w * bc + b.w * cross( c.xyz, a.xyz ) + c.w * cross( a.xyz, b.xyz ) ) / determinant;
+	vec3 toLight = normalize( source - point.xyz );
+	float sine = length( toLight.xz );
+	if ( toLight.y <= 0.0 || sine < 1e-6 ) return biased;
+	vec2 exit = point.xz + toLight.xz / sine * suiWetExitRun( point.y, toLight );
+	return vec4( exit.x, float( SUI_REFRACTION ), exit.y, 1.0 );
+}
+#endif
+`;
+}
+
 /**
  * GLSL (lights_physical_pars_fragment): suiWetLight tells which of wetGlossLights() a spot light
  * at a view-space position is (−1 for none); suiWetSpecular adds light `index`'s highlight
@@ -535,6 +606,7 @@ export function wetSpecularGlsl() {
   const m = SIDE_WALL_LAYER;
   return /* glsl */ `
 #if defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION )
+${wetExitGlsl()}
 int suiWetLight( const in vec3 lightPosition ) {
 	vec3 source = ( ( vec4( lightPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
 ${lights
@@ -548,6 +620,9 @@ void suiWetSpecular( const in int index, const in vec3 color, const in vec3 ligh
 	if ( color == vec3( 0.0 ) || wetView.y >= 0.0 || point.y >= ${f(WATER_BOTTOM)} || any( lessThan( point.xz, vec2( ${f(min.x - m)}, ${f(min.z - m)} ) ) ) || any( greaterThan( point.xz, vec2( ${f(max.x + m)}, ${f(max.z + m)} ) ) ) ) return;
 	vec3 toLight = inverseTransformDirection( lightDirection, viewMatrix );
 	if ( toLight.y <= 0.0 ) return;
+	float sine = length( toLight.xz );
+	vec2 exit = point.xz + toLight.xz / max( sine, 1e-6 ) * suiWetExitRun( point.y, toLight );
+	if ( any( lessThan( exit, vec2( ${f(min.x)}, ${f(min.z)} ) ) ) || any( greaterThan( exit, vec2( ${f(max.x)}, ${f(max.z)} ) ) ) ) return;
 	float cosine = sqrt( 1.0 - ( 1.0 - toLight.y * toLight.y ) / ${f(WATER_IOR ** 2)} );
 	float pass = 1.0 - suiWaterAirReflectance( cosine );
 	vec3 through = pass * pass * ${vec3(WATER_TINT.map((t) => t * t))} * exp( - ${vec3(WATER_ABSORPTION)} * ( float( SUI_REFRACTION ) - ${f(WATER_BOTTOM)} ) / cosine );
@@ -591,6 +666,14 @@ if ( suiUnderwater ) {
 #endif
 `;
 
+// The spot lights' shadow coordinates of shadowmap_vertex, at the path's exit under the water.
+const SPOT_COORD = 'vSpotLightCoord[ i ] = spotLightMatrix[ i ] * shadowWorldPosition;';
+const WET_COORD = `#if ${WET}
+		vSpotLightCoord[ i ] = spotLightMatrix[ i ] * suiWetShadowPoint( worldPosition, shadowWorldPosition, spotLightMatrix[ i ] );
+		#else
+		${SPOT_COORD}
+		#endif`;
+
 // three 0.186 is pinned; refraction.ts has added the view tint and lighting.ts DRY_ONLY.
 if (!THREE.ShaderChunk.lights_pars_begin.includes('suiBottomReflection')) {
   const opaque = THREE.ShaderChunk.opaque_fragment;
@@ -604,12 +687,15 @@ if (!THREE.ShaderChunk.lights_pars_begin.includes('suiBottomReflection')) {
     start < 0 ||
     spot < 0 ||
     after < spot ||
+    THREE.ShaderChunk.shadowmap_vertex.split(SPOT_COORD).length !== 2 ||
     !begin.includes('suiWorldPosition') ||
     wetGlossLights().length !== 2
   )
     throw new Error('three shader chunks changed; update waterBottom.ts');
   THREE.ShaderChunk.lights_pars_begin += bottomGlsl();
   THREE.ShaderChunk.lights_physical_pars_fragment += wetSpecularGlsl();
+  THREE.ShaderChunk.shadowmap_pars_vertex += wetShadowGlsl();
+  THREE.ShaderChunk.shadowmap_vertex = THREE.ShaderChunk.shadowmap_vertex.replace(SPOT_COORD, WET_COORD);
   THREE.ShaderChunk.lights_fragment_begin =
     begin.slice(0, start) +
     WET_BEFORE +

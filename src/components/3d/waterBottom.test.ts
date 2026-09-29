@@ -15,10 +15,12 @@ import {
   lightThroughWater,
   PROBE_POINT,
   RIM_HEIGHT,
+  shadowSource,
   shBasis,
   sourceSH,
   upwardExit,
   WATER_BOTTOM,
+  wetExitRun,
   wetGlossLights,
 } from './waterBottom';
 import { WATER_ABSORPTION, WATER_TINT } from './refraction';
@@ -267,5 +269,49 @@ describe('light highlights on the floor below the water', () => {
     expect(begin.indexOf('suiWetLight(')).toBeLessThan(
       begin.indexOf('#pragma unroll_loop_end', begin.indexOf('spotLight = spotLights[ i ];')),
     );
+  });
+
+  it('finds a spot light from its shadow matrix', () => {
+    const light = new THREE.SpotLight(0xffffff, 1, 0, Math.PI / 2, 1, 2);
+    light.position.set(5.9, 2.8, 1.4);
+    light.target.position.set(5.9 - 0.3142, 2.8 - 0.6569, 1.4 - 0.6854);
+    light.shadow.camera.near = 0.1;
+    light.shadow.camera.far = 20;
+    light.shadow.focus = 0.8;
+    light.updateMatrixWorld();
+    light.target.updateMatrixWorld();
+    light.shadow.updateMatrices(light);
+    const source = shadowSource(light.shadow.matrix);
+    expect(source.distanceTo(light.position)).toBeLessThan(1e-4);
+  });
+
+  it('runs the refracted path to the light up through the gap and the water', () => {
+    expect(wetExitRun(0.202, new THREE.Vector3(0, 1, 0))).toBe(0);
+    const toLight = new THREE.Vector3(0.8, 0.6, 0);
+    const water = 0.8 / WATER_IOR;
+    const run = (0.8 / 0.6) * (WATER_BOTTOM - 0.202) + ((LEVEL - WATER_BOTTOM) * water) / Math.sqrt(1 - water * water);
+    expect(wetExitRun(0.202, toLight)).toBeCloseTo(run, 9);
+    // Steeper in the water than the straight line.
+    expect(wetExitRun(0.202, toLight)).toBeLessThan(((LEVEL - 0.202) * 0.8) / 0.6);
+  });
+
+  it('lets the dusk fill reach the middle of the floor over the coping that the straight line meets', () => {
+    const [{ position }] = wetGlossLights().filter(({ name }) => name === 'V10 lounge dusk fill');
+    const floor = new THREE.Vector3(1.2, 0.202, -2.5);
+    const toLight = new THREE.Vector3().fromArray(position).sub(floor).normalize();
+    expect(clearsRim(floor, toLight)).toBe(false);
+    const sine = Math.hypot(toLight.x, toLight.z);
+    const run = wetExitRun(floor.y, toLight);
+    const exit = new THREE.Vector3(floor.x + (toLight.x / sine) * run, LEVEL, floor.z + (toLight.z / sine) * run);
+    expect(exit.x).toBeLessThan(WATER_VOLUME.max.x);
+    expect(exit.z).toBeGreaterThan(WATER_VOLUME.min.z);
+    expect(clearsRim(exit, new THREE.Vector3().fromArray(position).sub(exit).normalize())).toBe(true);
+  });
+
+  it("looks up the spot lights' shadows under the water at the path's exit", () => {
+    expect(THREE.ShaderChunk.shadowmap_vertex).toContain(
+      'suiWetShadowPoint( worldPosition, shadowWorldPosition, spotLightMatrix[ i ] )',
+    );
+    expect(THREE.ShaderChunk.shadowmap_pars_vertex.split('vec4 suiWetShadowPoint(')).toHaveLength(2);
   });
 });

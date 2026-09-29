@@ -1,0 +1,384 @@
+{
+ "inputs": {
+  "gloss.json": "660930685478aafb32ef2588f6a244233ff8fd1a5221f1404ab587605da446f6",
+  "day-0-level": {
+   "before": "df869c502cf56fd6af33bccdc10fd6e783fdf228a5f75fda02276db2785a9222",
+   "after": "b56f9f1ba6dfcec6306795212d833f50218d611460b6bf4a64069529942e5f58",
+   "cycles": "7287eaf7f46c3f10864713093920843ff58e90ba75418d2fb3644fd8134f96c3"
+  },
+  "day-1-down": {
+   "before": "52d095f5d27a0b7a5431eb2920a6d0e1f18a4da06ae15ba5edf26579985466e4",
+   "after": "4da0e2f491d1604d15393e12c8e4d0c14e90f675e6b75ccedcfcd9b26558fdf4",
+   "cycles": "93e7a1ffbfa946575108b488a0264c68b014081b49c400eef017801370c55fe3"
+  },
+  "day-2-level": {
+   "before": "284dbfe6905927e7a6da739cf96885e965039a9f78c39c6610bc815770bbfce7",
+   "after": "e5c649eb1023cf74bcb5e72b0cacf558a510b9b3ec02f5ff0c504bf1ec3f633c",
+   "cycles": "78f19d2fb6fd119a16ee0d7d2bec5214e85177a35c2a17cefb74a96c47854a22"
+  },
+  "day-4-level": {
+   "before": "a60293654633bd154805b4eccda5c049f9626ea86fc106f650daa15ca769ea2e",
+   "after": "0be4d5987e3b1a3b324194b2989c3f214d26346bba814596e4b956fdca962cdd",
+   "cycles": "bbfd3caf863de57612340f7e7e057db42d2fb917d6439308da4b8383f5dc5123"
+  },
+  "evening-0-level": {
+   "before": "765a556e8d93d62cac1f69e593db8f77544fd51431f4eda088691c2304432090",
+   "after": "0062e8a2e0b6125adf1f2a9227f804f04c47107e6835ecfa88e37e3610d0b217",
+   "cycles": "832c4d64626041a20314c382f94376a5fc5a8411325bd11c2c560d19db43c78b"
+  },
+  "evening-1-down": {
+   "before": "a23cc9fc5f3b2662df8a3d139fe5095a07e73fc5ad0b85455d69a23bf0d1dd44",
+   "after": "3404680112932a19617350fbd5a1bfe1ec4e3a46a5cc53d63917703e40f2b82e",
+   "cycles": "c75f1533394c7ca405e70d796d5fcf769c9807efad39b734fae28c7de8e9f591"
+  },
+  "evening-2-level": {
+   "before": "473a42ff305b92b71b8bd04487dc4ba619c3aabf60c494c4823325bca1b79a10",
+   "after": "6f8892290bd82edfb5ed8e687b691d9aad35527cb392f9aec606b9dd6b581ab6",
+   "cycles": "84a82d5fbaddd3030a61ae9eeef6f40d7b09f8af08f61116058a2a8d18f0db03"
+  },
+  "evening-4-level": {
+   "before": "d928ce1f7c85f38e61c80593ff773c1f2cb21854e2c571b52823e966fab95941",
+   "after": "850d85fa3f02e1f7911e93f35fc2a585231234eb9f8e1056f99eeff5c69af0ca",
+   "cycles": "07075c59771a377161c73f0004bed0c087ebc29886e1145c0d8e337d1c772f32"
+  },
+  "night-0-level": {
+   "before": "2c5ae1c156390139eedbb068d0e52ff38d7b9c542fdfb1888e68febf84cf1a88",
+   "after": "40d54f16cdce8c8c2f44cec3e014097871943e8b09303122808279873996c5e5",
+   "cycles": "6a0bbf48df05416488166196e91cf299590a811f7860f5dbdbe7b4309569bbc7"
+  },
+  "night-1-down": {
+   "before": "5c3fe81e0e1de8a6fd9d89aa87eba9fccdcd3e6858995188e8729ea0e9fad068",
+   "after": "4f4d360575a918c91dd8c24b685c9fb55871c1a383fce453b93f76eba6ff19fa",
+   "cycles": "b4e8c902176764a0bb20db14d3f06894af874b29f753d712fe48457f01d30b01"
+  },
+  "night-2-level": {
+   "before": "9d53655db8c06f09fc60edb96467c312efc5f8804ab87ae4538c7323cbda12ba",
+   "after": "09b3a2e47b1e7656af1616a42fb85edaa30576d9da8c2799cd25cf1da23b1601",
+   "cycles": "9734e5ccae8afb4908a37159d55c57f5a83c7574081ee503b5c9d4388cd73675"
+  },
+  "night-4-level": {
+   "before": "fb05c7e46b8c38543ee4adc614ff1888dc4d9a1963ad96420c9b93f570cad25c",
+   "after": "6101da8453a97a0be2569f26e0a044d4b8b049613f23abc94f0bab8b53b5769c",
+   "cycles": "ce141b5a349efc26753bd4627688e488484e416a90a6c863c30e99b4b8e30410"
+  }
+ },
+ "cycles": {
+  "blendSha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "samples": 512,
+  "tileMaterial": {
+   "Roughness": 0.30000001192092896,
+   "Specular IOR Level": 0.5,
+   "IOR": 1.5,
+   "Metallic": 0.0
+  },
+  "spotMeanLinear": {
+   "1-down": {
+    "base": {
+     "Combined": 0.4266747534275055,
+     "Combined_fill": 0.3712664246559143
+    },
+    "spec0": {
+     "Combined": 0.34030798077583313,
+     "Combined_fill": 0.29497867822647095
+    },
+    "nobottom": {
+     "Combined": 0.030817067250609398,
+     "Combined_fill": 0.011174043640494347
+    },
+    "nobottom-spec0": {
+     "Combined": 0.018884537741541862,
+     "Combined_fill": 0.0018921802984550595
+    }
+   },
+   "2-level": {
+    "base": {
+     "Combined": 0.4145592451095581,
+     "Combined_fill": 0.36025965213775635
+    },
+    "spec0": {
+     "Combined": 0.3334081768989563,
+     "Combined_fill": 0.28856226801872253
+    },
+    "nobottom": {
+     "Combined": 0.03132244944572449,
+     "Combined_fill": 0.011227758601307869
+    },
+    "nobottom-spec0": {
+     "Combined": 0.01924288459122181,
+     "Combined_fill": 0.0018380832625553012
+    }
+   }
+  },
+  "visibility": {
+   "grid": [
+    24,
+    28
+   ],
+   "diskPoints": 216,
+   "mean": {
+    "exactDisk": 0.36800733024691357,
+    "exactCenter": 0.5044642857142857,
+    "productExit": 0.5148809523809523,
+    "straightLine": 0.24107142857142858
+   },
+   "productVsExactCenterAgreement": 0.9895833333333334
+  }
+ },
+ "spot": {
+  "evening-1-down": {
+   "before": {
+    "pixels": 14355,
+    "mean": 166.15,
+    "std": 5.75,
+    "p5": 156.2,
+    "p50": 166.1,
+    "p95": 176.2
+   },
+   "after": {
+    "pixels": 14425,
+    "mean": 170.76,
+    "std": 9.77,
+    "p5": 156.2,
+    "p50": 168.7,
+    "p95": 186.7
+   },
+   "cycles": {
+    "pixels": 13239,
+    "mean": 175.29,
+    "std": 9.12,
+    "p5": 156.9,
+    "p50": 177.5,
+    "p95": 187.5
+   },
+   "cyclesNoTileSpecular": {
+    "pixels": 12776,
+    "mean": 167.92,
+    "std": 7.39,
+    "p5": 154.7,
+    "p50": 168.0,
+    "p95": 179.5
+   }
+  },
+  "evening-2-level": {
+   "before": {
+    "pixels": 16729,
+    "mean": 165.65,
+    "std": 5.71,
+    "p5": 155.6,
+    "p50": 165.3,
+    "p95": 175.3
+   },
+   "after": {
+    "pixels": 16810,
+    "mean": 169.77,
+    "std": 9.69,
+    "p5": 155.3,
+    "p50": 167.2,
+    "p95": 185.7
+   },
+   "cycles": {
+    "pixels": 15593,
+    "mean": 174.83,
+    "std": 8.92,
+    "p5": 156.8,
+    "p50": 176.7,
+    "p95": 186.5
+   },
+   "cyclesNoTileSpecular": {
+    "pixels": 15022,
+    "mean": 167.57,
+    "std": 7.09,
+    "p5": 155.0,
+    "p50": 167.8,
+    "p95": 178.7
+   }
+  },
+  "night-1-down": {
+   "before": {
+    "pixels": 14448,
+    "mean": 174.64,
+    "std": 6.41,
+    "p5": 164.2,
+    "p50": 174.3,
+    "p95": 185.2
+   },
+   "after": {
+    "pixels": 14631,
+    "mean": 178.72,
+    "std": 10.42,
+    "p5": 163.2,
+    "p50": 177.2,
+    "p95": 195.1
+   },
+   "cycles": {
+    "pixels": 13436,
+    "mean": 181.18,
+    "std": 10.01,
+    "p5": 159.6,
+    "p50": 183.8,
+    "p95": 193.2
+   }
+  },
+  "night-2-level": {
+   "before": {
+    "pixels": 16826,
+    "mean": 174.06,
+    "std": 6.3,
+    "p5": 163.8,
+    "p50": 174.2,
+    "p95": 184.6
+   },
+   "after": {
+    "pixels": 16998,
+    "mean": 177.79,
+    "std": 10.19,
+    "p5": 163.0,
+    "p50": 175.6,
+    "p95": 193.2
+   },
+   "cycles": {
+    "pixels": 15807,
+    "mean": 180.76,
+    "std": 9.73,
+    "p5": 159.7,
+    "p50": 183.0,
+    "p95": 192.6
+   }
+  }
+ },
+ "meanDE76": {
+  "day-0-level": {
+   "changedPixels": 1758,
+   "all": {
+    "before": 6.357,
+    "after": 6.356
+   },
+   "changedBand": {
+    "before": 9.087,
+    "after": 9.067
+   }
+  },
+  "day-1-down": {
+   "changedPixels": 3671,
+   "all": {
+    "before": 5.828,
+    "after": 5.827
+   },
+   "changedBand": {
+    "before": 9.554,
+    "after": 9.541
+   }
+  },
+  "day-2-level": {
+   "changedPixels": 729,
+   "all": {
+    "before": 8.292,
+    "after": 8.292
+   },
+   "changedBand": {
+    "before": 11.276,
+    "after": 11.25
+   }
+  },
+  "day-4-level": {
+   "changedPixels": 769,
+   "all": {
+    "before": 5.943,
+    "after": 5.942
+   },
+   "changedBand": {
+    "before": 11.456,
+    "after": 11.456
+   }
+  },
+  "evening-0-level": {
+   "changedPixels": 3260,
+   "all": {
+    "before": 6.384,
+    "after": 6.383
+   },
+   "changedBand": {
+    "before": 6.891,
+    "after": 6.873
+   }
+  },
+  "evening-1-down": {
+   "changedPixels": 33477,
+   "all": {
+    "before": 5.901,
+    "after": 5.859
+   },
+   "changedBand": {
+    "before": 7.288,
+    "after": 7.112
+   }
+  },
+  "evening-2-level": {
+   "changedPixels": 17289,
+   "all": {
+    "before": 9.249,
+    "after": 9.219
+   },
+   "changedBand": {
+    "before": 12.083,
+    "after": 11.456
+   }
+  },
+  "evening-4-level": {
+   "changedPixels": 2309,
+   "all": {
+    "before": 6.652,
+    "after": 6.652
+   },
+   "changedBand": {
+    "before": 8.726,
+    "after": 8.743
+   }
+  },
+  "night-0-level": {
+   "changedPixels": 5076,
+   "all": {
+    "before": 5.561,
+    "after": 5.555
+   },
+   "changedBand": {
+    "before": 7.558,
+    "after": 7.487
+   }
+  },
+  "night-1-down": {
+   "changedPixels": 28221,
+   "all": {
+    "before": 5.919,
+    "after": 5.895
+   },
+   "changedBand": {
+    "before": 7.472,
+    "after": 7.358
+   }
+  },
+  "night-2-level": {
+   "changedPixels": 17031,
+   "all": {
+    "before": 9.693,
+    "after": 9.673
+   },
+   "changedBand": {
+    "before": 11.192,
+    "after": 10.746
+   }
+  },
+  "night-4-level": {
+   "changedPixels": 2137,
+   "all": {
+    "before": 6.176,
+    "after": 6.176
+   },
+   "changedBand": {
+    "before": 9.633,
+    "after": 9.629
+   }
+  }
+ },
+ "script_sha256": "7dc540dfe8929a04cfca8bd62bf531a815164fc208e554b6941afc80df7672ef"
+}

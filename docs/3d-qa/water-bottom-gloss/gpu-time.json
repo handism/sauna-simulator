@@ -1,0 +1,847 @@
+{
+ "before": "HEAD 70af95b",
+ "after": "floor highlight shadows at the refracted path exit",
+ "config": "playwright.gpu.config.ts, e2e/scene-gpu-time.gpu.ts, standard quality, 1200x800",
+ "runs": [
+  {
+   "order": 1,
+   "build": "before",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 184,
+     "gpuMs": {
+      "p10": 75.86775,
+      "median": 81.681416,
+      "p90": 87.420874
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 135,
+     "gpuMs": {
+      "p10": 103.032083,
+      "median": 110.062749,
+      "p90": 117.687124
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 116,
+     "gpuMs": {
+      "p10": 117.1475,
+      "median": 128.662875,
+      "p90": 137.937125
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 207,
+     "gpuMs": {
+      "p10": 59.098458,
+      "median": 66.0745,
+      "p90": 71.415916
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 146,
+     "gpuMs": {
+      "p10": 89.731374,
+      "median": 97.749833,
+      "p90": 106.284291
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 129,
+     "gpuMs": {
+      "p10": 101.990749,
+      "median": 112.018249,
+      "p90": 121.756374
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 172,
+     "gpuMs": {
+      "p10": 80.113125,
+      "median": 84.852083,
+      "p90": 89.789041
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 148,
+     "gpuMs": {
+      "p10": 93.691166,
+      "median": 98.650374,
+      "p90": 103.322916
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 127,
+     "gpuMs": {
+      "p10": 109.817,
+      "median": 115.192124,
+      "p90": 123.339625
+     }
+    }
+   ]
+  },
+  {
+   "order": 2,
+   "build": "after",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 214,
+     "gpuMs": {
+      "p10": 65.579874,
+      "median": 68.723416,
+      "p90": 71.831375
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 149,
+     "gpuMs": {
+      "p10": 91.9575,
+      "median": 97.026249,
+      "p90": 110.002583
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 131,
+     "gpuMs": {
+      "p10": 106.839791,
+      "median": 113.164583,
+      "p90": 124.448583
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 220,
+     "gpuMs": {
+      "p10": 55.806874,
+      "median": 61.660875,
+      "p90": 66.847958
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 151,
+     "gpuMs": {
+      "p10": 89.433916,
+      "median": 97.200874,
+      "p90": 106.609458
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 136,
+     "gpuMs": {
+      "p10": 97.302,
+      "median": 106.129958,
+      "p90": 115.317874
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 174,
+     "gpuMs": {
+      "p10": 78.840874,
+      "median": 84.104458,
+      "p90": 87.977041
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 153,
+     "gpuMs": {
+      "p10": 90.364125,
+      "median": 94.571958,
+      "p90": 98.976
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 132,
+     "gpuMs": {
+      "p10": 104.508916,
+      "median": 109.413249,
+      "p90": 114.464791
+     }
+    }
+   ]
+  },
+  {
+   "order": 3,
+   "build": "after",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 210,
+     "gpuMs": {
+      "p10": 66.978791,
+      "median": 70.621583,
+      "p90": 75.849416
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 156,
+     "gpuMs": {
+      "p10": 90.062499,
+      "median": 94.170625,
+      "p90": 100.721875
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 138,
+     "gpuMs": {
+      "p10": 103.227166,
+      "median": 107.502749,
+      "p90": 112.351499
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 212,
+     "gpuMs": {
+      "p10": 55.205708,
+      "median": 61.604166,
+      "p90": 67.675125
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 149,
+     "gpuMs": {
+      "p10": 84.098624,
+      "median": 94.418416,
+      "p90": 102.597333
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 133,
+     "gpuMs": {
+      "p10": 98.026125,
+      "median": 107.208249,
+      "p90": 117.949999
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 175,
+     "gpuMs": {
+      "p10": 78.312999,
+      "median": 82.729416,
+      "p90": 86.941749
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 151,
+     "gpuMs": {
+      "p10": 90.722666,
+      "median": 95.022166,
+      "p90": 99.308875
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 131,
+     "gpuMs": {
+      "p10": 104.785958,
+      "median": 110.87775,
+      "p90": 120.695749
+     }
+    }
+   ]
+  },
+  {
+   "order": 4,
+   "build": "before",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 181,
+     "gpuMs": {
+      "p10": 70.753375,
+      "median": 82.104999,
+      "p90": 92.538958
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 150,
+     "gpuMs": {
+      "p10": 82.164041,
+      "median": 99.699708,
+      "p90": 122.296916
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 137,
+     "gpuMs": {
+      "p10": 92.116249,
+      "median": 106.452041,
+      "p90": 133.812333
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 202,
+     "gpuMs": {
+      "p10": 53.962624,
+      "median": 69.581749,
+      "p90": 80.833624
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 134,
+     "gpuMs": {
+      "p10": 102.512291,
+      "median": 111.925708,
+      "p90": 123.062
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 118,
+     "gpuMs": {
+      "p10": 115.477458,
+      "median": 124.053499,
+      "p90": 138.643333
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 157,
+     "gpuMs": {
+      "p10": 88.692999,
+      "median": 96.317749,
+      "p90": 101.20475
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 138,
+     "gpuMs": {
+      "p10": 98.382999,
+      "median": 107.141166,
+      "p90": 114.453458
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 122,
+     "gpuMs": {
+      "p10": 114.020999,
+      "median": 121.387333,
+      "p90": 130.126999
+     }
+    }
+   ]
+  },
+  {
+   "order": 5,
+   "build": "before",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 231,
+     "gpuMs": {
+      "p10": 60.856874,
+      "median": 63.949291,
+      "p90": 67.922583
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 185,
+     "gpuMs": {
+      "p10": 78.279875,
+      "median": 79.458666,
+      "p90": 82.00625
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 160,
+     "gpuMs": {
+      "p10": 89.565333,
+      "median": 90.932666,
+      "p90": 93.945499
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 228,
+     "gpuMs": {
+      "p10": 50.261916,
+      "median": 57.011499,
+      "p90": 62.612999
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 162,
+     "gpuMs": {
+      "p10": 78.597958,
+      "median": 89.668,
+      "p90": 98.132375
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 146,
+     "gpuMs": {
+      "p10": 90.177208,
+      "median": 99.696291,
+      "p90": 108.363875
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 185,
+     "gpuMs": {
+      "p10": 72.788833,
+      "median": 77.789999,
+      "p90": 82.348041
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 160,
+     "gpuMs": {
+      "p10": 85.872916,
+      "median": 89.519541,
+      "p90": 93.752999
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 141,
+     "gpuMs": {
+      "p10": 97.608208,
+      "median": 102.706749,
+      "p90": 107.841541
+     }
+    }
+   ]
+  },
+  {
+   "order": 6,
+   "build": "after",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 203,
+     "gpuMs": {
+      "p10": 68.14225,
+      "median": 73.069708,
+      "p90": 78.224708
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 155,
+     "gpuMs": {
+      "p10": 92.418999,
+      "median": 97.414375,
+      "p90": 103.248749
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 134,
+     "gpuMs": {
+      "p10": 104.015833,
+      "median": 110.730374,
+      "p90": 116.455999
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 222,
+     "gpuMs": {
+      "p10": 52.5065,
+      "median": 60.897749,
+      "p90": 65.827333
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 158,
+     "gpuMs": {
+      "p10": 79.990833,
+      "median": 89.263375,
+      "p90": 97.945124
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 140,
+     "gpuMs": {
+      "p10": 92.503708,
+      "median": 101.105499,
+      "p90": 111.696166
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 178,
+     "gpuMs": {
+      "p10": 75.953958,
+      "median": 80.69975,
+      "p90": 86.420166
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 156,
+     "gpuMs": {
+      "p10": 85.603375,
+      "median": 91.444749,
+      "p90": 97.948624
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 130,
+     "gpuMs": {
+      "p10": 107.209124,
+      "median": 115.0815,
+      "p90": 121.500999
+     }
+    }
+   ]
+  },
+  {
+   "order": 7,
+   "build": "after",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 222,
+     "gpuMs": {
+      "p10": 62.468333,
+      "median": 66.040875,
+      "p90": 70.928999
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 169,
+     "gpuMs": {
+      "p10": 79.935333,
+      "median": 86.455749,
+      "p90": 97.366625
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 161,
+     "gpuMs": {
+      "p10": 90.011583,
+      "median": 91.355916,
+      "p90": 94.279166
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 228,
+     "gpuMs": {
+      "p10": 48.420916,
+      "median": 54.481291,
+      "p90": 62.17525
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 162,
+     "gpuMs": {
+      "p10": 78.123958,
+      "median": 89.450374,
+      "p90": 100.646125
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 142,
+     "gpuMs": {
+      "p10": 91.928833,
+      "median": 104.062166,
+      "p90": 114.454624
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 182,
+     "gpuMs": {
+      "p10": 73.818374,
+      "median": 79.039749,
+      "p90": 83.613499
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 157,
+     "gpuMs": {
+      "p10": 87.167833,
+      "median": 91.936666,
+      "p90": 97.139916
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 138,
+     "gpuMs": {
+      "p10": 99.518749,
+      "median": 105.700999,
+      "p90": 109.796374
+     }
+    }
+   ]
+  },
+  {
+   "order": 8,
+   "build": "before",
+   "results": [
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "day",
+     "frames": 237,
+     "gpuMs": {
+      "p10": 59.172291,
+      "median": 61.746666,
+      "p90": 65.83675
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "evening",
+     "frames": 180,
+     "gpuMs": {
+      "p10": 79.325666,
+      "median": 81.469541,
+      "p90": 93.827
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "sauna",
+     "lighting": "night",
+     "frames": 151,
+     "gpuMs": {
+      "p10": 88.591375,
+      "median": 97.969208,
+      "p90": 108.475
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 206,
+     "gpuMs": {
+      "p10": 59.9885,
+      "median": 66.386291,
+      "p90": 72.306041
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 149,
+     "gpuMs": {
+      "p10": 85.047249,
+      "median": 94.815166,
+      "p90": 103.72525
+     }
+    },
+    {
+     "view": "stage",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 132,
+     "gpuMs": {
+      "p10": 99.750166,
+      "median": 108.432375,
+      "p90": 119.199541
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "day",
+     "frames": 177,
+     "gpuMs": {
+      "p10": 78.439458,
+      "median": 83.453333,
+      "p90": 87.482625
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "evening",
+     "frames": 151,
+     "gpuMs": {
+      "p10": 90.907875,
+      "median": 95.36075,
+      "p90": 100.081708
+     }
+    },
+    {
+     "view": "camera-03",
+     "stage": "water",
+     "lighting": "night",
+     "frames": 132,
+     "gpuMs": {
+      "p10": 107.997833,
+      "median": 113.062458,
+      "p90": 117.716208
+     }
+    }
+   ]
+  }
+ ]
+}
