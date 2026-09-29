@@ -1,0 +1,93 @@
+{
+ "summarySha256": "a3e95621736e8ecf83f6c920c72622fefa9638158c2445f1d0ecef018f59f5d2",
+ "size": [
+  320,
+  200
+ ],
+ "runs": {
+  "water-12": {
+   "frames": 5019,
+   "unchangedFrames": 811,
+   "segments": {
+    "ramp": {
+     "seconds": 130.0,
+     "meanLumaStartEnd": [
+      129.56,
+      96.13
+     ],
+     "diffP50": 0.558,
+     "diffP99": 1.448,
+     "diffMax": 2.481,
+     "diffMaxAtSeconds": 175.72,
+     "keyframeDiffMax": 3.485,
+     "highPassTriples": 2498,
+     "highPassMean": 0.4537,
+     "highPassBlockMax": 3.316
+    },
+    "hold": {
+     "seconds": 13.0,
+     "meanLumaStartEnd": [
+      95.13,
+      96.76
+     ],
+     "diffP50": 0.562,
+     "diffP99": 1.748,
+     "diffMax": 2.323,
+     "diffMaxAtSeconds": 186.72,
+     "keyframeDiffMax": 2.556,
+     "highPassTriples": 255,
+     "highPassMean": 0.4222,
+     "highPassBlockMax": 2.583
+    }
+   },
+   "rampBlocksOverTwiceHold": 2,
+   "mirrorBandPowerRatio": 0.537,
+   "perPixelChangePerMirrorStep": {
+    "p99": 0.156,
+    "max": 0.176
+   }
+  },
+  "totonou-27": {
+   "frames": 5049,
+   "unchangedFrames": 3073,
+   "segments": {
+    "ramp": {
+     "seconds": 130.0,
+     "meanLumaStartEnd": [
+      93.39,
+      54.66
+     ],
+     "diffP50": 0.021,
+     "diffP99": 0.497,
+     "diffMax": 1.224,
+     "diffMaxAtSeconds": 76.52,
+     "keyframeDiffMax": 2.187,
+     "highPassTriples": 604,
+     "highPassMean": 0.1177,
+     "highPassBlockMax": 0.18
+    },
+    "hold": {
+     "seconds": 13.0,
+     "meanLumaStartEnd": [
+      53.58,
+      53.13
+     ],
+     "diffP50": 0.0,
+     "diffP99": 0.305,
+     "diffMax": 0.637,
+     "diffMaxAtSeconds": 184.04,
+     "keyframeDiffMax": 1.929,
+     "highPassTriples": 2,
+     "highPassMean": 0.25,
+     "highPassBlockMax": 0.446
+    }
+   },
+   "rampBlocksOverTwiceHold": 0,
+   "mirrorBandPowerRatio": 0.716,
+   "perPixelChangePerMirrorStep": {
+    "p99": 0.202,
+    "max": 0.228
+   }
+  }
+ }
+}
