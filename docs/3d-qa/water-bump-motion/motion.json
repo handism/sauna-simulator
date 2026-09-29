@@ -1,0 +1,158 @@
+{
+ "inputs": {
+  "before": {
+   "hashes": {
+    "src/components/3d/waterBottom.ts": "a5a7b0da77a66ed338a763da340e9616dbfe795480e1fc848eb0d8c1877a5bbc",
+    "src/components/3d/waterEffects.ts": "4b8b432bf4a1fcf908be9d2a46e4b22f34cdeb0f55b423d960ce2d0a80fa1889",
+    "e2e/water-bump-motion.visual.ts": "a3e26d70957335bfb4e63fd6b8207be5ff1c7c2ad440a1357607495b2d2f84cc",
+    "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+    "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8"
+   },
+   "browser": "154.0.8037.58",
+   "stepMs": 16.666666666666668
+  },
+  "after": {
+   "hashes": {
+    "src/components/3d/waterBottom.ts": "bdb8f7465a2cd8ad70840415b707c26d196111529295a98c166603354a6d6bca",
+    "src/components/3d/waterEffects.ts": "81ec8d295bb03b997d464380133e9d99a285e57325e220bcbeea653c2ef3b4bc",
+    "e2e/water-bump-motion.visual.ts": "a3e26d70957335bfb4e63fd6b8207be5ff1c7c2ad440a1357607495b2d2f84cc",
+    "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+    "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8"
+   },
+   "browser": "154.0.8037.58",
+   "stepMs": 16.666666666666668
+  }
+ },
+ "frames": 72,
+ "views": {
+  "evening-1-down": {
+   "before": {
+    "patchPixels": 14075,
+    "roughness": {
+     "perFrame": 0.474,
+     "mean100ms": 0.58
+    },
+    "flipsPerOutlinePixelPerFrame": 0.925,
+    "flipsBackWithin3Frames": 0.042,
+    "highPass": {
+     "nearOutline": 3.582,
+     "elsewhere": 0.306,
+     "nearOutlineP99": 10.61
+    },
+    "over10HzShareNearOutline": 0.065
+   },
+   "after": {
+    "patchPixels": 13982,
+    "roughness": {
+     "perFrame": 0.706,
+     "mean100ms": 0.767
+    },
+    "flipsPerOutlinePixelPerFrame": 0.82,
+    "flipsBackWithin3Frames": 0.044,
+    "highPass": {
+     "nearOutline": 3.502,
+     "elsewhere": 0.313,
+     "nearOutlineP99": 10.59
+    },
+    "over10HzShareNearOutline": 0.064
+   }
+  },
+  "evening-2-level": {
+   "before": {
+    "patchPixels": 16270,
+    "roughness": {
+     "perFrame": 0.448,
+     "mean100ms": 0.507
+    },
+    "flipsPerOutlinePixelPerFrame": 1.025,
+    "flipsBackWithin3Frames": 0.044,
+    "highPass": {
+     "nearOutline": 3.589,
+     "elsewhere": 0.209,
+     "nearOutlineP99": 10.49
+    },
+    "over10HzShareNearOutline": 0.063
+   },
+   "after": {
+    "patchPixels": 16142,
+    "roughness": {
+     "perFrame": 0.709,
+     "mean100ms": 0.776
+    },
+    "flipsPerOutlinePixelPerFrame": 0.88,
+    "flipsBackWithin3Frames": 0.041,
+    "highPass": {
+     "nearOutline": 3.467,
+     "elsewhere": 0.214,
+     "nearOutlineP99": 10.39
+    },
+    "over10HzShareNearOutline": 0.062
+   }
+  },
+  "night-1-down": {
+   "before": {
+    "patchPixels": 14204,
+    "roughness": {
+     "perFrame": 0.383,
+     "mean100ms": 0.498
+    },
+    "flipsPerOutlinePixelPerFrame": 0.937,
+    "flipsBackWithin3Frames": 0.046,
+    "highPass": {
+     "nearOutline": 3.988,
+     "elsewhere": 0.243,
+     "nearOutlineP99": 11.12
+    },
+    "over10HzShareNearOutline": 0.064
+   },
+   "after": {
+    "patchPixels": 14092,
+    "roughness": {
+     "perFrame": 0.673,
+     "mean100ms": 0.73
+    },
+    "flipsPerOutlinePixelPerFrame": 0.825,
+    "flipsBackWithin3Frames": 0.046,
+    "highPass": {
+     "nearOutline": 3.866,
+     "elsewhere": 0.25,
+     "nearOutlineP99": 10.85
+    },
+    "over10HzShareNearOutline": 0.064
+   }
+  },
+  "night-2-level": {
+   "before": {
+    "patchPixels": 16495,
+    "roughness": {
+     "perFrame": 0.445,
+     "mean100ms": 0.499
+    },
+    "flipsPerOutlinePixelPerFrame": 1.005,
+    "flipsBackWithin3Frames": 0.044,
+    "highPass": {
+     "nearOutline": 4.006,
+     "elsewhere": 0.18,
+     "nearOutlineP99": 11.69
+    },
+    "over10HzShareNearOutline": 0.062
+   },
+   "after": {
+    "patchPixels": 16313,
+    "roughness": {
+     "perFrame": 0.709,
+     "mean100ms": 0.744
+    },
+    "flipsPerOutlinePixelPerFrame": 0.851,
+    "flipsBackWithin3Frames": 0.043,
+    "highPass": {
+     "nearOutline": 3.891,
+     "elsewhere": 0.185,
+     "nearOutlineP99": 11.65
+    },
+    "over10HzShareNearOutline": 0.062
+   }
+  }
+ },
+ "script_sha256": "f8b1ad6eabda3eb1d63ede30bd60270b03138f6fde31bf298dafdfcbc87e8dd9"
+}
