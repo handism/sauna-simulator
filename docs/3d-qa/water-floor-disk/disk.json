@@ -1,0 +1,82 @@
+{
+ "grid": [
+  40,
+  48
+ ],
+ "camera": [
+  1.18,
+  1.12,
+  -2.7
+ ],
+ "alpha": 0.09,
+ "lights": {
+  "V9 lounge patch of sunlight": {
+   "current": {
+    "sum": 0.9773,
+    "sumTop20": 0.9614,
+    "l1": 0.08,
+    "correlation": 0.998
+   },
+   "center": {
+    "sum": 0.9979,
+    "sumTop20": 0.9852,
+    "l1": 0.0711,
+    "correlation": 0.9992
+   },
+   "product": {
+    "sum": 0.9706,
+    "sumTop20": 0.9684,
+    "l1": 0.0294,
+    "correlation": 1.0
+   },
+   "product-1step": {
+    "sum": 0.9708,
+    "sumTop20": 0.9687,
+    "l1": 0.0292,
+    "correlation": 1.0
+   },
+   "ring2-exact": {
+    "sum": 0.9675,
+    "sumTop20": 0.9666,
+    "l1": 0.0325,
+    "correlation": 1.0
+   }
+  },
+  "V10 lounge dusk fill": {
+   "current": {
+    "sum": 0.6736,
+    "sumTop20": 0.6702,
+    "l1": 0.411,
+    "correlation": 0.9101
+   },
+   "center": {
+    "sum": 0.8557,
+    "sumTop20": 0.8529,
+    "l1": 0.4007,
+    "correlation": 0.9043
+   },
+   "product": {
+    "sum": 0.9836,
+    "sumTop20": 0.9831,
+    "l1": 0.0918,
+    "correlation": 0.9911
+   },
+   "product-1step": {
+    "sum": 1.0214,
+    "sumTop20": 1.0209,
+    "l1": 0.1071,
+    "correlation": 0.9887
+   },
+   "ring2-exact": {
+    "sum": 1.0003,
+    "sumTop20": 1.0,
+    "l1": 0.0238,
+    "correlation": 0.9995
+   }
+  }
+ },
+ "scripts": {
+  "diagnose_water_floor_disk.py": "45575c71a2cc3dbbd68f10070e44f2174f701119facff344619684c1d5d64690",
+  "water_gloss.py": "d0389c7d102b0687fa8e35bd5152d29be881c02a856e3d1db01721e008669953"
+ }
+}
