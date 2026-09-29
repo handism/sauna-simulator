@@ -8,6 +8,7 @@ import {
   bottomLightRadiance,
   bottomLights,
   bottomReflectance,
+  BUMP_REACH,
   clearsRim,
   DISK_WIDENING,
   lightCoverage,
@@ -166,6 +167,18 @@ describe('water bottom reflection', () => {
     expect(opaque.indexOf('suiBottomReflection(')).toBeLessThan(opaque.indexOf(VIEW_TINT));
     expect(THREE.ShaderChunk.lights_pars_begin).toContain('vec4 suiBottomReflection(');
     expect(THREE.ShaderChunk.lights_pars_begin.split('vec4 suiBottomReflection(')).toHaveLength(2);
+  });
+
+  it('follows the bumped surface only where the smooth view nears what the lights show', () => {
+    const pars = THREE.ShaderChunk.lights_pars_begin;
+    const reflection = pars.slice(pars.indexOf('vec4 suiBottomReflection('));
+    // The noise is guarded, so the caustics' own copy before main() does not define it twice.
+    expect(pars.indexOf('#ifndef SUI_FBM')).toBeLessThan(pars.indexOf('float sui_fbm('));
+    expect(pars.split('vec3 suiWaterBump(')).toHaveLength(2);
+    // One smooth trace, four tilted ones as the test and one bumped trace, whose bump is the only one.
+    expect(reflection.split('suiBottomTrace(')).toHaveLength(4);
+    expect(reflection.indexOf('if ( near )')).toBeLessThan(reflection.indexOf('suiWaterBump('));
+    expect(reflection).toContain(BUMP_REACH.toFixed(6));
   });
 });
 

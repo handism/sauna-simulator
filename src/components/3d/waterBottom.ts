@@ -13,6 +13,8 @@ import {
 import './reflection';
 // Patches the spot lights' loop first (DRY_ONLY).
 import { DIRECT_CALL, DIRECTIONAL_START, DRY_ONLY, SPOT_START } from './lighting';
+import { FBM_GLSL } from './noiseColor';
+import { WATER_BUMP_GLSL } from './waterEffects';
 
 // The bottom of the source water. Its flat bottom face lies 1.3 cm above the tiles with air
 // between, so in Cycles the view that reaches the pool floor crosses one more water–air boundary
@@ -33,6 +35,11 @@ import { DIRECT_CALL, DIRECTIONAL_START, DRY_ONLY, SPOT_START } from './lighting
 // coefficients seen from above the middle of the pool. Views leaving lower than the tub's rim at a
 // side meet the tub and see no light. Light the surface reflects back down returns to the floor:
 // the floor's own color stands in for it.
+//
+// The source's fine bump (waterEffects.ts WATER_BUMP) is on every face of the water: this path
+// takes it where the view enters the surface, reflects off the bottom (twice its slope, the most)
+// and leaves the surface, on top of the waves. It frays the lights' edges as in Cycles. The floor
+// seen through the water keeps the smooth view (the bump moves it by under a millimeter there).
 
 /** The bottom face of the source water, glTF y (the tiles are 1.3 cm below). */
 export const WATER_BOTTOM = WATER_VOLUME.min.y;
@@ -42,6 +49,10 @@ export const RIM_HEIGHT = 1.035;
 const MAX_SIDES = 3;
 /** Half width of the soft edge of a light, relative to its size. */
 export const LIGHT_EDGE = 0.03;
+/** Tilt of the bottom's normal that stands for the bump when testing whether it can matter: the
+ * bump's slopes are 95% under 0.0022 (the bottom's reflection turns the view by twice that, the
+ * surface's crossings by about as much again). */
+export const BUMP_REACH = 0.006;
 
 type Source = (typeof GLOSSY_SOURCES)[number];
 
@@ -311,6 +322,8 @@ export function bottomGlsl() {
   const box = (v: THREE.Vector3) => `vec2( ${f(v.x)}, ${f(v.z)} )`;
   return /* glsl */ `
 #if defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION ) && defined( SUI_REFLECTION )
+${FBM_GLSL}
+${WATER_BUMP_GLSL}
 float suiSideDistance( vec2 p, vec2 d ) {
 	vec2 wall = mix( ${box(min)}, ${box(max)}, step( 0.0, d ) );
 	vec2 t = max( ( wall - p ) / ( sign( d ) * max( abs( d ), vec2( 1e-6 ) ) ), 0.0 );
@@ -325,14 +338,19 @@ vec3 suiBottomLights( vec3 origin, vec3 direction ) {
 ${lightsGlsl()}	return sum;
 }
 ${glossyOnlyGlsl()}
-vec4 suiBottomReflection( vec3 point, vec3 d, vec3 floorColor ) {
-	d = normalize( d );
-	float reflectance = suiWaterAirReflectance( - d.y );
-	vec3 p = point + d * ( ( ${f(WATER_BOTTOM)} - point.y ) / d.y );
-	d.y = - d.y;
-	float weight = 1.0;
-	float path = 0.0;
-	vec3 up = vec3( 0.0 );
+// The view going down at point, reflected up at the bottom about the normal bottom (or its bumped
+// self when bumped) and followed off the sides to where it leaves the surface (about the wave
+// normal, bumped when bumped): there p, the direction it leaves along, n, the side reflectances'
+// product, the path in the water and the surface's reflectance. False when it does not leave.
+bool suiBottomTrace( vec3 point, vec3 d, vec3 bottom, bool bumped, float footprint, out vec3 p, out vec3 leaving, out vec3 n, out float weight, out float path, out float surface ) {
+	p = point + d * ( ( ${f(WATER_BOTTOM)} - point.y ) / d.y );
+	leaving = n = vec3( 0.0, 1.0, 0.0 );
+	weight = 1.0;
+	path = 0.0;
+	surface = 1.0;
+	// The bottom face has the same bumped material.
+	d = reflect( d, bumped ? suiWaterBump( p, bottom, footprint ) : normalize( bottom ) );
+	if ( d.y <= 0.0 ) return false;
 	for ( int i = 0; i <= ${MAX_SIDES}; i ++ ) {
 		vec2 wall = mix( ${box(min)}, ${box(max)}, step( 0.0, d.xz ) );
 		vec2 t = mix( vec2( 1e6 ), max( ( wall - p.xz ) / ( sign( d.xz ) * max( abs( d.xz ), vec2( 1e-6 ) ) ), 0.0 ), step( 1e-6, abs( d.xz ) ) );
@@ -340,18 +358,16 @@ vec4 suiBottomReflection( vec3 point, vec3 d, vec3 floorColor ) {
 		if ( top <= min( t.x, t.y ) ) {
 			p += d * top;
 			path += top;
-			vec3 n = suiWaveNormal( p.xz, suiWaterTime );
+			n = suiWaveNormal( p.xz, suiWaterTime );
+			if ( bumped ) n = suiWaterBump( p, n, footprint );
 			float cosine = dot( d, n );
-			vec3 leaving = refract( d, - n, ${f(WATER_IOR)} );
-			if ( cosine <= 0.0 || dot( leaving, leaving ) == 0.0 ) break;
-			float surface = suiWaterAirReflectance( cosine );
+			leaving = refract( d, - n, ${f(WATER_IOR)} );
+			if ( cosine <= 0.0 || dot( leaving, leaving ) == 0.0 ) return false;
+			surface = suiWaterAirReflectance( cosine );
 			leaving = normalize( leaving );
-			vec3 seen = max( suiReflection( p + n * 0.02, n, leaving, 0.018, false, false ) - suiGlossyOnly( leaving ), 0.0 ) + suiBottomLights( p, leaving );
-			up = weight * ( ( 1.0 - surface ) * ${vec3(WATER_TINT)} * seen + surface * floorColor ) *
-				exp( - ${vec3(WATER_ABSORPTION)} * path );
-			break;
+			return true;
 		}
-		if ( i == ${MAX_SIDES} ) break;
+		if ( i == ${MAX_SIDES} ) return false;
 		bool alongX = t.x < t.y;
 		p += d * min( t.x, t.y );
 		path += min( t.x, t.y );
@@ -359,7 +375,45 @@ vec4 suiBottomReflection( vec3 point, vec3 d, vec3 floorColor ) {
 		if ( alongX ) d.x = - d.x;
 		else d.z = - d.z;
 	}
-	return vec4( up, reflectance );
+	return false;
+}
+// view is the camera's view toward the fragment's image and entryBump whether it enters the water
+// there (not for mirrored images); d is the smooth refracted view.
+vec4 suiBottomReflection( vec3 point, vec3 d, vec3 view, bool entryBump, vec3 floorColor, float footprint ) {
+	d = normalize( d );
+	float reflectance = suiWaterAirReflectance( - d.y );
+	vec3 p, leaving, n;
+	float weight, path, surface;
+	if ( ! suiBottomTrace( point, d, vec3( 0.0, - 1.0, 0.0 ), false, footprint, p, leaving, n, weight, path, surface ) ) return vec4( vec3( 0.0 ), reflectance );
+	vec3 through = ${vec3(WATER_TINT)} * exp( - ${vec3(WATER_ABSORPTION)} * path );
+	vec3 probes = max( suiReflection( p + n * 0.02, n, leaving, 0.018, false, false ) - suiGlossyOnly( leaving ), 0.0 );
+	vec3 up = weight * ( ( 1.0 - surface ) * through * probes + surface * floorColor * exp( - ${vec3(WATER_ABSORPTION)} * path ) );
+	vec3 lights = weight * ( 1.0 - surface ) * through * suiBottomLights( p, leaving );
+	// The bump turns the view by about a hundredth of a radian at most, so it is followed only where
+	// that can change which light the view meets: where the smooth view, reflected about the bottom
+	// tilted by BUMP_REACH four ways, sees the lights differently (near a light's edge, the rim
+	// that hides it or where the path turns off another side). The probes are too smooth to change
+	// with it.
+	bool near = false;
+	vec3 q, l, m;
+	float w, s, r;
+	for ( int k = 0; k < 4; k ++ ) {
+		vec2 tilt = ${f(BUMP_REACH)} * vec2( k == 0 ? 1.0 : k == 1 ? - 1.0 : 0.0, k == 2 ? 1.0 : k == 3 ? - 1.0 : 0.0 );
+		vec3 seen = suiBottomTrace( point, d, vec3( tilt.x, - 1.0, tilt.y ), false, footprint, q, l, m, w, s, r ) ? suiBottomLights( q, l ) : vec3( 0.0 );
+		near = near || any( notEqual( seen, suiBottomLights( p, leaving ) ) );
+	}
+	if ( near ) {
+		vec3 bent = d;
+		if ( entryBump ) {
+			vec3 entry = cameraPosition + view * ( ( cameraPosition.y - float( SUI_REFRACTION ) ) / max( - view.y, 1e-4 ) );
+			vec3 r = refract( view, suiWaterBump( entry, suiWaveNormal( entry.xz, suiWaterTime ), footprint ), ${f(1 / WATER_IOR)} );
+			if ( r.y < 0.0 ) bent = normalize( r );
+		}
+		lights = vec3( 0.0 );
+		if ( suiBottomTrace( point, bent, vec3( 0.0, - 1.0, 0.0 ), true, footprint, p, leaving, n, weight, path, surface ) )
+			lights = weight * ( 1.0 - surface ) * ${vec3(WATER_TINT)} * exp( - ${vec3(WATER_ABSORPTION)} * path ) * suiBottomLights( p, leaving );
+	}
+	return vec4( up + lights, reflectance );
 }
 #endif
 `;
@@ -369,10 +423,17 @@ vec4 suiBottomReflection( vec3 point, vec3 d, vec3 floorColor ) {
 // seen through it and the reflection is added. suiWetView is the refracted view there
 // (refraction.ts), zero for fragments not seen through the water. The foot of the tub walls just
 // behind the sides counts as floor: their mirrored images meet the floor's along the corners.
+// Mirrored images (their view already turned at a side) enter through the smooth surface.
 const BLEND = /* glsl */ `
 #if defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION ) && defined( SUI_REFLECTION )
+float suiFootprint = length( fwidth( suiWorldPosition.xz ) );
+#ifdef SUI_SIDE_IMAGE
+bool suiEntryBump = false;
+#else
+bool suiEntryBump = true;
+#endif
 if ( suiWetView.y < 0.0 && suiWorldPosition.y < ${f(WATER_BOTTOM)} && all( greaterThan( suiWorldPosition.xz, vec2( ${f(WATER_VOLUME.min.x - SIDE_WALL_LAYER)}, ${f(WATER_VOLUME.min.z - SIDE_WALL_LAYER)} ) ) ) && all( lessThan( suiWorldPosition.xz, vec2( ${f(WATER_VOLUME.max.x + SIDE_WALL_LAYER)}, ${f(WATER_VOLUME.max.z + SIDE_WALL_LAYER)} ) ) ) ) {
-	vec4 suiBottom = suiBottomReflection( suiWorldPosition, suiWetView, gl_FragColor.rgb );
+	vec4 suiBottom = suiBottomReflection( suiWorldPosition, suiWetView, normalize( vSuiImage - cameraPosition ), suiEntryBump, gl_FragColor.rgb, suiFootprint );
 	gl_FragColor.rgb = ( 1.0 - suiBottom.a ) * ${vec3(WATER_TINT)} * gl_FragColor.rgb + suiBottom.a * suiBottom.rgb;
 }
 #endif

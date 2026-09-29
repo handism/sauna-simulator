@@ -34,8 +34,10 @@ vec3 sui_ramp( float fac, vec4 stops[ ${NOISE_COLOR_MAX_STOPS} ], int count ) {
 // Port of Blender's shader-node Perlin noise (Jenkins lookup3 hash, quintic fade,
 // 0.982 scale) and normalized FBM, so the pattern matches the Cycles renders.
 // Octaves finer than a pixel fade to their zero mean instead of shimmering; Cycles
-// averages them away across its samples.
+// averages them away across its samples. Guarded: several patches may add it to one shader.
 export const FBM_GLSL = `
+#ifndef SUI_FBM
+#define SUI_FBM
 uint sui_rot( uint x, uint k ) { return ( x << k ) | ( x >> ( 32u - k ) ); }
 uint sui_hash( ivec3 key ) {
 	uint a = 0xdeadbeefu + 25u;
@@ -88,6 +90,7 @@ float sui_fbm( vec3 p, float detail, float roughness, float lacunarity, float fo
 	}
 	return 0.5 * sum / maxamp + 0.5;
 }
+#endif
 `;
 export const NOISE_COLOR_GLSL = FBM_GLSL + RAMP_GLSL;
 

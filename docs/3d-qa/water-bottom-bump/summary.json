@@ -1,0 +1,224 @@
+{
+ "inputs": {
+  "day-0-level": {
+   "before": "df869c502cf56fd6af33bccdc10fd6e783fdf228a5f75fda02276db2785a9222",
+   "after": "df869c502cf56fd6af33bccdc10fd6e783fdf228a5f75fda02276db2785a9222",
+   "cycles": "7287eaf7f46c3f10864713093920843ff58e90ba75418d2fb3644fd8134f96c3"
+  },
+  "day-1-down": {
+   "before": "07823f1df0ad1a2e551fc1bf0ab2882581748d6fc9d9ae6d5cc4dad063e8e5cf",
+   "after": "52d095f5d27a0b7a5431eb2920a6d0e1f18a4da06ae15ba5edf26579985466e4",
+   "cycles": "93e7a1ffbfa946575108b488a0264c68b014081b49c400eef017801370c55fe3"
+  },
+  "day-2-level": {
+   "before": "9c0c93950c393610420c01dc7c59cf9cac95ea93af3624fff16849fc0cb7e4f2",
+   "after": "284dbfe6905927e7a6da739cf96885e965039a9f78c39c6610bc815770bbfce7",
+   "cycles": "78f19d2fb6fd119a16ee0d7d2bec5214e85177a35c2a17cefb74a96c47854a22"
+  },
+  "day-4-level": {
+   "before": "37c4e32b70b864c21ebbe48b4370ffb5ef867cfe88bdceea8a2f56d9ef569e4c",
+   "after": "a60293654633bd154805b4eccda5c049f9626ea86fc106f650daa15ca769ea2e",
+   "cycles": "bbfd3caf863de57612340f7e7e057db42d2fb917d6439308da4b8383f5dc5123"
+  },
+  "evening-0-level": {
+   "before": "765a556e8d93d62cac1f69e593db8f77544fd51431f4eda088691c2304432090",
+   "after": "765a556e8d93d62cac1f69e593db8f77544fd51431f4eda088691c2304432090",
+   "cycles": "832c4d64626041a20314c382f94376a5fc5a8411325bd11c2c560d19db43c78b"
+  },
+  "evening-1-down": {
+   "before": "52301430ad96f2f734a64135c85625243b161a255a20c6635fe9f88bc1819e9a",
+   "after": "a23cc9fc5f3b2662df8a3d139fe5095a07e73fc5ad0b85455d69a23bf0d1dd44",
+   "cycles": "c75f1533394c7ca405e70d796d5fcf769c9807efad39b734fae28c7de8e9f591"
+  },
+  "evening-2-level": {
+   "before": "38fe60dfd829e2c226e727830e71933097e745766b7342c0952741b6b6938667",
+   "after": "473a42ff305b92b71b8bd04487dc4ba619c3aabf60c494c4823325bca1b79a10",
+   "cycles": "84a82d5fbaddd3030a61ae9eeef6f40d7b09f8af08f61116058a2a8d18f0db03"
+  },
+  "evening-4-level": {
+   "before": "8a67b2e5bd113427ffcba384ab04640bc30b7efcd80501b07053824a66f63c4d",
+   "after": "d928ce1f7c85f38e61c80593ff773c1f2cb21854e2c571b52823e966fab95941",
+   "cycles": "07075c59771a377161c73f0004bed0c087ebc29886e1145c0d8e337d1c772f32"
+  },
+  "night-0-level": {
+   "before": "2c5ae1c156390139eedbb068d0e52ff38d7b9c542fdfb1888e68febf84cf1a88",
+   "after": "2c5ae1c156390139eedbb068d0e52ff38d7b9c542fdfb1888e68febf84cf1a88",
+   "cycles": "6a0bbf48df05416488166196e91cf299590a811f7860f5dbdbe7b4309569bbc7"
+  },
+  "night-1-down": {
+   "before": "50561fd5744015536e7ba46fb8cc69d672b3635c25ced55bf65572986ac10e8f",
+   "after": "5c3fe81e0e1de8a6fd9d89aa87eba9fccdcd3e6858995188e8729ea0e9fad068",
+   "cycles": "b4e8c902176764a0bb20db14d3f06894af874b29f753d712fe48457f01d30b01"
+  },
+  "night-2-level": {
+   "before": "49b453d1b32b4d98364c3b48613fc26a10fa7507050eb0c146034e4b8c7323ca",
+   "after": "9d53655db8c06f09fc60edb96467c312efc5f8804ab87ae4538c7323cbda12ba",
+   "cycles": "9734e5ccae8afb4908a37159d55c57f5a83c7574081ee503b5c9d4388cd73675"
+  },
+  "night-4-level": {
+   "before": "5fcf521d4fec92d146cf1af142b2be6a4f4799425e14e43fb21b1c5ec40ac57d",
+   "after": "fb05c7e46b8c38543ee4adc614ff1888dc4d9a1963ad96420c9b93f570cad25c",
+   "cycles": "ce141b5a349efc26753bd4627688e488484e416a90a6c863c30e99b4b8e30410"
+  }
+ },
+ "bumpSlope": {
+  "cycles": {
+   "rms": 0.0013014832511544228,
+   "p50": 0.0011061138939112425,
+   "p95": 0.002213271171785891
+  },
+  "browserFormula": {
+   "rms": 0.0013036000617664054,
+   "p50": 0.0011108911024285172,
+   "p95": 0.0022106651021912187
+  }
+ },
+ "edgeRoughness": {
+  "evening-1-down": {
+   "before": 0.367,
+   "after": 0.668,
+   "cycles": 0.658
+  },
+  "evening-2-level": {
+   "before": 0.375,
+   "after": 0.652,
+   "cycles": 0.735
+  },
+  "night-1-down": {
+   "before": 0.307,
+   "after": 0.638,
+   "cycles": 0.661
+  },
+  "night-2-level": {
+   "before": 0.326,
+   "after": 0.683,
+   "cycles": 0.717
+  }
+ },
+ "meanDE76": {
+  "day-0-level": {
+   "changedPixels": 0,
+   "all": {
+    "before": 6.357,
+    "after": 6.357
+   },
+   "changedBand": null
+  },
+  "day-1-down": {
+   "changedPixels": 2073,
+   "all": {
+    "before": 5.825,
+    "after": 5.828
+   },
+   "changedBand": {
+    "before": 10.456,
+    "after": 10.652
+   }
+  },
+  "day-2-level": {
+   "changedPixels": 1464,
+   "all": {
+    "before": 8.292,
+    "after": 8.292
+   },
+   "changedBand": {
+    "before": 9.375,
+    "after": 9.385
+   }
+  },
+  "day-4-level": {
+   "changedPixels": 656,
+   "all": {
+    "before": 5.943,
+    "after": 5.943
+   },
+   "changedBand": {
+    "before": 8.428,
+    "after": 8.376
+   }
+  },
+  "evening-0-level": {
+   "changedPixels": 0,
+   "all": {
+    "before": 6.384,
+    "after": 6.384
+   },
+   "changedBand": null
+  },
+  "evening-1-down": {
+   "changedPixels": 4202,
+   "all": {
+    "before": 5.9,
+    "after": 5.901
+   },
+   "changedBand": {
+    "before": 18.358,
+    "after": 18.418
+   }
+  },
+  "evening-2-level": {
+   "changedPixels": 10662,
+   "all": {
+    "before": 9.249,
+    "after": 9.249
+   },
+   "changedBand": {
+    "before": 18.7,
+    "after": 18.711
+   }
+  },
+  "evening-4-level": {
+   "changedPixels": 6223,
+   "all": {
+    "before": 6.65,
+    "after": 6.652
+   },
+   "changedBand": {
+    "before": 16.322,
+    "after": 16.439
+   }
+  },
+  "night-0-level": {
+   "changedPixels": 0,
+   "all": {
+    "before": 5.561,
+    "after": 5.561
+   },
+   "changedBand": null
+  },
+  "night-1-down": {
+   "changedPixels": 3859,
+   "all": {
+    "before": 5.918,
+    "after": 5.919
+   },
+   "changedBand": {
+    "before": 18.283,
+    "after": 18.366
+   }
+  },
+  "night-2-level": {
+   "changedPixels": 8949,
+   "all": {
+    "before": 9.691,
+    "after": 9.693
+   },
+   "changedBand": {
+    "before": 19.351,
+    "after": 19.405
+   }
+  },
+  "night-4-level": {
+   "changedPixels": 6061,
+   "all": {
+    "before": 6.174,
+    "after": 6.176
+   },
+   "changedBand": {
+    "before": 16.312,
+    "after": 16.46
+   }
+  }
+ },
+ "script_sha256": "c5619d282f2e449aacc34c1a5a716bcebb5c53532be2a50446dff720dd8dc263"
+}

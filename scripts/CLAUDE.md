@@ -13,7 +13,7 @@
 | ブラウザ撮影の集計 | `summarize_visual_survey.py`, `compare_shadow_samples.py`, `summarize_sun_shadow.py`, `summarize_sun_pcf.py`, `summarize_water_side_images.py`, `summarize_auto_motion.py`, `analyze_auto_motion_frames.py` |
 | 診断：プローブ・床の拡散光 | `probe_sampling.py`（補間のCPU版）, `diagnose_probe_{depth,visibility}.py`, `survey_probe_enclosure.py`, `check_probe_visibility.py`, `compare_probe_weights.py`, `sample_room_floor.py`, `summarize_floor_irradiance.py` |
 | 診断：水面（補助モジュール） | `water_path_trace.py`, `water_reflection_trace.py`, `water_capture_parallax.py`, `water_capture_radiance.py`, `water_exit_sampling.py`, `water_exit_visibility.py` |
-| 診断：水面（実行・集計） | `diagnose_water_*.py`, `summarize_water_*.py`（`summarize_water_side_images.py` は上の撮影集計） |
+| 診断：水面（実行・集計） | `diagnose_water_*.py`, `summarize_water_*.py`（`summarize_water_side_images.py` は上の撮影集計）, `water_bump.py`（バンプのCPU版） |
 | テスト（Blender不要） | `test_*.py`。`python3 -m unittest discover -s scripts -p 'test_*.py'` で一括実行（NumPy・Pillow・SciPyが必要） |
 
 ## 詳細
@@ -58,3 +58,4 @@
 - `summarize_sun_pcf.py <report.json> <out>` は `SUN_SHADOW_REVIEW=1` の7条件を検査し、4条件各108枚の画像差、通常の再撮影の差、見回しの候補−通常のLab誤差のフレーム間差、既存Cycles6視点、GPU順・逆計測を集計する。失敗・skip・flaky・条件順序／入力不一致・GPU標本不足を拒否。記録は `docs/3d-qa/sun-pcf/`。画面座標の誤差変化は光学フローや知覚的なちらつきの合否ではない。
 - `summarize_sun_product.py <report.json> <out>` は製品版の日光4＋6と変更前16＋24・製品再撮影の3条件を集計する（`SUN_SHADOW_PRODUCT=1` の `sun-shadow.gpu.ts`、または `sun-transition.visual.ts`）。画質ごとに条件・入力ハッシュ・撮影リスト・補間時の日光uniform値とrAF時刻を照合し、不一致や失敗・skip・flakyを拒否。Cycles比較は `blender/renders/v13-sky/` のみを使い、参照ハッシュも保存する。静止差・撮影再現性・時間方向の誤差変化はそれぞれ分けて扱う。
 - `analyze_auto_motion_frames.py <docs/3d-qa/auto-motion>`（通常のpython3・NumPy・PIL・ffmpeg、約10秒）は `summarize_auto_motion.py` が残したWebM（`summary.json` のハッシュと照合）を全フレーム320×200の輝度にし、照明の変化区間と終点保持の区間で、前フレームとの差（キーフレーム前後は別集計）・画素ごとの時間方向の高周波・鏡像の更新周期（2.5〜3.1Hz）の帯域比・鏡像1段あたりの画素ごとの変化の上限を `frames.json` に出す。帯域比は水の揺れ程度のノイズでは0.5段階未満の段差を検出できないため、段差がないことの根拠は上限値に置く。`test_auto_motion_frames.py` で検査する。知覚的な合否ではない。
+- `diagnose_water_bump.py`（Blender、元blend、`-S "SUI • Blue hour"`、Metalで約12分）は水風呂ステージ視点の夕暮れを、寝椅子灯の斑の部分だけ（border）で参照設定（128サンプル・デノイズ）／2048サンプル・デノイズなし／同じく水のBumpノードを外した3条件でEXRに描き、さらに水だけを真上から正投影（0.5m・1000²・画素中心1サンプル）した法線パスのバンプ有無の差から傾きの分布を `bump.json` に出す。元blendは保存しない。`summarize_water_bump.py <変更前の撮影> <変更後の撮影> <bumpの出力先> --out <記録先>`（通常のpython3・NumPy・SciPy・PIL）が、`water_bump.py`（`FBM_GLSL` とバンプ式のNumPy版、縁の粗さの指標）で同じ範囲の製品の式の傾きをCyclesと並べ、`stage-compare.visual.ts` の撮影で斑の縁の粗さ（夕・夜の見下ろしと見出し2）と12視点のCyclesとのΔE76を変更前後で比べる。`test_water_bump.py` がBlenderのノイズ基準値（`e2e/fixtures/blender-noise.json`）との一致と縁の指標を検査する。記録は `docs/3d-qa/water-bottom-bump/`。

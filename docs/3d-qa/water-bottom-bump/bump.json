@@ -1,0 +1,64 @@
+{
+ "blend": "SUI_Retreat.blend",
+ "blendSha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+ "script_sha256": "7989e7e2b14323eafbf682042a17db96aa47f698305e4e610fb50217efb3b397",
+ "crops": [
+  [
+   1,
+   "down",
+   680,
+   940,
+   0,
+   180
+  ],
+  [
+   2,
+   "level",
+   120,
+   420,
+   520,
+   720
+  ],
+  [
+   0,
+   "level",
+   0,
+   260,
+   560,
+   800
+  ]
+ ],
+ "variants": [
+  [
+   "base",
+   128,
+   true,
+   true
+  ],
+  [
+   "clean",
+   2048,
+   false,
+   true
+  ],
+  [
+   "nobump",
+   2048,
+   false,
+   false
+  ]
+ ],
+ "normalView": {
+  "center": [
+   1.6,
+   2.5
+  ],
+  "size": 0.5,
+  "pixels": 1000
+ },
+ "bumpSlope": {
+  "rms": 0.0013014832511544228,
+  "p50": 0.0011061138939112425,
+  "p95": 0.002213271171785891
+ }
+}

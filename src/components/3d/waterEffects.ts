@@ -49,6 +49,38 @@ vec3 suiWaveNormal( vec2 xz, float t ) {
 }
 `;
 
+// The source water's Bump node (Strength 0.08, Distance 0.0006, not inverted) on the Fac of a
+// normalized FBM noise (Scale 55, Detail 2, Roughness 0.5, Lacunarity 2) of Object coordinates,
+// which are Blender world meters (the water has no transform). Its slopes are small (about 0.005),
+// but a view that leaves the water toward a light meters away swings with them: in Cycles the
+// edges of the lights seen off the water's bottom (waterBottom.ts) are ragged, and smooth with
+// the bump removed (docs/3d-qa/water-bottom-bump).
+export const WATER_BUMP = { scale: 55, detail: 2, roughness: 0.5, lacunarity: 2, distance: 0.0006, strength: 0.08 };
+/** Finite-difference step of the bump's height, in meters (the finest octave's cells are 4.5 mm). */
+export const WATER_BUMP_STEP = 0.0004;
+
+/**
+ * GLSL (needs FBM_GLSL): suiWaterBump( p, n, footprint ) is the normal n at the glTF point p
+ * perturbed like Blender's Bump node, with the surface taken as level for the height's gradient.
+ * footprint is a pixel's size there in meters; octaves finer than it fade out (noiseColor.ts).
+ */
+export const WATER_BUMP_GLSL = /* glsl */ `
+float suiWaterBumpHeight( vec3 blender, float footprint ) {
+	return sui_fbm( blender * ${f(WATER_BUMP.scale)}, ${f(WATER_BUMP.detail)}, ${f(WATER_BUMP.roughness)}, ${f(WATER_BUMP.lacunarity)}, footprint * ${f(WATER_BUMP.scale)} );
+}
+vec3 suiWaterBump( vec3 p, vec3 n, float footprint ) {
+	// glTF (x, y, z) is Blender (x, −z, y).
+	vec3 blender = vec3( p.x, - p.z, p.y );
+	float h = suiWaterBumpHeight( blender, footprint );
+	float hx = suiWaterBumpHeight( blender + vec3( ${f(WATER_BUMP_STEP)}, 0.0, 0.0 ), footprint );
+	float hz = suiWaterBumpHeight( blender - vec3( 0.0, ${f(WATER_BUMP_STEP)}, 0.0 ), footprint );
+	vec3 gradient = vec3( hx - h, 0.0, hz - h ) / ${f(WATER_BUMP_STEP)};
+	gradient -= n * dot( n, gradient );
+	vec3 bumped = normalize( n - ${f(WATER_BUMP.distance)} * gradient );
+	return normalize( mix( n, bumped, ${f(WATER_BUMP.strength)} ) );
+}
+`;
+
 // How far the mirror image is looked up along the rippled reflection ray, in meters. The true
 // distance to the reflected surface varies (the tub walls are 0.1–3 m away); this sets how far the
 // waves displace the image.
