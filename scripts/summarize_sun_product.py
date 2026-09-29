@@ -1,7 +1,9 @@
 """Compare product/before/repeat captures from sun-shadow or sun-transition diagnostics.
 
 python3 scripts/summarize_sun_product.py <report.json> <output>
-Uses only v13-sky Cycles references. Images remain local; summary and input hashes are tracked.
+The evening's candidate is `before` (the sun always at 16+24) against v13-sky Cycles; the
+night's (SUN_SHADOW_LIGHTING=night) is `lite` (the moon at the evening's 4+6) against web-night.
+The table keeps the key `before` for either candidate, and `candidate` names it. Images remain local; summary and input hashes are tracked.
 """
 import argparse
 import base64
@@ -32,7 +34,10 @@ def main():
                 continue
             run = json.loads(base64.b64decode(attachment['body']))
             mode = run['mode'].replace('original', 'product')
-            group = groups.setdefault(run['quality'], {})
+            if mode == 'lite':
+                mode = 'before'
+                run['candidate'] = 'lite'
+            group = groups.setdefault((run.get('lighting', 'evening'), run['quality']), {})
             if mode in group:
                 raise SystemExit('Duplicate condition')
             group[mode] = run
@@ -40,7 +45,9 @@ def main():
         raise SystemExit('No captures')
     args.output.mkdir(parents=True, exist_ok=True)
     summary = dict(durationSeconds=report['stats']['duration'] / 1000, qualities={})
-    for quality, runs in groups.items():
+    if len({lighting for lighting, _ in groups}) != 1:
+        raise SystemExit('Mixed lighting')
+    for (lighting, quality), runs in groups.items():
         if set(runs) != {'product', 'before', 'product-repeat'}:
             raise SystemExit('Missing mode')
         baseline = runs['product']
@@ -50,12 +57,14 @@ def main():
         for run in runs.values():
             if [s['file'] for s in run['samples']] != names:
                 raise SystemExit('Mismatched captures')
-            if run['errors'] or any(run[k] != baseline[k] for k in ['hashes', 'browser', 'viewport', 'quality']):
+            if run['errors'] or any(run.get(k) != baseline.get(k) for k in ['hashes', 'browser', 'viewport', 'quality', 'lighting']):
                 raise SystemExit('Mismatched inputs or browser errors')
             for a, b in zip(baseline['samples'], run['samples']):
                 if 'sun' in a and (a['sun'] != b['sun'] or a['now'] != b['now']):
                     raise SystemExit('Mismatched transition state')
+        summary['lighting'] = lighting
         group = summary['qualities'][quality] = dict(
+            candidate=runs['before'].get('candidate', 'before'),
             conditions={k: baseline[k] for k in ['hashes', 'browser', 'viewport', 'quality']},
             views={}, temporal={}, referenceHashes={})
         sheets = {}
@@ -79,7 +88,8 @@ def main():
                 prior[key] = (error, noise)
             if name.startswith('cycles-'):
                 render = name.removeprefix('cycles-')
-                refpath = Path('blender/renders/v13-sky') / ('06.png' if render == '01.png' else 'bh-' + render)
+                refpath = (Path('blender/renders/web-night') / render if lighting == 'night' else
+                           Path('blender/renders/v13-sky') / ('06.png' if render == '01.png' else 'bh-' + render))
                 group['referenceHashes'][str(refpath)] = hashlib.sha256(refpath.read_bytes()).hexdigest()
                 ref = load(refpath)
                 row['cycles600x400'] = {mode: stats(ref, load(Path(runs[mode]['dir']) / name))
@@ -87,13 +97,14 @@ def main():
             if name.startswith(('stage-', 'cycles-')) or ('sun' in sample and sample['direction'] == 'evening' and sample['step'] in [56, 57, 58]):
                 sheet = Image.new('RGB', (1800, 425), '#222222')
                 for i, mode in enumerate(['before', 'product', 'product-repeat']):
-                    ImageDraw.Draw(sheet).text((600*i+8, 5), f'{quality} {mode} {name}', fill='white')
+                    label = group['candidate'] if mode == 'before' else mode
+                    ImageDraw.Draw(sheet).text((600*i+8, 5), f'{quality} {label} {name}', fill='white')
                     sheet.paste(images[mode].resize((600, 400), Image.Resampling.BOX), (600*i, 25))
                 sheet.save(args.output / f'{quality}-{name[:-4]}.jpg', quality=93)
             if name == 'totonou-survey-5-0.png':
                 crop = Image.new('RGB', (1800, 505), '#222222')
                 for i, mode in enumerate(['before', 'product', 'product-repeat']):
-                    ImageDraw.Draw(crop).text((600*i+8, 5), mode, fill='white')
+                    ImageDraw.Draw(crop).text((600*i+8, 5), group['candidate'] if mode == 'before' else mode, fill='white')
                     crop.paste(images[mode].crop((640, 320, 940, 560)).resize((600, 480)), (600*i, 25))
                 crop.save(args.output / f'{quality}-wall-crop.jpg', quality=95)
             if '-survey-' in name and name.endswith('-0.png'):
@@ -101,7 +112,8 @@ def main():
                 heading = int(rest.split('-')[0])
                 sheet = sheets.setdefault(stage, Image.new('RGB', (1200, 8*220), '#222222'))
                 for i, mode in enumerate(['before', 'product', 'product-repeat']):
-                    ImageDraw.Draw(sheet).text((400*i+8, 220*heading+3), f'{heading} {mode}', fill='white')
+                    label = group['candidate'] if mode == 'before' else mode
+                    ImageDraw.Draw(sheet).text((400*i+8, 220*heading+3), f'{heading} {label}', fill='white')
                     sheet.paste(images[mode].resize((400, 200), Image.Resampling.BOX), (400*i, 220*heading+20))
         for stage, sheet in sheets.items():
             sheet.save(args.output / f'{quality}-survey-{stage}.jpg', quality=93)
@@ -109,7 +121,7 @@ def main():
                                   for metric in ['mean', 'over2Percent', 'overHalfPercent', 'maximum']}
                             for kind in ['change', 'captureNoise']}
     (args.output / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n')
-    (args.output / 'runs.json').write_text(json.dumps(groups, indent=2) + '\n')
+    (args.output / 'runs.json').write_text(json.dumps({q: runs for (_, q), runs in groups.items()}, indent=2) + '\n')
     print(json.dumps({q: s['maxima'] for q, s in summary['qualities'].items()}, indent=2))
 
 

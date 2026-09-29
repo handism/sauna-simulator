@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'meshoptimizer/decoder';
@@ -33,8 +33,8 @@ export interface SceneProps {
   quality: QualityMode;
   stage: AmbientEnv;
   lightingMode: LightingMode;
-  /** The sauna round (1 on entering); automatic lighting moves on with it. */
-  round?: number;
+  /** Date.now() of entering; automatic lighting follows the time since (the mount when absent). */
+  enteredAt?: number;
   loylyEvents: EventTarget;
   onReady: () => void;
   onError: () => void;
@@ -51,7 +51,7 @@ export default function SaunaScene({
   audio,
   stage,
   lightingMode,
-  round = 1,
+  enteredAt,
   loylyEvents,
   onReady,
   onError,
@@ -74,11 +74,12 @@ export default function SaunaScene({
   useLayoutEffect(() => {
     lightingRef.current = lightingMode;
   }, [lightingMode]);
-  // Set before the stage effect below: a new round arrives with the stage it starts.
-  const roundRef = useRef(round);
+  // Kept across 2D/3D switches by the session, so a remounted scene resumes the same time of day.
+  const [mountedAt] = useState(Date.now);
+  const enteredAtRef = useRef(enteredAt ?? mountedAt);
   useLayoutEffect(() => {
-    roundRef.current = round;
-  }, [round]);
+    enteredAtRef.current = enteredAt ?? mountedAt;
+  }, [enteredAt, mountedAt]);
   const setViewRef = useRef<((next: AmbientEnv) => void) | null>(null);
   useLayoutEffect(() => {
     stageRef.current = stage;
@@ -86,6 +87,7 @@ export default function SaunaScene({
   }, [stage]);
   useEffect(() => {
     const element = host.current!;
+    const targetTime = () => timeOfDay(lightingRef.current, (Date.now() - enteredAtRef.current) / 1000);
     // Metrics for browser tests. Skip unchanged values so the render loop does not mutate the DOM every frame.
     const setData = (key: string, value: string) => {
       if (element.dataset[key] !== value) element.dataset[key] = value;
@@ -301,7 +303,10 @@ export default function SaunaScene({
           setData('sideImagesShown', String(sideImages.update(camera)));
           if (mirror) {
             // What else the reflection shows changing: lighting and the quality's lights.
-            mirrorState[0] = lighting.time;
+            // Automatic lighting moves every frame while it changes scene; a step of 0.002 (0.36 s
+            // of it, well under a percent of any light) keeps the reflection from being redrawn
+            // each frame.
+            mirrorState[0] = Math.round(lighting.time * 500) / 500;
             glossyLights.update(lighting.irradiance.suiIrradianceEvening.value);
             mirrorState[1] = qualityIndex;
             mirrorState[2] = gardenAdded;
@@ -325,7 +330,7 @@ export default function SaunaScene({
           look.cancel();
           resetMetrics();
           setData('stage', next);
-          lighting.update(timeOfDay(lightingRef.current, next, roundRef.current), 0, true);
+          lighting.update(targetTime(), 0, true);
           recordRenderInfo(draw());
         };
         setViewRef.current = setView;
@@ -376,12 +381,9 @@ export default function SaunaScene({
           }
           updateAudio();
           const delta = previous ? Math.min((now - previous) / 1000, 0.1) : 0;
-          lighting.update(
-            timeOfDay(lightingRef.current, stageRef.current, roundRef.current),
-            delta,
-            reducedMotion.matches,
-          );
+          lighting.update(targetTime(), delta, reducedMotion.matches);
           setData('lighting', lightingRef.current);
+          setData('timeOfDay', lighting.time.toFixed(3));
           if (previous && frameTimes.length < 180) frameTimes.push(now - previous);
           previous = now;
           if (frameTimes.length === 180 && !recorded) {

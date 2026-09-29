@@ -12,7 +12,7 @@ vi.mock('./3d/SaunaScene', () => ({
     stage,
     quality,
     lightingMode,
-    round,
+    enteredAt,
     loylyEvents,
     onReady,
     onError,
@@ -29,7 +29,7 @@ vi.mock('./3d/SaunaScene', () => ({
     }, [stage, loylyEvents, onReady]);
     return (
       <>
-        <button data-quality={quality} data-lighting={lightingMode} data-round={round} onClick={onError}>
+        <button data-quality={quality} data-lighting={lightingMode} data-entered-at={enteredAt} onClick={onError}>
           simulate context loss
         </button>
         <button onClick={() => onGardenLoading?.(true)}>simulate garden request</button>
@@ -103,10 +103,10 @@ describe('3D mode lifecycle', () => {
     expect(localStorage.getItem('sui-lighting-mode')).toBe('evening');
     view.rerender(<SceneMode audio={audio} stage="water" loylyEvents={events} />);
     expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-lighting', 'evening');
-    // The round reaches the scene for the automatic lighting without remounting it.
-    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-round', '1');
-    view.rerender(<SceneMode audio={audio} stage="sauna" round={2} loylyEvents={events} />);
-    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-round', '2');
+    // The entry time reaches the scene for the automatic lighting without remounting it.
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).not.toHaveAttribute('data-entered-at');
+    view.rerender(<SceneMode audio={audio} stage="sauna" enteredAt={1234} loylyEvents={events} />);
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-entered-at', '1234');
     expect(mountScene).toHaveBeenCalledTimes(mounts);
     fireEvent.click(screen.getByRole('button', { name: '2Dに切り替え' }));
     fireEvent.click(screen.getByRole('button', { name: '3Dを試す' }));

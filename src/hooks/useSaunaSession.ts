@@ -24,8 +24,8 @@ export function useSaunaSession() {
   const opacity = pendingStage === null ? 1 : 0;
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
-  // Sauna rounds entered so far (the 3D lighting moves on with them). It changes with the stage.
-  const [round, setRound] = useState(0);
+  // Wall-clock time (Date.now) of entering; the automatic 3D lighting follows the real time since.
+  const [enteredAt, setEnteredAt] = useState<number | null>(null);
   const [results, setResults] = useState<SessionResults>(INITIAL_RESULTS);
 
   const audio = useAudioEngine();
@@ -48,7 +48,6 @@ export function useSaunaSession() {
         transitionTimeoutRef.current = null;
         if (nextStage !== 'start') audio.playAmbient(nextStage);
         setStage(nextStage);
-        if (nextStage === 'sauna') setRound((prev) => prev + 1);
         setPendingStage(null);
       }, 1000);
       return true;
@@ -59,6 +58,7 @@ export function useSaunaSession() {
   const handleStart = useCallback(
     (withSound: boolean) => {
       if (!changeStage('sauna')) return;
+      setEnteredAt(Date.now());
       audio.init();
       setIsMuted(!withSound);
       audio.setMuted(!withSound);
@@ -107,7 +107,7 @@ export function useSaunaSession() {
       opacity,
       isMuted,
       isUiHidden,
-      round,
+      enteredAt,
       ...results,
       audio,
       handleStart,
@@ -123,7 +123,7 @@ export function useSaunaSession() {
       opacity,
       isMuted,
       isUiHidden,
-      round,
+      enteredAt,
       results,
       audio,
       handleStart,

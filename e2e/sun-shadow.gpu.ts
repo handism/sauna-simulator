@@ -5,8 +5,10 @@ import { timeFrames } from './gpu-timer';
 import { rendererCaptureStyle } from './scene-capture';
 
 // Diagnostic only: change the directional lookup, retaining all spot lights, light intensity,
-// shadow maps and the unconditional receiver derivatives. Only evening is evaluated here.
-function patchSun(mode: 'original' | 'hard' | 'off' | 'pcf' | 'before') {
+// shadow maps and the unconditional receiver derivatives. Evening, or the night's moon with
+// SUN_SHADOW_LIGHTING=night.
+type SunMode = 'original' | 'hard' | 'off' | 'pcf' | 'before' | 'lite';
+function patchSun(mode: SunMode) {
   const original = WebGL2RenderingContext.prototype.shaderSource;
   (window as unknown as { sunPatches: number }).sunPatches = 0;
   WebGL2RenderingContext.prototype.shaderSource = function (shader, source) {
@@ -14,10 +16,11 @@ function patchSun(mode: 'original' | 'hard' | 'off' | 'pcf' | 'before') {
       source.includes('float pcssNoise(') &&
       /suiSunShadow\( directLight\.color, directionalShadowMap\[/.test(source)
     ) {
-      if (mode === 'before') {
+      if (mode === 'before' || mode === 'lite') {
+        // Always 16+24 (before the evening branch) or always the evening's lighter samples.
         source = source.replaceAll(
           'suiSunShadow( directLight.color, directionalShadowMap[',
-          'getShadow( directionalShadowMap[',
+          `${mode === 'before' ? 'getShadow' : 'suiGetShadowSunLite'}( directionalShadowMap[`,
         );
       } else if (mode !== 'original') {
         const helper = `
@@ -75,13 +78,18 @@ test.use({ viewport: { width: 1200, height: 800 } });
 const product = process.env.SUN_SHADOW_PRODUCT === '1';
 const quality = process.env.SUN_SHADOW_QUALITY === 'standard' ? 'standard' : 'high';
 const review = product || process.env.SUN_SHADOW_REVIEW === '1';
+// The night compares the product moon (16+24) with the evening's 4+6 samples.
+const lighting = process.env.SUN_SHADOW_LIGHTING === 'night' ? 'night' : 'evening';
+if (lighting === 'night' && !product) throw new Error('SUN_SHADOW_LIGHTING=night needs SUN_SHADOW_PRODUCT=1');
 const modes = product
-  ? (['original', 'before', 'original-repeat'] as const)
+  ? lighting === 'night'
+    ? (['original', 'lite', 'original-repeat'] as const)
+    : (['original', 'before', 'original-repeat'] as const)
   : review
     ? (['original', 'hard', 'pcf', 'original-repeat', 'pcf-repeat', 'hard-repeat', 'original-final'] as const)
     : (['original', 'hard', 'off', 'original-repeat'] as const);
 for (const mode of modes) {
-  test(`evening sun shadow ${mode}`, async ({ page, browser }, info) => {
+  test(`${lighting} sun shadow ${mode}`, async ({ page, browser }, info) => {
     test.setTimeout(480_000);
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
@@ -89,7 +97,7 @@ for (const mode of modes) {
       if (message.type() === 'error') errors.push(message.text());
     });
     await page.addInitScript(timeFrames);
-    await page.addInitScript(patchSun, mode.split('-')[0] as 'original' | 'hard' | 'off' | 'pcf' | 'before');
+    await page.addInitScript(patchSun, mode.split('-')[0] as SunMode);
     const samples: object[] = [];
     const timingOnly = review && ['pcf-repeat', 'hard-repeat', 'original-final'].includes(mode);
     const passes = timingOnly ? [null] : [null, ['02.png', '03.png', '07.png'], ['01.png', '04.png', '05.png']];
@@ -111,8 +119,8 @@ for (const mode of modes) {
       await page.getByLabel('3Dの画質').selectOption(quality);
       for (const [index, [stage, next]] of stages.entries()) {
         await expect(scene).toHaveAttribute('data-stage', stage);
-        await page.getByLabel('3Dの時間帯').selectOption('evening');
-        await expect(scene).toHaveAttribute('data-lighting', 'evening');
+        await page.getByLabel('3Dの時間帯').selectOption(lighting);
+        await expect(scene).toHaveAttribute('data-lighting', lighting);
         await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
         await page.waitForTimeout(1500);
         const file = renders ? `cycles-${renders[index]}` : `stage-${stage}.png`;
@@ -210,6 +218,7 @@ for (const mode of modes) {
       body: JSON.stringify(
         {
           mode,
+          lighting,
           browser: browser.version(),
           viewport: page.viewportSize(),
           quality,

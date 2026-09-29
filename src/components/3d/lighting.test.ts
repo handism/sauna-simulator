@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { createLighting, DRY_ONLY, sceneWeights, SPOT_COSINE, SUN_DIFFUSE_ONLY, timeOfDay } from './lighting';
+import {
+  AUTO_SECONDS_PER_SCENE,
+  AUTO_TRANSITION_SECONDS,
+  createLighting,
+  DRY_ONLY,
+  sceneWeights,
+  SPOT_COSINE,
+  SUN_DIFFUSE_ONLY,
+  timeOfDay,
+} from './lighting';
 import { directionalPenumbra, spotPenumbra } from './softShadows';
 
 describe('3D lighting', () => {
@@ -35,18 +44,24 @@ describe('3D lighting', () => {
     expect(Math.cos(light.angle)).toBeCloseTo(0, 12);
     expect(Math.cos(light.angle * (1 - light.penumbra))).toBe(1);
   });
-  it('moves the automatic progression on with the rounds and honors fixed choices', () => {
-    const stages = ['sauna', 'water', 'totonou'] as const;
-    // The first round goes from afternoon to dusk, later ones from dusk into the night.
-    expect(stages.map((stage) => timeOfDay('auto', stage, 1))).toEqual([0, 0.5, 1]);
-    expect(stages.map((stage) => timeOfDay('auto', stage, 2))).toEqual([1, 1.5, 2]);
-    expect(stages.map((stage) => timeOfDay('auto', stage, 5))).toEqual([1, 1.5, 2]);
-    for (const stage of stages)
-      for (const round of [1, 3]) {
-        expect(timeOfDay('day', stage, round)).toBe(0);
-        expect(timeOfDay('evening', stage, round)).toBe(1);
-        expect(timeOfDay('night', stage, round)).toBe(2);
-      }
+  it('moves the automatic progression on with the time since entering and honors fixed choices', () => {
+    // Day for 12 minutes, dusk over the next 3, held until 27 minutes, night over the next 3, then
+    // the night stays.
+    const minutes = [0, 6, 12, 13.5, 15, 21, 27, 28.5, 30, 45, 120];
+    const expected = [0, 0, 0, 0.5, 1, 1, 1, 1.5, 2, 2, 2];
+    minutes.forEach((minute, i) => expect(timeOfDay('auto', minute * 60)).toBeCloseTo(expected[i], 12));
+    expect([AUTO_SECONDS_PER_SCENE, AUTO_TRANSITION_SECONDS]).toEqual([900, 180]);
+    // Continuous at the ends of each transition.
+    for (const edge of [720, 900, 1620, 1800]) {
+      expect(Math.abs(timeOfDay('auto', edge + 0.01) - timeOfDay('auto', edge - 0.01))).toBeLessThan(1e-3);
+    }
+    // A clock set back after entering does not run the day backwards past its start.
+    expect(timeOfDay('auto', -60)).toBe(0);
+    for (const seconds of [0, 1000, 5000]) {
+      expect(timeOfDay('day', seconds)).toBe(0);
+      expect(timeOfDay('evening', seconds)).toBe(1);
+      expect(timeOfDay('night', seconds)).toBe(2);
+    }
   });
   it('blends the two neighbouring source scenes', () => {
     expect(sceneWeights(0)).toEqual([1, 0, 0]);

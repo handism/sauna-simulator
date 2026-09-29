@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import type { AudioEngine } from '../../hooks/useAudioEngine';
 import definition from '../../../public/models/sauna.scene.json';
-import SaunaScene from './SaunaScene';
+import SaunaScene, { type SceneProps } from './SaunaScene';
 
 const mocks = vi.hoisted(() => ({
   parse: vi.fn(),
@@ -71,7 +71,7 @@ function model() {
   scene.add(new THREE.Mesh(geometry, material));
   return { scene, disposals: [geometry, texture, material].map((resource) => vi.spyOn(resource, 'dispose')) };
 }
-function mountScene() {
+function mountScene(props: Partial<Pick<SceneProps, 'lightingMode' | 'enteredAt'>> = {}) {
   const audio = { setSpatialPose: vi.fn() } as unknown as AudioEngine;
   const onReady = vi.fn();
   const onError = vi.fn();
@@ -82,6 +82,7 @@ function mountScene() {
       quality="standard"
       stage="sauna"
       lightingMode="day"
+      {...props}
       loylyEvents={new EventTarget()}
       onReady={onReady}
       onError={onError}
@@ -368,5 +369,24 @@ describe('garden loaded after the ready scene', () => {
     expect(garden.scene.parent).toBeNull();
     expect(mocks.parse).toHaveBeenCalledTimes(phase === 'compile' ? 2 : 1);
     for (const dispose of garden.disposals) expect(dispose).toHaveBeenCalledTimes(phase === 'compile' ? 1 : 0);
+  });
+});
+
+describe('automatic lighting', () => {
+  it('follows the real time since entering and stays at night', async () => {
+    const entered = 1_000_000;
+    vi.setSystemTime(entered + 28.5 * 60_000);
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene({ lightingMode: 'auto', enteredAt: entered });
+    await flush();
+    const element = view.container.querySelector('.sauna-3d-canvas') as HTMLElement;
+    const loop = mocks.renderers[0].setAnimationLoop.mock.calls.at(-1)[0] as (now: number) => void;
+    // 28.5 minutes in: halfway from dusk into the night, applied when the scene opens.
+    loop(1000);
+    expect(element.dataset.timeOfDay).toBe('1.500');
+    // An hour in, the night stays; the change eases in over the following frames.
+    vi.setSystemTime(entered + 60 * 60_000);
+    for (let frame = 1; frame <= 200; frame++) loop(1000 + frame * 100);
+    expect(element.dataset.timeOfDay).toBe('2.000');
   });
 });

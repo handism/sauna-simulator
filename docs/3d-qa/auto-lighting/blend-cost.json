@@ -1,0 +1,201 @@
+{
+ "note": "Temporary diagnostic (not kept in e2e): standard quality, 1280x800 DPR1, reduced motion, default views, 4 s each, forward then reverse in one page. Date.now held so auto reaches the given minute under the first (continuous 0-15-30 min) schedule: auto-3.75 = t 0.25, auto-7.5 = t 0.5, auto-22.5 = t 1.5.",
+ "runs": [
+  {
+   "stage": "sauna",
+   "name": "day",
+   "n": 94,
+   "median": 37.808625,
+   "tod": "0.000"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-0",
+   "n": 94,
+   "median": 37.716875,
+   "tod": "0.000"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-3.75",
+   "n": 54,
+   "median": 67.85525,
+   "tod": "0.250"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-7.5",
+   "n": 54,
+   "median": 68.560916,
+   "tod": "0.500"
+  },
+  {
+   "stage": "sauna",
+   "name": "evening",
+   "n": 72,
+   "median": 50.31925,
+   "tod": "1.000"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-22.5",
+   "n": 70,
+   "median": 52.208125,
+   "tod": "1.500"
+  },
+  {
+   "stage": "sauna",
+   "name": "night",
+   "n": 63,
+   "median": 56.573333,
+   "tod": "2.000"
+  },
+  {
+   "stage": "sauna",
+   "name": "night",
+   "n": 65,
+   "median": 56.415833,
+   "tod": "2.000"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-22.5",
+   "n": 68,
+   "median": 52.734875,
+   "tod": "1.500"
+  },
+  {
+   "stage": "sauna",
+   "name": "evening",
+   "n": 72,
+   "median": 50.056374,
+   "tod": "1.000"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-7.5",
+   "n": 54,
+   "median": 68.024291,
+   "tod": "0.500"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-3.75",
+   "n": 54,
+   "median": 68.194541,
+   "tod": "0.250"
+  },
+  {
+   "stage": "sauna",
+   "name": "auto-0",
+   "n": 94,
+   "median": 37.724624,
+   "tod": "0.000"
+  },
+  {
+   "stage": "sauna",
+   "name": "day",
+   "n": 95,
+   "median": 37.795583,
+   "tod": "0.000"
+  },
+  {
+   "stage": "water",
+   "name": "day",
+   "n": 105,
+   "median": 32.118625,
+   "tod": "0.000"
+  },
+  {
+   "stage": "water",
+   "name": "auto-0",
+   "n": 106,
+   "median": 32.040249,
+   "tod": "0.000"
+  },
+  {
+   "stage": "water",
+   "name": "auto-3.75",
+   "n": 63,
+   "median": 56.289041,
+   "tod": "0.250"
+  },
+  {
+   "stage": "water",
+   "name": "auto-7.5",
+   "n": 64,
+   "median": 56.165583,
+   "tod": "0.500"
+  },
+  {
+   "stage": "water",
+   "name": "evening",
+   "n": 80,
+   "median": 43.603541,
+   "tod": "1.000"
+  },
+  {
+   "stage": "water",
+   "name": "auto-22.5",
+   "n": 77,
+   "median": 45.704249,
+   "tod": "1.500"
+  },
+  {
+   "stage": "water",
+   "name": "night",
+   "n": 72,
+   "median": 48.393916,
+   "tod": "2.000"
+  },
+  {
+   "stage": "water",
+   "name": "night",
+   "n": 73,
+   "median": 48.43325,
+   "tod": "2.000"
+  },
+  {
+   "stage": "water",
+   "name": "auto-22.5",
+   "n": 76,
+   "median": 45.650625,
+   "tod": "1.500"
+  },
+  {
+   "stage": "water",
+   "name": "evening",
+   "n": 79,
+   "median": 43.512791,
+   "tod": "1.000"
+  },
+  {
+   "stage": "water",
+   "name": "auto-7.5",
+   "n": 62,
+   "median": 56.461583,
+   "tod": "0.500"
+  },
+  {
+   "stage": "water",
+   "name": "auto-3.75",
+   "n": 62,
+   "median": 56.982958,
+   "tod": "0.250"
+  },
+  {
+   "stage": "water",
+   "name": "auto-0",
+   "n": 106,
+   "median": 32.010249,
+   "tod": "0.000"
+  },
+  {
+   "stage": "water",
+   "name": "day",
+   "n": 106,
+   "median": 32.131125,
+   "tod": "0.000"
+  }
+ ]
+}
