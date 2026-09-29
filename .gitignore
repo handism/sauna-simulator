@@ -39,6 +39,8 @@ playwright-report/
 __pycache__/
 *.pyc
 
-# QA images stay local; README/JSON records are tracked
+# QA images and recordings stay local; README/JSON records are tracked
 docs/3d-qa/**/*.jpg
 docs/3d-qa/**/*.png
+docs/3d-qa/**/*.webm
+docs/3d-qa/**/*.mp4

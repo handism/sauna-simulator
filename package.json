@@ -14,6 +14,7 @@
     "test:browser": "bun run build && playwright test",
     "test:browser:network": "bun run build && playwright test --config playwright.network.config.ts",
     "test:browser:soak": "bun run build && playwright test --config playwright.soak.config.ts",
+    "test:browser:motion": "bun run build && playwright test --config playwright.motion.config.ts",
     "test:browser:visual": "bun run build && playwright test --config playwright.visual.config.ts",
     "test:browser:gpu": "bun run build && playwright test --config playwright.gpu.config.ts"
   },
