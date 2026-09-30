@@ -19,9 +19,13 @@
  * receiver slope (suiShadowSlope, two derivatives) stays.
  * `rolled`: the PCSS sample loops (softShadows.ts) count to their constant plus a uniform left at 0,
  * so the compiler cannot unroll them: the same work in far less code.
+ * `rotate`: pcssDisk rotates a constant Vogel point by phi (cos/sin of phi, shared by the unrolled
+ * samples) instead of taking sqrt, cos and sin of each sample's angle: the same disk.
+ * `depth16`: every depth texture (the app's are all shadow maps) is allocated as DEPTH_COMPONENT16
+ * instead of three's DEPTH_COMPONENT24 (32-bit float on Apple GPUs), halving the bytes read.
  */
 export type FrameCostMode =
-  'trivial' | 'overdraw' | 'discard' | 'rolled' | `noshadow-${'all' | 'sun' | `spot${number}`}`;
+  'trivial' | 'overdraw' | 'discard' | 'rolled' | 'rotate' | 'depth16' | `noshadow-${'all' | 'sun' | `spot${number}`}`;
 
 export function patchFrameCost(mode: FrameCostMode) {
   type Overdraw = Window & {
@@ -34,6 +38,25 @@ export function patchFrameCost(mode: FrameCostMode) {
   const proto = WebGL2RenderingContext.prototype;
   const shaderSource = proto.shaderSource;
   const main = /void\s+main\s*\(\s*\)\s*\{/;
+  if (mode === 'depth16') {
+    const texStorage2D = proto.texStorage2D;
+    proto.texStorage2D = function (target, levels, format, width, height) {
+      if (format === this.DEPTH_COMPONENT24) {
+        format = this.DEPTH_COMPONENT16;
+        w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+      }
+      return texStorage2D.call(this, target, levels, format, width, height);
+    };
+    const texImage2D = proto.texImage2D as (...args: unknown[]) => void;
+    proto.texImage2D = function (this: WebGL2RenderingContext, ...args: unknown[]) {
+      if (args[2] === this.DEPTH_COMPONENT24) {
+        args[2] = this.DEPTH_COMPONENT16;
+        w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+      }
+      return texImage2D.apply(this, args);
+    } as typeof proto.texImage2D;
+    return;
+  }
   proto.shaderSource = function (shader, source) {
     const fragment = source.includes('pc_fragColor') && main.test(source);
     if (fragment && source.includes('uniform sampler2D tScene')) {
@@ -50,6 +73,16 @@ export function patchFrameCost(mode: FrameCostMode) {
           return `i < ${n} + suiPcssZero; i ++`;
         });
         source = `${source.slice(0, head)}uniform int suiPcssZero;\n\t${pcss}`;
+      }
+    } else if (fragment && mode === 'rotate') {
+      const disk =
+        'float r = sqrt( ( float( index ) + 0.5 ) / float( count ) );\n\t\tfloat theta = float( index ) * 2.399963229728653 + phi;\n\t\treturn vec2( cos( theta ), sin( theta ) ) * r;';
+      if (source.includes(disk)) {
+        w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+        source = source.replace(
+          disk,
+          'float r = sqrt( ( float( index ) + 0.5 ) / float( count ) );\n\t\tfloat a = float( index ) * 2.399963229728653;\n\t\tvec2 d = vec2( cos( a ), sin( a ) ) * r;\n\t\tfloat c = cos( phi ), s = sin( phi );\n\t\treturn vec2( c * d.x - s * d.y, s * d.x + c * d.y );',
+        );
       }
     } else if (fragment && mode.startsWith('noshadow-')) {
       const light = mode.slice('noshadow-'.length);

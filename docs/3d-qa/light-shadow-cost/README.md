@@ -38,13 +38,29 @@
 
 ## 次に試す候補（未実施）
 
-- 影マップの読み出し量を減らす：暖色灯5灯は静止した光源・形状で影が視点によらないため、影マップの解像度・形式（16bit深度）を下げたときの費用。1灯の影マップを小さくして節約が足し算に近づくかで、キャッシュ競合の仮説も確かめられる。
+- ~~影マップの読み出し量を減らす~~（下の追試で効果なし）：暖色灯5灯は静止した光源・形状で影が視点によらないため、影マップの解像度・形式（16bit深度）を下げたときの費用。1灯の影マップを小さくして節約が足し算に近づくかで、キャッシュ競合の仮説も確かめられる。
 - 影の評価を画面の低解像度・別パスへ移す（深度プリパスの深度を使う影のマスク）。描画パスの追加と、水越し・半透明の面の扱いが必要。
 - 他の端末（Windowsの外付け・内蔵GPU、モバイル）では非加法性が違う可能性があり、光源ごとの結論は他の端末に持ち出さない。
 
+## 追試：影マップの読み出し量と標本ごとの計算（2026-10-01、不採用）
+
+上の「次に試す候補」の1つ目。足し算にならない理由をテクスチャキャッシュの競合と見て、影マップから読むバイト数を減らした。あわせて標本ごとの三角関数を省く案も測った。値は [shadow-maps.json](shadow-maps.json)。
+
+| 変種 | 方法 | 結果（夕暮れ・夜） |
+| --- | --- | --- |
+| 暖色灯5灯の影マップ 512（標準の1/4の画素） | 作業用コピーの `lighting.ts` で暖色灯だけ `size / 2`。本体と交互に3組 | 比 0.92〜1.01（中央値 −2〜−5%） |
+| 同 256（1/16の画素） | 同 `size / 4` | 比 0.93〜0.99（中央値 −4%） |
+| 全影マップを16bit深度 | `depth16`：`DEPTH_COMPONENT24`（Apple GPUでは32bit浮動小数）の確保を `DEPTH_COMPONENT16` に差し替え。3報告×2回 | 節約 −0.7〜+2.4ms（中央値 0.2〜1.0ms） |
+| 円盤の点を回転で求める | `rotate`：`pcssDisk` が標本ごとの `sqrt`・`cos`・`sin` の代わりに、定数のVogel点を `phi` の回転で回す（同じ円盤）。4回 | 1〜2ms **遅い**（昼は±1ms） |
+
+- 画素を1/16にしても4%しか減らず、形式を半分にしても変わらない。影マップの読み出し量（キャッシュ・帯域）は主因ではない。
+- `rotate` が速くならないので、コンパイラは展開後の定数の角度をすでに畳んでいる。標本ごとの三角関数も主因ではない。
+- 残る説明は**参照の回数**。以前の測定でスポット光の標本を16＋24→8＋12にすると夕暮れで−28〜33%だった（[shadow-per-light](../shadow-per-light/README.md)。画質の粒で不採用）。費用は画素数×参照回数にほぼ比例し、影マップの大きさにはよらない。
+- **判断：暖色灯の影マップの縮小・16bit化は採用しない**（効果が揺れの範囲に近く、画質の確認に見合わない）。画質を保ったまま参照回数を減らすには、[当初の候補](#次に試す候補未実施)の2つ目（影を画面の低解像度の別パスで評価する）が必要になる。半分の解像度なら参照回数は1/4になる。
+
 ## 検証
 
-型検査、Lint、整形、Python 155テスト（`test_summarize_frame_cost.py` 2件追加）、GPU計測6回（計69件成功、1回目はウォームアップ前の外れを含むため光源ごとの集計から除外）。製品コードの変更はなく、単体テスト・ブラウザ回帰・撮影は再実行していない。
+型検査、Lint、整形、Python 155テスト（`test_summarize_frame_cost.py` 2件追加）、GPU計測6回（計69件成功、1回目はウォームアップ前の外れを含むため光源ごとの集計から除外）。追試はGPU計測13回（計46件成功）。製品コードの変更はなく、単体テスト・ブラウザ回帰・撮影は再実行していない。
 
 ## 再実行
 
@@ -52,6 +68,8 @@
 bun run build
 FRAME_COST_VARIANTS=warmup,product,noshadow-sun,noshadow-spot0,noshadow-spot1,product,noshadow-spot2,noshadow-spot3,noshadow-spot4,product,noshadow-spot5,noshadow-all,product \
   bunx playwright test --config playwright.gpu.config.ts e2e/frame-cost.gpu.ts -g "frame cost" --reporter=json > light-1.json
-# 順序を変えて繰り返す。rolled は warmup,product,rolled,product,rolled,…,product
+# 順序を変えて繰り返す。rolled・rotate・depth16 は warmup,product,<変種>,product,<変種>,…,product
+# 影マップの解像度は作業用コピーの lighting.ts の setShadowSize で暖色灯だけ size / 2・size / 4 にしてビルドし、
+# FRAME_COST_VARIANTS=warmup,product を本体と交互に実行して --runs spots512 before=<本体>,… after=<コピー>,…
 python3 scripts/summarize_frame_cost.py --out docs/3d-qa/light-shadow-cost/cost.json --light-costs light-1.json ... rolled-1.json
 ```
