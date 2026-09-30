@@ -1,0 +1,150 @@
+"""Summarise e2e/frame-cost.gpu.ts reports: GPU time of alternating before/after runs, the shading
+ablations and the fragments shaded per pixel, and the pixel differences of captures.
+
+python3 scripts/summarize_frame_cost.py --out docs/3d-qa/depth-prepass/cost.json \
+    --runs standard before=<json>,<json>,... after=<json>,... \
+    [--runs high before=... after=...] [--ablation <json>...] [--images <before dir> <after dir>]
+
+Each report is Playwright's JSON reporter output (build logs before the first `{` are skipped).
+--runs pairs the i-th `before` run with the i-th `after` run (run them alternately) and records,
+per stage and lighting, the medians and the after/before ratios. --ablation keeps the medians of
+every variant (product, trivial, discard) in the order run and the overdraw histograms. --images
+compares every .jpg/.png under two capture folders (same relative paths) and records, per folder,
+the largest channel difference and the share of pixels over 8 levels, whole and in the centre
+(20% margins cut, where the DOM glow of the full surveys does not reach).
+"""
+import argparse
+import base64
+import json
+import statistics
+from pathlib import Path
+
+
+def attachments(path, name):
+    """The decoded JSON attachments called `name` of a Playwright JSON report."""
+    raw = Path(path).read_text()
+    report = json.loads(raw[raw.index('{'):])
+    found = []
+
+    def walk(suite):
+        for spec in suite.get('specs', []):
+            for test in spec['tests']:
+                for result in test['results']:
+                    if result['status'] != 'passed':
+                        raise SystemExit(f'{path}: {spec["title"]} {result["status"]}')
+                    for attachment in result.get('attachments', []):
+                        if attachment['name'] == name:
+                            found.append(json.loads(base64.b64decode(attachment['body'])))
+        for child in suite.get('suites', []):
+            walk(child)
+
+    for suite in report['suites']:
+        walk(suite)
+    return found
+
+
+def medians(path):
+    """{(stage, lighting): median GPU ms} of a report's product frame-cost runs, and their metrics."""
+    runs = [run for run in attachments(path, 'frame-cost') if run['variant'] == 'product']
+    if len(runs) != 1:
+        raise SystemExit(f'{path}: expected one product run, got {len(runs)}')
+    return runs[0], {(r['stage'], r['lighting']): r for r in runs[0]['results']}
+
+
+def compare_runs(label, before, after):
+    if len(before) != len(after):
+        raise SystemExit(f'{label}: {len(before)} before runs, {len(after)} after')
+    loaded = {'before': [medians(p) for p in before], 'after': [medians(p) for p in after]}
+    qualities = {run['quality'] for side in loaded.values() for run, _ in side}
+    browsers = {run['browser'] for side in loaded.values() for run, _ in side}
+    if len(qualities) != 1 or len(browsers) != 1:
+        raise SystemExit(f'{label}: mixed qualities {qualities} or browsers {browsers}')
+    views = []
+    for key in loaded['before'][0][1]:
+        b = [results[key]['gpuMs']['median'] for _, results in loaded['before']]
+        a = [results[key]['gpuMs']['median'] for _, results in loaded['after']]
+        ratios = [y / x for x, y in zip(b, a)]
+        metrics = {
+            side: {k: loaded[side][0][1][key]['metrics'].get(k) for k in ('drawCalls', 'triangles', 'prepassMeshes')}
+            for side in loaded
+        }
+        views.append({
+            'stage': key[0], 'lighting': key[1],
+            'beforeMs': b, 'afterMs': a,
+            'ratios': [round(r, 3) for r in ratios],
+            'medianRatio': round(statistics.median(ratios), 3),
+            'metrics': metrics,
+        })
+    return {'quality': qualities.pop(), 'browser': browsers.pop(), 'runs': len(before), 'views': views}
+
+
+def ablation(paths):
+    runs, overdraw = [], []
+    for path in paths:
+        for run in attachments(path, 'frame-cost'):
+            runs.append({
+                'variant': run['variant'], 'index': run['index'], 'quality': run['quality'],
+                'medianMs': {f"{r['stage']}/{r['lighting']}": r['gpuMs']['median'] for r in run['results']},
+            })
+        for run in attachments(path, 'overdraw'):
+            for r in run['results']:
+                total = sum(r['histogram'])
+                overdraw.append({
+                    'stage': r['stage'], 'lighting': r['lighting'], 'quality': run['quality'],
+                    'meanLayers': round(r['mean'], 3),
+                    'atLeast3': round(sum(r['histogram'][3:]) / total, 4),
+                    'atLeast5': round(sum(r['histogram'][5:]) / total, 4),
+                    'histogram': r['histogram'],
+                })
+    return {'runs': runs, 'overdraw': overdraw}
+
+
+def image_differences(before_root, after_root):
+    import numpy as np
+    from PIL import Image
+
+    before_root, after_root = Path(before_root), Path(after_root)
+    folders = {}
+    for before in sorted(p for p in before_root.rglob('*') if p.suffix in ('.jpg', '.png')):
+        rel = before.relative_to(before_root)
+        after = after_root / rel
+        if not after.exists():
+            raise SystemExit(f'missing {after}')
+        a = np.asarray(Image.open(before).convert('RGB'), int)
+        b = np.asarray(Image.open(after).convert('RGB'), int)
+        d = np.abs(a - b).max(axis=2)
+        h, w = d.shape
+        m = int(min(h, w) * 0.2)
+        entry = folders.setdefault(rel.parts[0], {'images': 0, 'maxDifference': 0, 'maxOver8': 0.0, 'maxCentreOver8': 0.0})
+        entry['images'] += 1
+        entry['maxDifference'] = max(entry['maxDifference'], int(d.max()))
+        entry['maxOver8'] = max(entry['maxOver8'], round(float((d > 8).mean()), 5))
+        entry['maxCentreOver8'] = max(entry['maxCentreOver8'], round(float((d[m:h - m, m:w - m] > 8).mean()), 5))
+    return folders
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--out', required=True)
+    parser.add_argument('--runs', nargs=3, action='append', metavar=('LABEL', 'BEFORE', 'AFTER'), default=[])
+    parser.add_argument('--ablation', nargs='*', default=[])
+    parser.add_argument('--images', nargs=2)
+    args = parser.parse_args()
+    out = {'comparisons': {}}
+    for label, before, after in args.runs:
+        b = before.removeprefix('before=').split(',')
+        a = after.removeprefix('after=').split(',')
+        out['comparisons'][label] = compare_runs(label, b, a)
+    if args.ablation:
+        out['ablation'] = ablation(args.ablation)
+    if args.images:
+        out['images'] = image_differences(*args.images)
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+    Path(args.out).write_text(json.dumps(out, indent=1, ensure_ascii=False) + '\n')
+    for label, comparison in out['comparisons'].items():
+        for v in comparison['views']:
+            print(label, v['stage'], v['lighting'], v['beforeMs'], v['afterMs'], v['medianRatio'])
+
+
+if __name__ == '__main__':
+    main()

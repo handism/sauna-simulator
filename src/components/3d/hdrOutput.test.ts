@@ -1,38 +1,62 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { createHdrOutput } from './hdrOutput';
+import { PREPASS_LAYER } from './depthPrepass';
 
 function fakeRenderer(halfFloat: boolean) {
   const targets: (THREE.WebGLRenderTarget | null)[] = [];
+  // Per render(): the camera's layers and whether it cleared the depth.
+  const passes: { layers: number; clearDepth: boolean }[] = [];
   let target: THREE.WebGLRenderTarget | null = null;
   const renderer = {
     extensions: { has: (name: string) => halfFloat && name === 'EXT_color_buffer_float' },
     info: { render: { calls: 0, triangles: 0 } },
+    autoClearDepth: true,
     getDrawingBufferSize: (size: THREE.Vector2) => size.set(640, 400),
     setRenderTarget: (next: THREE.WebGLRenderTarget | null) => (target = next),
-    render: vi.fn((object: THREE.Object3D) => {
+    render: vi.fn((object: THREE.Object3D, camera: THREE.Camera) => {
       targets.push(target);
+      passes.push({ layers: camera.layers.mask, clearDepth: renderer.autoClearDepth });
       // Each render() resets the counts, as three's info.autoReset does.
-      renderer.info.render =
-        object instanceof THREE.Scene ? { calls: 12, triangles: 3456 } : { calls: 1, triangles: 1 };
+      const prepass = camera.layers.isEnabled(PREPASS_LAYER);
+      renderer.info.render = !(object instanceof THREE.Scene)
+        ? { calls: 1, triangles: 1 }
+        : prepass
+          ? { calls: 7, triangles: 1000 }
+          : { calls: 12, triangles: 3456 };
     }),
   };
-  return { renderer: renderer as unknown as THREE.WebGLRenderer, targets, calls: renderer.render };
+  return { renderer: renderer as unknown as THREE.WebGLRenderer, targets, passes, calls: renderer.render };
+}
+
+// The depth-only pass first, then the lit pass on the camera's own layers keeping that depth.
+function expectPrepass(passes: { layers: number; clearDepth: boolean }[], camera: THREE.Camera) {
+  const prepass = new THREE.Layers();
+  prepass.set(PREPASS_LAYER);
+  expect(passes.slice(0, 2)).toEqual([
+    { layers: prepass.mask, clearDepth: true },
+    { layers: camera.layers.mask, clearDepth: false },
+  ]);
 }
 
 describe('HDR output', () => {
   it('renders the scene into a half-float target and tone maps it once', () => {
-    const { renderer, targets, calls } = fakeRenderer(true);
+    const { renderer, targets, passes, calls } = fakeRenderer(true);
     const output = createHdrOutput(renderer);
     expect(output.hdr).toBe(true);
-    const stats = output.render(new THREE.Scene(), new THREE.PerspectiveCamera());
-    // The scene pass's counts, not the full-screen pass's.
+    const camera = new THREE.PerspectiveCamera();
+    camera.layers.enable(2);
+    const stats = output.render(new THREE.Scene(), camera);
+    // The lit scene pass's counts, not the depth-only or full-screen pass's.
     expect(stats).toEqual({ calls: 12, triangles: 3456 });
-    const [scene, screen] = targets;
+    expectPrepass(passes, camera);
+    expect(renderer.autoClearDepth).toBe(true);
+    const [depth, scene, screen] = targets;
+    expect(depth).toBe(scene);
     expect(scene?.texture.type).toBe(THREE.HalfFloatType);
     expect([scene?.width, scene?.height, scene?.samples]).toEqual([640, 400, 4]);
     expect(screen).toBeNull();
-    const quad = calls.mock.calls[1][0] as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
+    const quad = calls.mock.calls[2][0] as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
     expect(quad.material.toneMapped).toBe(true);
     expect(quad.material.fragmentShader).toContain('#include <tonemapping_fragment>');
     expect(quad.material.uniforms.tScene.value).toBe(scene?.texture);
@@ -43,10 +67,12 @@ describe('HDR output', () => {
   });
 
   it('falls back to per-material tone mapping without half-float color buffers', () => {
-    const { renderer, targets } = fakeRenderer(false);
+    const { renderer, targets, passes } = fakeRenderer(false);
     const output = createHdrOutput(renderer);
     expect(output.hdr).toBe(false);
-    expect(output.render(new THREE.Scene(), new THREE.PerspectiveCamera())).toEqual({ calls: 12, triangles: 3456 });
-    expect(targets).toEqual([null]);
+    const camera = new THREE.PerspectiveCamera();
+    expect(output.render(new THREE.Scene(), camera)).toEqual({ calls: 12, triangles: 3456 });
+    expectPrepass(passes, camera);
+    expect(targets).toEqual([null, null]);
   });
 });

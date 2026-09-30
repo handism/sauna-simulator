@@ -20,6 +20,7 @@ import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
 import { applyCaustics } from './caustics';
 import { applyWaterBottom } from './waterBottom';
 import { createHdrOutput, type RenderStats } from './hdrOutput';
+import { createDepthPrepass } from './depthPrepass';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
 
 interface SceneDefinition {
@@ -126,6 +127,7 @@ export default function SaunaScene({
     element.appendChild(renderer.domElement);
     // Transparent surfaces blend in scene-linear light, tone mapped once (hdrOutput.ts).
     const output = createHdrOutput(renderer);
+    const prepass = createDepthPrepass();
     const lighting = createLighting(scene, renderer);
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
@@ -258,6 +260,7 @@ export default function SaunaScene({
         // After every material change: the mirrored images copy the finished materials.
         const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
         setData('sideImageMeshes', String(sideImages.meshes));
+        count('prepassMeshes', prepass.add(gltf.scene));
         setData('sideImageTriangles', String(sideImages.triangles));
         camera.layers.enable(SIDE_IMAGE_LAYER);
         scene.add(gltf.scene);
@@ -361,6 +364,7 @@ export default function SaunaScene({
             }
             gardenScenes.push(model.scene);
             if (prepare(model.scene)) throw Error('Garden under water');
+            count('prepassMeshes', prepass.add(model.scene));
             // Compile for the pass it is drawn in, off the render loop where the browser can.
             await output.compile(model.scene, camera, scene);
             if (disposed || failed) return;
@@ -426,6 +430,7 @@ export default function SaunaScene({
       releaseProbes();
       mirror?.dispose();
       output.dispose();
+      prepass.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };

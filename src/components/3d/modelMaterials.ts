@@ -7,9 +7,11 @@ import { applyNoiseColor, noiseColorOf, type NoiseColor } from './noiseColor';
 export function disposeTree(root: THREE.Object3D) {
   const textures = new Set<THREE.Texture>();
   const materials = new Set<THREE.Material>();
+  // Depth-only copies (depthPrepass.ts) share their source's geometry.
+  const geometries = new Set<THREE.BufferGeometry>();
   root.traverse((object) => {
     if (object instanceof THREE.Mesh || object instanceof THREE.Points) {
-      object.geometry.dispose();
+      geometries.add(object.geometry);
       for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
         materials.add(material);
         for (const value of Object.values(material)) if (value instanceof THREE.Texture) textures.add(value);
@@ -20,6 +22,7 @@ export function disposeTree(root: THREE.Object3D) {
     texture.dispose();
     if (typeof ImageBitmap !== 'undefined' && texture.image instanceof ImageBitmap) texture.image.close();
   }
+  for (const geometry of geometries) geometry.dispose();
   for (const material of materials) material.dispose();
 }
 

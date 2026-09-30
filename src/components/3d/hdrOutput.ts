@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { PREPASS_LAYER } from './depthPrepass';
 
 // Cycles composites glass, water and steam in scene-linear light and only then applies the view
 // transform. three tone maps every material on its own, so a transparent surface was blended
@@ -28,7 +29,7 @@ export interface RenderStats {
 
 /**
  * Draws the scene through a linear HDR buffer when the device can render to half floats, else
- * directly (materials tone map themselves, as before). Returns the scene pass's draw counts.
+ * directly (materials tone map themselves, as before). Returns the lit scene pass's draw counts.
  */
 export function createHdrOutput(renderer: THREE.WebGLRenderer) {
   const stats: RenderStats = { calls: 0, triangles: 0 };
@@ -37,12 +38,22 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
     stats.triangles = renderer.info.render.triangles;
     return stats;
   };
+  // The depth-only copies first (depthPrepass.ts), then the lit pass over their depth.
+  const drawScene = (scene: THREE.Scene, camera: THREE.Camera) => {
+    const mask = camera.layers.mask;
+    camera.layers.set(PREPASS_LAYER);
+    renderer.render(scene, camera);
+    camera.layers.mask = mask;
+    renderer.autoClearDepth = false;
+    renderer.render(scene, camera);
+    renderer.autoClearDepth = true;
+    return record();
+  };
   if (!renderer.extensions?.has('EXT_color_buffer_float'))
     return {
       hdr: false,
       render(scene: THREE.Scene, camera: THREE.Camera) {
-        renderer.render(scene, camera);
-        return record();
+        return drawScene(scene, camera);
       },
       compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
         return renderer.compileAsync(object, camera, scene);
@@ -71,8 +82,7 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       if (target.width !== size.x || target.height !== size.y) target.setSize(size.x, size.y);
       // Materials skip tone mapping when drawn into a render target.
       renderer.setRenderTarget(target);
-      renderer.render(scene, camera);
-      record();
+      drawScene(scene, camera);
       renderer.setRenderTarget(null);
       renderer.render(quad, screen);
       return stats;
