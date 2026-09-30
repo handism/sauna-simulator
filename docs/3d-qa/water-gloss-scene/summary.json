@@ -1,0 +1,656 @@
+{
+ "input": {
+  "blend": "SUI_Retreat.blend",
+  "blendSha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "blender": "4.5.11 LTS",
+  "scripts": {
+   "diagnose_water_gloss_scene.py": "5d82db2b1a127e02af644f7e428cd0b7061b70a88acf71a092c68dc10e68cedc",
+   "diagnose_water_gloss_slab.py": "41ca6227cd574383da790177c32d9015c8189b0389074d153655c75f2bf121e3",
+   "diagnose_water_floor_disk.py": "45575c71a2cc3dbbd68f10070e44f2174f701119facff344619684c1d5d64690",
+   "diagnose_water_gloss_calibration.py": "1e60b3f938b5f291b4261c5aa578de0b8289fb4282b1f15fcc0b571106ce5128",
+   "water_gloss.py": "d0389c7d102b0687fa8e35bd5152d29be881c02a856e3d1db01721e008669953"
+  },
+  "samples": 1024,
+  "mappingSamples": 64,
+  "seed": 17,
+  "integrationSteps": 161,
+  "stride": 5,
+  "crops": [
+   [
+    1,
+    "down",
+    680,
+    940,
+    0,
+    180
+   ],
+   [
+    2,
+    "level",
+    120,
+    420,
+    520,
+    720
+   ]
+  ],
+  "variants": [
+   "source",
+   "clear",
+   "smooth",
+   "flat",
+   "rim",
+   "bare"
+  ],
+  "lightRadiance": [
+   4.255489712978187,
+   2.97884274835534,
+   1.6596409271862242
+  ]
+ },
+ "sceneJsonSha256": "f5c059839119a48bbae173722d3d3b0b3d890fbac8262b34b2eebe5ed13fecd5",
+ "script_sha256": "0a45b155721d69254fd18df830a0419f01f9efeec36bd073138dff4455736402",
+ "diagnose": {
+  "source-1-down": {
+   "spotGlossMean": [
+    0.1012725979089737,
+    0.08410786092281342,
+    0.04533695429563522
+   ],
+   "spotFillOnMean": [
+    0.5002619028091431,
+    0.39616769552230835,
+    0.21538925170898438
+   ],
+   "spotWeightMean": 0.6725767850875854,
+   "points": 1792,
+   "spotPoints": 375,
+   "cyclesOverAnalysisAll": 0.7893157599189277,
+   "cyclesOverAnalysisSpot": 0.8235627415291187,
+   "correlationAll": 0.6736644171336567,
+   "correlationSpot": 0.2202353815881925
+  },
+  "source-2-level": {
+   "spotGlossMean": [
+    0.09453310072422028,
+    0.07852128148078918,
+    0.042325302958488464
+   ],
+   "spotFillOnMean": [
+    0.4848640263080597,
+    0.38378480076789856,
+    0.2086770385503769
+   ],
+   "spotWeightMean": 0.6708801984786987,
+   "points": 1903,
+   "spotPoints": 473,
+   "cyclesOverAnalysisAll": 0.674683600026163,
+   "cyclesOverAnalysisSpot": 0.9024379255681125,
+   "correlationAll": 0.5028440545641732,
+   "correlationSpot": 0.3649746469794425
+  },
+  "clear-1-down": {
+   "spotGlossMean": [
+    0.12699593603610992,
+    0.08935277909040451,
+    0.04971669986844063
+   ],
+   "spotFillOnMean": [
+    0.5918155908584595,
+    0.41558128595352173,
+    0.2313564270734787
+   ],
+   "spotWeightMean": 0.716972827911377,
+   "points": 1788,
+   "spotPoints": 375,
+   "cyclesOverAnalysisAll": 0.8305116298628921,
+   "cyclesOverAnalysisSpot": 0.867119637652869,
+   "correlationAll": 0.6728079478252529,
+   "correlationSpot": 0.21898777443361714
+  },
+  "clear-2-level": {
+   "spotGlossMean": [
+    0.1185285821557045,
+    0.08341506868600845,
+    0.04641158878803253
+   ],
+   "spotFillOnMean": [
+    0.5733886361122131,
+    0.40265774726867676,
+    0.22416278719902039
+   ],
+   "spotWeightMean": 0.7148720026016235,
+   "points": 1899,
+   "spotPoints": 472,
+   "cyclesOverAnalysisAll": 0.7066205194691586,
+   "cyclesOverAnalysisSpot": 0.9502640087899592,
+   "correlationAll": 0.4993766329061582,
+   "correlationSpot": 0.36450730489717476
+  },
+  "smooth-1-down": {
+   "spotGlossMean": [
+    0.1273338496685028,
+    0.08958986401557922,
+    0.04984847083687782
+   ],
+   "spotFillOnMean": [
+    0.601954460144043,
+    0.42267781496047974,
+    0.2353099286556244
+   ],
+   "spotWeightMean": 0.7173928022384644,
+   "points": 1787,
+   "spotPoints": 375,
+   "cyclesOverAnalysisAll": 0.8363034998513625,
+   "cyclesOverAnalysisSpot": 0.8701785209475381,
+   "correlationAll": 0.6732615683565772,
+   "correlationSpot": 0.21688166992596852
+  },
+  "smooth-2-level": {
+   "spotGlossMean": [
+    0.11884251236915588,
+    0.08363509923219681,
+    0.04653392359614372
+   ],
+   "spotFillOnMean": [
+    0.5829358696937561,
+    0.4093424379825592,
+    0.2278863787651062
+   ],
+   "spotWeightMean": 0.7151406407356262,
+   "points": 1902,
+   "spotPoints": 473,
+   "cyclesOverAnalysisAll": 0.7127103703301239,
+   "cyclesOverAnalysisSpot": 0.9517915858736209,
+   "correlationAll": 0.5047429489176875,
+   "correlationSpot": 0.3646945657800882
+  },
+  "flat-1-down": {
+   "spotGlossMean": [
+    0.1251649111509323,
+    0.08807720988988876,
+    0.04900550842285156
+   ],
+   "spotFillOnMean": [
+    0.578350841999054,
+    0.4061470627784729,
+    0.22609767317771912
+   ],
+   "spotWeightMean": 0.7168219089508057,
+   "points": 1790,
+   "spotPoints": 376,
+   "cyclesOverAnalysisAll": 0.8544916868131105,
+   "cyclesOverAnalysisSpot": 0.8468465365340757,
+   "correlationAll": 0.7191218444741747,
+   "correlationSpot": 0.4048752193013514
+  },
+  "flat-2-level": {
+   "spotGlossMean": [
+    0.11685054749250412,
+    0.08224568516016006,
+    0.045760031789541245
+   ],
+   "spotFillOnMean": [
+    0.5452873706817627,
+    0.3829808235168457,
+    0.21319523453712463
+   ],
+   "spotWeightMean": 0.7162044048309326,
+   "points": 1923,
+   "spotPoints": 472,
+   "cyclesOverAnalysisAll": 0.7021195313245889,
+   "cyclesOverAnalysisSpot": 0.9163032539651979,
+   "correlationAll": 0.5572095728893929,
+   "correlationSpot": 0.5041001113797863
+  },
+  "rim-1-down": {
+   "spotGlossMean": [
+    0.15066446363925934,
+    0.10618259012699127,
+    0.05907919630408287
+   ],
+   "spotFillOnMean": [
+    0.6126207709312439,
+    0.4306603968143463,
+    0.239727184176445
+   ],
+   "spotWeightMean": 0.7168219089508057,
+   "points": 1790,
+   "spotPoints": 376,
+   "cyclesOverAnalysisAll": 1.1330206196238009,
+   "cyclesOverAnalysisSpot": 1.0220958235692794,
+   "correlationAll": 0.6851538109669029,
+   "correlationSpot": 0.4211846189206676
+  },
+  "rim-2-level": {
+   "spotGlossMean": [
+    0.13931156694889069,
+    0.0981898084282875,
+    0.054631128907203674
+   ],
+   "spotFillOnMean": [
+    0.5793855786323547,
+    0.40734538435935974,
+    0.22674304246902466
+   ],
+   "spotWeightMean": 0.7162031531333923,
+   "points": 1923,
+   "spotPoints": 472,
+   "cyclesOverAnalysisAll": 0.9118564182249194,
+   "cyclesOverAnalysisSpot": 1.0944216495583443,
+   "correlationAll": 0.5093034253577613,
+   "correlationSpot": 0.5158791003479648
+  },
+  "bare-1-down": {
+   "spotGlossMean": [
+    0.17071036994457245,
+    0.12026282399892807,
+    0.06691845506429672
+   ],
+   "spotFillOnMean": [
+    0.6427803635597229,
+    0.4519730508327484,
+    0.25158703327178955
+   ],
+   "spotWeightMean": 0.7168169021606445,
+   "points": 1790,
+   "spotPoints": 376,
+   "cyclesOverAnalysisAll": 1.3359176041814778,
+   "cyclesOverAnalysisSpot": 1.1564193079017309,
+   "correlationAll": 0.7850330153498474,
+   "correlationSpot": 0.538157127222321
+  },
+  "bare-2-level": {
+   "spotGlossMean": [
+    0.15903019905090332,
+    0.11203698068857193,
+    0.06234082207083702
+   ],
+   "spotFillOnMean": [
+    0.6138797402381897,
+    0.43169987201690674,
+    0.24029690027236938
+   ],
+   "spotWeightMean": 0.7162044048309326,
+   "points": 1923,
+   "spotPoints": 472,
+   "cyclesOverAnalysisAll": 1.1756417553665086,
+   "cyclesOverAnalysisSpot": 1.2495005911374548,
+   "correlationAll": 0.7003921699738108,
+   "correlationSpot": 0.6286558748350742
+  }
+ },
+ "summary": {
+  "source-1-down": {
+   "spotGlossLuminance": 0.08495782454758882,
+   "overPreviousVariant": null,
+   "overSource": 1.0,
+   "all": {
+    "points": 1792,
+    "cyclesOverMappedAnalysis": 0.7893157599189277,
+    "cyclesOverFlatAnalysis": 0.7892440380818712,
+    "flatOverMappedAnalysis": 1.0000908740941912,
+    "correlationMapped": 0.6736644171336567,
+    "correlationFlat": 0.6964091895905272,
+    "cyclesThroughputMean": 0.6762104561286313,
+    "flatThroughputMean": 0.7130554962407869,
+    "floorShiftMedianM": 0.014810847364125138,
+    "floorShiftP90M": 0.062074754545832375,
+    "directionAngleMedianDeg": 1.0144456903668868
+   },
+   "spot": {
+    "points": 375,
+    "cyclesOverMappedAnalysis": 0.8235627415291187,
+    "cyclesOverFlatAnalysis": 0.7880372106913304,
+    "flatOverMappedAnalysis": 1.045081032159157,
+    "correlationMapped": 0.2202353815881925,
+    "correlationFlat": 0.22937679693403623,
+    "cyclesThroughputMean": 0.6747943774461747,
+    "flatThroughputMean": 0.7034330606365224,
+    "floorShiftMedianM": 0.017334777996289713,
+    "floorShiftP90M": 0.06318120124173639,
+    "directionAngleMedianDeg": 0.8939932718192273
+   }
+  },
+  "clear-1-down": {
+   "spotGlossLuminance": 0.09449398933723568,
+   "overPreviousVariant": 1.1122458683520693,
+   "overSource": 1.1122458683520693,
+   "all": {
+    "points": 1788,
+    "cyclesOverMappedAnalysis": 0.8305116298628921,
+    "cyclesOverFlatAnalysis": 0.8783013888530963,
+    "flatOverMappedAnalysis": 0.9455884283040824,
+    "correlationMapped": 0.6728079478252529,
+    "correlationFlat": 0.6962094372946553,
+    "cyclesThroughputMean": 0.7207074174678298,
+    "flatThroughputMean": 0.7130436311040592,
+    "floorShiftMedianM": 0.015426716306028657,
+    "floorShiftP90M": 0.06592102481679517,
+    "directionAngleMedianDeg": 1.036605319729917
+   },
+   "spot": {
+    "points": 375,
+    "cyclesOverMappedAnalysis": 0.867119637652869,
+    "cyclesOverFlatAnalysis": 0.8765049515865277,
+    "flatOverMappedAnalysis": 0.9892923435096737,
+    "correlationMapped": 0.21898777443361714,
+    "correlationFlat": 0.2286463015035431,
+    "cyclesThroughputMean": 0.7189359232187271,
+    "flatThroughputMean": 0.7034330606365224,
+    "floorShiftMedianM": 0.01817625780574163,
+    "floorShiftP90M": 0.06618148390724206,
+    "directionAngleMedianDeg": 0.9077353586287352
+   }
+  },
+  "smooth-1-down": {
+   "spotGlossLuminance": 0.09474490677788854,
+   "overPreviousVariant": 1.002655379907365,
+   "overSource": 1.115199303682941,
+   "all": {
+    "points": 1787,
+    "cyclesOverMappedAnalysis": 0.8363034998513625,
+    "cyclesOverFlatAnalysis": 0.881692388751056,
+    "flatOverMappedAnalysis": 0.9485207205157025,
+    "correlationMapped": 0.6732615683565772,
+    "correlationFlat": 0.6952383595077368,
+    "cyclesThroughputMean": 0.7212681869846452,
+    "flatThroughputMean": 0.7132194212312722,
+    "floorShiftMedianM": 0.015155844748624189,
+    "floorShiftP90M": 0.0655908111907878,
+    "directionAngleMedianDeg": 1.0312598912850401
+   },
+   "spot": {
+    "points": 375,
+    "cyclesOverMappedAnalysis": 0.8701785209475381,
+    "cyclesOverFlatAnalysis": 0.879035767579555,
+    "flatOverMappedAnalysis": 0.989923906445348,
+    "correlationMapped": 0.21688166992596852,
+    "correlationFlat": 0.22263859586164333,
+    "cyclesThroughputMean": 0.7187083333929379,
+    "flatThroughputMean": 0.7034330606365224,
+    "floorShiftMedianM": 0.018123161742058157,
+    "floorShiftP90M": 0.06840694037898203,
+    "directionAngleMedianDeg": 0.8383511313337059
+   }
+  },
+  "flat-1-down": {
+   "spotGlossLuminance": 0.09314107833206653,
+   "overPreviousVariant": 0.9830721407581109,
+   "overSource": 1.0963213668435434,
+   "all": {
+    "points": 1790,
+    "cyclesOverMappedAnalysis": 0.8544916868131105,
+    "cyclesOverFlatAnalysis": 0.9037590580668952,
+    "flatOverMappedAnalysis": 0.9454861660151263,
+    "correlationMapped": 0.7191218444741747,
+    "correlationFlat": 0.7330034112635095,
+    "cyclesThroughputMean": 0.7243016760525757,
+    "flatThroughputMean": 0.714585893544553,
+    "floorShiftMedianM": 0.013815262628789255,
+    "floorShiftP90M": 0.05584288908246002,
+    "directionAngleMedianDeg": 0.004306526888509324
+   },
+   "spot": {
+    "points": 376,
+    "cyclesOverMappedAnalysis": 0.8468465365340757,
+    "cyclesOverFlatAnalysis": 0.8750138871148245,
+    "flatOverMappedAnalysis": 0.9678092530923997,
+    "correlationMapped": 0.4048752193013514,
+    "correlationFlat": 0.4101939783558462,
+    "cyclesThroughputMean": 0.7155501996266082,
+    "flatThroughputMean": 0.7035045873222109,
+    "floorShiftMedianM": 0.023334070499680323,
+    "floorShiftP90M": 0.06167250900776636,
+    "directionAngleMedianDeg": 0.0
+   }
+  },
+  "rim-1-down": {
+   "spotGlossLuminance": 0.11223857140168549,
+   "overPreviousVariant": 1.20503835054961,
+   "overSource": 1.3211092915734377,
+   "all": {
+    "points": 1790,
+    "cyclesOverMappedAnalysis": 1.1330206196238009,
+    "cyclesOverFlatAnalysis": 1.1983470053360121,
+    "flatOverMappedAnalysis": 0.9454862527954548,
+    "correlationMapped": 0.6851538109669029,
+    "correlationFlat": 0.7004997758626279,
+    "cyclesThroughputMean": 0.7243016760525757,
+    "flatThroughputMean": 0.714585893544553,
+    "floorShiftMedianM": 0.01381555149300091,
+    "floorShiftP90M": 0.05584288908246002,
+    "directionAngleMedianDeg": 0.0035212880086013163
+   },
+   "spot": {
+    "points": 376,
+    "cyclesOverMappedAnalysis": 1.0220958235692794,
+    "cyclesOverFlatAnalysis": 1.056092257545507,
+    "flatOverMappedAnalysis": 0.96780921957023,
+    "correlationMapped": 0.4211846189206676,
+    "correlationFlat": 0.4249552054060205,
+    "cyclesThroughputMean": 0.7155501996266082,
+    "flatThroughputMean": 0.7035045873222109,
+    "floorShiftMedianM": 0.023334070499680323,
+    "floorShiftP90M": 0.06167244940347717,
+    "directionAngleMedianDeg": 0.0
+   }
+  },
+  "bare-1-down": {
+   "spotGlossLuminance": 0.1271365088298917,
+   "overPreviousVariant": 1.1327345603401229,
+   "overSource": 1.4964661525516891,
+   "all": {
+    "points": 1790,
+    "cyclesOverMappedAnalysis": 1.3359176041814778,
+    "cyclesOverFlatAnalysis": 1.4129425537164557,
+    "flatOverMappedAnalysis": 0.9454861421418871,
+    "correlationMapped": 0.7850330153498474,
+    "correlationFlat": 0.7956981229408612,
+    "cyclesThroughputMean": 0.7243016761025237,
+    "flatThroughputMean": 0.714585893544553,
+    "floorShiftMedianM": 0.01381555149300091,
+    "floorShiftP90M": 0.05584288908246002,
+    "directionAngleMedianDeg": 0.0036586248505950784
+   },
+   "spot": {
+    "points": 376,
+    "cyclesOverMappedAnalysis": 1.1564193079017309,
+    "cyclesOverFlatAnalysis": 1.1948834965729056,
+    "flatOverMappedAnalysis": 0.9678092560642979,
+    "correlationMapped": 0.538157127222321,
+    "correlationFlat": 0.5415170346454533,
+    "cyclesThroughputMean": 0.7155501996266082,
+    "flatThroughputMean": 0.7035045873222109,
+    "floorShiftMedianM": 0.023334352703174806,
+    "floorShiftP90M": 0.06167244940347717,
+    "directionAngleMedianDeg": 0.0
+   }
+  },
+  "source-2-level": {
+   "spotGlossLuminance": 0.07931204460263251,
+   "overPreviousVariant": null,
+   "overSource": 1.0,
+   "all": {
+    "points": 1902,
+    "cyclesOverMappedAnalysis": 0.6746883450813731,
+    "cyclesOverFlatAnalysis": 0.7353435226479925,
+    "flatOverMappedAnalysis": 0.9175145007761837,
+    "correlationMapped": 0.5026664930714396,
+    "correlationFlat": 0.6018635732922843,
+    "cyclesThroughputMean": 0.6599142469708601,
+    "flatThroughputMean": 0.6914056047441257,
+    "floorShiftMedianM": 0.01721112450215122,
+    "floorShiftP90M": 0.07716143437410905,
+    "directionAngleMedianDeg": 1.0935570019272491
+   },
+   "spot": {
+    "points": 473,
+    "cyclesOverMappedAnalysis": 0.9024379255681125,
+    "cyclesOverFlatAnalysis": 0.8576887654101226,
+    "flatOverMappedAnalysis": 1.052174124184304,
+    "correlationMapped": 0.3649746469794425,
+    "correlationFlat": 0.3611755349094126,
+    "cyclesThroughputMean": 0.681606269443514,
+    "flatThroughputMean": 0.7126337860268606,
+    "floorShiftMedianM": 0.01686472719402548,
+    "floorShiftP90M": 0.06098145656514357,
+    "directionAngleMedianDeg": 0.8970618114122404
+   }
+  },
+  "clear-2-level": {
+   "spotGlossLuminance": 0.08820855040103197,
+   "overPreviousVariant": 1.1121709299384797,
+   "overSource": 1.1121709299384797,
+   "all": {
+    "points": 1898,
+    "cyclesOverMappedAnalysis": 0.7066241118461225,
+    "cyclesOverFlatAnalysis": 0.8177078623106909,
+    "flatOverMappedAnalysis": 0.8641522778677139,
+    "correlationMapped": 0.4991958857566255,
+    "correlationFlat": 0.601524386186548,
+    "cyclesThroughputMean": 0.70318201110081,
+    "flatThroughputMean": 0.6913914438074,
+    "floorShiftMedianM": 0.017990093868099105,
+    "floorShiftP90M": 0.08264693114446418,
+    "directionAngleMedianDeg": 1.1055649248568944
+   },
+   "spot": {
+    "points": 472,
+    "cyclesOverMappedAnalysis": 0.9502640087899592,
+    "cyclesOverFlatAnalysis": 0.954404853228041,
+    "flatOverMappedAnalysis": 0.9956613334225235,
+    "correlationMapped": 0.36450730489717476,
+    "correlationFlat": 0.3608384316262079,
+    "cyclesThroughputMean": 0.7265978462173271,
+    "flatThroughputMean": 0.7125788245450684,
+    "floorShiftMedianM": 0.017609441879607182,
+    "floorShiftP90M": 0.06219237039929489,
+    "directionAngleMedianDeg": 0.9112358778580718
+   }
+  },
+  "smooth-2-level": {
+   "spotGlossLuminance": 0.08844149038419127,
+   "overPreviousVariant": 1.0026407868863083,
+   "overSource": 1.1151079363455942,
+   "all": {
+    "points": 1901,
+    "cyclesOverMappedAnalysis": 0.7127133416835213,
+    "cyclesOverFlatAnalysis": 0.8200758731978594,
+    "flatOverMappedAnalysis": 0.8690821971195405,
+    "correlationMapped": 0.5045656499928453,
+    "correlationFlat": 0.6012735162547493,
+    "cyclesThroughputMean": 0.7025496450569804,
+    "flatThroughputMean": 0.6916199210517736,
+    "floorShiftMedianM": 0.017986617131951096,
+    "floorShiftP90M": 0.08048540206800943,
+    "directionAngleMedianDeg": 1.0910441542321787
+   },
+   "spot": {
+    "points": 473,
+    "cyclesOverMappedAnalysis": 0.9517915858736209,
+    "cyclesOverFlatAnalysis": 0.9581958423487317,
+    "flatOverMappedAnalysis": 0.993316338693964,
+    "correlationMapped": 0.3646945657800882,
+    "correlationFlat": 0.3629235056392685,
+    "cyclesThroughputMean": 0.7263477801268499,
+    "flatThroughputMean": 0.7126337860268606,
+    "floorShiftMedianM": 0.017903079509130896,
+    "floorShiftP90M": 0.05965187618875004,
+    "directionAngleMedianDeg": 0.8848855546607508
+   }
+  },
+  "flat-2-level": {
+   "spotGlossLuminance": 0.08696841471865772,
+   "overPreviousVariant": 0.9833440655609207,
+   "overSource": 1.096534771665325,
+   "all": {
+    "points": 1923,
+    "cyclesOverMappedAnalysis": 0.7021195313245889,
+    "cyclesOverFlatAnalysis": 0.8172987658577113,
+    "flatOverMappedAnalysis": 0.8590732797543772,
+    "correlationMapped": 0.5572095728893929,
+    "correlationFlat": 0.6513520471511306,
+    "cyclesThroughputMean": 0.7033443839690738,
+    "flatThroughputMean": 0.693032273475931,
+    "floorShiftMedianM": 0.02010706039803103,
+    "floorShiftP90M": 0.07104821569641108,
+    "directionAngleMedianDeg": 0.005513204501245004
+   },
+   "spot": {
+    "points": 472,
+    "cyclesOverMappedAnalysis": 0.9163032539651979,
+    "cyclesOverFlatAnalysis": 0.9462020091997618,
+    "flatOverMappedAnalysis": 0.9684012980908269,
+    "correlationMapped": 0.5041001113797863,
+    "correlationFlat": 0.503162923529694,
+    "cyclesThroughputMean": 0.7277873413542569,
+    "flatThroughputMean": 0.7126110693865972,
+    "floorShiftMedianM": 0.022375094270400686,
+    "floorShiftP90M": 0.05616627253525419,
+    "directionAngleMedianDeg": 0.0
+   }
+  },
+  "rim-2-level": {
+   "spotGlossLuminance": 0.10378735762834548,
+   "overPreviousVariant": 1.1933913934627522,
+   "overSource": 1.3085951591380434,
+   "all": {
+    "points": 1923,
+    "cyclesOverMappedAnalysis": 0.9118564182249194,
+    "cyclesOverFlatAnalysis": 1.0614419168516558,
+    "flatOverMappedAnalysis": 0.8590733074962574,
+    "correlationMapped": 0.5093034253577613,
+    "correlationFlat": 0.609231429729833,
+    "cyclesThroughputMean": 0.7033443839303293,
+    "flatThroughputMean": 0.693032273475931,
+    "floorShiftMedianM": 0.02010706039803103,
+    "floorShiftP90M": 0.07104821569641108,
+    "directionAngleMedianDeg": 0.0067106712368236055
+   },
+   "spot": {
+    "points": 472,
+    "cyclesOverMappedAnalysis": 1.0944216495583443,
+    "cyclesOverFlatAnalysis": 1.1301322718533686,
+    "flatOverMappedAnalysis": 0.9684013781533196,
+    "correlationMapped": 0.5158791003479648,
+    "correlationFlat": 0.516819210840866,
+    "cyclesThroughputMean": 0.7277873413542569,
+    "flatThroughputMean": 0.7126110693865972,
+    "floorShiftMedianM": 0.02237519846267149,
+    "floorShiftP90M": 0.05616624950965145,
+    "directionAngleMedianDeg": 0.0
+   }
+  },
+  "bare-2-level": {
+   "spotGlossLuminance": 0.11843967626020312,
+   "overPreviousVariant": 1.1411763336756915,
+   "overSource": 1.4933378259709105,
+   "all": {
+    "points": 1923,
+    "cyclesOverMappedAnalysis": 1.1756417553665086,
+    "cyclesOverFlatAnalysis": 1.368499951295063,
+    "flatOverMappedAnalysis": 0.8590732898849975,
+    "correlationMapped": 0.7003921699738108,
+    "correlationFlat": 0.7810858545918964,
+    "cyclesThroughputMean": 0.7033443839380782,
+    "flatThroughputMean": 0.693032273475931,
+    "floorShiftMedianM": 0.02010706039803103,
+    "floorShiftP90M": 0.07104821569641108,
+    "directionAngleMedianDeg": 0.00673846090413703
+   },
+   "spot": {
+    "points": 472,
+    "cyclesOverMappedAnalysis": 1.2495005911374548,
+    "cyclesOverFlatAnalysis": 1.2902714635256674,
+    "flatOverMappedAnalysis": 0.9684013220932546,
+    "correlationMapped": 0.6286558748350742,
+    "correlationFlat": 0.6275688960293975,
+    "cyclesThroughputMean": 0.7277873413542569,
+    "flatThroughputMean": 0.7126110693865972,
+    "floorShiftMedianM": 0.022374987639673605,
+    "floorShiftP90M": 0.05616623799696682,
+    "directionAngleMedianDeg": 0.0
+   }
+  }
+ }
+}
