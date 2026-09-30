@@ -4,7 +4,8 @@ ablations and the fragments shaded per pixel, and the pixel differences of captu
 python3 scripts/summarize_frame_cost.py --out docs/3d-qa/depth-prepass/cost.json \
     --runs standard before=<json>,<json>,... after=<json>,... \
     [--runs high before=... after=...] [--ablation <json>...] [--images <before dir> <after dir>] \
-    [--image-runs before=<dir>,<dir> after=<dir>,<dir>] [--overdraw <before json> <after json>]
+    [--image-runs before=<dir>,<dir> after=<dir>,<dir>] [--overdraw <before json> <after json>] \
+    [--light-costs <json>...]
 
 Each report is Playwright's JSON reporter output (build logs before the first `{` are skipped).
 --runs pairs the i-th `before` run with the i-th `after` run (run them alternately) and records,
@@ -16,6 +17,11 @@ the largest channel difference and the share of pixels over 8 levels, whole and 
 repeated captures of each build and checks, per image, that every `after` capture is pixel-equal to
 some `before` capture: two page loads may differ (e2e/CLAUDE.md), so one pair alone cannot tell a
 change from that. --overdraw keeps the fragments shaded per pixel of a before and an after report.
+--light-costs takes reports that ran `noshadow-*` variants between product runs: a variant's saving
+is the mean of the product medians just before and after it in its report minus its own median,
+and per view the savings of all reports are kept with their median (with the sum of the
+single-light medians, to set against `noshadow-all`). Other variants (`rolled`) are kept the
+same way. `warmup` runs are left out.
 """
 import argparse
 import base64
@@ -103,6 +109,40 @@ def ablation(paths):
     return {'runs': runs, 'overdraw': overdraw}
 
 
+def light_costs(paths):
+    views = {}
+    for path in paths:
+        runs = [run for run in attachments(path, 'frame-cost') if run['variant'] != 'warmup']
+        medians = [{(r['stage'], r['lighting']): r['gpuMs']['median'] for r in run['results']} for run in runs]
+        products = [i for i, run in enumerate(runs) if run['variant'] == 'product']
+        if not products or products[0] > min(i for i, run in enumerate(runs) if run['variant'] != 'product') \
+                or products[-1] != len(runs) - 1:
+            raise SystemExit(f'{path}: expected product runs around the variants')
+        for i in products:
+            for key, ms in medians[i].items():
+                views.setdefault(key, {'productMs': [], 'savingMs': {}})['productMs'].append(ms)
+        for i, run in enumerate(runs):
+            if run['variant'] == 'product':
+                continue
+            before = max(j for j in products if j < i)
+            after = min(j for j in products if j > i)
+            for key, ms in medians[i].items():
+                saving = round((medians[before][key] + medians[after][key]) / 2 - ms, 2)
+                views[key]['savingMs'].setdefault(run['variant'], []).append(saving)
+    out = []
+    for (stage, lighting), view in views.items():
+        medians = {variant: round(statistics.median(ms), 2) for variant, ms in view['savingMs'].items()}
+        out.append({
+            'stage': stage, 'lighting': lighting,
+            'productMs': view['productMs'],
+            'medianSavingMs': medians,
+            'sumOfSingleLights': round(sum(ms for variant, ms in medians.items()
+                                           if variant.startswith('noshadow-') and variant != 'noshadow-all'), 2),
+            'savingMs': view['savingMs'],
+        })
+    return out
+
+
 def image_differences(before_root, after_root):
     import numpy as np
     from PIL import Image
@@ -163,6 +203,7 @@ def main():
     parser.add_argument('--images', nargs=2)
     parser.add_argument('--image-runs', nargs=2, metavar=('BEFORE', 'AFTER'))
     parser.add_argument('--overdraw', nargs=2, metavar=('BEFORE', 'AFTER'))
+    parser.add_argument('--light-costs', nargs='*', default=[])
     args = parser.parse_args()
     out = {'comparisons': {}}
     for label, before, after in args.runs:
@@ -179,11 +220,15 @@ def main():
                                       after.removeprefix('after=').split(','))
     if args.overdraw:
         out['overdraw'] = {side: ablation([path])['overdraw'] for side, path in zip(('before', 'after'), args.overdraw)}
+    if args.light_costs:
+        out['lightCosts'] = light_costs(args.light_costs)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(out, indent=1, ensure_ascii=False) + '\n')
     for label, comparison in out['comparisons'].items():
         for v in comparison['views']:
             print(label, v['stage'], v['lighting'], v['beforeMs'], v['afterMs'], v['medianRatio'])
+    for v in out.get('lightCosts', []):
+        print(v['stage'], v['lighting'], v['productMs'], v['medianSavingMs'], v['sumOfSingleLights'])
 
 
 if __name__ == '__main__':

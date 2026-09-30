@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { patchFrameCost } from './frame-cost';
+import { patchFrameCost, type FrameCostMode } from './frame-cost';
 import { timeFrames } from './gpu-timer';
 
 test.use({ viewport: { width: 1200, height: 800 } });
@@ -8,6 +8,9 @@ test.use({ viewport: { width: 1200, height: 800 } });
 // fragment shader returning a constant, in the order product, trivial, trivial, product; then the
 // fragments shaded per pixel. Default views of the three stages by day, dusk and night, at the
 // standard quality (FRAME_COST_QUALITY=high for the high one). A diagnosis on one machine.
+// FRAME_COST_VARIANTS picks other orders and variants, e.g. warmup,product,noshadow-sun,...,product;
+// `warmup` is the product in a first test that summaries leave out (the first page after launch
+// timed 2–4x slower).
 const QUALITY = process.env.FRAME_COST_QUALITY ?? 'standard';
 const STAGES = [
   ['sauna', '限界.. 水風呂へ 💧'],
@@ -43,18 +46,19 @@ async function eachView(page: Page, measure: (stage: string, lighting: string) =
 
 for (const [index, variant] of (
   (process.env.FRAME_COST_VARIANTS?.split(',') ?? ['product', 'trivial', 'trivial', 'product']) as (
-    'product' | 'trivial' | 'discard'
+    'product' | 'warmup' | Exclude<FrameCostMode, 'overdraw'>
   )[]
 ).entries()) {
   test(`frame cost ${index} ${variant}`, async ({ page, browser }, info) => {
     test.setTimeout(180_000);
     await page.addInitScript(timeFrames);
-    if (variant !== 'product') await page.addInitScript(patchFrameCost, variant);
+    if (variant !== 'product' && variant !== 'warmup') await page.addInitScript(patchFrameCost, variant);
     const scene = await enter(page);
     test.skip(
       !(await page.evaluate(() => Boolean((window as unknown as { suiTimer?: object }).suiTimer))),
       'EXT_disjoint_timer_query_webgl2 is not available',
     );
+    const skips = () => page.evaluate(() => (window as unknown as { suiShadowSkips?: number }).suiShadowSkips ?? 0);
     const results: object[] = [];
     await eachView(page, async (stage, lighting) => {
       await page.evaluate(() => {
@@ -78,6 +82,8 @@ for (const [index, variant] of (
         metrics: await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })),
       });
     });
+    // A shadow variant that no longer matches the shaders would time the product.
+    if (variant.startsWith('noshadow-') || variant === 'rolled') expect(await skips()).toBeGreaterThan(0);
     await info.attach('frame-cost', {
       contentType: 'application/json',
       body: JSON.stringify({ browser: browser.version(), variant, index, quality: QUALITY, results }),

@@ -1,0 +1,1007 @@
+{
+ "comparisons": {},
+ "ablation": {
+  "runs": [
+   {
+    "variant": "product",
+    "index": 0,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 56.229499,
+     "sauna/evening": 77.138166,
+     "sauna/night": 106.221791,
+     "water/day": 113.1955,
+     "water/evening": 133.447041,
+     "water/night": 153.4025,
+     "totonou/day": 66.845583,
+     "totonou/evening": 79.827208,
+     "totonou/night": 75.3575
+    }
+   },
+   {
+    "variant": "noshadow-all",
+    "index": 1,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 22.507208,
+     "sauna/evening": 28.315499,
+     "sauna/night": 24.933416,
+     "water/day": 45.142333,
+     "water/evening": 54.140874,
+     "water/night": 52.687875,
+     "totonou/day": 13.385416,
+     "totonou/evening": 15.561458,
+     "totonou/night": 17.353041
+    }
+   },
+   {
+    "variant": "noshadow-sun",
+    "index": 2,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 63.363875,
+     "sauna/evening": 42.512708,
+     "sauna/night": 43.686375,
+     "water/day": 32.441625,
+     "water/evening": 55.816291,
+     "water/night": 54.853541,
+     "totonou/day": 12.35425,
+     "totonou/evening": 31.586375,
+     "totonou/night": 31.033333
+    }
+   },
+   {
+    "variant": "noshadow-spot0",
+    "index": 3,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 14.026833,
+     "sauna/evening": 39.358958,
+     "sauna/night": 43.824375,
+     "water/day": 35.561624,
+     "water/evening": 56.782666,
+     "water/night": 64.040999,
+     "totonou/day": 13.380625,
+     "totonou/evening": 35.475791,
+     "totonou/night": 36.387125
+    }
+   },
+   {
+    "variant": "noshadow-spot1",
+    "index": 4,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 15.507499,
+     "sauna/evening": 38.909124,
+     "sauna/night": 43.581208,
+     "water/day": 41.383791,
+     "water/evening": 57.797875,
+     "water/night": 64.676875,
+     "totonou/day": 13.601291,
+     "totonou/evening": 34.318625,
+     "totonou/night": 37.678208
+    }
+   },
+   {
+    "variant": "noshadow-spot2",
+    "index": 5,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 15.284999,
+     "sauna/evening": 34.633374,
+     "sauna/night": 39.262708,
+     "water/day": 41.373916,
+     "water/evening": 50.895874,
+     "water/night": 58.531416,
+     "totonou/day": 13.934875,
+     "totonou/evening": 16.4595,
+     "totonou/night": 32.653791
+    }
+   },
+   {
+    "variant": "noshadow-spot3",
+    "index": 6,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 14.845999,
+     "sauna/evening": 34.84975,
+     "sauna/night": 39.56325,
+     "water/day": 40.795291,
+     "water/evening": 52.143333,
+     "water/night": 58.123958,
+     "totonou/day": 14.265124,
+     "totonou/evening": 25.121208,
+     "totonou/night": 33.129916
+    }
+   },
+   {
+    "variant": "noshadow-spot4",
+    "index": 7,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 14.515583,
+     "sauna/evening": 34.093083,
+     "sauna/night": 39.1585,
+     "water/day": 40.974374,
+     "water/evening": 51.760499,
+     "water/night": 56.57225,
+     "totonou/day": 13.742958,
+     "totonou/evening": 16.368249,
+     "totonou/night": 32.975249
+    }
+   },
+   {
+    "variant": "noshadow-spot5",
+    "index": 8,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 14.438999,
+     "sauna/evening": 34.575625,
+     "sauna/night": 39.048666,
+     "water/day": 40.73425,
+     "water/evening": 50.272749,
+     "water/night": 55.880833,
+     "totonou/day": 13.8595,
+     "totonou/evening": 17.301749,
+     "totonou/night": 31.628708
+    }
+   },
+   {
+    "variant": "product",
+    "index": 9,
+    "quality": "standard",
+    "medianMs": {
+     "sauna/day": 15.754374,
+     "sauna/evening": 39.3945,
+     "sauna/night": 43.277249,
+     "water/day": 36.023458,
+     "water/evening": 55.925,
+     "water/night": 62.137416,
+     "totonou/day": 13.896291,
+     "totonou/evening": 34.574875,
+     "totonou/night": 36.283749
+    }
+   }
+  ],
+  "overdraw": []
+ },
+ "lightCosts": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "productMs": [
+    15.675999,
+    14.679666,
+    14.656125,
+    14.701666,
+    14.697041,
+    21.337958,
+    15.845416,
+    14.893125,
+    14.821833,
+    14.661166,
+    14.840416,
+    14.785749,
+    14.774999,
+    16.910791,
+    15.002125,
+    15.506625,
+    16.918,
+    15.71625,
+    15.403708
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 0.71,
+    "noshadow-spot4": 0.3,
+    "noshadow-spot3": 0.12,
+    "noshadow-spot2": -0.04,
+    "noshadow-spot1": 0.16,
+    "noshadow-spot0": 1.05,
+    "noshadow-sun": 0.9,
+    "noshadow-all": 5.24,
+    "rolled": -15.16
+   },
+   "sumOfSingleLights": 3.2,
+   "savingMs": {
+    "noshadow-spot5": [
+     0.53,
+     1.86,
+     0.89,
+     0.39
+    ],
+    "noshadow-spot4": [
+     -0.61,
+     0.24,
+     0.37,
+     0.42
+    ],
+    "noshadow-spot3": [
+     0.61,
+     0.15,
+     -1.58,
+     0.1
+    ],
+    "noshadow-spot2": [
+     -0.11,
+     0.19,
+     -0.52,
+     0.03
+    ],
+    "noshadow-spot1": [
+     0.52,
+     -1.81,
+     0.18,
+     0.14
+    ],
+    "noshadow-spot0": [
+     1.49,
+     1.99,
+     0.5,
+     0.62
+    ],
+    "noshadow-sun": [
+     1.59,
+     0.49,
+     0.7,
+     1.09
+    ],
+    "noshadow-all": [
+     5.1,
+     7.63,
+     5.38,
+     4.6
+    ],
+    "rolled": [
+     -15.85,
+     -14.56,
+     -14.8,
+     -15.53
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "productMs": [
+    40.804166,
+    36.541,
+    36.746999,
+    36.832874,
+    36.990458,
+    38.549208,
+    45.115208,
+    40.9695,
+    38.628708,
+    37.509624,
+    36.532833,
+    36.815416,
+    37.210833,
+    46.506666,
+    46.0945,
+    46.694666,
+    44.510874,
+    46.248999,
+    46.299583
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 3.79,
+    "noshadow-spot4": 4.09,
+    "noshadow-spot3": 3.9,
+    "noshadow-spot2": 4.36,
+    "noshadow-spot1": -2.7,
+    "noshadow-spot0": -0.07,
+    "noshadow-sun": 2.04,
+    "noshadow-all": 27.66,
+    "rolled": -13.16
+   },
+   "sumOfSingleLights": 15.41,
+   "savingMs": {
+    "noshadow-spot5": [
+     3.47,
+     -2.5,
+     9.78,
+     4.11
+    ],
+    "noshadow-spot4": [
+     3.91,
+     4.27,
+     9.32,
+     2.49
+    ],
+    "noshadow-spot3": [
+     4.26,
+     4.09,
+     1.24,
+     3.71
+    ],
+    "noshadow-spot2": [
+     3.87,
+     4.5,
+     6.4,
+     4.22
+    ],
+    "noshadow-spot1": [
+     -0.48,
+     -7.63,
+     -1.65,
+     -3.75
+    ],
+    "noshadow-spot0": [
+     -0.3,
+     -6.37,
+     1.04,
+     0.15
+    ],
+    "noshadow-sun": [
+     1.9,
+     2.17,
+     2.77,
+     1.45
+    ],
+    "noshadow-all": [
+     28.12,
+     27.19,
+     32.53,
+     26.47
+    ],
+    "rolled": [
+     -13.53,
+     -15.93,
+     -10.2,
+     -12.79
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "night",
+   "productMs": [
+    46.184124,
+    40.626708,
+    40.590874,
+    40.657833,
+    40.720708,
+    42.867249,
+    53.945958,
+    48.264458,
+    41.403125,
+    40.608833,
+    41.1055,
+    41.296791,
+    41.1105,
+    52.464666,
+    53.239166,
+    52.8675,
+    51.210833,
+    54.127208,
+    53.271666
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 3.86,
+    "noshadow-spot4": 4.06,
+    "noshadow-spot3": 3.93,
+    "noshadow-spot2": 4.17,
+    "noshadow-spot1": -2.18,
+    "noshadow-spot0": 0.45,
+    "noshadow-sun": 6.29,
+    "noshadow-all": 32.08,
+    "rolled": -12.71
+   },
+   "sumOfSingleLights": 20.58,
+   "savingMs": {
+    "noshadow-spot5": [
+     3.26,
+     -3.79,
+     13.71,
+     4.46
+    ],
+    "noshadow-spot4": [
+     4.08,
+     4.04,
+     10.37,
+     -0.18
+    ],
+    "noshadow-spot3": [
+     3.85,
+     4.02,
+     6.84,
+     3.71
+    ],
+    "noshadow-spot2": [
+     4.27,
+     4.33,
+     -0.17,
+     4.07
+    ],
+    "noshadow-spot1": [
+     0.15,
+     -4.51,
+     3.29,
+     -5.89
+    ],
+    "noshadow-spot0": [
+     0.58,
+     -10.02,
+     0.38,
+     0.52
+    ],
+    "noshadow-sun": [
+     6.46,
+     6.25,
+     6.33,
+     5.7
+    ],
+    "noshadow-all": [
+     32.87,
+     31.29,
+     40.56,
+     30.63
+    ],
+    "rolled": [
+     -13.79,
+     -17.05,
+     -9.36,
+     -11.64
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "productMs": [
+    37.124624,
+    40.631249,
+    40.107833,
+    40.619874,
+    41.094375,
+    41.385249,
+    42.504583,
+    40.937541,
+    41.614124,
+    40.812291,
+    41.372874,
+    41.3295,
+    40.462333,
+    41.901374,
+    39.460041,
+    41.614958,
+    42.022499,
+    42.05775,
+    41.26325
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 0.09,
+    "noshadow-spot4": -0.34,
+    "noshadow-spot3": -0.57,
+    "noshadow-spot2": -0.35,
+    "noshadow-spot1": -0.54,
+    "noshadow-spot0": 5.25,
+    "noshadow-sun": 9.94,
+    "noshadow-all": 28.34,
+    "rolled": -1.01
+   },
+   "sumOfSingleLights": 13.48,
+   "savingMs": {
+    "noshadow-spot5": [
+     -1.34,
+     -0.51,
+     0.69,
+     1.31
+    ],
+    "noshadow-spot4": [
+     -2.35,
+     -0.11,
+     0.94,
+     -0.56
+    ],
+    "noshadow-spot3": [
+     -2.2,
+     -0.69,
+     -0.45,
+     0.28
+    ],
+    "noshadow-spot2": [
+     -2.37,
+     0.09,
+     -0.77,
+     0.08
+    ],
+    "noshadow-spot1": [
+     -2.55,
+     -0.17,
+     0.14,
+     -0.91
+    ],
+    "noshadow-spot0": [
+     3.28,
+     4.67,
+     5.84,
+     6.26
+    ],
+    "noshadow-sun": [
+     7.55,
+     9.64,
+     10.32,
+     10.24
+    ],
+    "noshadow-all": [
+     25.41,
+     28.21,
+     29.6,
+     28.47
+    ],
+    "rolled": [
+     -2.16,
+     -0.85,
+     -0.51,
+     -1.18
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "productMs": [
+    60.259791,
+    56.363208,
+    56.715375,
+    54.801874,
+    58.379125,
+    61.240499,
+    59.784708,
+    57.705749,
+    58.962374,
+    57.107624,
+    56.718874,
+    57.067499,
+    58.033791,
+    58.668375,
+    59.364499,
+    58.526166,
+    59.510166,
+    59.407749,
+    58.522666
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 6.62,
+    "noshadow-spot4": 7.04,
+    "noshadow-spot3": 5.21,
+    "noshadow-spot2": 6.47,
+    "noshadow-spot1": -0.35,
+    "noshadow-spot0": -0.44,
+    "noshadow-sun": 2.63,
+    "noshadow-all": 46.27,
+    "rolled": -16.04
+   },
+   "sumOfSingleLights": 27.18,
+   "savingMs": {
+    "noshadow-spot5": [
+     7.72,
+     6.23,
+     6.34,
+     6.9
+    ],
+    "noshadow-spot4": [
+     7.26,
+     6.92,
+     7.17,
+     5.32
+    ],
+    "noshadow-spot3": [
+     6.55,
+     5.42,
+     5.01,
+     4.56
+    ],
+    "noshadow-spot2": [
+     6.66,
+     6.77,
+     5.86,
+     6.29
+    ],
+    "noshadow-spot1": [
+     -0.21,
+     -0.5,
+     1.06,
+     -0.91
+    ],
+    "noshadow-spot0": [
+     1.11,
+     -1.33,
+     -0.8,
+     -0.08
+    ],
+    "noshadow-sun": [
+     4.17,
+     2.31,
+     2.95,
+     1.13
+    ],
+    "noshadow-all": [
+     44.69,
+     48.39,
+     46.05,
+     46.5
+    ],
+    "rolled": [
+     -17.0,
+     -14.33,
+     -15.88,
+     -16.19
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "productMs": [
+    64.370666,
+    62.726916,
+    61.566416,
+    61.123749,
+    65.371249,
+    65.783124,
+    66.706999,
+    62.884291,
+    62.729541,
+    60.211958,
+    64.924583,
+    64.647625,
+    64.769208,
+    65.440624,
+    66.166,
+    67.091874,
+    66.081124,
+    66.811249,
+    65.591458
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 7.21,
+    "noshadow-spot4": 6.52,
+    "noshadow-spot3": 5.23,
+    "noshadow-spot2": 6.58,
+    "noshadow-spot1": -0.81,
+    "noshadow-spot0": -0.22,
+    "noshadow-sun": 9.01,
+    "noshadow-all": 52.12,
+    "rolled": -14.61
+   },
+   "sumOfSingleLights": 33.52,
+   "savingMs": {
+    "noshadow-spot5": [
+     6.13,
+     5.57,
+     8.29,
+     8.37
+    ],
+    "noshadow-spot4": [
+     6.18,
+     6.86,
+     7.19,
+     4.37
+    ],
+    "noshadow-spot3": [
+     4.58,
+     5.88,
+     3.65,
+     6.45
+    ],
+    "noshadow-spot2": [
+     6.42,
+     6.75,
+     3.49,
+     7.26
+    ],
+    "noshadow-spot1": [
+     0.84,
+     -3.02,
+     -0.86,
+     -0.77
+    ],
+    "noshadow-spot0": [
+     0.29,
+     -3.58,
+     -0.73,
+     2.93
+    ],
+    "noshadow-sun": [
+     8.93,
+     9.09,
+     7.69,
+     10.84
+    ],
+    "noshadow-all": [
+     50.05,
+     53.01,
+     52.76,
+     51.48
+    ],
+    "rolled": [
+     -15.75,
+     -14.65,
+     -12.27,
+     -14.56
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "productMs": [
+    13.646291,
+    13.575666,
+    14.549791,
+    13.886375,
+    14.122083,
+    13.4225,
+    13.492999,
+    12.44025,
+    14.044874,
+    13.720875,
+    14.104041,
+    13.54025,
+    13.164249,
+    13.344624,
+    13.142708,
+    13.161625,
+    14.022625,
+    13.36525,
+    13.573291
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": -0.16,
+    "noshadow-spot4": -0.03,
+    "noshadow-spot3": -0.29,
+    "noshadow-spot2": 0.1,
+    "noshadow-spot1": 0.09,
+    "noshadow-spot0": 0.63,
+    "noshadow-sun": 1.29,
+    "noshadow-all": 7.15,
+    "rolled": 0.11
+   },
+   "sumOfSingleLights": 1.63,
+   "savingMs": {
+    "noshadow-spot5": [
+     -0.15,
+     0.13,
+     -0.81,
+     -0.18
+    ],
+    "noshadow-spot4": [
+     -0.1,
+     0.08,
+     -0.64,
+     0.04
+    ],
+    "noshadow-spot3": [
+     -0.29,
+     0.25,
+     -0.5,
+     -0.28
+    ],
+    "noshadow-spot2": [
+     0.13,
+     0.07,
+     -0.47,
+     0.16
+    ],
+    "noshadow-spot1": [
+     -0.06,
+     0.37,
+     -0.61,
+     0.23
+    ],
+    "noshadow-spot0": [
+     -0.07,
+     0.61,
+     2.11,
+     0.65
+    ],
+    "noshadow-sun": [
+     0.23,
+     1.5,
+     1.23,
+     1.35
+    ],
+    "noshadow-all": [
+     7.24,
+     7.49,
+     6.72,
+     7.06
+    ],
+    "rolled": [
+     0.1,
+     0.12,
+     0.93,
+     -0.27
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "productMs": [
+    36.414875,
+    34.357333,
+    34.154666,
+    33.961708,
+    34.788333,
+    36.403874,
+    36.340624,
+    35.562458,
+    35.041874,
+    35.306583,
+    34.453958,
+    35.299499,
+    37.499124,
+    37.497625,
+    36.960041,
+    37.3025,
+    37.453875,
+    36.974124,
+    37.9285
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 16.92,
+    "noshadow-spot4": 14.91,
+    "noshadow-spot3": 8.56,
+    "noshadow-spot2": 18.56,
+    "noshadow-spot1": 0.92,
+    "noshadow-spot0": 0.55,
+    "noshadow-sun": 3.9,
+    "noshadow-all": 28.11,
+    "rolled": -9.5
+   },
+   "sumOfSingleLights": 64.32,
+   "savingMs": {
+    "noshadow-spot5": [
+     17.31,
+     16.54,
+     18.37,
+     15.42
+    ],
+    "noshadow-spot4": [
+     16.73,
+     18.46,
+     13.1,
+     6.25
+    ],
+    "noshadow-spot3": [
+     7.19,
+     16.91,
+     5.5,
+     9.94
+    ],
+    "noshadow-spot2": [
+     18.34,
+     18.86,
+     5.05,
+     18.78
+    ],
+    "noshadow-spot1": [
+     1.19,
+     0.85,
+     0.99,
+     -0.56
+    ],
+    "noshadow-spot0": [
+     0.98,
+     -1.2,
+     0.12,
+     2.04
+    ],
+    "noshadow-sun": [
+     4.67,
+     2.97,
+     4.1,
+     3.7
+    ],
+    "noshadow-all": [
+     27.41,
+     27.8,
+     28.42,
+     28.41
+    ],
+    "rolled": [
+     -9.33,
+     -8.23,
+     -9.67,
+     -10.09
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "night",
+   "productMs": [
+    37.834041,
+    35.181583,
+    35.147541,
+    35.473791,
+    34.919333,
+    38.410499,
+    39.228,
+    41.901833,
+    35.462041,
+    35.762624,
+    35.984499,
+    35.489208,
+    40.962333,
+    40.920749,
+    42.031375,
+    41.788541,
+    40.941374,
+    41.596875,
+    41.74475
+   ],
+   "medianSavingMs": {
+    "noshadow-spot5": 5.38,
+    "noshadow-spot4": 4.21,
+    "noshadow-spot3": 4.19,
+    "noshadow-spot2": 3.2,
+    "noshadow-spot1": -0.48,
+    "noshadow-spot0": 0.17,
+    "noshadow-sun": 5.7,
+    "noshadow-all": 29.98,
+    "rolled": -14.57
+   },
+   "sumOfSingleLights": 22.37,
+   "savingMs": {
+    "noshadow-spot5": [
+     5.25,
+     5.23,
+     8.47,
+     5.52
+    ],
+    "noshadow-spot4": [
+     3.69,
+     2.87,
+     7.28,
+     4.72
+    ],
+    "noshadow-spot3": [
+     3.6,
+     2.81,
+     4.78,
+     5.43
+    ],
+    "noshadow-spot2": [
+     3.24,
+     2.39,
+     5.53,
+     3.15
+    ],
+    "noshadow-spot1": [
+     -0.4,
+     -0.55,
+     1.49,
+     -1.55
+    ],
+    "noshadow-spot0": [
+     0.24,
+     -0.73,
+     0.11,
+     3.63
+    ],
+    "noshadow-sun": [
+     6.43,
+     16.49,
+     4.48,
+     4.96
+    ],
+    "noshadow-all": [
+     28.57,
+     29.2,
+     32.72,
+     30.75
+    ],
+    "rolled": [
+     -16.04,
+     -13.58,
+     -14.65,
+     -14.49
+    ]
+   }
+  }
+ ]
+}

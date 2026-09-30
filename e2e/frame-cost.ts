@@ -12,12 +12,23 @@
  * tone mapping pass writes the count / 32, and `suiOverdraw` reads the canvas after a frame.
  * `discard`: a discard that never runs, which keeps the image but stops a tile based GPU from
  * removing hidden opaque fragments before shading (Apple's HSR): the cost then shows overdraw.
+ * `noshadow-<light>`: one light's shadow lookup is skipped (the light stays lit, unshadowed), which
+ * leaves the cost of that light's PCSS as the difference to the product: `sun` (the only
+ * directional light), `spot0`..`spot5` (three's order of shadow casting spots: the V9 lounge disk,
+ * then the dusk fill, path lights 1/4/7 and the maple uplight of lighting.ts), or `all`. The
+ * receiver slope (suiShadowSlope, two derivatives) stays.
+ * `rolled`: the PCSS sample loops (softShadows.ts) count to their constant plus a uniform left at 0,
+ * so the compiler cannot unroll them: the same work in far less code.
  */
-export function patchFrameCost(mode: 'trivial' | 'overdraw' | 'discard') {
+export type FrameCostMode =
+  'trivial' | 'overdraw' | 'discard' | 'rolled' | `noshadow-${'all' | 'sun' | `spot${number}`}`;
+
+export function patchFrameCost(mode: FrameCostMode) {
   type Overdraw = Window & {
     suiOverdrawGl?: WebGL2RenderingContext;
     suiOverdrawRead?: boolean;
     suiOverdraw?: number[] | null;
+    suiShadowSkips?: number;
   };
   const w = window as unknown as Overdraw;
   const proto = WebGL2RenderingContext.prototype;
@@ -31,6 +42,31 @@ export function patchFrameCost(mode: 'trivial' | 'overdraw' | 'discard') {
           main,
           'void main() { pc_fragColor = vec4( texture( tScene, vUv ).r / 32.0, 0.0, 0.0, 1.0 ); return;',
         );
+    } else if (fragment && mode === 'rolled') {
+      const head = source.indexOf('float pcssNoise(');
+      if (head >= 0) {
+        const pcss = source.slice(head).replace(/i < (\d+|count); i \+\+/g, (_, n) => {
+          w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+          return `i < ${n} + suiPcssZero; i ++`;
+        });
+        source = `${source.slice(0, head)}uniform int suiPcssZero;\n\t${pcss}`;
+      }
+    } else if (fragment && mode.startsWith('noshadow-')) {
+      const light = mode.slice('noshadow-'.length);
+      // The lookups of softShadows.ts after three unrolls the light loops.
+      const call =
+        light === 'all'
+          ? '\\w+\\( (?:directLight\\.color, )?(?:directional|spot)ShadowMap\\[ \\d+ \\]'
+          : light === 'sun'
+            ? 'suiSunShadow\\( directLight\\.color, directionalShadowMap\\[ 0 \\]'
+            : `getShadow\\( spotShadowMap\\[ ${light.slice('spot'.length)} \\]`;
+      source = source.replace(
+        new RegExp(`\\( directLight\\.visible && receiveShadow && SUI_SHADOW_FACING \\) \\? (?=${call})`, 'g'),
+        () => {
+          w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+          return 'false ? ';
+        },
+      );
     } else if (fragment) {
       if (mode === 'trivial') source = source.replace(main, 'void main() { pc_fragColor = vec4( 0.2 ); return;');
       else if (mode === 'discard') source = source.replace(main, 'void main() { if ( gl_FragCoord.x < -1.0 ) discard;');
