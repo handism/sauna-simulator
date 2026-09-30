@@ -21,6 +21,7 @@ import {
   upwardExit,
   WATER_BOTTOM,
   wetExitRun,
+  wetImage,
   wetGlossLights,
 } from './waterBottom';
 import { WATER_ABSORPTION, WATER_TINT } from './refraction';
@@ -261,7 +262,9 @@ describe('light highlights on the floor below the water', () => {
   it('gives the floor under the water only the highlight of the spot lights', () => {
     const begin = THREE.ShaderChunk.lights_fragment_begin;
     const call = begin.indexOf('suiWetSpecular(');
-    expect(begin.split('suiWetSpecular(')).toHaveLength(3);
+    // Each light, then its images in the sides in one loop.
+    expect(begin.split('suiWetSpecular(')).toHaveLength(4);
+    expect(begin.split('suiWetImage(')).toHaveLength(2);
     expect(call).toBeGreaterThan(begin.indexOf('spotLight = spotLights[ i ];'));
     expect(call).toBeLessThan(begin.indexOf('#if ( NUM_DIR_LIGHTS > 0 ) && defined( RE_Direct )'));
     expect(THREE.ShaderChunk.lights_physical_pars_fragment.split('void suiWetSpecular(')).toHaveLength(2);
@@ -306,6 +309,30 @@ describe('light highlights on the floor below the water', () => {
     expect(exit.x).toBeLessThan(WATER_VOLUME.max.x);
     expect(exit.z).toBeGreaterThan(WATER_VOLUME.min.z);
     expect(clearsRim(exit, new THREE.Vector3().fromArray(position).sub(exit).normalize())).toBe(true);
+  });
+
+  it("lights the floor near a side with the dusk fill's image in it", () => {
+    const [{ position }] = wetGlossLights().filter(({ name }) => name === 'V10 lounge dusk fill');
+    const source = new THREE.Vector3().fromArray(position);
+    // The near half of the evening disks, seen straight: the fill is across the pool (+x).
+    const floor = new THREE.Vector3(0.05, 0.202, -1.9);
+    const found = wetImage(source, floor, 0);
+    expect(found).not.toBeNull();
+    const { toLight, reflectance } = found!;
+    expect(toLight.length()).toBeCloseTo(1, 9);
+    // It arrives from the side away from the light, fully reflected past the critical angle.
+    expect(toLight.x).toBeLessThan(0);
+    expect(Math.abs(toLight.x) / WATER_IOR).toBeLessThan(Math.sqrt(1 - 1 / WATER_IOR ** 2));
+    expect(reflectance).toBe(1);
+    // Unfolded at the side, the refracted path from the floor's image ends at the light.
+    const unfolded = new THREE.Vector3(-toLight.x, toLight.y, toLight.z);
+    const image = new THREE.Vector3(2 * WATER_VOLUME.min.x - floor.x, floor.y, floor.z);
+    const sine = Math.hypot(unfolded.x, unfolded.z);
+    const reach = wetExitRun(floor.y, unfolded) + ((source.y - LEVEL) * sine) / unfolded.y;
+    const end = new THREE.Vector2(image.x + (unfolded.x / sine) * reach, image.z + (unfolded.z / sine) * reach);
+    expect(end.distanceTo(new THREE.Vector2(source.x, source.z))).toBeLessThan(1e-4);
+    // No image when the path leaves the surface before it meets the side.
+    expect(wetImage(new THREE.Vector3(1.3, 2.8, -2.5), new THREE.Vector3(1.2, 0.202, -2.5), 0)).toBeNull();
   });
 
   it("looks up the spot lights' shadows under the water at the path's exit", () => {

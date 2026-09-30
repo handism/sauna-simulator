@@ -542,6 +542,54 @@ export function wetExitRun(floorY: number, toLight: THREE.Vector3, level = WATER
   return ((WATER_BOTTOM - floorY) * sine) / d.y + ((level - WATER_BOTTOM) * water) / Math.sqrt(1 - water * water);
 }
 
+// The highlights' images in the water's sides. From much of the floor the lights' own highlight
+// points away from the viewer, but their paths reflecting off a side (in Cycles the flat side of
+// the water, air behind, fully reflecting past the critical angle) reach it from the other side:
+// in the evening views the near half of the dusk disks, seen straight down, gets its tile gloss
+// only this way (docs/3d-qa/water-gloss-capture). Unfolded, such a path is the refracted one from
+// the floor's image in the side; per light the side across each axis from it.
+
+/**
+ * The light at `source` reaching the floor point `point` off the side across axis `axis` (0 x,
+ * 1 z; the side away from the light): the light's direction at the floor (air, unit, rising) and
+ * the side's reflectance, or null when the path leaves the surface before the side, outside the
+ * water or then under the coping. The air direction solves the refracted path (the straight line
+ * from the image rises well above it); mirrored by suiWetImage.
+ */
+export function wetImage(source: THREE.Vector3, point: THREE.Vector3, axis: 0 | 1, level = WATER_VOLUME.max.y) {
+  const { min, max } = WATER_VOLUME;
+  const k = axis === 0 ? 'x' : 'z';
+  const plane = source[k] > point[k] ? min[k] : max[k];
+  const image = point.clone();
+  image[k] = 2 * plane - point[k];
+  const across = new THREE.Vector2(source.x - image.x, source.z - image.z);
+  const distance = across.length();
+  const gap = WATER_BOTTOM - point.y,
+    depth = level - WATER_BOTTOM,
+    above = source.y - level;
+  if (above <= 0 || distance < 1e-6) return null;
+  let s = distance / Math.hypot(distance, source.y - point.y);
+  for (let n = 0; n < 4; n++) {
+    const c2 = 1 - s * s,
+      w = s / WATER_IOR,
+      w2 = 1 - w * w;
+    const value = ((gap + above) * s) / Math.sqrt(c2) + (depth * w) / Math.sqrt(w2) - distance;
+    const slope = (gap + above) / (c2 * Math.sqrt(c2)) + depth / (WATER_IOR * w2 * Math.sqrt(w2));
+    s = Math.min(Math.max(s - value / slope, 0), 0.9999);
+  }
+  const unit = across.divideScalar(distance);
+  const toLight = new THREE.Vector3(unit.x * s, Math.sqrt(1 - s * s), unit.y * s);
+  const run = wetExitRun(point.y, toLight, level);
+  const exit = new THREE.Vector2(image.x + unit.x * run, image.z + unit.y * run);
+  const e = axis === 0 ? exit.x : exit.y;
+  if ((e - plane) * (source[k] - plane) <= 0 || exit.x < min.x || exit.x > max.x || exit.y < min.z || exit.y > max.z)
+    return null;
+  if (!clearsRim(new THREE.Vector3(exit.x, level, exit.y), toLight)) return null;
+  const reflectance = waterAirReflectance(Math.abs(toLight[k]) / WATER_IOR);
+  toLight[k] = -toLight[k];
+  return { toLight, reflectance };
+}
+
 /** The position of a spot light from its shadow matrix: the point its x, y and w rows map to 0. */
 export function shadowSource(matrix: THREE.Matrix4) {
   const e = matrix.elements;
@@ -616,13 +664,58 @@ ${lights
   )
   .join('')}	return - 1;
 }
-void suiWetSpecular( const in int index, const in vec3 color, const in vec3 lightDirection, const in vec3 point, const in vec3 wetView, const in vec3 normal, const in PhysicalMaterial material, inout ReflectedLight reflectedLight ) {
+// The light's image in the side of the water across \`axis\` (0 x, 1 z) from it: the path from the
+// floor rises to that side under the water, reflects there (fully past the critical angle) and
+// goes on to the light. Unfolded, it is the straight path from the floor's image in the side.
+// Returns false when it leaves the surface before the side, outside the water or then under the
+// coping (the images have no shadow lookup). \`image\` is the floor's image in the side, \`toLight\`
+// the light's direction at the floor (turned back from the image's) and \`reflectance\` the side's
+// Fresnel reflectance.
+bool suiWetImage( const in int axis, const in vec3 source, const in vec3 point, out vec3 image, out vec3 toLight, out float reflectance ) {
+	if ( point.y >= ${f(WATER_BOTTOM)} || any( lessThan( point.xz, vec2( ${f(min.x - m)}, ${f(min.z - m)} ) ) ) || any( greaterThan( point.xz, vec2( ${f(max.x + m)}, ${f(max.z + m)} ) ) ) ) return false;
+	vec2 low = vec2( ${f(min.x)}, ${f(min.z)} ), high = vec2( ${f(max.x)}, ${f(max.z)} );
+	float light = axis == 0 ? source.x : source.z;
+	float plane = light > ( axis == 0 ? point.x : point.z ) ? ( axis == 0 ? low.x : low.y ) : ( axis == 0 ? high.x : high.y );
+	image = point;
+	if ( axis == 0 ) image.x = 2.0 * plane - point.x;
+	else image.z = 2.0 * plane - point.z;
+	// The image lies far across the water from the light, where the straight line rises well above
+	// the refracted path: solve for the path's air direction (sine s) instead, its horizontal runs
+	// through the gap, the water and above the surface adding up to the distance (Newton from the
+	// straight line's sine).
+	vec2 across = source.xz - image.xz;
+	float distance = length( across );
+	float gap = ${f(WATER_BOTTOM)} - point.y, depth = float( SUI_REFRACTION ) - ${f(WATER_BOTTOM)}, above = source.y - float( SUI_REFRACTION );
+	if ( above <= 0.0 || distance < 1e-6 ) return false;
+	float s = distance / length( vec2( distance, source.y - point.y ) );
+	for ( int k = 0; k < 4; k ++ ) {
+		float c2 = 1.0 - s * s, w = s / ${f(WATER_IOR)}, w2 = 1.0 - w * w;
+		float value = ( gap + above ) * s / sqrt( c2 ) + depth * w / sqrt( w2 ) - distance;
+		float slope = ( gap + above ) / ( c2 * sqrt( c2 ) ) + depth / ( ${f(WATER_IOR)} * w2 * sqrt( w2 ) );
+		s = clamp( s - value / slope, 0.0, 0.9999 );
+	}
+	vec2 unit = across / distance;
+	toLight = vec3( unit.x * s, sqrt( 1.0 - s * s ), unit.y * s );
+	vec2 run = image.xz + unit * suiWetExitRun( point.y, toLight );
+	float beyond = ( ( axis == 0 ? run.x : run.y ) - plane ) * ( light - plane );
+	if ( beyond <= 0.0 || any( lessThan( run, low ) ) || any( greaterThan( run, high ) ) ) return false;
+	// On from the exit toward the light, the path must pass over the coping (no shadow lookup).
+	vec2 wall = mix( low, high, step( 0.0, unit ) );
+	vec2 reach = mix( vec2( 1e6 ), max( ( wall - run ) / ( sign( unit ) * max( abs( unit ), vec2( 1e-6 ) ) ), 0.0 ), step( 1e-6, abs( unit ) ) );
+	if ( float( SUI_REFRACTION ) + min( reach.x, reach.y ) * toLight.y / s < ${f(RIM_HEIGHT)} ) return false;
+	reflectance = suiWaterAirReflectance( abs( axis == 0 ? toLight.x : toLight.z ) / ${f(WATER_IOR)} );
+	if ( axis == 0 ) toLight.x = - toLight.x;
+	else toLight.z = - toLight.z;
+	return true;
+}
+// \`image\`: the light's direction is from its image in a side (suiWetImage), which has checked the exit.
+void suiWetSpecular( const in int index, const in vec3 color, const in vec3 lightDirection, const in vec3 point, const in vec3 wetView, const in vec3 normal, const in PhysicalMaterial material, const in bool image, inout ReflectedLight reflectedLight ) {
 	if ( color == vec3( 0.0 ) || wetView.y >= 0.0 || point.y >= ${f(WATER_BOTTOM)} || any( lessThan( point.xz, vec2( ${f(min.x - m)}, ${f(min.z - m)} ) ) ) || any( greaterThan( point.xz, vec2( ${f(max.x + m)}, ${f(max.z + m)} ) ) ) ) return;
 	vec3 toLight = inverseTransformDirection( lightDirection, viewMatrix );
 	if ( toLight.y <= 0.0 ) return;
 	float sine = length( toLight.xz );
 	vec2 exit = point.xz + toLight.xz / max( sine, 1e-6 ) * suiWetExitRun( point.y, toLight );
-	if ( any( lessThan( exit, vec2( ${f(min.x)}, ${f(min.z)} ) ) ) || any( greaterThan( exit, vec2( ${f(max.x)}, ${f(max.z)} ) ) ) ) return;
+	if ( ! image && ( any( lessThan( exit, vec2( ${f(min.x)}, ${f(min.z)} ) ) ) || any( greaterThan( exit, vec2( ${f(max.x)}, ${f(max.z)} ) ) ) ) ) return;
 	float cosine = sqrt( 1.0 - ( 1.0 - toLight.y * toLight.y ) / ${f(WATER_IOR ** 2)} );
 	float pass = 1.0 - suiWaterAirReflectance( cosine );
 	vec3 through = pass * pass * ${vec3(WATER_TINT.map((t) => t * t))} * exp( - ${vec3(WATER_ABSORPTION)} * ( float( SUI_REFRACTION ) - ${f(WATER_BOTTOM)} ) / cosine );
@@ -650,18 +743,38 @@ const SPOT_WET = `${SPOT_DRY}
 		#if ${WET}
 		else {
 			int suiWet = suiWetLight( spotLight.position );
-			if ( suiWet == 0 ) { suiWetColor0 = directLight.color; suiWetDirection0 = directLight.direction; }
-			else if ( suiWet == 1 ) { suiWetColor1 = directLight.color; suiWetDirection1 = directLight.direction; }
+			if ( suiWet == 0 ) { suiWetColor0 = directLight.color; suiWetDirection0 = directLight.direction; suiWetSpot0 = UNROLLED_LOOP_INDEX; }
+			else if ( suiWet == 1 ) { suiWetColor1 = directLight.color; suiWetDirection1 = directLight.direction; suiWetSpot1 = UNROLLED_LOOP_INDEX; }
 		}
 		#endif`;
 const WET_BEFORE = `#if ${WET}
 vec3 suiWetColor0 = vec3( 0.0 ), suiWetDirection0 = vec3( 0.0 ), suiWetColor1 = vec3( 0.0 ), suiWetDirection1 = vec3( 0.0 );
+// The spot lights' indices, for their images in the sides after the loop (suiWetImage).
+int suiWetSpot0 = - 1, suiWetSpot1 = - 1;
 #endif
 `;
 const WET_AFTER = `#if ${WET} && ( NUM_SPOT_LIGHTS > 0 ) && defined( RE_Direct )
 if ( suiUnderwater ) {
-	suiWetSpecular( 0, suiWetColor0, suiWetDirection0, suiWorldPosition, suiWetView, geometryNormal, material, reflectedLight );
-	suiWetSpecular( 1, suiWetColor1, suiWetDirection1, suiWorldPosition, suiWetView, geometryNormal, material, reflectedLight );
+	suiWetSpecular( 0, suiWetColor0, suiWetDirection0, suiWorldPosition, suiWetView, geometryNormal, material, false, reflectedLight );
+	suiWetSpecular( 1, suiWetColor1, suiWetDirection1, suiWorldPosition, suiWetView, geometryNormal, material, false, reflectedLight );
+	// Their images in the x and z sides, once for all spot lights (not in the unrolled loop).
+	for ( int suiLight = 0; suiLight < 2; suiLight ++ ) {
+		int suiSpot = suiLight == 0 ? suiWetSpot0 : suiWetSpot1;
+		if ( suiSpot < 0 ) continue;
+		SpotLight suiSpotLight = spotLights[ suiSpot ];
+		// V9 is off at dusk and night, the dusk fill by day.
+		if ( suiSpotLight.color == vec3( 0.0 ) ) continue;
+		vec3 suiSource = ( ( vec4( suiSpotLight.position, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
+		for ( int suiAxis = 0; suiAxis < 2; suiAxis ++ ) {
+			vec3 suiImage, suiToLight;
+			float suiReflectance;
+			if ( ! suiWetImage( suiAxis, suiSource, suiWorldPosition, suiImage, suiToLight, suiReflectance ) ) continue;
+			IncidentLight suiImageLight;
+			getSpotLightInfo( suiSpotLight, ( viewMatrix * vec4( suiImage, 1.0 ) ).xyz, suiImageLight );
+			if ( suiImageLight.visible )
+				suiWetSpecular( suiLight, suiImageLight.color * suiReflectance, normalize( ( viewMatrix * vec4( suiToLight, 0.0 ) ).xyz ), suiWorldPosition, suiWetView, geometryNormal, material, true, reflectedLight );
+		}
+	}
 }
 #endif
 `;
