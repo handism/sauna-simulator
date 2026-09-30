@@ -1,0 +1,287 @@
+{
+ "crops": {
+  "1-down": {
+   "blocks": 1013,
+   "exactParts": {
+    "direct": 8.113131125360373e-06,
+    "x": 0.04221744745806954,
+    "z": 0.0,
+    "xz": 0.0
+   },
+   "exact": {
+    "mean": 0.04222556058919489,
+    "max": 0.1346222594779094,
+    "sumOverExact": 1.0,
+    "correlationExact": 0.9999999999999998,
+    "correlationCyclesRim": 0.6837634098517561,
+    "correlationCyclesSource": 0.6326512370653125
+   },
+   "round": {
+    "mean": 0.03584772405037287,
+    "max": 0.22443659401398336,
+    "sumOverExact": 0.848957919093819,
+    "correlationExact": 0.9048027558946534,
+    "correlationCyclesRim": 0.6105536629585334,
+    "correlationCyclesSource": 0.5563193822907099
+   },
+   "aniso": {
+    "mean": 0.034118035284849295,
+    "max": 0.11416726266021279,
+    "sumOverExact": 0.8079948450365811,
+    "correlationExact": 0.9762056441594046,
+    "correlationCyclesRim": 0.5968351185954902,
+    "correlationCyclesSource": 0.5827078604599796
+   },
+   "cycles": {
+    "source": {
+     "mean": 0.018753903504785795,
+     "max": 0.1073277905781269,
+     "correlationExact": 0.6326512370653126
+    },
+    "rim": {
+     "mean": 0.029757359016336787,
+     "max": 0.12525595028054715,
+     "correlationExact": 0.683763409851756
+    },
+    "bare": {
+     "mean": 0.031564413246162305,
+     "max": 0.13297656059587,
+     "correlationExact": 0.6895685160304791
+    }
+   },
+   "browser": {
+    "mean": 0.029848139753210177,
+    "max": 0.20167103572097986,
+    "sumOverExact": 0.7068737356407774,
+    "correlationExact": 0.8846355474926276,
+    "correlationCyclesRim": 0.5737308750600628,
+    "correlationCyclesSource": 0.5283308022907097
+   },
+   "byExact": [
+    {
+     "blocks": 253,
+     "exact": 0.004519448414257925,
+     "round": 0.003321739457644178,
+     "aniso": 0.011367850742179638,
+     "source": 0.0005399165422730119,
+     "rim": 0.0009298276699182599,
+     "bare": 0.0011841990641142906
+    },
+    {
+     "blocks": 253,
+     "exact": 0.018588940516275358,
+     "round": 0.009603315353099919,
+     "aniso": 0.020591437643857017,
+     "source": 0.006376201448548069,
+     "rim": 0.011999549927614338,
+     "bare": 0.013277007819544068
+    },
+    {
+     "blocks": 253,
+     "exact": 0.04980543956190129,
+     "round": 0.0342064237354838,
+     "aniso": 0.03491221964774539,
+     "source": 0.02281249581605364,
+     "rim": 0.042529884704903424,
+     "bare": 0.04455330745471999
+    },
+    {
+     "blocks": 152,
+     "exact": 0.08314213667365715,
+     "round": 0.06904732666806514,
+     "aniso": 0.057284819102454865,
+     "source": 0.046580307144938174,
+     "rim": 0.06520031264947058,
+     "bare": 0.06870296644817993
+    },
+    {
+     "blocks": 102,
+     "exact": 0.11460479895953525,
+     "round": 0.1362184974243741,
+     "aniso": 0.08760574222972882,
+     "source": 0.04309959089390299,
+     "rim": 0.06080944900307175,
+     "bare": 0.0647179175551896
+    }
+   ]
+  },
+  "2-level": {
+   "blocks": 938,
+   "exactParts": {
+    "direct": 7.927779069179342e-06,
+    "x": 0.050886322560653445,
+    "z": 0.0,
+    "xz": 0.0
+   },
+   "exact": {
+    "mean": 0.05089425033972263,
+    "max": 0.13423580702433247,
+    "sumOverExact": 1.0,
+    "correlationExact": 0.9999999999999998,
+    "correlationCyclesRim": 0.6427133194305731,
+    "correlationCyclesSource": 0.5907454931603301
+   },
+   "round": {
+    "mean": 0.04295505656646072,
+    "max": 0.21583444611180408,
+    "sumOverExact": 0.8440060769091352,
+    "correlationExact": 0.8965227752955538,
+    "correlationCyclesRim": 0.5765519132082179,
+    "correlationCyclesSource": 0.5136494042857487
+   },
+   "aniso": {
+    "mean": 0.041038702649254175,
+    "max": 0.11355482778483161,
+    "sumOverExact": 0.8063524342203295,
+    "correlationExact": 0.9742164879327622,
+    "correlationCyclesRim": 0.5515107938847258,
+    "correlationCyclesSource": 0.5339628604467379
+   },
+   "cycles": {
+    "source": {
+     "mean": 0.024020570172754437,
+     "max": 0.10395056783747673,
+     "correlationExact": 0.5907454931603301
+    },
+    "rim": {
+     "mean": 0.035280660581501436,
+     "max": 0.12995769321417808,
+     "correlationExact": 0.6427133194305731
+    },
+    "bare": {
+     "mean": 0.0377995692880391,
+     "max": 0.13470047858309747,
+     "correlationExact": 0.6446431213892629
+    }
+   },
+   "browser": {
+    "mean": 0.03623292846025555,
+    "max": 0.2023440965327418,
+    "sumOverExact": 0.711925771936874,
+    "correlationExact": 0.8742325546615713,
+    "correlationCyclesRim": 0.5363901376770283,
+    "correlationCyclesSource": 0.47968422357920387
+   },
+   "byExact": [
+    {
+     "blocks": 235,
+     "exact": 0.007007635607991438,
+     "round": 0.004544113367633023,
+     "aniso": 0.015622329170296842,
+     "source": 0.0014190035596859418,
+     "rim": 0.0025092921805536573,
+     "bare": 0.0032872859767337443
+    },
+    {
+     "blocks": 234,
+     "exact": 0.027669548595662324,
+     "round": 0.012621544738528976,
+     "aniso": 0.026978422763015878,
+     "source": 0.011299949832037715,
+     "rim": 0.01922921918846802,
+     "bare": 0.02149584112227418
+    },
+    {
+     "blocks": 234,
+     "exact": 0.06536015279433763,
+     "round": 0.045110042355137686,
+     "aniso": 0.04515144114491059,
+     "source": 0.034113924661847525,
+     "rim": 0.053275228440252176,
+     "bare": 0.05632747160695093
+    },
+    {
+     "blocks": 141,
+     "exact": 0.09363218843075224,
+     "round": 0.0856195612787533,
+     "aniso": 0.0660312461257963,
+     "source": 0.059040337300116576,
+     "rim": 0.07604052657167834,
+     "bare": 0.0801491600253045
+    },
+    {
+     "blocks": 94,
+     "exact": 0.11830769954027422,
+     "round": 0.14513220103961896,
+     "aniso": 0.0918538496998786,
+     "source": 0.03453505100672217,
+     "rim": 0.05123213799245814,
+     "bare": 0.05501911750469817
+    }
+   ]
+  }
+ },
+ "floorGrid": {
+  "V9 lounge patch of sunlight": {
+   "round": {
+    "sum": 0.9766,
+    "sumTop20": 0.9603,
+    "l1": 0.0817,
+    "correlation": 0.9979
+   },
+   "round-refracted": {
+    "sum": 0.9963,
+    "sumTop20": 0.9833,
+    "l1": 0.0749,
+    "correlation": 0.9993
+   },
+   "aniso": {
+    "sum": 0.969,
+    "sumTop20": 0.9471,
+    "l1": 0.0937,
+    "correlation": 0.9974
+   },
+   "aniso-refracted": {
+    "sum": 0.9886,
+    "sumTop20": 0.9696,
+    "l1": 0.0778,
+    "correlation": 0.9995
+   }
+  },
+  "V10 lounge dusk fill": {
+   "round": {
+    "sum": 0.6635,
+    "sumTop20": 0.6602,
+    "l1": 0.399,
+    "correlation": 0.9168
+   },
+   "round-refracted": {
+    "sum": 0.8515,
+    "sumTop20": 0.8487,
+    "l1": 0.3853,
+    "correlation": 0.9137
+   },
+   "aniso": {
+    "sum": 0.6702,
+    "sumTop20": 0.6626,
+    "l1": 0.474,
+    "correlation": 0.9493
+   },
+   "aniso-refracted": {
+    "sum": 0.8718,
+    "sumTop20": 0.8644,
+    "l1": 0.3275,
+    "correlation": 0.9784
+   }
+  }
+ },
+ "inputs": {
+  "scene": {
+   "source-1-down.npz": "4d226b4eafe4de31578a5819da200101832a18954a6070babbce10d1d8b39810",
+   "source-2-level.npz": "820c2ea200985b4a80f9a126a0bd7ab470e01d05049a46ce7da941d08f6110ee",
+   "rim-1-down.npz": "9264cea323e8ff89e559429dfef07889a71f49a375b0692b0708fa9ac8d5a1bb",
+   "rim-2-level.npz": "000798e81cffbabf5524d7cd070100d73af57e621c9e46e0cc96e67df64f14d0",
+   "bare-1-down.npz": "f29ac4049869832c6d19ab0e3c250f18014f7bacc2643f767b8df0fc7f6fe619",
+   "bare-2-level.npz": "6aa4fdb82fe08f286d532cc11e4736c101bf01717d56202b35cfcdb9f56e5560"
+  },
+  "capture": {
+   "gloss-off-1-down.png": "c4047dc5dacff4b32685fbe85256999409c1e2f712f1c476fd3c083f021e871a",
+   "gloss-off-2-level.png": "5849c2e39ecb23551b4475f24a9d828eded8ee972ea01dccacb8083f7619415e",
+   "gloss-on-1-down.png": "4e8743f38106471c0e3acb72c697c6755662bbc88ac2cdc6c0ba6f6f192f7c67",
+   "gloss-on-2-level.png": "d80799708ba7210cfa874a81809fce3c8b5337762bddd700d73f9b8eae36ffa9",
+   "gloss-on-again-1-down.png": "4e8743f38106471c0e3acb72c697c6755662bbc88ac2cdc6c0ba6f6f192f7c67",
+   "gloss-on-again-2-level.png": "d80799708ba7210cfa874a81809fce3c8b5337762bddd700d73f9b8eae36ffa9"
+  },
+  "script_sha256": "89f1af0338ac855a90667f99d13429dd11312e0b71924043f49d3f2d6e4bfa7b"
+ }
+}

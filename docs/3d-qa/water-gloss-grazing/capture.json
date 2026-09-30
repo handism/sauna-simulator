@@ -1,0 +1,426 @@
+{
+ "crops": [
+  [
+   1,
+   "down",
+   680,
+   940,
+   0,
+   180
+  ],
+  [
+   2,
+   "level",
+   120,
+   420,
+   520,
+   720
+  ]
+ ],
+ "inputs": {
+  "cycles": {
+   "source-1-down.npz": "4d226b4eafe4de31578a5819da200101832a18954a6070babbce10d1d8b39810",
+   "source-2-level.npz": "820c2ea200985b4a80f9a126a0bd7ab470e01d05049a46ce7da941d08f6110ee",
+   "base-1-down.npz": "ee6a89ab1955e5cfb2a109d02e31ce4b357a77f1baf938386424dc60f5bf0a8f",
+   "base-2-level.npz": "29246f51c373942a7a39c8579782b402b731d96c168558a5b75783249dc4d8d3",
+   "scene.json": "f5c059839119a48bbae173722d3d3b0b3d890fbac8262b34b2eebe5ed13fecd5"
+  },
+  "test_sha256": "cf87f06c87dc74f28e20d0ce0ba2a03844d57a2eaec431bc2badcb500a1a0152",
+  "script_sha256": "aa0dd0556528bc901c6963c2307be86329dd7da658a28dec633201204f46e5ad"
+ },
+ "runs": {
+  "head": {
+   "scale": 0.5,
+   "captures": {
+    "gloss-off-1-down.png": "c4047dc5dacff4b32685fbe85256999409c1e2f712f1c476fd3c083f021e871a",
+    "gloss-off-2-level.png": "5849c2e39ecb23551b4475f24a9d828eded8ee972ea01dccacb8083f7619415e",
+    "gloss-on-1-down.png": "4e8743f38106471c0e3acb72c697c6755662bbc88ac2cdc6c0ba6f6f192f7c67",
+    "gloss-on-2-level.png": "d80799708ba7210cfa874a81809fce3c8b5337762bddd700d73f9b8eae36ffa9",
+    "gloss-on-again-1-down.png": "4e8743f38106471c0e3acb72c697c6755662bbc88ac2cdc6c0ba6f6f192f7c67",
+    "gloss-on-again-2-level.png": "d80799708ba7210cfa874a81809fce3c8b5337762bddd700d73f9b8eae36ffa9"
+   },
+   "results": {
+    "1-down": {
+     "clippedFraction": 0.0,
+     "reloadMeanAbs": 0.0,
+     "reloadChangedPixels": 0,
+     "cyclesSpot": {
+      "browserGloss": 0.08930036434975279,
+      "cyclesGloss": 0.08502369639411617,
+      "browserTotal": 0.3799520177699618,
+      "cyclesCombined": 0.45010286609959305,
+      "browserWithoutGloss": 0.29065165342020904
+     },
+     "ownSpots": {
+      "browserTotal": 0.4490793629257656,
+      "cyclesCombined": 0.45343743543450427,
+      "overlap": 0.6878335112059765,
+      "browserGloss": 0.11311020170320386,
+      "cyclesGloss": 0.08448601106031473,
+      "browserCentroid": [
+       136.85410885805763,
+       70.62646744930629
+      ],
+      "cyclesCentroid": [
+       134.23472222222222,
+       58.61260683760684
+      ],
+      "browserGlossCentroid": [
+       131.55160256410255,
+       76.8184829059829
+      ],
+      "cyclesGlossCentroid": [
+       132.32136752136753,
+       61.38643162393162
+      ]
+     },
+     "parts": {
+      "straight": {
+       "pixels": 25345,
+       "spotPixels": 2195,
+       "browserGloss": 0.02989751764326509,
+       "cyclesGloss": 0.018605925220892987,
+       "browserGlossInSpot": 0.0818452861543223,
+       "cyclesGlossInSpot": 0.08010510840815876
+      },
+      "side": {
+       "pixels": 21334,
+       "spotPixels": 7165,
+       "browserGloss": 0.040705994301119805,
+       "cyclesGloss": 0.039317222561705785,
+       "browserGlossInSpot": 0.09158422989601514,
+       "cyclesGlossInSpot": 0.08653050736818127
+      }
+     },
+     "crop": {
+      "browserGloss": 0.03474731339932999,
+      "cyclesGloss": 0.02799955967779776
+     },
+     "blockCorrelation": 0.6701216860215047,
+     "blockCorrelationStraight": 0.5403648207338174
+    },
+    "2-level": {
+     "clippedFraction": 0.0,
+     "reloadMeanAbs": 0.0,
+     "reloadChangedPixels": 0,
+     "cyclesSpot": {
+      "browserGloss": 0.08445083763772493,
+      "cyclesGloss": 0.07939742985317284,
+      "browserTotal": 0.3712962051983866,
+      "cyclesCombined": 0.4371452728823324,
+      "browserWithoutGloss": 0.2868453675606617
+     },
+     "ownSpots": {
+      "browserTotal": 0.43485838099644997,
+      "cyclesCombined": 0.4404448987934791,
+      "overlap": 0.7136461614989222,
+      "browserGloss": 0.1040763279909796,
+      "cyclesGloss": 0.07978880534637905,
+      "browserCentroid": [
+       167.53200132647984,
+       117.01293317857736
+      ],
+      "cyclesCentroid": [
+       159.63266666666667,
+       107.30558333333333
+      ],
+      "browserGlossCentroid": [
+       167.274,
+       124.62791666666666
+      ],
+      "cyclesGlossCentroid": [
+       160.22216666666668,
+       109.73008333333334
+      ]
+     },
+     "parts": {
+      "straight": {
+       "pixels": 23495,
+       "spotPixels": 3968,
+       "browserGloss": 0.0363362580901611,
+       "cyclesGloss": 0.023778873935549685,
+       "browserGlossInSpot": 0.07876265787849447,
+       "cyclesGlossInSpot": 0.06775638448221931
+      },
+      "side": {
+       "pixels": 26264,
+       "spotPixels": 8032,
+       "browserGloss": 0.03440768756955284,
+       "cyclesGloss": 0.03532087237524845,
+       "browserGlossInSpot": 0.0872609344112093,
+       "cyclesGlossInSpot": 0.08514838453842478
+      }
+     },
+     "crop": {
+      "browserGloss": 0.029290064835917846,
+      "cyclesGloss": 0.024782891978109182
+     },
+     "blockCorrelation": 0.6689069891108892,
+     "blockCorrelationStraight": 0.4803535543575423
+    }
+   }
+  },
+  "aniso": {
+   "scale": 0.5,
+   "captures": {
+    "gloss-off-1-down.png": "c4047dc5dacff4b32685fbe85256999409c1e2f712f1c476fd3c083f021e871a",
+    "gloss-off-2-level.png": "ce5ff18164e6308bc081e43c94b0c11e00882ae6959841ebe702a2834ad82347",
+    "gloss-on-1-down.png": "af09c5a7e3077db29928189b4ce710ca71eedf227953fb63b29c3541078d7c8b",
+    "gloss-on-2-level.png": "4bb17fec0dfb8d73647f615f12075528887e046e860d63017df7b81148ddd02e",
+    "gloss-on-again-1-down.png": "af09c5a7e3077db29928189b4ce710ca71eedf227953fb63b29c3541078d7c8b",
+    "gloss-on-again-2-level.png": "a3833666b0d789479a8da504c740a7f06eafb7a72f7b88ca46ad6e11eaa7e081"
+   },
+   "results": {
+    "1-down": {
+     "clippedFraction": 0.0,
+     "reloadMeanAbs": 0.0,
+     "reloadChangedPixels": 0,
+     "cyclesSpot": {
+      "browserGloss": 0.06413392319803311,
+      "cyclesGloss": 0.08502369639411617,
+      "browserTotal": 0.35478557661824217,
+      "cyclesCombined": 0.45010286609959305,
+      "browserWithoutGloss": 0.29065165342020904
+     },
+     "ownSpots": {
+      "browserTotal": 0.41635311554550897,
+      "cyclesCombined": 0.45343743543450427,
+      "overlap": 0.6851495726495727,
+      "browserGloss": 0.07854273828472795,
+      "cyclesGloss": 0.08448601106031473,
+      "browserCentroid": [
+       137.40181623931625,
+       68.3741452991453
+      ],
+      "cyclesCentroid": [
+       134.23472222222222,
+       58.61260683760684
+      ],
+      "browserGlossCentroid": [
+       135.73557692307693,
+       69.1298076923077
+      ],
+      "cyclesGlossCentroid": [
+       132.32136752136753,
+       61.38643162393162
+      ]
+     },
+     "parts": {
+      "straight": {
+       "pixels": 25345,
+       "spotPixels": 2195,
+       "browserGloss": 0.028329855394827238,
+       "cyclesGloss": 0.018605925220892987,
+       "browserGlossInSpot": 0.06277865182320315,
+       "cyclesGlossInSpot": 0.08010510840815876
+      },
+      "side": {
+       "pixels": 21334,
+       "spotPixels": 7165,
+       "browserGloss": 0.03609152591578491,
+       "cyclesGloss": 0.039317222561705785,
+       "browserGlossInSpot": 0.06454911100930343,
+       "cyclesGlossInSpot": 0.08653050736818127
+      }
+     },
+     "crop": {
+      "browserGloss": 0.03179480339464213,
+      "cyclesGloss": 0.02799955967779776
+     },
+     "blockCorrelation": 0.6533844244966558,
+     "blockCorrelationStraight": 0.5463210553546607
+    },
+    "2-level": {
+     "clippedFraction": 0.0,
+     "reloadMeanAbs": 0.0,
+     "reloadChangedPixels": 0,
+     "cyclesSpot": {
+      "browserGloss": 0.062099534226578594,
+      "cyclesGloss": 0.07939742985317284,
+      "browserTotal": 0.34894490178724025,
+      "cyclesCombined": 0.4371452728823324,
+      "browserWithoutGloss": 0.2868453675606617
+     },
+     "ownSpots": {
+      "browserTotal": 0.4072372233844372,
+      "cyclesCombined": 0.4404448987934791,
+      "overlap": 0.7173194513303586,
+      "browserGloss": 0.0748009849216359,
+      "cyclesGloss": 0.07978880534637905,
+      "browserCentroid": [
+       165.12890431333665,
+       114.83449016691456
+      ],
+      "cyclesCentroid": [
+       159.63266666666667,
+       107.30558333333333
+      ],
+      "browserGlossCentroid": [
+       168.1045,
+       113.95591666666667
+      ],
+      "cyclesGlossCentroid": [
+       160.22216666666668,
+       109.73008333333334
+      ]
+     },
+     "parts": {
+      "straight": {
+       "pixels": 23495,
+       "spotPixels": 3968,
+       "browserGloss": 0.0346961540551696,
+       "cyclesGloss": 0.023778873935549685,
+       "browserGlossInSpot": 0.06216266346025311,
+       "cyclesGlossInSpot": 0.06775638448221931
+      },
+      "side": {
+       "pixels": 26264,
+       "spotPixels": 8032,
+       "browserGloss": 0.030584853245536975,
+       "cyclesGloss": 0.03532087237524845,
+       "browserGlossInSpot": 0.062068346876078026,
+       "cyclesGlossInSpot": 0.08514838453842478
+      }
+     },
+     "crop": {
+      "browserGloss": 0.02697444541944988,
+      "cyclesGloss": 0.024782891978109182
+     },
+     "blockCorrelation": 0.6617112881136289,
+     "blockCorrelationStraight": 0.4819046779375538
+    }
+   }
+  },
+  "aniso-refracted": {
+   "scale": 0.5,
+   "captures": {
+    "gloss-off-1-down.png": "c4047dc5dacff4b32685fbe85256999409c1e2f712f1c476fd3c083f021e871a",
+    "gloss-off-2-level.png": "ce5ff18164e6308bc081e43c94b0c11e00882ae6959841ebe702a2834ad82347",
+    "gloss-on-1-down.png": "2a3ee268ee17deb07c02d18e5d9158a8fbeb4a4f5459a81a4f7b38152811340b",
+    "gloss-on-2-level.png": "23b3f7f9a91746b55334c78d48c02c3a312411c89c7fbd16f23169562ec501c6",
+    "gloss-on-again-1-down.png": "2a3ee268ee17deb07c02d18e5d9158a8fbeb4a4f5459a81a4f7b38152811340b",
+    "gloss-on-again-2-level.png": "7a06d591dc3abadc89e0921670f854155f3bef4be8203323db941982658d8fa3"
+   },
+   "results": {
+    "1-down": {
+     "clippedFraction": 0.0,
+     "reloadMeanAbs": 0.0,
+     "reloadChangedPixels": 0,
+     "cyclesSpot": {
+      "browserGloss": 0.06698395006793516,
+      "cyclesGloss": 0.08502369639411617,
+      "browserTotal": 0.3576356034881442,
+      "cyclesCombined": 0.45010286609959305,
+      "browserWithoutGloss": 0.29065165342020904
+     },
+     "ownSpots": {
+      "browserTotal": 0.4190327771258858,
+      "cyclesCombined": 0.45343743543450427,
+      "overlap": 0.6856084656084656,
+      "browserGloss": 0.08131967463340956,
+      "cyclesGloss": 0.08448601106031473,
+      "browserCentroid": [
+       136.81216931216932,
+       68.42285714285714
+      ],
+      "cyclesCentroid": [
+       134.23472222222222,
+       58.61260683760684
+      ],
+      "browserGlossCentroid": [
+       134.43595769682727,
+       65.58519388954171
+      ],
+      "cyclesGlossCentroid": [
+       132.32136752136753,
+       61.38643162393162
+      ]
+     },
+     "parts": {
+      "straight": {
+       "pixels": 25345,
+       "spotPixels": 2195,
+       "browserGloss": 0.028279502414412773,
+       "cyclesGloss": 0.018605925220892987,
+       "browserGlossInSpot": 0.06262525546424838,
+       "cyclesGlossInSpot": 0.08010510840815876
+      },
+      "side": {
+       "pixels": 21334,
+       "spotPixels": 7165,
+       "browserGloss": 0.03835403843568319,
+       "cyclesGloss": 0.039317222561705785,
+       "browserGlossInSpot": 0.06831923752852027,
+       "cyclesGlossInSpot": 0.08653050736818127
+      }
+     },
+     "crop": {
+      "browserGloss": 0.032798911211114466,
+      "cyclesGloss": 0.02799955967779776
+     },
+     "blockCorrelation": 0.6657147473515469,
+     "blockCorrelationStraight": 0.5467104258113847
+    },
+    "2-level": {
+     "clippedFraction": 0.0,
+     "reloadMeanAbs": 0.0,
+     "reloadChangedPixels": 0,
+     "cyclesSpot": {
+      "browserGloss": 0.06416418218485478,
+      "cyclesGloss": 0.07939742985317284,
+      "browserTotal": 0.35100954974551646,
+      "cyclesCombined": 0.4371452728823324,
+      "browserWithoutGloss": 0.2868453675606617
+     },
+     "ownSpots": {
+      "browserTotal": 0.4098022103173098,
+      "cyclesCombined": 0.4404448987934791,
+      "overlap": 0.7201299783369438,
+      "browserGloss": 0.07714980623774054,
+      "cyclesGloss": 0.07978880534637905,
+      "browserCentroid": [
+       165.04624229295118,
+       114.82827862022997
+      ],
+      "cyclesCentroid": [
+       159.63266666666667,
+       107.30558333333333
+      ],
+      "browserGlossCentroid": [
+       165.8677217825906,
+       111.70470637234486
+      ],
+      "cyclesGlossCentroid": [
+       160.22216666666668,
+       109.73008333333334
+      ]
+     },
+     "parts": {
+      "straight": {
+       "pixels": 23495,
+       "spotPixels": 3968,
+       "browserGloss": 0.03463976385332835,
+       "cyclesGloss": 0.023778873935549685,
+       "browserGlossInSpot": 0.06207432035719323,
+       "cyclesGlossInSpot": 0.06775638448221931
+      },
+      "side": {
+       "pixels": 26264,
+       "spotPixels": 8032,
+       "browserGloss": 0.03248781868414177,
+       "cyclesGloss": 0.03532087237524845,
+       "browserGlossInSpot": 0.06519662388457603,
+       "cyclesGlossInSpot": 0.08514838453842478
+      }
+     },
+     "crop": {
+      "browserGloss": 0.027785355360904145,
+      "cyclesGloss": 0.024782891978109182
+     },
+     "blockCorrelation": 0.6695826881108309,
+     "blockCorrelationStraight": 0.48239469007418667
+    }
+   }
+  }
+ }
+}
