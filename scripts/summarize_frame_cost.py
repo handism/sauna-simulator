@@ -3,7 +3,8 @@ ablations and the fragments shaded per pixel, and the pixel differences of captu
 
 python3 scripts/summarize_frame_cost.py --out docs/3d-qa/depth-prepass/cost.json \
     --runs standard before=<json>,<json>,... after=<json>,... \
-    [--runs high before=... after=...] [--ablation <json>...] [--images <before dir> <after dir>]
+    [--runs high before=... after=...] [--ablation <json>...] [--images <before dir> <after dir>] \
+    [--image-runs before=<dir>,<dir> after=<dir>,<dir>] [--overdraw <before json> <after json>]
 
 Each report is Playwright's JSON reporter output (build logs before the first `{` are skipped).
 --runs pairs the i-th `before` run with the i-th `after` run (run them alternately) and records,
@@ -11,7 +12,10 @@ per stage and lighting, the medians and the after/before ratios. --ablation keep
 every variant (product, trivial, discard) in the order run and the overdraw histograms. --images
 compares every .jpg/.png under two capture folders (same relative paths) and records, per folder,
 the largest channel difference and the share of pixels over 8 levels, whole and in the centre
-(20% margins cut, where the DOM glow of the full surveys does not reach).
+(20% margins cut, where the DOM glow of the full surveys does not reach). --image-runs takes
+repeated captures of each build and checks, per image, that every `after` capture is pixel-equal to
+some `before` capture: two page loads may differ (e2e/CLAUDE.md), so one pair alone cannot tell a
+change from that. --overdraw keeps the fragments shaded per pixel of a before and an after report.
 """
 import argparse
 import base64
@@ -123,12 +127,42 @@ def image_differences(before_root, after_root):
     return folders
 
 
+def image_runs(before_roots, after_roots):
+    import hashlib
+
+    import numpy as np
+    from PIL import Image
+
+    roots = [Path(r) for r in before_roots + after_roots]
+    labels = ['before'] * len(before_roots) + ['after'] * len(after_roots)
+    folders = {}
+    # A capture folder may hold only some of the suites: each image is judged on the runs that have it.
+    images = sorted({p.relative_to(root) for root in roots for p in root.rglob('*') if p.suffix in ('.jpg', '.png')})
+    for rel in images:
+        runs = [(root, label) for root, label in zip(roots, labels) if (root / rel).exists()]
+        digests = [hashlib.sha256(np.asarray(Image.open(root / rel).convert('RGB')).tobytes()).hexdigest()
+                   for root, _ in runs]
+        before = {d for d, (_, label) in zip(digests, runs) if label == 'before'}
+        entry = folders.setdefault(rel.parts[0], {'images': 0, 'minRuns': {}, 'varyingBetweenLoads': 0,
+                                                  'afterNotInBefore': []})
+        entry['images'] += 1
+        for side in ('before', 'after'):
+            count = sum(label == side for _, label in runs)
+            entry['minRuns'][side] = min(entry['minRuns'].get(side, count), count)
+        entry['varyingBetweenLoads'] += len(set(digests)) > 1
+        if not before or any(d not in before for d, (_, label) in zip(digests, runs) if label == 'after'):
+            entry['afterNotInBefore'].append(str(rel.relative_to(rel.parts[0])))
+    return {'before': before_roots, 'after': after_roots, 'folders': folders}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--out', required=True)
     parser.add_argument('--runs', nargs=3, action='append', metavar=('LABEL', 'BEFORE', 'AFTER'), default=[])
     parser.add_argument('--ablation', nargs='*', default=[])
     parser.add_argument('--images', nargs=2)
+    parser.add_argument('--image-runs', nargs=2, metavar=('BEFORE', 'AFTER'))
+    parser.add_argument('--overdraw', nargs=2, metavar=('BEFORE', 'AFTER'))
     args = parser.parse_args()
     out = {'comparisons': {}}
     for label, before, after in args.runs:
@@ -139,6 +173,12 @@ def main():
         out['ablation'] = ablation(args.ablation)
     if args.images:
         out['images'] = image_differences(*args.images)
+    if args.image_runs:
+        before, after = args.image_runs
+        out['imageRuns'] = image_runs(before.removeprefix('before=').split(','),
+                                      after.removeprefix('after=').split(','))
+    if args.overdraw:
+        out['overdraw'] = {side: ablation([path])['overdraw'] for side, path in zip(('before', 'after'), args.overdraw)}
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(out, indent=1, ensure_ascii=False) + '\n')
     for label, comparison in out['comparisons'].items():

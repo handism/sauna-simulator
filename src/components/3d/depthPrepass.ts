@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { refractedDepthMaterial } from './refraction';
 
 // Almost all of a frame's GPU time is fragment shading (every light, PCSS shadows, probes), and
 // the merged meshes defeat three's front-to-back sort: the sauna view shaded about 4.7 fragments
@@ -7,9 +8,10 @@ import * as THREE from 'three';
 // meshes so they follow their transforms and visibility, sharing the geometry.
 //
 // Left out, drawn by the lit pass as before: transparent and blended surfaces; alpha tested and
-// alpha-to-coverage leaves (their depth needs the mask); materials under the water, whose vertex
-// stage draws each vertex at its refracted place (refraction.ts) and whose fragments may discard;
-// and anything not on the default layer (side images, the mirror's lights, steam).
+// alpha-to-coverage leaves (their depth needs the mask); and anything not on the default layer
+// (side images, the mirror's lights, steam). Materials under the water draw each vertex at its
+// refracted image and may discard behind the sides; their copies refract the same way and write
+// no depth where the lit pass may discard (refractedDepthMaterial in refraction.ts).
 
 export const PREPASS_LAYER = 4;
 
@@ -38,17 +40,22 @@ export function takesPrepassDepth(material: THREE.Material) {
     !material.alphaToCoverage &&
     !(material as THREE.MeshStandardMaterial).alphaMap &&
     !(material as THREE.MeshStandardMaterial).displacementMap &&
-    !(material instanceof THREE.ShaderMaterial) &&
-    (material as { defines?: Record<string, unknown> }).defines?.SUI_REFRACTION === undefined
+    !(material instanceof THREE.ShaderMaterial)
   );
 }
 
 export function createDepthPrepass() {
-  const materials = new Map<THREE.Side, THREE.MeshBasicMaterial>();
+  const materials = new Map<string, THREE.MeshBasicMaterial>();
   const hidden = new THREE.MeshBasicMaterial({ visible: false });
-  const materialFor = (side: THREE.Side) => {
-    if (!materials.has(side)) materials.set(side, depthMaterial(side));
-    return materials.get(side)!;
+  const materialFor = (material: THREE.Material) => {
+    const level = (material as { defines?: Record<string, unknown> }).defines?.SUI_REFRACTION;
+    const key = `${material.side}|${level ?? ''}`;
+    if (!materials.has(key))
+      materials.set(
+        key,
+        level === undefined ? depthMaterial(material.side) : refractedDepthMaterial(String(level), material.side),
+      );
+    return materials.get(key)!;
   };
   const defaultLayer = new THREE.Layers();
   return {
@@ -68,7 +75,7 @@ export function createDepthPrepass() {
       let added = 0;
       for (const source of sources) {
         const list: THREE.Material[] = Array.isArray(source.material) ? source.material : [source.material];
-        const depth = list.map((material) => (takesPrepassDepth(material) ? materialFor(material.side) : hidden));
+        const depth = list.map((material) => (takesPrepassDepth(material) ? materialFor(material) : hidden));
         if (depth.every((material) => material === hidden)) continue;
         const copy = new THREE.Mesh(source.geometry, Array.isArray(source.material) ? depth : depth[0]);
         copy.name = `${source.name} depth`;

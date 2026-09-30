@@ -553,6 +553,58 @@ export function applyRefraction(root: THREE.Object3D, level: number) {
   return { materials: materials.size, triangles };
 }
 
+/** Kept this far out of the region where the lit pass may discard, against rounding. */
+const DISCARD_MARGIN = 1e-3;
+
+/**
+ * A depth-only material for the prepass (depthPrepass.ts) of a material that applyRefraction
+ * defined `SUI_REFRACTION` = `level` on: its vertices move to the same refracted image (the same
+ * project_vertex), and it writes no depth where the lit pass may discard its true fragments (in the
+ * water box, under the surface and outside the source water volume: behind a side, sideImage
+ * above). There the lit pass draws as without a prepass. `level` is the define's string.
+ */
+export function refractedDepthMaterial(level: string, side: THREE.Side) {
+  const material = new THREE.MeshBasicMaterial({
+    colorWrite: false,
+    side,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1,
+  });
+  const { min, max } = WATER_VOLUME;
+  const m = DISCARD_MARGIN;
+  const box = WATER_BOX;
+  material.onBeforeCompile = (shader) => {
+    const COMMON = '#include <common>';
+    const PROJECT_INCLUDE = '#include <project_vertex>';
+    const CLIP = '#include <clipping_planes_fragment>';
+    if (
+      !shader.vertexShader.includes(COMMON) ||
+      !shader.vertexShader.includes(PROJECT_INCLUDE) ||
+      !shader.fragmentShader.includes(CLIP)
+    )
+      throw new Error('three shader chunks changed; update refraction.ts');
+    // Only the vertex stage refracts: the fragment chunks of SUI_REFRACTION need the lit shader's.
+    shader.vertexShader = `#define SUI_REFRACTION ${level}\n${shader.vertexShader
+      .replace(COMMON, `${COMMON}\nvarying vec3 vSuiTrue;`)
+      .replace(
+        PROJECT_INCLUDE,
+        `${PROJECT_INCLUDE}\n\tvSuiTrue = cameraPosition + ( vec4( mvPosition.xyz, 0.0 ) * viewMatrix ).xyz;`,
+      )}`;
+    shader.fragmentShader = `varying vec3 vSuiTrue;\n${shader.fragmentShader.replace(
+      CLIP,
+      `${CLIP}
+	if ( vSuiTrue.y < ${(Number(level) + m).toFixed(4)} && vSuiTrue.y >= ${(box.min.y - m).toFixed(4)}
+		&& all( greaterThanEqual( vSuiTrue.xz, ${vec2(box.min.clone().subScalar(m))} ) )
+		&& all( lessThanEqual( vSuiTrue.xz, ${vec2(box.max.clone().addScalar(m))} ) )
+		&& ! ( all( greaterThan( vSuiTrue.xz, ${vec2(min.clone().addScalar(m))} ) )
+			&& all( lessThan( vSuiTrue.xz, ${vec2(max.clone().subScalar(m))} ) ) ) ) discard;`,
+    )}`;
+  };
+  material.customProgramCacheKey = () => `sui-refracted-depth|${level}`;
+  return material;
+}
+
 /**
  * A copy of `material` that blends over the images by its alpha (the side's transmittance, 1
  * elsewhere), keeping the target's alpha. It stays in the opaque pass.

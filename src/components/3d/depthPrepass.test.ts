@@ -25,7 +25,7 @@ describe('depth prepass', () => {
     prepass.dispose();
   });
 
-  it('leaves out blended, cut-out, refracted and other-layer surfaces', () => {
+  it('leaves out blended, cut-out and other-layer surfaces', () => {
     const prepass = createDepthPrepass();
     const root = new THREE.Group();
     const geometry = new THREE.BoxGeometry();
@@ -36,9 +36,6 @@ describe('depth prepass', () => {
       standard({ depthWrite: false }),
       new THREE.ShaderMaterial(),
     ];
-    const underwater = standard();
-    underwater.defines = { SUI_REFRACTION: '0.7650' };
-    excluded.push(underwater);
     for (const material of excluded) root.add(new THREE.Mesh(geometry, material));
     const sideImage = new THREE.Mesh(geometry, standard());
     sideImage.layers.set(2);
@@ -60,6 +57,34 @@ describe('depth prepass', () => {
     const other = new THREE.Mesh(geometry, standard());
     prepass.add(other);
     expect((other.children[0] as THREE.Mesh).material).toBe(materials[0]);
+    prepass.dispose();
+  });
+
+  it('refracts the copies of underwater materials and writes no depth where they may discard', () => {
+    const prepass = createDepthPrepass();
+    const geometry = new THREE.BoxGeometry();
+    const underwater = standard();
+    underwater.defines = { SUI_REFRACTION: '0.7650' };
+    const dry = standard();
+    const mesh = new THREE.Mesh(geometry, [underwater, dry]);
+    expect(prepass.add(mesh)).toBe(1);
+    const [wet, plain] = (mesh.children[0] as THREE.Mesh).material as THREE.MeshBasicMaterial[];
+    expect(wet).not.toBe(plain);
+    expect(wet.colorWrite).toBe(false);
+    expect(wet.customProgramCacheKey()).not.toBe(plain.customProgramCacheKey());
+    const shader = {
+      vertexShader: THREE.ShaderLib.basic.vertexShader,
+      fragmentShader: THREE.ShaderLib.basic.fragmentShader,
+    } as THREE.WebGLProgramParametersWithUniforms;
+    wet.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    // Only the vertex stage takes the define: the lit fragment chunks it guards need the lit shader.
+    expect(shader.vertexShader.startsWith('#define SUI_REFRACTION 0.7650\n')).toBe(true);
+    expect(shader.fragmentShader).not.toContain('#define SUI_REFRACTION');
+    expect(shader.fragmentShader).toMatch(/discard;/);
+    // Shared by the meshes with the same side and level.
+    const other = new THREE.Mesh(geometry, underwater);
+    prepass.add(other);
+    expect((other.children[0] as THREE.Mesh).material).toBe(wet);
     prepass.dispose();
   });
 });
