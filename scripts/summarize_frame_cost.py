@@ -5,7 +5,7 @@ python3 scripts/summarize_frame_cost.py --out docs/3d-qa/depth-prepass/cost.json
     --runs standard before=<json>,<json>,... after=<json>,... \
     [--runs high before=... after=...] [--ablation <json>...] [--images <before dir> <after dir>] \
     [--image-runs before=<dir>,<dir> after=<dir>,<dir>] [--overdraw <before json> <after json>] \
-    [--light-costs <json>...]
+    [--light-costs <json>...] [--image-delta <before dir> <after dir>]
 
 Each report is Playwright's JSON reporter output (build logs before the first `{` are skipped).
 --runs pairs the i-th `before` run with the i-th `after` run (run them alternately) and records,
@@ -21,7 +21,9 @@ change from that. --overdraw keeps the fragments shaded per pixel of a before an
 is the mean of the product medians just before and after it in its report minus its own median,
 and per view the savings of all reports are kept with their median (with the sum of the
 single-light medians, to set against `noshadow-all`). Other variants (`rolled`) are kept the
-same way. `warmup` runs are left out.
+same way. `warmup` runs are left out. --image-delta is for a change that alters images: per folder
+the CIELAB ΔE76 (sRGB, D65) between same-named captures, its mean and the shares of pixels over 2
+and 5, whole and in the centre, with the five images of the largest share over 5.
 """
 import argparse
 import base64
@@ -167,6 +169,58 @@ def image_differences(before_root, after_root):
     return folders
 
 
+def srgb_lab(rgb):
+    import numpy as np
+
+    a = rgb / 255.0
+    linear = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
+    xyz = linear @ np.array([[0.4124, 0.3576, 0.1805], [0.2126, 0.7152, 0.0722], [0.0193, 0.1192, 0.9505]]).T
+    xyz /= np.array([0.9505, 1.0, 1.089])
+    f = np.where(xyz > 0.008856, np.cbrt(xyz), 7.787 * xyz + 16 / 116)
+    return np.stack([116 * f[..., 1] - 16, 500 * (f[..., 0] - f[..., 1]), 200 * (f[..., 1] - f[..., 2])], -1)
+
+
+def image_delta(before_root, after_root):
+    import numpy as np
+    from PIL import Image
+
+    before_root, after_root = Path(before_root), Path(after_root)
+    folders = {}
+    for before in sorted(p for p in before_root.rglob('*') if p.suffix in ('.jpg', '.png')):
+        rel = before.relative_to(before_root)
+        after = after_root / rel
+        if not after.exists():
+            raise SystemExit(f'missing {after}')
+        d = np.linalg.norm(srgb_lab(np.asarray(Image.open(before).convert('RGB'), float))
+                           - srgb_lab(np.asarray(Image.open(after).convert('RGB'), float)), axis=-1)
+        h, w = d.shape
+        m = int(min(h, w) * 0.2)
+        centre = d[m:h - m, m:w - m]
+        entry = folders.setdefault(rel.parts[0], {'images': [], 'pixels': 0, 'sum': 0.0, 'over2': 0, 'over5': 0,
+                                                  'centrePixels': 0, 'centreOver5': 0})
+        entry['images'].append((str(rel.relative_to(rel.parts[0])), round(float((d > 5).mean()), 5),
+                                round(float(d.mean()), 4)))
+        entry['pixels'] += d.size
+        entry['sum'] += float(d.sum())
+        entry['over2'] += int((d > 2).sum())
+        entry['over5'] += int((d > 5).sum())
+        entry['centrePixels'] += centre.size
+        entry['centreOver5'] += int((centre > 5).sum())
+    result = {}
+    for name, e in folders.items():
+        worst = sorted(e['images'], key=lambda image: -image[1])[:5]
+        result[name] = {
+            'images': len(e['images']),
+            'meanDeltaE': round(e['sum'] / e['pixels'], 4),
+            'over2': round(e['over2'] / e['pixels'], 5),
+            'over5': round(e['over5'] / e['pixels'], 5),
+            'centreOver5': round(e['centreOver5'] / e['centrePixels'], 5),
+            'maxImageMeanDeltaE': max(image[2] for image in e['images']),
+            'worstOver5': [{'image': image, 'over5': over5, 'meanDeltaE': mean} for image, over5, mean in worst],
+        }
+    return result
+
+
 def image_runs(before_roots, after_roots):
     import hashlib
 
@@ -204,6 +258,7 @@ def main():
     parser.add_argument('--image-runs', nargs=2, metavar=('BEFORE', 'AFTER'))
     parser.add_argument('--overdraw', nargs=2, metavar=('BEFORE', 'AFTER'))
     parser.add_argument('--light-costs', nargs='*', default=[])
+    parser.add_argument('--image-delta', nargs=2, metavar=('BEFORE', 'AFTER'))
     args = parser.parse_args()
     out = {'comparisons': {}}
     for label, before, after in args.runs:
@@ -222,6 +277,8 @@ def main():
         out['overdraw'] = {side: ablation([path])['overdraw'] for side, path in zip(('before', 'after'), args.overdraw)}
     if args.light_costs:
         out['lightCosts'] = light_costs(args.light_costs)
+    if args.image_delta:
+        out['imageDelta'] = image_delta(*args.image_delta)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(out, indent=1, ensure_ascii=False) + '\n')
     for label, comparison in out['comparisons'].items():

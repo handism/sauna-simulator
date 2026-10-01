@@ -22,6 +22,7 @@ import { applyWaterBottom } from './waterBottom';
 import { createHdrOutput, type RenderStats } from './hdrOutput';
 import { createDepthPrepass } from './depthPrepass';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
+import { createShadowMask } from './shadowMask';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -128,6 +129,9 @@ export default function SaunaScene({
     // Transparent surfaces blend in scene-linear light, tone mapped once (hdrOutput.ts).
     const output = createHdrOutput(renderer);
     const prepass = createDepthPrepass();
+    // The lit pass reads its shadows from a half-resolution mask (needs the float targets of HDR output).
+    const shadowMask = output.hdr ? createShadowMask(renderer) : null;
+    const masked = () => shadowMask !== null && QUALITY[qualityRef.current].shadowSize > 0;
     const lighting = createLighting(scene, renderer);
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
@@ -261,6 +265,7 @@ export default function SaunaScene({
         const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
         setData('sideImageMeshes', String(sideImages.meshes));
         count('prepassMeshes', prepass.add(gltf.scene));
+        count('shadowMaskMeshes', shadowMask?.add(gltf.scene) ?? 0);
         setData('sideImageTriangles', String(sideImages.triangles));
         camera.layers.enable(SIDE_IMAGE_LAYER);
         scene.add(gltf.scene);
@@ -269,7 +274,16 @@ export default function SaunaScene({
         const glossyLights = createGlossyLights();
         scene.add(glossyLights.mesh);
         if (output.hdr) {
-          mirror = createPlanarReflection(renderer, definition.water.center[1], mirrorUniforms);
+          mirror = createPlanarReflection(
+            renderer,
+            definition.water.center[1],
+            mirrorUniforms,
+            (view, width, height) => {
+              if (!masked()) return () => {};
+              shadowMask!.render(scene, view, width, height, 'mirror');
+              return () => shadowMask!.end();
+            },
+          );
           mirror.setScale(QUALITY[qualityRef.current].mirror);
         }
         const forward = new THREE.Vector3();
@@ -302,6 +316,7 @@ export default function SaunaScene({
           setData('drawCalls', String(calls));
           setData('triangles', String(triangles));
         };
+        const drawingSize = new THREE.Vector2();
         const draw = () => {
           setData('sideImagesShown', String(sideImages.update(camera)));
           if (mirror) {
@@ -319,7 +334,14 @@ export default function SaunaScene({
             setData('mirrorTriangles', String(reflected.triangles));
             setData('mirrorSize', mirror.size);
           }
-          return output.render(scene, camera);
+          // The shadows at half resolution (shadowMask.ts), read by the lit pass.
+          if (masked()) {
+            renderer.getDrawingBufferSize(drawingSize);
+            shadowMask!.render(scene, camera, drawingSize.x, drawingSize.y);
+          }
+          const stats = output.render(scene, camera);
+          shadowMask?.end();
+          return stats;
         };
         const setView = (next: AmbientEnv) => {
           const view = definition.views[next];
@@ -365,6 +387,7 @@ export default function SaunaScene({
             gardenScenes.push(model.scene);
             if (prepare(model.scene)) throw Error('Garden under water');
             count('prepassMeshes', prepass.add(model.scene));
+            count('shadowMaskMeshes', shadowMask?.add(model.scene) ?? 0);
             // Compile for the pass it is drawn in, off the render loop where the browser can.
             await output.compile(model.scene, camera, scene);
             if (disposed || failed) return;
@@ -431,6 +454,7 @@ export default function SaunaScene({
       mirror?.dispose();
       output.dispose();
       prepass.dispose();
+      shadowMask?.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };

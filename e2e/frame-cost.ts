@@ -16,7 +16,8 @@
  * leaves the cost of that light's PCSS as the difference to the product: `sun` (the only
  * directional light), `spot0`..`spot5` (three's order of shadow casting spots: the V9 lounge disk,
  * then the dusk fill, path lights 1/4/7 and the maple uplight of lighting.ts), or `all`. The
- * receiver slope (suiShadowSlope, two derivatives) stays.
+ * receiver slope (suiShadowSlope, two derivatives) stays. Materials that read the half-resolution
+ * shadow mask (shadowMask.ts) lose that read instead; the mask pass still runs.
  * `rolled`: the PCSS sample loops (softShadows.ts) count to their constant plus a uniform left at 0,
  * so the compiler cannot unroll them: the same work in far less code.
  * `rotate`: pcssDisk rotates a constant Vogel point by phi (cos/sin of phi, shared by the unrolled
@@ -94,7 +95,10 @@ export function patchFrameCost(mode: FrameCostMode) {
             ? 'suiSunShadow\\( directLight\\.color, directionalShadowMap\\[ 0 \\]'
             : `getShadow\\( spotShadowMap\\[ ${light.slice('spot'.length)} \\]`;
       source = source.replace(
-        new RegExp(`\\( directLight\\.visible && receiveShadow && SUI_SHADOW_FACING \\) \\? (?=${call})`, 'g'),
+        new RegExp(
+          `\\( directLight\\.visible && receiveShadow && SUI_SHADOW_FACING \\) \\? (?:SUI_MASKED\\( [^)]* \\) )?(?=${call})`,
+          'g',
+        ),
         () => {
           w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
           return 'false ? ';

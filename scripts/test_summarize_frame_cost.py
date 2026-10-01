@@ -1,4 +1,4 @@
-"""The repeated-capture check and the light costs of summarize_frame_cost.py."""
+"""The repeated-capture check, the image ΔE and the light costs of summarize_frame_cost.py."""
 import base64
 import json
 import tempfile
@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from summarize_frame_cost import image_runs, light_costs
+from summarize_frame_cost import image_delta, image_runs, light_costs, srgb_lab
 
 
 def capture(root, name, value):
@@ -37,6 +37,34 @@ class ImageRunsTests(unittest.TestCase):
                 capture(root, 'a.png', value)
             folder = image_runs(roots[:2], roots[2:])['folders']['suite']
             self.assertEqual(folder['afterNotInBefore'], ['a.png'])
+
+
+class ImageDeltaTests(unittest.TestCase):
+    def test_lab_of_white_and_black(self):
+        lab = srgb_lab(np.array([[255.0, 255.0, 255.0], [0.0, 0.0, 0.0]]))
+        np.testing.assert_allclose(lab, [[100, 0, 0], [0, 0, 0]], atol=0.05)
+
+    def test_shares_and_worst_images_per_folder(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            before, after = Path(tmp) / 'before', Path(tmp) / 'after'
+            capture(before, 'same.png', 100)
+            capture(after, 'same.png', 100)
+            # A grey step of 10 levels from 100 is about 3.9 L*.
+            capture(before, 'step.png', 100)
+            capture(after, 'step.png', 110)
+            folder = image_delta(before, after)['suite']
+            self.assertEqual(folder['images'], 2)
+            self.assertAlmostEqual(folder['over2'], 0.5)
+            self.assertEqual(folder['over5'], 0)
+            self.assertAlmostEqual(folder['meanDeltaE'], folder['maxImageMeanDeltaE'] / 2, places=3)
+            self.assertGreater(folder['maxImageMeanDeltaE'], 3.5)
+
+    def test_a_missing_after_capture_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            capture(Path(tmp) / 'before', 'a.png', 1)
+            (Path(tmp) / 'after').mkdir()
+            with self.assertRaises(SystemExit):
+                image_delta(Path(tmp) / 'before', Path(tmp) / 'after')
 
 
 def report(path, runs):

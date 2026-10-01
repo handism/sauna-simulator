@@ -1,0 +1,131 @@
+{
+ "method": "mean CIELAB ΔE76 against the Cycles reference at 600x400 (box filter), mean of two captures per build",
+ "views": [
+  {
+   "view": "cycles-01-day",
+   "reference": "blender/renders/v13-sky/01.png",
+   "beforeMeanDeltaE": 9.254,
+   "afterMeanDeltaE": 9.262,
+   "change": 0.008
+  },
+  {
+   "view": "cycles-01-evening",
+   "reference": "blender/renders/v13-sky/06.png",
+   "beforeMeanDeltaE": 7.959,
+   "afterMeanDeltaE": 7.959,
+   "change": -0.0
+  },
+  {
+   "view": "cycles-01-night",
+   "reference": "blender/renders/web-night/01.png",
+   "beforeMeanDeltaE": 5.94,
+   "afterMeanDeltaE": 5.944,
+   "change": 0.005
+  },
+  {
+   "view": "cycles-02-day",
+   "reference": "blender/renders/v13-sky/02.png",
+   "beforeMeanDeltaE": 6.909,
+   "afterMeanDeltaE": 6.909,
+   "change": -0.0
+  },
+  {
+   "view": "cycles-02-evening",
+   "reference": "blender/renders/v13-sky/bh-02.png",
+   "beforeMeanDeltaE": 7.512,
+   "afterMeanDeltaE": 7.513,
+   "change": 0.001
+  },
+  {
+   "view": "cycles-02-night",
+   "reference": "blender/renders/web-night/02.png",
+   "beforeMeanDeltaE": 7.608,
+   "afterMeanDeltaE": 7.608,
+   "change": 0.001
+  },
+  {
+   "view": "cycles-03-day",
+   "reference": "blender/renders/v13-sky/03.png",
+   "beforeMeanDeltaE": 6.517,
+   "afterMeanDeltaE": 6.521,
+   "change": 0.004
+  },
+  {
+   "view": "cycles-03-evening",
+   "reference": "blender/renders/v13-sky/bh-03.png",
+   "beforeMeanDeltaE": 7.008,
+   "afterMeanDeltaE": 7.007,
+   "change": -0.001
+  },
+  {
+   "view": "cycles-03-night",
+   "reference": "blender/renders/web-night/03.png",
+   "beforeMeanDeltaE": 7.19,
+   "afterMeanDeltaE": 7.189,
+   "change": -0.001
+  },
+  {
+   "view": "cycles-04-day",
+   "reference": "blender/renders/v13-sky/04.png",
+   "beforeMeanDeltaE": 7.553,
+   "afterMeanDeltaE": 7.557,
+   "change": 0.004
+  },
+  {
+   "view": "cycles-04-evening",
+   "reference": "blender/renders/v13-sky/bh-04.png",
+   "beforeMeanDeltaE": 6.989,
+   "afterMeanDeltaE": 6.989,
+   "change": -0.0
+  },
+  {
+   "view": "cycles-04-night",
+   "reference": "blender/renders/web-night/04.png",
+   "beforeMeanDeltaE": 6.539,
+   "afterMeanDeltaE": 6.541,
+   "change": 0.002
+  },
+  {
+   "view": "cycles-05-day",
+   "reference": "blender/renders/v13-sky/05.png",
+   "beforeMeanDeltaE": 9.54,
+   "afterMeanDeltaE": 9.545,
+   "change": 0.005
+  },
+  {
+   "view": "cycles-05-evening",
+   "reference": "blender/renders/v13-sky/bh-05.png",
+   "beforeMeanDeltaE": 8.717,
+   "afterMeanDeltaE": 8.72,
+   "change": 0.002
+  },
+  {
+   "view": "cycles-05-night",
+   "reference": "blender/renders/web-night/05.png",
+   "beforeMeanDeltaE": 6.215,
+   "afterMeanDeltaE": 6.224,
+   "change": 0.009
+  },
+  {
+   "view": "cycles-07-day",
+   "reference": "blender/renders/v13-sky/07.png",
+   "beforeMeanDeltaE": 7.371,
+   "afterMeanDeltaE": 7.368,
+   "change": -0.004
+  },
+  {
+   "view": "cycles-07-evening",
+   "reference": "blender/renders/v13-sky/bh-07.png",
+   "beforeMeanDeltaE": 6.878,
+   "afterMeanDeltaE": 6.878,
+   "change": 0.0
+  },
+  {
+   "view": "cycles-07-night",
+   "reference": "blender/renders/web-night/07.png",
+   "beforeMeanDeltaE": 5.373,
+   "afterMeanDeltaE": 5.379,
+   "change": 0.006
+  }
+ ]
+}

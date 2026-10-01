@@ -108,6 +108,8 @@ export function createPlanarReflection(
   renderer: THREE.WebGLRenderer,
   level: number,
   uniforms: PlanarReflectionUniforms,
+  // Draws what the mirrored view needs before it (the shadow mask) and returns what ends it.
+  beforeDraw: (camera: THREE.Camera, width: number, height: number) => () => void = () => () => {},
 ) {
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   uniforms.suiMirror.value = target.texture;
@@ -224,8 +226,10 @@ export function createPlanarReflection(
       const visible = surface.visible;
       surface.visible = false;
       const previous = renderer.getRenderTarget();
+      const end = beforeDraw(camera, pixels[0], pixels[1]);
       renderer.setRenderTarget(target);
       renderer.render(scene, camera);
+      end();
       stats.calls = renderer.info.render.calls;
       stats.triangles = renderer.info.render.triangles;
       stats.rendered = true;
