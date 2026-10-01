@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import './softShadows';
 import { PREPASS_LAYER, takesPrepassDepth } from './depthPrepass';
+import { mayDiscardGlsl } from './refraction';
 
 // The dusk and night frames spend about 75–85% of their GPU time in the PCSS shadows, in
 // proportion to the pixels times the lookups (docs/3d-qa/light-shadow-cost). This evaluates the
@@ -14,9 +15,11 @@ import { PREPASS_LAYER, takesPrepassDepth } from './depthPrepass';
 // texels around a pixel, keeps those whose depth and normal are its own surface's, and
 // interpolates them; where none is (silhouettes, grooves, parts thinner than the half resolution)
 // it looks the shadow maps up once each. The lit pass keeps no PCSS of its own: the code alone,
-// never run, cost as much as running it. The water's mirror draws a mask of its own. Left out,
-// evaluating the shadows as before: transparent, alpha tested and non-default layer surfaces, and
-// every material that draws under the water.
+// never run, cost as much as running it. The water's mirror draws a mask of its own. Materials
+// under the water (SUI_REFRACTION) draw their copies at the same refracted image, keeping the true
+// position for the shadows (and the pool floor's lookups at its paths' exits, waterBottom.ts), and
+// write nothing where the lit pass may discard them. Left out, evaluating the shadows as before:
+// transparent, alpha tested and non-default layer surfaces, including the images in the sides.
 
 export const SHADOW_MASK_LAYER = 5;
 // Directional then spot shadows, three to a channel of red, green and blue; the last two slots
@@ -60,7 +63,7 @@ void main() {
 	vSuiNormal = transformedNormal;
 }`;
 
-const fragmentShader = /* glsl */ `
+const fragmentShader = (discard: string) => /* glsl */ `
 #include <common>
 #include <packing>
 #include <lights_pars_begin>
@@ -70,6 +73,7 @@ varying vec3 vViewPosition;
 varying vec3 vSuiNormal;
 void main() {
 	vec3 geometryPosition = - vViewPosition;
+	${discard}
 	vec3 normal = normalize( vSuiNormal );
 	#ifdef DOUBLE_SIDED
 	normal *= gl_FrontFacing ? 1.0 : - 1.0;
@@ -113,8 +117,25 @@ void main() {
 	gl_FragColor = vec4( packed, vViewPosition.z );
 }`;
 
-// The lit pass (lights_pars_begin, for materials with SUI_SHADOW_MASK).
+// The lit pass (lights_pars_begin, for materials with SUI_SHADOW_MASK or SUI_HARD_SHADOW).
 export const MASK_PARS = /* glsl */ `
+#if ( defined( SUI_SHADOW_MASK ) || defined( SUI_HARD_SHADOW ) ) && defined( USE_SHADOWMAP )
+// One lookup of the shadow map at the pixel, in place of the PCSS. With the mask, where no texel is
+// on this surface (silhouettes, grooves and parts thinner than the half resolution): taking a
+// neighbouring surface's factor lit the shadowed grooves between ceiling boards. With
+// SUI_HARD_SHADOW, everywhere: the underwater copies drawing no mask (refraction.ts), where the
+// sun and spot lights light nothing (lighting.ts DRY_ONLY) but the pool floor's highlights.
+// Same arguments as getShadow.
+float suiHardShadow( sampler2D shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
+	shadowCoord.xyz /= shadowCoord.w;
+	shadowCoord.z += shadowBias;
+	if ( any( lessThan( shadowCoord.xy, vec2( 0.0 ) ) ) || any( greaterThan( shadowCoord.xyz, vec3( 1.0 ) ) ) ) return 1.0;
+	return mix( 1.0, step( shadowCoord.z, texture2D( shadowMap, shadowCoord.xy ).r ), shadowIntensity );
+}
+float suiSunHardShadow( vec3 sunColor, sampler2D shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
+	return suiHardShadow( shadowMap, shadowMapSize, shadowIntensity, shadowBias, shadowRadius, shadowCoord );
+}
+#endif
 #if defined( SUI_SHADOW_MASK ) && defined( USE_SHADOWMAP )
 uniform sampler2D suiShadowMask;
 uniform vec2 suiShadowMaskScale;
@@ -158,18 +179,6 @@ void suiLoadShadowMask( float depth, float slope, vec3 normal ) {
 	suiMaskMiddle *= scale;
 	suiMaskHigh *= scale;
 }
-// Where no texel is on this surface (silhouettes, grooves and parts thinner than the half
-// resolution), one lookup of the shadow map at the pixel: taking a neighbouring surface's factor
-// lit the shadowed grooves between ceiling boards. Same arguments as getShadow.
-float suiHardShadow( sampler2D shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
-	shadowCoord.xyz /= shadowCoord.w;
-	shadowCoord.z += shadowBias;
-	if ( any( lessThan( shadowCoord.xy, vec2( 0.0 ) ) ) || any( greaterThan( shadowCoord.xyz, vec3( 1.0 ) ) ) ) return 1.0;
-	return mix( 1.0, step( shadowCoord.z, texture2D( shadowMap, shadowCoord.xy ).r ), shadowIntensity );
-}
-float suiSunHardShadow( vec3 sunColor, sampler2D shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
-	return suiHardShadow( shadowMap, shadowMapSize, shadowIntensity, shadowBias, shadowRadius, shadowCoord );
-}
 float suiMaskFactor( int slot ) {
 	int c = slot / 3, k = slot - c * 3;
 	vec3 v = k == 0 ? suiMaskLow : k == 1 ? suiMaskMiddle : suiMaskHigh;
@@ -180,7 +189,8 @@ float suiMaskFactor( int slot ) {
 // The lit pass, before the lights (lights_fragment_begin): the derivative is taken outside any
 // branch. The PCSS calls of the lights' loops become the single lookups, and the PCSS functions,
 // never called, are dropped: merely present behind a branch never taken, their unrolled lookups
-// made the lit pass as slow as evaluating them (docs/3d-qa/shadow-mask).
+// made the lit pass as slow as evaluating them (docs/3d-qa/shadow-mask). SUI_HARD_SHADOW takes the
+// single lookups without a mask.
 export const MASK_LOAD = /* glsl */ `
 #if defined( SUI_SHADOW_MASK ) && defined( USE_SHADOWMAP )
 vec3 suiMaskNormal = normalize( vNormal );
@@ -193,10 +203,14 @@ suiLoadShadowMask( vViewPosition.z, fwidth( vViewPosition.z ), suiMaskNormal );
 #define suiSunShadow suiSunHardShadow
 #else
 #define SUI_MASKED( slot )
+#if defined( SUI_HARD_SHADOW ) && defined( USE_SHADOWMAP )
+#define getShadow suiHardShadow
+#define suiSunShadow suiSunHardShadow
+#endif
 #endif
 `;
 export const MASK_END = /* glsl */ `
-#if defined( SUI_SHADOW_MASK ) && defined( USE_SHADOWMAP )
+#if ( defined( SUI_SHADOW_MASK ) || defined( SUI_HARD_SHADOW ) ) && defined( USE_SHADOWMAP )
 #undef getShadow
 #undef suiSunShadow
 #endif
@@ -223,12 +237,21 @@ if (!THREE.ShaderChunk.lights_fragment_begin.includes('SUI_MASKED')) {
   THREE.ShaderChunk.lights_pars_begin += MASK_PARS;
 }
 
-function maskMaterial(side: THREE.Side) {
+/** The mask material of a lit material with `side`, refracted under the water at `level` (the define's string). */
+function maskMaterial(side: THREE.Side, level?: string, waterBottom = false) {
+  // The true world position, which the vertex stage keeps in vViewPosition.
+  const discard =
+    level === undefined
+      ? ''
+      : `vec3 suiTrue = ( ( vec4( geometryPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
+	if ( ${mayDiscardGlsl(level, 'suiTrue')} ) discard;`;
   return new THREE.ShaderMaterial({
     name: 'shadow mask',
     uniforms: THREE.UniformsUtils.clone(THREE.UniformsLib.lights),
     vertexShader,
-    fragmentShader,
+    fragmentShader: fragmentShader(discard),
+    // project_vertex refracts; the floor's spot shadow coordinates move to the paths' exits.
+    defines: level === undefined ? {} : { SUI_REFRACTION: level, ...(waterBottom ? { SUI_WATER_BOTTOM: '' } : {}) },
     lights: true,
     side,
   });
@@ -236,13 +259,7 @@ function maskMaterial(side: THREE.Side) {
 
 /** Whether the lit pass's `material` can read its shadows from the mask. */
 export function takesShadowMask(material: THREE.Material) {
-  const defines = (material as { defines?: Record<string, unknown> }).defines;
-  return (
-    takesPrepassDepth(material) &&
-    material instanceof THREE.MeshStandardMaterial &&
-    !material.flatShading &&
-    defines?.SUI_REFRACTION === undefined
-  );
+  return takesPrepassDepth(material) && material instanceof THREE.MeshStandardMaterial && !material.flatShading;
 }
 
 export type MaskPass = 'main' | 'mirror';
@@ -268,7 +285,15 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
     suiShadowMaskScale: { value: new THREE.Vector2(0.5, 0.5) },
     suiShadowMaskOn: { value: false },
   };
-  const materials = new Map<THREE.Side, THREE.ShaderMaterial>();
+  const materials = new Map<string, THREE.ShaderMaterial>();
+  const materialFor = (material: THREE.Material) => {
+    const defines = (material as { defines?: Record<string, unknown> }).defines;
+    const level = defines?.SUI_REFRACTION === undefined ? undefined : String(defines.SUI_REFRACTION);
+    const waterBottom = level !== undefined && defines?.SUI_WATER_BOTTOM !== undefined;
+    const key = `${material.side}|${level ?? ''}|${waterBottom}`;
+    if (!materials.has(key)) materials.set(key, maskMaterial(material.side, level, waterBottom));
+    return materials.get(key)!;
+  };
   const hidden = new THREE.MeshBasicMaterial({ visible: false });
   const marked = new WeakSet<THREE.Material>();
   const mark = (material: THREE.MeshStandardMaterial) => {
@@ -306,8 +331,7 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
         const copies = list.map((material) => {
           if (!takesShadowMask(material)) return hidden;
           mark(material as THREE.MeshStandardMaterial);
-          if (!materials.has(material.side)) materials.set(material.side, maskMaterial(material.side));
-          return materials.get(material.side)!;
+          return materialFor(material);
         });
         if (copies.every((material) => material === hidden)) continue;
         const copy = new THREE.Mesh(source.geometry, Array.isArray(source.material) ? copies : copies[0]);

@@ -60,12 +60,10 @@ describe('shadow mask', () => {
     mask.dispose();
   });
 
-  it('leaves out surfaces the depth prepass leaves out, non-receivers and underwater materials', () => {
+  it('leaves out surfaces the depth prepass leaves out, non-receivers and other layers', () => {
     const mask = createShadowMask(fakeRenderer().renderer as unknown as THREE.WebGLRenderer);
     const geometry = new THREE.BoxGeometry();
-    const underwater = standard();
-    underwater.defines = { SUI_REFRACTION: '0.7650' };
-    const receivers = [standard({ transparent: true }), standard({ alphaTest: 0.5 }), underwater].map((material) =>
+    const receivers = [standard({ transparent: true }), standard({ alphaTest: 0.5 })].map((material) =>
       Object.assign(new THREE.Mesh(geometry, material), { receiveShadow: true }),
     );
     const notReceiving = new THREE.Mesh(geometry, standard());
@@ -73,12 +71,38 @@ describe('shadow mask', () => {
     sideImage.layers.set(2);
     const root = new THREE.Group().add(...receivers, notReceiving, sideImage);
     expect(mask.add(root)).toBe(0);
-    expect(underwater.defines.SUI_SHADOW_MASK).toBeUndefined();
+    expect(sideImage.material.defines?.SUI_SHADOW_MASK).toBeUndefined();
     // A multi-material mesh keeps the eligible groups.
-    const mixed = Object.assign(new THREE.Mesh(geometry, [standard(), underwater]), { receiveShadow: true });
+    const mixed = Object.assign(new THREE.Mesh(geometry, [standard(), standard({ transparent: true })]), {
+      receiveShadow: true,
+    });
     expect(mask.add(mixed)).toBe(1);
     const materials = (mixed.children[0] as THREE.Mesh).material as THREE.Material[];
     expect(materials.map((material) => material.visible)).toEqual([true, false]);
+    mask.dispose();
+  });
+
+  it('refracts the copies of underwater materials and writes nothing where they may discard', () => {
+    const mask = createShadowMask(fakeRenderer().renderer as unknown as THREE.WebGLRenderer);
+    const geometry = new THREE.BoxGeometry();
+    const underwater = standard();
+    underwater.defines = { SUI_REFRACTION: '0.7650' };
+    const floor = standard();
+    floor.defines = { SUI_REFRACTION: '0.7650', SUI_WATER_BOTTOM: '' };
+    const mesh = Object.assign(new THREE.Mesh(geometry, [standard(), underwater, floor]), { receiveShadow: true });
+    expect(mask.add(mesh)).toBe(1);
+    expect(underwater.defines.SUI_SHADOW_MASK).toBe('');
+    const [dry, wet, bottom] = (mesh.children[0] as THREE.Mesh).material as THREE.ShaderMaterial[];
+    expect(dry.defines).toEqual({});
+    expect(dry.fragmentShader).not.toMatch(/discard;/);
+    // The vertex stage's project_vertex refracts; the floor's shadow coordinates follow its paths.
+    expect(wet.defines).toEqual({ SUI_REFRACTION: '0.7650' });
+    expect(wet.fragmentShader).toMatch(/discard;/);
+    expect(bottom.defines).toEqual({ SUI_REFRACTION: '0.7650', SUI_WATER_BOTTOM: '' });
+    // Shared by the meshes with the same side and level.
+    const other = Object.assign(new THREE.Mesh(geometry, underwater), { receiveShadow: true });
+    mask.add(other);
+    expect((other.children[0] as THREE.Mesh).material).toBe(wet);
     mask.dispose();
   });
 
@@ -97,6 +121,14 @@ describe('shadow mask', () => {
     expect(MASK_LOAD).toContain('#define getShadow suiHardShadow');
     expect(MASK_LOAD).toContain('#define suiSunShadow suiSunHardShadow');
     expect(MASK_END).toContain('#undef getShadow');
+    // Without a mask, SUI_HARD_SHADOW takes the single lookups alone.
+    const hard = MASK_LOAD.slice(MASK_LOAD.indexOf('#if defined( SUI_HARD_SHADOW )'));
+    expect(hard).toContain('#define getShadow suiHardShadow');
+    expect(hard).not.toContain('suiLoadShadowMask');
+    expect(MASK_END).toContain('defined( SUI_HARD_SHADOW )');
+    expect(THREE.ShaderChunk.lights_pars_begin).toContain(
+      '#if ( defined( SUI_SHADOW_MASK ) || defined( SUI_HARD_SHADOW ) ) && defined( USE_SHADOWMAP )',
+    );
     expect(THREE.ShaderChunk.lights_pars_begin).toContain('vec3 v = round( texel.rgb );');
   });
 

@@ -1587,3 +1587,14 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [変更・途中で分かったこと・結果](3d-qa/shadow-mask/README.md)、[値](3d-qa/shadow-mask/cost.json)、[Cyclesとの誤差](3d-qa/shadow-mask/cycles-error.json)。
 
 検証：型検査、39ファイル231単体テスト（`shadowMask.test.ts` 6件追加）、Lint、整形、本番ビルド、ブラウザ回帰15件、Python 158テスト、撮影（各版2回）、GPU時間（標準6組・高画質3組）。3Dチャンクは745.29→755.35KBで既存の容量警告は継続。継続利用・モバイル実機・他のGPU・実聴・GPU総メモリは未検証。
+
+## フェーズ5：水中の材質の影マスクと水面下のコピーの1回参照（2026-10-01、採用）
+
+- 前回の残件の先頭。`SUI_REFRACTION` の材質もマスクに入れた（78→82メッシュ）。マスク材質に同じ定義を付けて頂点を屈折像へ動かし、底面のスポット光の影座標も屈折経路の出口へ移す。本描画が捨て得る領域では書かない（判定は深度プリパスと共有する `mayDiscardGlsl`）。
+- これだけでは水風呂の夕暮れ・夜が0.9倍にとどまった。定義で絞る切り分け `noshadow-with-<定義>`／`noshadow-without-<定義>` を `frame-cost.ts` に加えると、側面の像と側面の奥の壁（どちらも水面下で、直接光は `DRY_ONLY` により底面の光沢にしか使われない）がPCSSを評価していた。これらに `SUI_HARD_SHADOW` を定義し、影マップの1回参照にした。実行時に `receiveShadow` を切るだけではコードが残り、ほとんど速くならなかった。
+- GPU時間（HEADと交互、標準6組）：水風呂 昼35.5→12.8ms（0.36、**60fpsを下回った**）、夕暮れ44→32.5ms・夜47→34.5ms（0.73）。サウナ・外気浴は0.91〜0.99。
+- 画像：浴槽の外側の半影の粒の並びだけ変わる（Cycles視点の平均ΔE 0.09、水風呂ステージ0.06）。
+- 残件：水風呂の夕暮れ・夜の残り約20msは庭の葉（アルファテスト、深度プリパス・マスク対象外）のPCSS。DPR 1.5・他の端末は未確認。
+- [変更・切り分け・結果](3d-qa/underwater-shadow-mask/README.md)、[値](3d-qa/underwater-shadow-mask/cost.json)、[マスクのみの版の切り分け](3d-qa/underwater-shadow-mask/split-mask-only.json)。
+
+検証：型検査、39ファイル232単体テスト、Lint、整形、本番ビルド、ブラウザ回帰15件、撮影（各版2回）、GPU時間（標準6組×2版）と切り分け。3Dチャンクは755.35→756.26KB（既存の容量警告は継続）。継続利用・高画質のGPU時間・モバイル実機・他のGPU・実聴・GPU総メモリは未検証。

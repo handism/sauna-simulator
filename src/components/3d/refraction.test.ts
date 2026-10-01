@@ -395,6 +395,8 @@ describe('refraction', () => {
     for (const [i, blended] of (behind.material as THREE.MeshStandardMaterial[]).entries()) {
       expect(blended).not.toBe((source.material as THREE.Material[])[i]);
       expect(blended.defines?.SUI_REFRACTION).toBe(material.defines?.SUI_REFRACTION);
+      // Under the water the shadows only darken the floor's highlights: one lookup (shadowMask.ts).
+      expect(blended.defines?.SUI_HARD_SHADOW).toBe('');
       expect(blended.customProgramCacheKey()).toBe(
         `${(source.material as THREE.Material[])[i].customProgramCacheKey()}|behind-sides`,
       );
@@ -412,6 +414,7 @@ describe('refraction', () => {
       const [single, both] = copy.material as THREE.MeshStandardMaterial[];
       const flipped = sides[0] * sides[1] === 0;
       expect(single.defines?.SUI_SIDE_IMAGE).toBe('');
+      expect(single.defines?.SUI_HARD_SHADOW).toBe('');
       expect(single.defines?.SUI_REFRACTION).toBe(material.defines?.SUI_REFRACTION);
       expect(single.defines?.SUI_SIDE_FLIPPED !== undefined).toBe(flipped);
       expect(single.side).toBe(flipped ? THREE.BackSide : THREE.FrontSide);

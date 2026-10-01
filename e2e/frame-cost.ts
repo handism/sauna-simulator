@@ -17,7 +17,10 @@
  * directional light), `spot0`..`spot5` (three's order of shadow casting spots: the V9 lounge disk,
  * then the dusk fill, path lights 1/4/7 and the maple uplight of lighting.ts), or `all`. The
  * receiver slope (suiShadowSlope, two derivatives) stays. Materials that read the half-resolution
- * shadow mask (shadowMask.ts) lose that read instead; the mask pass still runs.
+ * shadow mask (shadowMask.ts) lose that read instead; the mask pass still runs. `with-<DEFINE>` and
+ * `without-<DEFINE>` skip every light's lookups only in the programs that #define it or that do
+ * not, e.g. `without-SUI_SHADOW_MASK` for every surface evaluating its own PCSS, `with-SUI_SIDE_IMAGE`
+ * for the images in the water's sides, `with-USE_ALPHATEST` for the leaves.
  * `rolled`: the PCSS sample loops (softShadows.ts) count to their constant plus a uniform left at 0,
  * so the compiler cannot unroll them: the same work in far less code.
  * `rotate`: pcssDisk rotates a constant Vogel point by phi (cos/sin of phi, shared by the unrolled
@@ -26,7 +29,13 @@
  * instead of three's DEPTH_COMPONENT24 (32-bit float on Apple GPUs), halving the bytes read.
  */
 export type FrameCostMode =
-  'trivial' | 'overdraw' | 'discard' | 'rolled' | 'rotate' | 'depth16' | `noshadow-${'all' | 'sun' | `spot${number}`}`;
+  | 'trivial'
+  | 'overdraw'
+  | 'discard'
+  | 'rolled'
+  | 'rotate'
+  | 'depth16'
+  | `noshadow-${'all' | 'sun' | `spot${number}` | `with-${string}` | `without-${string}`}`;
 
 export function patchFrameCost(mode: FrameCostMode) {
   type Overdraw = Window & {
@@ -39,6 +48,12 @@ export function patchFrameCost(mode: FrameCostMode) {
   const proto = WebGL2RenderingContext.prototype;
   const shaderSource = proto.shaderSource;
   const main = /void\s+main\s*\(\s*\)\s*\{/;
+  // Whether a `noshadow-` mode skips the lookups of this program (inside: the page gets this
+  // function's source alone).
+  const shadowedProgram = (source: string) => {
+    const [, kind, define] = mode.match(/^noshadow-(with|without)-(\w+)$/) ?? [];
+    return !kind || new RegExp(`#define ${define}\\b`).test(source) === (kind === 'with');
+  };
   if (mode === 'depth16') {
     const texStorage2D = proto.texStorage2D;
     proto.texStorage2D = function (target, levels, format, width, height) {
@@ -85,11 +100,11 @@ export function patchFrameCost(mode: FrameCostMode) {
           'float r = sqrt( ( float( index ) + 0.5 ) / float( count ) );\n\t\tfloat a = float( index ) * 2.399963229728653;\n\t\tvec2 d = vec2( cos( a ), sin( a ) ) * r;\n\t\tfloat c = cos( phi ), s = sin( phi );\n\t\treturn vec2( c * d.x - s * d.y, s * d.x + c * d.y );',
         );
       }
-    } else if (fragment && mode.startsWith('noshadow-')) {
+    } else if (fragment && mode.startsWith('noshadow-') && shadowedProgram(source)) {
       const light = mode.slice('noshadow-'.length);
       // The lookups of softShadows.ts after three unrolls the light loops.
       const call =
-        light === 'all'
+        light === 'all' || light.startsWith('with-') || light.startsWith('without-')
           ? '\\w+\\( (?:directLight\\.color, )?(?:directional|spot)ShadowMap\\[ \\d+ \\]'
           : light === 'sun'
             ? 'suiSunShadow\\( directLight\\.color, directionalShadowMap\\[ 0 \\]'
@@ -104,7 +119,7 @@ export function patchFrameCost(mode: FrameCostMode) {
           return 'false ? ';
         },
       );
-    } else if (fragment) {
+    } else if (fragment && !mode.startsWith('noshadow-')) {
       if (mode === 'trivial') source = source.replace(main, 'void main() { pc_fragColor = vec4( 0.2 ); return;');
       else if (mode === 'discard') source = source.replace(main, 'void main() { if ( gl_FragCoord.x < -1.0 ) discard;');
       else {

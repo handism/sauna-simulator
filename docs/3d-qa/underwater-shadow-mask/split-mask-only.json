@@ -1,0 +1,266 @@
+{
+ "comparisons": {},
+ "lightCosts": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "productMs": [
+    13.913541,
+    13.578916
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 1.99,
+    "noshadow-with-SUI_SIDE_IMAGE": 1.81,
+    "noshadow-with-USE_ALPHATEST": 1.65,
+    "noshadow-without-OPAQUE": 0.62
+   },
+   "sumOfSingleLights": 6.07,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     1.99
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     1.81
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     1.65
+    ],
+    "noshadow-without-OPAQUE": [
+     0.62
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "productMs": [
+    13.917999,
+    13.628833
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": -0.0,
+    "noshadow-with-SUI_SIDE_IMAGE": -0.36,
+    "noshadow-with-USE_ALPHATEST": 0.5,
+    "noshadow-without-OPAQUE": -0.06
+   },
+   "sumOfSingleLights": 0.08,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     -0.0
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     -0.36
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     0.5
+    ],
+    "noshadow-without-OPAQUE": [
+     -0.06
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "night",
+   "productMs": [
+    14.092041,
+    13.984333
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 0.11,
+    "noshadow-with-SUI_SIDE_IMAGE": -0.14,
+    "noshadow-with-USE_ALPHATEST": 0.59,
+    "noshadow-without-OPAQUE": 0.55
+   },
+   "sumOfSingleLights": 1.11,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     0.11
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     -0.14
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     0.59
+    ],
+    "noshadow-without-OPAQUE": [
+     0.55
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "productMs": [
+    15.461625,
+    27.688416
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 8.53,
+    "noshadow-with-SUI_SIDE_IMAGE": 8.06,
+    "noshadow-with-USE_ALPHATEST": 7.54,
+    "noshadow-without-OPAQUE": 8.21
+   },
+   "sumOfSingleLights": 32.34,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     8.53
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     8.06
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     7.54
+    ],
+    "noshadow-without-OPAQUE": [
+     8.21
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "productMs": [
+    38.170624,
+    38.651333
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 24.74,
+    "noshadow-with-SUI_SIDE_IMAGE": 6.28,
+    "noshadow-with-USE_ALPHATEST": 5.28,
+    "noshadow-without-OPAQUE": 22.59
+   },
+   "sumOfSingleLights": 58.89,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     24.74
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     6.28
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     5.28
+    ],
+    "noshadow-without-OPAQUE": [
+     22.59
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "productMs": [
+    41.767624,
+    41.396249
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 27.65,
+    "noshadow-with-SUI_SIDE_IMAGE": 6.81,
+    "noshadow-with-USE_ALPHATEST": 6.2,
+    "noshadow-without-OPAQUE": 8.97
+   },
+   "sumOfSingleLights": 49.63,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     27.65
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     6.81
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     6.2
+    ],
+    "noshadow-without-OPAQUE": [
+     8.97
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "productMs": [
+    12.887541,
+    12.541
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 2.13,
+    "noshadow-with-SUI_SIDE_IMAGE": 0.63,
+    "noshadow-with-USE_ALPHATEST": 2.07,
+    "noshadow-without-OPAQUE": 2.07
+   },
+   "sumOfSingleLights": 6.9,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     2.13
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     0.63
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     2.07
+    ],
+    "noshadow-without-OPAQUE": [
+     2.07
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "productMs": [
+    14.276833,
+    13.998833
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 1.91,
+    "noshadow-with-SUI_SIDE_IMAGE": 0.96,
+    "noshadow-with-USE_ALPHATEST": 1.47,
+    "noshadow-without-OPAQUE": 2.27
+   },
+   "sumOfSingleLights": 6.61,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     1.91
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     0.96
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     1.47
+    ],
+    "noshadow-without-OPAQUE": [
+     2.27
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "night",
+   "productMs": [
+    13.833416,
+    14.024374
+   ],
+   "medianSavingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": 0.79,
+    "noshadow-with-SUI_SIDE_IMAGE": -0.1,
+    "noshadow-with-USE_ALPHATEST": 0.94,
+    "noshadow-without-OPAQUE": 1.11
+   },
+   "sumOfSingleLights": 2.74,
+   "savingMs": {
+    "noshadow-without-SUI_SHADOW_MASK": [
+     0.79
+    ],
+    "noshadow-with-SUI_SIDE_IMAGE": [
+     -0.1
+    ],
+    "noshadow-with-USE_ALPHATEST": [
+     0.94
+    ],
+    "noshadow-without-OPAQUE": [
+     1.11
+    ]
+   }
+  }
+ ]
+}

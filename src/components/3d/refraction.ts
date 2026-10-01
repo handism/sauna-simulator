@@ -557,6 +557,23 @@ export function applyRefraction(root: THREE.Object3D, level: number) {
 const DISCARD_MARGIN = 1e-3;
 
 /**
+ * GLSL: whether the lit pass of a material with `SUI_REFRACTION` = `level` may discard its true
+ * fragment at world position `p` (in the water box, under the surface and outside the source water
+ * volume: behind a side, sideImage above), widened by DISCARD_MARGIN. The passes that stand in for
+ * its depth or shadows (depth prepass, shadow mask) write nothing there.
+ */
+export function mayDiscardGlsl(level: string, p: string) {
+  const { min, max } = WATER_VOLUME;
+  const m = DISCARD_MARGIN;
+  const box = WATER_BOX;
+  return `${p}.y < ${(Number(level) + m).toFixed(4)} && ${p}.y >= ${(box.min.y - m).toFixed(4)}
+		&& all( greaterThanEqual( ${p}.xz, ${vec2(box.min.clone().subScalar(m))} ) )
+		&& all( lessThanEqual( ${p}.xz, ${vec2(box.max.clone().addScalar(m))} ) )
+		&& ! ( all( greaterThan( ${p}.xz, ${vec2(min.clone().addScalar(m))} ) )
+			&& all( lessThan( ${p}.xz, ${vec2(max.clone().subScalar(m))} ) ) )`;
+}
+
+/**
  * A depth-only material for the prepass (depthPrepass.ts) of a material that applyRefraction
  * defined `SUI_REFRACTION` = `level` on: its vertices move to the same refracted image (the same
  * project_vertex), and it writes no depth where the lit pass may discard its true fragments (in the
@@ -571,9 +588,6 @@ export function refractedDepthMaterial(level: string, side: THREE.Side) {
     polygonOffsetFactor: 1,
     polygonOffsetUnits: 1,
   });
-  const { min, max } = WATER_VOLUME;
-  const m = DISCARD_MARGIN;
-  const box = WATER_BOX;
   material.onBeforeCompile = (shader) => {
     const COMMON = '#include <common>';
     const PROJECT_INCLUDE = '#include <project_vertex>';
@@ -594,11 +608,7 @@ export function refractedDepthMaterial(level: string, side: THREE.Side) {
     shader.fragmentShader = `varying vec3 vSuiTrue;\n${shader.fragmentShader.replace(
       CLIP,
       `${CLIP}
-	if ( vSuiTrue.y < ${(Number(level) + m).toFixed(4)} && vSuiTrue.y >= ${(box.min.y - m).toFixed(4)}
-		&& all( greaterThanEqual( vSuiTrue.xz, ${vec2(box.min.clone().subScalar(m))} ) )
-		&& all( lessThanEqual( vSuiTrue.xz, ${vec2(box.max.clone().addScalar(m))} ) )
-		&& ! ( all( greaterThan( vSuiTrue.xz, ${vec2(min.clone().addScalar(m))} ) )
-			&& all( lessThan( vSuiTrue.xz, ${vec2(max.clone().subScalar(m))} ) ) ) ) discard;`,
+	if ( ${mayDiscardGlsl(level, 'vSuiTrue')} ) discard;`,
     )}`;
   };
   material.customProgramCacheKey = () => `sui-refracted-depth|${level}`;
@@ -611,8 +621,9 @@ export function refractedDepthMaterial(level: string, side: THREE.Side) {
  */
 function blendOverImages(material: THREE.Material) {
   const copy = material.clone();
-  // MeshStandardMaterial.copy() resets the defines.
-  copy.defines = { ...material.defines };
+  // MeshStandardMaterial.copy() resets the defines. Under the water the shadows only darken the
+  // pool floor's highlights: a single lookup (shadowMask.ts).
+  copy.defines = { ...material.defines, SUI_HARD_SHADOW: '' };
   copy.onBeforeCompile = (shader, renderer) => material.onBeforeCompile(shader, renderer);
   copy.customProgramCacheKey = () => `${material.customProgramCacheKey()}|behind-sides`;
   copy.blending = THREE.CustomBlending;
@@ -739,7 +750,12 @@ export function addSideImages(root: THREE.Object3D, level: number, waterTime: { 
       const materials = list.map((material, i) => {
         if (!wet.has(i)) return material;
         const copy = material.clone();
-        copy.defines = { ...material.defines, SUI_SIDE_IMAGE: '', ...(flipped ? { SUI_SIDE_FLIPPED: '' } : {}) };
+        copy.defines = {
+          ...material.defines,
+          SUI_SIDE_IMAGE: '',
+          SUI_HARD_SHADOW: '',
+          ...(flipped ? { SUI_SIDE_FLIPPED: '' } : {}),
+        };
         if (flipped && material.side !== THREE.DoubleSide)
           copy.side = material.side === THREE.FrontSide ? THREE.BackSide : THREE.FrontSide;
         copy.onBeforeCompile = (shader, renderer) => {
