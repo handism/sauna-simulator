@@ -20,8 +20,8 @@ the largest channel difference and the share of pixels over 8 levels, whole and 
 repeated captures of each build and checks, per image, that every `after` capture is pixel-equal to
 some `before` capture: two page loads may differ (e2e/CLAUDE.md), so one pair alone cannot tell a
 change from that. --overdraw keeps the fragments shaded per pixel of a before and an after report.
---light-costs takes reports that ran `noshadow-*` variants between product runs: a variant's saving
-is the mean of the product medians just before and after it in its report minus its own median,
+--light-costs takes reports that ran `noshadow-*` (or other) variants between product runs: a
+variant's saving is the mean of the product medians (the mean intervals of repeated frames) just before and after it in its report minus its own median,
 and per view the savings of all reports are kept with their median (with the sum of the
 single-light medians, to set against `noshadow-all`). Other variants (`rolled`) are kept the
 same way. `warmup` runs are left out. --image-delta is for a change that alters images: per folder
@@ -115,6 +115,9 @@ def ablation(paths):
             runs.append({
                 'variant': run['variant'], 'index': run['index'], 'quality': run['quality'],
                 'medianMs': {f"{r['stage']}/{r['lighting']}": r['gpuMs']['median'] for r in run['results']},
+                **({'repeat': run['repeat'], 'meanIntervalMs': {
+                    f"{r['stage']}/{r['lighting']}": round(r['intervalMs']['mean'], 2) for r in run['results']}}
+                   if run.get('repeat', 1) > 1 else {}),
             })
         for run in attachments(path, 'overdraw'):
             for r in run['results']:
@@ -131,9 +134,16 @@ def ablation(paths):
 
 def light_costs(paths):
     views = {}
+    measures = {}
     for path in paths:
         runs = [run for run in attachments(path, 'frame-cost') if run['variant'] != 'warmup']
-        medians = [{(r['stage'], r['lighting']): r['gpuMs']['median'] for r in run['results']} for run in runs]
+        # Repeated frames (FRAME_COST_REPEAT) are costed by their interval, as in compare_runs.
+        for run in runs:
+            measure = 'intervalMs' if run.get('repeat', 1) > 1 else 'gpuMs'
+            if measures.setdefault('measure', measure) != measure:
+                raise SystemExit(f'{path}: repeated and single frames mixed')
+        medians = [{(r['stage'], r['lighting']): round(r['intervalMs']['mean'], 2) if r.get('intervalMs')
+                    and run.get('repeat', 1) > 1 else r['gpuMs']['median'] for r in run['results']} for run in runs]
         products = [i for i, run in enumerate(runs) if run['variant'] == 'product']
         if not products or products[0] > min(i for i, run in enumerate(runs) if run['variant'] != 'product') \
                 or products[-1] != len(runs) - 1:
@@ -153,7 +163,7 @@ def light_costs(paths):
     for (stage, lighting), view in views.items():
         medians = {variant: round(statistics.median(ms), 2) for variant, ms in view['savingMs'].items()}
         out.append({
-            'stage': stage, 'lighting': lighting,
+            'stage': stage, 'lighting': lighting, 'measure': measures['measure'],
             'productMs': view['productMs'],
             'medianSavingMs': medians,
             'sumOfSingleLights': round(sum(ms for variant, ms in medians.items()

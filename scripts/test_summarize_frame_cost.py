@@ -108,6 +108,20 @@ class LightCostsTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 light_costs([path])
 
+    def test_repeated_frames_are_costed_by_their_interval(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = report(Path(tmp) / 'a.json', [
+                ('product', {'night': 40}), ('cut-caustic', {'night': 30}), ('product', {'night': 44})], repeat=2)
+            [view] = light_costs([path])
+            self.assertEqual(view['measure'], 'intervalMs')
+            self.assertEqual(view['productMs'], [20, 22])
+            self.assertEqual(view['medianSavingMs'], {'cut-caustic': 6})
+            single = report(Path(tmp) / 'b.json', [
+                ('product', {'night': 40}), ('noshadow-sun', {'night': 30}), ('product', {'night': 44})])
+            with self.assertRaises(SystemExit):
+                light_costs([path, single])
+
+
 class CompareRunsTests(unittest.TestCase):
     def test_runs_keep_their_device_pixel_ratio(self):
         with tempfile.TemporaryDirectory() as tmp:

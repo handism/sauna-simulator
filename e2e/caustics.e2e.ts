@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
-import { CAUSTIC_GLSL } from '../src/components/3d/caustics.ts';
+import { CAUSTIC_GLSL, CELLS, causticCells, hash3v } from '../src/components/3d/caustics.ts';
 import { FBM_GLSL } from '../src/components/3d/noiseColor.ts';
 
 interface Reference {
@@ -88,4 +88,121 @@ void main() {
   // The fixture covers both lit points and the dark box outside the waterline.
   expect(reference.strength.filter((v) => v > 0.01).length).toBeGreaterThan(20);
   expect(reference.strength.filter((v) => v === 0).length).toBeGreaterThan(20);
+});
+
+// The product reads the Voronoi cells' feature points from causticCells() (SUI_CAUSTIC_CELLS):
+// they must be the GPU's own hashes, bit for bit, so the pattern is unchanged.
+test('cached caustic cells equal the GPU hashes and leave the pattern unchanged', async ({ page }) => {
+  await page.setContent('<canvas></canvas>');
+  const [nx, ny, nz] = CELLS.size;
+  const cells: [number, number, number][] = [];
+  for (let z = 0; z < nz; z++)
+    for (let y = 0; y < ny; y++)
+      for (let x = 0; x < nx; x++) cells.push([x + CELLS.min[0], y + CELLS.min[1], z + CELLS.min[2]]);
+  // The fixture's points and a grid over the box of sui_caustic_strength, filtered and not.
+  const points = [...reference.points];
+  for (let i = 0; i < 4000; i++)
+    points.push([
+      -0.17 + 2.7 * ((i * 0.618034) % 1),
+      0.89 + 3.22 * ((i * 0.414214) % 1),
+      0.18 + 0.575 * ((i * 0.732051) % 1),
+    ]);
+  const results = await page.evaluate(
+    ({ glsl, cells, points, texels, size }) => {
+      const gl = document.querySelector('canvas')!.getContext('webgl2');
+      if (!gl || !gl.getExtension('EXT_color_buffer_float')) throw Error('WebGL2 float render targets unavailable');
+      const compile = (type: number, source: string) => {
+        const shader = gl.createShader(type)!;
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw Error(gl.getShaderInfoLog(shader) ?? 'compile');
+        return shader;
+      };
+      const texture = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_3D, texture);
+      gl.texImage3D(
+        gl.TEXTURE_3D,
+        0,
+        gl.RGBA32F,
+        size[0],
+        size[1],
+        size[2],
+        0,
+        gl.RGBA,
+        gl.FLOAT,
+        new Float32Array(texels),
+      );
+      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+      gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+      const run = (defines: string, body: string, input: number[][]) => {
+        const program = gl.createProgram()!;
+        gl.attachShader(
+          program,
+          compile(
+            gl.VERTEX_SHADER,
+            `#version 300 es
+in vec3 point;
+uniform float count;
+flat out vec3 vPoint;
+void main() { vPoint = point; gl_PointSize = 1.0; gl_Position = vec4( ( float( gl_VertexID ) + 0.5 ) / count * 2.0 - 1.0, 0.0, 0.0, 1.0 ); }`,
+          ),
+        );
+        gl.attachShader(
+          program,
+          compile(
+            gl.FRAGMENT_SHADER,
+            `#version 300 es
+precision highp float;
+precision highp int;
+${defines}${glsl}
+flat in vec3 vPoint;
+out vec4 color;
+void main() { ${body} }`,
+          ),
+        );
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw Error(gl.getProgramInfoLog(program) ?? 'link');
+        gl.useProgram(program);
+        const count = input.length;
+        const target = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, target);
+        gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA32F, count, 1);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, gl.createFramebuffer());
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, target, 0);
+        gl.viewport(0, 0, count, 1);
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(input.flat()), gl.STATIC_DRAW);
+        const location = gl.getAttribLocation(program, 'point');
+        gl.enableVertexAttribArray(location);
+        gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 0, 0);
+        gl.uniform1f(gl.getUniformLocation(program, 'count'), count);
+        gl.uniform1i(gl.getUniformLocation(program, 'suiCausticCells'), 0);
+        gl.drawArrays(gl.POINTS, 0, count);
+        const pixels = new Float32Array(count * 4);
+        gl.readPixels(0, 0, count, 1, gl.RGBA, gl.FLOAT, pixels);
+        return Array.from(pixels);
+      };
+      // The footprint of a pixel about 2 mm wide filters the pattern, as in the product.
+      const pattern =
+        'vec3 warp = vPoint + 0.2 * sui_noise_color( vPoint * 3.6, 2.0, 0.0 ); color = vec4( sui_caustic_strength( vPoint, 0.0 ), sui_caustic_strength( vPoint, 0.002 ), sui_voronoi_edge( warp * 5.2 ), 0.0 );';
+      return {
+        hashes: run('', 'color = vec4( sui_hash3v( vPoint ), 0.0 );', cells),
+        hashed: run('', pattern, points),
+        cached: run('#define SUI_CAUSTIC_CELLS\n', pattern, points),
+      };
+    },
+    {
+      glsl: FBM_GLSL + CAUSTIC_GLSL,
+      cells,
+      points,
+      texels: Array.from((causticCells().image as { data: Float32Array }).data),
+      size: CELLS.size,
+    },
+  );
+  const expected = cells.flatMap((cell) => [...hash3v(...cell), 0]);
+  expect(results.hashes.filter((value, i) => value !== expected[i]).length).toBe(0);
+  expect(results.cached.filter((value, i) => value !== results.hashed[i]).length).toBe(0);
+  // Most points lie in the lit pattern.
+  expect(results.hashed.filter((value, i) => i % 4 === 0 && value > 0.01).length).toBeGreaterThan(500);
 });

@@ -8,6 +8,9 @@
  * `trivial`: every scene fragment shader returns a constant at once (the tone mapping pass is kept),
  * leaving vertex work, rasterization, MSAA, the resolve and the full-screen pass. Alpha tested
  * leaves become whole quads, so the floor is slightly overstated where foliage is seen.
+ * `trivial-with-<NAME>` / `trivial-without-<NAME>`: the same only in the programs that do or do not
+ * `#define NAME` or declare a uniform NAME, e.g. `trivial-with-SUI_REFRACTION` for the surfaces
+ * under the water or `trivial-with-suiMirror` for the water surface.
  * `overdraw`: shaders run in full, then write 1 into red with additive blending forced on; the
  * tone mapping pass writes the count / 32, and `suiOverdraw` reads the canvas after a frame.
  * `discard`: a discard that never runs, which keeps the image but stops a tile based GPU from
@@ -21,6 +24,12 @@
  * `without-<DEFINE>` skip every light's lookups only in the programs that #define it or that do
  * not, e.g. `without-SUI_SHADOW_MASK` for every surface evaluating its own PCSS, `with-SUI_SIDE_IMAGE`
  * for the images in the water's sides, `with-USE_ALPHATEST` for the leaves.
+ * `cut-<part>`: one part of the pool floor's shading (waterBottom.ts, caustics.ts) is skipped, by
+ * CUTS below: `bottom` the reflection off the water's bottom, `tilt` its four tilted traces that
+ * tell where the bump matters, `bump` the bumped trace those choose, `caustic` the caustics and
+ * `voronoi`, `warp` and `visibility` the caustics' Voronoi edges, the noise that warps them and
+ * the noise that fades them, `wet` the highlights through the water (the replacements are in patchFrameCost, which the page
+ * gets alone).
  * `rolled`: the PCSS sample loops (softShadows.ts) count to their constant plus a uniform left at 0,
  * so the compiler cannot unroll them: the same work in far less code.
  * `rotate`: pcssDisk rotates a constant Vogel point by phi (cos/sin of phi, shared by the unrolled
@@ -30,12 +39,16 @@
  */
 export type FrameCostMode =
   | 'trivial'
+  | `trivial-${'with' | 'without'}-${string}`
+  | `cut-${(typeof CUTS)[number]}`
   | 'overdraw'
   | 'discard'
   | 'rolled'
   | 'rotate'
   | 'depth16'
   | `noshadow-${'all' | 'sun' | `spot${number}` | `with-${string}` | `without-${string}`}`;
+
+export const CUTS = ['bottom', 'tilt', 'bump', 'caustic', 'voronoi', 'warp', 'visibility', 'wet'] as const;
 
 export function patchFrameCost(mode: FrameCostMode) {
   type Overdraw = Window & {
@@ -45,11 +58,40 @@ export function patchFrameCost(mode: FrameCostMode) {
     suiShadowSkips?: number;
   };
   const w = window as unknown as Overdraw;
+  const cuts: Record<string, [string, string]> = {
+    bottom: [
+      'vec4 suiBottom = suiBottomReflection(',
+      'vec4 suiBottom = vec4( 0.0 ); if ( false ) suiBottom = suiBottomReflection(',
+    ],
+    tilt: ['for ( int k = 0; k < 4; k ++ ) {', 'for ( int k = 0; k < 0; k ++ ) {'],
+    bump: ['if ( near ) {', 'if ( false ) {'],
+    caustic: [
+      'float sui_caustic_strength( vec3 p, float footprint ) {',
+      'float sui_caustic_strength( vec3 p, float footprint ) { return 0.0;',
+    ],
+    voronoi: [
+      'float sui_voronoi_edge( vec3 coord ) {',
+      'float sui_voronoi_edge( vec3 coord ) { return fract( coord.x );',
+    ],
+    warp: ['vec3 warp = p + 0.2 * sui_noise_color(', 'vec3 warp = p; if ( false ) warp = p + 0.2 * sui_noise_color('],
+    visibility: [
+      'float visibility = mix( 0.04, 0.48,',
+      'float visibility = 0.3; if ( false ) visibility = mix( 0.04, 0.48,',
+    ],
+    wet: ['if ( suiUnderwater ) {\n\tsuiWetSpecular', 'if ( false ) {\n\tsuiWetSpecular'],
+  };
   const proto = WebGL2RenderingContext.prototype;
   const shaderSource = proto.shaderSource;
   const main = /void\s+main\s*\(\s*\)\s*\{/;
   // Whether a `noshadow-` mode skips the lookups of this program (inside: the page gets this
   // function's source alone).
+  const trivialProgram = (source: string) => {
+    const [, kind, name] = mode.match(/^trivial-(with|without)-(\w+)$/) ?? [];
+    if (!kind) return mode === 'trivial';
+    const found = new RegExp(`#define ${name}\\b|uniform \\w+ ${name}\\b`).test(source);
+    if (found === (kind === 'with')) w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+    return found === (kind === 'with');
+  };
   const shadowedProgram = (source: string) => {
     const [, kind, define] = mode.match(/^noshadow-(with|without)-(\w+)$/) ?? [];
     return !kind || new RegExp(`#define ${define}\\b`).test(source) === (kind === 'with');
@@ -100,6 +142,12 @@ export function patchFrameCost(mode: FrameCostMode) {
           'float r = sqrt( ( float( index ) + 0.5 ) / float( count ) );\n\t\tfloat a = float( index ) * 2.399963229728653;\n\t\tvec2 d = vec2( cos( a ), sin( a ) ) * r;\n\t\tfloat c = cos( phi ), s = sin( phi );\n\t\treturn vec2( c * d.x - s * d.y, s * d.x + c * d.y );',
         );
       }
+    } else if (fragment && mode.startsWith('cut-')) {
+      const [find, replace] = cuts[mode.slice('cut-'.length)];
+      if (source.includes(find)) {
+        w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+        source = source.split(find).join(replace);
+      }
     } else if (fragment && mode.startsWith('noshadow-') && shadowedProgram(source)) {
       const light = mode.slice('noshadow-'.length);
       // The lookups of softShadows.ts after three unrolls the light loops.
@@ -120,8 +168,10 @@ export function patchFrameCost(mode: FrameCostMode) {
         },
       );
     } else if (fragment && !mode.startsWith('noshadow-')) {
-      if (mode === 'trivial') source = source.replace(main, 'void main() { pc_fragColor = vec4( 0.2 ); return;');
-      else if (mode === 'discard') source = source.replace(main, 'void main() { if ( gl_FragCoord.x < -1.0 ) discard;');
+      if (mode.startsWith('trivial')) {
+        if (trivialProgram(source)) source = source.replace(main, 'void main() { pc_fragColor = vec4( 0.2 ); return;');
+      } else if (mode === 'discard')
+        source = source.replace(main, 'void main() { if ( gl_FragCoord.x < -1.0 ) discard;');
       else {
         const end = source.lastIndexOf('}');
         source = `${source.slice(0, end)}\tpc_fragColor = vec4( 1.0, 0.0, 0.0, 1.0 );\n}${source.slice(end + 1)}`;

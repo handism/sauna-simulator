@@ -100,7 +100,14 @@ for (const [index, variant] of (
       });
     });
     // A shadow variant that no longer matches the shaders would time the product.
-    if (variant.startsWith('noshadow-') || variant === 'rolled' || variant === 'rotate' || variant === 'depth16')
+    if (
+      variant.startsWith('noshadow-') ||
+      variant.startsWith('trivial-') ||
+      variant.startsWith('cut-') ||
+      variant === 'rolled' ||
+      variant === 'rotate' ||
+      variant === 'depth16'
+    )
       expect(await skips()).toBeGreaterThan(0);
     await info.attach('frame-cost', {
       contentType: 'application/json',

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { applyCaustics, isCausticMaterial, patchCausticShader } from './caustics';
+import { CELLS, applyCaustics, causticCells, isCausticMaterial, patchCausticShader } from './caustics';
 import { patchNoiseColorShader } from './noiseColor';
 
 const named = (name: string) => Object.assign(new THREE.MeshStandardMaterial(), { name });
@@ -42,6 +42,18 @@ describe('caustics', () => {
     );
   });
 
+  it('reads the cached cells when given them', () => {
+    const cells = causticCells();
+    expect([cells.image.width, cells.image.height, cells.image.depth]).toEqual(CELLS.size);
+    const shader = { ...physical(), uniforms: {} as Record<string, THREE.IUniform> };
+    patchCausticShader(shader, cells);
+    expect(shader.fragmentShader).toContain('#define SUI_CAUSTIC_CELLS');
+    expect(shader.uniforms.suiCausticCells.value).toBe(cells);
+    const plain = physical();
+    patchCausticShader(plain);
+    expect(plain.fragmentShader).not.toContain('#define SUI_CAUSTIC_CELLS');
+  });
+
   it('composes with earlier hooks and keys the program', () => {
     const tile = named('V10 | submerged light / Teal glazed pool tile');
     const calls: string[] = [];
@@ -54,5 +66,10 @@ describe('caustics', () => {
     expect(calls).toEqual(['earlier']);
     expect(shader.fragmentShader).toContain('sui_caustic_strength');
     expect(tile.customProgramCacheKey()).toContain('|caustics');
+    const cells = shader.uniforms.suiCausticCells.value as THREE.Texture;
+    let freed = 0;
+    cells.addEventListener('dispose', () => freed++);
+    tile.dispose();
+    expect(freed).toBe(1);
   });
 });
