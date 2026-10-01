@@ -1,14 +1,21 @@
 // GPU time of every animation frame callback (all passes of a frame), from
-// EXT_disjoint_timer_query_webgl2 around each callback. Installed before the app loads.
-export function timeFrames() {
+// EXT_disjoint_timer_query_webgl2 around each callback, and the times of the callbacks that draw
+// (suiFrameAt). Installed before the app loads. On ANGLE Metal a frame that misses the display
+// interval times about 1.8x the interval between frames (the query also spans waiting on earlier
+// frames), and a frame within it only shows the interval: `repeat` > 1 runs each callback that
+// draws that many times (same time, so nothing advances, and no further frames scheduled) to make
+// the GPU the limit, and the interval between frames / repeat is the cost of one frame.
+export function timeFrames(repeat = 1) {
   type Timed = Window & {
     suiGl?: WebGL2RenderingContext;
     suiTimer?: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null;
     suiMeasure?: boolean;
     suiGpuMs: number[];
+    suiFrameAt: number[];
   };
   const w = window as unknown as Timed;
   w.suiGpuMs = [];
+  w.suiFrameAt = [];
   let draws = 0;
   // DOM animations also schedule rAF callbacks. Their empty GPU queries must
   // not lower the measured quantiles, particularly when WebGL is inexpensive.
@@ -35,7 +42,7 @@ export function timeFrames() {
   } as typeof getContext;
   const pending: WebGLQuery[] = [];
   const frame = window.requestAnimationFrame.bind(window);
-  window.requestAnimationFrame = (callback) =>
+  const wrapped = (callback: FrameRequestCallback) =>
     frame((time) => {
       const gl = w.suiGl;
       const timer = w.suiTimer;
@@ -43,6 +50,12 @@ export function timeFrames() {
       if (query) gl!.beginQuery(timer!.TIME_ELAPSED_EXT, query);
       const before = draws;
       callback(time);
+      if (draws > before && repeat > 1) {
+        window.requestAnimationFrame = () => 0;
+        for (let i = 1; i < repeat; i++) callback(time);
+        window.requestAnimationFrame = wrapped;
+      }
+      if (w.suiMeasure && draws > before) w.suiFrameAt.push(time);
       if (query) {
         gl!.endQuery(timer!.TIME_ELAPSED_EXT);
         if (draws > before) pending.push(query);
@@ -55,4 +68,5 @@ export function timeFrames() {
         gl.deleteQuery(done);
       }
     });
+  window.requestAnimationFrame = wrapped;
 }

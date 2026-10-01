@@ -2,7 +2,13 @@ import { expect, test, type Page } from '@playwright/test';
 import { patchFrameCost, type FrameCostMode } from './frame-cost';
 import { timeFrames } from './gpu-timer';
 
-test.use({ viewport: { width: 1200, height: 800 } });
+// FRAME_COST_DPR sets the device pixel ratio (the quality preset still caps it: standard 1.5, high 2).
+const DPR = Number(process.env.FRAME_COST_DPR ?? 1);
+// FRAME_COST_REPEAT draws every frame that many times in one timed callback (gpu-timer.ts).
+const REPEAT = Number(process.env.FRAME_COST_REPEAT ?? 1);
+if (!(DPR > 0) || !Number.isInteger(REPEAT) || REPEAT < 1)
+  throw new Error(`FRAME_COST_DPR ${process.env.FRAME_COST_DPR} or FRAME_COST_REPEAT ${process.env.FRAME_COST_REPEAT}`);
+test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: DPR });
 
 // Where a frame's GPU time goes, by ablation (frame-cost.ts): the product against every scene
 // fragment shader returning a constant, in the order product, trivial, trivial, product; then the
@@ -51,7 +57,7 @@ for (const [index, variant] of (
 ).entries()) {
   test(`frame cost ${index} ${variant}`, async ({ page, browser }, info) => {
     test.setTimeout(180_000);
-    await page.addInitScript(timeFrames);
+    await page.addInitScript(timeFrames, REPEAT);
     if (variant !== 'product' && variant !== 'warmup') await page.addInitScript(patchFrameCost, variant);
     const scene = await enter(page);
     test.skip(
@@ -62,8 +68,9 @@ for (const [index, variant] of (
     const results: object[] = [];
     await eachView(page, async (stage, lighting) => {
       await page.evaluate(() => {
-        const w = window as unknown as { suiGpuMs: number[]; suiMeasure: boolean };
+        const w = window as unknown as { suiGpuMs: number[]; suiFrameAt: number[]; suiMeasure: boolean };
         w.suiGpuMs = [];
+        w.suiFrameAt = [];
         w.suiMeasure = true;
       });
       await page.waitForTimeout(4000);
@@ -72,13 +79,23 @@ for (const [index, variant] of (
       await page.waitForTimeout(1000);
       const times = await page.evaluate(() => (window as unknown as { suiGpuMs: number[] }).suiGpuMs);
       expect(times.length).toBeGreaterThan(10);
-      const sorted = [...times].sort((a, b) => a - b);
-      const at = (p: number) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
+      const frameAt = await page.evaluate(() => (window as unknown as { suiFrameAt: number[] }).suiFrameAt);
+      const quantiles = (values: number[]) => {
+        const sorted = [...values].sort((a, b) => a - b);
+        const at = (p: number) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
+        return { p10: at(0.1), median: at(0.5), p90: at(0.9) };
+      };
       results.push({
         stage,
         lighting,
         frames: times.length,
-        gpuMs: { p10: at(0.1), median: at(0.5), p90: at(0.9) },
+        gpuMs: quantiles(times),
+        // Per drawn frame, divided by the repeat: the cost of one frame when the GPU is the limit.
+        // The mean is the throughput; single intervals are whole display intervals.
+        intervalMs: {
+          ...quantiles(frameAt.slice(1).map((t, i) => (t - frameAt[i]) / REPEAT)),
+          mean: (frameAt[frameAt.length - 1] - frameAt[0]) / (frameAt.length - 1) / REPEAT,
+        },
         metrics: await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })),
       });
     });
@@ -87,7 +104,15 @@ for (const [index, variant] of (
       expect(await skips()).toBeGreaterThan(0);
     await info.attach('frame-cost', {
       contentType: 'application/json',
-      body: JSON.stringify({ browser: browser.version(), variant, index, quality: QUALITY, results }),
+      body: JSON.stringify({
+        browser: browser.version(),
+        variant,
+        index,
+        quality: QUALITY,
+        dpr: DPR,
+        repeat: REPEAT,
+        results,
+      }),
     });
   });
 }

@@ -9,7 +9,10 @@ python3 scripts/summarize_frame_cost.py --out docs/3d-qa/depth-prepass/cost.json
 
 Each report is Playwright's JSON reporter output (build logs before the first `{` are skipped).
 --runs pairs the i-th `before` run with the i-th `after` run (run them alternately) and records,
-per stage and lighting, the medians and the after/before ratios. --ablation keeps the medians of
+per stage and lighting, the medians and the after/before ratios, and for reports that keep it the
+mean interval between drawn frames divided by the repeat (FRAME_COST_REPEAT) with its ratios. On
+ANGLE Metal the timer of a frame that misses the display interval reads about 1.8x that interval,
+so the interval of repeated frames, not the timer, is the cost (e2e/gpu-timer.ts). --ablation keeps the medians of
 every variant (product, trivial, discard) in the order run and the overdraw histograms. --images
 compares every .jpg/.png under two capture folders (same relative paths) and records, per folder,
 the largest channel difference and the share of pixels over 8 levels, whole and in the centre
@@ -69,25 +72,40 @@ def compare_runs(label, before, after):
     loaded = {'before': [medians(p) for p in before], 'after': [medians(p) for p in after]}
     qualities = {run['quality'] for side in loaded.values() for run, _ in side}
     browsers = {run['browser'] for side in loaded.values() for run, _ in side}
-    if len(qualities) != 1 or len(browsers) != 1:
-        raise SystemExit(f'{label}: mixed qualities {qualities} or browsers {browsers}')
+    dprs = {run.get('dpr', 1) for side in loaded.values() for run, _ in side}
+    repeats = {run.get('repeat', 1) for side in loaded.values() for run, _ in side}
+    if len(qualities) != 1 or len(browsers) != 1 or len(dprs) != 1 or len(repeats) != 1:
+        raise SystemExit(
+            f'{label}: mixed qualities {qualities}, browsers {browsers}, DPRs {dprs} or repeats {repeats}')
     views = []
     for key in loaded['before'][0][1]:
         b = [results[key]['gpuMs']['median'] for _, results in loaded['before']]
         a = [results[key]['gpuMs']['median'] for _, results in loaded['after']]
         ratios = [y / x for x, y in zip(b, a)]
         metrics = {
-            side: {k: loaded[side][0][1][key]['metrics'].get(k) for k in ('drawCalls', 'triangles', 'prepassMeshes')}
+            side: {k: loaded[side][0][1][key]['metrics'].get(k) for k in ('drawCalls', 'triangles', 'prepassMeshes', 'pixelRatio')}
             for side in loaded
         }
-        views.append({
+        view = {
             'stage': key[0], 'lighting': key[1],
             'beforeMs': b, 'afterMs': a,
             'ratios': [round(r, 3) for r in ratios],
             'medianRatio': round(statistics.median(ratios), 3),
             'metrics': metrics,
-        })
-    return {'quality': qualities.pop(), 'browser': browsers.pop(), 'runs': len(before), 'views': views}
+        }
+        if all('intervalMs' in results[key] for side in loaded.values() for _, results in side):
+            bi = [round(results[key]['intervalMs']['mean'], 2) for _, results in loaded['before']]
+            ai = [round(results[key]['intervalMs']['mean'], 2) for _, results in loaded['after']]
+            interval_ratios = [y / x for x, y in zip(bi, ai)]
+            view.update({
+                'beforeIntervalMs': bi, 'afterIntervalMs': ai,
+                'intervalRatios': [round(r, 3) for r in interval_ratios],
+                'medianIntervalRatio': round(statistics.median(interval_ratios), 3),
+            })
+        views.append(view)
+    return {
+        'quality': qualities.pop(), 'dpr': dprs.pop(), 'repeat': repeats.pop(), 'browser': browsers.pop(), 'runs': len(before), 'views': views,
+    }
 
 
 def ablation(paths):

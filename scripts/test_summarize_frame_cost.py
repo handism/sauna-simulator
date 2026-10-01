@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from summarize_frame_cost import image_delta, image_runs, light_costs, srgb_lab
+from summarize_frame_cost import compare_runs, image_delta, image_runs, light_costs, srgb_lab
 
 
 def capture(root, name, value):
@@ -67,12 +67,13 @@ class ImageDeltaTests(unittest.TestCase):
                 image_delta(Path(tmp) / 'before', Path(tmp) / 'after')
 
 
-def report(path, runs):
+def report(path, runs, **extra):
     """A Playwright JSON report with one passed test per (variant, {lighting: median ms})."""
     specs = []
     for index, (variant, medians) in enumerate(runs):
-        body = {'variant': variant, 'index': index, 'quality': 'standard', 'browser': '1',
-                'results': [{'stage': 'sauna', 'lighting': lighting, 'gpuMs': {'median': ms}}
+        body = {'variant': variant, 'index': index, 'quality': 'standard', 'browser': '1', **extra,
+                'results': [{'stage': 'sauna', 'lighting': lighting, 'gpuMs': {'median': ms}, 'metrics': {},
+                             **({'intervalMs': {'mean': ms / 2}} if extra.get('repeat') else {})}
                             for lighting, ms in medians.items()]}
         attachment = {'name': 'frame-cost', 'body': base64.b64encode(json.dumps(body).encode()).decode()}
         specs.append({'title': variant, 'tests': [{'results': [{'status': 'passed', 'attachments': [attachment]}]}]})
@@ -106,6 +107,35 @@ class LightCostsTests(unittest.TestCase):
             path = report(Path(tmp) / 'b.json', [('noshadow-sun', {'night': 50}), ('product', {'night': 60})])
             with self.assertRaises(SystemExit):
                 light_costs([path])
+
+class CompareRunsTests(unittest.TestCase):
+    def test_runs_keep_their_device_pixel_ratio(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            before = report(Path(tmp) / 'a.json', [('warmup', {'night': 90}), ('product', {'night': 40})], dpr=1.5)
+            after = report(Path(tmp) / 'b.json', [('product', {'night': 30})], dpr=1.5)
+            result = compare_runs('standard', [before], [after])
+            self.assertEqual(result['dpr'], 1.5)
+            self.assertEqual(result['views'][0]['medianRatio'], 0.75)
+
+    def test_mixed_device_pixel_ratios_are_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            # Reports from before the DPR was recorded ran at 1.
+            before = report(Path(tmp) / 'a.json', [('product', {'night': 40})])
+            after = report(Path(tmp) / 'b.json', [('product', {'night': 30})], dpr=1.5)
+            with self.assertRaises(SystemExit):
+                compare_runs('standard', [before], [after])
+
+    def test_intervals_of_repeated_frames_are_compared(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            before = report(Path(tmp) / 'a.json', [('product', {'night': 40})], repeat=3)
+            after = report(Path(tmp) / 'b.json', [('product', {'night': 30})], repeat=3)
+            [view] = compare_runs('standard', [before], [after])['views']
+            self.assertEqual(view['beforeIntervalMs'], [20])
+            self.assertEqual(view['medianIntervalRatio'], 0.75)
+            other = report(Path(tmp) / 'c.json', [('product', {'night': 30})], repeat=2)
+            with self.assertRaises(SystemExit):
+                compare_runs('standard', [before], [other])
+
 
 if __name__ == '__main__':
     unittest.main()
