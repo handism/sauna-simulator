@@ -26,10 +26,15 @@
  * for the images in the water's sides, `with-USE_ALPHATEST` for the leaves.
  * `cut-<part>`: one part of the pool floor's shading (waterBottom.ts, caustics.ts) is skipped, by
  * CUTS below: `bottom` the reflection off the water's bottom, `tilt` its four tilted traces that
- * tell where the bump matters, `bump` the bumped trace those choose, `caustic` the caustics and
- * `voronoi`, `warp` and `visibility` the caustics' Voronoi edges, the noise that warps them and
- * the noise that fades them, `wet` the highlights through the water (the replacements are in patchFrameCost, which the page
- * gets alone).
+ * tell where the bump matters, `bump` the bumped trace those choose (which leaves `near` unused, so
+ * the compiler drops the tilted traces too: about `tilt`), `bumpnever` the same bumped trace kept
+ * but never run, `bumpall` the bumped trace run everywhere (the tilted traces dropped), `caustic`
+ * the caustics and `voronoi`, `warp` and `visibility` the caustics' Voronoi edges, the noise that
+ * warps them and the noise that fades them, `wet` the highlights through the water, `wetimage`
+ * their paths off the sides (suiWetImage's loop) and `wetimagenever` that loop kept but never run.
+ * A part kept but never run costs what its code alone costs (registers): `bumpnever` nothing,
+ * `wetimagenever` about half of `wetimage` (docs/3d-qa/tilt-cost). The replacements are in
+ * patchFrameCost, which the page gets alone.
  * `rolled`: the PCSS sample loops (softShadows.ts) count to their constant plus a uniform left at 0,
  * so the compiler cannot unroll them: the same work in far less code.
  * `rotate`: pcssDisk rotates a constant Vogel point by phi (cos/sin of phi, shared by the unrolled
@@ -48,7 +53,20 @@ export type FrameCostMode =
   | 'depth16'
   | `noshadow-${'all' | 'sun' | `spot${number}` | `with-${string}` | `without-${string}`}`;
 
-export const CUTS = ['bottom', 'tilt', 'bump', 'caustic', 'voronoi', 'warp', 'visibility', 'wet'] as const;
+export const CUTS = [
+  'bottom',
+  'tilt',
+  'bump',
+  'bumpnever',
+  'bumpall',
+  'caustic',
+  'voronoi',
+  'warp',
+  'visibility',
+  'wet',
+  'wetimage',
+  'wetimagenever',
+] as const;
 
 export function patchFrameCost(mode: FrameCostMode) {
   type Overdraw = Window & {
@@ -65,6 +83,7 @@ export function patchFrameCost(mode: FrameCostMode) {
     ],
     tilt: ['for ( int k = 0; k < 4; k ++ ) {', 'for ( int k = 0; k < 0; k ++ ) {'],
     bump: ['if ( near ) {', 'if ( false ) {'],
+    bumpall: ['if ( near ) {', 'if ( true ) {'],
     caustic: [
       'float sui_caustic_strength( vec3 p, float footprint ) {',
       'float sui_caustic_strength( vec3 p, float footprint ) { return 0.0;',
@@ -79,6 +98,12 @@ export function patchFrameCost(mode: FrameCostMode) {
       'float visibility = 0.3; if ( false ) visibility = mix( 0.04, 0.48,',
     ],
     wet: ['if ( suiUnderwater ) {\n\tsuiWetSpecular', 'if ( false ) {\n\tsuiWetSpecular'],
+    bumpnever: ['if ( near ) {', 'if ( near && gl_FragCoord.x < - 1.0 ) {'],
+    wetimagenever: ['if ( suiSpot < 0 ) continue;', 'if ( suiSpot < 0 || gl_FragCoord.x > - 1.0 ) continue;'],
+    wetimage: [
+      'for ( int suiLight = 0; suiLight < 2; suiLight ++ ) {',
+      'for ( int suiLight = 0; suiLight < 0; suiLight ++ ) {',
+    ],
   };
   const proto = WebGL2RenderingContext.prototype;
   const shaderSource = proto.shaderSource;

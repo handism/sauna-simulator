@@ -1,0 +1,311 @@
+{
+ "comparisons": {},
+ "lightCosts": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "measure": "intervalMs",
+   "productMs": [
+    12.17,
+    12.17,
+    12.22,
+    12.22
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": 0.08,
+    "cut-mayfalse": 0.28,
+    "cut-wetimagenever": 0.1,
+    "cut-wetimage": 0.5
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     0.08,
+     0.08
+    ],
+    "cut-mayfalse": [
+     0.24,
+     0.31
+    ],
+    "cut-wetimagenever": [
+     0.1
+    ],
+    "cut-wetimage": [
+     0.5
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "measure": "intervalMs",
+   "productMs": [
+    15.2,
+    15.26,
+    15.26,
+    15.26
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": 0.01,
+    "cut-mayfalse": 0.28,
+    "cut-wetimagenever": 0.06,
+    "cut-wetimage": 0.51
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     -0.03,
+     0.06
+    ],
+    "cut-mayfalse": [
+     0.26,
+     0.29
+    ],
+    "cut-wetimagenever": [
+     0.06
+    ],
+    "cut-wetimage": [
+     0.51
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "night",
+   "measure": "intervalMs",
+   "productMs": [
+    16.06,
+    16.06,
+    16.12,
+    16.12
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": 0.08,
+    "cut-mayfalse": 0.27,
+    "cut-wetimagenever": 0.13,
+    "cut-wetimage": 0.5
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     0.07,
+     0.09
+    ],
+    "cut-mayfalse": [
+     0.26,
+     0.28
+    ],
+    "cut-wetimagenever": [
+     0.13
+    ],
+    "cut-wetimage": [
+     0.5
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "measure": "intervalMs",
+   "productMs": [
+    15.99,
+    16.06,
+    16.06,
+    16.06
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": -0.05,
+    "cut-mayfalse": 1.04,
+    "cut-wetimagenever": 0.57,
+    "cut-wetimage": 1.79
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     -0.1,
+     0.0
+    ],
+    "cut-mayfalse": [
+     1.05,
+     1.02
+    ],
+    "cut-wetimagenever": [
+     0.57
+    ],
+    "cut-wetimage": [
+     1.79
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "measure": "intervalMs",
+   "productMs": [
+    18.97,
+    18.99,
+    18.97,
+    19.07
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": -0.13,
+    "cut-mayfalse": 0.99,
+    "cut-wetimagenever": 0.56,
+    "cut-wetimage": 1.63
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     -0.09,
+     -0.17
+    ],
+    "cut-mayfalse": [
+     0.95,
+     1.03
+    ],
+    "cut-wetimagenever": [
+     0.56
+    ],
+    "cut-wetimage": [
+     1.63
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "measure": "intervalMs",
+   "productMs": [
+    19.72,
+    19.72,
+    19.64,
+    19.72
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": 0.02,
+    "cut-mayfalse": 1.03,
+    "cut-wetimagenever": 0.51,
+    "cut-wetimage": 1.57
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     0.0,
+     0.04
+    ],
+    "cut-mayfalse": [
+     1.01,
+     1.05
+    ],
+    "cut-wetimagenever": [
+     0.51
+    ],
+    "cut-wetimage": [
+     1.57
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "measure": "intervalMs",
+   "productMs": [
+    8.58,
+    8.62,
+    8.58,
+    8.58
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": 0.02,
+    "cut-mayfalse": 0.02,
+    "cut-wetimagenever": -0.04,
+    "cut-wetimage": 0.07
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     0.02,
+     0.02
+    ],
+    "cut-mayfalse": [
+     0.02,
+     0.02
+    ],
+    "cut-wetimagenever": [
+     -0.04
+    ],
+    "cut-wetimage": [
+     0.07
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "measure": "intervalMs",
+   "productMs": [
+    12.07,
+    12.09,
+    12.09,
+    12.09
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": -0.06,
+    "cut-mayfalse": 0.01,
+    "cut-wetimagenever": 0.0,
+    "cut-wetimage": 0.09
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     -0.06,
+     -0.05
+    ],
+    "cut-mayfalse": [
+     0.01,
+     0.02
+    ],
+    "cut-wetimagenever": [
+     0.0
+    ],
+    "cut-wetimage": [
+     0.09
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "night",
+   "measure": "intervalMs",
+   "productMs": [
+    12.8,
+    12.85,
+    12.8,
+    12.8
+   ],
+   "medianSavingMs": {
+    "cut-maytrue": 0.01,
+    "cut-mayfalse": -0.01,
+    "cut-wetimagenever": -0.05,
+    "cut-wetimage": 0.11
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-maytrue": [
+     -0.03,
+     0.05
+    ],
+    "cut-mayfalse": [
+     0.0,
+     -0.03
+    ],
+    "cut-wetimagenever": [
+     -0.05
+    ],
+    "cut-wetimage": [
+     0.11
+    ]
+   }
+  }
+ ]
+}
