@@ -7,11 +7,13 @@ import { refractedDepthMaterial } from './refraction';
 // surfaces. It draws depth-only copies of the opaque meshes on PREPASS_LAYER, children of the
 // meshes so they follow their transforms and visibility, sharing the geometry.
 //
-// Left out, drawn by the lit pass as before: transparent and blended surfaces; alpha tested and
-// alpha-to-coverage leaves (their depth needs the mask); and anything not on the default layer
-// (side images, the mirror's lights, steam). Materials under the water draw each vertex at its
-// refracted image and may discard behind the sides; their copies refract the same way and write
-// no depth where the lit pass may discard (refractedDepthMaterial in refraction.ts).
+// Left out, drawn by the lit pass as before: transparent and blended surfaces, and anything not on
+// the default layer (side images, the mirror's lights, steam). Materials under the water draw each
+// vertex at its refracted image and may discard behind the sides; their copies refract the same
+// way and write no depth where the lit pass may discard (refractedDepthMaterial in refraction.ts).
+// The woodland cards cut their leaves out of an alpha map, with alpha to coverage under the MSAA
+// (leafCluster.ts); their copies write depth only where the lit pass covers every sample, so no
+// sample behind an edge it covers partly is hidden.
 
 export const PREPASS_LAYER = 4;
 
@@ -27,8 +29,43 @@ function depthMaterial(side: THREE.Side) {
   });
 }
 
+/**
+ * The alpha map of a `material` whose only alpha is its alpha map with an alpha test (the woodland
+ * cards), or null.
+ */
+export function cutoutOf(material: THREE.Material) {
+  if (!(material instanceof THREE.MeshStandardMaterial) || material.alphaTest <= 0 || !material.alphaMap) return null;
+  // The map's alpha, vertex alphas, alpha hashing and refraction are not reproduced by the copies.
+  if (material.map || material.vertexColors || material.alphaHash || material.defines?.SUI_REFRACTION !== undefined)
+    return null;
+  return material.alphaMap;
+}
+
+// The copy of a cut-out material: depth where the lit pass's alpha to coverage covers every sample
+// (alpha at least alphaTest + fwidth, alphatest_fragment's smoothstep at 1). Without alpha to
+// coverage, wherever the lit pass draws.
+function cutoutDepthMaterial(material: THREE.MeshStandardMaterial, alphaMap: THREE.Texture) {
+  const copy = depthMaterial(material.side);
+  copy.alphaMap = alphaMap;
+  copy.alphaTest = material.alphaTest;
+  copy.opacity = material.opacity;
+  const covered = material.alphaToCoverage;
+  copy.onBeforeCompile = (shader) => {
+    const TEST = '#include <alphatest_fragment>';
+    if (!shader.fragmentShader.includes(TEST)) throw new Error('three shader chunks changed; update depthPrepass.ts');
+    if (covered)
+      shader.fragmentShader = shader.fragmentShader.replace(
+        TEST,
+        'if ( diffuseColor.a < alphaTest + fwidth( diffuseColor.a ) ) discard;',
+      );
+  };
+  copy.customProgramCacheKey = () => `sui-cutout-depth|${covered}`;
+  return copy;
+}
+
 /** Whether the lit pass's `material` can take its depth from the depth-only pass. */
 export function takesPrepassDepth(material: THREE.Material) {
+  const cutout = cutoutOf(material) !== null;
   return (
     material.visible &&
     !material.transparent &&
@@ -36,9 +73,8 @@ export function takesPrepassDepth(material: THREE.Material) {
     material.depthTest &&
     material.depthWrite &&
     material.colorWrite &&
-    !material.alphaTest &&
-    !material.alphaToCoverage &&
-    !(material as THREE.MeshStandardMaterial).alphaMap &&
+    (cutout ||
+      (!material.alphaTest && !material.alphaToCoverage && !(material as THREE.MeshStandardMaterial).alphaMap)) &&
     !(material as THREE.MeshStandardMaterial).displacementMap &&
     !(material instanceof THREE.ShaderMaterial)
   );
@@ -47,7 +83,14 @@ export function takesPrepassDepth(material: THREE.Material) {
 export function createDepthPrepass() {
   const materials = new Map<string, THREE.MeshBasicMaterial>();
   const hidden = new THREE.MeshBasicMaterial({ visible: false });
+  const cutouts = new Map<THREE.Material, THREE.MeshBasicMaterial>();
   const materialFor = (material: THREE.Material) => {
+    const alphaMap = cutoutOf(material);
+    if (alphaMap) {
+      if (!cutouts.has(material))
+        cutouts.set(material, cutoutDepthMaterial(material as THREE.MeshStandardMaterial, alphaMap));
+      return cutouts.get(material)!;
+    }
     const level = (material as { defines?: Record<string, unknown> }).defines?.SUI_REFRACTION;
     const key = `${material.side}|${level ?? ''}`;
     if (!materials.has(key))
@@ -89,7 +132,7 @@ export function createDepthPrepass() {
       return added;
     },
     dispose() {
-      for (const material of materials.values()) material.dispose();
+      for (const material of [...materials.values(), ...cutouts.values()]) material.dispose();
       hidden.dispose();
     },
   };

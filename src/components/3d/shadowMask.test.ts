@@ -106,6 +106,27 @@ describe('shadow mask', () => {
     mask.dispose();
   });
 
+  it('writes the mask of the cut-out cards where the lit pass keeps their leaves', () => {
+    const mask = createShadowMask(fakeRenderer().renderer as unknown as THREE.WebGLRenderer);
+    const geometry = new THREE.PlaneGeometry();
+    const alphaMap = new THREE.Texture();
+    const card = standard({ alphaMap, alphaTest: 0.5, alphaToCoverage: true, side: THREE.DoubleSide });
+    const mesh = Object.assign(new THREE.Mesh(geometry, [card, standard()]), { receiveShadow: true });
+    expect(mask.add(mesh)).toBe(1);
+    expect(card.defines?.SUI_SHADOW_MASK).toBe('');
+    const [cut, dry] = (mesh.children[0] as THREE.Mesh).material as THREE.ShaderMaterial[];
+    expect(cut.defines).toEqual({ SUI_CUTOUT: '' });
+    expect(cut.side).toBe(THREE.DoubleSide);
+    expect(cut.uniforms.suiAlphaMap.value).toBe(alphaMap);
+    expect(cut.uniforms.suiAlphaMapTransform.value).toBe(alphaMap.matrix);
+    expect(cut.uniforms.suiAlphaTest.value).toBe(0.5);
+    expect(cut.fragmentShader).toContain(
+      'if ( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv ).g < suiAlphaTest ) discard;',
+    );
+    expect(dry.fragmentShader).not.toMatch(/discard;/);
+    mask.dispose();
+  });
+
   it('reads the mask in place of every lookup of the lit pass', () => {
     const lights = THREE.ShaderChunk.lights_fragment_begin;
     expect(lights.startsWith(MASK_LOAD)).toBe(true);

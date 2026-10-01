@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import './softShadows';
-import { PREPASS_LAYER, takesPrepassDepth } from './depthPrepass';
+import { cutoutOf, PREPASS_LAYER, takesPrepassDepth } from './depthPrepass';
 import { mayDiscardGlsl } from './refraction';
 
 // The dusk and night frames spend about 75–85% of their GPU time in the PCSS shadows, in
@@ -18,8 +18,9 @@ import { mayDiscardGlsl } from './refraction';
 // never run, cost as much as running it. The water's mirror draws a mask of its own. Materials
 // under the water (SUI_REFRACTION) draw their copies at the same refracted image, keeping the true
 // position for the shadows (and the pool floor's lookups at its paths' exits, waterBottom.ts), and
-// write nothing where the lit pass may discard them. Left out, evaluating the shadows as before:
-// transparent, alpha tested and non-default layer surfaces, including the images in the sides.
+// write nothing where the lit pass may discard them. The woodland cards' copies write where the lit
+// pass keeps their leaves (alpha at least the alpha test). Left out, evaluating the shadows as
+// before: transparent and non-default layer surfaces, including the images in the sides.
 
 export const SHADOW_MASK_LAYER = 5;
 // Directional then spot shadows, three to a channel of red, green and blue; the last two slots
@@ -52,7 +53,14 @@ const vertexShader = /* glsl */ `
 #include <shadowmap_pars_vertex>
 varying vec3 vViewPosition;
 varying vec3 vSuiNormal;
+#ifdef SUI_CUTOUT
+uniform mat3 suiAlphaMapTransform;
+varying vec2 vSuiAlphaMapUv;
+#endif
 void main() {
+	#ifdef SUI_CUTOUT
+	vSuiAlphaMapUv = ( suiAlphaMapTransform * vec3( uv, 1.0 ) ).xy;
+	#endif
 	#include <beginnormal_vertex>
 	#include <defaultnormal_vertex>
 	#include <begin_vertex>
@@ -71,6 +79,12 @@ const fragmentShader = (discard: string) => /* glsl */ `
 ${OCTAHEDRAL}
 varying vec3 vViewPosition;
 varying vec3 vSuiNormal;
+#ifdef SUI_CUTOUT
+uniform sampler2D suiAlphaMap;
+uniform float suiAlphaTest;
+uniform float suiOpacity;
+varying vec2 vSuiAlphaMapUv;
+#endif
 void main() {
 	vec3 geometryPosition = - vViewPosition;
 	${discard}
@@ -238,20 +252,34 @@ if (!THREE.ShaderChunk.lights_fragment_begin.includes('SUI_MASKED')) {
 }
 
 /** The mask material of a lit material with `side`, refracted under the water at `level` (the define's string). */
-function maskMaterial(side: THREE.Side, level?: string, waterBottom = false) {
+function maskMaterial(side: THREE.Side, level?: string, waterBottom = false, cutout?: THREE.MeshStandardMaterial) {
+  // Cut-out materials are not refracted (cutoutOf).
   // The true world position, which the vertex stage keeps in vViewPosition.
-  const discard =
-    level === undefined
+  const discard = cutout
+    ? // Where the lit pass keeps the leaves (alphatest_fragment, with or without alpha to coverage).
+      'if ( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv ).g < suiAlphaTest ) discard;'
+    : level === undefined
       ? ''
       : `vec3 suiTrue = ( ( vec4( geometryPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
 	if ( ${mayDiscardGlsl(level, 'suiTrue')} ) discard;`;
+  const uniforms: Record<string, THREE.IUniform> = THREE.UniformsUtils.clone(THREE.UniformsLib.lights);
+  if (cutout) {
+    // The texture's own matrix, which three updates for the lit pass.
+    uniforms.suiAlphaMap = { value: cutout.alphaMap };
+    uniforms.suiAlphaMapTransform = { value: cutout.alphaMap!.matrix };
+    uniforms.suiAlphaTest = { value: cutout.alphaTest };
+    uniforms.suiOpacity = { value: cutout.opacity };
+  }
   return new THREE.ShaderMaterial({
     name: 'shadow mask',
-    uniforms: THREE.UniformsUtils.clone(THREE.UniformsLib.lights),
+    uniforms,
     vertexShader,
     fragmentShader: fragmentShader(discard),
     // project_vertex refracts; the floor's spot shadow coordinates move to the paths' exits.
-    defines: level === undefined ? {} : { SUI_REFRACTION: level, ...(waterBottom ? { SUI_WATER_BOTTOM: '' } : {}) },
+    defines: {
+      ...(level === undefined ? {} : { SUI_REFRACTION: level, ...(waterBottom ? { SUI_WATER_BOTTOM: '' } : {}) }),
+      ...(cutout ? { SUI_CUTOUT: '' } : {}),
+    },
     lights: true,
     side,
   });
@@ -286,7 +314,13 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
     suiShadowMaskOn: { value: false },
   };
   const materials = new Map<string, THREE.ShaderMaterial>();
+  const cutouts = new Map<THREE.Material, THREE.ShaderMaterial>();
   const materialFor = (material: THREE.Material) => {
+    if (cutoutOf(material)) {
+      if (!cutouts.has(material))
+        cutouts.set(material, maskMaterial(material.side, undefined, false, material as THREE.MeshStandardMaterial));
+      return cutouts.get(material)!;
+    }
     const defines = (material as { defines?: Record<string, unknown> }).defines;
     const level = defines?.SUI_REFRACTION === undefined ? undefined : String(defines.SUI_REFRACTION);
     const waterBottom = level !== undefined && defines?.SUI_WATER_BOTTOM !== undefined;
@@ -401,7 +435,7 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
     dispose() {
       for (const target of targets.values()) target.dispose();
       targets.clear();
-      for (const material of materials.values()) material.dispose();
+      for (const material of [...materials.values(), ...cutouts.values()]) material.dispose();
       hidden.dispose();
     },
   };
