@@ -59,6 +59,11 @@ for (const [index, variant] of (
     test.setTimeout(180_000);
     await page.addInitScript(timeFrames, REPEAT);
     if (variant !== 'product' && variant !== 'warmup') await page.addInitScript(patchFrameCost, variant);
+    // A material whose shader fails to compile is not drawn, and the frame looks cheaper.
+    const shaderErrors: string[] = [];
+    page.on('console', (message) => {
+      if (/WebGLProgram: Shader Error/.test(message.text())) shaderErrors.push(message.text().slice(0, 300));
+    });
     const scene = await enter(page);
     test.skip(
       !(await page.evaluate(() => Boolean((window as unknown as { suiTimer?: object }).suiTimer))),
@@ -109,6 +114,7 @@ for (const [index, variant] of (
       variant === 'depth16'
     )
       expect(await skips()).toBeGreaterThan(0);
+    expect(shaderErrors).toEqual([]);
     await info.attach('frame-cost', {
       contentType: 'application/json',
       body: JSON.stringify({
