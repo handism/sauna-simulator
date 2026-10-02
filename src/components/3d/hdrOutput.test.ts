@@ -60,10 +60,34 @@ describe('HDR output', () => {
     expect(quad.material.toneMapped).toBe(true);
     expect(quad.material.fragmentShader).toContain('#include <tonemapping_fragment>');
     expect(quad.material.uniforms.tScene.value).toBe(scene?.texture);
+    // The canvas has alpha; the scene's own must not let the page show through.
+    expect(quad.material.fragmentShader).toContain('gl_FragColor.a = 1.0;');
     let released = false;
     scene?.addEventListener('dispose', () => (released = true));
     output.dispose();
     expect(released).toBe(true);
+  });
+
+  it('tone maps the blend with the previous frames while it is on', () => {
+    const { renderer, targets, calls } = fakeRenderer(true);
+    const output = createHdrOutput(renderer);
+    const camera = new THREE.PerspectiveCamera();
+    output.setTemporal(true);
+    output.render(new THREE.Scene(), camera);
+    // Depth, lit, the blend into a history, then tone mapping of that history.
+    const [, scene, history, screen] = targets;
+    expect(history).not.toBe(scene);
+    expect(history?.samples).toBe(0);
+    expect(screen).toBeNull();
+    const quad = calls.mock.calls[3][0] as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
+    expect(quad.material.uniforms.tScene.value).toBe(history?.texture);
+    let released = false;
+    history?.addEventListener('dispose', () => (released = true));
+    output.setTemporal(false);
+    expect(released).toBe(true);
+    output.render(new THREE.Scene(), camera);
+    expect(targets.slice(4)).toEqual([scene, scene, null]);
+    expect(quad.material.uniforms.tScene.value).toBe(scene?.texture);
   });
 
   it('falls back to per-material tone mapping without half-float color buffers', () => {

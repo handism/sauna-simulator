@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { PREPASS_LAYER } from './depthPrepass';
+import { createTemporalAA } from './temporalAA';
 
 // Cycles composites glass, water and steam in scene-linear light and only then applies the view
 // transform. three tone maps every material on its own, so a transparent surface was blended
@@ -7,6 +8,7 @@ import { PREPASS_LAYER } from './depthPrepass';
 // half as much again). This renders the scene into a multisampled half-float target and tone
 // maps it once in a full-screen pass. three 0.186's own outputBufferType does the same, but
 // renderer.dispose() does not release its targets.
+// Between the two, temporalAA.ts may blend the image with the previous frames.
 
 // The full-screen triangle; the pass includes three's tone mapping and output color space.
 const vertexShader = /* glsl */ `varying vec2 vUv;
@@ -20,6 +22,8 @@ void main() {
 	gl_FragColor = texture2D( tScene, vUv );
 	#include <tonemapping_fragment>
 	#include <colorspace_fragment>
+	// The canvas has alpha: the scene's alpha (under 1 at some leaf edges) let the page show through.
+	gl_FragColor.a = 1.0;
 }`;
 
 export interface RenderStats {
@@ -55,6 +59,9 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       render(scene: THREE.Scene, camera: THREE.Camera) {
         return drawScene(scene, camera);
       },
+      // Needs the half-float target.
+      setTemporal(_on: boolean) {},
+      resetTemporal() {},
       compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
         return renderer.compileAsync(object, camera, scene);
       },
@@ -75,6 +82,8 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
   quad.frustumCulled = false;
   const screen = new THREE.Camera();
   const size = new THREE.Vector2();
+  const temporal = createTemporalAA(renderer);
+  let temporalOn = false;
   return {
     hdr: true,
     render(scene: THREE.Scene, camera: THREE.Camera) {
@@ -83,9 +92,21 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       // Materials skip tone mapping when drawn into a render target.
       renderer.setRenderTarget(target);
       drawScene(scene, camera);
+      material.uniforms.tScene.value = temporalOn
+        ? temporal.resolve(target.texture, camera as THREE.PerspectiveCamera, size.x, size.y)
+        : target.texture;
       renderer.setRenderTarget(null);
       renderer.render(quad, screen);
       return stats;
+    },
+    /** Blends with the previous frames (temporalAA.ts) or not; off releases the histories. */
+    setTemporal(on: boolean) {
+      if (temporalOn && !on) temporal.release();
+      temporalOn = on;
+    },
+    /** Starts the blend over (the image changed other than by turning). */
+    resetTemporal() {
+      temporal.reset();
     },
     /** Compiles `object` as lit by `scene` for the HDR pass (the programs differ from the canvas's). */
     compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
@@ -97,6 +118,7 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
     },
     dispose() {
       target.dispose();
+      temporal.dispose();
       geometry.dispose();
       material.dispose();
     },

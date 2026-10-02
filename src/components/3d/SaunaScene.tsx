@@ -177,6 +177,8 @@ export default function SaunaScene({
     const resolution =
       new URLSearchParams(window.location.search).get('resolution') === 'fixed' ? null : createDynamicResolution(1);
     setData('resolution', resolution ? 'auto' : 'fixed');
+    // ?temporal=off draws each frame on its own (temporalAA.ts), for comparisons.
+    const temporal = new URLSearchParams(window.location.search).get('temporal') !== 'off';
     const applyQuality = () => {
       const preset = QUALITY[qualityRef.current];
       const largest = Math.min(window.devicePixelRatio, preset.pixelRatio);
@@ -185,6 +187,8 @@ export default function SaunaScene({
       lighting.setShadowSize(preset.shadowSize);
       lighting.setDuskLights(preset.duskLights);
       mirror?.setScale(preset.mirror);
+      output.setTemporal(temporal && preset.temporal);
+      setData('temporal', output.hdr && temporal && preset.temporal ? 'on' : 'off');
       qualityIndex++;
       resetMetrics();
       setData('quality', qualityRef.current);
@@ -361,6 +365,7 @@ export default function SaunaScene({
           steamStarted = -Infinity;
           steam.visible = false;
           look.cancel();
+          output.resetTemporal();
           resolution?.settle();
           resetMetrics();
           setData('stage', next);
