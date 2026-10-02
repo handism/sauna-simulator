@@ -1,0 +1,250 @@
+{
+ "stats": {
+  "startTime": "2026-10-02T03:04:55.622Z",
+  "duration": 319919.69299999997,
+  "expected": 1,
+  "skipped": 0,
+  "unexpected": 0,
+  "flaky": 0
+ },
+ "status": "passed",
+ "retry": 0,
+ "browser": "154.0.8037.58",
+ "viewport": {
+  "width": 1280,
+  "height": 800
+ },
+ "elapsedMs": 318020,
+ "cycles": 9,
+ "sampleCount": 45,
+ "slowSamples": 0,
+ "errors": [],
+ "cyclesLog": [
+  {
+   "text": "Soak cycle 1: 36s, low\n"
+  },
+  {
+   "text": "Soak cycle 2: 70s, standard\n"
+  },
+  {
+   "text": "Soak cycle 3: 105s, high\n"
+  },
+  {
+   "text": "Soak cycle 4: 140s, low\n"
+  },
+  {
+   "text": "Soak cycle 5: 175s, standard\n"
+  },
+  {
+   "text": "Soak cycle 6: 209s, high\n"
+  },
+  {
+   "text": "Soak cycle 7: 245s, low\n"
+  },
+  {
+   "text": "Soak cycle 8: 279s, standard\n"
+  },
+  {
+   "text": "Soak cycle 9: 314s, high\n"
+  }
+ ],
+ "groups": {
+  "low/evening/sauna": {
+   "samples": 9,
+   "textures": [
+    "17"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "138"
+   ],
+   "triangles": [
+    "732438"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    18.89
+   ],
+   "frameMaxMs": 416.7
+  },
+  "low/evening/water": {
+   "samples": 3,
+   "textures": [
+    "17"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "129"
+   ],
+   "triangles": [
+    "720272"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  },
+  "low/evening/totonou": {
+   "samples": 3,
+   "textures": [
+    "17"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "83"
+   ],
+   "triangles": [
+    "539614"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  },
+  "standard/night/sauna": {
+   "samples": 9,
+   "textures": [
+    "32"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "138"
+   ],
+   "triangles": [
+    "732438"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  },
+  "standard/night/water": {
+   "samples": 3,
+   "textures": [
+    "32"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "129"
+   ],
+   "triangles": [
+    "720272"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  },
+  "standard/night/totonou": {
+   "samples": 3,
+   "textures": [
+    "32"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "83"
+   ],
+   "triangles": [
+    "539614"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  },
+  "high/day/sauna": {
+   "samples": 9,
+   "textures": [
+    "32"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "138"
+   ],
+   "triangles": [
+    "732438"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  },
+  "high/day/water": {
+   "samples": 3,
+   "textures": [
+    "32"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "129"
+   ],
+   "triangles": [
+    "720272"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  },
+  "high/day/totonou": {
+   "samples": 3,
+   "textures": [
+    "32"
+   ],
+   "geometries": [
+    "127"
+   ],
+   "slowSamples": 0,
+   "drawCalls": [
+    "83"
+   ],
+   "triangles": [
+    "539614"
+   ],
+   "frameMeanMsRange": [
+    16.67,
+    16.67
+   ],
+   "frameMaxMs": 16.8
+  }
+ },
+ "sha256": {
+  "e2e/scene-stability.soak.ts": "58d7c257d062de871d4a21713ea6ff8288bb40b40d3fdbc5ef3dd71d8445313b",
+  "playwright.soak.config.ts": "eae44a299fd51aa291f0df7d0c4e254c7d84b99a2d598114b96d81ebbf348261",
+  "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+  "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+  "src/components/3d/shadowMask.ts": "a543c93499670dd672b97f92b6c7db6b69c0ede9ac563dcd80be9e9fadeb2880",
+  "src/components/3d/depthPrepass.ts": "9e5722a0ff023a052249f3afa0c1ceb64262ce13c57aaf99e362540c8ccfbb41"
+ }
+}
