@@ -1,0 +1,1008 @@
+{
+ "note": "Each view compared with its first capture at ratio 1.5 (display 1200x800 at 1.5, captures 1800x1200). detail: mean |grad L*| as a share of the 1.5 capture.",
+ "summary": {
+  "1.25": {
+   "meanDeltaE": {
+    "median": 0.8407500000000001,
+    "max": 1.9263,
+    "min": 0.2732
+   },
+   "over2": {
+    "median": 0.07583,
+    "max": 0.148,
+    "min": 0.01958
+   },
+   "over5": {
+    "median": 0.03203,
+    "max": 0.08559,
+    "min": 0.00402
+   },
+   "centreOver5": {
+    "median": 0.03666,
+    "max": 0.14077,
+    "min": 0.00324
+   },
+   "detail": {
+    "median": 0.7907,
+    "max": 0.9458,
+    "min": 0.6956
+   }
+  },
+  "1": {
+   "meanDeltaE": {
+    "median": 1.07775,
+    "max": 2.3711,
+    "min": 0.3534
+   },
+   "over2": {
+    "median": 0.09923499999999999,
+    "max": 0.17781,
+    "min": 0.02898
+   },
+   "over5": {
+    "median": 0.04336,
+    "max": 0.10549,
+    "min": 0.00633
+   },
+   "centreOver5": {
+    "median": 0.049964999999999996,
+    "max": 0.16879,
+    "min": 0.00502
+   },
+   "detail": {
+    "median": 0.71825,
+    "max": 0.9223,
+    "min": 0.6034
+   }
+  },
+  "repeat": {
+   "meanDeltaE": {
+    "median": 0.0,
+    "max": 0.0,
+    "min": 0.0
+   },
+   "over2": {
+    "median": 0.0,
+    "max": 0.0,
+    "min": 0.0
+   },
+   "over5": {
+    "median": 0.0,
+    "max": 0.0,
+    "min": 0.0
+   },
+   "centreOver5": {
+    "median": 0.0,
+    "max": 0.0,
+    "min": 0.0
+   },
+   "detail": {
+    "median": 1.0,
+    "max": 1.0,
+    "min": 1.0
+   }
+  }
+ },
+ "crops": {
+  "sauna-day": {
+   "view": "default",
+   "x": 1600,
+   "y": 150,
+   "meanDeltaE": 12.609
+  },
+  "sauna-evening": {
+   "view": "default",
+   "x": 1600,
+   "y": 225,
+   "meanDeltaE": 12.752
+  },
+  "sauna-night": {
+   "view": "default",
+   "x": 1300,
+   "y": 225,
+   "meanDeltaE": 8.205
+  },
+  "water-day": {
+   "view": "0-level",
+   "x": 800,
+   "y": 375,
+   "meanDeltaE": 14.281
+  },
+  "water-evening": {
+   "view": "0-level",
+   "x": 800,
+   "y": 375,
+   "meanDeltaE": 13.875
+  },
+  "water-night": {
+   "view": "0-level",
+   "x": 800,
+   "y": 375,
+   "meanDeltaE": 10.839
+  },
+  "totonou-day": {
+   "view": "default",
+   "x": 800,
+   "y": 525,
+   "meanDeltaE": 14.985
+  },
+  "totonou-evening": {
+   "view": "default",
+   "x": 800,
+   "y": 525,
+   "meanDeltaE": 14.757
+  },
+  "totonou-night": {
+   "view": "default",
+   "x": 800,
+   "y": 525,
+   "meanDeltaE": 9.687
+  }
+ },
+ "views": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "view": "default",
+   "files": [
+    "sauna-day-default-0.png",
+    "sauna-day-default-1.png",
+    "sauna-day-default-2.png",
+    "sauna-day-default-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "15ae877a489031852deb60e436130e6edadc92c6274c135e3f6393ff367f896b",
+    "e86b2cdf08230daebb1557af889ce97fc319e23f4c1368ee02c7da9a1447fa31",
+    "de7e388ed5ded7e43f45b3f0cd0b64118b72d9719c0e52e1be3c490abd6a3557",
+    "15ae877a489031852deb60e436130e6edadc92c6274c135e3f6393ff367f896b"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.5443,
+    "over2": 0.135,
+    "over5": 0.06653,
+    "centreOver5": 0.07272,
+    "detail": 0.715
+   },
+   "1": {
+    "meanDeltaE": 1.9318,
+    "over2": 0.17626,
+    "over5": 0.08505,
+    "centreOver5": 0.09174,
+    "detail": 0.6239
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "view": "default",
+   "files": [
+    "sauna-evening-default-0.png",
+    "sauna-evening-default-1.png",
+    "sauna-evening-default-2.png",
+    "sauna-evening-default-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "7d24476c96a25ba4ae96834b6fefdaec49f57d7646240c963de52dff03c6809a",
+    "e16febc6892eb2f4aa935d362435fd63995c72d9ffc6695f696a52221b458caf",
+    "e160fee194e9df20f64875754312d4b7a529573a11c566806e8dae3b7c83f717",
+    "7d24476c96a25ba4ae96834b6fefdaec49f57d7646240c963de52dff03c6809a"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.3588,
+    "over2": 0.11519,
+    "over5": 0.0551,
+    "centreOver5": 0.05351,
+    "detail": 0.7203
+   },
+   "1": {
+    "meanDeltaE": 1.7144,
+    "over2": 0.15306,
+    "over5": 0.07178,
+    "centreOver5": 0.06942,
+    "detail": 0.6319
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "night",
+   "view": "default",
+   "files": [
+    "sauna-night-default-0.png",
+    "sauna-night-default-1.png",
+    "sauna-night-default-2.png",
+    "sauna-night-default-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "af9521715f812f98d0d466213defa42048dc550ab349e55a68dc7c6f491010de",
+    "d081bb059c64416e7f7368a3093961bd1702122d349c5f929b398aaa24d8bc25",
+    "ecb4737e50a29e7c0021f42aa612bcbbe6b43d810c6d0adc46901bb355e48c1e",
+    "af9521715f812f98d0d466213defa42048dc550ab349e55a68dc7c6f491010de"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.0156,
+    "over2": 0.09992,
+    "over5": 0.04464,
+    "centreOver5": 0.04513,
+    "detail": 0.7249
+   },
+   "1": {
+    "meanDeltaE": 1.2922,
+    "over2": 0.13637,
+    "over5": 0.058,
+    "centreOver5": 0.05851,
+    "detail": 0.6358
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "view": "0-level",
+   "files": [
+    "water-day-0-level-0.png",
+    "water-day-0-level-1.png",
+    "water-day-0-level-2.png",
+    "water-day-0-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "4ffa88d7ca99a08674f4381992787b09e4e97ec05741acd3cd0f3cf13123ec46",
+    "55a6f047d005253a2477f6e980422a67ff58718d4aab49c9ea6a500bcb7b69e6",
+    "94f8ee7c7a4774419702bf2e527096d3e9593006a5aef799886b7bdc51096ad9",
+    "4ffa88d7ca99a08674f4381992787b09e4e97ec05741acd3cd0f3cf13123ec46"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.6194,
+    "over2": 0.11216,
+    "over5": 0.06989,
+    "centreOver5": 0.13575,
+    "detail": 0.6998
+   },
+   "1": {
+    "meanDeltaE": 1.9956,
+    "over2": 0.13645,
+    "over5": 0.08539,
+    "centreOver5": 0.16399,
+    "detail": 0.6096
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "view": "2-level",
+   "files": [
+    "water-day-2-level-0.png",
+    "water-day-2-level-1.png",
+    "water-day-2-level-2.png",
+    "water-day-2-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "01f7a7b662bfd2045f5dd26f8054b93552c7d6a30f28287a8871991a1de13d6b",
+    "6be6796648b04c32fbde410959476b2678722e489036710610f109754b3d4ad6",
+    "a0ab20ff3f4b17d8fdaa8f434f306437838a22074e364b9f05b2f4b5b2ca15e9",
+    "01f7a7b662bfd2045f5dd26f8054b93552c7d6a30f28287a8871991a1de13d6b"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.6432,
+    "over2": 0.05132,
+    "over5": 0.01688,
+    "centreOver5": 0.02397,
+    "detail": 0.841
+   },
+   "1": {
+    "meanDeltaE": 0.8248,
+    "over2": 0.07163,
+    "over5": 0.025,
+    "centreOver5": 0.03527,
+    "detail": 0.7745
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "view": "4-level",
+   "files": [
+    "water-day-4-level-0.png",
+    "water-day-4-level-1.png",
+    "water-day-4-level-2.png",
+    "water-day-4-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "328d93f43bf77613435a19eb9055f91dd6a711fafab6148648440d9e42b0e7b0",
+    "ac0dc191dbb971646bccea868c37da7f29110854005dde6df7f1ee2988eba6fd",
+    "532710a59a554dc4af45c69ccdf5500c856b74d6a35a3b14b504e7cf418cc2d6",
+    "328d93f43bf77613435a19eb9055f91dd6a711fafab6148648440d9e42b0e7b0"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.5618,
+    "over2": 0.04072,
+    "over5": 0.01347,
+    "centreOver5": 0.00924,
+    "detail": 0.8585
+   },
+   "1": {
+    "meanDeltaE": 0.6679,
+    "over2": 0.05442,
+    "over5": 0.01844,
+    "centreOver5": 0.01245,
+    "detail": 0.7927
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "view": "1-down",
+   "files": [
+    "water-day-1-down-0.png",
+    "water-day-1-down-1.png",
+    "water-day-1-down-2.png",
+    "water-day-1-down-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "7e9d9e2398463601f23cc34b755b532bda1bb99f6961d0a314762f650f0ebb29",
+    "c21a0c7772cd43391f332f48b1e7a5fc6ea2670921274fbfdda47b93a629aaf7",
+    "7e6e2d5bd3cf37957d1a3ec2a69e63d0b42b02a3a06160c1928de36b9a69f236",
+    "7e9d9e2398463601f23cc34b755b532bda1bb99f6961d0a314762f650f0ebb29"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.3012,
+    "over2": 0.02788,
+    "over5": 0.00627,
+    "centreOver5": 0.00615,
+    "detail": 0.929
+   },
+   "1": {
+    "meanDeltaE": 0.3953,
+    "over2": 0.03998,
+    "over5": 0.01047,
+    "centreOver5": 0.01078,
+    "detail": 0.8968
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "view": "0-level",
+   "files": [
+    "water-evening-0-level-0.png",
+    "water-evening-0-level-1.png",
+    "water-evening-0-level-2.png",
+    "water-evening-0-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "9ce7c990bc7aec761a358521a53565ae5c67b388dac3f63abeea72f61987e6ed",
+    "31ffb75a9de056f791aacd0bae8a1934a1d8b8fec8e5bbe2a03f940831b2ef12",
+    "24f0f000517da88ea8da8ad8a5dc576c7d4ba2f38fe47505d0170f0d353e619c",
+    "9ce7c990bc7aec761a358521a53565ae5c67b388dac3f63abeea72f61987e6ed"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.5489,
+    "over2": 0.1058,
+    "over5": 0.06733,
+    "centreOver5": 0.13047,
+    "detail": 0.7117
+   },
+   "1": {
+    "meanDeltaE": 1.9272,
+    "over2": 0.12891,
+    "over5": 0.08325,
+    "centreOver5": 0.16001,
+    "detail": 0.6262
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "view": "2-level",
+   "files": [
+    "water-evening-2-level-0.png",
+    "water-evening-2-level-1.png",
+    "water-evening-2-level-2.png",
+    "water-evening-2-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "7c1da29ab214c063770ec07e1b2ab4fc158c2f4da10136b5ef15a4598804086c",
+    "aba6010bc71d3147c6f4070579f14d5f9c71fb6e6dc3f5552a2c2ab42984e880",
+    "6dbeebe95549d7dfc934fc776c09caa76b7b8faac43ec3558f7ccb00a4c8ab5e",
+    "7c1da29ab214c063770ec07e1b2ab4fc158c2f4da10136b5ef15a4598804086c"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.6659,
+    "over2": 0.05299,
+    "over5": 0.01871,
+    "centreOver5": 0.02783,
+    "detail": 0.834
+   },
+   "1": {
+    "meanDeltaE": 0.8633,
+    "over2": 0.07312,
+    "over5": 0.02781,
+    "centreOver5": 0.04142,
+    "detail": 0.7694
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "view": "4-level",
+   "files": [
+    "water-evening-4-level-0.png",
+    "water-evening-4-level-1.png",
+    "water-evening-4-level-2.png",
+    "water-evening-4-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "b248a811c5343831c4ff1066a7bc76c446ca999543a29441d753db84af27084d",
+    "ac4ebeb15fa287f02ea1afb49a3732eaa02f0760f7c51f678b1626abf55d1e8c",
+    "c0506ac79a74dc3d5eef85c0981c2298050728289e929c3e56029b94349425cf",
+    "b248a811c5343831c4ff1066a7bc76c446ca999543a29441d753db84af27084d"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.4095,
+    "over2": 0.0282,
+    "over5": 0.01025,
+    "centreOver5": 0.00766,
+    "detail": 0.8824
+   },
+   "1": {
+    "meanDeltaE": 0.5109,
+    "over2": 0.04031,
+    "over5": 0.01434,
+    "centreOver5": 0.01032,
+    "detail": 0.8293
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "view": "1-down",
+   "files": [
+    "water-evening-1-down-0.png",
+    "water-evening-1-down-1.png",
+    "water-evening-1-down-2.png",
+    "water-evening-1-down-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "07a87c3a6c33e041325d2ea06d0d4190f8e8c103af5c75123d5c1e54bea075a1",
+    "edf639827c923ec17b125586bc48c48cf4a6b8c5567e9467b6f8c96619fe7274",
+    "57dc6ddc92aa156786295bbeb4505744fa269fa00352bc59ab4ee75db1ee099e",
+    "07a87c3a6c33e041325d2ea06d0d4190f8e8c103af5c75123d5c1e54bea075a1"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.2783,
+    "over2": 0.01958,
+    "over5": 0.00402,
+    "centreOver5": 0.00324,
+    "detail": 0.9432
+   },
+   "1": {
+    "meanDeltaE": 0.3585,
+    "over2": 0.02898,
+    "over5": 0.00633,
+    "centreOver5": 0.00502,
+    "detail": 0.9166
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "view": "0-level",
+   "files": [
+    "water-night-0-level-0.png",
+    "water-night-0-level-1.png",
+    "water-night-0-level-2.png",
+    "water-night-0-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "ae8aff7c315323e21ef0af34dd8f646db25dffda9f14278d7c3f9627203bd4ba",
+    "799baf4dc7f6baa0d4d7f1b6fa1e3bcd79684ea7bd4e737aa11f77801590ab42",
+    "176cafd53a208ed949bec476071045fc236e484d8902a46785fd69a289f5d7f4",
+    "ae8aff7c315323e21ef0af34dd8f646db25dffda9f14278d7c3f9627203bd4ba"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.0896,
+    "over2": 0.09615,
+    "over5": 0.05652,
+    "centreOver5": 0.10855,
+    "detail": 0.7474
+   },
+   "1": {
+    "meanDeltaE": 1.3798,
+    "over2": 0.12085,
+    "over5": 0.07012,
+    "centreOver5": 0.13285,
+    "detail": 0.6671
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "view": "2-level",
+   "files": [
+    "water-night-2-level-0.png",
+    "water-night-2-level-1.png",
+    "water-night-2-level-2.png",
+    "water-night-2-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "580a651afcb20e86b18fcfbabb5c0400fbf0916930b0bdf0ea3150f7c71e4763",
+    "07d54e1c35b922fb253dd4dc6a2307e42398d78b3de5acf1a6e2288286e9f77a",
+    "eaca1703db03318775e6e62ccd009ddeff83d9576aec905422b44db23d10aec2",
+    "580a651afcb20e86b18fcfbabb5c0400fbf0916930b0bdf0ea3150f7c71e4763"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.6533,
+    "over2": 0.05551,
+    "over5": 0.01942,
+    "centreOver5": 0.02819,
+    "detail": 0.836
+   },
+   "1": {
+    "meanDeltaE": 0.8482,
+    "over2": 0.07762,
+    "over5": 0.02872,
+    "centreOver5": 0.04124,
+    "detail": 0.771
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "view": "4-level",
+   "files": [
+    "water-night-4-level-0.png",
+    "water-night-4-level-1.png",
+    "water-night-4-level-2.png",
+    "water-night-4-level-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "e2f8d86fdeef53bca2653c3a405b168b8fcb58549d1cc4a2c9725eb1ce977efd",
+    "e3b6b457a88c11d513785bba4f79ebc051e99315bb03953185c2a9a64dfc8018",
+    "77ac52b75dbf63137b98419cc5e8af72aea74ca7e7d1ce20b6c354183bd9157b",
+    "e2f8d86fdeef53bca2653c3a405b168b8fcb58549d1cc4a2c9725eb1ce977efd"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.3703,
+    "over2": 0.02706,
+    "over5": 0.0096,
+    "centreOver5": 0.00776,
+    "detail": 0.8963
+   },
+   "1": {
+    "meanDeltaE": 0.4668,
+    "over2": 0.03936,
+    "over5": 0.01356,
+    "centreOver5": 0.01065,
+    "detail": 0.8459
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "view": "1-down",
+   "files": [
+    "water-night-1-down-0.png",
+    "water-night-1-down-1.png",
+    "water-night-1-down-2.png",
+    "water-night-1-down-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "5e7f235a7fd708087457dbbb5035c85cd36043b1fbc7c7209d085b6de635138a",
+    "221c4028417da2f3bcc93de974af58a5507ce1561ebdaa5935ebbbdf671e60b5",
+    "13d52a9a5c7d7ab27611bce6b0ce1b64306039eae4c58d089b457d3d41a4365d",
+    "5e7f235a7fd708087457dbbb5035c85cd36043b1fbc7c7209d085b6de635138a"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 0.2732,
+    "over2": 0.01975,
+    "over5": 0.0043,
+    "centreOver5": 0.00424,
+    "detail": 0.9458
+   },
+   "1": {
+    "meanDeltaE": 0.3534,
+    "over2": 0.02929,
+    "over5": 0.00667,
+    "centreOver5": 0.00658,
+    "detail": 0.9223
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "view": "default",
+   "files": [
+    "totonou-day-default-0.png",
+    "totonou-day-default-1.png",
+    "totonou-day-default-2.png",
+    "totonou-day-default-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "352dc7bcdb4e42f19129ce96d74d382b9d1fe3881cf18b2e79ea6eb219d34f0a",
+    "812499ca18d38ac383bd702589e60f8897d60742c04f67308e1b5cb13bc0d0a3",
+    "42bc8083c92444f508af7c6dc2251d445f0e46f86f515d2205d60691db97c62b",
+    "352dc7bcdb4e42f19129ce96d74d382b9d1fe3881cf18b2e79ea6eb219d34f0a"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.9263,
+    "over2": 0.148,
+    "over5": 0.08559,
+    "centreOver5": 0.14077,
+    "detail": 0.6961
+   },
+   "1": {
+    "meanDeltaE": 2.3711,
+    "over2": 0.17781,
+    "over5": 0.10549,
+    "centreOver5": 0.16879,
+    "detail": 0.6034
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "view": "default",
+   "files": [
+    "totonou-evening-default-0.png",
+    "totonou-evening-default-1.png",
+    "totonou-evening-default-2.png",
+    "totonou-evening-default-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "ae828910ee4836b251642de4100dec534308581648d85fefb45a5202c45bbe4e",
+    "221e281095a735d6446cfa819d97ae9287167fe61a039b4f1bc91c74c986e140",
+    "48c17566cf774b180364c1aa5f163c52effef1b7a7caf90217e78236ae2ab43d",
+    "ae828910ee4836b251642de4100dec534308581648d85fefb45a5202c45bbe4e"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.715,
+    "over2": 0.12312,
+    "over5": 0.07193,
+    "centreOver5": 0.12734,
+    "detail": 0.6956
+   },
+   "1": {
+    "meanDeltaE": 2.1171,
+    "over2": 0.14721,
+    "over5": 0.08938,
+    "centreOver5": 0.15522,
+    "detail": 0.6058
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "night",
+   "view": "default",
+   "files": [
+    "totonou-night-default-0.png",
+    "totonou-night-default-1.png",
+    "totonou-night-default-2.png",
+    "totonou-night-default-3.png"
+   ],
+   "canvasWidths": [
+    1800,
+    1500,
+    1200,
+    1800
+   ],
+   "sha256": [
+    "07a556f2986c5d56234e88025319a4a86e15e919d2a151982a3bb64747170b30",
+    "d56257e99d1ba2dbf7ecf7d022523a76f81441480a57c0354aca51a96c25ee2a",
+    "bb8cdb30adc6619750fbb98b7fad769e14d8382b40eb4420b86a047f75d6b00d",
+    "07a556f2986c5d56234e88025319a4a86e15e919d2a151982a3bb64747170b30"
+   ],
+   "size": [
+    1800,
+    1200
+   ],
+   "1.25": {
+    "meanDeltaE": 1.1351,
+    "over2": 0.10043,
+    "over5": 0.05759,
+    "centreOver5": 0.10421,
+    "detail": 0.7131
+   },
+   "1": {
+    "meanDeltaE": 1.4154,
+    "over2": 0.12106,
+    "over5": 0.07115,
+    "centreOver5": 0.12708,
+    "detail": 0.6267
+   },
+   "repeat": {
+    "meanDeltaE": 0.0,
+    "over2": 0.0,
+    "over5": 0.0,
+    "centreOver5": 0.0,
+    "detail": 1.0
+   }
+  }
+ ]
+}
