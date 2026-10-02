@@ -410,8 +410,28 @@ describe('refraction', () => {
       expect(copy.geometry.getAttribute('position')).toBe(source.geometry.getAttribute('position'));
       expect(copy.layers.mask).toBe(1 << SIDE_IMAGE_LAYER);
       expect(copy.castShadow).toBe(false);
-      expect(copy.renderOrder).toBe(1);
+      expect(copy.renderOrder).toBe(1.5);
       const [single, both] = copy.material as THREE.MeshStandardMaterial[];
+      // A depth pass of the same geometry keeps the image the view reaches; the image is shaded
+      // where its depth was kept, without testing again.
+      const [depth] = copy.children as THREE.Mesh[];
+      expect(copy.children).toHaveLength(1);
+      expect(depth.geometry).toBe(copy.geometry);
+      expect(depth.layers.mask).toBe(1 << SIDE_IMAGE_LAYER);
+      expect(depth.renderOrder).toBe(1);
+      const [singleDepth, bothDepth] = depth.material as THREE.MeshStandardMaterial[];
+      expect(singleDepth.colorWrite).toBe(false);
+      expect(singleDepth.depthWrite).toBe(true);
+      expect(singleDepth.side).toBe(single.side);
+      expect({ ...singleDepth.defines, SUI_SIDE_TESTED: '' }).toEqual(single.defines);
+      expect(singleDepth.customProgramCacheKey()).toBe('wall program|side-image-depth');
+      expect(bothDepth.customProgramCacheKey()).toBe('floor program|side-image-depth');
+      expect([single.depthFunc, single.depthWrite]).toEqual([THREE.EqualDepth, false]);
+      const depthShader = { uniforms: {} as Record<string, unknown>, vertexShader: '', fragmentShader: '' };
+      singleDepth.onBeforeCompile(depthShader as never, undefined as never);
+      expect((depthShader.uniforms.suiSide as { value: THREE.Vector2 }).value.toArray()).toEqual(sides);
+      expect(depthShader.fragmentShader).toContain('#include <clipping_planes_fragment>');
+      expect(depthShader.fragmentShader).not.toContain('lights_fragment');
       const flipped = sides[0] * sides[1] === 0;
       expect(single.defines?.SUI_SIDE_IMAGE).toBe('');
       expect(single.defines?.SUI_HARD_SHADOW).toBe('');

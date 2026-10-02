@@ -328,7 +328,7 @@ vec3 suiWetView = vec3( 0.0 );
 {
 	vec3 suiTrue = ( ( vec4( - vViewPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
 	bool suiWet = cameraPosition.y > ${level} && suiTrue.y < ${level} && ${inBox('suiTrue')};
-	#ifdef SUI_SIDE_IMAGE
+	#if defined( SUI_SIDE_IMAGE ) && ! defined( SUI_SIDE_TESTED )
 	if ( ! suiWet ) discard;
 	#endif
 	if ( suiWet ) {
@@ -346,7 +346,9 @@ vec3 suiWetView = vec3( 0.0 );
 		vec2 suiBelow = step( suiTrue.xz, ${vec2(WATER_VOLUME.min)} );
 		vec2 suiAbove = step( ${vec2(WATER_VOLUME.max)}, suiTrue.xz );
 		bool suiBehind = any( greaterThan( max( suiSide, 0.0 ) * suiAbove + max( - suiSide, 0.0 ) * suiBelow, vec2( 0.0 ) ) );
+		#ifndef SUI_SIDE_TESTED
 		if ( suiBehind || ! suiAlong || ! ( suiInside || all( equal( suiSide, suiPath ) ) ) ) discard;
+		#endif
 		#else
 		if ( ! suiInside && any( notEqual( suiFirst, vec2( 0.0 ) ) ) ) {
 			vec2 suiPlane = mix( ${vec2(WATER_VOLUME.min)}, ${vec2(WATER_VOLUME.max)}, step( 0.0, suiFirst ) );
@@ -634,6 +636,14 @@ function blendOverImages(material: THREE.Material) {
   return copy;
 }
 
+// The depth pass of a mirrored image: only the test of which image the view reaches (sideImage).
+const SIDE_DEPTH_FRAGMENT = /* glsl */ `#include <common>
+varying vec3 vViewPosition;
+void main() {
+	#include <clipping_planes_fragment>
+	gl_FragColor = vec4( 0.0 );
+}`;
+
 /** The layer of the mirrored images: only the main camera draws them, not the water's mirror. */
 export const SIDE_IMAGE_LAYER = 2;
 
@@ -714,6 +724,8 @@ export function addSideImages(root: THREE.Object3D, level: number, waterTime: { 
   let triangles = 0;
   const timed = new Set<THREE.Material>();
   const images: { mesh: THREE.Mesh; sides: Sides }[] = [];
+  // The depth pass draws nothing of the dry materials.
+  const hidden = new THREE.MeshBasicMaterial({ visible: false });
   for (const source of sources) {
     const list: THREE.Material[] = Array.isArray(source.material) ? source.material : [source.material];
     const wet = new Set(
@@ -747,15 +759,20 @@ export function addSideImages(root: THREE.Object3D, level: number, waterTime: { 
       // brings (FLIP_SIDED), or flip the facing of double-sided materials.
       const flipped = sides[0] * sides[1] === 0;
       const side = { value: new THREE.Vector2(...sides) };
+      const depths: THREE.Material[] = [];
       const materials = list.map((material, i) => {
-        if (!wet.has(i)) return material;
+        if (!wet.has(i)) {
+          depths.push(hidden);
+          return material;
+        }
         const copy = material.clone();
-        copy.defines = {
+        const defines = {
           ...material.defines,
           SUI_SIDE_IMAGE: '',
           SUI_HARD_SHADOW: '',
           ...(flipped ? { SUI_SIDE_FLIPPED: '' } : {}),
         };
+        copy.defines = { ...defines, SUI_SIDE_TESTED: '' };
         if (flipped && material.side !== THREE.DoubleSide)
           copy.side = material.side === THREE.FrontSide ? THREE.BackSide : THREE.FrontSide;
         copy.onBeforeCompile = (shader, renderer) => {
@@ -765,9 +782,33 @@ export function addSideImages(root: THREE.Object3D, level: number, waterTime: { 
         // clone() keeps neither callback; without the source's key, copies of materials that
         // differ only in their onBeforeCompile (the tiles' caustics, the bronze) share a program.
         copy.customProgramCacheKey = () => `${material.customProgramCacheKey()}|side-image`;
+        // A depth pass decides which image each pixel shows (the test alone, a cheap program),
+        // then the copy shades only the fragments whose depth it kept: the water stage's frame time is
+        // 0.97x that of discarding in the copy (likely the rejected fragments starting with the
+        // floor shader's registers, and the discard stopping Apple's hidden surface removal). The
+        // two programs share the vertex shader, so the depths are equal.
+        copy.depthFunc = THREE.EqualDepth;
+        copy.depthWrite = false;
+        const depth = material.clone();
+        depth.defines = defines;
+        depth.side = copy.side;
+        depth.colorWrite = false;
+        depth.onBeforeCompile = (shader, renderer) => {
+          copy.onBeforeCompile(shader, renderer);
+          shader.fragmentShader = SIDE_DEPTH_FRAGMENT;
+        };
+        depth.customProgramCacheKey = () => `${material.customProgramCacheKey()}|side-image-depth`;
+        depths.push(depth);
         return copy;
       });
       const mesh = new THREE.Mesh(geometry, Array.isArray(source.material) ? materials : materials[0]);
+      const depthMesh = new THREE.Mesh(geometry, Array.isArray(source.material) ? depths : depths[0]);
+      depthMesh.name = `${source.name} side image depth ${sides.join(',')}`;
+      depthMesh.castShadow = false;
+      depthMesh.receiveShadow = false;
+      depthMesh.layers.set(SIDE_IMAGE_LAYER);
+      depthMesh.renderOrder = 1;
+      mesh.add(depthMesh);
       mesh.name = `${source.name} side image ${sides.join(',')}`;
       mesh.matrixAutoUpdate = false;
       mesh.matrix.copy(source.matrixWorld);
@@ -775,8 +816,9 @@ export function addSideImages(root: THREE.Object3D, level: number, waterTime: { 
       mesh.receiveShadow = source.receiveShadow;
       mesh.layers.set(SIDE_IMAGE_LAYER);
       // After the true surfaces, so the coping and the tub in front reject its hidden fragments by
-      // depth, but before the wall behind the sides, which is blended over it.
-      mesh.renderOrder = 1;
+      // depth, and after every image's depth pass, but before the wall behind the sides, which is
+      // blended over it.
+      mesh.renderOrder = 1.5;
       root.add(mesh);
       images.push({ mesh, sides });
       meshes++;
