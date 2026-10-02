@@ -23,6 +23,7 @@ import { createHdrOutput, type RenderStats } from './hdrOutput';
 import { createDepthPrepass } from './depthPrepass';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
 import { createShadowMask } from './shadowMask';
+import { createDynamicResolution } from './dynamicResolution';
 
 interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
@@ -171,9 +172,16 @@ export default function SaunaScene({
     };
     loylyEvents.addEventListener('loyly', onLoyly);
     let resetMetrics = () => {};
+    // The pixel ratio steps down from the quality's while frames miss 60 fps (dynamicResolution.ts);
+    // ?resolution=fixed keeps the quality's, for frame cost measurements at a set ratio.
+    const resolution =
+      new URLSearchParams(window.location.search).get('resolution') === 'fixed' ? null : createDynamicResolution(1);
+    setData('resolution', resolution ? 'auto' : 'fixed');
     const applyQuality = () => {
       const preset = QUALITY[qualityRef.current];
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, preset.pixelRatio));
+      const largest = Math.min(window.devicePixelRatio, preset.pixelRatio);
+      resolution?.reset(largest);
+      renderer.setPixelRatio(resolution?.pixelRatio ?? largest);
       lighting.setShadowSize(preset.shadowSize);
       lighting.setDuskLights(preset.duskLights);
       mirror?.setScale(preset.mirror);
@@ -353,6 +361,7 @@ export default function SaunaScene({
           steamStarted = -Infinity;
           steam.visible = false;
           look.cancel();
+          resolution?.settle();
           resetMetrics();
           setData('stage', next);
           lighting.update(targetTime(), 0, true);
@@ -405,6 +414,12 @@ export default function SaunaScene({
           if (document.hidden) {
             previous = 0;
             return;
+          }
+          const ratio = resolution?.frame(now) ?? null;
+          if (ratio !== null) {
+            renderer.setPixelRatio(ratio);
+            setData('pixelRatio', String(renderer.getPixelRatio()));
+            resetMetrics();
           }
           updateAudio();
           const delta = previous ? Math.min((now - previous) / 1000, 0.1) : 0;

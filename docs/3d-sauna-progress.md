@@ -1696,3 +1696,12 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [費用・画像・判断・再実行](3d-qa/path-cuts/README.md)、[費用](3d-qa/path-cuts/cost.json)、[画像](3d-qa/path-cuts/images.json)。
 
 検証：GPU計測（2報告×10回）、撮影（製品2回は全画素一致・候補5種各1回）、型検査・Lint・整形。製品コードは変わらないため、単体テスト・ブラウザ回帰は再実行していない。
+
+## フェーズ5：動的解像度（2026-10-02、採用）
+
+- 経路を外す案でもDPR 1.5の水風呂の夕暮れ・夜が60fpsに届かなかったため、利用者と相談して動的解像度を入れた（`dynamicResolution.ts`）。1秒ごとの平均フレーム間隔が18.3ms（予算の1.1倍）を超えるとDPRを0.25下げ（標準 1.5→1.25→1、高画質 2→…→1.25）、予算内が10秒続くと1段上げて試す。失敗した試行ごとに待ちを倍にする（上限160秒）。画質の変更で上限へ戻す。`?resolution=fixed` で無効（DPRを固定して測る `frame-cost.gpu.ts` が使う）。DPR1の画面では何もしない。
+- 実際の重い場面（DPR 1.5・標準）：サウナの昼夜・水風呂の昼は1.5のまま60fps。水風呂の夕暮れ・夜は1.25に下がって60fps。上げの試行は10→20→40→80秒と間が開き、1回で平均間隔がゆるむのは約2秒（5秒区間で17.1〜17.9ms）。
+- 残件：他の端末（DPR 2〜3のスマートフォン・120Hz表示）での段の選び方と体感、下げたときの見た目の撮影。
+- [仕組み・確認・範囲](3d-qa/dynamic-resolution/README.md)、[観察の値](3d-qa/dynamic-resolution/observe.json)。
+
+検証：型検査、40ファイル244単体テスト（`dynamicResolution.test.ts` 9件追加）、Lint、整形、本番ビルド、ブラウザ回帰18件（`dynamic-resolution.e2e.ts` 2件追加）、実際の重い場面の観察1回（4.3分）。継続利用・撮影・GPU計測は、既定のDPR1では段が1つで挙動が変わらないため再実行していない。
