@@ -1,0 +1,736 @@
+{
+ "note": "Ratio 1.5 captures of e2e/resolution-shimmer.visual.ts (Chrome headless, M1 Max, 1200x800, DPR 1.5, standard, reduced motion) on a temporary build of c3a31b8 with the prototype behind ?taa=1 (taaJitter = jitter amplitude in pixels, Halton 2,3 x8; keep 0.9; variance box gamma 1 widened to hold the current pixel; Catmull-Rom history, exact fetch at zero motion). tile = mean |L* residual| over 12x12 capture pixels, mean over 12 pairs. twoFramesPerStep: the test as committed (two animation frames per 1 px step); oneFramePerStep: one frame per step (SHIMMER_FRAMES=1). image: CIELAB dE76 and L* gradient ratio against the base capture of the same step (step 0 is the still view, 6 and 12 while dragging). frameCost: e2e/frame-cost.gpu.ts product, standard, DPR 1.5, repeat 2, base and taaJitter=0.5 alternating twice; mean frame interval / repeat.",
+ "twoFramesPerStep": {
+  "tile": {
+   "sauna-day": {
+    "base": 0.1022,
+    "nojit3": 0.059,
+    "halfjit3": 0.0478,
+    "jit3": 0.0463
+   },
+   "sauna-evening": {
+    "base": 0.0751,
+    "nojit3": 0.0428,
+    "halfjit3": 0.0341,
+    "jit3": 0.0325
+   },
+   "water-day": {
+    "base": 0.1307,
+    "nojit3": 0.0737,
+    "halfjit3": 0.0546,
+    "jit3": 0.0484
+   },
+   "water-evening": {
+    "base": 0.1183,
+    "nojit3": 0.0665,
+    "halfjit3": 0.0482,
+    "jit3": 0.0436
+   },
+   "totonou-day": {
+    "base": 0.1436,
+    "nojit3": 0.0839,
+    "halfjit3": 0.0637,
+    "jit3": 0.059
+   },
+   "totonou-evening": {
+    "base": 0.113,
+    "nojit3": 0.0658,
+    "halfjit3": 0.0476,
+    "jit3": 0.0398
+   }
+  }
+ },
+ "oneFramePerStep": {
+  "tile": {
+   "sauna-day": {
+    "base1": 0.1022,
+    "nojit1": 0.0563,
+    "halfjit1": 0.0462
+   },
+   "sauna-evening": {
+    "base1": 0.0751,
+    "nojit1": 0.0408,
+    "halfjit1": 0.034
+   },
+   "water-day": {
+    "base1": 0.1307,
+    "nojit1": 0.071,
+    "halfjit1": 0.0531
+   },
+   "water-evening": {
+    "base1": 0.1183,
+    "nojit1": 0.0637,
+    "halfjit1": 0.0473
+   },
+   "totonou-day": {
+    "base1": 0.1436,
+    "nojit1": 0.0813,
+    "halfjit1": 0.0626
+   },
+   "totonou-evening": {
+    "base1": 0.113,
+    "nojit1": 0.0632,
+    "halfjit1": 0.046
+   }
+  }
+ },
+ "image": {
+  "twoFramesPerStep": {
+   "0": {
+    "sauna-day": {
+     "nojit3": {
+      "dE": 0.02,
+      "over2pct": 0.1,
+      "gradRatio": 1.0
+     },
+     "halfjit3": {
+      "dE": 0.63,
+      "over2pct": 5.9,
+      "gradRatio": 0.879
+     },
+     "jit3": {
+      "dE": 0.86,
+      "over2pct": 8.2,
+      "gradRatio": 0.811
+     }
+    },
+    "sauna-evening": {
+     "nojit3": {
+      "dE": 0.02,
+      "over2pct": 0.1,
+      "gradRatio": 1.0
+     },
+     "halfjit3": {
+      "dE": 0.53,
+      "over2pct": 4.7,
+      "gradRatio": 0.901
+     },
+     "jit3": {
+      "dE": 0.79,
+      "over2pct": 7.1,
+      "gradRatio": 0.826
+     }
+    },
+    "water-day": {
+     "nojit3": {
+      "dE": 0.29,
+      "over2pct": 3.9,
+      "gradRatio": 0.996
+     },
+     "halfjit3": {
+      "dE": 0.81,
+      "over2pct": 7.4,
+      "gradRatio": 0.861
+     },
+     "jit3": {
+      "dE": 1.03,
+      "over2pct": 8.6,
+      "gradRatio": 0.787
+     }
+    },
+    "water-evening": {
+     "nojit3": {
+      "dE": 0.29,
+      "over2pct": 4.0,
+      "gradRatio": 0.988
+     },
+     "halfjit3": {
+      "dE": 0.77,
+      "over2pct": 7.3,
+      "gradRatio": 0.869
+     },
+     "jit3": {
+      "dE": 1.0,
+      "over2pct": 8.5,
+      "gradRatio": 0.792
+     }
+    },
+    "totonou-day": {
+     "nojit3": {
+      "dE": 0.16,
+      "over2pct": 2.9,
+      "gradRatio": 1.002
+     },
+     "halfjit3": {
+      "dE": 0.81,
+      "over2pct": 8.5,
+      "gradRatio": 0.878
+     },
+     "jit3": {
+      "dE": 1.15,
+      "over2pct": 10.8,
+      "gradRatio": 0.791
+     }
+    },
+    "totonou-evening": {
+     "nojit3": {
+      "dE": 0.16,
+      "over2pct": 2.9,
+      "gradRatio": 0.999
+     },
+     "halfjit3": {
+      "dE": 0.72,
+      "over2pct": 7.5,
+      "gradRatio": 0.885
+     },
+     "jit3": {
+      "dE": 1.04,
+      "over2pct": 9.6,
+      "gradRatio": 0.796
+     }
+    }
+   },
+   "6": {
+    "sauna-day": {
+     "nojit3": {
+      "dE": 0.62,
+      "over2pct": 5.5,
+      "gradRatio": 0.906
+     },
+     "halfjit3": {
+      "dE": 0.83,
+      "over2pct": 7.9,
+      "gradRatio": 0.834
+     },
+     "jit3": {
+      "dE": 0.99,
+      "over2pct": 9.3,
+      "gradRatio": 0.78
+     }
+    },
+    "sauna-evening": {
+     "nojit3": {
+      "dE": 0.55,
+      "over2pct": 4.7,
+      "gradRatio": 0.916
+     },
+     "halfjit3": {
+      "dE": 0.73,
+      "over2pct": 6.7,
+      "gradRatio": 0.848
+     },
+     "jit3": {
+      "dE": 0.88,
+      "over2pct": 8.0,
+      "gradRatio": 0.795
+     }
+    },
+    "water-day": {
+     "nojit3": {
+      "dE": 0.76,
+      "over2pct": 7.5,
+      "gradRatio": 0.888
+     },
+     "halfjit3": {
+      "dE": 0.96,
+      "over2pct": 8.6,
+      "gradRatio": 0.813
+     },
+     "jit3": {
+      "dE": 1.14,
+      "over2pct": 9.6,
+      "gradRatio": 0.736
+     }
+    },
+    "water-evening": {
+     "nojit3": {
+      "dE": 0.74,
+      "over2pct": 7.3,
+      "gradRatio": 0.89
+     },
+     "halfjit3": {
+      "dE": 0.93,
+      "over2pct": 8.4,
+      "gradRatio": 0.815
+     },
+     "jit3": {
+      "dE": 1.1,
+      "over2pct": 9.3,
+      "gradRatio": 0.747
+     }
+    },
+    "totonou-day": {
+     "nojit3": {
+      "dE": 0.77,
+      "over2pct": 8.3,
+      "gradRatio": 0.899
+     },
+     "halfjit3": {
+      "dE": 1.04,
+      "over2pct": 10.4,
+      "gradRatio": 0.821
+     },
+     "jit3": {
+      "dE": 1.25,
+      "over2pct": 11.6,
+      "gradRatio": 0.751
+     }
+    },
+    "totonou-evening": {
+     "nojit3": {
+      "dE": 0.7,
+      "over2pct": 7.4,
+      "gradRatio": 0.901
+     },
+     "halfjit3": {
+      "dE": 0.94,
+      "over2pct": 9.2,
+      "gradRatio": 0.826
+     },
+     "jit3": {
+      "dE": 1.13,
+      "over2pct": 10.4,
+      "gradRatio": 0.757
+     }
+    }
+   },
+   "12": {
+    "sauna-day": {
+     "nojit3": {
+      "dE": 0.62,
+      "over2pct": 5.5,
+      "gradRatio": 0.905
+     },
+     "halfjit3": {
+      "dE": 0.83,
+      "over2pct": 7.8,
+      "gradRatio": 0.836
+     },
+     "jit3": {
+      "dE": 1.01,
+      "over2pct": 9.5,
+      "gradRatio": 0.766
+     }
+    },
+    "sauna-evening": {
+     "nojit3": {
+      "dE": 0.55,
+      "over2pct": 4.7,
+      "gradRatio": 0.916
+     },
+     "halfjit3": {
+      "dE": 0.73,
+      "over2pct": 6.5,
+      "gradRatio": 0.851
+     },
+     "jit3": {
+      "dE": 0.89,
+      "over2pct": 8.0,
+      "gradRatio": 0.79
+     }
+    },
+    "water-day": {
+     "nojit3": {
+      "dE": 0.77,
+      "over2pct": 7.4,
+      "gradRatio": 0.889
+     },
+     "halfjit3": {
+      "dE": 0.98,
+      "over2pct": 8.7,
+      "gradRatio": 0.803
+     },
+     "jit3": {
+      "dE": 1.12,
+      "over2pct": 9.4,
+      "gradRatio": 0.738
+     }
+    },
+    "water-evening": {
+     "nojit3": {
+      "dE": 0.75,
+      "over2pct": 7.2,
+      "gradRatio": 0.889
+     },
+     "halfjit3": {
+      "dE": 0.93,
+      "over2pct": 8.4,
+      "gradRatio": 0.813
+     },
+     "jit3": {
+      "dE": 1.07,
+      "over2pct": 9.1,
+      "gradRatio": 0.754
+     }
+    },
+    "totonou-day": {
+     "nojit3": {
+      "dE": 0.78,
+      "over2pct": 8.3,
+      "gradRatio": 0.9
+     },
+     "halfjit3": {
+      "dE": 1.02,
+      "over2pct": 10.2,
+      "gradRatio": 0.826
+     },
+     "jit3": {
+      "dE": 1.26,
+      "over2pct": 11.7,
+      "gradRatio": 0.748
+     }
+    },
+    "totonou-evening": {
+     "nojit3": {
+      "dE": 0.7,
+      "over2pct": 7.3,
+      "gradRatio": 0.901
+     },
+     "halfjit3": {
+      "dE": 0.93,
+      "over2pct": 9.2,
+      "gradRatio": 0.827
+     },
+     "jit3": {
+      "dE": 1.12,
+      "over2pct": 10.3,
+      "gradRatio": 0.763
+     }
+    }
+   }
+  },
+  "oneFramePerStep": {
+   "0": {
+    "sauna-day": {
+     "nojit1": {
+      "dE": 0.02,
+      "over2pct": 0.1,
+      "gradRatio": 1.0
+     },
+     "halfjit1": {
+      "dE": 0.63,
+      "over2pct": 5.8,
+      "gradRatio": 0.881
+     }
+    },
+    "sauna-evening": {
+     "nojit1": {
+      "dE": 0.02,
+      "over2pct": 0.1,
+      "gradRatio": 1.0
+     },
+     "halfjit1": {
+      "dE": 0.52,
+      "over2pct": 4.6,
+      "gradRatio": 0.902
+     }
+    },
+    "water-day": {
+     "nojit1": {
+      "dE": 0.29,
+      "over2pct": 3.9,
+      "gradRatio": 0.996
+     },
+     "halfjit1": {
+      "dE": 0.8,
+      "over2pct": 7.3,
+      "gradRatio": 0.866
+     }
+    },
+    "water-evening": {
+     "nojit1": {
+      "dE": 0.29,
+      "over2pct": 4.0,
+      "gradRatio": 0.988
+     },
+     "halfjit1": {
+      "dE": 0.75,
+      "over2pct": 7.2,
+      "gradRatio": 0.876
+     }
+    },
+    "totonou-day": {
+     "nojit1": {
+      "dE": 0.16,
+      "over2pct": 2.9,
+      "gradRatio": 1.002
+     },
+     "halfjit1": {
+      "dE": 0.81,
+      "over2pct": 8.5,
+      "gradRatio": 0.878
+     }
+    },
+    "totonou-evening": {
+     "nojit1": {
+      "dE": 0.16,
+      "over2pct": 2.9,
+      "gradRatio": 0.999
+     },
+     "halfjit1": {
+      "dE": 0.75,
+      "over2pct": 7.7,
+      "gradRatio": 0.876
+     }
+    }
+   },
+   "6": {
+    "sauna-day": {
+     "nojit1": {
+      "dE": 0.66,
+      "over2pct": 6.1,
+      "gradRatio": 0.899
+     },
+     "halfjit1": {
+      "dE": 0.87,
+      "over2pct": 8.2,
+      "gradRatio": 0.827
+     }
+    },
+    "sauna-evening": {
+     "nojit1": {
+      "dE": 0.59,
+      "over2pct": 5.1,
+      "gradRatio": 0.908
+     },
+     "halfjit1": {
+      "dE": 0.74,
+      "over2pct": 6.7,
+      "gradRatio": 0.849
+     }
+    },
+    "water-day": {
+     "nojit1": {
+      "dE": 0.81,
+      "over2pct": 7.8,
+      "gradRatio": 0.879
+     },
+     "halfjit1": {
+      "dE": 0.99,
+      "over2pct": 8.8,
+      "gradRatio": 0.807
+     }
+    },
+    "water-evening": {
+     "nojit1": {
+      "dE": 0.78,
+      "over2pct": 7.6,
+      "gradRatio": 0.88
+     },
+     "halfjit1": {
+      "dE": 0.95,
+      "over2pct": 8.6,
+      "gradRatio": 0.813
+     }
+    },
+    "totonou-day": {
+     "nojit1": {
+      "dE": 0.83,
+      "over2pct": 8.8,
+      "gradRatio": 0.89
+     },
+     "halfjit1": {
+      "dE": 1.08,
+      "over2pct": 10.6,
+      "gradRatio": 0.813
+     }
+    },
+    "totonou-evening": {
+     "nojit1": {
+      "dE": 0.74,
+      "over2pct": 7.7,
+      "gradRatio": 0.892
+     },
+     "halfjit1": {
+      "dE": 0.96,
+      "over2pct": 9.3,
+      "gradRatio": 0.822
+     }
+    }
+   },
+   "12": {
+    "sauna-day": {
+     "nojit1": {
+      "dE": 0.67,
+      "over2pct": 6.1,
+      "gradRatio": 0.895
+     },
+     "halfjit1": {
+      "dE": 0.84,
+      "over2pct": 8.0,
+      "gradRatio": 0.832
+     }
+    },
+    "sauna-evening": {
+     "nojit1": {
+      "dE": 0.6,
+      "over2pct": 5.1,
+      "gradRatio": 0.907
+     },
+     "halfjit1": {
+      "dE": 0.75,
+      "over2pct": 6.7,
+      "gradRatio": 0.846
+     }
+    },
+    "water-day": {
+     "nojit1": {
+      "dE": 0.82,
+      "over2pct": 7.7,
+      "gradRatio": 0.878
+     },
+     "halfjit1": {
+      "dE": 1.0,
+      "over2pct": 8.8,
+      "gradRatio": 0.799
+     }
+    },
+    "water-evening": {
+     "nojit1": {
+      "dE": 0.79,
+      "over2pct": 7.5,
+      "gradRatio": 0.88
+     },
+     "halfjit1": {
+      "dE": 0.95,
+      "over2pct": 8.5,
+      "gradRatio": 0.808
+     }
+    },
+    "totonou-day": {
+     "nojit1": {
+      "dE": 0.83,
+      "over2pct": 8.8,
+      "gradRatio": 0.89
+     },
+     "halfjit1": {
+      "dE": 1.06,
+      "over2pct": 10.5,
+      "gradRatio": 0.818
+     }
+    },
+    "totonou-evening": {
+     "nojit1": {
+      "dE": 0.75,
+      "over2pct": 7.7,
+      "gradRatio": 0.892
+     },
+     "halfjit1": {
+      "dE": 0.97,
+      "over2pct": 9.4,
+      "gradRatio": 0.815
+     }
+    }
+   }
+  }
+ },
+ "frameCost": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "baseMs": [
+    12.14,
+    11.95
+   ],
+   "taaMs": [
+    13.13,
+    13.05
+   ],
+   "ratio": 1.087
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "baseMs": [
+    15.31,
+    15.32
+   ],
+   "taaMs": [
+    16.32,
+    16.13
+   ],
+   "ratio": 1.059
+  },
+  {
+   "stage": "sauna",
+   "lighting": "night",
+   "baseMs": [
+    16.12,
+    16.26
+   ],
+   "taaMs": [
+    17.1,
+    17.02
+   ],
+   "ratio": 1.054
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "baseMs": [
+    15.49,
+    15.37
+   ],
+   "taaMs": [
+    16.46,
+    16.46
+   ],
+   "ratio": 1.067
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "baseMs": [
+    18.71,
+    18.54
+   ],
+   "taaMs": [
+    19.8,
+    19.44
+   ],
+   "ratio": 1.053
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "baseMs": [
+    19.25,
+    19.34
+   ],
+   "taaMs": [
+    20.36,
+    20.03
+   ],
+   "ratio": 1.047
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "baseMs": [
+    9.05,
+    8.93
+   ],
+   "taaMs": [
+    10.01,
+    10.01
+   ],
+   "ratio": 1.114
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "baseMs": [
+    12.66,
+    12.4
+   ],
+   "taaMs": [
+    13.64,
+    13.55
+   ],
+   "ratio": 1.085
+  },
+  {
+   "stage": "totonou",
+   "lighting": "night",
+   "baseMs": [
+    13.37,
+    13.37
+   ],
+   "taaMs": [
+    14.43,
+    14.23
+   ],
+   "ratio": 1.072
+  }
+ ]
+}
