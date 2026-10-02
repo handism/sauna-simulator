@@ -1,0 +1,133 @@
+{
+ "note": "Ratio 1.5 captures of e2e/resolution-shimmer.visual.ts on the build of 59f6976 (tile = mean |L* residual| over 12x12 capture pixels, mean over the 12 pairs; base equals leaf-shimmer final at 1.5 to 4 decimals). groups: meshes with a material matching the regex hidden (temporary build; their depth prepass, shadow mask and shadow children go with them). weightedResolve: temporary build writing c/(1+max(c)) into the multisampled HDR targets and inverting before tone mapping (glass and water blending left as is, so the image is not correct); base2 is the same build without it.",
+ "materials": {
+  "leaves": "leaf|fern|Evergreen foliage|maple",
+  "leavesbark": "leaves + Tree bark",
+  "bark": "Tree bark",
+  "ground": "moss|gravel|earth|fallen ochre",
+  "wood": "timber|ash|cedar|cork|linen|towel",
+  "stone": "stone|paving|basalt|plaster|tile|bronze",
+  "glass": "glass|droplets|sand"
+ },
+ "groups": {
+  "sauna-day": {
+   "base": 0.1022,
+   "leaves": 0.0619,
+   "leavesbark": 0.044,
+   "bark": 0.1017,
+   "ground": 0.1126,
+   "wood": 0.092,
+   "stone": 0.1099,
+   "glass": 0.1267
+  },
+  "sauna-evening": {
+   "base": 0.0751,
+   "leaves": 0.0417,
+   "leavesbark": 0.0255,
+   "bark": 0.0748,
+   "ground": 0.091,
+   "wood": 0.0743,
+   "stone": 0.0784,
+   "glass": 0.0863
+  },
+  "water-day": {
+   "base": 0.1307,
+   "leaves": 0.0778,
+   "leavesbark": 0.0393,
+   "bark": 0.1203,
+   "ground": 0.1517,
+   "wood": 0.1304,
+   "stone": 0.1417,
+   "glass": 0.1359
+  },
+  "water-evening": {
+   "base": 0.1183,
+   "leaves": 0.0682,
+   "leavesbark": 0.0348,
+   "bark": 0.1095,
+   "ground": 0.1436,
+   "wood": 0.1167,
+   "stone": 0.1312,
+   "glass": 0.1216
+  },
+  "totonou-day": {
+   "base": 0.1436,
+   "leaves": 0.0708,
+   "leavesbark": 0.0343,
+   "bark": 0.1338,
+   "ground": 0.178,
+   "wood": 0.1252,
+   "stone": 0.1347,
+   "glass": 0.1427
+  },
+  "totonou-evening": {
+   "base": 0.113,
+   "leaves": 0.0508,
+   "leavesbark": 0.0192,
+   "bark": 0.1051,
+   "ground": 0.1656,
+   "wood": 0.106,
+   "stone": 0.1118,
+   "glass": 0.1128
+  }
+ },
+ "weightedResolve": {
+  "sauna-day": {
+   "base2": 0.1022,
+   "weighted": 0.0896
+  },
+  "sauna-evening": {
+   "base2": 0.0751,
+   "weighted": 0.067
+  },
+  "water-day": {
+   "base2": 0.1307,
+   "weighted": 0.1112
+  },
+  "water-evening": {
+   "base2": 0.1183,
+   "weighted": 0.1031
+  },
+  "totonou-day": {
+   "base2": 0.1436,
+   "weighted": 0.1248
+  },
+  "totonou-evening": {
+   "base2": 0.113,
+   "weighted": 0.0993
+  }
+ },
+ "weightedResolveImage": {
+  "note": "first frame, CIELAB dE76 vs base2: mean, % over 2, mean L* change",
+  "sauna-day": [
+   0.67,
+   4.6,
+   -0.45
+  ],
+  "sauna-evening": [
+   0.44,
+   3.3,
+   -0.28
+  ],
+  "water-day": [
+   1.64,
+   28.3,
+   -1.43
+  ],
+  "water-evening": [
+   1.4,
+   24.9,
+   -1.22
+  ],
+  "totonou-day": [
+   0.46,
+   6.0,
+   -0.42
+  ],
+  "totonou-evening": [
+   0.35,
+   5.4,
+   -0.32
+  ]
+ }
+}
