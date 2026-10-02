@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
-import { createTemporalAA, HISTORY_WEIGHT, JUMP_ANGLE, reprojectionMatrix } from './temporalAA';
+import { createTemporalAA, HISTORY_WEIGHT, JUMP_ANGLE, reprojectionMatrix, STILL_FRAMES } from './temporalAA';
 
 function camera(yaw = 0, pitch = 0) {
   const result = new THREE.PerspectiveCamera(65, 1.5, 0.05, 250);
@@ -104,6 +104,24 @@ describe('temporal blend', () => {
     expect(weight(moved, 480)).toBe(0);
     temporal.release();
     expect(weight(moved, 480)).toBe(0);
+  });
+
+  it('skips the pass once a still view has converged, starting over on the next turn', () => {
+    const { renderer, material } = fakeRenderer();
+    const temporal = createTemporalAA(renderer);
+    const current = new THREE.Texture();
+    const draws = () => (renderer.render as unknown as ReturnType<typeof vi.fn>).mock.calls.length;
+    temporal.resolve(current, camera(0), 640, 400);
+    for (let frame = 0; frame < STILL_FRAMES; frame++)
+      expect(temporal.resolve(current, camera(0), 640, 400)).not.toBe(current);
+    expect(draws()).toBe(STILL_FRAMES + 1);
+    for (let frame = 0; frame < 3; frame++) expect(temporal.resolve(current, camera(0), 640, 400)).toBe(current);
+    expect(draws()).toBe(STILL_FRAMES + 1);
+    temporal.resolve(current, camera(0.004), 640, 400);
+    expect(draws()).toBe(STILL_FRAMES + 2);
+    expect(material().uniforms.historyWeight.value).toBe(0);
+    temporal.resolve(current, camera(0.004), 640, 400);
+    expect(material().uniforms.historyWeight.value).toBe(HISTORY_WEIGHT);
   });
 
   it('keeps a still pixel and clamps the history to a box holding it', () => {

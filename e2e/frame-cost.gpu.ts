@@ -26,7 +26,7 @@ const STAGES = [
 
 async function enter(page: Page) {
   // At the set ratio: dynamic resolution would step down from it in the slower views.
-  await page.goto('?view=3d&resolution=fixed');
+  await page.goto(`?view=3d&resolution=fixed${process.env.FRAME_COST_QUERY ?? ''}`);
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });

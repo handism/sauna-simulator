@@ -5,12 +5,18 @@ import * as THREE from 'three';
 // frame maps onto this one by a homography whatever the depth: this blends the resolved HDR image
 // with that reprojected history before tone mapping. Without jitter a still view converges to the
 // frame itself, bit for bit, so still images are unchanged; turning, the history halves the popping
-// (docs/3d-qa/temporal-aa/).
+// (docs/3d-qa/temporal-aa/). Once converged, a still view skips the pass.
 
 /** The history's weight once valid. */
 export const HISTORY_WEIGHT = 0.9;
 /** A turn beyond this between two frames (radians) drops the history: a jump, not a look. */
 export const JUMP_ANGLE = 0.05;
+/**
+ * Still frames drawn through the pass before it is skipped. A pause between pointer events keeps
+ * the blend (the blended and the plain frame in turn would flicker), and 0.9^60 leaves 0.2% of a
+ * gap, under the shader's tolerance: the step to the plain frame shows nothing.
+ */
+export const STILL_FRAMES = 60;
 
 const vertexShader = /* glsl */ `varying vec2 vUv;
 void main() {
@@ -116,7 +122,8 @@ export function reprojectionMatrix(
 
 /**
  * Two half-float histories, drawn in turn. `resolve` takes the resolved scene of a camera whose
- * world matrix is current (after the frame's render) and returns the texture to tone map.
+ * world matrix is current (after the frame's render) and returns the texture to tone map: that
+ * scene itself once a still view has converged.
  */
 export function createTemporalAA(renderer: THREE.WebGLRenderer) {
   const make = () =>
@@ -130,6 +137,7 @@ export function createTemporalAA(renderer: THREE.WebGLRenderer) {
   const targets = [make(), make()];
   let index = 0;
   let valid = false;
+  let still = 0;
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3));
   geometry.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 2, 0, 0, 2], 2));
@@ -165,6 +173,14 @@ export function createTemporalAA(renderer: THREE.WebGLRenderer) {
         }
       // Another stage's view (or a jump) is not reprojected; the projection changes with it.
       if (!camera.position.equals(position) || camera.quaternion.angleTo(quaternion) > JUMP_ANGLE) valid = false;
+      if (camera.position.equals(position) && camera.quaternion.equals(quaternion)) still++;
+      else still = 0;
+      // Converged on a still view: the frame itself. The steam and the water move on meanwhile, so
+      // the next turn starts over (from the frame shown).
+      if (still > STILL_FRAMES) {
+        valid = false;
+        return current;
+      }
       position.copy(camera.position);
       quaternion.copy(camera.quaternion);
       const uniforms = material.uniforms;
