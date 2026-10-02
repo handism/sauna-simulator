@@ -1686,3 +1686,13 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [結果・範囲](3d-qa/soak-optimized/README.md)、[集計](3d-qa/soak-optimized/summary.json)、[全標本](3d-qa/soak-optimized/samples.json)。
 
 検証：継続利用1件（本番ビルドを含む）。製品コードは変わらないため、単体テスト・ブラウザ回帰・撮影は再実行していない。
+
+## フェーズ5：水底のタイルの経路を外す候補（2026-10-02、診断・不採用）
+
+- DPR 1.5の水風呂の夕暮れ・夜（約18〜19ms）を、画像が変わるのを受け入れて下げられるか調べた（利用者と相談）。`cut-*` を `+` で組み合わせられるようにし、撮影テスト（`cycles-compare`・`stage-compare`）に `CAPTURE_CUT` を加えて、同じ置換の画像を撮った。製品コードの変更はない。
+- 費用（標準・DPR 1.5、2報告）：水風呂で `tilt`（傾けた4本の追跡）−1.1〜1.2ms、`wetimage`（側面経由の水越しのハイライト）−1.0ms、両方 −1.9〜2.0ms、`wet` −1.4〜1.6ms、`bottom`（底面の反射全体）−1.7〜1.8ms。**夜はどの候補でも16.7msを下回らない**（最良の `tilt+wetimage` で16.94ms）。夕暮れは `tilt+wetimage`（16.26ms）と `bottom`（16.49ms）だけ。
+- 画像：`tilt` は水底に映る灯りの円盤の縁の波の揺らぎが消え、`wetimage` は円盤の手前の光沢の帯が消える。どちらもCyclesにある特徴で、変わった画素のCyclesとの誤差は10枚中8枚で増える。`bottom` は円盤そのものが消える（ΔE>5が最大19.5%）。
+- **判断：不採用。** 夜に届かず、届く夕暮れでもCyclesに合う特徴を失う。
+- [費用・画像・判断・再実行](3d-qa/path-cuts/README.md)、[費用](3d-qa/path-cuts/cost.json)、[画像](3d-qa/path-cuts/images.json)。
+
+検証：GPU計測（2報告×10回）、撮影（製品2回は全画素一致・候補5種各1回）、型検査・Lint・整形。製品コードは変わらないため、単体テスト・ブラウザ回帰は再実行していない。

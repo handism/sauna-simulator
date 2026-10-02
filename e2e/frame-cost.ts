@@ -32,6 +32,7 @@
  * the caustics and `voronoi`, `warp` and `visibility` the caustics' Voronoi edges, the noise that
  * warps them and the noise that fades them, `wet` the highlights through the water, `wetimage`
  * their paths off the sides (suiWetImage's loop) and `wetimagenever` that loop kept but never run.
+ * Parts joined by `+` are skipped together, e.g. `cut-tilt+wetimage`.
  * A part kept but never run costs what its code alone costs (registers): `bumpnever` nothing,
  * `wetimagenever` about half of `wetimage` (docs/3d-qa/tilt-cost). The replacements are in
  * patchFrameCost, which the page gets alone.
@@ -46,6 +47,7 @@ export type FrameCostMode =
   | 'trivial'
   | `trivial-${'with' | 'without'}-${string}`
   | `cut-${(typeof CUTS)[number]}`
+  | `cut-${(typeof CUTS)[number]}+${string}`
   | 'overdraw'
   | 'discard'
   | 'rolled'
@@ -168,10 +170,12 @@ export function patchFrameCost(mode: FrameCostMode) {
         );
       }
     } else if (fragment && mode.startsWith('cut-')) {
-      const [find, replace] = cuts[mode.slice('cut-'.length)];
-      if (source.includes(find)) {
-        w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
-        source = source.split(find).join(replace);
+      for (const part of mode.slice('cut-'.length).split('+')) {
+        const [find, replace] = cuts[part];
+        if (source.includes(find)) {
+          w.suiShadowSkips = (w.suiShadowSkips ?? 0) + 1;
+          source = source.split(find).join(replace);
+        }
       }
     } else if (fragment && mode.startsWith('noshadow-') && shadowedProgram(source)) {
       const light = mode.slice('noshadow-'.length);

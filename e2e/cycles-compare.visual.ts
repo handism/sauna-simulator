@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
+import { patchFrameCost, type FrameCostMode } from './frame-cost';
 import { rendererCaptureStyle } from './scene-capture';
 
 type Camera = { render: string; camera: string; lighting: string; position: number[]; target: number[]; fov: number };
@@ -18,12 +19,16 @@ const passes: Record<'sauna' | 'water' | 'totonou', Camera>[] = [
 ];
 
 test.use({ viewport: { width: 1200, height: 800 } });
+// CAPTURE_CUT captures with a part of the pool floor's shading skipped (frame-cost.ts), to weigh a
+// cut's image change against its cost.
+const CUT = process.env.CAPTURE_CUT as FrameCostMode | undefined;
 
 // Review artifacts for side-by-side comparison with blender/renders, not an equivalence test.
 test('capture the Cycles review cameras in the browser scene', async ({ page, browser }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   const samples: object[] = [];
+  if (CUT) await page.addInitScript(patchFrameCost, CUT);
   for (const views of passes) {
     await page.route('**/sauna.scene.json', async (route) => {
       const definition = await (await route.fetch()).json();
@@ -76,6 +81,10 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
       await page.getByRole('button', { name: next, exact: true }).click();
     }
     await page.unroute('**/sauna.scene.json');
+    if (CUT)
+      expect(
+        await page.evaluate(() => (window as unknown as { suiShadowSkips?: number }).suiShadowSkips ?? 0),
+      ).toBeGreaterThan(0);
   }
   expect(errors).toEqual([]);
   const hashes = Object.fromEntries(
@@ -107,6 +116,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
         reducedMotion: true,
         captureStyle: rendererCaptureStyle,
         stageOverlays: false,
+        cut: CUT ?? null,
         muted: true,
         cameraReference: reference.input_sha256,
         hashes,

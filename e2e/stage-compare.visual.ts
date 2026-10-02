@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { patchFrameCost, type FrameCostMode } from './frame-cost';
 import { rendererCaptureStyle } from './scene-capture';
 
 // The water stage's seated view turned as scene-survey.visual.ts turns it, without the stage's
@@ -10,10 +11,14 @@ const VIEWS = [
   [4, 'level'],
   [1, 'down'],
 ] as const;
+// CAPTURE_CUT captures with a part of the pool floor's shading skipped (frame-cost.ts), to weigh a
+// cut's image change against its cost.
+const CUT = process.env.CAPTURE_CUT as FrameCostMode | undefined;
 
 test('capture the water stage views rendered in Cycles', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  if (CUT) await page.addInitScript(patchFrameCost, CUT);
   await page.goto('?view=3d');
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
@@ -53,6 +58,13 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
       await press('ArrowLeft', 10 * heading);
     }
   }
+  if (CUT)
+    expect(
+      await page.evaluate(() => (window as unknown as { suiShadowSkips?: number }).suiShadowSkips ?? 0),
+    ).toBeGreaterThan(0);
   expect(errors).toEqual([]);
-  await info.attach('stage-compare', { contentType: 'application/json', body: JSON.stringify({ samples }, null, 2) });
+  await info.attach('stage-compare', {
+    contentType: 'application/json',
+    body: JSON.stringify({ cut: CUT ?? null, samples }, null, 2),
+  });
 });

@@ -1,0 +1,410 @@
+{
+ "comparisons": {},
+ "lightCosts": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "measure": "intervalMs",
+   "productMs": [
+    11.8,
+    11.88,
+    11.85,
+    11.78,
+    11.85,
+    11.85,
+    11.85,
+    11.86
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 0.12,
+    "cut-wetimage": 0.3,
+    "cut-wet": 0.51,
+    "cut-bottom": 0.31,
+    "cut-tilt+wetimage": 0.4
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     0.12,
+     0.13
+    ],
+    "cut-wetimage": [
+     0.31,
+     0.28
+    ],
+    "cut-wet": [
+     0.54,
+     0.47
+    ],
+    "cut-bottom": [
+     0.34,
+     0.27
+    ],
+    "cut-tilt+wetimage": [
+     0.38,
+     0.42
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "measure": "intervalMs",
+   "productMs": [
+    14.85,
+    14.97,
+    14.85,
+    14.91,
+    14.91,
+    14.91,
+    14.91,
+    14.93
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 0.14,
+    "cut-wetimage": 0.31,
+    "cut-wet": 0.42,
+    "cut-bottom": 0.24,
+    "cut-tilt+wetimage": 0.42
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     0.16,
+     0.12
+    ],
+    "cut-wetimage": [
+     0.33,
+     0.28
+    ],
+    "cut-wet": [
+     0.42,
+     0.43
+    ],
+    "cut-bottom": [
+     0.2,
+     0.27
+    ],
+    "cut-tilt+wetimage": [
+     0.4,
+     0.43
+    ]
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "night",
+   "measure": "intervalMs",
+   "productMs": [
+    15.67,
+    15.81,
+    15.81,
+    15.74,
+    15.74,
+    15.81,
+    15.81,
+    15.81
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 0.12,
+    "cut-wetimage": 0.31,
+    "cut-wet": 0.46,
+    "cut-bottom": 0.34,
+    "cut-tilt+wetimage": 0.43
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     0.06,
+     0.19
+    ],
+    "cut-wetimage": [
+     0.3,
+     0.32
+    ],
+    "cut-wet": [
+     0.49,
+     0.43
+    ],
+    "cut-bottom": [
+     0.37,
+     0.32
+    ],
+    "cut-tilt+wetimage": [
+     0.46,
+     0.41
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "measure": "intervalMs",
+   "productMs": [
+    15.14,
+    15.19,
+    15.2,
+    15.2,
+    15.26,
+    15.26,
+    15.2,
+    15.26
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 1.21,
+    "cut-wetimage": 1.02,
+    "cut-wet": 1.57,
+    "cut-bottom": 1.79,
+    "cut-tilt+wetimage": 2.04
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     1.15,
+     1.26
+    ],
+    "cut-wetimage": [
+     0.99,
+     1.06
+    ],
+    "cut-wet": [
+     1.55,
+     1.59
+    ],
+    "cut-bottom": [
+     1.73,
+     1.86
+    ],
+    "cut-tilt+wetimage": [
+     2.01,
+     2.07
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "measure": "intervalMs",
+   "productMs": [
+    18.11,
+    18.12,
+    18.19,
+    18.19,
+    18.19,
+    18.2,
+    18.27,
+    18.27
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 1.14,
+    "cut-wetimage": 1.02,
+    "cut-wet": 1.46,
+    "cut-bottom": 1.7,
+    "cut-tilt+wetimage": 1.93
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     1.03,
+     1.24
+    ],
+    "cut-wetimage": [
+     0.95,
+     1.1
+    ],
+    "cut-wet": [
+     1.48,
+     1.43
+    ],
+    "cut-bottom": [
+     1.7,
+     1.7
+    ],
+    "cut-tilt+wetimage": [
+     1.93,
+     1.93
+    ]
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "night",
+   "measure": "intervalMs",
+   "productMs": [
+    18.81,
+    18.79,
+    18.81,
+    18.79,
+    18.89,
+    18.87,
+    18.89,
+    18.81
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 1.08,
+    "cut-wetimage": 1.0,
+    "cut-wet": 1.44,
+    "cut-bottom": 1.71,
+    "cut-tilt+wetimage": 1.89
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     1.02,
+     1.14
+    ],
+    "cut-wetimage": [
+     0.93,
+     1.06
+    ],
+    "cut-wet": [
+     1.4,
+     1.48
+    ],
+    "cut-bottom": [
+     1.7,
+     1.71
+    ],
+    "cut-tilt+wetimage": [
+     1.85,
+     1.93
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "measure": "intervalMs",
+   "productMs": [
+    8.66,
+    8.66,
+    8.66,
+    8.62,
+    8.62,
+    8.66,
+    8.62,
+    8.62
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 0.04,
+    "cut-wetimage": 0.13,
+    "cut-wet": 0.2,
+    "cut-bottom": 0.07,
+    "cut-tilt+wetimage": 0.15
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     0.04,
+     0.04
+    ],
+    "cut-wetimage": [
+     0.15,
+     0.11
+    ],
+    "cut-wet": [
+     0.22,
+     0.17
+    ],
+    "cut-bottom": [
+     0.11,
+     0.02
+    ],
+    "cut-tilt+wetimage": [
+     0.13,
+     0.17
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "measure": "intervalMs",
+   "productMs": [
+    12.22,
+    12.19,
+    12.22,
+    12.14,
+    12.17,
+    12.22,
+    12.22,
+    12.14
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 0.05,
+    "cut-wetimage": 0.15,
+    "cut-wet": 0.21,
+    "cut-bottom": 0.06,
+    "cut-tilt+wetimage": 0.12
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     0.06,
+     0.04
+    ],
+    "cut-wetimage": [
+     0.13,
+     0.16
+    ],
+    "cut-wet": [
+     0.26,
+     0.15
+    ],
+    "cut-bottom": [
+     0.06,
+     0.05
+    ],
+    "cut-tilt+wetimage": [
+     0.11,
+     0.14
+    ]
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "night",
+   "measure": "intervalMs",
+   "productMs": [
+    12.93,
+    12.85,
+    12.93,
+    12.93,
+    12.88,
+    12.91,
+    12.93,
+    12.93
+   ],
+   "medianSavingMs": {
+    "cut-tilt": 0.01,
+    "cut-wetimage": 0.18,
+    "cut-wet": 0.19,
+    "cut-bottom": 0.01,
+    "cut-tilt+wetimage": 0.14
+   },
+   "sumOfSingleLights": 0,
+   "savingMs": {
+    "cut-tilt": [
+     -0.01,
+     0.03
+    ],
+    "cut-wetimage": [
+     0.18,
+     0.19
+    ],
+    "cut-wet": [
+     0.2,
+     0.18
+    ],
+    "cut-bottom": [
+     0.04,
+     -0.01
+    ],
+    "cut-tilt+wetimage": [
+     0.16,
+     0.12
+    ]
+   }
+  }
+ ]
+}
