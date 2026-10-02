@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   createDynamicResolution,
   HITCH_MS,
+  HOLD_MS,
   RAISE_AFTER_MAX_MS,
   RAISE_AFTER_MS,
   resolutionLevels,
@@ -27,6 +28,25 @@ function run(
   }
   return { changes, end: now };
 }
+
+// Drives frames whose interval follows the current pixel ratio; returns every change with its time.
+function drive(
+  controller: ReturnType<typeof createDynamicResolution>,
+  start: number,
+  duration: number,
+  interval: (ratio: number) => number,
+) {
+  const changes: [number, number][] = [];
+  for (let now = start; now < start + duration; now += interval(controller.pixelRatio)) {
+    const ratio = controller.frame(now);
+    if (ratio !== null) changes.push([now, ratio]);
+  }
+  return changes;
+}
+
+// Shading cost in proportion to the pixels (`ms` at ratio 1.5), shown at a display's refresh `hz`.
+const shading = (ms: number, hz: number) => (ratio: number) =>
+  Math.ceil((ms * (ratio / 1.5) ** 2) / (1000 / hz) - 1e-9) * (1000 / hz);
 
 // Slow frames until one step down; returns the next frame's time.
 function stepDown(controller: ReturnType<typeof createDynamicResolution>, start: number) {
@@ -57,7 +77,8 @@ describe('createDynamicResolution', () => {
 
   it('steps down while frames miss the budget, skipping the window after each switch', () => {
     const controller = createDynamicResolution(1.5);
-    const { changes } = run(controller, 0, 1000 / 40, 10_000, false);
+    // 30 ms at 1.5, 20.8 ms at 1.25 (faster but still slow), 13.3 ms at 1.
+    const changes = drive(controller, 0, 10_000, (ratio) => 30 * (ratio / 1.5) ** 2);
     expect(changes.map(([, ratio]) => ratio)).toEqual([1.25, 1]);
     // One window, then a discarded window and one more.
     expect(changes[0][0]).toBeGreaterThanOrEqual(WINDOW_MS);
@@ -126,5 +147,47 @@ describe('createDynamicResolution', () => {
     controller.settle();
     const again = run(controller, t, 1000 / 60, RAISE_AFTER_MS + 3 * WINDOW_MS);
     expect(again.changes.map(([, ratio]) => ratio)).toEqual([2]);
+  });
+
+  it('undoes a step down that does not make frames faster and holds the next, longer each time', () => {
+    // Animation frames held at 30 fps (a low power mode) or slow on the CPU: as slow at any ratio.
+    for (const interval of [1000 / 30, 25]) {
+      const controller = createDynamicResolution(1.5);
+      const changes = drive(controller, 0, 3 * HOLD_MS + 12 * WINDOW_MS, () => interval);
+      expect(changes.map(([, ratio]) => ratio)).toEqual([1.25, 1.5, 1.25, 1.5, 1.25, 1.5]);
+      for (const [undo, hold] of [
+        [1, HOLD_MS],
+        [3, 2 * HOLD_MS],
+      ]) {
+        const wait = changes[undo + 1][0] - changes[undo][0];
+        expect(wait).toBeGreaterThanOrEqual(hold);
+        expect(wait).toBeLessThan(hold + 3 * WINDOW_MS);
+      }
+    }
+  });
+
+  it('settle ends the hold', () => {
+    const controller = createDynamicResolution(1.5);
+    const changes = drive(controller, 0, 5 * WINDOW_MS, () => 1000 / 30);
+    const t = changes[changes.length - 1][0];
+    expect(controller.pixelRatio).toBe(1.5);
+    controller.settle();
+    expect(drive(controller, t, 3 * WINDOW_MS, () => 1000 / 30).map(([, ratio]) => ratio)).toEqual([1.25]);
+  });
+
+  it('keeps a step down that brings frames within the budget on a 120 Hz display', () => {
+    // 12 ms at 1.5 fits; 20 ms shows 25 ms frames and fits at 1.25 (13.9 ms).
+    let controller = createDynamicResolution(1.5);
+    expect(drive(controller, 0, 30_000, shading(12, 120))).toEqual([]);
+    controller = createDynamicResolution(1.5);
+    const changes = drive(controller, 0, 8_000, shading(20, 120));
+    expect(changes.map(([, ratio]) => ratio)).toEqual([1.25]);
+  });
+
+  it('keeps a step down that is faster though still slow, and undoes one the display interval hides', () => {
+    // At 60 Hz, 40 ms at 1.5 shows 50 ms frames; 27.8 ms at 1.25 shows 33.3 ms, and so does 17.8 ms at 1.
+    const controller = createDynamicResolution(1.5);
+    const changes = drive(controller, 0, 8_000, shading(40, 60));
+    expect(changes.map(([, ratio]) => ratio)).toEqual([1.25, 1, 1.25]);
   });
 });

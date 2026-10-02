@@ -1,9 +1,9 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
 // Sets a step of dynamic resolution (src/components/3d/dynamicResolution.ts) for captures on a
-// display of ratio 1.5 at the standard quality. Frames made slow on the CPU (a busy wait in every
-// animation frame, as dynamic-resolution.e2e.ts does) step the ratio down; a quality change returns
-// to the largest. The frames then get a held time: no window of the control loop ends, so the ratio
+// display of ratio 1.5 at the standard quality. Frames made slow in proportion to the canvas pixels
+// (a busy wait in every animation frame, as dynamic-resolution.e2e.ts does; a step down that does
+// not make frames faster is undone) step the ratio down; a quality change returns to the largest. The frames then get a held time: no window of the control loop ends, so the ratio
 // holds whatever the frames cost (a view may miss 60 fps at 1.5 on its own). With reduced motion
 // the water and the lighting are still, so the held time changes no image.
 
@@ -13,7 +13,11 @@ export function controlFrames() {
   const request = window.requestAnimationFrame.bind(window);
   window.requestAnimationFrame = (callback) =>
     request((time) => {
-      if (w.suiSlow) for (const end = performance.now() + 30; performance.now() < end;);
+      const canvas = document.querySelector<HTMLCanvasElement>('.sauna-3d-canvas canvas');
+      if (w.suiSlow && canvas) {
+        const ms = (30 * canvas.width * canvas.height) / (1800 * 1200);
+        for (const end = performance.now() + ms; performance.now() < end;);
+      }
       callback(w.suiHold ?? time);
     });
 }

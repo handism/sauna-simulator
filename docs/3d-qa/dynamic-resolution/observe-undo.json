@@ -1,0 +1,8 @@
+{
+  "note": "2026-10-02, after undoing steps down that do not help (hold 10 s doubling). Chrome headless, macOS (M1 Max), 1200x800, deviceScaleFactor 1.5, standard quality, motion not reduced, garden ready. before: data-pixel-ratio changes since page load (ms; the water stage was entered at about 3.0 s, the transition stepped down to 1.25). Then the lighting was set to evening at 6.07 s and to night 90 s later; changes in seconds from each, buckets: mean rAF interval per 5 s (ms). The 1.25 step taken in the transition was checked in the window of the evening ramp and undone (0.89 s), and the next step down came after the 10 s hold. An earlier run with a 60 s hold kept 1.5 at 23-26 ms frames for 61.7 s in the same sequence.",
+  "before": [[1647, "1.5"], [4877.3, "1.25"]],
+  "log": [
+    {"lighting": "evening", "changes": [[0.893, "1.5"], [11.138, "1.25"], [13.24, "1"], [24.341, "1.25"], [35.465, "1.5"], [37.597, "1.25"], [58.798, "1.5"], [60.916, "1.25"], [63.002, "1"]], "buckets": [26.14, 24.92, 19.25, 16.67, 16.67, 16.67, 16.67, 18.95, 16.67, 16.67, 16.67, 17.67, 18.53, 16.67, 16.67, 16.67, 16.67, 16.67]},
+    {"lighting": "night", "changes": [[14.393, "1.25"], [16.505, "1"]], "buckets": [16.67, 16.67, 16.78, 17.73, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67, 16.67]}
+  ]
+}

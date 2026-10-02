@@ -5,6 +5,12 @@
 // The display caps frames at its own interval, so frames within the budget cannot tell how much
 // room is left: a step up is a trial, and one that turns slow at once doubles the wait before the
 // next (backing off instead of switching back and forth; each switch reallocates the targets).
+//
+// Fewer pixels only help frames bound by the GPU's shading. Frames capped below 60 fps by the
+// browser (a low power or energy saver mode holds animation frames at 30 fps) or slow on the CPU
+// stay as slow: a step down that does not make them faster is undone, and steps down are held for
+// a while instead of sinking to the lowest ratio for nothing. The hold doubles with each step down
+// that did not help, so one misjudged by a change of the view during its windows costs little.
 
 /** 60 fps, whatever the display's rate. */
 export const BUDGET_MS = 1000 / 60;
@@ -22,6 +28,10 @@ export const RAISE_AFTER_MS = 10_000;
 export const RAISE_AFTER_MAX_MS = 160_000;
 /** A step up that turns slow within this long backs off. */
 export const PROBATION_MS = 4_000;
+/** A step down is kept when the next window's mean is within GOOD_MS or below this share of the slow one's. */
+export const HELPED_SHARE = 0.9;
+/** How long steps down are held after the first that did not help (doubling after each, to RAISE_AFTER_MAX_MS). */
+export const HOLD_MS = 10_000;
 
 /** The pixel ratios from `max` down by STEP to MIN_SHARE of it (at least 1). */
 export function resolutionLevels(max: number) {
@@ -42,6 +52,10 @@ export function createDynamicResolution(max: number) {
   let goodSince = -1;
   let raiseAfter = RAISE_AFTER_MS;
   let raisedAt = -1;
+  // The slow window's mean before the latest step down, until the next window shows whether it helped.
+  let downFrom = -1;
+  let heldUntil = -1;
+  let holdFor = HOLD_MS;
   const restart = () => {
     windowStart = last = -1;
     frames = 0;
@@ -63,14 +77,16 @@ export function createDynamicResolution(max: number) {
       levels = resolutionLevels(nextMax);
       level = 0;
       raiseAfter = RAISE_AFTER_MS;
-      goodSince = raisedAt = -1;
+      holdFor = HOLD_MS;
+      goodSince = raisedAt = downFrom = heldUntil = -1;
       discard = false;
       restart();
     },
     /** The view changed (another stage, another cost): measure afresh and try a step up sooner. */
     settle() {
       raiseAfter = RAISE_AFTER_MS;
-      goodSince = raisedAt = -1;
+      holdFor = HOLD_MS;
+      goodSince = raisedAt = downFrom = heldUntil = -1;
       restart();
     },
     /** Each drawn frame's time (requestAnimationFrame's); the new pixel ratio when it changes. */
@@ -90,11 +106,22 @@ export function createDynamicResolution(max: number) {
         discard = false;
         return null;
       }
+      if (downFrom >= 0) {
+        const helped = mean <= GOOD_MS || mean < downFrom * HELPED_SHARE;
+        downFrom = -1;
+        if (!helped) {
+          heldUntil = now + holdFor;
+          holdFor = Math.min(holdFor * 2, RAISE_AFTER_MAX_MS);
+          return change(level - 1, -1);
+        }
+      }
       if (mean > SLOW_MS) {
         goodSince = -1;
         if (raisedAt >= 0 && now - raisedAt < PROBATION_MS) raiseAfter = Math.min(raiseAfter * 2, RAISE_AFTER_MAX_MS);
         raisedAt = -1;
-        return level < levels.length - 1 ? change(level + 1, -1) : null;
+        if (level === levels.length - 1 || now < heldUntil) return null;
+        downFrom = mean;
+        return change(level + 1, -1);
       }
       if (mean > GOOD_MS) {
         goodSince = -1;
