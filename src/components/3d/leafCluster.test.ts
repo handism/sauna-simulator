@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import {
+  ALPHA_TEST,
   LEAF_CLUSTER_SIZE,
+  LEAF_COVERAGE_GLSL,
+  LEAF_FAR_RAMP,
   applyLeafCluster,
   createLeafClusterTexture,
   leafClusterCoverage,
@@ -70,5 +73,29 @@ describe('woodland leaf cluster cards', () => {
     expect(material).toMatchObject({ alphaMap: texture, alphaTest: 0.5, alphaToCoverage: true, transparent: false });
     expect(material.version).toBeGreaterThan(version);
     texture.dispose();
+  });
+
+  it('replaces the alpha test with the coverage that widens its ramp for distant cards', () => {
+    const material = new THREE.MeshStandardMaterial();
+    const calls: string[] = [];
+    material.onBeforeCompile = () => void calls.push('earlier');
+    material.customProgramCacheKey = () => 'earlier';
+    applyLeafCluster(material, new THREE.Texture());
+    const shader = {
+      vertexShader: THREE.ShaderLib.standard.vertexShader,
+      fragmentShader: THREE.ShaderLib.standard.fragmentShader,
+    } as THREE.WebGLProgramParametersWithUniforms;
+    material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    expect(calls).toEqual(['earlier']);
+    expect(shader.fragmentShader).not.toContain(ALPHA_TEST);
+    expect(shader.fragmentShader).toContain('diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );');
+    // Defined before main, centred on the cutoff, widened to LEAF_FAR_RAMP past two texels per pixel.
+    expect(shader.fragmentShader.indexOf(LEAF_COVERAGE_GLSL)).toBeLessThan(
+      shader.fragmentShader.indexOf('void main() {'),
+    );
+    expect(LEAF_COVERAGE_GLSL).toContain('0.20 * smoothstep( 1.0, 2.0, footprint )');
+    expect(LEAF_COVERAGE_GLSL).toContain('smoothstep( 0.5 - ramp, 0.5 + ramp, alpha )');
+    expect(LEAF_FAR_RAMP).toBe(0.2);
+    expect(material.customProgramCacheKey()).toBe('earlier|leaf-cluster');
   });
 });

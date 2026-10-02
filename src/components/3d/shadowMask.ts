@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import './softShadows';
 import { cutoutOf, PREPASS_LAYER, takesPrepassDepth } from './depthPrepass';
+import { LEAF_COVERAGE_GLSL } from './leafCluster';
 import { mayDiscardGlsl } from './refraction';
 
 // The dusk and night frames spend about 75–85% of their GPU time in the PCSS shadows, in
@@ -81,9 +82,9 @@ varying vec3 vViewPosition;
 varying vec3 vSuiNormal;
 #ifdef SUI_CUTOUT
 uniform sampler2D suiAlphaMap;
-uniform float suiAlphaTest;
 uniform float suiOpacity;
 varying vec2 vSuiAlphaMapUv;
+${LEAF_COVERAGE_GLSL}
 #endif
 void main() {
 	vec3 geometryPosition = - vViewPosition;
@@ -256,8 +257,8 @@ function maskMaterial(side: THREE.Side, level?: string, waterBottom = false, cut
   // Cut-out materials are not refracted (cutoutOf).
   // The true world position, which the vertex stage keeps in vViewPosition.
   const discard = cutout
-    ? // Where the lit pass keeps the leaves (alphatest_fragment, with or without alpha to coverage).
-      'if ( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv ).g < suiAlphaTest ) discard;'
+    ? // Where the lit pass keeps the leaves (leafCluster.ts).
+      'if ( suiLeafCoverage( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv ).g, vSuiAlphaMapUv ) == 0.0 ) discard;'
     : level === undefined
       ? ''
       : `vec3 suiTrue = ( ( vec4( geometryPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
@@ -267,7 +268,6 @@ function maskMaterial(side: THREE.Side, level?: string, waterBottom = false, cut
     // The texture's own matrix, which three updates for the lit pass.
     uniforms.suiAlphaMap = { value: cutout.alphaMap };
     uniforms.suiAlphaMapTransform = { value: cutout.alphaMap!.matrix };
-    uniforms.suiAlphaTest = { value: cutout.alphaTest };
     uniforms.suiOpacity = { value: cutout.opacity };
   }
   return new THREE.ShaderMaterial({

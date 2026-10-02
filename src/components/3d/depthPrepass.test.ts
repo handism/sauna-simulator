@@ -116,7 +116,9 @@ describe('depth prepass', () => {
       material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       return shader.fragmentShader;
     };
-    expect(compile(covered)).toContain('if ( diffuseColor.a < alphaTest + fwidth( diffuseColor.a ) ) discard;');
+    // Depth only where the lit pass's coverage reaches every sample.
+    expect(compile(covered)).toContain('if ( suiLeafCoverage( diffuseColor.a, vAlphaMapUv ) < 1.0 ) discard;');
+    expect(compile(covered)).toContain('float suiLeafCoverage(');
     expect(compile(cut)).toContain('#include <alphatest_fragment>');
     expect(covered.customProgramCacheKey()).not.toBe(cut.customProgramCacheKey());
     // Each material keeps its copy.

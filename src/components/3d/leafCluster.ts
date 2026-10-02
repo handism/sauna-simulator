@@ -118,11 +118,45 @@ export function createLeafClusterTexture(cluster: LeafCluster): THREE.DataTextur
   return texture;
 }
 
-// alphaMap reads the green channel with the card UVs. Alpha to coverage softens the
-// cutout edges under MSAA; shadow depth falls back to a fixed 0.5 cutoff.
+/** The half width of the cutoff's ramp once a pixel spans two texels (`suiLeafCoverage`). */
+export const LEAF_FAR_RAMP = 0.2;
+
+// The share of the MSAA samples a card covers, from the alpha map's (rescaled) coverage. Up close,
+// the cutoff softened over a pixel, as three's alphatest_fragment does for alpha to coverage. Once
+// a pixel spans more than a texel, the leaves are under a pixel and that ramp turned whole pixels
+// on and off as the view moved (docs/3d-qa/leaf-shimmer); a wider ramp, centred on the cutoff,
+// fades them over part of the samples instead. The mean coverage itself would thin the crowns:
+// overlapping cards with the same alpha cover the same samples.
+export const LEAF_COVERAGE_GLSL = /* glsl */ `
+float suiLeafCoverage( float alpha, vec2 uv ) {
+	vec2 texels = uv * ${LEAF_CLUSTER_SIZE.toFixed(1)};
+	float footprint = max( length( dFdx( texels ) ), length( dFdy( texels ) ) );
+	float ramp = max( fwidth( alpha ), ${LEAF_FAR_RAMP.toFixed(2)} * smoothstep( 1.0, 2.0, footprint ) );
+	return smoothstep( ${CUTOFF.toFixed(1)} - ramp, ${CUTOFF.toFixed(1)} + ramp, alpha );
+}
+`;
+
+export const ALPHA_TEST = '#include <alphatest_fragment>';
+
+// alphaMap reads the green channel with the card UVs; the shadow maps cut it at a fixed 0.5.
+// Composes with an earlier onBeforeCompile.
 export function applyLeafCluster(material: THREE.MeshStandardMaterial, texture: THREE.Texture) {
   material.alphaMap = texture;
   material.alphaTest = CUTOFF;
   material.alphaToCoverage = true;
+  const previous = material.onBeforeCompile;
+  const previousKey = material.customProgramCacheKey;
+  material.onBeforeCompile = (shader, renderer) => {
+    previous.call(material, shader, renderer);
+    if (!shader.fragmentShader.includes(ALPHA_TEST))
+      throw new Error('three shader chunks changed; update leafCluster.ts');
+    shader.fragmentShader = shader.fragmentShader
+      .replace('void main() {', `${LEAF_COVERAGE_GLSL}\nvoid main() {`)
+      .replace(
+        ALPHA_TEST,
+        'diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );\n\tif ( diffuseColor.a == 0.0 ) discard;',
+      );
+  };
+  material.customProgramCacheKey = () => `${previousKey.call(material)}|leaf-cluster`;
   material.needsUpdate = true;
 }

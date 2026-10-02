@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ALPHA_TEST, LEAF_COVERAGE_GLSL } from './leafCluster';
 import { refractedDepthMaterial } from './refraction';
 
 // Almost all of a frame's GPU time is fragment shading (every light, PCSS shadows, probes), and
@@ -42,8 +43,8 @@ export function cutoutOf(material: THREE.Material) {
 }
 
 // The copy of a cut-out material: depth where the lit pass's alpha to coverage covers every sample
-// (alpha at least alphaTest + fwidth, alphatest_fragment's smoothstep at 1). Without alpha to
-// coverage, wherever the lit pass draws.
+// (the woodland cards' suiLeafCoverage at 1, leafCluster.ts). Without alpha to coverage, wherever
+// the lit pass draws.
 function cutoutDepthMaterial(material: THREE.MeshStandardMaterial, alphaMap: THREE.Texture) {
   const copy = depthMaterial(material.side);
   copy.alphaMap = alphaMap;
@@ -51,13 +52,12 @@ function cutoutDepthMaterial(material: THREE.MeshStandardMaterial, alphaMap: THR
   copy.opacity = material.opacity;
   const covered = material.alphaToCoverage;
   copy.onBeforeCompile = (shader) => {
-    const TEST = '#include <alphatest_fragment>';
-    if (!shader.fragmentShader.includes(TEST)) throw new Error('three shader chunks changed; update depthPrepass.ts');
+    if (!shader.fragmentShader.includes(ALPHA_TEST))
+      throw new Error('three shader chunks changed; update depthPrepass.ts');
     if (covered)
-      shader.fragmentShader = shader.fragmentShader.replace(
-        TEST,
-        'if ( diffuseColor.a < alphaTest + fwidth( diffuseColor.a ) ) discard;',
-      );
+      shader.fragmentShader = shader.fragmentShader
+        .replace('void main() {', `${LEAF_COVERAGE_GLSL}\nvoid main() {`)
+        .replace(ALPHA_TEST, 'if ( suiLeafCoverage( diffuseColor.a, vAlphaMapUv ) < 1.0 ) discard;');
   };
   copy.customProgramCacheKey = () => `sui-cutout-depth|${covered}`;
   return copy;

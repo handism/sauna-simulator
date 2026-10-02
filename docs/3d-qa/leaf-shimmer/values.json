@@ -1,0 +1,710 @@
+{
+ "note": "Ratio 1.5 captures of e2e/resolution-shimmer.visual.ts (tile = mean |L* residual| over 12x12 tiles, mean over the 12 pairs). groups: one material group hidden at a time (temporary build). candidates: card coverage variants from one temporary build; cardShimmerKept = (variant - no cards) / (base - no cards); crownLShiftTowardNoCards = mean L* change over the pixels where the cards show (|base - no cards| > 2), as a share of the change to no cards. final: the adopted build at every step (summarize_resolution_shimmer.py). frameCost: e2e/frame-cost.gpu.ts product, standard, DPR 1.5, repeat 2, HEAD worktree alternating, mean frame interval / repeat.",
+ "materials": {
+  "cards": "V6 woodland leaf N card",
+  "forest": "Forest leaf tone N",
+  "maple": "maple",
+  "main": "Evergreen foliage, V5 forest leaf N, V6 woodland leaf N",
+  "fern": "fern",
+  "all": "all of the above"
+ },
+ "groups": {
+  "sauna-day": {
+   "base": 0.1322,
+   "cards": 0.0686,
+   "forest": 0.1331,
+   "maple": 0.1329,
+   "main": 0.1318,
+   "fern": 0.1304,
+   "all": 0.0619
+  },
+  "sauna-evening": {
+   "base": 0.1049,
+   "cards": 0.0457,
+   "forest": 0.1059,
+   "maple": 0.1062,
+   "main": 0.1048,
+   "fern": 0.1043,
+   "all": 0.0417
+  },
+  "water-day": {
+   "base": 0.1618,
+   "cards": 0.086,
+   "forest": 0.1618,
+   "maple": 0.1612,
+   "main": 0.1618,
+   "fern": 0.1618,
+   "all": 0.0778
+  },
+  "water-evening": {
+   "base": 0.1508,
+   "cards": 0.0767,
+   "forest": 0.1508,
+   "maple": 0.1497,
+   "main": 0.1508,
+   "fern": 0.1508,
+   "all": 0.0682
+  },
+  "totonou-day": {
+   "base": 0.1772,
+   "cards": 0.0876,
+   "forest": 0.1772,
+   "maple": 0.1748,
+   "main": 0.1765,
+   "fern": 0.1716,
+   "all": 0.0708
+  },
+  "totonou-evening": {
+   "base": 0.147,
+   "cards": 0.0618,
+   "forest": 0.147,
+   "maple": 0.1454,
+   "main": 0.1468,
+   "fern": 0.1456,
+   "all": 0.0508
+  }
+ },
+ "candidates": {
+  "tiles": {
+   "sauna-day": {
+    "base": 0.1322,
+    "cards": 0.0686,
+    "all": 0.0619,
+    "proto": 0.0891,
+    "w10": 0.1075,
+    "w20": 0.1022,
+    "w35": 0.0963,
+    "w50": 0.0923,
+    "a8": 0.1347,
+    "a4w20": 0.1109,
+    "a8w20": 0.1114
+   },
+   "sauna-evening": {
+    "base": 0.1049,
+    "cards": 0.0457,
+    "all": 0.0417,
+    "proto": 0.0644,
+    "w10": 0.0798,
+    "w20": 0.0751,
+    "w35": 0.07,
+    "w50": 0.0669,
+    "a8": 0.1081,
+    "a4w20": 0.0834,
+    "a8w20": 0.084
+   },
+   "water-day": {
+    "base": 0.1618,
+    "cards": 0.086,
+    "all": 0.0778,
+    "proto": 0.1114,
+    "w10": 0.1395,
+    "w20": 0.1307,
+    "w35": 0.1237,
+    "w50": 0.117,
+    "a8": 0.1701,
+    "a4w20": 0.1469,
+    "a8w20": 0.147
+   },
+   "water-evening": {
+    "base": 0.1508,
+    "cards": 0.0767,
+    "all": 0.0682,
+    "proto": 0.102,
+    "w10": 0.1268,
+    "w20": 0.1183,
+    "w35": 0.1123,
+    "w50": 0.107,
+    "a8": 0.1576,
+    "a4w20": 0.134,
+    "a8w20": 0.134
+   },
+   "totonou-day": {
+    "base": 0.1772,
+    "cards": 0.0876,
+    "all": 0.0708,
+    "proto": 0.1208,
+    "w10": 0.1531,
+    "w20": 0.1436,
+    "w35": 0.1339,
+    "w50": 0.1269,
+    "a8": 0.1824,
+    "a4w20": 0.1593,
+    "a8w20": 0.1604
+   },
+   "totonou-evening": {
+    "base": 0.147,
+    "cards": 0.0618,
+    "all": 0.0508,
+    "proto": 0.0932,
+    "w10": 0.1217,
+    "w20": 0.113,
+    "w35": 0.1043,
+    "w50": 0.0988,
+    "a8": 0.1511,
+    "a4w20": 0.1279,
+    "a8w20": 0.129
+   }
+  },
+  "summary": {
+   "all": {
+    "label": "all of the above",
+    "cardShimmerKept": {
+     "mean": -0.12,
+     "min": -0.19,
+     "max": -0.07
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": 1.022,
+     "min": 1.011,
+     "max": 1.03
+    },
+    "crownMeanAbsDeltaL": 26.37
+   },
+   "proto": {
+    "label": "mean coverage, no cutoff",
+    "cardShimmerKept": {
+     "mean": 0.34,
+     "min": 0.32,
+     "max": 0.37
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": 0.47,
+     "min": 0.306,
+     "max": 0.598
+    },
+    "crownMeanAbsDeltaL": 15.0
+   },
+   "w10": {
+    "label": "ramp 0.1",
+    "cardShimmerKept": {
+     "mean": 0.67,
+     "min": 0.58,
+     "max": 0.73
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": -0.117,
+     "min": -0.143,
+     "max": -0.077
+    },
+    "crownMeanAbsDeltaL": 7.53
+   },
+   "w20": {
+    "label": "ramp 0.2 (adopted)",
+    "cardShimmerKept": {
+     "mean": 0.57,
+     "min": 0.5,
+     "max": 0.63
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": -0.01,
+     "min": -0.075,
+     "max": 0.054
+    },
+    "crownMeanAbsDeltaL": 8.43
+   },
+   "w35": {
+    "label": "ramp 0.35",
+    "cardShimmerKept": {
+     "mean": 0.47,
+     "min": 0.41,
+     "max": 0.52
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": 0.178,
+     "min": 0.062,
+     "max": 0.276
+    },
+    "crownMeanAbsDeltaL": 10.57
+   },
+   "w50": {
+    "label": "ramp 0.5",
+    "cardShimmerKept": {
+     "mean": 0.4,
+     "min": 0.36,
+     "max": 0.44
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": 0.337,
+     "min": 0.195,
+     "max": 0.45
+    },
+    "crownMeanAbsDeltaL": 12.79
+   },
+   "a8": {
+    "label": "anisotropy 8",
+    "cardShimmerKept": {
+     "mean": 1.07,
+     "min": 1.04,
+     "max": 1.11
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": 0.318,
+     "min": 0.197,
+     "max": 0.418
+    },
+    "crownMeanAbsDeltaL": 13.7
+   },
+   "a4w20": {
+    "label": "anisotropy 4 + ramp 0.2",
+    "cardShimmerKept": {
+     "mean": 0.74,
+     "min": 0.64,
+     "max": 0.8
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": 0.067,
+     "min": -0.028,
+     "max": 0.149
+    },
+    "crownMeanAbsDeltaL": 11.8
+   },
+   "a8w20": {
+    "label": "anisotropy 8 + ramp 0.2",
+    "cardShimmerKept": {
+     "mean": 0.75,
+     "min": 0.65,
+     "max": 0.81
+    },
+    "crownLShiftTowardNoCards": {
+     "mean": 0.072,
+     "min": -0.022,
+     "max": 0.157
+    },
+    "crownMeanAbsDeltaL": 12.15
+   }
+  }
+ },
+ "final": {
+  "note": "L* residual after warping frame k onto frame k+1 by the known rotation (0.004 rad of yaw per frame), mean over the pairs of a sequence. tile: |mean| over 12x12 capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, twice). relativeTo1_5: per view, the ratio to the 1.5 sequence.",
+  "relativeTo1_5": {
+   "1.25": {
+    "pixel": {
+     "min": 0.7548,
+     "median": 0.78705,
+     "max": 0.8226
+    },
+    "tile": {
+     "min": 1.1775,
+     "median": 1.2502499999999999,
+     "max": 1.2805
+    },
+    "tileP99": {
+     "min": 1.1613,
+     "median": 1.2001,
+     "max": 1.2479
+    }
+   },
+   "1": {
+    "pixel": {
+     "min": 0.8295,
+     "median": 0.8419,
+     "max": 0.8838
+    },
+    "tile": {
+     "min": 1.5685,
+     "median": 1.58345,
+     "max": 1.6045
+    },
+    "tileP99": {
+     "min": 1.4632,
+     "median": 1.56735,
+     "max": 1.5807
+    }
+   }
+  },
+  "sequences": [
+   {
+    "stage": "sauna",
+    "lighting": "day",
+    "ratio": 1.5,
+    "pitch": -0.2302,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 4.1803,
+    "firstPairWrongSignPixel": 5.6254,
+    "pixel": 0.8655,
+    "tile": 0.1022,
+    "tileP99": 1.1926,
+    "tripPixel": 0.3704,
+    "tripTile": 0.0098
+   },
+   {
+    "stage": "sauna",
+    "lighting": "day",
+    "ratio": 1.25,
+    "pitch": -0.2302,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.7083,
+    "firstPairWrongSignPixel": 5.1609,
+    "pixel": 0.6868,
+    "tile": 0.1273,
+    "tileP99": 1.4162,
+    "tripPixel": 0.1485,
+    "tripTile": 0.0075
+   },
+   {
+    "stage": "sauna",
+    "lighting": "day",
+    "ratio": 1,
+    "pitch": -0.2302,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.5121,
+    "firstPairWrongSignPixel": 4.9843,
+    "pixel": 0.7305,
+    "tile": 0.1613,
+    "tileP99": 1.745,
+    "tripPixel": 0.0989,
+    "tripTile": 0.0048
+   },
+   {
+    "stage": "sauna",
+    "lighting": "evening",
+    "ratio": 1.5,
+    "pitch": -0.2302,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.6985,
+    "firstPairWrongSignPixel": 5.0057,
+    "pixel": 0.7038,
+    "tile": 0.0751,
+    "tileP99": 1.0918,
+    "tripPixel": 0.3232,
+    "tripTile": 0.008
+   },
+   {
+    "stage": "sauna",
+    "lighting": "evening",
+    "ratio": 1.25,
+    "pitch": -0.2302,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.3067,
+    "firstPairWrongSignPixel": 4.621,
+    "pixel": 0.5494,
+    "tile": 0.0958,
+    "tileP99": 1.324,
+    "tripPixel": 0.1302,
+    "tripTile": 0.0063
+   },
+   {
+    "stage": "sauna",
+    "lighting": "evening",
+    "ratio": 1,
+    "pitch": -0.2302,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.1414,
+    "firstPairWrongSignPixel": 4.4776,
+    "pixel": 0.5838,
+    "tile": 0.1205,
+    "tileP99": 1.6081,
+    "tripPixel": 0.0882,
+    "tripTile": 0.0041
+   },
+   {
+    "stage": "totonou",
+    "lighting": "day",
+    "ratio": 1.5,
+    "pitch": 0.1004,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 4.8014,
+    "firstPairWrongSignPixel": 6.4908,
+    "pixel": 1.0899,
+    "tile": 0.1436,
+    "tileP99": 1.6443,
+    "tripPixel": 0.4392,
+    "tripTile": 0.0116
+   },
+   {
+    "stage": "totonou",
+    "lighting": "day",
+    "ratio": 1.25,
+    "pitch": 0.1004,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 4.1495,
+    "firstPairWrongSignPixel": 5.8507,
+    "pixel": 0.8965,
+    "tile": 0.1802,
+    "tileP99": 2.0519,
+    "tripPixel": 0.1685,
+    "tripTile": 0.0087
+   },
+   {
+    "stage": "totonou",
+    "lighting": "day",
+    "ratio": 1,
+    "pitch": 0.1004,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.8684,
+    "firstPairWrongSignPixel": 5.5844,
+    "pixel": 0.9632,
+    "tile": 0.2274,
+    "tileP99": 2.5938,
+    "tripPixel": 0.1118,
+    "tripTile": 0.0055
+   },
+   {
+    "stage": "totonou",
+    "lighting": "evening",
+    "ratio": 1.5,
+    "pitch": 0.1004,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.9635,
+    "firstPairWrongSignPixel": 5.3483,
+    "pixel": 0.9058,
+    "tile": 0.113,
+    "tileP99": 1.5509,
+    "tripPixel": 0.3795,
+    "tripTile": 0.0096
+   },
+   {
+    "stage": "totonou",
+    "lighting": "evening",
+    "ratio": 1.25,
+    "pitch": 0.1004,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.4466,
+    "firstPairWrongSignPixel": 4.8324,
+    "pixel": 0.7436,
+    "tile": 0.1447,
+    "tileP99": 1.9264,
+    "tripPixel": 0.1458,
+    "tripTile": 0.0073
+   },
+   {
+    "stage": "totonou",
+    "lighting": "evening",
+    "ratio": 1,
+    "pitch": 0.1004,
+    "fov": 65,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.2269,
+    "firstPairWrongSignPixel": 4.6278,
+    "pixel": 0.7996,
+    "tile": 0.1803,
+    "tileP99": 2.4177,
+    "tripPixel": 0.0969,
+    "tripTile": 0.0047
+   },
+   {
+    "stage": "water",
+    "lighting": "day",
+    "ratio": 1.5,
+    "pitch": 0.0371,
+    "fov": 68,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.6674,
+    "firstPairWrongSignPixel": 5.042,
+    "pixel": 0.9246,
+    "tile": 0.1307,
+    "tileP99": 1.6377,
+    "tripPixel": 0.3883,
+    "tripTile": 0.0105
+   },
+   {
+    "stage": "water",
+    "lighting": "day",
+    "ratio": 1.25,
+    "pitch": 0.0371,
+    "fov": 68,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.1644,
+    "firstPairWrongSignPixel": 4.5252,
+    "pixel": 0.6979,
+    "tile": 0.1539,
+    "tileP99": 1.9018,
+    "tripPixel": 0.1483,
+    "tripTile": 0.0077
+   },
+   {
+    "stage": "water",
+    "lighting": "day",
+    "ratio": 1,
+    "pitch": 0.0371,
+    "fov": 68,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 2.9519,
+    "firstPairWrongSignPixel": 4.3155,
+    "pixel": 0.7759,
+    "tile": 0.205,
+    "tileP99": 2.5887,
+    "tripPixel": 0.0977,
+    "tripTile": 0.0048
+   },
+   {
+    "stage": "water",
+    "lighting": "evening",
+    "ratio": 1.5,
+    "pitch": 0.0371,
+    "fov": 68,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.5205,
+    "firstPairWrongSignPixel": 4.9277,
+    "pixel": 0.8593,
+    "tile": 0.1183,
+    "tileP99": 1.5441,
+    "tripPixel": 0.3678,
+    "tripTile": 0.0099
+   },
+   {
+    "stage": "water",
+    "lighting": "evening",
+    "ratio": 1.25,
+    "pitch": 0.0371,
+    "fov": 68,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 3.0883,
+    "firstPairWrongSignPixel": 4.4828,
+    "pixel": 0.6487,
+    "tile": 0.1395,
+    "tileP99": 1.8041,
+    "tripPixel": 0.1415,
+    "tripTile": 0.0074
+   },
+   {
+    "stage": "water",
+    "lighting": "evening",
+    "ratio": 1,
+    "pitch": 0.0371,
+    "fov": 68,
+    "frames": 13,
+    "firstPairUnwarpedPixel": 2.8956,
+    "firstPairWrongSignPixel": 4.2941,
+    "pixel": 0.7216,
+    "tile": 0.1873,
+    "tileP99": 2.4332,
+    "tripPixel": 0.0947,
+    "tripTile": 0.0047
+   }
+  ]
+ },
+ "frameCost": {
+  "browser": "154.0.8037.97",
+  "views": [
+   {
+    "stage": "sauna",
+    "lighting": "day",
+    "beforeIntervalMs": [
+     11.8,
+     11.74
+    ],
+    "afterIntervalMs": [
+     11.9,
+     11.88
+    ],
+    "medianIntervalRatio": 1.01
+   },
+   {
+    "stage": "sauna",
+    "lighting": "evening",
+    "beforeIntervalMs": [
+     14.86,
+     14.8
+    ],
+    "afterIntervalMs": [
+     15.09,
+     15.09
+    ],
+    "medianIntervalRatio": 1.018
+   },
+   {
+    "stage": "sauna",
+    "lighting": "night",
+    "beforeIntervalMs": [
+     15.68,
+     15.62
+    ],
+    "afterIntervalMs": [
+     15.93,
+     15.87
+    ],
+    "medianIntervalRatio": 1.016
+   },
+   {
+    "stage": "water",
+    "lighting": "day",
+    "beforeIntervalMs": [
+     15.14,
+     15.15
+    ],
+    "afterIntervalMs": [
+     15.26,
+     15.2
+    ],
+    "medianIntervalRatio": 1.006
+   },
+   {
+    "stage": "water",
+    "lighting": "evening",
+    "beforeIntervalMs": [
+     18.19,
+     18.11
+    ],
+    "afterIntervalMs": [
+     18.36,
+     18.36
+    ],
+    "medianIntervalRatio": 1.012
+   },
+   {
+    "stage": "water",
+    "lighting": "night",
+    "beforeIntervalMs": [
+     18.79,
+     18.69
+    ],
+    "afterIntervalMs": [
+     19.07,
+     19.05
+    ],
+    "medianIntervalRatio": 1.017
+   },
+   {
+    "stage": "totonou",
+    "lighting": "day",
+    "beforeIntervalMs": [
+     8.59,
+     8.58
+    ],
+    "afterIntervalMs": [
+     8.93,
+     8.93
+    ],
+    "medianIntervalRatio": 1.04
+   },
+   {
+    "stage": "totonou",
+    "lighting": "evening",
+    "beforeIntervalMs": [
+     12.12,
+     12.14
+    ],
+    "afterIntervalMs": [
+     12.4,
+     12.42
+    ],
+    "medianIntervalRatio": 1.023
+   },
+   {
+    "stage": "totonou",
+    "lighting": "night",
+    "beforeIntervalMs": [
+     12.77,
+     12.8
+    ],
+    "afterIntervalMs": [
+     13.19,
+     13.16
+    ],
+    "medianIntervalRatio": 1.031
+   }
+  ]
+ }
+}
