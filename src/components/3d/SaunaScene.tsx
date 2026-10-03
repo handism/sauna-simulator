@@ -9,11 +9,13 @@ import { QUALITY, type QualityMode } from './quality';
 import './agx';
 import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
-import { createWaterEffects, type WaterDefinition } from './waterEffects';
-import { updateSteamPositions } from './steam';
+import { createWaterEffects } from './waterEffects';
+import { createSteam } from './steam';
+import { createFrameMetrics } from './frameMetrics';
+import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
 import { attachLookControls } from './lookControls';
 import { disposeTree, prepareModel } from './modelMaterials';
-import { applyIrradiance, createProbeTextures, type IrradianceHeader } from './irradiance';
+import { applyIrradiance, createProbeTextures } from './irradiance';
 import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
@@ -24,12 +26,6 @@ import { createDepthPrepass } from './depthPrepass';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
 import { createShadowMask } from './shadowMask';
 import { createDynamicResolution } from './dynamicResolution';
-
-interface SceneDefinition {
-  views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
-  stove: number[];
-  water: WaterDefinition;
-}
 
 export interface SceneProps {
   audio: AudioEngine;
@@ -105,7 +101,6 @@ export default function SaunaScene({
     let disposed = false;
     let failed = false;
     let ready = false;
-    let steamStarted = -Infinity;
     const abort = new AbortController();
     const fail = () => {
       if (disposed || failed) return;
@@ -142,45 +137,25 @@ export default function SaunaScene({
     const mirrorState = [0, 0, 0];
     let gardenAdded = 0;
     let qualityIndex = 0;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(90 * 3);
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const puff = document.createElement('canvas');
-    puff.width = puff.height = 64;
-    const ctx = puff.getContext('2d')!;
-    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    gradient.addColorStop(0, '#ffffff');
-    gradient.addColorStop(1, '#ffffff00');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 64, 64);
-    const puffTexture = new THREE.CanvasTexture(puff);
-    const material = new THREE.PointsMaterial({
-      color: '#eff4f5',
-      size: 0.45,
-      map: puffTexture,
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-    });
-    const steam = new THREE.Points(geometry, material);
+    const steam = createSteam();
     // Only the main camera sees the steam: it rises by the stove inside the room, out of the water's
     // mirror, which would otherwise redraw every frame of a löyly (planarReflection.ts).
-    steam.layers.set(STEAM_LAYER);
+    steam.points.layers.set(STEAM_LAYER);
     camera.layers.enable(STEAM_LAYER);
-    scene.add(steam);
+    scene.add(steam.points);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onLoyly = () => {
-      if (ready && stageRef.current === 'sauna') steamStarted = performance.now();
+      if (ready && stageRef.current === 'sauna') steam.start(performance.now());
     };
     loylyEvents.addEventListener('loyly', onLoyly);
-    let resetMetrics = () => {};
+    const metrics = createFrameMetrics(element);
     // The pixel ratio steps down from the quality's while frames miss 60 fps (dynamicResolution.ts);
     // ?resolution=fixed keeps the quality's, for frame cost measurements at a set ratio.
-    const resolution =
-      new URLSearchParams(window.location.search).get('resolution') === 'fixed' ? null : createDynamicResolution(1);
+    const query = new URLSearchParams(window.location.search);
+    const resolution = query.get('resolution') === 'fixed' ? null : createDynamicResolution(1);
     setData('resolution', resolution ? 'auto' : 'fixed');
     // ?temporal=off draws each frame on its own (temporalAA.ts), for comparisons.
-    const temporal = new URLSearchParams(window.location.search).get('temporal') !== 'off';
+    const temporal = query.get('temporal') !== 'off';
     const applyQuality = () => {
       applied = qualityRef.current;
       const preset = QUALITY[applied];
@@ -193,7 +168,7 @@ export default function SaunaScene({
       output.setTemporal(temporal && preset.temporal);
       setData('temporal', output.hdr && temporal && preset.temporal ? 'on' : 'off');
       qualityIndex++;
-      resetMetrics();
+      metrics.reset();
       setData('quality', applied);
       setData('pixelRatio', String(renderer.getPixelRatio()));
     };
@@ -237,37 +212,15 @@ export default function SaunaScene({
     const start = performance.now();
     async function load() {
       try {
-        const base = `${import.meta.env.BASE_URL}models/`;
-        const get = (name: string) =>
-          fetch(`${base}${name}`, { signal: abort.signal }).then((r) => {
-            if (!r.ok) throw Error(name);
-            return r;
-          });
-        const [definition, binary, irradianceHeader, irradianceData, reflectionHeader, reflectionData]: [
-          SceneDefinition,
-          ArrayBuffer,
-          IrradianceHeader,
-          ArrayBuffer,
-          IrradianceHeader,
-          ArrayBuffer,
-        ] = await Promise.all([
-          get('sauna.scene.json').then((r) => r.json()),
-          get('sauna.glb').then((r) => r.arrayBuffer()),
-          get('irradiance.json').then((r) => r.json()),
-          get('irradiance.bin').then((r) => r.arrayBuffer()),
-          get('reflection.json').then((r) => r.json()),
-          get('reflection.bin').then((r) => r.arrayBuffer()),
-        ]);
+        const get = createModelFetch(abort.signal);
+        const { definition, model, irradiance, reflection } = await fetchSceneAssets(get);
         if (disposed || failed) return;
         // Throws on a layout mismatch before the model is parsed.
-        const probes = createProbeTextures(
-          { header: irradianceHeader, buffer: irradianceData },
-          { header: reflectionHeader, buffer: reflectionData },
-        );
+        const probes = createProbeTextures(irradiance, reflection);
         releaseProbes = probes.dispose;
         probes.apply(lighting.irradiance);
         setData('irradianceProbes', String(probes.probes));
-        const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(binary, base);
+        const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(model, MODEL_BASE);
         if (disposed || failed) {
           disposeTree(gltf.scene);
           return;
@@ -333,16 +286,6 @@ export default function SaunaScene({
           upVector.set(0, 1, 0).applyQuaternion(camera.quaternion).toArray(pose.up);
           audio.setSpatialPose(pose);
         };
-        let previous = 0;
-        let recorded = false;
-        const frameTimes: number[] = [];
-        resetMetrics = () => {
-          previous = 0;
-          recorded = false;
-          frameTimes.length = 0;
-          delete element.dataset.frameMeanMs;
-          delete element.dataset.frameMaxMs;
-        };
         // Counts of the scene pass, without the tone mapping pass; the mirror pass separately.
         const recordRenderInfo = ({ calls, triangles }: RenderStats) => {
           setData('drawCalls', String(calls));
@@ -382,12 +325,11 @@ export default function SaunaScene({
           updateAudio();
           camera.fov = view.fov;
           camera.updateProjectionMatrix();
-          steamStarted = -Infinity;
-          steam.visible = false;
+          steam.stop();
           look.cancel();
           output.resetTemporal();
           resolution?.settle();
-          resetMetrics();
+          metrics.reset();
           setData('stage', next);
           lighting.update(targetTime(), 0, true);
           recordRenderInfo(draw());
@@ -403,7 +345,7 @@ export default function SaunaScene({
         }
         setViewRef.current = setView;
         setView(stageRef.current);
-        steam.position.fromArray(definition.stove);
+        steam.points.position.fromArray(definition.stove);
         const firstFrame = draw();
         ready = true;
         clearTimeout(timeout);
@@ -422,22 +364,24 @@ export default function SaunaScene({
           try {
             const garden = await get('sauna-garden.glb').then((r) => r.arrayBuffer());
             if (disposed || failed) return;
-            const model = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(garden, base);
+            const { scene: woodland } = await new GLTFLoader()
+              .setMeshoptDecoder(MeshoptDecoder)
+              .parseAsync(garden, MODEL_BASE);
             if (disposed || failed) {
-              disposeTree(model.scene);
+              disposeTree(woodland);
               return;
             }
-            gardenScenes.push(model.scene);
-            if (prepare(model.scene)) throw Error('Garden under water');
-            count('prepassMeshes', prepass.add(model.scene));
-            count('shadowMaskMeshes', shadowMask?.add(model.scene) ?? 0);
+            gardenScenes.push(woodland);
+            if (prepare(woodland)) throw Error('Garden under water');
+            count('prepassMeshes', prepass.add(woodland));
+            count('shadowMaskMeshes', shadowMask?.add(woodland) ?? 0);
             // Compile for the pass it is drawn in, off the render loop where the browser can.
-            await output.compile(model.scene, camera, scene);
+            await output.compile(woodland, camera, scene);
             if (disposed || failed) return;
-            scene.add(model.scene);
+            scene.add(woodland);
             gardenAdded = 1;
             lighting.refreshShadows();
-            resetMetrics();
+            metrics.reset();
             setData('gardenMs', String(Math.round(performance.now() - start)));
             setGarden('ready');
           } catch {
@@ -446,35 +390,22 @@ export default function SaunaScene({
         })();
         renderer.setAnimationLoop((now) => {
           if (document.hidden) {
-            previous = 0;
+            metrics.pause();
             return;
           }
           const ratio = resolution?.frame(now) ?? null;
           if (ratio !== null) {
             renderer.setPixelRatio(ratio);
             setData('pixelRatio', String(renderer.getPixelRatio()));
-            resetMetrics();
+            metrics.reset();
           }
           updateAudio();
-          const delta = previous ? Math.min((now - previous) / 1000, 0.1) : 0;
+          const delta = metrics.frame(now);
           lighting.update(targetTime(), delta, reducedMotion.matches);
           setData('lighting', lightingRef.current);
           setData('timeOfDay', lighting.time.toFixed(3));
-          if (previous && frameTimes.length < 180) frameTimes.push(now - previous);
-          previous = now;
-          if (frameTimes.length === 180 && !recorded) {
-            recorded = true;
-            element.dataset.frameMeanMs = (frameTimes.reduce((a, b) => a + b, 0) / 180).toFixed(2);
-            element.dataset.frameMaxMs = Math.max(...frameTimes).toFixed(2);
-          }
-          const age = (now - steamStarted) / 1000;
-          steam.visible = stageRef.current === 'sauna' && age < 6;
+          steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);
           waterEffects.update(now / 1000, reducedMotion.matches);
-          if (steam.visible) {
-            material.opacity = 0.24 * Math.sin(Math.min(1, age / 6) * Math.PI);
-            updateSteamPositions(positions, age, reducedMotion.matches);
-            geometry.attributes.position.needsUpdate = true;
-          }
           recordRenderInfo(draw());
           setData('textures', String(renderer.info.memory.textures));
           setData('geometries', String(renderer.info.memory.geometries));
