@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { AUDIO_PRESETS, useAudioEngine } from './useAudioEngine';
+import { AUDIO_PRESETS, useAudioEngine, type AmbientEnv } from './useAudioEngine';
 
 // --- Mocks ---
 
@@ -449,6 +449,34 @@ describe('useAudioEngine', () => {
       ]);
     });
     expect(mockCreateBufferSource).toHaveBeenCalledTimes(1);
+  });
+
+  it.each<{ environments: AmbientEnv[]; frequency: number }>([
+    { environments: ['sauna', 'water'], frequency: AUDIO_PRESETS.water.filterSettings.frequency },
+    { environments: ['totonou', 'sauna'], frequency: AUDIO_PRESETS.sauna.filterSettings.frequency },
+    { environments: ['sauna', 'totonou'], frequency: AUDIO_PRESETS.totonouWind.filterSettings.frequency },
+    { environments: ['sauna', 'totonou', 'sauna'], frequency: AUDIO_PRESETS.sauna.filterSettings.frequency },
+  ])('starts only the latest cached noise loop for $environments', async ({ environments, frequency }) => {
+    const { result } = renderHook(() => useAudioEngine());
+    act(() => result.current.init());
+
+    // Warm both noise buffers before exercising the synchronous cache-hit paths.
+    await act(async () => {
+      await result.current.playAmbient('sauna');
+      await result.current.playAmbient('totonou');
+    });
+    mockCreateBufferSource.mockClear();
+    mockCreateBiquadFilter.mockClear();
+    mockCreateBuffer.mockClear();
+
+    await act(async () => {
+      await Promise.all(environments.map((env) => result.current.playAmbient(env)));
+    });
+
+    expect(mockCreateBuffer).not.toHaveBeenCalled();
+    expect(mockCreateBufferSource).toHaveBeenCalledTimes(1);
+    expect(mockCreateBufferSource.mock.results[0].value.start).toHaveBeenCalledTimes(1);
+    expect(mockCreateBiquadFilter.mock.results[0].value.frequency.value).toBe(frequency);
   });
 
   it('catches and logs errors when fading out gains during stopAmbient', async () => {

@@ -169,14 +169,13 @@ export function useAudioEngine(): AudioEngine {
 
   /**
    * キャッシュ済みのノイズバッファを返す。未生成なら Worker で生成する。
-   * request を渡した場合、生成を待つ間に別の環境音が要求されていれば null を返して再生を中止させる。
+   * 再生要求が最新かの確認は、キャッシュの有無にかかわらず呼び出し側の await 後に行う。
    */
   const getNoiseBuffer = useCallback(
     async (
       ctx: AudioContext,
       { noiseType, bufferSeconds }: NoiseSourceConfig,
       label: string,
-      request?: object,
     ): Promise<AudioBuffer | null> => {
       const bufferSize = Math.floor(ctx.sampleRate * bufferSeconds);
       const cacheKey = `${noiseType}-${bufferSize}`;
@@ -188,7 +187,6 @@ export function useAudioEngine(): AudioEngine {
         buffer.copyToChannel(generatedData, 0);
         // 環境が切り替わっていても生成結果は次回のためにキャッシュする
         noiseBuffersRef.current.set(cacheKey, buffer);
-        if (request && currentRequestRef.current !== request) return null;
         return buffer;
       } catch (e) {
         console.error(`Failed to generate ${label} buffer`, e);
@@ -232,8 +230,8 @@ export function useAudioEngine(): AudioEngine {
       const ctx = ctxRef.current;
       const preset = AUDIO_PRESETS[env];
 
-      const buffer = await getNoiseBuffer(ctx, preset, `${env} noise`, request);
-      if (!buffer) return;
+      const buffer = await getNoiseBuffer(ctx, preset, `${env} noise`);
+      if (!buffer || currentRequestRef.current !== request) return;
 
       const now = ctx.currentTime;
       const { source, gain } = createNoiseLoop(ctx, buffer, preset.filterSettings);
@@ -284,8 +282,8 @@ export function useAudioEngine(): AudioEngine {
       humGain.connect(masterGainRef.current);
 
       // 2. そよ風ノイズ
-      const windBuffer = await getNoiseBuffer(ctx, wind, 'wind noise', request);
-      if (!windBuffer) return;
+      const windBuffer = await getNoiseBuffer(ctx, wind, 'wind noise');
+      if (!windBuffer || currentRequestRef.current !== request) return;
 
       const { source: windSource, gain: windGain } = createNoiseLoop(ctx, windBuffer, wind.filterSettings);
       windGain.gain.value = wind.baseGain;
