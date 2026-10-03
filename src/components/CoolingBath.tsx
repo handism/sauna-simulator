@@ -3,6 +3,7 @@ import { beatSeconds } from '../utils/saunaUtils';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
 import HeartRateRow from './HeartRateRow';
+import { ActionIcon } from './ActionIcon';
 import type { WaterResult } from '../hooks/useSaunaSession';
 
 interface Ripple {
@@ -72,26 +73,27 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         }}
       />
 
-      <div className="glass-panel cooling-panel">
-        <h2 className="cooling-title">水風呂</h2>
-
-        <div className="cooling-desc">ゆっくりと粗熱を取る...</div>
-
-        {/* シミュレーター情報ダッシュボード */}
-        <div className="cooling-info-panel">
-          <div className="stage-info-row">
-            <span className="stage-info-label">水温:</span>
-            <span className="dashboard-value cooling-info-val-temp">{COOLING_CONFIG.WATER_TEMP.toFixed(1)}°C</span>
-          </div>
-
-          <HeartRateRow heartRate={heartRate} icon="💙" />
+      <header className="stage-heading">
+        <p className="stage-step">02 / 03 · 水風呂</p>
+        <h2 className="cooling-title" tabIndex={-1}>
+          水風呂
+        </h2>
+        <p>水の音に耳を澄ませて。</p>
+      </header>
+      <div className="glass-panel stage-dock cooling-panel">
+        <div className="compact-reading">
+          <span>水温</span>
+          <span className="dashboard-value cooling-info-val-temp">{COOLING_CONFIG.WATER_TEMP.toFixed(1)}°C</span>
         </div>
-      </div>
-
-      {/* 外気浴へ遷移 */}
-      <div className="cooling-next-btn-container">
+        <details className="stage-details">
+          <summary>からだの様子を見る</summary>
+          <div className="cooling-info-panel">
+            <HeartRateRow heartRate={heartRate} />
+          </div>
+          <p className="detail-note">数値は体験内のシミュレーションです。</p>
+        </details>
         <button className="primary-btn cooling-next-btn" onClick={handleLeave} aria-keyshortcuts="Space">
-          外気浴へ 🍃
+          外気浴へ <ActionIcon name="arrow" />
         </button>
       </div>
 

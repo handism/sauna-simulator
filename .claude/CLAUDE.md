@@ -15,7 +15,7 @@
 
 ### ステージ遷移フロー
 
-ステージは `start → sauna → water → totonou` の順に進み、`totonou` から `sauna` に戻るループ構造になっている。
+ステージは `start → sauna → water → totonou` の順に進み、`totonou` から `sauna` に戻るループ構造になっている。「今日はここまで」は `finishSession()` で環境音をフェードアウトし、同じ遷移タイマーで `start` の終了画面へ戻る。`sessionSummary` は終了操作時のセット数・入室からの実時間を保持し、次の入室時に記録とともにリセットする。
 
 - セッション状態と各ステージ完了時の操作（`completeSauna` など。setterは公開しない）は `src/hooks/useSaunaSession.ts` が保持し、`SaunaProvider` / `useSaunaContext`（`src/context/SaunaContext.tsx`）経由で配布する。`App.tsx` はセッション値をcontextから読み、ロウリュ通知用の `EventTarget` だけを保持する
 - ステージ遷移は `changeStage()` が単一の1秒タイマーで管理する。`pendingStage` を設定してUIと背景を暗転し、1秒後にステージ・環境音を同時に切り替えてフェードインする。遷移中の二重操作は拒否し、ステージUIには `inert` を付ける
@@ -30,7 +30,7 @@
 ## 規約・パターン
 
 ### スタイリング
-- 共通 UI は `.glass-panel`（glassmorphism）と `.primary-btn` の2クラスを使う
+- 共通 UI は `.glass-panel` と `.primary-btn`。通常の操作は下部の `.stage-dock` にまとめ、心拍・体感温度・ととのい度はネイティブ `details` で開く。`ActionIcon` の線画アイコンと木・石・水を基調とする配色を使う。UI非表示は見出し・操作パネル・呼吸ガイドを隠し、音・表示復帰・設定の操作は残す。
 - 外部フォントは読み込まない（OS標準の和文・欧文フォントスタック）
 - ステージ固有の色や背景はコンポーネント内のインラインスタイルで上書きする。ただし状態で切り替わる見た目（外気浴の呼吸の吸う/吐く）は `data-*` 属性と `index.css` のセレクタで切り替える
 
@@ -45,7 +45,7 @@
 
 ## 3Dサウナ試験版
 
-- `?view=3d` または「3Dを試す」で有効化。`?view=2d` は保存済みの選択を上書きする。選択は `sui-view-mode` に保存し、未選択時は2D。
+- `?view=3d` または「表示設定」内の「3Dを試す」で有効化。時間帯・画質・素材クレジットも同じメニューにまとめる。メニューは Escape・外側のポインタ操作・ステージ変更で閉じる。`?view=2d` は保存済みの選択を上書きする。選択は `sui-view-mode` に保存し、未選択時は2D。
 - `SceneMode` は表示設定・ロード状態だけを管理し、セッションを作り直さない。サウナ・水風呂・外気浴の3ステージに対応し、ステージ変更時はモデルと描画ループを保持して視点だけを更新する。
 - Three.js 0.186.0を直接ラップした `src/components/3d/SaunaScene.tsx` は `React.lazy` で遅延ロードする。3D専用チャンクは通常の2D利用時に取得しない。庭の木々は別GLB（`public/models/sauna-garden.glb`）で、本体で準備完了にした後に読み込む。失敗しても3Dは続ける。
 - `App` が所有する `EventTarget` に `SaunaRoom.onLoyly` から押下を通知。音は従来の `audio.playLoyly()` で一度だけ再生。3Dはロード完了後の通知だけを消費し、過去の通知は保存しない。

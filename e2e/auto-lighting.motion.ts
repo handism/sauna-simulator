@@ -1,3 +1,4 @@
+import { chooseSceneSetting, switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -57,13 +58,13 @@ for (const { stage, minute, from } of [
     await page.getByRole('button', { name: '静かに入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-    await page.getByLabel('3Dの画質').selectOption('standard');
+    await chooseSceneSetting(page, '3Dの画質', 'standard');
     // Settle at the starting light with the product's normal smoothing.
-    await page.getByLabel('3Dの時間帯').selectOption(from === 0 ? 'day' : 'evening');
-    await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+    await chooseSceneSetting(page, '3Dの時間帯', from === 0 ? 'day' : 'evening');
+    await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
     await expect(scene).toHaveAttribute('data-stage', 'water');
     if (stage === 'totonou') {
-      await page.getByRole('button', { name: '外気浴へ 🍃', exact: true }).click();
+      await page.getByRole('button', { name: '外気浴へ', exact: true }).click();
       await expect(scene).toHaveAttribute('data-stage', stage);
     }
     await expect(scene).toHaveAttribute('data-time-of-day', from.toFixed(3), { timeout: 20_000 });
@@ -74,7 +75,7 @@ for (const { stage, minute, from } of [
       clock.started = performance.now();
       return { performanceMs: clock.started, wallMs: clock.realNow(), offsetMs: clock.offset };
     }, minute);
-    await page.getByLabel('3Dの時間帯').selectOption('auto');
+    await chooseSceneSetting(page, '3Dの時間帯', 'auto');
     await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
     const canvas = await scene.locator('canvas').elementHandle();
     expect(canvas).not.toBeNull();
@@ -161,7 +162,7 @@ for (const { stage, minute, from } of [
     expect(samples.at(-1)!.time).toBe(from + 1);
     expect(await canvas!.evaluate((element) => element.isConnected)).toBe(true);
     await page.getByRole('button', { name: 'UI表示', exact: true }).click();
-    await page.getByRole('button', { name: '2Dに切り替え' }).click();
+    await switchSceneMode(page, '2Dに切り替え');
     await expect(scene).toHaveCount(0);
     expect(errors).toEqual([]);
   });

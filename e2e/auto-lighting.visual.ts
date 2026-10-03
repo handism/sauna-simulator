@@ -1,3 +1,4 @@
+import { chooseSceneSetting, switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { rendererCaptureStyle } from './scene-capture';
 
@@ -33,7 +34,7 @@ test('automatic lighting follows the time since entering, across stages and a 3D
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-  await page.getByLabel('3Dの画質').selectOption('standard');
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
   await expect(page.getByLabel('3Dの時間帯')).toHaveValue('auto');
   // Entering, and the clock standing still, keep the day.
   await expect(scene).toHaveAttribute('data-time-of-day', '0.000');
@@ -44,8 +45,8 @@ test('automatic lighting follows the time since entering, across stages and a 3D
   const samples: object[] = [];
   const minutes = [0, 12, 13.5, 15, 27, 28.5, 30, 45];
   const stages = [
-    ['sauna', '限界.. 水風呂へ 💧'],
-    ['water', '外気浴へ 🍃'],
+    ['sauna', '水風呂へ'],
+    ['water', '外気浴へ'],
     ['totonou', null],
   ] as const;
   for (const [stage, next] of stages) {
@@ -85,13 +86,13 @@ test('automatic lighting follows the time since entering, across stages and a 3D
   // A new 3D scene resumes the session's time of day instead of restarting the day.
   await setMinutes(28.5);
   await expect(scene).toHaveAttribute('data-time-of-day', '1.500');
-  await page.getByRole('button', { name: '2Dに切り替え' }).click();
+  await switchSceneMode(page, '2Dに切り替え');
   await expect(scene).toHaveCount(0);
-  await page.getByRole('button', { name: '3Dを試す' }).click();
+  await switchSceneMode(page, '3Dを試す');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
   await expect(scene).toHaveAttribute('data-time-of-day', '1.500');
   // A fixed choice still wins over the clock.
-  await page.getByLabel('3Dの時間帯').selectOption('day');
+  await chooseSceneSetting(page, '3Dの時間帯', 'day');
   await expect(scene).toHaveAttribute('data-time-of-day', '0.000');
   expect(errors).toEqual([]);
   await info.attach('auto-lighting', {

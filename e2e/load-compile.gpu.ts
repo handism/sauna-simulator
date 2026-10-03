@@ -1,3 +1,4 @@
+import { switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { observeSoakTiming } from './soak-timing';
 
@@ -13,9 +14,9 @@ test('diagnose synchronous work on the first 3D load and a recreated scene', asy
   };
   const first = await loaded();
   const marks = [await page.evaluate(() => performance.now())];
-  await page.getByRole('button', { name: '2Dに切り替え' }).click();
+  await switchSceneMode(page, '2Dに切り替え');
   await expect(scene).toHaveCount(0);
-  await page.getByRole('button', { name: '3Dを試す' }).click();
+  await switchSceneMode(page, '3Dを試す');
   const recreated = await loaded();
   marks.push(await page.evaluate(() => performance.now()));
   await info.attach('soak-timing', {

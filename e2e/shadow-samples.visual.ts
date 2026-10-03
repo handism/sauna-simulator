@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { BLOCKER_SAMPLES, FILTER_SAMPLES } from '../src/components/3d/softShadows.ts';
 import { rendererCaptureStyle } from './scene-capture';
@@ -28,20 +29,20 @@ for (const [label, variant] of [
     const scene = page.locator('.sauna-3d-canvas');
     const canvas = scene.locator('canvas');
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-    await page.getByLabel('3Dの画質').selectOption('high');
+    await chooseSceneSetting(page, '3Dの画質', 'high');
     await expect(scene).toHaveAttribute('data-quality', 'high');
     const frame = () => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
     const samples: object[] = [];
     for (const [stage, next] of [
-      ['sauna', '限界.. 水風呂へ 💧'],
-      ['water', '外気浴へ 🍃'],
+      ['sauna', '水風呂へ'],
+      ['water', '外気浴へ'],
       ['totonou', null],
     ] as const) {
       await expect(scene).toHaveAttribute('data-stage', stage);
       await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
       await page.waitForTimeout(1200);
       for (const lighting of ['day', 'evening']) {
-        await page.getByLabel('3Dの時間帯').selectOption(lighting);
+        await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         await page.waitForTimeout(500);
         const box = (await canvas.boundingBox())!;

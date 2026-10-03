@@ -18,13 +18,13 @@ test('reduced motion stops the 2D stages from pulsing, drifting and flashing', a
   expect(await display(page.locator('.sauna-steam-particle'))).toBe('none');
   expect(await display(page.locator('.steam-overlay'))).toBe('none');
 
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧' }).click();
+  await page.getByRole('button', { name: '水風呂へ' }).click();
   await expect(page.getByRole('heading', { name: '水風呂' })).toBeVisible();
   expect(await animationName(page.locator('.cooling-glow'))).toBe('none');
   await expect(page.locator('.cooling-ripple-effect').first()).toBeAttached({ timeout: 5_000 });
   expect(await display(page.locator('.cooling-ripple-effect').first())).toBe('none');
 
-  await page.getByRole('button', { name: '外気浴へ 🍃' }).click();
+  await page.getByRole('button', { name: '外気浴へ' }).click();
   await expect(page.getByRole('heading', { name: '外気浴' })).toBeVisible();
   for (const blob of await page.locator('.aurora-blob').all()) {
     expect(await animationName(blob)).toBe('none');

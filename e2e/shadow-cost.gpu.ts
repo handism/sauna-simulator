@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { BLOCKER_SAMPLES, FILTER_SAMPLES } from '../src/components/3d/softShadows.ts';
 import { timeFrames } from './gpu-timer';
@@ -80,17 +81,17 @@ for (const [run, variants] of [
         !(await page.evaluate(() => Boolean((window as unknown as { suiTimer?: object }).suiTimer))),
         'GPU timer extension unavailable',
       );
-      await page.getByLabel('3Dの画質').selectOption('high');
+      await chooseSceneSetting(page, '3Dの画質', 'high');
       await expect(scene).toHaveAttribute('data-quality', 'high');
       const samples: object[] = [];
       for (const [stage, next] of [
-        ['sauna', '限界.. 水風呂へ 💧'],
-        ['water', '外気浴へ 🍃'],
+        ['sauna', '水風呂へ'],
+        ['water', '外気浴へ'],
         ['totonou', null],
       ] as const) {
         await expect(scene).toHaveAttribute('data-stage', stage);
         for (const lighting of COST_LIGHTINGS) {
-          await page.getByLabel('3Dの時間帯').selectOption(lighting);
+          await chooseSceneSetting(page, '3Dの時間帯', lighting);
           await expect(scene).toHaveAttribute('data-lighting', lighting);
           await page.waitForTimeout(3000);
           await page.evaluate(() => {

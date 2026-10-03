@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test, type Page } from '@playwright/test';
 
 // Dynamic resolution (src/components/3d/dynamicResolution.ts) on a display of ratio 1.5 at the
@@ -41,7 +42,7 @@ async function enter(page: Page, query: string) {
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
-  await page.getByLabel('3Dの画質').selectOption('standard');
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
   await expect(scene).toHaveAttribute('data-pixel-ratio', '1.5');
   const slow = (on: boolean) =>
     page.evaluate((value) => ((window as unknown as { suiSlow: boolean }).suiSlow = value), on);
@@ -62,9 +63,9 @@ test('slow frames step the pixel ratio down and a run within 60 fps tries it bac
   await slow(false);
   await expect(scene).toHaveAttribute('data-pixel-ratio', '1.25', { timeout: 20_000 });
   // A quality change returns to its ratio at once.
-  await page.getByLabel('3Dの画質').selectOption('low');
+  await chooseSceneSetting(page, '3Dの画質', 'low');
   await expect(scene).toHaveAttribute('data-pixel-ratio', '1');
-  await page.getByLabel('3Dの画質').selectOption('standard');
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
   await expect(scene).toHaveAttribute('data-pixel-ratio', '1.5');
   expect(errors).toEqual([]);
 });

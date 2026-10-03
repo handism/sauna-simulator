@@ -8,42 +8,42 @@ describe('calculateTotonouScore', () => {
     // 50s sauna = 50 pts, 20s water = 40 pts, 2 loyly = 10 pts
     const { maxTotonou, feedback } = calculateTotonouScore(50, 20, 2);
     expect(maxTotonou).toBe(100);
-    expect(feedback).toBe('完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌');
+    expect(feedback).toBe('深い余韻を、そのままゆっくり味わって。');
   });
 
   it('should not exceed max values for sauna and water score', () => {
     // 100s sauna = max 50 pts, 50s water = max 40 pts, 5 loyly = max 10 pts -> total max 100
     const { maxTotonou, feedback } = calculateTotonouScore(100, 50, 5);
     expect(maxTotonou).toBe(100);
-    expect(feedback).toBe('完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌');
+    expect(feedback).toBe('深い余韻を、そのままゆっくり味わって。');
   });
 
   it('should handle saunaTime < 15 correctly', () => {
     // 10s sauna = 10 pts, 20s water = 40 pts, 0 loyly = 0 pts -> total 50
     const { maxTotonou, feedback } = calculateTotonouScore(10, 20, 0);
     expect(maxTotonou).toBe(50);
-    expect(feedback).toBe('サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥');
+    expect(feedback).toBe('短いひと息も、大切な休息です。');
   });
 
   it('should handle waterTime < 8 correctly', () => {
     // 50s sauna = 50 pts, 5s water = 10 pts, 0 loyly = 0 pts -> total 60
     const { maxTotonou, feedback } = calculateTotonouScore(50, 5, 0);
     expect(maxTotonou).toBe(60);
-    expect(feedback).toBe('水風呂の冷却が短かったようです。羽衣を感じるまで浸かってみましょう 💧');
+    expect(feedback).toBe('自分のペースで、風に身を任せて。');
   });
 
   it('should return 70s feedback', () => {
     // 35s sauna = 35 pts, 18s water = 36 pts, 0 loyly = 0 pts -> total 71
     const { maxTotonou, feedback } = calculateTotonouScore(35, 18, 0);
     expect(maxTotonou).toBe(71);
-    expect(feedback).toBe('しっかり「ととのい」の波が押し寄せています 🧘');
+    expect(feedback).toBe('心地よい余韻が広がっています。');
   });
 
   it('should handle default feedback correctly', () => {
     // 20s sauna = 20 pts, 10s water = 20 pts, 0 loyly = 0 pts -> total 40
     const { maxTotonou, feedback } = calculateTotonouScore(20, 10, 0);
     expect(maxTotonou).toBe(40);
-    expect(feedback).toBe('心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃');
+    expect(feedback).toBe('心地よい休息です。このまま、ひと息。');
   });
 
   it('should handle 0 inputs correctly', () => {
@@ -51,21 +51,21 @@ describe('calculateTotonouScore', () => {
     const { maxTotonou, feedback } = calculateTotonouScore(0, 0, 0);
     expect(maxTotonou).toBe(0);
     // saunaTime < 15 triggers the sauna error message
-    expect(feedback).toBe('サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥');
+    expect(feedback).toBe('短いひと息も、大切な休息です。');
   });
 
   it('should calculate partial loyly score correctly', () => {
     // 50s sauna = 50 pts, 20s water = 40 pts, 1 loyly = 5 pts -> total 95
     const { maxTotonou, feedback } = calculateTotonouScore(50, 20, 1);
     expect(maxTotonou).toBe(95);
-    expect(feedback).toBe('完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌');
+    expect(feedback).toBe('深い余韻を、そのままゆっくり味わって。');
   });
 
   it('should handle edge cases strictly around sauna 15s and water 8s boundaries', () => {
     // Exactly 15s sauna = 15 pts, exactly 8s water = 16 pts, 0 loyly = 0 pts -> total 31
     const { maxTotonou, feedback } = calculateTotonouScore(15, 8, 0);
     expect(maxTotonou).toBe(31);
-    expect(feedback).toBe('心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃');
+    expect(feedback).toBe('心地よい休息です。このまま、ひと息。');
   });
 });
 
@@ -127,7 +127,7 @@ describe('TotonouSpace Component', () => {
 
   it('announces the feedback through a polite live region', () => {
     render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={() => {}} />);
-    const feedback = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
+    const feedback = '深い余韻を、そのままゆっくり味わって。';
     expect(screen.queryByText(feedback)).not.toBeInTheDocument();
     act(() => {
       vi.advanceTimersByTime(10_000);
@@ -145,10 +145,11 @@ describe('TotonouSpace Component', () => {
 
     render(<TotonouSpace saunaTime={35} waterTime={18} loylyCount={0} scoreHistory={[50, 71]} onNext={() => {}} />);
     expect(screen.getByText('2セット目')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('今回のととのいを振り返る'));
     const items = screen.getAllByRole('listitem');
     expect(items.map((item) => item.textContent)).toEqual(['1セット50%', '2セット71%']);
     // 71 is in the same tier as the "しっかり" feedback, so it shares that tier's color.
-    expect(screen.getByText('71%')).toHaveStyle({ color: '#60a5fa' });
-    expect(screen.getByText('50%')).toHaveStyle({ color: '#a78bfa' });
+    expect(screen.getByText('71%')).toHaveStyle({ color: '#b9d1d4' });
+    expect(screen.getByText('50%')).toHaveStyle({ color: '#e2cfb4' });
   });
 });

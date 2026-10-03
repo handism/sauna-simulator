@@ -1,3 +1,4 @@
+import { chooseSceneSetting, switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { observeSoakTiming } from './soak-timing';
 
@@ -26,9 +27,9 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     await expect(scene.locator('canvas')).toHaveCount(1);
   };
   const stages = [
-    ['限界.. 水風呂へ 💧', 'water'],
-    ['外気浴へ 🍃', 'totonou'],
-    ['もう一度サウナへ 🔄', 'sauna'],
+    ['水風呂へ', 'water'],
+    ['外気浴へ', 'totonou'],
+    ['もう一度サウナへ', 'sauna'],
   ];
   const warmStages = async () => {
     // Three uploads geometry only when first rendered. Visit every stage before
@@ -36,7 +37,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     // also has the mirror geometry retained by one previously used at standard/high.
     const qualityControl = page.getByLabel('3Dの画質');
     const quality = await qualityControl.inputValue();
-    await qualityControl.selectOption('high');
+    await chooseSceneSetting(page, '3Dの画質', 'high');
     await expect(scene).toHaveAttribute('data-quality', 'high');
     for (const [button, stage] of stages) {
       await page.getByRole('button', { name: button, exact: true }).click();
@@ -44,7 +45,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       // below waits for 180 frames. Do not collect another timing window here.
       await expect(scene).toHaveAttribute('data-stage', stage);
     }
-    await qualityControl.selectOption(quality);
+    await chooseSceneSetting(page, '3Dの画質', quality);
     await expect(scene).toHaveAttribute('data-quality', quality);
   };
   const sample = async () => {
@@ -112,9 +113,9 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       cycle++;
       const cycleStarted = Date.now();
       const quality = ['low', 'standard', 'high'][(cycle - 1) % 3];
-      await page.getByLabel('3Dの画質').selectOption(quality);
+      await chooseSceneSetting(page, '3Dの画質', quality);
       await expect(scene).toHaveAttribute('data-quality', quality);
-      await page.getByLabel('3Dの時間帯').selectOption(['day', 'evening', 'night'][cycle % 3]);
+      await chooseSceneSetting(page, '3Dの時間帯', ['day', 'evening', 'night'][cycle % 3]);
       const canvas = await scene.locator('canvas').elementHandle();
       await warmStages();
       await page.getByRole('button', { name: 'ロウリュ (Löyly)', exact: true }).click();
@@ -130,9 +131,9 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
         );
       }
       await canvas!.dispose();
-      await page.getByRole('button', { name: '2Dに切り替え' }).click();
+      await switchSceneMode(page, '2Dに切り替え');
       await expect(scene).toHaveCount(0);
-      await page.getByRole('button', { name: '3Dを試す' }).click();
+      await switchSceneMode(page, '3Dを試す');
       await ready();
       await warmStages();
       // Warm the recreated renderer's steam resources before comparing it.
@@ -143,9 +144,9 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       if (remaining > 0) await page.waitForTimeout(remaining);
       console.log(`Soak cycle ${cycle}: ${Math.round((Date.now() - activeStarted) / 1000)}s, ${quality}`);
     } while (Date.now() - activeStarted < 300_000 || cycle < 6);
-    await page.getByRole('button', { name: '2Dに切り替え' }).click();
+    await switchSceneMode(page, '2Dに切り替え');
     await expect(scene).toHaveCount(0);
-    await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+    await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
     await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
     expect(errors).toEqual([]);
   } finally {

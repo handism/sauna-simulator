@@ -1,3 +1,4 @@
+import { switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 
 // Measure opt-in loading after the 2D page is ready, including lazy JavaScript.
@@ -93,11 +94,11 @@ for (const profile of profiles) {
         ],
       });
       const started = Date.now();
-      await page.getByRole('button', { name: '3Dを試す', exact: true }).click();
+      await switchSceneMode(page, '3Dを試す');
       await expect(page.getByRole('status')).toContainText('読み込み中');
       // Wait for actual response bytes, not an artificially held request.
       await expect.poll(() => model()[0]?.receivedBytes ?? 0, { timeout: 15_000 }).toBeGreaterThan(0);
-      await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+      await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
       await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
       await expect(page.getByRole('status')).toContainText('読み込み中');
       if (profile.outcome === 'ready') {
@@ -128,7 +129,7 @@ for (const profile of profiles) {
         );
       } else {
         if (profile.outcome === 'cancel') {
-          await page.getByRole('button', { name: '2Dに切り替え', exact: true }).click();
+          await switchSceneMode(page, '2Dに切り替え');
         } else {
           await expect(page.getByRole('status')).toContainText('2Dで続けています', { timeout: 35_000 });
         }
@@ -143,15 +144,15 @@ for (const profile of profiles) {
         expect(model()[0].receivedBytes).toBeGreaterThan(0);
         expect(model()[0].encodedBytes).toBeUndefined();
         await cdp.send('Network.emulateNetworkConditionsByRule', { offline: false, matchedNetworkConditions: [] });
-        await page.getByRole('button', { name: '外気浴へ 🍃', exact: true }).click();
+        await page.getByRole('button', { name: '外気浴へ', exact: true }).click();
         await expect(page.getByRole('heading', { name: '外気浴', exact: true })).toBeVisible();
         await expect(scene).toHaveCount(0);
         expect(model()).toHaveLength(1);
         if (profile.outcome === 'timeout') {
-          await page.getByRole('button', { name: '2Dに切り替え', exact: true }).click();
+          await switchSceneMode(page, '2Dに切り替え');
         }
         const retryStarted = Date.now();
-        await page.getByRole('button', { name: '3Dを試す', exact: true }).click();
+        await switchSceneMode(page, '3Dを試す');
         await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
         recoveryMs = Date.now() - retryStarted;
         await expect(scene).toHaveAttribute('data-stage', 'totonou');

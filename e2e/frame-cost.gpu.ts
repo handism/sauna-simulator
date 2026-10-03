@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test, type Page } from '@playwright/test';
 import { patchFrameCost, type FrameCostMode } from './frame-cost';
 import { timeFrames } from './gpu-timer';
@@ -19,8 +20,8 @@ test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: DPR });
 // timed 2–4x slower).
 const QUALITY = process.env.FRAME_COST_QUALITY ?? 'standard';
 const STAGES = [
-  ['sauna', '限界.. 水風呂へ 💧'],
-  ['water', '外気浴へ 🍃'],
+  ['sauna', '水風呂へ'],
+  ['water', '外気浴へ'],
   ['totonou', null],
 ] as const;
 
@@ -30,7 +31,7 @@ async function enter(page: Page) {
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-  await page.getByLabel('3Dの画質').selectOption(QUALITY);
+  await chooseSceneSetting(page, '3Dの画質', QUALITY);
   // Applied once its programs have compiled.
   await expect(scene).toHaveAttribute('data-quality', QUALITY);
   return scene;
@@ -42,7 +43,7 @@ async function eachView(page: Page, measure: (stage: string, lighting: string) =
     await expect(scene).toHaveAttribute('data-stage', stage);
     await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
     for (const lighting of ['day', 'evening', 'night']) {
-      await page.getByLabel('3Dの時間帯').selectOption(lighting);
+      await chooseSceneSetting(page, '3Dの時間帯', lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
       // Past the stage fade and the shader compiles of the lighting change.
       await page.waitForTimeout(2500);

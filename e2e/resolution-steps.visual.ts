@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { controlFrames, holdRatio } from './resolution-control';
 import { rendererCaptureStyle } from './scene-capture';
@@ -30,8 +31,7 @@ test('capture the dynamic resolution steps', async ({ page }, info) => {
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
   await expect(scene).toHaveAttribute('data-resolution', 'auto');
-  const quality = page.getByLabel('3Dの画質');
-  await quality.selectOption('standard');
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
   await expect(scene).toHaveAttribute('data-pixel-ratio', '1.5');
   const press = async (key: string, count: number) => {
     await scene.focus();
@@ -56,15 +56,15 @@ test('capture the dynamic resolution steps', async ({ page }, info) => {
     }
   };
   const stages = [
-    ['sauna', '限界.. 水風呂へ 💧'],
-    ['water', '外気浴へ 🍃'],
+    ['sauna', '水風呂へ'],
+    ['water', '外気浴へ'],
     ['totonou', null],
   ] as const;
   for (const [stage, next] of stages) {
     await expect(scene).toHaveAttribute('data-stage', stage);
     await page.waitForTimeout(1_200);
     for (const lighting of ['day', 'evening', 'night']) {
-      await page.getByLabel('3Dの時間帯').selectOption(lighting);
+      await chooseSceneSetting(page, '3Dの時間帯', lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
       if (stage !== 'water') {
         await capture(stage, lighting, 'default');

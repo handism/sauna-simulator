@@ -34,24 +34,24 @@ describe('saunaUtils', () => {
     it('should return maximum score (100) and top feedback when conditions are fully satisfied', () => {
       const result = calculateTotonouScore(60, 25, 2);
       expect(result.maxTotonou).toBe(100);
-      expect(result.feedback).toContain('完璧な温冷交代浴です！');
+      expect(result.feedback).toContain('深い余韻を、そのままゆっくり味わって。');
     });
 
     it('should return high feedback when score is >= 70', () => {
       const result = calculateTotonouScore(45, 18, 1);
       expect(result.maxTotonou).toBeGreaterThanOrEqual(70);
       expect(result.maxTotonou).toBeLessThan(90);
-      expect(result.feedback).toContain('しっかり「ととのい」の波が押し寄せています');
+      expect(result.feedback).toContain('心地よい余韻が広がっています。');
     });
 
-    it('should advise more sauna time when saunaTime < 15', () => {
+    it('should offer gentle feedback when saunaTime < 15', () => {
       const result = calculateTotonouScore(10, 20, 0);
-      expect(result.feedback).toContain('サウナ室の温まりが少し足りなかったようです');
+      expect(result.feedback).toContain('短いひと息も、大切な休息です。');
     });
 
-    it('should advise more water time when waterTime < 8 and saunaTime >= 15', () => {
+    it('should offer unhurried feedback when waterTime < 8 and saunaTime >= 15', () => {
       const result = calculateTotonouScore(30, 5, 0);
-      expect(result.feedback).toContain('水風呂の冷却が短かったようです');
+      expect(result.feedback).toContain('自分のペースで、風に身を任せて。');
     });
 
     it('should provide standard rest feedback for intermediate durations', () => {

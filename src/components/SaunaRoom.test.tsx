@@ -146,7 +146,7 @@ describe('SaunaRoom', () => {
       fireEvent.click(loylyBtn); // loylyCount = 1
     });
 
-    const leaveBtn = screen.getByRole('button', { name: /限界.. 水風呂へ 💧/i });
+    const leaveBtn = screen.getByRole('button', { name: /水風呂へ/i });
     act(() => {
       fireEvent.click(leaveBtn);
     });

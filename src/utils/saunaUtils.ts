@@ -22,15 +22,15 @@ export const calculateTotonouScore = (saunaTime: number, waterTime: number, loyl
   // スコアに応じたフィードバック
   let text = '';
   if (totalScore >= TOTONOU_TIERS.EXCELLENT) {
-    text = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
+    text = '深い余韻を、そのままゆっくり味わって。';
   } else if (totalScore >= TOTONOU_TIERS.GOOD) {
-    text = 'しっかり「ととのい」の波が押し寄せています 🧘';
+    text = '心地よい余韻が広がっています。';
   } else if (saunaTime < 15) {
-    text = 'サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥';
+    text = '短いひと息も、大切な休息です。';
   } else if (waterTime < 8) {
-    text = '水風呂の冷却が短かったようです。羽衣を感じるまで浸かってみましょう 💧';
+    text = '自分のペースで、風に身を任せて。';
   } else {
-    text = '心地よい休息です。回数を重ねて自分のペースを見つけましょう 🍃';
+    text = '心地よい休息です。このまま、ひと息。';
   }
 
   return { maxTotonou: totalScore, feedback: text };

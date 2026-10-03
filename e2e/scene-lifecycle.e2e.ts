@@ -1,3 +1,4 @@
+import { switchSceneMode } from './settings-controls';
 import { expect, test, type Page } from '@playwright/test';
 
 const scene = (page: Page) => page.locator('.sauna-3d-canvas');
@@ -13,9 +14,9 @@ async function ready(page: Page) {
   await expect(page.locator('.sauna-3d-canvas canvas')).toHaveCount(1);
 }
 async function retry(page: Page) {
-  await page.getByRole('button', { name: '2Dに切り替え' }).click();
+  await switchSceneMode(page, '2Dに切り替え');
   await expect(scene(page)).toHaveCount(0);
-  await page.getByRole('button', { name: '3Dを試す' }).click();
+  await switchSceneMode(page, '3Dを試す');
   await ready(page);
 }
 async function metrics(page: Page) {
@@ -42,9 +43,9 @@ test('repeated modes, stages and real context loss preserve the session', async 
   expect(new Set(samples.map((sample) => sample.geometries)).size).toBe(1);
   const original = await scene(page).elementHandle();
   for (const [button, stage] of [
-    ['限界.. 水風呂へ 💧', 'water'],
-    ['外気浴へ 🍃', 'totonou'],
-    ['もう一度サウナへ 🔄', 'sauna'],
+    ['水風呂へ', 'water'],
+    ['外気浴へ', 'totonou'],
+    ['もう一度サウナへ', 'sauna'],
   ]) {
     await page.getByRole('button', { name: button, exact: true }).click();
     await expect(scene(page)).toHaveAttribute('data-stage', stage);
@@ -60,7 +61,7 @@ test('repeated modes, stages and real context loss preserve the session', async 
   await expect(fallback(page)).toContainText('2Dで続けています');
   await expect(scene(page)).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+  await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
   await retry(page);
   await expect(scene(page)).toHaveAttribute('data-stage', 'water');
@@ -97,10 +98,10 @@ test('switching to 2D during a pending model request allows a clean retry', asyn
   await enter(page);
   await started;
   await expect(fallback(page)).toContainText('読み込み中');
-  await page.getByRole('button', { name: '2Dに切り替え' }).click();
+  await switchSceneMode(page, '2Dに切り替え');
   await expect(scene(page)).toHaveCount(0);
   release();
-  await page.getByRole('button', { name: '3Dを試す' }).click();
+  await switchSceneMode(page, '3Dを試す');
   await ready(page);
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
 });
@@ -148,7 +149,7 @@ test('corrupt meshopt data falls back to 2D and a fresh model can recover', asyn
   await enter(page);
   await expect(fallback(page)).toContainText('2Dで続けています');
   await expect(scene(page)).toHaveCount(0);
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+  await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
   await retry(page);
   await expect(scene(page)).toHaveAttribute('data-stage', 'water');
@@ -164,7 +165,7 @@ test('a failed garden request keeps the ready 3D scene', async ({ page }) => {
   await expect(scene(page)).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   await expect(scene(page)).toHaveAttribute('data-garden', 'failed');
   await expect(fallback(page)).toHaveText('ドラッグ / スワイプで見回す');
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+  await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(scene(page)).toHaveAttribute('data-stage', 'water');
   await expect(scene(page)).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: 15_000 });
   // A new 3D scene requests the garden again.

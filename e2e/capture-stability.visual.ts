@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -62,8 +63,8 @@ test('water renderer captures exclude the animated DOM glow and nearly repeat ac
       await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
       // The woodland foliage loads after the ready scene.
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
-      await page.getByLabel('3Dの画質').selectOption('standard');
-      await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+      await chooseSceneSetting(page, '3Dの画質', 'standard');
+      await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
       await expect(scene).toHaveAttribute('data-stage', 'water');
       await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
       await page.waitForTimeout(1200);
@@ -72,7 +73,7 @@ test('water renderer captures exclude the animated DOM glow and nearly repeat ac
         content: '.cooling-glow { animation-duration: 1s !important; animation-play-state: paused !important; }',
       });
       for (const lighting of ['day', 'evening']) {
-        await page.getByLabel('3Dの時間帯').selectOption(lighting);
+        await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         const raw: string[] = [];
         const clean: string[] = [];

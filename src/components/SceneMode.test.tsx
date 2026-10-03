@@ -4,7 +4,14 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import SceneMode from './SceneMode';
 import type { SceneProps } from './3d/SaunaScene';
 
-const audio = { init: vi.fn(), playAmbient: vi.fn(), playLoyly: vi.fn(), setMuted: vi.fn(), setSpatialPose: vi.fn() };
+const audio = {
+  init: vi.fn(),
+  playAmbient: vi.fn(),
+  stopAmbient: vi.fn(),
+  playLoyly: vi.fn(),
+  setMuted: vi.fn(),
+  setSpatialPose: vi.fn(),
+};
 const steam = vi.hoisted(() => vi.fn());
 const mountScene = vi.hoisted(() => vi.fn());
 vi.mock('./3d/SaunaScene', () => ({

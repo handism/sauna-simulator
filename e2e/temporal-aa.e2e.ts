@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { rendererCaptureStyle } from './scene-capture';
 
@@ -40,8 +41,8 @@ async function enter(page: Page, query: string) {
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-  await page.getByLabel('3Dの画質').selectOption('standard');
-  await page.getByLabel('3Dの時間帯').selectOption('day');
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
+  await chooseSceneSetting(page, '3Dの時間帯', 'day');
   await expect(scene).toHaveAttribute('data-lighting', 'day');
   return scene;
 }
@@ -73,10 +74,9 @@ test('the temporal blend keeps still views and changes only frames while turning
   const scene = await enter(page, '');
   await expect(scene).toHaveAttribute('data-temporal', 'on');
   const blended = await capture(page, scene);
-  const quality = page.getByLabel('3Dの画質');
-  await quality.selectOption('low');
+  await chooseSceneSetting(page, '3Dの画質', 'low');
   await expect(scene).toHaveAttribute('data-temporal', 'off');
-  await quality.selectOption('standard');
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
   await expect(scene).toHaveAttribute('data-temporal', 'on');
 
   const other = await browser.newPage({

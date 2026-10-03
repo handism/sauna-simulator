@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -35,8 +36,8 @@ test('capture 60 fps frames of the frayed patches in the plunge', async ({ page,
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-  await page.getByLabel('3Dの画質').selectOption('standard');
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
+  await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(scene).toHaveAttribute('data-stage', 'water');
   await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
   const advance = (ms: number) =>
@@ -53,7 +54,7 @@ test('capture 60 fps frames of the frayed patches in the plunge', async ({ page,
   const samples: object[] = [];
   for (const lighting of ['evening', 'night']) {
     // Reduced motion snaps the light to its endpoint (and stops the waves), then the waves resume.
-    await page.getByLabel('3Dの時間帯').selectOption(lighting);
+    await chooseSceneSetting(page, '3Dの時間帯', lighting);
     await expect(scene).toHaveAttribute('data-lighting', lighting);
     await advance(STEP_MS);
     await page.emulateMedia({ reducedMotion: 'no-preference' });

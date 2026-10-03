@@ -1,3 +1,4 @@
+import { chooseSceneSetting, switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 
 test.use({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
@@ -11,9 +12,9 @@ test('narrow controls, keyboard look and resize preserve the loaded scene', asyn
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   const original = await canvas.elementHandle();
-  await page.getByLabel('3Dの画質').selectOption('low');
+  await chooseSceneSetting(page, '3Dの画質', 'low');
   await expect(scene).toHaveAttribute('data-quality', 'low');
-  await page.getByLabel('3Dの時間帯').selectOption('day');
+  await chooseSceneSetting(page, '3Dの時間帯', 'day');
   await expect(scene).toHaveAttribute('data-lighting', 'day');
 
   await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
@@ -27,9 +28,9 @@ test('narrow controls, keyboard look and resize preserve the loaded scene', asyn
   await page.getByRole('button', { name: 'UI表示', exact: true }).click();
 
   for (const [button, stage] of [
-    ['限界.. 水風呂へ 💧', 'water'],
-    ['外気浴へ 🍃', 'totonou'],
-    ['もう一度サウナへ 🔄', 'sauna'],
+    ['水風呂へ', 'water'],
+    ['外気浴へ', 'totonou'],
+    ['もう一度サウナへ', 'sauna'],
   ]) {
     const next = page.getByRole('button', { name: button, exact: true });
     await expect(next).toBeInViewport({ ratio: 1 });
@@ -52,10 +53,10 @@ test('narrow controls, keyboard look and resize preserve the loaded scene', asyn
     expect(await original!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
       true,
     );
-    await expect(page.getByRole('button', { name: '2Dに切り替え' })).toBeInViewport({ ratio: 1 });
+    await expect(page.locator('.display-settings > summary')).toBeInViewport({ ratio: 1 });
   }
   await page.screenshot({ path: info.outputPath('narrow-sauna.png') });
-  await page.getByRole('button', { name: '2Dに切り替え' }).click();
+  await switchSceneMode(page, '2Dに切り替え');
   await expect(scene).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   expect(errors).toEqual([]);

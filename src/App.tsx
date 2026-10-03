@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './index.css';
 import SceneMode from './components/SceneMode';
+import { ActionIcon } from './components/ActionIcon';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
@@ -49,6 +50,9 @@ function App() {
     completeSauna,
     completeWater,
     completeTotonou,
+    finishSession,
+    sessionSummary,
+    dismissSummary,
   } = useSaunaContext();
 
   const [loylyEvents] = useState(() => new EventTarget());
@@ -57,7 +61,11 @@ function App() {
   useKeyboardShortcut('m', toggleMute, { enabled: stage !== 'start' });
   useKeyboardShortcut('u', toggleUiVisibility, { enabled: stage !== 'start' });
   useKeyboardShortcut('f', fullscreen.toggle, { enabled: fullscreen.isSupported });
-  const background = stage === 'start' ? null : BACKGROUNDS[stage];
+  const background = BACKGROUNDS[stage === 'start' ? (sessionSummary ? 'totonou' : 'sauna') : stage];
+  const contentRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    contentRef.current?.querySelector<HTMLElement>('h1, h2')?.focus({ preventScroll: true });
+  }, [stage, sessionSummary]);
 
   return (
     <div className={`app-container ${isUiHidden ? 'ui-hidden' : ''}`} style={{ background: '#000' }}>
@@ -79,7 +87,7 @@ function App() {
         opacity={opacity}
         loylyEvents={loylyEvents}
       />
-      <div className="app-main-ui-container">
+      <div className="app-main-ui-container" ref={contentRef}>
         {stage !== 'start' && (
           <>
             {fullscreen.isSupported && (
@@ -90,13 +98,19 @@ function App() {
           </>
         )}
 
-        {stage === 'start' && (
+        {stage === 'start' && !sessionSummary && (
           <div className="app-start-screen" style={{ opacity }} inert={pendingStage !== null}>
-            <h1 className="app-main-title">ブラウザサウナ</h1>
-            <p className="app-subtitle">プレミアムな疑似サウナ体験</p>
+            <p className="welcome-eyebrow">ひと息つく、あなたの場所</p>
+            <h1 className="app-main-title" tabIndex={-1}>
+              ブラウザサウナ
+            </h1>
+            <p className="app-subtitle">音と景色で、ひと息つく。</p>
 
+            <p className="journey-guide" aria-label="体験の流れ">
+              サウナ <ActionIcon name="arrow" /> 水風呂 <ActionIcon name="arrow" /> 外気浴
+            </p>
             <p className="app-headphone-notice">
-              <span>🎧</span> ヘッドホン・イヤホン推奨
+              <ActionIcon name="headphones" /> ヘッドホン・イヤホン推奨
             </p>
 
             <div className="app-btn-group">
@@ -126,6 +140,37 @@ function App() {
           </div>
         )}
 
+        {stage === 'start' && sessionSummary && (
+          <section className="app-start-screen session-end" style={{ opacity }} inert={pendingStage !== null}>
+            <p className="welcome-eyebrow">おつかれさまでした</p>
+            <h1 className="app-main-title" tabIndex={-1}>
+              今日のひと息
+            </h1>
+            <p className="app-subtitle">この余韻を、日常へ。</p>
+            <dl className="glass-panel session-summary">
+              <div>
+                <dt>過ごしたセット</dt>
+                <dd>
+                  {sessionSummary.sets}
+                  <span> セット</span>
+                </dd>
+              </div>
+              <div>
+                <dt>滞在時間</dt>
+                <dd>
+                  {Math.floor(sessionSummary.seconds / 60)}
+                  <span> 分 </span>
+                  {sessionSummary.seconds % 60}
+                  <span> 秒</span>
+                </dd>
+              </div>
+            </dl>
+            <button className="primary-btn" onClick={dismissSummary}>
+              トップに戻る <ActionIcon name="arrow" />
+            </button>
+          </section>
+        )}
+
         {stage !== 'start' && (
           // Keyed by stage so each stage mounts its own container, as separate elements did.
           <div key={stage} className="app-stage-container" style={{ opacity }} inert={pendingStage !== null}>
@@ -144,6 +189,7 @@ function App() {
                 loylyCount={loylyCount}
                 scoreHistory={scoreHistory}
                 onNext={completeTotonou}
+                onFinish={finishSession}
               />
             )}
           </div>

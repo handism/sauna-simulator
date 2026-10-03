@@ -32,7 +32,7 @@ test('keyboard shortcuts drive the session and fullscreen in a real browser', as
 
   // The sauna stays on screen, inert, while it fades out; Space must not pour Löyly there.
   await expect(page.locator('.sauna-steam-particle')).toHaveCount(0, { timeout: 5_000 });
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧' }).click();
+  await page.getByRole('button', { name: '水風呂へ' }).click();
   await page.keyboard.press('Space');
   await expect(page.locator('.sauna-steam-particle')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: '水風呂' })).toBeVisible();

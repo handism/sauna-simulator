@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -43,18 +44,18 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
     // The woodland foliage loads after the ready scene.
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
-    await page.getByLabel('3Dの画質').selectOption('standard');
+    await chooseSceneSetting(page, '3Dの画質', 'standard');
     const stages = [
-      ['sauna', '限界.. 水風呂へ 💧'],
-      ['water', '外気浴へ 🍃'],
-      ['totonou', 'もう一度サウナへ 🔄'],
+      ['sauna', '水風呂へ'],
+      ['water', '外気浴へ'],
+      ['totonou', 'もう一度サウナへ'],
     ] as const;
     for (const [stage, next] of stages) {
       await expect(scene).toHaveAttribute('data-stage', stage);
       await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
       await page.waitForTimeout(1200);
       for (const lighting of ['day', 'evening', 'night']) {
-        await page.getByLabel('3Dの時間帯').selectOption(lighting);
+        await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         const camera = views[stage];
         const file = `cycles-${camera.render.replace('.png', '')}-${lighting}.jpg`;

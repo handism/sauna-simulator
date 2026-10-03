@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -50,7 +51,7 @@ for (const quality of ['standard', 'high']) {
       await page.getByRole('button', { name: '静かに入室する' }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-      await page.getByLabel('3Dの画質').selectOption(quality);
+      await chooseSceneSetting(page, '3Dの画質', quality);
       const advance = () =>
         page.evaluate(async () => {
           const state = (window as unknown as { sunReview: { now: number } }).sunReview;
@@ -59,19 +60,19 @@ for (const quality of ['standard', 'high']) {
         });
       const samples: object[] = [];
       for (const [stage, next] of [
-        ['sauna', '限界.. 水風呂へ 💧'],
-        ['water', '外気浴へ 🍃'],
+        ['sauna', '水風呂へ'],
+        ['water', '外気浴へ'],
         ['totonou', null],
       ] as const) {
         await expect(scene).toHaveAttribute('data-stage', stage);
         // Snap to the day endpoint, then restore the real interpolation for both directions.
         await page.emulateMedia({ reducedMotion: 'reduce' });
-        await page.getByLabel('3Dの時間帯').selectOption('day');
+        await chooseSceneSetting(page, '3Dの時間帯', 'day');
         await advance();
         await page.emulateMedia({ reducedMotion: 'no-preference' });
         await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
         for (const direction of ['evening', 'day']) {
-          await page.getByLabel('3Dの時間帯').selectOption(direction);
+          await chooseSceneSetting(page, '3Dの時間帯', direction);
           const seen = new Set<boolean>();
           for (let step = 0; step <= (direction === 'evening' ? 62 : 3); step++) {
             if (step) await advance();

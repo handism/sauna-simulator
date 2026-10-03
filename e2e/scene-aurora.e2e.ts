@@ -1,3 +1,4 @@
+import { chooseSceneSetting, switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 
 test('3D lighting replaces the aurora only while the scene is ready', async ({ page, browser }, info) => {
@@ -6,8 +7,8 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('?view=2d');
   await page.getByRole('button', { name: '静かに入室する' }).click();
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧' }).click();
-  await page.getByRole('button', { name: '外気浴へ 🍃' }).click();
+  await page.getByRole('button', { name: '水風呂へ' }).click();
+  await page.getByRole('button', { name: '外気浴へ' }).click();
   const aurora = page.locator('.aurora-container');
   await expect(aurora).toBeVisible();
   let release!: () => void;
@@ -22,7 +23,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
     },
     { times: 1 },
   );
-  await page.getByRole('button', { name: '3Dを試す' }).click();
+  await switchSceneMode(page, '3Dを試す');
   await expect(page.getByRole('status')).toContainText('読み込み中');
   await expect(aurora).toBeVisible();
   release();
@@ -44,7 +45,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
   await page.waitForTimeout(1200);
   for (const lighting of ['day', 'evening', 'night']) {
-    await page.getByLabel('3Dの時間帯').selectOption(lighting);
+    await chooseSceneSetting(page, '3Dの時間帯', lighting);
     await expect(scene).toHaveAttribute('data-lighting', lighting);
     // Reconstruct the old overlay at a fixed point of its .45-.75 breathing
     // cycle. Camera, model and lighting stay identical for this comparison.
@@ -61,9 +62,9 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
     true,
   );
   await page.getByRole('button', { name: 'UI表示', exact: true }).click();
-  await page.getByRole('button', { name: '2Dに切り替え' }).click();
+  await switchSceneMode(page, '2Dに切り替え');
   await expect(aurora).toBeVisible();
-  await page.getByRole('button', { name: '3Dを試す' }).click();
+  await switchSceneMode(page, '3Dを試す');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   await expect(aurora).toBeHidden();
   expect(
@@ -76,7 +77,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   await expect(page.getByRole('status')).toContainText('2Dで続けています');
   await expect(aurora).toBeVisible();
   await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await page.getByRole('button', { name: 'もう一度サウナへ 🔄' }).click();
+  await page.getByRole('button', { name: 'もう一度サウナへ' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   expect(errors).toEqual([]);
   await info.attach('aurora-validation', {

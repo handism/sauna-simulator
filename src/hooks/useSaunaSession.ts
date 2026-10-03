@@ -37,6 +37,9 @@ export function useSaunaSession() {
   // 水風呂を出た時点で確定する、セットごとのととのい度（入室ごとにリセット）
   const [scoreHistory, setScoreHistory] = useState<readonly number[]>([]);
 
+  const [sessionSummary, setSessionSummary] = useState<{ sets: number; seconds: number } | null>(null);
+  const dismissSummary = useCallback(() => setSessionSummary(null), []);
+
   const audio = useAudioEngine();
   const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -67,6 +70,8 @@ export function useSaunaSession() {
   const handleStart = useCallback(
     (withSound: boolean) => {
       if (!changeStage('sauna')) return;
+      setSessionSummary(null);
+      setIsUiHidden(false);
       setEnteredAt(Date.now());
       audio.init();
       setIsMuted(!withSound);
@@ -100,6 +105,16 @@ export function useSaunaSession() {
     changeStage('sauna');
   }, [changeStage]);
 
+  const finishSession = useCallback(() => {
+    if (stage !== 'totonou' || !changeStage('start')) return;
+    audio.stopAmbient();
+    setSessionSummary({
+      sets: scoreHistory.length,
+      seconds: enteredAt === null ? 0 : Math.max(0, Math.floor((Date.now() - enteredAt) / 1000)),
+    });
+    setIsUiHidden(false);
+  }, [stage, changeStage, audio, scoreHistory.length, enteredAt]);
+
   // 音量の変更は state の updater（純粋であるべき）の外で行う
   const toggleMute = useCallback(() => {
     const next = !isMuted;
@@ -128,6 +143,9 @@ export function useSaunaSession() {
       completeSauna,
       completeWater,
       completeTotonou,
+      finishSession,
+      sessionSummary,
+      dismissSummary,
     }),
     [
       stage,
@@ -145,6 +163,9 @@ export function useSaunaSession() {
       completeSauna,
       completeWater,
       completeTotonou,
+      finishSession,
+      sessionSummary,
+      dismissSummary,
     ],
   );
 }

@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -69,8 +70,8 @@ ${
 type Camera = { render: string; camera: string; position: number[]; target: number[]; fov: number };
 const reference: { cameras: Camera[] } = JSON.parse(readFileSync('e2e/fixtures/cycles-cameras.json', 'utf8'));
 const stages = [
-  ['sauna', '限界.. 水風呂へ 💧'],
-  ['water', '外気浴へ 🍃'],
+  ['sauna', '水風呂へ'],
+  ['water', '外気浴へ'],
   ['totonou', null],
 ] as const;
 
@@ -116,10 +117,10 @@ for (const mode of modes) {
       await page.getByRole('button', { name: '静かに入室する' }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-      await page.getByLabel('3Dの画質').selectOption(quality);
+      await chooseSceneSetting(page, '3Dの画質', quality);
       for (const [index, [stage, next]] of stages.entries()) {
         await expect(scene).toHaveAttribute('data-stage', stage);
-        await page.getByLabel('3Dの時間帯').selectOption(lighting);
+        await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
         await page.waitForTimeout(1500);

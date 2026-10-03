@@ -1,9 +1,10 @@
-import { Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { AudioEngine } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
 import type { LightingMode } from './3d/lighting';
 import type { AmbientEnv, Stage } from '../context/SaunaContext';
 import { readPreference, writePreference } from '../utils/preferences';
+import { ActionIcon } from './ActionIcon';
 
 class SceneModuleError extends Error {}
 const SaunaScene = lazy(() =>
@@ -172,6 +173,26 @@ export default function SceneMode({
   const [lightingMode, setLightingMode] = usePreference<LightingMode>(LIGHTING_KEY, LIGHTING_VALUES, 'auto');
   const [quality, setQuality] = usePreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard');
   const [enabled, setEnabled] = useState(initialSceneMode);
+  const settingsRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const closeOnOutside = (event: PointerEvent) => {
+      if (event.target instanceof Node && !settingsRef.current?.contains(event.target)) {
+        settingsRef.current?.removeAttribute('open');
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && settingsRef.current?.open) {
+        settingsRef.current.open = false;
+        settingsRef.current.querySelector('summary')?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', closeOnOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, []);
   // ?view= overrides the saved choice. Saved after mount: state initializers stay free of side effects.
   useEffect(() => {
     const query = viewQuery();
@@ -202,31 +223,39 @@ export default function SceneMode({
         />
       )}
       <div className="scene-mode-controls">
-        <button type="button" onClick={toggle} aria-pressed={enabled}>
-          {enabled ? '2Dに切り替え' : '3Dを試す'}
-        </button>
-        {enabled && (
-          <>
-            <PreferenceSelect
-              label="時間帯"
-              ariaLabel="3Dの時間帯"
-              value={lightingMode}
-              options={LIGHTING_OPTIONS}
-              onChange={setLightingMode}
-            />
-            <PreferenceSelect
-              label="画質"
-              ariaLabel="3Dの画質"
-              value={quality}
-              options={QUALITY_OPTIONS}
-              onChange={setQuality}
-            />
-            <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
-              素材クレジット
-            </a>
-            {stage === 'start' && <span>入室すると3Dで体験できます</span>}
-          </>
-        )}
+        <details ref={settingsRef} key={stage} className="display-settings">
+          <summary>
+            <ActionIcon name="settings" /> 表示設定
+          </summary>
+          <div className="settings-panel">
+            <p className="settings-heading">景色を選ぶ</p>
+            <button type="button" onClick={toggle} aria-pressed={enabled}>
+              {enabled ? '2Dに切り替え' : '3Dを試す'}
+            </button>
+            {enabled && (
+              <>
+                <PreferenceSelect
+                  label="時間帯"
+                  ariaLabel="3Dの時間帯"
+                  value={lightingMode}
+                  options={LIGHTING_OPTIONS}
+                  onChange={setLightingMode}
+                />
+                <PreferenceSelect
+                  label="画質"
+                  ariaLabel="3Dの画質"
+                  value={quality}
+                  options={QUALITY_OPTIONS}
+                  onChange={setQuality}
+                />
+                <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
+                  素材クレジット
+                </a>
+                {stage === 'start' && <span>入室すると3Dで体験できます</span>}
+              </>
+            )}
+          </div>
+        </details>
       </div>
     </>
   );

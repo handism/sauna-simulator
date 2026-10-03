@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
@@ -18,15 +19,15 @@ test('capture all seated views for manual geometry and lighting review', async (
   // The woodland foliage loads after the ready scene.
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
   const original = await canvas.elementHandle();
-  await page.getByLabel('3Dの画質').selectOption('standard');
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
   const press = async (key: string, count: number) => {
     await scene.focus();
     for (let n = 0; n < count; n++) await page.keyboard.press(key);
   };
   const stages = [
-    ['sauna', '限界.. 水風呂へ 💧'],
-    ['water', '外気浴へ 🍃'],
-    ['totonou', 'もう一度サウナへ 🔄'],
+    ['sauna', '水風呂へ'],
+    ['water', '外気浴へ'],
+    ['totonou', 'もう一度サウナへ'],
   ] as const;
   for (const [stage, next] of stages) {
     await expect(scene).toHaveAttribute('data-stage', stage);
@@ -34,7 +35,7 @@ test('capture all seated views for manual geometry and lighting review', async (
     // Wait for the UI/scene opacity transitions, not just the stage attribute.
     await page.waitForTimeout(1200);
     for (const lighting of ['day', 'evening', 'night']) {
-      await page.getByLabel('3Dの時間帯').selectOption(lighting);
+      await chooseSceneSetting(page, '3Dの時間帯', lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
       for (let heading = 0; heading < 8; heading++) {
         // Force the lower clamp, then use a fixed count to reach near-level

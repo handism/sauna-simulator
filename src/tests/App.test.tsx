@@ -8,7 +8,7 @@ import * as useAudioEngineModule from '../hooks/useAudioEngine';
 vi.mock('../components/SaunaRoom', () => ({
   default: ({ onNext }: any) => (
     <div data-testid="sauna-room">
-      <button onClick={() => onNext(100, 10, 2)}>Next to Water</button>
+      <button onClick={() => onNext({ heartRate: 100, saunaTime: 10, loylyCount: 2 })}>Next to Water</button>
     </div>
   ),
 }));
@@ -16,7 +16,7 @@ vi.mock('../components/SaunaRoom', () => ({
 vi.mock('../components/CoolingBath', () => ({
   default: ({ onNext }: any) => (
     <div data-testid="cooling-bath">
-      <button onClick={() => onNext(80, 2)}>Next to Totonou</button>
+      <button onClick={() => onNext({ heartRate: 80, waterTime: 2 })}>Next to Totonou</button>
     </div>
   ),
 }));
@@ -38,6 +38,7 @@ describe('App Component', () => {
     setMuted: vi.fn(),
     setSpatialPose: vi.fn(),
     playAmbient: vi.fn(),
+    stopAmbient: vi.fn(),
   };
 
   beforeEach(() => {

@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { controlFrames, holdRatio } from './resolution-control';
 import { rendererCaptureStyle } from './scene-capture';
@@ -33,7 +34,7 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-  await page.getByLabel('3Dの画質').selectOption(QUALITY);
+  await chooseSceneSetting(page, '3Dの画質', QUALITY);
   // Applied once its programs have compiled.
   await expect(scene).toHaveAttribute('data-quality', QUALITY);
   // The held time still draws a frame for each animation frame.
@@ -48,14 +49,14 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
     );
   const samples: object[] = [];
   for (const [stage, next] of [
-    ['sauna', '限界.. 水風呂へ 💧'],
-    ['water', '外気浴へ 🍃'],
+    ['sauna', '水風呂へ'],
+    ['water', '外気浴へ'],
     ['totonou', null],
   ] as const) {
     await expect(scene).toHaveAttribute('data-stage', stage);
     await page.waitForTimeout(1_200);
     for (const lighting of ['day', 'evening']) {
-      await page.getByLabel('3Dの時間帯').selectOption(lighting);
+      await chooseSceneSetting(page, '3Dの時間帯', lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
       for (const ratio of RATIOS) {
         await holdRatio(page, scene, ratio, QUALITY);

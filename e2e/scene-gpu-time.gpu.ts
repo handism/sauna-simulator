@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { timeFrames } from './gpu-timer';
@@ -32,10 +33,10 @@ test('measure the GPU time of the sauna and plunge views', async ({ page, browse
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
     const supported = await page.evaluate(() => Boolean((window as unknown as { suiTimer?: object }).suiTimer));
     test.skip(!supported, 'EXT_disjoint_timer_query_webgl2 is not available');
-    await page.getByLabel('3Dの画質').selectOption('standard');
+    await chooseSceneSetting(page, '3Dの画質', 'standard');
     for (const [stage, next] of [
-      ['sauna', '限界.. 水風呂へ 💧'],
-      ['water', '外気浴へ 🍃'],
+      ['sauna', '水風呂へ'],
+      ['water', '外気浴へ'],
     ] as const) {
       await expect(scene).toHaveAttribute('data-stage', stage);
       // The camera only replaces the plunge view.
@@ -45,7 +46,7 @@ test('measure the GPU time of the sauna and plunge views', async ({ page, browse
       }
       await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
       for (const lighting of ['day', 'evening', 'night']) {
-        await page.getByLabel('3Dの時間帯').selectOption(lighting);
+        await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         // Past the stage fade and the shader compiles of the lighting change.
         await page.waitForTimeout(2500);

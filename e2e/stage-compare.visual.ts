@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { patchFrameCost, type FrameCostMode } from './frame-cost';
 import { rendererCaptureStyle } from './scene-capture';
@@ -26,8 +27,8 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   // The woodland foliage loads after the ready scene.
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
-  await page.getByLabel('3Dの画質').selectOption('standard');
-  await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+  await chooseSceneSetting(page, '3Dの画質', 'standard');
+  await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(scene).toHaveAttribute('data-stage', 'water');
   await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
   await page.waitForTimeout(1200);
@@ -37,7 +38,7 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
   };
   const samples: object[] = [];
   for (const lighting of ['day', 'evening', 'night']) {
-    await page.getByLabel('3Dの時間帯').selectOption(lighting);
+    await chooseSceneSetting(page, '3Dの時間帯', lighting);
     await expect(scene).toHaveAttribute('data-lighting', lighting);
     for (const [heading, pitch] of VIEWS) {
       // As the survey: heading n is 10n presses right; level is the lower clamp plus 14 presses up.

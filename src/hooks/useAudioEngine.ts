@@ -103,6 +103,7 @@ export interface AudioEngine {
   setSpatialPose: (pose: SpatialPose | null) => void;
   init: () => void;
   playAmbient: (env: AmbientEnv) => void;
+  stopAmbient: () => void;
   playLoyly: () => void;
   setMuted: (muted: boolean) => void;
 }
@@ -381,7 +382,7 @@ export function useAudioEngine(): AudioEngine {
   }, []);
 
   return useMemo(
-    () => ({ init, playAmbient, playLoyly, setMuted, setSpatialPose }),
-    [init, playAmbient, playLoyly, setMuted, setSpatialPose],
+    () => ({ init, playAmbient, stopAmbient, playLoyly, setMuted, setSpatialPose }),
+    [init, playAmbient, stopAmbient, playLoyly, setMuted, setSpatialPose],
   );
 }

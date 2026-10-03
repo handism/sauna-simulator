@@ -1,3 +1,4 @@
+import { switchSceneMode } from './settings-controls';
 import { expect, test } from '@playwright/test';
 
 test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, reducedMotion: 'reduce' });
@@ -63,9 +64,9 @@ test('touch look survives a second finger and cancellation; controls remain tapp
 
   await page.getByRole('button', { name: 'UI表示', exact: true }).tap();
   for (const [button, stage] of [
-    ['限界.. 水風呂へ 💧', 'water'],
-    ['外気浴へ 🍃', 'totonou'],
-    ['もう一度サウナへ 🔄', 'sauna'],
+    ['水風呂へ', 'water'],
+    ['外気浴へ', 'totonou'],
+    ['もう一度サウナへ', 'sauna'],
   ]) {
     await page.getByRole('button', { name: button, exact: true }).tap();
     await expect(scene).toHaveAttribute('data-stage', stage);
@@ -74,7 +75,7 @@ test('touch look survives a second finger and cancellation; controls remain tapp
     true,
   );
   await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await page.getByRole('button', { name: '2Dに切り替え' }).tap();
+  await switchSceneMode(page, '2Dに切り替え', true);
   await expect(scene).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   expect(errors).toEqual([]);

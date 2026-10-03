@@ -1,3 +1,4 @@
+import { switchSceneMode } from './settings-controls';
 import { expect, test, type Page } from '@playwright/test';
 
 // Counts the audio graph the page builds: the nodes created by type, the contexts, and the
@@ -70,14 +71,14 @@ async function rounds(page: Page, query: string, between?: () => Promise<void>) 
   const samples = [await settled(1)];
   for (let round = 0; round < 6; round++) {
     for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'ロウリュ (Löyly)' }).click();
-    await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+    await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
     await expect(page.getByRole('heading', { name: '水風呂' })).toBeVisible();
     await settled(1);
-    await page.getByRole('button', { name: '外気浴へ 🍃', exact: true }).click();
+    await page.getByRole('button', { name: '外気浴へ', exact: true }).click();
     await expect(page.getByRole('heading', { name: '外気浴' })).toBeVisible();
     // Binaural beats (2), wind and its LFO.
     await settled(4);
-    await page.getByRole('button', { name: 'もう一度サウナへ 🔄', exact: true }).click();
+    await page.getByRole('button', { name: 'もう一度サウナへ', exact: true }).click();
     await expect(heading).toBeVisible();
     await between?.();
     samples.push(await settled(1));
@@ -117,9 +118,9 @@ test('the 3D scene and its regeneration add no audio nodes', async ({ page }, in
     await ready();
     poses.push(await spatialPose(page));
     // Back to 2D (the pose is released) and a new scene, which sets it again.
-    await page.getByRole('button', { name: '2Dに切り替え' }).click();
+    await switchSceneMode(page, '2Dに切り替え');
     await expect(scene).toHaveCount(0);
-    await page.getByRole('button', { name: '3Dを試す' }).click();
+    await switchSceneMode(page, '3Dを試す');
     await ready();
   });
   poses.push(await spatialPose(page));
@@ -139,4 +140,21 @@ test('the 3D scene and its regeneration add no audio nodes', async ({ page }, in
     expect(pose.listener.some((value) => value !== 0)).toBe(true);
   }
   expect(errors).toEqual([]);
+});
+
+test('finishing fades and stops every ambient source before a fresh session', async ({ page }) => {
+  await page.addInitScript(observeAudioNodes);
+  await page.goto('?view=2d');
+  await page.getByRole('button', { name: '音ありで入室する' }).click();
+  await expect.poll(async () => (await nodes(page)).playing).toBe(1);
+  await page.getByRole('button', { name: '水風呂へ' }).click();
+  await page.getByRole('button', { name: '外気浴へ' }).click();
+  await expect.poll(async () => (await nodes(page)).playing).toBe(4);
+  await page.getByRole('button', { name: '今日はここまで' }).click();
+  await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeVisible();
+  await expect.poll(async () => (await nodes(page)).playing).toBe(0);
+  await page.getByRole('button', { name: 'トップに戻る' }).click();
+  await page.getByRole('button', { name: '音ありで入室する' }).click();
+  await expect.poll(async () => (await nodes(page)).playing).toBe(1);
+  expect((await nodes(page)).contexts).toBe(1);
 });

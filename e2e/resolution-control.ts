@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, type Locator, type Page } from '@playwright/test';
 import { QUALITY } from '../src/components/3d/quality.ts';
 
@@ -38,10 +39,9 @@ function frames(page: Page, mode: 'slow' | 'hold') {
 export async function holdRatio(page: Page, scene: Locator, ratio: string, quality: 'standard' | 'high' = 'standard') {
   if (ratio === String(QUALITY[quality].pixelRatio)) {
     await frames(page, 'hold');
-    const select = page.getByLabel('3Dの画質');
-    await select.selectOption('low');
+    await chooseSceneSetting(page, '3Dの画質', 'low');
     await expect(scene).toHaveAttribute('data-pixel-ratio', '1');
-    await select.selectOption(quality);
+    await chooseSceneSetting(page, '3Dの画質', quality);
   } else {
     await frames(page, 'slow');
     await expect(scene).toHaveAttribute('data-pixel-ratio', ratio, { timeout: 15_000 });

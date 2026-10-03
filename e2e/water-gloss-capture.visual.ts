@@ -1,3 +1,4 @@
+import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { rendererCaptureStyle } from './scene-capture';
 
@@ -66,11 +67,11 @@ for (const variant of VARIANTS)
     const canvas = scene.locator('canvas');
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
-    await page.getByLabel('3Dの画質').selectOption('standard');
-    await page.getByRole('button', { name: '限界.. 水風呂へ 💧', exact: true }).click();
+    await chooseSceneSetting(page, '3Dの画質', 'standard');
+    await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
     await expect(scene).toHaveAttribute('data-stage', 'water');
     await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
-    await page.getByLabel('3Dの時間帯').selectOption('evening');
+    await chooseSceneSetting(page, '3Dの時間帯', 'evening');
     await expect(scene).toHaveAttribute('data-lighting', 'evening');
     await page.waitForTimeout(1200);
     const press = async (key: string, count: number) => {

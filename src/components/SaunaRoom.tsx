@@ -5,6 +5,7 @@ import { useSecondTicker } from '../hooks/useSecondTicker';
 import type { SaunaResult } from '../hooks/useSaunaSession';
 import { calculateHeatIndex, RESTING_HEART_RATE } from '../utils/saunaUtils';
 import HeartRateRow from './HeartRateRow';
+import { ActionIcon } from './ActionIcon';
 
 interface Steam {
   id: number;
@@ -133,9 +134,14 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
       {/* スチームオーバーレイ曇り演出 */}
       <div key={steamBurst} className={`steam-overlay ${steamBurst > 0 ? 'active' : ''}`} />
 
-      <div className="glass-panel sauna-room-panel">
-        <h2 className="sauna-room-title">サウナルーム</h2>
-
+      <header className="stage-heading">
+        <p className="stage-step">01 / 03 · サウナ</p>
+        <h2 className="sauna-room-title" tabIndex={-1}>
+          サウナルーム
+        </h2>
+        <p>湯気と木の香りを、ゆっくりと。</p>
+      </header>
+      <div className="glass-panel stage-dock sauna-room-panel">
         {/* メインデジタルメーター */}
         <div className="sauna-meters-grid">
           <div className="sauna-meter-box">
@@ -149,27 +155,27 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
         </div>
 
         {/* 体感温度 & 心拍数情報 */}
-        <div className="sauna-info-panel">
-          <div className="stage-info-row">
-            <span className="stage-info-label">体感温度:</span>
-            <span className="dashboard-value sauna-info-val-heat">{heatIndex.toFixed(1)}°C</span>
+        <details className="stage-details">
+          <summary>からだの様子を見る</summary>
+          <div className="sauna-info-panel">
+            <div className="stage-info-row">
+              <span className="stage-info-label">体感温度:</span>
+              <span className="dashboard-value sauna-info-val-heat">{heatIndex.toFixed(1)}°C</span>
+            </div>
+
+            <HeartRateRow heartRate={heartRate} />
           </div>
 
-          <HeartRateRow heartRate={heartRate} icon="❤️" />
-        </div>
-
-        <div className="sauna-action-btn-container">
+          <p className="detail-note">数値は体験内のシミュレーションです。</p>
+        </details>
+        <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
-            ロウリュ (Löyly)
+            <ActionIcon name="steam" /> ロウリュ (Löyly)
+          </button>
+          <button className="primary-btn sauna-next-stage-btn" onClick={handleLeave}>
+            水風呂へ <ActionIcon name="arrow" />
           </button>
         </div>
-      </div>
-
-      {/* 水風呂への遷移アクションボタン */}
-      <div className="sauna-next-stage-btn-container">
-        <button className="primary-btn sauna-next-stage-btn" onClick={handleLeave}>
-          限界.. 水風呂へ 💧
-        </button>
       </div>
 
       {/* サウナストーンからの上昇蒸気パーティクル */}
