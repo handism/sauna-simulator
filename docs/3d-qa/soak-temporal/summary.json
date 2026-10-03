@@ -1,0 +1,323 @@
+{
+  "browser": "154.0.8037.97",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "elapsedMs": 321609,
+  "cycles": 8,
+  "slowSamples": 0,
+  "errors": [],
+  "limitations": "Resource stability and usability only; slow frame windows are reported, not a performance pass. Not total GPU memory, audio-node counts, real-device performance or proof of leak absence.",
+  "stats": {
+    "startTime": "2026-10-03T14:00:27.011Z",
+    "duration": 323534.876,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "status": "passed",
+  "retry": 0,
+  "productCommit": "9484b0d",
+  "sampleCount": 40,
+  "groups": {
+    "low/evening/sauna": {
+      "samples": 9,
+      "textures": [
+        "17"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "138"
+      ],
+      "triangles": [
+        "732438"
+      ],
+      "temporal": [
+        "off"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        18.89
+      ],
+      "frameMaxMs": 416.6
+    },
+    "low/evening/water": {
+      "samples": 3,
+      "textures": [
+        "17"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "129"
+      ],
+      "triangles": [
+        "720272"
+      ],
+      "temporal": [
+        "off"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    },
+    "low/evening/totonou": {
+      "samples": 3,
+      "textures": [
+        "17"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "83"
+      ],
+      "triangles": [
+        "539614"
+      ],
+      "temporal": [
+        "off"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    },
+    "standard/night/sauna": {
+      "samples": 9,
+      "textures": [
+        "34"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "138"
+      ],
+      "triangles": [
+        "732438"
+      ],
+      "temporal": [
+        "on"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    },
+    "standard/night/water": {
+      "samples": 3,
+      "textures": [
+        "34"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "129"
+      ],
+      "triangles": [
+        "720272"
+      ],
+      "temporal": [
+        "on"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    },
+    "standard/night/totonou": {
+      "samples": 3,
+      "textures": [
+        "34"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "83"
+      ],
+      "triangles": [
+        "539614"
+      ],
+      "temporal": [
+        "on"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    },
+    "high/day/sauna": {
+      "samples": 6,
+      "textures": [
+        "34"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "138"
+      ],
+      "triangles": [
+        "732438"
+      ],
+      "temporal": [
+        "on"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    },
+    "high/day/water": {
+      "samples": 2,
+      "textures": [
+        "34"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "129"
+      ],
+      "triangles": [
+        "720272"
+      ],
+      "temporal": [
+        "on"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    },
+    "high/day/totonou": {
+      "samples": 2,
+      "textures": [
+        "34"
+      ],
+      "geometries": [
+        "128"
+      ],
+      "drawCalls": [
+        "83"
+      ],
+      "triangles": [
+        "539614"
+      ],
+      "temporal": [
+        "on"
+      ],
+      "pixelRatio": [
+        "1"
+      ],
+      "garden": [
+        "ready"
+      ],
+      "frameMeanMsRange": [
+        16.67,
+        16.67
+      ],
+      "frameMaxMs": 16.8
+    }
+  },
+  "sha256": {
+    "e2e/scene-stability.soak.ts": "4d8b4ace3e70e9061c2c835de493d83f11d3f3259646111034075073e5a49955",
+    "playwright.soak.config.ts": "eae44a299fd51aa291f0df7d0c4e254c7d84b99a2d598114b96d81ebbf348261",
+    "playwright.config.ts": "6c4ada19f8d16ccd49af387d38de3ca8311ff0a00b17f0c6ac2b3aced02ad4ea",
+    "src/components/3d/temporalAA.ts": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+    "src/components/3d/hdrOutput.ts": "3f3441ac2e6d0e6b357b4eb31b0d6eb1d6047b85169809964274f6a9f6912b31",
+    "src/components/3d/SaunaScene.tsx": "975606c5d34a659178f59d481e49d6422170f90297eebef99f4dfeaa8ba0fe9d",
+    "public/models/sauna.glb": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+    "public/models/sauna-garden.glb": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5"
+  },
+  "cyclesLog": [
+    {
+      "text": "Soak cycle 1: 40s, low\n"
+    },
+    {
+      "text": "Soak cycle 2: 80s, standard\n"
+    },
+    {
+      "text": "Soak cycle 3: 119s, high\n"
+    },
+    {
+      "text": "Soak cycle 4: 159s, low\n"
+    },
+    {
+      "text": "Soak cycle 5: 199s, standard\n"
+    },
+    {
+      "text": "Soak cycle 6: 238s, high\n"
+    },
+    {
+      "text": "Soak cycle 7: 278s, low\n"
+    },
+    {
+      "text": "Soak cycle 8: 318s, standard\n"
+    }
+  ]
+}

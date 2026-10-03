@@ -45,6 +45,32 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     await expect(scene).toHaveAttribute('data-quality', quality);
   };
   const sample = async () => {
+    // Wake the temporal history after a still view, then let it converge and skip again.
+    // Return to the same direction so resource comparisons have the same visible geometry.
+    await expect(scene).toHaveAttribute(
+      'data-temporal',
+      (await page.getByLabel('3Dの画質').inputValue()) === 'low' ? 'off' : 'on',
+    );
+    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    const box = (await scene.locator('canvas').boundingBox())!;
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    for (let step = 1; step <= 24; step++) {
+      await page.mouse.move(x + (step <= 12 ? step : 24 - step) * 8, y);
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+    }
+    await page.mouse.up();
+    await page.evaluate(
+      () =>
+        new Promise<void>((resolve) => {
+          let frames = 0;
+          const tick = () => (++frames >= 70 ? resolve() : requestAnimationFrame(tick));
+          requestAnimationFrame(tick);
+        }),
+    );
+    await page.getByRole('button', { name: 'UI表示', exact: true }).click();
     const waitStarted = Date.now();
     await expect(scene).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: timingPolicy.sampleTimeoutMs });
     const data = await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset }));
