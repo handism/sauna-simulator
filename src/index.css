@@ -895,6 +895,21 @@ p {
   .app-start-screen {
     transition: none;
   }
+  /* Looping and drifting decoration stops; the readouts keep showing the same state. The heart
+     and glow pulses are inline styles, hence !important. The breathing circle stays: it is a
+     slow guide, not decoration. */
+  .aurora-blob,
+  .heart-rate-icon,
+  .cooling-glow,
+  .totonou-feedback {
+    animation: none !important;
+  }
+  /* Without their motion these would only flash in and out (the overlay blurs the whole view). */
+  .steam-overlay,
+  .sauna-steam-particle,
+  .cooling-ripple-effect {
+    display: none;
+  }
 }
 /* Effects with a world position replace the former screen-space particles. */
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .cooling-ripple-effect,
