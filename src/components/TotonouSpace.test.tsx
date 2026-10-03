@@ -79,14 +79,14 @@ describe('TotonouSpace Component', () => {
   });
 
   it('should render correctly and display initial breathing text', () => {
-    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={() => {}} />);
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={() => {}} />);
     expect(screen.getByText('外気浴')).toBeInTheDocument();
     expect(screen.getByText('風の音に身を任せて')).toBeInTheDocument();
     expect(screen.getByText('吸って...')).toBeInTheDocument();
   });
 
   it('should change breathing text cyclically', () => {
-    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={() => {}} />);
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={() => {}} />);
 
     // Initially "吸って..."
     expect(screen.getByText('吸って...')).toBeInTheDocument();
@@ -110,7 +110,7 @@ describe('TotonouSpace Component', () => {
 
   it('should call onNext when button is clicked', () => {
     const mockOnNext = vi.fn();
-    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={mockOnNext} />);
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={mockOnNext} />);
 
     const button = screen.getByRole('button', { name: /もう一度サウナへ/ });
     fireEvent.click(button);
@@ -119,9 +119,36 @@ describe('TotonouSpace Component', () => {
 
   it('returns to the sauna with the Space key', () => {
     const mockOnNext = vi.fn();
-    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} onNext={mockOnNext} />);
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={mockOnNext} />);
 
     fireEvent.keyDown(document.body, { key: ' ' });
     expect(mockOnNext).toHaveBeenCalledTimes(1);
+  });
+
+  it('announces the feedback through a polite live region', () => {
+    render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={() => {}} />);
+    const feedback = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
+    expect(screen.queryByText(feedback)).not.toBeInTheDocument();
+    act(() => {
+      vi.advanceTimersByTime(10_000);
+    });
+    expect(screen.getByText(feedback).closest('[aria-live="polite"]')).not.toBeNull();
+  });
+
+  it('shows the set number and, from the second set, each set score', () => {
+    const { unmount } = render(
+      <TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={() => {}} />,
+    );
+    expect(screen.getByText('1セット目')).toBeInTheDocument();
+    expect(screen.queryByRole('list', { name: 'セットごとのととのい度' })).not.toBeInTheDocument();
+    unmount();
+
+    render(<TotonouSpace saunaTime={35} waterTime={18} loylyCount={0} scoreHistory={[50, 71]} onNext={() => {}} />);
+    expect(screen.getByText('2セット目')).toBeInTheDocument();
+    const items = screen.getAllByRole('listitem');
+    expect(items.map((item) => item.textContent)).toEqual(['1セット50%', '2セット71%']);
+    // 71 is in the same tier as the "しっかり" feedback, so it shares that tier's color.
+    expect(screen.getByText('71%')).toHaveStyle({ color: '#60a5fa' });
+    expect(screen.getByText('50%')).toHaveStyle({ color: '#a78bfa' });
   });
 });

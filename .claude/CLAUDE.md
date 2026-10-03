@@ -9,6 +9,7 @@
 - パッケージマネージャは **bun**
 - Vitest の設定は `vite.config.ts` の `test` に一本化している。`src/hooks/useAudioEngine.bench.test.ts` は名前に反して `describe`/`it` による通常のテストで、`bun run test` の対象に含まれる（`vitest bench` の対象ではない）
 - 整形は Prettier（`bun run format` / `bun run format:check`、CIで検査）。Markdown・JSON・`docs/`・`public/` は対象外
+- ビルドの警告上限は遅延ロードする3Dチャンクに合わせてあり、2Dで必ず取得する入口チャンクだけは `vite.config.ts` のプラグインが 500kB で警告する
 
 ## アーキテクチャ
 
@@ -30,10 +31,11 @@
 
 ### スタイリング
 - 共通 UI は `.glass-panel`（glassmorphism）と `.primary-btn` の2クラスを使う
+- 外部フォントは読み込まない（OS標準の和文・欧文フォントスタック）
 - ステージ固有の色や背景はコンポーネント内のインラインスタイルで上書きする。ただし状態で切り替わる見た目（外気浴の呼吸の吸う/吐く）は `data-*` 属性と `index.css` のセレクタで切り替える
 
 ### コンポーネント設計
-- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする。記録は名前付きのオブジェクト（`useSaunaSession.ts` の `SaunaResult` / `WaterResult`）で渡す
+- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする。記録は名前付きのオブジェクト（`useSaunaSession.ts` の `SaunaResult` / `WaterResult`）で渡す。セットごとのととのい度（`scoreHistory`）は水風呂を出る遷移が受け付けられたときに `useSaunaSession` が確定し、入室ごとにリセットする。ととのい度の段階（`TOTONOU_TIERS`）はフィードバック文と表示色で共有する
 - `audio` と各種セッション値は `App.tsx` が `useSaunaContext()` から取得し、props で各コンポーネントに渡す。コンポーネント側は context を直接参照しない
 
 ### キーボードショートカット・全画面

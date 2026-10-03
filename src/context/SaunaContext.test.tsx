@@ -226,6 +226,40 @@ describe('SaunaContext', () => {
     expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith('water');
   });
 
+  it('records each set score when leaving the cold bath', () => {
+    const { result } = renderHook(() => useSaunaContext(), { wrapper });
+    const advance = (action: () => void) => {
+      act(action);
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+    };
+    expect(result.current.scoreHistory).toEqual([]);
+    advance(() => result.current.handleStart(false));
+    advance(() => result.current.completeSauna({ heartRate: 120, saunaTime: 50, loylyCount: 2 }));
+    advance(() => result.current.completeWater({ heartRate: 80, waterTime: 20 }));
+    expect(result.current.scoreHistory).toEqual([100]);
+    advance(() => result.current.completeTotonou());
+    advance(() => result.current.completeSauna({ heartRate: 110, saunaTime: 10, loylyCount: 0 }));
+    advance(() => result.current.completeWater({ heartRate: 80, waterTime: 20 }));
+    expect(result.current.scoreHistory).toEqual([100, 50]);
+  });
+
+  it('does not record a score for a rejected cold-bath exit', () => {
+    const { result } = renderHook(() => useSaunaContext(), { wrapper });
+    act(() => {
+      result.current.handleStart(false);
+    });
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    act(() => {
+      result.current.completeSauna({ heartRate: 120, saunaTime: 50, loylyCount: 2 });
+      result.current.completeWater({ heartRate: 80, waterTime: 20 });
+    });
+    expect(result.current.scoreHistory).toEqual([]);
+  });
+
   it('cancels a pending transition on unmount', () => {
     const { result, unmount } = renderHook(() => useSaunaContext(), { wrapper });
     act(() => {

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { type AmbientEnv, useAudioEngine } from './useAudioEngine';
-import { RESTING_HEART_RATE } from '../utils/saunaUtils';
+import { calculateTotonouScore, RESTING_HEART_RATE } from '../utils/saunaUtils';
 
 export type { AmbientEnv };
 /** 入室前の 'start' と、環境音・3D視点を持つ3ステージ（AmbientEnv） */
@@ -34,6 +34,8 @@ export function useSaunaSession() {
   // Wall-clock time (Date.now) of entering; the automatic 3D lighting follows the real time since.
   const [enteredAt, setEnteredAt] = useState<number | null>(null);
   const [results, setResults] = useState<SessionResults>(INITIAL_RESULTS);
+  // 水風呂を出た時点で確定する、セットごとのととのい度（入室ごとにリセット）
+  const [scoreHistory, setScoreHistory] = useState<readonly number[]>([]);
 
   const audio = useAudioEngine();
   const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -70,6 +72,7 @@ export function useSaunaSession() {
       setIsMuted(!withSound);
       audio.setMuted(!withSound);
       setResults(INITIAL_RESULTS);
+      setScoreHistory([]);
     },
     [audio, changeStage],
   );
@@ -87,8 +90,10 @@ export function useSaunaSession() {
     (result: WaterResult) => {
       if (!changeStage('totonou')) return;
       setResults((prev) => ({ ...prev, ...result }));
+      const { maxTotonou } = calculateTotonouScore(results.saunaTime, result.waterTime, results.loylyCount);
+      setScoreHistory((prev) => [...prev, maxTotonou]);
     },
-    [changeStage],
+    [changeStage, results.saunaTime, results.loylyCount],
   );
 
   const completeTotonou = useCallback(() => {
@@ -115,6 +120,7 @@ export function useSaunaSession() {
       isUiHidden,
       enteredAt,
       ...results,
+      scoreHistory,
       audio,
       handleStart,
       toggleMute,
@@ -131,6 +137,7 @@ export function useSaunaSession() {
       isUiHidden,
       enteredAt,
       results,
+      scoreHistory,
       audio,
       handleStart,
       toggleMute,

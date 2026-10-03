@@ -41,6 +41,7 @@ function App() {
     saunaTime,
     loylyCount,
     waterTime,
+    scoreHistory,
     audio,
     handleStart,
     toggleMute,
@@ -141,6 +142,7 @@ function App() {
                 saunaTime={saunaTime}
                 waterTime={waterTime}
                 loylyCount={loylyCount}
+                scoreHistory={scoreHistory}
                 onNext={completeTotonou}
               />
             )}

@@ -5,6 +5,12 @@ export const calculateHeatIndex = (temperature: number, humidity: number): numbe
   return temperature + humidity * 0.45;
 };
 
+// ととのい度の段階。フィードバック文と外気浴の表示色で共有する
+export const TOTONOU_TIERS = {
+  EXCELLENT: 90,
+  GOOD: 70,
+} as const;
+
 export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
   // サウナスコア (最大60点): 50秒以上滞在で50点、ロウリュ1回につき+5点 (上限10点)
   const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
@@ -15,9 +21,9 @@ export const calculateTotonouScore = (saunaTime: number, waterTime: number, loyl
 
   // スコアに応じたフィードバック
   let text = '';
-  if (totalScore >= 90) {
+  if (totalScore >= TOTONOU_TIERS.EXCELLENT) {
     text = '完璧な温冷交代浴です！ディープリラックスの境地へ... 🌌';
-  } else if (totalScore >= 70) {
+  } else if (totalScore >= TOTONOU_TIERS.GOOD) {
     text = 'しっかり「ととのい」の波が押し寄せています 🧘';
   } else if (saunaTime < 15) {
     text = 'サウナ室の温まりが少し足りなかったようです。次はじっくり汗を流しましょう 🔥';

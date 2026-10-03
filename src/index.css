@@ -20,7 +20,17 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  /* 外部フォントは読み込まず、OS標準の和文・欧文フォントを使う */
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Hiragino Sans',
+    'Hiragino Kaku Gothic ProN',
+    'Noto Sans JP',
+    Meiryo,
+    sans-serif;
   color: var(--text-main);
   background: var(--totonou-bg-end);
   overflow: hidden;
@@ -649,6 +659,13 @@ p {
   letter-spacing: 2px;
 }
 
+.totonou-set-label {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  letter-spacing: 2px;
+}
+
 .totonou-info-panel {
   margin-top: 40px;
   background: rgba(255, 255, 255, 0.03);
@@ -699,6 +716,28 @@ p {
   line-height: 1.5;
   margin-top: 5px;
   animation: steam-blur-fade 1.5s ease-out;
+}
+
+.totonou-history {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.totonou-history-item {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+.totonou-history-set {
+  font-size: 0.7rem;
+  color: #64748b;
 }
 
 .totonou-next-btn-container {
