@@ -132,4 +132,26 @@ describe('HDR output', () => {
       vi.useRealTimers();
     }
   });
+
+  it('does not wait without parallel shader compile', async () => {
+    vi.useFakeTimers();
+    try {
+      const { renderer } = fakeRenderer(true);
+      // three flags each program ready at once without KHR_parallel_shader_compile (its first use waits).
+      Object.assign(renderer, {
+        compileAsync: vi.fn(async () => {}),
+        properties: { get: () => ({ currentProgram: { isReady: () => true } }) },
+        getContext: () => ({ isContextLost: () => false }),
+      });
+      const output = createHdrOutput(renderer);
+      const scene = new THREE.Scene();
+      scene.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial()));
+      let done = false;
+      void output.compile(scene, new THREE.PerspectiveCamera(), scene, 1000).then(() => (done = true));
+      await vi.advanceTimersByTimeAsync(0);
+      expect(done).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });

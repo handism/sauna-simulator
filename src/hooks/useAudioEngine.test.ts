@@ -411,6 +411,21 @@ describe('useAudioEngine', () => {
     expect(mockCreateBufferSource).toHaveBeenCalledTimes(2);
   });
 
+  it('starts one loop when it returns to an environment whose noise is still being generated', async () => {
+    const { result } = renderHook(() => useAudioEngine());
+    act(() => result.current.init());
+
+    // Sauna → totonou → sauna before the first sauna noise arrives: only the last request plays
+    await act(async () => {
+      await Promise.all([
+        result.current.playAmbient('sauna'),
+        result.current.playAmbient('totonou'),
+        result.current.playAmbient('sauna'),
+      ]);
+    });
+    expect(mockCreateBufferSource).toHaveBeenCalledTimes(1);
+  });
+
   it('catches and logs errors when fading out gains during stopAmbient', async () => {
     const { result } = renderHook(() => useAudioEngine());
 

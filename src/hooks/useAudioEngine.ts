@@ -229,18 +229,19 @@ export function useAudioEngine(): AudioEngine {
     }
   }, []);
 
-  const currentEnvRef = useRef<AmbientEnv | null>(null);
+  // 再生中の環境音の要求。同じ環境へ戻った場合も、前の要求とは別に扱う
+  const currentRequestRef = useRef<object | null>(null);
 
   /**
    * キャッシュ済みのノイズバッファを返す。未生成なら Worker で生成する。
-   * env を渡した場合、生成を待つ間に環境が切り替わっていれば null を返して再生を中止させる。
+   * request を渡した場合、生成を待つ間に別の環境音が要求されていれば null を返して再生を中止させる。
    */
   const getNoiseBuffer = useCallback(
     async (
       ctx: AudioContext,
       { noiseType, bufferSeconds }: NoiseSourceConfig,
       label: string,
-      env?: AmbientEnv,
+      request?: object,
     ): Promise<AudioBuffer | null> => {
       const cached = noiseBuffersRef.current.get(noiseType);
       if (cached) return cached;
@@ -251,7 +252,7 @@ export function useAudioEngine(): AudioEngine {
         buffer.copyToChannel(generatedData, 0);
         // 環境が切り替わっていても生成結果は次回のためにキャッシュする
         noiseBuffersRef.current.set(noiseType, buffer);
-        if (env && currentEnvRef.current !== env) return null;
+        if (request && currentRequestRef.current !== request) return null;
         return buffer;
       } catch (e) {
         console.error(`Failed to generate ${label} buffer`, e);
@@ -262,7 +263,7 @@ export function useAudioEngine(): AudioEngine {
   );
 
   const stopAmbient = useCallback(() => {
-    currentEnvRef.current = null;
+    currentRequestRef.current = null;
     if (!ctxRef.current) return;
     const now = ctxRef.current.currentTime;
 
@@ -290,12 +291,12 @@ export function useAudioEngine(): AudioEngine {
 
   // サウナ・水風呂: フィルタを通したノイズのループを定位用バスへ流す
   const playNoiseAmbient = useCallback(
-    async (env: 'sauna' | 'water') => {
+    async (env: 'sauna' | 'water', request: object) => {
       if (!ctxRef.current || !masterGainRef.current) return;
       const ctx = ctxRef.current;
       const preset = AUDIO_PRESETS[env];
 
-      const buffer = await getNoiseBuffer(ctx, preset, `${env} noise`, env);
+      const buffer = await getNoiseBuffer(ctx, preset, `${env} noise`, request);
       if (!buffer) return;
 
       const now = ctx.currentTime;
@@ -311,75 +312,79 @@ export function useAudioEngine(): AudioEngine {
     [getNoiseBuffer],
   );
 
-  const playTotonou = useCallback(async () => {
-    if (!ctxRef.current || !masterGainRef.current) return;
-    const ctx = ctxRef.current;
-    const now = ctx.currentTime;
-    const binaural = AUDIO_PRESETS.totonouBinaural;
-    const wind = AUDIO_PRESETS.totonouWind;
+  const playTotonou = useCallback(
+    async (request: object) => {
+      if (!ctxRef.current || !masterGainRef.current) return;
+      const ctx = ctxRef.current;
+      const now = ctx.currentTime;
+      const binaural = AUDIO_PRESETS.totonouBinaural;
+      const wind = AUDIO_PRESETS.totonouWind;
 
-    // 1. バイノーラルビート
-    const oscL = ctx.createOscillator();
-    oscL.type = 'sine';
-    oscL.frequency.value = binaural.frequencyLeft;
+      // 1. バイノーラルビート
+      const oscL = ctx.createOscillator();
+      oscL.type = 'sine';
+      oscL.frequency.value = binaural.frequencyLeft;
 
-    const oscR = ctx.createOscillator();
-    oscR.type = 'sine';
-    oscR.frequency.value = binaural.frequencyRight;
+      const oscR = ctx.createOscillator();
+      oscR.type = 'sine';
+      oscR.frequency.value = binaural.frequencyRight;
 
-    const pannerL = ctx.createStereoPanner();
-    const pannerR = ctx.createStereoPanner();
-    pannerL.pan.value = binaural.panLeft;
-    pannerR.pan.value = binaural.panRight;
+      const pannerL = ctx.createStereoPanner();
+      const pannerR = ctx.createStereoPanner();
+      pannerL.pan.value = binaural.panLeft;
+      pannerR.pan.value = binaural.panRight;
 
-    const humGain = ctx.createGain();
-    humGain.gain.value = 0;
-    humGain.gain.setTargetAtTime(binaural.targetGain, now, binaural.timeConstant);
+      const humGain = ctx.createGain();
+      humGain.gain.value = 0;
+      humGain.gain.setTargetAtTime(binaural.targetGain, now, binaural.timeConstant);
 
-    oscL.connect(pannerL).connect(humGain);
-    oscR.connect(pannerR).connect(humGain);
+      oscL.connect(pannerL).connect(humGain);
+      oscR.connect(pannerR).connect(humGain);
 
-    oscL.start();
-    oscR.start();
-    activeSourcesRef.current.push(oscL, oscR);
-    activeGainsRef.current.push(humGain);
-    humGain.connect(masterGainRef.current);
+      oscL.start();
+      oscR.start();
+      activeSourcesRef.current.push(oscL, oscR);
+      activeGainsRef.current.push(humGain);
+      humGain.connect(masterGainRef.current);
 
-    // 2. そよ風ノイズ
-    const windBuffer = await getNoiseBuffer(ctx, wind, 'wind noise', 'totonou');
-    if (!windBuffer) return;
+      // 2. そよ風ノイズ
+      const windBuffer = await getNoiseBuffer(ctx, wind, 'wind noise', request);
+      if (!windBuffer) return;
 
-    const { source: windSource, gain: windGain } = createNoiseLoop(ctx, windBuffer, wind.filterSettings);
-    windGain.gain.value = wind.baseGain;
+      const { source: windSource, gain: windGain } = createNoiseLoop(ctx, windBuffer, wind.filterSettings);
+      windGain.gain.value = wind.baseGain;
 
-    const lfo = ctx.createOscillator();
-    lfo.frequency.value = wind.lfoFrequency;
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = wind.lfoFrequency;
 
-    const lfoGain = ctx.createGain();
-    lfoGain.gain.value = wind.lfoGain;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = wind.lfoGain;
 
-    lfo.connect(lfoGain);
-    lfoGain.connect(windGain.gain);
-    windGain.connect(masterGainRef.current);
+      lfo.connect(lfoGain);
+      lfoGain.connect(windGain.gain);
+      windGain.connect(masterGainRef.current);
 
-    windSource.start();
-    lfo.start();
+      windSource.start();
+      lfo.start();
 
-    activeSourcesRef.current.push(windSource, lfo);
-    activeGainsRef.current.push(windGain);
-  }, [getNoiseBuffer]);
+      activeSourcesRef.current.push(windSource, lfo);
+      activeGainsRef.current.push(windGain);
+    },
+    [getNoiseBuffer],
+  );
 
   const playAmbient = useCallback(
     async (env: AmbientEnv) => {
       if (!ctxRef.current || !masterGainRef.current) return;
 
       stopAmbient();
-      currentEnvRef.current = env;
+      const request = {};
+      currentRequestRef.current = request;
 
       if (env === 'totonou') {
-        await playTotonou();
+        await playTotonou(request);
       } else {
-        await playNoiseAmbient(env);
+        await playNoiseAmbient(env, request);
       }
     },
     [stopAmbient, playNoiseAmbient, playTotonou],
