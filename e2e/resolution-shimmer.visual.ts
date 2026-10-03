@@ -56,7 +56,8 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
         await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
         await frame();
         const box = (await canvas.boundingBox())!;
-        const [x, y] = [box.x + box.width / 2, box.y + box.height / 2];
+        // Centred on the drag, so a fast one stays on the canvas.
+        const [x, y] = [box.x + box.width / 2 - (STEPS * PX) / 2, box.y + box.height / 2];
         await page.mouse.move(x, y);
         await page.mouse.down();
         for (let step = 0; step <= STEPS; step++) {
