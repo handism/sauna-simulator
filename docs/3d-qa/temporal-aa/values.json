@@ -2349,5 +2349,459 @@
     ]
    }
   }
+ },
+ "dpr2": {
+  "note": "2026-10-03, build 728fa42. High quality, ratio 2 held, DPR 2, 1200x800 CSS px, 1 animation frame per step, 12 steps; on = this build, off = &temporal=off. Tiles 16x16 capture pixels (8 CSS px). gradientOnOverOffStep12 = mean |dL*| (forward differences, both axes) of step 12, on / off, in the order of views. cost: a measurement build (STILL_FRAMES Infinity, history always read by Catmull-Rom) with and without &temporal=off, FRAME_COST_QUALITY=high FRAME_COST_DPR=2 FRAME_COST_REPEAT=2, intervalMs.mean per frame (ms); pairs 1-3 on then off, 4-5 off then on. Pair 3 (on uniformly about +1.5 ms) and pair 5 (from water/night on, +15-29 ms) were disturbed and are left out of the judgement.",
+  "views": [
+   "sauna-day",
+   "sauna-evening",
+   "water-day",
+   "water-evening",
+   "totonou-day",
+   "totonou-evening"
+  ],
+  "px1": {
+   "cssPxPerFrame": 1,
+   "yawPerFrame": 0.004,
+   "off": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.7632,
+     "tile": 0.072,
+     "tileP99": 0.8922
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.6177,
+     "tile": 0.0536,
+     "tileP99": 0.8097
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 1.074,
+     "tile": 0.1063,
+     "tileP99": 1.2664
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.8934,
+     "tile": 0.0835,
+     "tileP99": 1.185
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 0.8743,
+     "tile": 0.0939,
+     "tileP99": 1.2102
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.8112,
+     "tile": 0.0839,
+     "tileP99": 1.1437
+    }
+   ],
+   "on": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.4565,
+     "tile": 0.0446,
+     "tileP99": 0.5278
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.3666,
+     "tile": 0.0327,
+     "tileP99": 0.4761
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 0.6005,
+     "tile": 0.0667,
+     "tileP99": 0.8
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.4941,
+     "tile": 0.0532,
+     "tileP99": 0.755
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 0.4996,
+     "tile": 0.0592,
+     "tileP99": 0.7838
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.4551,
+     "tile": 0.0525,
+     "tileP99": 0.721
+    }
+   ],
+   "relativeToOff": {
+    "pixel": {
+     "min": 0.5531,
+     "median": 0.5662,
+     "max": 0.5981
+    },
+    "tile": {
+     "min": 0.6101,
+     "median": 0.6266,
+     "max": 0.6371
+    },
+    "tileP99": {
+     "min": 0.588,
+     "median": 0.63105,
+     "max": 0.6477
+    }
+   },
+   "gradientOnOverOffStep12": [
+    0.9225,
+    0.9309,
+    0.8949,
+    0.8985,
+    0.8937,
+    0.8973
+   ]
+  },
+  "px18": {
+   "cssPxPerFrame": 18,
+   "yawPerFrame": 0.072,
+   "off": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.8278,
+     "tile": 0.0761,
+     "tileP99": 1.0568
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.682,
+     "tile": 0.0586,
+     "tileP99": 0.9401
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 1.0843,
+     "tile": 0.1122,
+     "tileP99": 1.3607
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.8881,
+     "tile": 0.0859,
+     "tileP99": 1.2759
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 0.9445,
+     "tile": 0.1102,
+     "tileP99": 1.4727
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.8591,
+     "tile": 0.1017,
+     "tileP99": 1.3571
+    }
+   ],
+   "on": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.4899,
+     "tile": 0.0612,
+     "tileP99": 0.9009
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.3986,
+     "tile": 0.0466,
+     "tileP99": 0.7553
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 0.6503,
+     "tile": 0.0885,
+     "tileP99": 1.0763
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.5262,
+     "tile": 0.0688,
+     "tileP99": 1.0204
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 0.5708,
+     "tile": 0.0863,
+     "tileP99": 1.1592
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.5067,
+     "tile": 0.0768,
+     "tileP99": 1.017
+    }
+   ],
+   "relativeToOff": {
+    "pixel": {
+     "min": 0.5845,
+     "median": 0.59215,
+     "max": 0.6043
+    },
+    "tile": {
+     "min": 0.7552,
+     "median": 0.792,
+     "max": 0.8042
+    },
+    "tileP99": {
+     "min": 0.7494,
+     "median": 0.79535,
+     "max": 0.8525
+    }
+   },
+   "gradientOnOverOffStep12": [
+    0.8981,
+    0.9023,
+    0.9052,
+    0.9057,
+    0.9094,
+    0.9153
+   ]
+  },
+  "cost": {
+   "sauna/day": {
+    "on": [
+     18.46,
+     18.81,
+     19.95,
+     18.54,
+     18.44
+    ],
+    "off": [
+     17.95,
+     18.81,
+     18.02,
+     18.03,
+     17.95
+    ],
+    "diff": [
+     0.51,
+     0.0,
+     1.93,
+     0.51,
+     0.49
+    ]
+   },
+   "sauna/evening": {
+    "on": [
+     21.65,
+     22.04,
+     23.43,
+     21.79,
+     21.79
+    ],
+    "off": [
+     21.01,
+     21.47,
+     21.33,
+     21.01,
+     20.92
+    ],
+    "diff": [
+     0.64,
+     0.57,
+     2.1,
+     0.78,
+     0.87
+    ]
+   },
+   "sauna/night": {
+    "on": [
+     22.54,
+     22.87,
+     24.08,
+     22.63,
+     22.44
+    ],
+    "off": [
+     21.79,
+     22.19,
+     22.13,
+     21.7,
+     21.7
+    ],
+    "diff": [
+     0.75,
+     0.68,
+     1.95,
+     0.93,
+     0.74
+    ]
+   },
+   "water/day": {
+    "on": [
+     23.71,
+     24.28,
+     25.43,
+     23.98,
+     24.38
+    ],
+    "off": [
+     23.23,
+     24.18,
+     23.51,
+     23.16,
+     23.51
+    ],
+    "diff": [
+     0.48,
+     0.1,
+     1.92,
+     0.82,
+     0.87
+    ]
+   },
+   "water/evening": {
+    "on": [
+     28.26,
+     28.92,
+     30.47,
+     28.62,
+     28.62
+    ],
+    "off": [
+     27.82,
+     29.04,
+     28.05,
+     27.82,
+     28.09
+    ],
+    "diff": [
+     0.44,
+     -0.12,
+     2.42,
+     0.8,
+     0.53
+    ]
+   },
+   "water/night": {
+    "on": [
+     28.92,
+     29.8,
+     31.08,
+     29.17,
+     57.6
+    ],
+    "off": [
+     28.62,
+     29.92,
+     28.86,
+     28.38,
+     28.33
+    ],
+    "diff": [
+     0.3,
+     -0.12,
+     2.22,
+     0.79,
+     29.27
+    ]
+   },
+   "totonou/day": {
+    "on": [
+     13.87,
+     14.03,
+     14.69,
+     13.83,
+     29.87
+    ],
+    "off": [
+     13.46,
+     13.77,
+     13.34,
+     13.37,
+     13.31
+    ],
+    "diff": [
+     0.41,
+     0.26,
+     1.35,
+     0.46,
+     16.56
+    ]
+   },
+   "totonou/evening": {
+    "on": [
+     18.79,
+     18.99,
+     20.12,
+     18.81,
+     33.47
+    ],
+    "off": [
+     18.36,
+     18.89,
+     18.27,
+     18.36,
+     18.35
+    ],
+    "diff": [
+     0.43,
+     0.1,
+     1.85,
+     0.45,
+     15.12
+    ]
+   },
+   "totonou/night": {
+    "on": [
+     19.44,
+     19.75,
+     20.92,
+     19.53,
+     36.79
+    ],
+    "off": [
+     19.07,
+     19.17,
+     18.89,
+     18.99,
+     18.97
+    ],
+    "diff": [
+     0.37,
+     0.58,
+     2.03,
+     0.54,
+     17.82
+    ]
+   }
+  }
  }
 }

@@ -32,7 +32,8 @@ from scipy import ndimage
 
 from summarize_frame_cost import srgb_lab
 
-TILE = 12
+# Tiles of 8 CSS pixels: capture pixels at the display's ratio (1.5, or 2 at the high quality).
+TILE = {'standard': 12, 'high': 16}
 SCENE = Path(__file__).resolve().parent.parent / 'public/models/sauna.scene.json'
 
 
@@ -89,24 +90,24 @@ def inside(coords, shape, margin=3):
     return (r >= margin) & (r <= shape[0] - 1 - margin) & (c >= margin) & (c <= shape[1] - 1 - margin)
 
 
-def tiles(residual, valid):
+def tiles(residual, valid, size):
     h, w = residual.shape
-    th, tw = h // TILE, w // TILE
-    r = residual[:th * TILE, :tw * TILE].reshape(th, TILE, tw, TILE)
-    ok = valid[:th * TILE, :tw * TILE].reshape(th, TILE, tw, TILE).all(axis=(1, 3))
+    th, tw = h // size, w // size
+    r = residual[:th * size, :tw * size].reshape(th, size, tw, size)
+    ok = valid[:th * size, :tw * size].reshape(th, size, tw, size).all(axis=(1, 3))
     return np.abs(r.mean(axis=(1, 3))), ok
 
 
-def measure(before, after, coords, back):
+def measure(before, after, coords, back, size):
     valid = inside(coords, before.shape)
     residual = resample(before, coords) - after
-    tile, ok = tiles(residual, valid)
+    tile, ok = tiles(residual, valid, size)
     out = {'pixel': float(np.abs(residual[valid]).mean()), 'tile': float(tile[ok].mean()),
            'tileP99': float(np.percentile(tile[ok], 99))}
     if back is not None:
         trip_valid = valid & inside(back, before.shape)
         trip = resample(resample(before, coords), back) - before
-        trip_tile, trip_ok = tiles(trip, trip_valid)
+        trip_tile, trip_ok = tiles(trip, trip_valid, size)
         out['tripPixel'] = float(np.abs(trip[trip_valid]).mean())
         out['tripTile'] = float(trip_tile[trip_ok].mean())
     return out, tile, ok
@@ -123,6 +124,8 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     body = samples(args.report)
     yaw = body['yawPerStep']
+    quality = body.get('quality', 'standard')
+    size = TILE[quality]
     views = json.loads(SCENE.read_text())['views']
     sequences = {}
     for sample in body['samples']:
@@ -139,11 +142,11 @@ def main():
         reverse = warp_coords(lum[0].shape, view['fov'], pitch, yaw)
         pairs = []
         for k in range(len(lum) - 1):
-            values, tile, ok = measure(lum[k], lum[k + 1], forward, reverse)
+            values, tile, ok = measure(lum[k], lum[k + 1], forward, reverse, size)
             pairs.append(values)
             if k == 0:
                 maps.setdefault((stage, lighting), []).append((ratio, np.where(ok, tile, 0)))
-        wrong, _, _ = measure(lum[0], lum[1], reverse, None)
+        wrong, _, _ = measure(lum[0], lum[1], reverse, None, size)
         unwarped = float(np.abs(lum[0] - lum[1]).mean())
         if wrong['pixel'] <= pairs[0]['pixel']:
             raise SystemExit(f'{stage} {lighting} {ratio}: the other yaw sign fits as well')
@@ -174,9 +177,9 @@ def main():
                     round(ratios[ratio][key] / ratios[1.5][key], 4))
     result = {'note': 'L* residual after warping frame k onto frame k+1 by the known rotation '
                       f'({yaw} rad of yaw per frame), mean over the pairs of a sequence. tile: |mean| over '
-                      f'{TILE}x{TILE} capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, '
+                      f'{size}x{size} capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, '
                       'twice). relativeTo1_5: per view, the ratio to the 1.5 sequence.',
-              'yawPerStep': yaw, 'framesPerStep': body.get('framesPerStep', 2),
+              'quality': quality, 'yawPerStep': yaw, 'framesPerStep': body.get('framesPerStep', 2),
               'relativeTo1_5': {ratio: {key: {'min': min(v), 'median': statistics.median(v), 'max': max(v)}
                                         for key, v in values.items()} for ratio, values in relative.items()},
               'sequences': rows}

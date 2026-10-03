@@ -9,13 +9,18 @@ import { rendererCaptureStyle } from './scene-capture';
 // not explain (aliased edges popping). Review artifacts, not an equivalence test.
 // SHIMMER_PX (CSS px per step, default 1), SHIMMER_FRAMES (animation frames per step, default 2),
 // SHIMMER_RATIOS (comma separated, default all) and SHIMMER_QUERY (added to the URL, e.g.
-// &temporal=off) measure faster turns and compare builds' settings.
-test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: 1.5 });
+// &temporal=off) measure faster turns and compare builds' settings. SHIMMER_QUALITY=high takes the
+// high quality on a display of ratio 2 (its steps 2,1.75,1.5,1.25 by default).
+const QUALITY = process.env.SHIMMER_QUALITY === 'high' ? 'high' : 'standard';
+test.use({
+  viewport: { width: 1200, height: 800 },
+  deviceScaleFactor: QUALITY === 'high' ? 2 : 1.5,
+});
 
 const STEPS = 12;
 const PX = Number(process.env.SHIMMER_PX ?? 1);
 const FRAMES = Number(process.env.SHIMMER_FRAMES ?? 2);
-const RATIOS = (process.env.SHIMMER_RATIOS ?? '1.5,1.25,1').split(',');
+const RATIOS = (process.env.SHIMMER_RATIOS ?? (QUALITY === 'high' ? '2,1.75,1.5,1.25' : '1.5,1.25,1')).split(',');
 
 test('capture the dynamic resolution steps while looking around', async ({ page }, info) => {
   test.setTimeout(900_000);
@@ -28,7 +33,7 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-  await page.getByLabel('3Dの画質').selectOption('standard');
+  await page.getByLabel('3Dの画質').selectOption(QUALITY);
   // The held time still draws a frame for each animation frame.
   const frame = (count = 2) =>
     page.evaluate(
@@ -51,7 +56,7 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
       await page.getByLabel('3Dの時間帯').selectOption(lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
       for (const ratio of RATIOS) {
-        await holdRatio(page, scene, ratio);
+        await holdRatio(page, scene, ratio, QUALITY);
         // The panels would take the drag.
         await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
         await frame();
@@ -79,6 +84,6 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   expect(errors).toEqual([]);
   await info.attach('resolution-shimmer', {
     contentType: 'application/json',
-    body: JSON.stringify({ yawPerStep: 0.004 * PX, framesPerStep: FRAMES, samples }, null, 2),
+    body: JSON.stringify({ quality: QUALITY, yawPerStep: 0.004 * PX, framesPerStep: FRAMES, samples }, null, 2),
   });
 });
