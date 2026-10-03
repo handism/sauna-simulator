@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
+import { observeSoakTiming } from './soak-timing';
 
 test('five minutes of effects, stages, quality and mode changes remain usable', async ({ page }, info) => {
+  const diagnoseTiming = process.env.SOAK_TIMING === '1';
+  if (diagnoseTiming) await page.addInitScript(observeSoakTiming);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   const timingPolicy = { frames: 180, previousWindowMs: 15_000, sampleTimeoutMs: 30_000 };
@@ -146,6 +149,13 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
     expect(errors).toEqual([]);
   } finally {
+    if (diagnoseTiming)
+      await info.attach('soak-timing', {
+        body: JSON.stringify(
+          await page.evaluate(() => (window as unknown as { suiSoakTiming: unknown }).suiSoakTiming),
+        ),
+        contentType: 'application/json',
+      });
     await info.attach('stability-samples', {
       body: JSON.stringify(
         {
