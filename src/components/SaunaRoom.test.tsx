@@ -154,7 +154,7 @@ describe('SaunaRoom', () => {
     // After 5 seconds and 1 loyly, heartRate will be around 75 + some increase
     // just check it's called with expected shape
     expect(mockOnNext).toHaveBeenCalledTimes(1);
-    const [heartRate, duration, loylyCount] = mockOnNext.mock.calls[0];
+    const [{ heartRate, saunaTime: duration, loylyCount }] = mockOnNext.mock.calls[0];
 
     expect(typeof heartRate).toBe('number');
     expect(heartRate).toBeGreaterThan(75);

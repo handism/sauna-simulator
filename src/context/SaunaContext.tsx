@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import { useSaunaSession, type SaunaSession } from '../hooks/useSaunaSession';
 
-export type { Stage } from '../hooks/useSaunaSession';
+export type { AmbientEnv, Stage } from '../hooks/useSaunaSession';
 
 const SaunaContext = createContext<SaunaSession | undefined>(undefined);
 

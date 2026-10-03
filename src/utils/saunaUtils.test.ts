@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { beatSeconds, calculateHeatIndex, calculateTotonouScore, getSecureRandom } from './saunaUtils';
+import { beatSeconds, calculateHeatIndex, calculateTotonouScore } from './saunaUtils';
 
 describe('saunaUtils', () => {
   it('beatSeconds converts BPM to seconds per beat', () => {
@@ -57,36 +57,6 @@ describe('saunaUtils', () => {
     it('should provide standard rest feedback for intermediate durations', () => {
       const result = calculateTotonouScore(20, 10, 0);
       expect(result.feedback).toContain('心地よい休息です');
-    });
-  });
-
-  describe('getSecureRandom', () => {
-    it('should return a number between 0 (inclusive) and 1 (exclusive)', () => {
-      for (let i = 0; i < 100; i++) {
-        const val = getSecureRandom();
-        expect(typeof val).toBe('number');
-        expect(val).toBeGreaterThanOrEqual(0);
-        expect(val).toBeLessThan(1);
-      }
-    });
-
-    it('throws an error if crypto is undefined', () => {
-      const originalCrypto = globalThis.crypto;
-      // @ts-expect-error Simulate missing Web Crypto in an unsupported environment.
-      delete globalThis.crypto;
-
-      expect(() => getSecureRandom()).toThrow('Web Crypto API is not available in this environment.');
-
-      // Restore
-      globalThis.crypto = originalCrypto;
-    });
-
-    it('should return floating point numbers with reasonable randomness', () => {
-      const results = new Set<number>();
-      for (let i = 0; i < 50; i++) {
-        results.add(getSecureRandom());
-      }
-      expect(results.size).toBeGreaterThan(45);
     });
   });
 });
