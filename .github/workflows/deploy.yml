@@ -5,6 +5,9 @@ on:
   push:
     branches: ['main']
 
+  # PR では検証（build ジョブ）のみ行い、デプロイはしない
+  pull_request:
+
   # 手動実行を許可
   workflow_dispatch:
 
@@ -15,8 +18,9 @@ permissions:
   id-token: write
 
 # 複数のデプロイが並列で走らないように設定
+# PR の検証は PR ごとに分け、デプロイの実行を打ち切らないようにする
 concurrency:
-  group: 'pages'
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'pages' }}
   cancel-in-progress: true
 
 jobs:
@@ -60,6 +64,7 @@ jobs:
         run: bunx playwright test e2e/scene-chunk.e2e.ts --grep "2D entry does not request"
 
       - name: Upload artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           # Vite のデフォルトビルド出力先は dist
@@ -69,6 +74,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     needs: build
     steps:
