@@ -29,14 +29,17 @@ void main() {
 }`;
 
 // Colors are blended as c / (1 + max(c)) in YCoCg, so a bright sky sample does not outweigh a dark
-// leaf. The history is clamped to the 3×3 neighbourhood's mean ± standard deviation, widened to
-// hold this pixel: a box without it pulled a still view toward the mean every frame (a blur).
+// leaf. The history is clamped to the mean ± standard deviation of this pixel and its four
+// neighbours, widened to hold this pixel: a box without it pulled a still view toward the mean every
+// frame (a blur). The 3×3 neighbourhood held the popping back 1–2% better for about 1.6 times the
+// pass's cost (docs/3d-qa/temporal-aa/).
 const fragmentShader = /* glsl */ `uniform sampler2D tCurrent;
 uniform sampler2D tHistory;
 uniform mat4 reprojection;
 uniform vec2 texel;
 uniform float historyWeight;
 varying vec2 vUv;
+const ivec2 taps[5] = ivec2[5]( ivec2( 0 ), ivec2( -1, 0 ), ivec2( 1, 0 ), ivec2( 0, -1 ), ivec2( 0, 1 ) );
 // Beyond the half float range (inf) a pixel would turn NaN below and spread through the history.
 vec3 finite( vec3 c ) {
 	return any( isnan( c ) ) ? vec3( 0.0 ) : min( c, vec3( 65504.0 ) );
@@ -85,18 +88,18 @@ void main() {
 	// Texels exactly: a filtered read of this frame would differ from the tone mapping pass's.
 	ivec2 pixel = ivec2( gl_FragCoord.xy );
 	ivec2 last = textureSize( tCurrent, 0 ) - 1;
-	for ( int y = -1; y <= 1; y ++ ) for ( int x = -1; x <= 1; x ++ ) {
-		vec3 c = finite( texelFetch( tCurrent, clamp( pixel + ivec2( x, y ), ivec2( 0 ), last ), 0 ).rgb );
+	for ( int i = 0; i < 5; i ++ ) {
+		vec3 c = finite( texelFetch( tCurrent, clamp( pixel + taps[i], ivec2( 0 ), last ), 0 ).rgb );
 		vec3 s = toYCoCg( compress( c ) );
-		if ( x == 0 && y == 0 ) {
+		if ( i == 0 ) {
 			linear = c;
 			current = s;
 		}
 		m1 += s;
 		m2 += s * s;
 	}
-	vec3 mean = m1 / 9.0;
-	vec3 sigma = sqrt( max( m2 / 9.0 - mean * mean, 0.0 ) );
+	vec3 mean = m1 / 5.0;
+	vec3 sigma = sqrt( max( m2 / 5.0 - mean * mean, 0.0 ) );
 	// Where this pixel's far point was in the previous frame.
 	vec4 clip = reprojection * vec4( vUv * 2.0 - 1.0, 1.0, 1.0 );
 	vec2 uv = clip.xy / clip.w * 0.5 + 0.5;

@@ -1934,5 +1934,420 @@
     0.976
    ]
   }
+ },
+ "crossTaps": {
+  "note": "2026-10-03. History box from this pixel and its 4 neighbours (cross) instead of the 3x3 neighbourhood. Cost: mean frame interval / repeat (ms), DPR 1.5, standard, FRAME_COST_REPEAT=2, still default views, in builds of d4a0e06 that blend every frame (STILL_FRAMES 1e9) through the Catmull-Rom history read (texel-centre texelFetch removed), i.e. the cost while looking around. Runs 1-4 in the order full,cross(,off); runs 3-4 use the product shader of the cross. off = full build with &temporal=off (runs 1-2). Shimmer: ratio 1.5, 1 frame per step, relative to the off run of the same speed (L* residual, summarize_resolution_shimmer.py); product1px = the product build, captured separately (load-to-load jitter).",
+  "costMs": {
+   "sauna day": {
+    "full": [
+     12.4,
+     12.45,
+     12.4,
+     12.55
+    ],
+    "cross": [
+     12.24,
+     12.22,
+     12.19,
+     12.29
+    ],
+    "off": [
+     12.07,
+     11.93
+    ]
+   },
+   "sauna evening": {
+    "full": [
+     15.62,
+     15.49,
+     15.62,
+     15.68
+    ],
+    "cross": [
+     15.43,
+     15.37,
+     15.37,
+     15.43
+    ],
+    "off": [
+     15.26,
+     15.14
+    ]
+   },
+   "sauna night": {
+    "full": [
+     16.53,
+     16.39,
+     16.32,
+     16.53
+    ],
+    "cross": [
+     16.32,
+     16.26,
+     16.19,
+     16.26
+    ],
+    "off": [
+     16.12,
+     15.99
+    ]
+   },
+   "water day": {
+    "full": [
+     15.99,
+     15.81,
+     15.68,
+     15.93
+    ],
+    "cross": [
+     15.74,
+     16.46,
+     15.62,
+     15.74
+    ],
+    "off": [
+     15.44,
+     15.37
+    ]
+   },
+   "water evening": {
+    "full": [
+     18.99,
+     18.89,
+     18.89,
+     19.07
+    ],
+    "cross": [
+     18.73,
+     19.42,
+     18.79,
+     18.81
+    ],
+    "off": [
+     18.61,
+     18.54
+    ]
+   },
+   "water night": {
+    "full": [
+     19.64,
+     19.55,
+     19.53,
+     19.55
+    ],
+    "cross": [
+     19.44,
+     19.55,
+     19.28,
+     19.53
+    ],
+    "off": [
+     19.44,
+     19.07
+    ]
+   },
+   "totonou day": {
+    "full": [
+     9.35,
+     9.39,
+     9.35,
+     9.39
+    ],
+    "cross": [
+     9.26,
+     9.35,
+     9.22,
+     9.26
+    ],
+    "off": [
+     9.09,
+     8.97
+    ]
+   },
+   "totonou evening": {
+    "full": [
+     12.88,
+     12.82,
+     12.82,
+     12.85
+    ],
+    "cross": [
+     12.77,
+     12.79,
+     12.69,
+     12.77
+    ],
+    "off": [
+     12.58,
+     12.4
+    ]
+   },
+   "totonou night": {
+    "full": [
+     13.68,
+     13.68,
+     13.58,
+     13.58
+    ],
+    "cross": [
+     13.55,
+     13.46,
+     13.46,
+     13.58
+    ],
+    "off": [
+     13.37,
+     13.22
+    ]
+   }
+  },
+  "shimmer": {
+   "px1": {
+    "full": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "pixel": 0.5821,
+      "tile": 0.5965,
+      "tileP99": 0.5824
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixel": 0.5787,
+      "tile": 0.5872,
+      "tileP99": 0.5651
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "pixel": 0.5873,
+      "tile": 0.6274,
+      "tileP99": 0.6414
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixel": 0.5754,
+      "tile": 0.6183,
+      "tileP99": 0.6309
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "pixel": 0.5744,
+      "tile": 0.5992,
+      "tileP99": 0.6021
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "pixel": 0.5676,
+      "tile": 0.5957,
+      "tileP99": 0.6004
+     }
+    ],
+    "cross": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "pixel": 0.5927,
+      "tile": 0.6102,
+      "tileP99": 0.5921
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixel": 0.5831,
+      "tile": 0.5925,
+      "tileP99": 0.5761
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "pixel": 0.5924,
+      "tile": 0.6345,
+      "tileP99": 0.6506
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixel": 0.5833,
+      "tile": 0.6292,
+      "tileP99": 0.6465
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "pixel": 0.5762,
+      "tile": 0.6016,
+      "tileP99": 0.6072
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "pixel": 0.57,
+      "tile": 0.6,
+      "tileP99": 0.6039
+     }
+    ],
+    "product": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "pixel": 0.5924,
+      "tile": 0.6102,
+      "tileP99": 0.5915
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixel": 0.5848,
+      "tile": 0.5952,
+      "tileP99": 0.5777
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "pixel": 0.5874,
+      "tile": 0.6288,
+      "tileP99": 0.6427
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixel": 0.5819,
+      "tile": 0.6274,
+      "tileP99": 0.6452
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "pixel": 0.5753,
+      "tile": 0.6008,
+      "tileP99": 0.6072
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "pixel": 0.5753,
+      "tile": 0.6069,
+      "tileP99": 0.6109
+     }
+    ]
+   },
+   "px18": {
+    "full": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "pixel": 0.5721,
+      "tile": 0.7127,
+      "tileP99": 0.7615
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixel": 0.5662,
+      "tile": 0.7058,
+      "tileP99": 0.7197
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "pixel": 0.5789,
+      "tile": 0.7101,
+      "tileP99": 0.715
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixel": 0.5692,
+      "tile": 0.7055,
+      "tileP99": 0.6971
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "pixel": 0.5814,
+      "tile": 0.6948,
+      "tileP99": 0.6963
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "pixel": 0.5709,
+      "tile": 0.6741,
+      "tileP99": 0.6744
+     }
+    ],
+    "cross": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "pixel": 0.5798,
+      "tile": 0.722,
+      "tileP99": 0.7692
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixel": 0.5746,
+      "tile": 0.7167,
+      "tileP99": 0.7302
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "pixel": 0.5901,
+      "tile": 0.7239,
+      "tileP99": 0.7238
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixel": 0.5781,
+      "tile": 0.7122,
+      "tileP99": 0.7088
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "pixel": 0.5885,
+      "tile": 0.7013,
+      "tileP99": 0.7029
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "pixel": 0.581,
+      "tile": 0.6893,
+      "tileP99": 0.6845
+     }
+    ]
+   }
+  },
+  "grayGradientStep12OverOff": {
+   "px1": {
+    "full": [
+     0.886,
+     0.919
+    ],
+    "cross": [
+     0.884,
+     0.915
+    ]
+   },
+   "px18": {
+    "full": [
+     0.881,
+     0.902
+    ],
+    "cross": [
+     0.88,
+     0.902
+    ]
+   }
+  }
  }
 }
