@@ -99,4 +99,37 @@ describe('HDR output', () => {
     expectPrepass(passes, camera);
     expect(targets).toEqual([null, null]);
   });
+
+  it.each([
+    ['waits for its programs to link', Infinity, 50],
+    ['waits at most the given time', 30, 30],
+  ])('compiles a scene and %s', async (_, within, settled) => {
+    vi.useFakeTimers();
+    try {
+      const { renderer } = fakeRenderer(true);
+      let ready = false;
+      const program = { isReady: () => ready };
+      Object.assign(renderer, {
+        compileAsync: vi.fn(async () => {}),
+        properties: { get: () => ({ currentProgram: program }) },
+        getContext: () => ({ isContextLost: () => false }),
+      });
+      const output = createHdrOutput(renderer);
+      const scene = new THREE.Scene();
+      const material = new THREE.MeshBasicMaterial();
+      scene.add(new THREE.Mesh(new THREE.BoxGeometry(), material));
+      const version = material.version;
+      let done = false;
+      void output.compile(scene, new THREE.PerspectiveCamera(), scene, within).then(() => (done = true));
+      await vi.advanceTimersByTimeAsync(25);
+      expect(done).toBe(false);
+      // Chooses its program again when drawn next.
+      expect(material.version).toBe(version + 1);
+      setTimeout(() => (ready = true), 50 - 25);
+      await vi.advanceTimersByTimeAsync(settled - 25 + 10);
+      expect(done).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });

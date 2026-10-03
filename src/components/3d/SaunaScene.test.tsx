@@ -213,6 +213,49 @@ describe('3D scene load and teardown', () => {
     },
   );
 
+  it('draws the scene once its programs compile, compiling again for a quality chosen meanwhile', async () => {
+    mocks.parse.mockResolvedValueOnce(model());
+    const view = mountScene();
+    const renderer = mocks.renderers[0];
+    const first = deferred<void>();
+    const second = deferred<void>();
+    renderer.compileAsync.mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise);
+    await flush();
+    expect(renderer.compileAsync).toHaveBeenCalledOnce();
+    const [object, , lit] = renderer.compileAsync.mock.calls[0];
+    expect(object).toBe(lit);
+    expect(renderer.render).not.toHaveBeenCalled();
+    view.update({ quality: 'low' });
+    expect((view.container.querySelector('.sauna-3d-canvas') as HTMLElement).dataset.quality).toBe('low');
+    first.resolve();
+    await flush();
+    expect(renderer.compileAsync).toHaveBeenCalledTimes(2);
+    expect(renderer.render).not.toHaveBeenCalled();
+    expect(view.onReady).not.toHaveBeenCalled();
+    second.resolve();
+    await flush();
+    expect(view.onReady).toHaveBeenCalledOnce();
+    expect(renderer.render).toHaveBeenCalled();
+  });
+
+  it('does not draw a scene left at exit while its programs compile', async () => {
+    const loaded = model();
+    mocks.parse.mockResolvedValueOnce(loaded);
+    const view = mountScene();
+    const renderer = mocks.renderers[0];
+    const compiled = deferred<void>();
+    renderer.compileAsync.mockReturnValueOnce(compiled.promise);
+    await flush();
+    expect(renderer.compileAsync).toHaveBeenCalledOnce();
+    view.unmount();
+    compiled.resolve();
+    await flush();
+    expect(renderer.render).not.toHaveBeenCalled();
+    expect(view.onReady).not.toHaveBeenCalled();
+    expect(renderer.setAnimationLoop.mock.calls.every(([callback]: any[]) => callback === null)).toBe(true);
+    for (const dispose of loaded.disposals) expect(dispose).toHaveBeenCalledOnce();
+  });
+
   it('stops a running scene on context loss, reports once, and releases it on exit', async () => {
     const loaded = model();
     mocks.parse.mockResolvedValue(loaded);
@@ -361,6 +404,7 @@ describe('garden loaded after the ready scene', () => {
     const view = mountScene();
     await flush();
     const renderer = mocks.renderers[0];
+    renderer.compileAsync.mockClear();
     renderer.compileAsync.mockReturnValue(compiled.promise);
     const calls = vi.mocked(fetch).mock.calls;
     const signal = calls[calls.length - 1][1]!.signal!;
@@ -384,6 +428,7 @@ describe('garden loaded after the ready scene', () => {
     await flush();
     expect(view.onReady).toHaveBeenCalledOnce();
     const renderer = mocks.renderers[0];
+    renderer.compileAsync.mockClear();
     const element = canvas(view);
     const first = deferred<void>();
     const second = deferred<void>();

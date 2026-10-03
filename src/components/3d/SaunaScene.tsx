@@ -392,6 +392,15 @@ export default function SaunaScene({
           lighting.update(targetTime(), 0, true);
           recordRenderInfo(draw());
         };
+        // Every material's programs, compiled together off the main thread where the browser can:
+        // drawn first, each waited for the driver in turn (about 0.5 s on load). Again if the
+        // quality changed meanwhile. Chrome finished them in about 0.3 s, but took 4-30 s while
+        // another page drew WebGL, so the first draw waits for the rest after a second.
+        for (let compiled: QualityMode | null = null; compiled !== applied;) {
+          compiled = applied;
+          await output.compile(scene, camera, scene, 1000);
+          if (disposed || failed) return;
+        }
         setViewRef.current = setView;
         setView(stageRef.current);
         steam.position.fromArray(definition.stove);

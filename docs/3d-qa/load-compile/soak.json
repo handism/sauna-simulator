@@ -1,0 +1,114 @@
+{
+ "command": "SOAK_TIMING=1 bun run test:browser:soak --reporter=json",
+ "status": "passed",
+ "retry": 0,
+ "durationS": 320.0,
+ "browser": "154.0.8037.97",
+ "viewport": {
+  "width": 1280,
+  "height": 800
+ },
+ "cycles": 8,
+ "samples": 40,
+ "slowSamples": 0,
+ "errors": [],
+ "geometries": [
+  "128"
+ ],
+ "texturesByQuality": {
+  "low": [
+   "17"
+  ],
+  "standard": [
+   "34"
+  ],
+  "high": [
+   "34"
+  ]
+ },
+ "frameMeanMs": [
+  16.67,
+  16.67
+ ],
+ "frameMaxMs": 16.8,
+ "loadMs": [
+  405,
+  407,
+  421,
+  452,
+  480,
+  481,
+  483,
+  487,
+  495
+ ],
+ "framesOver100ms": 13,
+ "longTasksOver100ms": [
+  {
+   "start": 287,
+   "duration": 194,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 1672,
+   "duration": 167,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 1957,
+   "duration": 114,
+   "garden": "loading",
+   "loadMs": "452"
+  },
+  {
+   "start": 28033,
+   "duration": 129,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 67465,
+   "duration": 119,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 106847,
+   "duration": 117,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 146494,
+   "duration": 115,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 185877,
+   "duration": 112,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 225241,
+   "duration": 113,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 264874,
+   "duration": 109,
+   "garden": null,
+   "loadMs": null
+  },
+  {
+   "start": 304271,
+   "duration": 108,
+   "garden": null,
+   "loadMs": null
+  }
+ ]
+}

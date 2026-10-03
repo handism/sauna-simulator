@@ -8,7 +8,8 @@ export function observeSoakTiming() {
   const record = (event: Record<string, unknown>) => {
     if (events.length < 2000) events.push({ ...event, state: state() });
   };
-  Object.assign(window, { suiSoakTiming: events });
+  const outside: { name: string; start: number; duration: number; program?: string }[] = [];
+  Object.assign(window, { suiSoakTiming: events, suiSoakOutside: outside });
   let draws = 0;
   const gl = WebGL2RenderingContext.prototype;
   for (const name of ['drawArrays', 'drawElements', 'drawArraysInstanced', 'drawElementsInstanced'] as const) {
@@ -39,6 +40,7 @@ export function observeSoakTiming() {
       programNames.set(program, [`${name}#${++programCount}@${Math.round(performance.now())}`]);
     return attachShader.call(this, program, shader);
   };
+  const programName = (value: unknown) => (value instanceof WebGLProgram ? programNames.get(value)?.[0] : undefined);
   let inFrame = false;
   // Programs whose log three read (their first use) in the current frame.
   let firstUsed: string[] = [];
@@ -71,6 +73,9 @@ export function observeSoakTiming() {
         total.ms += duration;
         if (name === 'getProgramInfoLog' && inFrame)
           firstUsed.push(programNames.get(args[0] as WebGLProgram)?.[0] ?? '?');
+        // Outside the render loop (the scene's first draw on load), each call of a millisecond or more.
+        if (!inFrame && duration >= 1 && outside.length < 4000)
+          outside.push({ name, start, duration, program: programName(args[0]) });
         if (duration > 20)
           record({
             kind: name,

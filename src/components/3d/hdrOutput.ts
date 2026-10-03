@@ -43,7 +43,8 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
   // so this also waits on the programs it compiled. Unlit materials don't compare the shadows when
   // drawn and would keep the compiled program (its first use waits for the driver): each is marked
   // to choose its program again.
-  const compileLinked = (object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) => {
+  // `within` ms at most: the programs not linked by then wait for the driver when first drawn.
+  const compileLinked = (object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene, within = Infinity) => {
     const compiled = renderer.compileAsync(object, camera, scene);
     const programs: { isReady(): boolean }[] = [];
     object.traverse((child) => {
@@ -62,7 +63,9 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       };
       check();
     });
-    return Promise.all([compiled, linked]).then(() => {});
+    const done = Promise.all([compiled, linked]).then(() => {});
+    if (!Number.isFinite(within)) return done;
+    return Promise.race([done, new Promise<void>((resolve) => setTimeout(resolve, within))]);
   };
   const record = () => {
     stats.calls = renderer.info.render.calls;
@@ -136,10 +139,10 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       temporal.reset();
     },
     /** Compiles `object` as lit by `scene` for the HDR pass (the programs differ from the canvas's). */
-    compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
+    compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene, within = Infinity) {
       // The programs are created synchronously; only the wait for the driver is asynchronous.
       renderer.setRenderTarget(target);
-      const compiled = compileLinked(object, camera, scene);
+      const compiled = compileLinked(object, camera, scene, within);
       renderer.setRenderTarget(null);
       return compiled;
     },

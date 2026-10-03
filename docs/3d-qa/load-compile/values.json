@@ -1,0 +1,759 @@
+{
+ "source": {
+  "before": "e6bb054",
+  "after": "作業ツリー（e6bb054＋初回ロードの非同期コンパイル）"
+ },
+ "environment": "Chrome（Playwright・headless）・ANGLE Metal・macOS・1280×800・DPR1・動作抑制あり（playwright.gpu.config.ts）",
+ "order": "before-1, after-1, before-2, after-2, before-3, after-3",
+ "runs": {
+  "before-1": {
+   "status": "passed",
+   "retry": 0,
+   "loads": [
+    {
+     "load": "first",
+     "loadMs": 834,
+     "gardenMs": 939,
+     "longTasks": [
+      {
+       "start": 315,
+       "duration": 191,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1703,
+       "duration": 778,
+       "firstUsedPrograms": [
+        "?#1@1821",
+        "Blackened bronze#2@1832",
+        "2700K concealed LED#3@1865",
+        "V10 | submerged light / Teal glazed pool tile#4@1884",
+        "V9 | layered living moss#5@1915",
+        "V6 | fine soft linen#6@1937",
+        "V2 | mineral charcoal stone#7@1957",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#8@1993",
+        "V11 | cedar end grain#9@2033",
+        "?#10@2049",
+        "V2 | mineral charcoal stone#11@2052",
+        "Blackened bronze#12@2078",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#13@2104",
+        "V10 | submerged light / Teal glazed pool tile#14@2133",
+        "sky#15@2159",
+        "Low iron architectural glass#16@2166",
+        "Low iron architectural glass#17@2168",
+        "?#18@2173",
+        "?#19@2175",
+        "?#20@2179",
+        "shadow mask#21@2183",
+        "shadow mask#22@2191",
+        "V2 | mineral charcoal stone#23@2207",
+        "V2 | mineral charcoal stone#24@2214",
+        "Blackened bronze#25@2219",
+        "Blackened bronze#26@2224",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#27@2230",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#28@2235",
+        "V10 | submerged light / Teal glazed pool tile#29@2240",
+        "V10 | submerged light / Teal glazed pool tile#30@2245",
+        "V2 | mineral charcoal stone#31@2252",
+        "V2 | mineral charcoal stone#32@2278",
+        "Blackened bronze#33@2305",
+        "Blackened bronze#34@2329",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#35@2354",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#36@2383",
+        "V10 | submerged light / Teal glazed pool tile#37@2412",
+        "V10 | submerged light / Teal glazed pool tile#38@2438",
+        "?#39@2465",
+        "?#40@2470",
+        "?#41@2474"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 41,
+         "ms": 545.0
+        },
+        "getShaderInfoLog": {
+         "calls": 3,
+         "ms": 5.7
+        }
+       }
+      },
+      {
+       "start": 2505,
+       "duration": 60,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 0
+    },
+    {
+     "load": "recreated",
+     "loadMs": 667,
+     "gardenMs": 764,
+     "longTasks": [
+      {
+       "start": 6130,
+       "duration": 627,
+       "firstUsedPrograms": [
+        "?#48@6205",
+        "Blackened bronze#49@6212",
+        "2700K concealed LED#50@6242",
+        "V10 | submerged light / Teal glazed pool tile#51@6258",
+        "V9 | layered living moss#52@6283",
+        "V6 | fine soft linen#53@6300",
+        "V2 | mineral charcoal stone#54@6319",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#55@6351",
+        "V11 | cedar end grain#56@6386",
+        "?#57@6400",
+        "V2 | mineral charcoal stone#58@6402",
+        "Blackened bronze#59@6424",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#60@6444",
+        "V10 | submerged light / Teal glazed pool tile#61@6468",
+        "sky#62@6488",
+        "Low iron architectural glass#63@6493",
+        "Low iron architectural glass#64@6496",
+        "?#65@6499",
+        "?#66@6501",
+        "?#67@6504",
+        "shadow mask#68@6507",
+        "shadow mask#69@6514",
+        "V2 | mineral charcoal stone#70@6525",
+        "V2 | mineral charcoal stone#71@6531",
+        "Blackened bronze#72@6535",
+        "Blackened bronze#73@6539",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#74@6543",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#75@6547",
+        "V10 | submerged light / Teal glazed pool tile#76@6551",
+        "V10 | submerged light / Teal glazed pool tile#77@6555",
+        "V2 | mineral charcoal stone#78@6561",
+        "V2 | mineral charcoal stone#79@6583",
+        "Blackened bronze#80@6604",
+        "Blackened bronze#81@6626",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#82@6648",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#83@6671",
+        "V10 | submerged light / Teal glazed pool tile#84@6696",
+        "V10 | submerged light / Teal glazed pool tile#85@6721",
+        "?#86@6743",
+        "?#87@6748",
+        "?#88@6751"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 41,
+         "ms": 449.9
+        },
+        "getShaderInfoLog": {
+         "calls": 6,
+         "ms": 9.8
+        }
+       }
+      },
+      {
+       "start": 6777,
+       "duration": 54,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 1
+    }
+   ]
+  },
+  "before-2": {
+   "status": "passed",
+   "retry": 0,
+   "loads": [
+    {
+     "load": "first",
+     "loadMs": 838,
+     "gardenMs": 943,
+     "longTasks": [
+      {
+       "start": 292,
+       "duration": 194,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1682,
+       "duration": 783,
+       "firstUsedPrograms": [
+        "?#1@1800",
+        "Blackened bronze#2@1811",
+        "2700K concealed LED#3@1843",
+        "V10 | submerged light / Teal glazed pool tile#4@1862",
+        "V9 | layered living moss#5@1895",
+        "V2 | outdoor ash / grain & wear#6@1915",
+        "V11 | cedar end grain#7@1936",
+        "V2 | mineral charcoal stone#8@1953",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#9@1984",
+        "?#10@2021",
+        "V2 | mineral charcoal stone#11@2032",
+        "Blackened bronze#12@2060",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#13@2086",
+        "V10 | submerged light / Teal glazed pool tile#14@2116",
+        "sky#15@2143",
+        "Low iron architectural glass#16@2149",
+        "Low iron architectural glass#17@2152",
+        "?#18@2156",
+        "?#19@2159",
+        "?#20@2162",
+        "shadow mask#21@2166",
+        "shadow mask#22@2175",
+        "V2 | mineral charcoal stone#23@2190",
+        "V2 | mineral charcoal stone#24@2197",
+        "Blackened bronze#25@2202",
+        "Blackened bronze#26@2208",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#27@2213",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#28@2218",
+        "V10 | submerged light / Teal glazed pool tile#29@2224",
+        "V10 | submerged light / Teal glazed pool tile#30@2230",
+        "V2 | mineral charcoal stone#31@2236",
+        "V2 | mineral charcoal stone#32@2263",
+        "Blackened bronze#33@2289",
+        "Blackened bronze#34@2314",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#35@2338",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#36@2366",
+        "V10 | submerged light / Teal glazed pool tile#37@2395",
+        "V10 | submerged light / Teal glazed pool tile#38@2422",
+        "?#39@2448",
+        "?#40@2453",
+        "?#41@2458"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 41,
+         "ms": 544.6
+        },
+        "getShaderInfoLog": {
+         "calls": 7,
+         "ms": 12.2
+        }
+       }
+      },
+      {
+       "start": 2483,
+       "duration": 59,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 0
+    },
+    {
+     "load": "recreated",
+     "loadMs": 662,
+     "gardenMs": 760,
+     "longTasks": [
+      {
+       "start": 6122,
+       "duration": 624,
+       "firstUsedPrograms": [
+        "?#48@6197",
+        "Blackened bronze#49@6204",
+        "2700K concealed LED#50@6235",
+        "V10 | submerged light / Teal glazed pool tile#51@6251",
+        "V9 | layered living moss#52@6276",
+        "V2 | mineral charcoal stone#53@6294",
+        "V2 | pale mineral paving#54@6319",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#55@6344",
+        "V11 | cedar end grain#56@6373",
+        "?#57@6392",
+        "V2 | mineral charcoal stone#58@6394",
+        "Blackened bronze#59@6416",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#60@6437",
+        "V10 | submerged light / Teal glazed pool tile#61@6462",
+        "sky#62@6483",
+        "Low iron architectural glass#63@6488",
+        "Low iron architectural glass#64@6490",
+        "?#66@6495",
+        "?#67@6497",
+        "shadow mask#68@6500",
+        "shadow mask#69@6508",
+        "V2 | mineral charcoal stone#70@6519",
+        "V2 | mineral charcoal stone#71@6525",
+        "Blackened bronze#72@6529",
+        "Blackened bronze#73@6533",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#74@6537",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#75@6541",
+        "V10 | submerged light / Teal glazed pool tile#76@6545",
+        "V10 | submerged light / Teal glazed pool tile#77@6549",
+        "V2 | mineral charcoal stone#78@6555",
+        "V2 | mineral charcoal stone#79@6577",
+        "Blackened bronze#80@6598",
+        "Blackened bronze#81@6618",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#82@6639",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#83@6663",
+        "V10 | submerged light / Teal glazed pool tile#84@6686",
+        "V10 | submerged light / Teal glazed pool tile#85@6711",
+        "?#86@6733",
+        "?#87@6737",
+        "?#88@6740"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 40,
+         "ms": 446.4
+        },
+        "getShaderInfoLog": {
+         "calls": 5,
+         "ms": 9.3
+        }
+       }
+      },
+      {
+       "start": 6767,
+       "duration": 55,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 1
+    }
+   ]
+  },
+  "before-3": {
+   "status": "passed",
+   "retry": 0,
+   "loads": [
+    {
+     "load": "first",
+     "loadMs": 831,
+     "gardenMs": 965,
+     "longTasks": [
+      {
+       "start": 314,
+       "duration": 187,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1702,
+       "duration": 776,
+       "firstUsedPrograms": [
+        "?#1@1820",
+        "Blackened bronze#2@1831",
+        "2700K concealed LED#3@1864",
+        "V10 | submerged light / Teal glazed pool tile#4@1883",
+        "V9 | layered living moss#5@1915",
+        "V6 | fine soft linen#6@1934",
+        "V2 | mineral charcoal stone#7@1954",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#8@1991",
+        "V11 | cedar end grain#9@2029",
+        "?#10@2045",
+        "V2 | mineral charcoal stone#11@2049",
+        "Blackened bronze#12@2075",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#13@2101",
+        "V10 | submerged light / Teal glazed pool tile#14@2131",
+        "sky#15@2156",
+        "Low iron architectural glass#16@2163",
+        "Low iron architectural glass#17@2166",
+        "?#18@2170",
+        "?#19@2172",
+        "?#20@2176",
+        "shadow mask#21@2180",
+        "shadow mask#22@2188",
+        "V2 | mineral charcoal stone#23@2203",
+        "V2 | mineral charcoal stone#24@2210",
+        "Blackened bronze#25@2216",
+        "Blackened bronze#26@2221",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#27@2226",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#28@2232",
+        "V10 | submerged light / Teal glazed pool tile#29@2237",
+        "V10 | submerged light / Teal glazed pool tile#30@2243",
+        "V2 | mineral charcoal stone#31@2249",
+        "V2 | mineral charcoal stone#32@2274",
+        "Blackened bronze#33@2301",
+        "Blackened bronze#34@2325",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#35@2350",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#36@2379",
+        "V10 | submerged light / Teal glazed pool tile#37@2409",
+        "V10 | submerged light / Teal glazed pool tile#38@2436",
+        "?#39@2463",
+        "?#40@2468",
+        "?#41@2472"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 41,
+         "ms": 541.9
+        },
+        "getShaderInfoLog": {
+         "calls": 6,
+         "ms": 9.9
+        }
+       }
+      },
+      {
+       "start": 2527,
+       "duration": 59,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 1
+    },
+    {
+     "load": "recreated",
+     "loadMs": 665,
+     "gardenMs": 765,
+     "longTasks": [
+      {
+       "start": 6161,
+       "duration": 626,
+       "firstUsedPrograms": [
+        "?#48@6236",
+        "Blackened bronze#49@6243",
+        "2700K concealed LED#50@6274",
+        "V10 | submerged light / Teal glazed pool tile#51@6289",
+        "V9 | layered living moss#52@6315",
+        "V6 | fine soft linen#53@6332",
+        "V2 | mineral charcoal stone#54@6351",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#55@6384",
+        "V11 | cedar end grain#56@6418",
+        "?#57@6431",
+        "V2 | mineral charcoal stone#58@6434",
+        "Blackened bronze#59@6456",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#60@6476",
+        "V10 | submerged light / Teal glazed pool tile#61@6500",
+        "sky#62@6522",
+        "Low iron architectural glass#63@6528",
+        "Low iron architectural glass#64@6529",
+        "?#65@6533",
+        "?#66@6535",
+        "?#67@6537",
+        "shadow mask#68@6540",
+        "shadow mask#69@6547",
+        "V2 | mineral charcoal stone#70@6558",
+        "V2 | mineral charcoal stone#71@6564",
+        "Blackened bronze#72@6568",
+        "Blackened bronze#73@6572",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#74@6576",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#75@6580",
+        "V10 | submerged light / Teal glazed pool tile#76@6584",
+        "V10 | submerged light / Teal glazed pool tile#77@6588",
+        "V2 | mineral charcoal stone#78@6595",
+        "V2 | mineral charcoal stone#79@6617",
+        "Blackened bronze#80@6638",
+        "Blackened bronze#81@6659",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#82@6680",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#83@6704",
+        "V10 | submerged light / Teal glazed pool tile#84@6728",
+        "V10 | submerged light / Teal glazed pool tile#85@6751",
+        "?#86@6773",
+        "?#87@6778",
+        "?#88@6781"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 41,
+         "ms": 449.5
+        },
+        "getShaderInfoLog": {
+         "calls": 4,
+         "ms": 9.0
+        }
+       }
+      },
+      {
+       "start": 6810,
+       "duration": 54,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 1
+    }
+   ]
+  },
+  "after-1": {
+   "status": "passed",
+   "retry": 0,
+   "loads": [
+    {
+     "load": "first",
+     "loadMs": 444,
+     "gardenMs": 547,
+     "longTasks": [
+      {
+       "start": 288,
+       "duration": 196,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1676,
+       "duration": 165,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1961,
+       "duration": 106,
+       "firstUsedPrograms": [
+        "?#42@1967",
+        "Blackened bronze#9@1803",
+        "2700K concealed LED#10@1805",
+        "V11 | cedar end grain#11@1807",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#14@1809",
+        "?#43@2024",
+        "?#44@2027",
+        "V2 | mineral charcoal stone#20@1818",
+        "?#45@2056",
+        "?#46@2060"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 10,
+         "ms": 39.2
+        }
+       }
+      },
+      {
+       "start": 2085,
+       "duration": 60,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 0
+    },
+    {
+     "load": "recreated",
+     "loadMs": 511,
+     "gardenMs": 607,
+     "longTasks": [
+      {
+       "start": 5482,
+       "duration": 121,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 5870,
+       "duration": 86,
+       "firstUsedPrograms": [
+        "?#93@5873",
+        "Blackened bronze#60@5566",
+        "2700K concealed LED#61@5568",
+        "V2 | outdoor ash / grain & wear#54@5559",
+        "V11 | cedar end grain#62@5569",
+        "?#94@5921",
+        "?#95@5924",
+        "V2 | mineral charcoal stone#71@5581",
+        "?#96@5947",
+        "?#97@5951"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 10,
+         "ms": 37.5
+        }
+       }
+      },
+      {
+       "start": 5975,
+       "duration": 55,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 1
+    }
+   ]
+  },
+  "after-2": {
+   "status": "passed",
+   "retry": 0,
+   "loads": [
+    {
+     "load": "first",
+     "loadMs": 433,
+     "gardenMs": 533,
+     "longTasks": [
+      {
+       "start": 352,
+       "duration": 192,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1739,
+       "duration": 167,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 2014,
+       "duration": 103,
+       "firstUsedPrograms": [
+        "?#42@2020",
+        "Blackened bronze#9@1862",
+        "2700K concealed LED#10@1864",
+        "V11 | cedar end grain#11@1866",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#14@1870",
+        "?#43@2075",
+        "?#44@2078",
+        "V2 | mineral charcoal stone#20@1883",
+        "?#45@2106",
+        "?#46@2110"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 10,
+         "ms": 37.2
+        }
+       }
+      },
+      {
+       "start": 2135,
+       "duration": 61,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 0
+    },
+    {
+     "load": "recreated",
+     "loadMs": 506,
+     "gardenMs": 601,
+     "longTasks": [
+      {
+       "start": 5565,
+       "duration": 117,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 5946,
+       "duration": 87,
+       "firstUsedPrograms": [
+        "?#93@5949",
+        "Blackened bronze#60@5646",
+        "2700K concealed LED#61@5648",
+        "V2 | mineral charcoal stone#57@5643",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#65@5651",
+        "?#94@5998",
+        "?#95@6001",
+        "V2 | mineral charcoal stone#71@5660",
+        "?#96@6025",
+        "?#97@6028"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 10,
+         "ms": 38.0
+        }
+       }
+      },
+      {
+       "start": 6049,
+       "duration": 55,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 1
+    }
+   ]
+  },
+  "after-3": {
+   "status": "passed",
+   "retry": 0,
+   "loads": [
+    {
+     "load": "first",
+     "loadMs": 436,
+     "gardenMs": 542,
+     "longTasks": [
+      {
+       "start": 319,
+       "duration": 192,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1709,
+       "duration": 167,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 1983,
+       "duration": 108,
+       "firstUsedPrograms": [
+        "?#42@1988",
+        "Blackened bronze#9@1832",
+        "2700K concealed LED#10@1834",
+        "V2 | mineral charcoal stone#6@1827",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#14@1840",
+        "?#43@2045",
+        "?#44@2048",
+        "V2 | mineral charcoal stone#20@1852",
+        "?#45@2079",
+        "?#46@2084"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 10,
+         "ms": 39.7
+        }
+       }
+      },
+      {
+       "start": 2110,
+       "duration": 63,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 0
+    },
+    {
+     "load": "recreated",
+     "loadMs": 509,
+     "gardenMs": 608,
+     "longTasks": [
+      {
+       "start": 5533,
+       "duration": 118,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      },
+      {
+       "start": 5914,
+       "duration": 89,
+       "firstUsedPrograms": [
+        "?#93@5917",
+        "Blackened bronze#60@5615",
+        "2700K concealed LED#61@5617",
+        "V2 | mineral charcoal stone#57@5611",
+        "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c#65@5621",
+        "?#94@5968",
+        "?#95@5971",
+        "V2 | mineral charcoal stone#71@5630",
+        "?#96@5994",
+        "?#97@5997"
+       ],
+       "callsOver1ms": {
+        "getProgramInfoLog": {
+         "calls": 10,
+         "ms": 38.4
+        }
+       }
+      },
+      {
+       "start": 6022,
+       "duration": 54,
+       "firstUsedPrograms": [],
+       "callsOver1ms": {}
+      }
+     ],
+     "framesOver100ms": 1
+    }
+   ]
+  }
+ }
+}
