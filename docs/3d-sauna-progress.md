@@ -1867,3 +1867,12 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [調査・対策・結果](3d-qa/load-compile/README.md)、[値](3d-qa/load-compile/values.json)、[継続利用](3d-qa/load-compile/soak.json)。
 
 検証：型検査、41ファイル263単体テスト、Lint、整形、本番ビルド、通常のブラウザ回帰20件、ロード診断6回（変更前後交互）、診断付き継続利用1件。
+
+## フェーズ5：並列コンパイルのないブラウザ（2026-10-04、確認）
+
+- 前回の残件「他のブラウザ（`KHR_parallel_shader_compile` の有無）」のうち、拡張がない場合の動作。three 0.186の `WebGLProgram.isReady()` は拡張がなければ作成直後から `true` を返し、`compileAsync` もすぐ終わる。`hdrOutput.ts` の `compile()` が待つのは `compileAsync` と各プログラムの `isReady()` だけなので、読み込み時・画質変更時の準備は待たずに終わり、最初の描画で従来どおりドライバーを同期で待つ。終わらない待ち・`COMPLETION_STATUS_KHR` の照会はない。拡張のない環境では、初回ロード・画質変更の止まり（約0.4〜0.8秒）は対策前と同じ程度に残る（未計測）。
+- 単体テスト `hdrOutput.test.ts` に、プログラムが最初から準備完了なら期限（1秒）を待たずに終わることを追加。製品コードは変更していない。
+- 実ブラウザでは未確認：拡張を隠す初期化スクリプト（`getExtension`・`getSupportedExtensions` から除く）で読み込み・画質変更・2D→3D再生成を通すテストを書いたが、この作業環境（GPUのないコンテナのChromium、SwiftShader）では拡張を隠さない対照でも3Dが2Dへフォールバックし、検証できなかったため追加していない。
+- 残件：拡張のないブラウザ（Safari・Firefoxの版による）での実測、実機（DPR 2〜3・120Hz）、別ページ描画中に完了しない原因、GPU総メモリ・音声ノード数。
+
+検証：型検査、単体テスト、Lint、整形、本番ビルド。
