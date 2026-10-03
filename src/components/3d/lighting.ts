@@ -217,6 +217,22 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     setDuskLights(enabled: boolean) {
       for (const light of duskLights) light.visible = enabled;
     },
+    /**
+     * Runs `fn` with the light and shadow counts of a quality (what its programs depend on) and
+     * restores the current ones; the shadow maps are left alone.
+     */
+    withQuality<T>(shadowSize: number, duskLightsOn: boolean, fn: () => T): T {
+      const casts = shadowLights.map((light) => light.castShadow);
+      const visible = duskLights.map((light) => light.visible);
+      for (const light of shadowLights) light.castShadow = shadowSize > 0;
+      for (const light of duskLights) light.visible = duskLightsOn;
+      try {
+        return fn();
+      } finally {
+        shadowLights.forEach((light, i) => (light.castShadow = casts[i]));
+        duskLights.forEach((light, i) => (light.visible = visible[i]));
+      }
+    },
     dispose() {
       for (const light of shadowLights) light.shadow.dispose();
     },

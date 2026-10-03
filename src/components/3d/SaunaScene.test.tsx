@@ -26,6 +26,9 @@ vi.mock('three', async (importOriginal) => {
       setSize = vi.fn();
       render = vi.fn();
       compileAsync = vi.fn(async () => {});
+      // No programs: the compiled ones are ready at once.
+      properties = { get: () => ({}) };
+      getContext = () => ({ isContextLost: () => false });
       setAnimationLoop = vi.fn();
       dispose = vi.fn();
       constructor() {
@@ -71,25 +74,30 @@ function model() {
   scene.add(new THREE.Mesh(geometry, material));
   return { scene, disposals: [geometry, texture, material].map((resource) => vi.spyOn(resource, 'dispose')) };
 }
-function mountScene(props: Partial<Pick<SceneProps, 'lightingMode' | 'enteredAt'>> = {}) {
+function mountScene(props: Partial<Pick<SceneProps, 'lightingMode' | 'enteredAt' | 'quality'>> = {}) {
   const audio = { setSpatialPose: vi.fn() } as unknown as AudioEngine;
   const onReady = vi.fn();
   const onError = vi.fn();
   const onGardenLoading = vi.fn();
-  const view = render(
+  const loylyEvents = new EventTarget();
+  const element = (changes: typeof props) => (
     <SaunaScene
       audio={audio}
       quality="standard"
       stage="sauna"
       lightingMode="day"
       {...props}
-      loylyEvents={new EventTarget()}
+      {...changes}
+      loylyEvents={loylyEvents}
       onReady={onReady}
       onError={onError}
       onGardenLoading={onGardenLoading}
-    />,
+    />
   );
-  return { ...view, audio, onReady, onError, onGardenLoading };
+  const view = render(element({}));
+  // Same callbacks and events, so the scene is kept.
+  const update = (changes: typeof props) => view.rerender(element(changes));
+  return { ...view, update, audio, onReady, onError, onGardenLoading };
 }
 async function flush() {
   await act(async () => {
@@ -369,6 +377,42 @@ describe('garden loaded after the ready scene', () => {
     expect(garden.scene.parent).toBeNull();
     expect(mocks.parse).toHaveBeenCalledTimes(phase === 'compile' ? 2 : 1);
     for (const dispose of garden.disposals) expect(dispose).toHaveBeenCalledTimes(phase === 'compile' ? 1 : 0);
+  });
+  it("keeps drawing the old quality until the chosen one's programs compile, and applies the latest", async () => {
+    mocks.parse.mockResolvedValueOnce(model());
+    const view = mountScene();
+    await flush();
+    expect(view.onReady).toHaveBeenCalledOnce();
+    const renderer = mocks.renderers[0];
+    const element = canvas(view);
+    const first = deferred<void>();
+    const second = deferred<void>();
+    renderer.compileAsync.mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise);
+    view.update({ quality: 'low' });
+    view.update({ quality: 'high' });
+    expect(renderer.compileAsync).toHaveBeenCalledTimes(2);
+    expect(element.dataset.quality).toBe('standard');
+    first.resolve();
+    await flush();
+    expect(element.dataset.quality).toBe('standard');
+    second.resolve();
+    await flush();
+    expect(element.dataset.quality).toBe('high');
+  });
+
+  it('does not apply a quality whose programs finish compiling after exit', async () => {
+    mocks.parse.mockResolvedValueOnce(model());
+    const view = mountScene();
+    await flush();
+    const renderer = mocks.renderers[0];
+    const compiled = deferred<void>();
+    renderer.compileAsync.mockReturnValueOnce(compiled.promise);
+    view.update({ quality: 'low' });
+    const calls = renderer.setPixelRatio.mock.calls.length;
+    view.unmount();
+    compiled.resolve();
+    await flush();
+    expect(renderer.setPixelRatio).toHaveBeenCalledTimes(calls);
   });
 });
 

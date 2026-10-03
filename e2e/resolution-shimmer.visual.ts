@@ -34,6 +34,8 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
   await page.getByLabel('3Dの画質').selectOption(QUALITY);
+  // Applied once its programs have compiled.
+  await expect(scene).toHaveAttribute('data-quality', QUALITY);
   // The held time still draws a frame for each animation frame.
   const frame = (count = 2) =>
     page.evaluate(

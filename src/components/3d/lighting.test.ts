@@ -184,6 +184,37 @@ describe('Cycles Blue hour lights', () => {
     lighting.setDuskLights(true);
     expect(dusk.every((light) => light.visible)).toBe(true);
   });
+
+  it("lends another quality's light and shadow counts to a compile and restores them", () => {
+    const scene = new THREE.Scene();
+    const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    const dusk = scene.children.filter((child) => child instanceof THREE.SpotLight).slice(1);
+    const casters = scene.children.filter(
+      (child) => child instanceof THREE.DirectionalLight || child instanceof THREE.SpotLight,
+    ) as (THREE.DirectionalLight | THREE.SpotLight)[];
+    lighting.setShadowSize(1024);
+    const map = new THREE.WebGLRenderTarget(16, 16);
+    casters[0].shadow.map = map;
+    const seen = lighting.withQuality(0, false, () => ({
+      casts: casters.some((light) => light.castShadow),
+      dusk: dusk.some((light) => light.visible),
+    }));
+    expect(seen).toEqual({ casts: false, dusk: false });
+    expect(casters.every((light) => light.castShadow)).toBe(true);
+    expect(dusk.every((light) => light.visible)).toBe(true);
+    // The cached shadow is kept for the quality still drawn.
+    expect(casters[0].shadow.map).toBe(map);
+    // Restored when the compile throws too.
+    lighting.setShadowSize(0);
+    lighting.setDuskLights(false);
+    expect(() =>
+      lighting.withQuality(2048, true, () => {
+        throw Error('compile');
+      }),
+    ).toThrow('compile');
+    expect(casters.some((light) => light.castShadow)).toBe(false);
+    expect(dusk.some((light) => light.visible)).toBe(false);
+  });
 });
 
 describe('Cycles Night lights', () => {

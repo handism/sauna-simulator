@@ -37,6 +37,33 @@ export interface RenderStats {
  */
 export function createHdrOutput(renderer: THREE.WebGLRenderer) {
   const stats: RenderStats = { calls: 0, triangles: 0 };
+  let released = false;
+  // three's compileAsync waits on each material's current program, which a draw of the scene in
+  // the meantime sets back to the one for the lights drawn (a quality change compiles for others),
+  // so this also waits on the programs it compiled. Unlit materials don't compare the shadows when
+  // drawn and would keep the compiled program (its first use waits for the driver): each is marked
+  // to choose its program again.
+  const compileLinked = (object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) => {
+    const compiled = renderer.compileAsync(object, camera, scene);
+    const programs: { isReady(): boolean }[] = [];
+    object.traverse((child) => {
+      const material = (child as THREE.Mesh).material;
+      for (const each of Array.isArray(material) ? material : material ? [material] : []) {
+        const program = (renderer.properties.get(each) as { currentProgram?: { isReady(): boolean } }).currentProgram;
+        if (program) programs.push(program);
+        each.needsUpdate = true;
+      }
+    });
+    const linked = new Promise<void>((resolve) => {
+      const check = () => {
+        if (released || renderer.getContext().isContextLost() || programs.every((program) => program.isReady()))
+          resolve();
+        else setTimeout(check, 10);
+      };
+      check();
+    });
+    return Promise.all([compiled, linked]).then(() => {});
+  };
   const record = () => {
     stats.calls = renderer.info.render.calls;
     stats.triangles = renderer.info.render.triangles;
@@ -62,10 +89,10 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       // Needs the half-float target.
       setTemporal(_on: boolean) {},
       resetTemporal() {},
-      compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
-        return renderer.compileAsync(object, camera, scene);
+      compile: compileLinked,
+      dispose() {
+        released = true;
       },
-      dispose() {},
     };
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const geometry = new THREE.BufferGeometry();
@@ -112,11 +139,12 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
     compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene) {
       // The programs are created synchronously; only the wait for the driver is asynchronous.
       renderer.setRenderTarget(target);
-      const compiled = renderer.compileAsync(object, camera, scene);
+      const compiled = compileLinked(object, camera, scene);
       renderer.setRenderTarget(null);
       return compiled;
     },
     dispose() {
+      released = true;
       target.dispose();
       temporal.dispose();
       geometry.dispose();

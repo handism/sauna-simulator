@@ -31,6 +31,8 @@ async function enter(page: Page) {
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
   await page.getByLabel('3Dの画質').selectOption(QUALITY);
+  // Applied once its programs have compiled.
+  await expect(scene).toHaveAttribute('data-quality', QUALITY);
   return scene;
 }
 

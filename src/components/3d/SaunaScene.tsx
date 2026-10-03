@@ -132,7 +132,9 @@ export default function SaunaScene({
     const prepass = createDepthPrepass();
     // The lit pass reads its shadows from a half-resolution mask (needs the float targets of HDR output).
     const shadowMask = output.hdr ? createShadowMask(renderer) : null;
-    const masked = () => shadowMask !== null && QUALITY[qualityRef.current].shadowSize > 0;
+    // The quality drawn, which trails the chosen one while its programs compile.
+    let applied = qualityRef.current;
+    const masked = () => shadowMask !== null && QUALITY[applied].shadowSize > 0;
     const lighting = createLighting(scene, renderer);
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
@@ -180,7 +182,8 @@ export default function SaunaScene({
     // ?temporal=off draws each frame on its own (temporalAA.ts), for comparisons.
     const temporal = new URLSearchParams(window.location.search).get('temporal') !== 'off';
     const applyQuality = () => {
-      const preset = QUALITY[qualityRef.current];
+      applied = qualityRef.current;
+      const preset = QUALITY[applied];
       const largest = Math.min(window.devicePixelRatio, preset.pixelRatio);
       resolution?.reset(largest);
       renderer.setPixelRatio(resolution?.pixelRatio ?? largest);
@@ -191,10 +194,26 @@ export default function SaunaScene({
       setData('temporal', output.hdr && temporal && preset.temporal ? 'on' : 'off');
       qualityIndex++;
       resetMetrics();
-      setData('quality', qualityRef.current);
+      setData('quality', applied);
       setData('pixelRatio', String(renderer.getPixelRatio()));
     };
-    applyQualityRef.current = applyQuality;
+    // A quality's light and shadow counts need other programs, and three waits for the driver when
+    // a program is first drawn (about 0.4 s for the scene's). Once the scene draws, the old quality
+    // keeps drawing while the new one's programs compile off the render loop; the latest wins.
+    let qualityRequest = 0;
+    applyQualityRef.current = () => {
+      const request = ++qualityRequest;
+      if (!ready) return applyQuality();
+      const preset = QUALITY[qualityRef.current];
+      const compiled = lighting.withQuality(preset.shadowSize, preset.duskLights, () =>
+        output.compile(scene, camera, scene),
+      );
+      void compiled
+        .catch(() => {})
+        .then(() => {
+          if (request === qualityRequest && !disposed && !failed) applyQuality();
+        });
+    };
     applyQuality();
     const resize = () => {
       const { width, height } = element.getBoundingClientRect();
@@ -297,7 +316,7 @@ export default function SaunaScene({
               return () => shadowMask!.end();
             },
           );
-          mirror.setScale(QUALITY[qualityRef.current].mirror);
+          mirror.setScale(QUALITY[applied].mirror);
         }
         const forward = new THREE.Vector3();
         const upVector = new THREE.Vector3();

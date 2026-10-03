@@ -1843,3 +1843,15 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [方法・結果・範囲](3d-qa/soak-temporal/README.md)、[集計](3d-qa/soak-temporal/summary.json)、[全標本](3d-qa/soak-temporal/samples.json)。
 
 検証：継続利用1件（本番ビルドを含む）、型検査、41ファイル256単体テスト、Lint、整形。製品コードは変わらないため通常ブラウザ回帰・画像撮影は再実行していない。
+
+## フェーズ5：画質切り替え時の停止（2026-10-03、修正）
+
+- 前回の残件「この停止の原因調査」。継続利用の7周目（軽量・夕・サウナ）の約417msは、高画質→軽量の切り替えで、threeがプログラムを初めて描くときにログを同期取得する待ち（29プログラムの `getProgramInfoLog` が合計約400ms）だった。軽量は光源・影の数が変わり、全材質に別のプログラムが要る。7周目だけの劣化やTAAではない。診断は `SOAK_TIMING=1` の継続利用と短い `e2e/quality-stall.gpu.ts`（`e2e/soak-timing.ts`）。
+- 修正：描画中の画質変更は、`lighting.withQuality()` で一時的に新しい光源・影の数にして `hdrOutput.ts` の `compile()` だけを行い、旧画質のまま描き続けてプログラムのリンク後に適用する（`data-quality` は適用した画質、連続した変更は最後だけ、破棄後は適用しない）。threeの `compileAsync` は材質の現在のプログラムを待つが間の描画で旧プログラムに戻るため、コンパイルしたプログラム自体の `isReady()` も待つ。光源に依存しない材質（空・ガラス等）はコンパイルしたプログラムを旧画質の描画で使ってしまい約90〜145ms止まったため、`needsUpdate` で選び直させる。
+- 同じ診断を変更前と交互に3回ずつ：最初の高画質→軽量の描画が533・466・477ms→100ms超なし（切り替え後のLong Taskは75〜84ms）。軽量→高画質・2回目以降も100ms超なし。
+- 継続利用（診断付き）も成功：322.3秒・8周回・40標本、100ms超の描画0回、全標本の最大フレーム間隔50ms以下。100ms超のLong Taskは3Dの初回ロード・再生成直後の10回だけ（535〜826ms、対象外）。
+- 画質を選んで計測・撮影する `frame-cost.gpu.ts`・`resolution-shimmer.visual.ts` は適用（`data-quality`）を待つようにした。
+- 残件：実機（DPR 2〜3・120Hz）、他のブラウザ（`KHR_parallel_shader_compile` の有無）、初回ロード時のコンパイル費用、GPU総メモリ・音声ノード数。
+- [調査・対策・結果](3d-qa/quality-stall/README.md)、[調査の値](3d-qa/quality-stall/values.json)、[対策前後の値](3d-qa/quality-stall/async-compile.json)。
+
+検証：型検査、41ファイル259単体テスト、Lint、整形、本番ビルド、通常のブラウザ回帰20件、切り替え診断6回（変更前後交互）、診断付き継続利用1件。
