@@ -1,7 +1,9 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
-import { AmbientEnv, useAudioEngine } from './useAudioEngine';
+import { type AmbientEnv, useAudioEngine } from './useAudioEngine';
 import { RESTING_HEART_RATE } from '../utils/saunaUtils';
 
+export type { AmbientEnv };
+/** 入室前の 'start' と、環境音・3D視点を持つ3ステージ（AmbientEnv） */
 export type Stage = 'start' | AmbientEnv;
 
 interface SessionResults {
@@ -10,6 +12,11 @@ interface SessionResults {
   loylyCount: number;
   waterTime: number;
 }
+
+/** サウナ室を出たときの記録（SaunaRoom の onNext） */
+export type SaunaResult = Pick<SessionResults, 'heartRate' | 'saunaTime' | 'loylyCount'>;
+/** 水風呂を出たときの記録（CoolingBath の onNext） */
+export type WaterResult = Pick<SessionResults, 'heartRate' | 'waterTime'>;
 
 const INITIAL_RESULTS: SessionResults = {
   heartRate: RESTING_HEART_RATE,
@@ -69,17 +76,17 @@ export function useSaunaSession() {
 
   // 遷移が受け付けられたときだけ結果を記録する（遷移中の二重操作で上書きしない）
   const completeSauna = useCallback(
-    (heartRate: number, saunaTime: number, loylyCount: number) => {
+    (result: SaunaResult) => {
       if (!changeStage('water')) return;
-      setResults((prev) => ({ ...prev, heartRate, saunaTime, loylyCount }));
+      setResults((prev) => ({ ...prev, ...result }));
     },
     [changeStage],
   );
 
   const completeWater = useCallback(
-    (heartRate: number, waterTime: number) => {
+    (result: WaterResult) => {
       if (!changeStage('totonou')) return;
-      setResults((prev) => ({ ...prev, heartRate, waterTime }));
+      setResults((prev) => ({ ...prev, ...result }));
     },
     [changeStage],
   );
@@ -88,13 +95,12 @@ export function useSaunaSession() {
     changeStage('sauna');
   }, [changeStage]);
 
+  // 音量の変更は state の updater（純粋であるべき）の外で行う
   const toggleMute = useCallback(() => {
-    setIsMuted((prev) => {
-      const next = !prev;
-      audio.setMuted(next);
-      return next;
-    });
-  }, [audio]);
+    const next = !isMuted;
+    setIsMuted(next);
+    audio.setMuted(next);
+  }, [audio, isMuted]);
 
   const toggleUiVisibility = useCallback(() => {
     setIsUiHidden((prev) => !prev);

@@ -121,7 +121,7 @@ describe('SaunaContext', () => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
 
     act(() => {
-      result.current.completeSauna(120, 600, 3);
+      result.current.completeSauna({ heartRate: 120, saunaTime: 600, loylyCount: 3 });
     });
 
     expect(result.current.heartRate).toBe(120);
@@ -141,7 +141,7 @@ describe('SaunaContext', () => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
 
     act(() => {
-      result.current.completeWater(90, 120);
+      result.current.completeWater({ heartRate: 90, waterTime: 120 });
     });
 
     expect(result.current.heartRate).toBe(90);
@@ -185,8 +185,8 @@ describe('SaunaContext', () => {
     advance(() => result.current.handleStart(false));
     expect(result.current.enteredAt).toBe(50_000);
     // Later rounds keep it: the automatic lighting follows the real time since entering.
-    advance(() => result.current.completeSauna(120, 600, 3));
-    advance(() => result.current.completeWater(80, 60));
+    advance(() => result.current.completeSauna({ heartRate: 120, saunaTime: 600, loylyCount: 3 }));
+    advance(() => result.current.completeWater({ heartRate: 80, waterTime: 60 }));
     advance(() => result.current.completeTotonou());
     expect(result.current.stage).toBe('sauna');
     expect(result.current.enteredAt).toBe(50_000);
@@ -209,9 +209,9 @@ describe('SaunaContext', () => {
     expect(result.current.stage).toBe('sauna');
     mockAudioEngine.playAmbient.mockClear();
     act(() => {
-      result.current.completeSauna(120, 600, 3);
-      result.current.completeSauna(150, 999, 9);
-      result.current.completeWater(80, 60);
+      result.current.completeSauna({ heartRate: 120, saunaTime: 600, loylyCount: 3 });
+      result.current.completeSauna({ heartRate: 150, saunaTime: 999, loylyCount: 9 });
+      result.current.completeWater({ heartRate: 80, waterTime: 60 });
     });
     expect(result.current.pendingStage).toBe('water');
     expect(result.current.saunaTime).toBe(600);

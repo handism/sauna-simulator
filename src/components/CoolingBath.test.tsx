@@ -48,12 +48,11 @@ describe('CoolingBath', () => {
     const leaveButton = screen.getByText(/外気浴へ/);
     fireEvent.click(leaveButton);
 
-    // onNext should be called with (heartRate, duration)
-    // duration should be 5
+    // onNext should be called with { heartRate, waterTime }
     expect(handleNext).toHaveBeenCalledTimes(1);
-    expect(handleNext.mock.calls[0][1]).toBe(5);
+    expect(handleNext.mock.calls[0][0].waterTime).toBe(5);
     // Heart rate should be less than 100
-    expect(handleNext.mock.calls[0][0]).toBeLessThan(100);
+    expect(handleNext.mock.calls[0][0].heartRate).toBeLessThan(100);
   });
 
   it('leaves for the outdoor rest with the Space key', () => {
@@ -66,7 +65,7 @@ describe('CoolingBath', () => {
     fireEvent.keyDown(document.body, { key: ' ' });
 
     expect(handleNext).toHaveBeenCalledTimes(1);
-    expect(handleNext.mock.calls[0][1]).toBe(3);
+    expect(handleNext.mock.calls[0][0].waterTime).toBe(3);
   });
 
   it('generates ripples over time', () => {

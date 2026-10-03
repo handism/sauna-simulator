@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
-import { calculateHeatIndex, getSecureRandom, RESTING_HEART_RATE } from '../utils/saunaUtils';
+import type { SaunaResult } from '../hooks/useSaunaSession';
+import { calculateHeatIndex, RESTING_HEART_RATE } from '../utils/saunaUtils';
 import HeartRateRow from './HeartRateRow';
 
 interface Steam {
@@ -13,7 +14,7 @@ interface Steam {
 export interface SaunaRoomProps {
   audio: AudioEngine;
   onLoyly?: () => void;
-  onNext: (finalHeartRate: number, duration: number, loylyCount: number) => void;
+  onNext: (result: SaunaResult) => void;
 }
 
 const SAUNA_CONFIG = {
@@ -81,7 +82,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
     // サウナストーンからの蒸気パーティクル
     const newSteam: Steam = {
       id: steamIdRef.current++,
-      left: getSecureRandom() * 60 + 20 + '%',
+      left: Math.random() * 60 + 20 + '%',
     };
     setSteams((prev) => [...prev, newSteam]);
     const particleTimeouts = steamParticleTimeoutsRef.current;
@@ -124,7 +125,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const heatIndex = calculateHeatIndex(temperature, humidity);
 
   const handleLeave = () => {
-    onNext(Math.round(heartRate), secondsRef.current, loylyCountRef.current);
+    onNext({ heartRate: Math.round(heartRate), saunaTime: secondsRef.current, loylyCount: loylyCountRef.current });
   };
 
   return (

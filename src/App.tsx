@@ -5,7 +5,7 @@ import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
 import { FullscreenButton, MuteButton, UiToggleButton } from './components/ControlButtons';
-import { useSaunaContext, type Stage } from './context/SaunaContext';
+import { useSaunaContext, type AmbientEnv } from './context/SaunaContext';
 import { useFullscreen } from './hooks/useFullscreen';
 import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
 
@@ -14,7 +14,7 @@ interface BackgroundConfig {
   image: string;
 }
 
-const BACKGROUNDS: Record<Exclude<Stage, 'start'>, BackgroundConfig> = {
+const BACKGROUNDS: Record<AmbientEnv, BackgroundConfig> = {
   sauna: {
     gradient: 'rgba(0,0,0,0.45), rgba(0,0,0,0.75)',
     image: 'sauna_bg.webp',

@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+## 言語
+
+- 利用者との会話、PRのタイトル・本文、GitHub上のコメントは日本語で書く
+
 ## コマンド
 
 - パッケージマネージャは **bun**
@@ -18,7 +22,7 @@
 
 ### オーディオ
 
-`src/hooks/useAudioEngine.ts` にカプセル化されており、**外部音声ファイルは一切使用しない**。すべて Web Audio API でプロシージャル生成している（ノイズ生成は `src/hooks/audioWorker.ts` の Web Worker 側で行う）。
+`src/hooks/useAudioEngine.ts` にカプセル化されており、**外部音声ファイルは一切使用しない**。すべて Web Audio API でプロシージャル生成している（ノイズ生成は `src/hooks/audioWorker.ts` の Web Worker 側で行い、要求・重複排除・失敗処理は `src/hooks/noiseWorkerClient.ts`）。
 
 `audio.init()` はユーザーインタラクション（スタートボタン）のタイミングで呼ぶ必要がある（ブラウザの autoplay 制限対応）。
 
@@ -26,10 +30,10 @@
 
 ### スタイリング
 - 共通 UI は `.glass-panel`（glassmorphism）と `.primary-btn` の2クラスを使う
-- ステージ固有の色や背景はコンポーネント内のインラインスタイルで上書きする
+- ステージ固有の色や背景はコンポーネント内のインラインスタイルで上書きする。ただし状態で切り替わる見た目（外気浴の呼吸の吸う/吐く）は `data-*` 属性と `index.css` のセレクタで切り替える
 
 ### コンポーネント設計
-- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする
+- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする。記録は名前付きのオブジェクト（`useSaunaSession.ts` の `SaunaResult` / `WaterResult`）で渡す
 - `audio` と各種セッション値は `App.tsx` が `useSaunaContext()` から取得し、props で各コンポーネントに渡す。コンポーネント側は context を直接参照しない
 
 ### キーボードショートカット・全画面

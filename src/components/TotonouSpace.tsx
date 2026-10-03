@@ -9,6 +9,15 @@ export interface TotonouSpaceProps {
   onNext: () => void;
 }
 
+// ととのい度の表示色。閾値の高い順に並べ、最初に達した段階の色を使う
+const SCORE_COLORS = [
+  { min: 90, color: '#34d399' },
+  { min: 60, color: '#60a5fa' },
+  { min: 0, color: '#a78bfa' },
+] as const;
+
+const scoreColor = (score: number) => SCORE_COLORS.find(({ min }) => score >= min)?.color ?? SCORE_COLORS[2].color;
+
 const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpaceProps) => {
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
@@ -61,14 +70,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       if (totonouTextRef.current) {
         const rounded = Math.round(currentLevel);
         totonouTextRef.current.textContent = `${rounded}%`;
-        // 色の更新
-        if (rounded >= 90) {
-          totonouTextRef.current.style.color = '#34d399';
-        } else if (rounded >= 60) {
-          totonouTextRef.current.style.color = '#60a5fa';
-        } else {
-          totonouTextRef.current.style.color = '#a78bfa';
-        }
+        totonouTextRef.current.style.color = scoreColor(rounded);
       }
 
       if (totonouBarRef.current) {
@@ -92,15 +94,9 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
   }, [maxTotonou]);
 
   return (
-    <div ref={rootRef} className="scene-container">
-      {/* プレミアムオーロラ背景 (呼吸に合わせて透明度と光が微細に揺らぐ) */}
-      <div
-        className="aurora-container"
-        style={{
-          opacity: isInhaling ? 0.75 : 0.45,
-          transition: 'opacity 4s cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
-      >
+    <div ref={rootRef} className="scene-container" data-breath={isInhaling ? 'inhale' : 'exhale'}>
+      {/* プレミアムオーロラ背景 (呼吸に合わせて透明度と光が微細に揺らぐ。index.css の data-breath) */}
+      <div className="aurora-container">
         <div className="aurora-blob one" />
         <div className="aurora-blob two" />
         <div className="aurora-blob three" />
@@ -112,39 +108,15 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, onNext }: TotonouSpace
       </div>
 
       {/* 呼吸サークル (プレミアム仕様、吸う/吐くに合わせて伸縮しグローが強まる) */}
-      <div
-        className="breathing-circle-premium"
-        style={{
-          transform: isInhaling ? 'scale(1.15)' : 'scale(0.92)',
-          boxShadow: isInhaling
-            ? '0 0 50px rgba(6, 182, 212, 0.15), inset 0 0 40px rgba(6, 182, 212, 0.1)'
-            : '0 0 30px rgba(139, 92, 246, 0.08), inset 0 0 20px rgba(139, 92, 246, 0.05)',
-          background: isInhaling
-            ? 'radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.01) 60%, transparent 80%)'
-            : 'radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, rgba(139, 92, 246, 0.01) 60%, transparent 80%)',
-          borderColor: isInhaling ? 'rgba(6, 182, 212, 0.25)' : 'rgba(139, 92, 246, 0.15)',
-        }}
-      >
-        <div
-          style={{
-            fontSize: '1.4rem',
-            fontWeight: 300,
-            letterSpacing: '6px',
-            color: isInhaling ? '#a5f3fc' : '#ddd6fe',
-            zIndex: 10,
-            transition: 'color 4s ease',
-            marginLeft: '4px', // letterSpacingによる右寄り解消
-          }}
-        >
-          {isInhaling ? '吸って...' : '吐いて...'}
-        </div>
+      <div className="breathing-circle-premium">
+        <div className="breathing-label">{isInhaling ? '吸って...' : '吐いて...'}</div>
       </div>
 
       {/* 「ととのい度」情報パネル */}
       <div className="glass-panel totonou-info-panel">
         <div className="totonou-info-row">
           <span className="totonou-info-label">ととのい度:</span>
-          <span ref={totonouTextRef} className="dashboard-value totonou-progress-val" style={{ color: '#a78bfa' }}>
+          <span ref={totonouTextRef} className="dashboard-value totonou-progress-val" style={{ color: scoreColor(0) }}>
             0%
           </span>
         </div>

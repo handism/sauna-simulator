@@ -1,10 +1,8 @@
 import { useRef, useCallback, useMemo } from 'react';
 import { createSpatialAudio, type SpatialPose } from './spatialAudio';
-import AudioWorker from './audioWorker?worker';
+import { generateNoise, type NoiseType } from './noiseWorkerClient';
 
 export type AmbientEnv = 'sauna' | 'water' | 'totonou';
-
-type NoiseType = 'whiteNoise' | 'saunaNoise' | 'windNoise';
 
 export interface AudioEffectSettings {
   type: BiquadFilterType;
@@ -109,69 +107,6 @@ export interface AudioEngine {
   setMuted: (muted: boolean) => void;
 }
 
-let audioWorker: Worker | null = null;
-let msgIdCounter = 0;
-type ResolverType = {
-  resolve: (data: Float32Array<ArrayBuffer>) => void;
-  reject: (reason?: unknown) => void;
-  timeoutId: ReturnType<typeof setTimeout>;
-};
-const resolvers = new Map<number, ResolverType>();
-const ongoingGenerations = new Map<string, Promise<Float32Array<ArrayBuffer>>>();
-
-// Worker が落ちたら待機中の要求をタイムアウトまで待たせず失敗させ、次の要求で作り直す
-function failPendingGenerations(reason: unknown) {
-  resolvers.forEach(({ reject, timeoutId }) => {
-    clearTimeout(timeoutId);
-    reject(reason);
-  });
-  resolvers.clear();
-  audioWorker?.terminate();
-  audioWorker = null;
-}
-
-// A wrapper to handle concurrent requests to the worker
-function generateBufferAsync(type: NoiseType, length: number): Promise<Float32Array<ArrayBuffer>> {
-  const cacheKey = `${type}-${length}`;
-  const existingPromise = ongoingGenerations.get(cacheKey);
-  if (existingPromise) {
-    return existingPromise;
-  }
-
-  const promise = new Promise<Float32Array<ArrayBuffer>>((resolve, reject) => {
-    if (!audioWorker) {
-      audioWorker = new AudioWorker();
-      audioWorker.onmessage = (e) => {
-        const { id, data } = e.data;
-        const resolver = resolvers.get(id);
-        if (resolver) {
-          clearTimeout(resolver.timeoutId);
-          resolver.resolve(data);
-          resolvers.delete(id);
-        }
-      };
-      audioWorker.onerror = (e) => {
-        console.error('AudioWorker error:', e);
-        failPendingGenerations(new Error('AudioWorker failed'));
-      };
-    }
-
-    const id = msgIdCounter++;
-    const timeoutId = setTimeout(() => {
-      resolvers.delete(id);
-      reject(new Error(`Worker timeout for message id ${id}`));
-    }, 10000);
-
-    resolvers.set(id, { resolve, reject, timeoutId });
-    audioWorker.postMessage({ id, type, length });
-  }).finally(() => {
-    ongoingGenerations.delete(cacheKey);
-  });
-
-  ongoingGenerations.set(cacheKey, promise);
-  return promise;
-}
-
 function applyFilterSettings(filter: BiquadFilterNode, settings: AudioEffectSettings) {
   filter.type = settings.type;
   filter.frequency.value = settings.frequency;
@@ -203,8 +138,8 @@ export function useAudioEngine(): AudioEngine {
   const activeSourcesRef = useRef<AudioScheduledSourceNode[]>([]);
   const activeGainsRef = useRef<GainNode[]>([]);
 
-  // 音源バッファのキャッシュ（ノイズの種類ごと）
-  const noiseBuffersRef = useRef(new Map<NoiseType, AudioBuffer>());
+  // 音源バッファのキャッシュ（ノイズの種類と長さごと。同じ種類でも長さが違えば別のバッファ）
+  const noiseBuffersRef = useRef(new Map<string, AudioBuffer>());
 
   const init = useCallback(() => {
     if (!ctxRef.current) {
@@ -243,15 +178,16 @@ export function useAudioEngine(): AudioEngine {
       label: string,
       request?: object,
     ): Promise<AudioBuffer | null> => {
-      const cached = noiseBuffersRef.current.get(noiseType);
-      if (cached) return cached;
       const bufferSize = Math.floor(ctx.sampleRate * bufferSeconds);
+      const cacheKey = `${noiseType}-${bufferSize}`;
+      const cached = noiseBuffersRef.current.get(cacheKey);
+      if (cached) return cached;
       try {
-        const generatedData = await generateBufferAsync(noiseType, bufferSize);
+        const generatedData = await generateNoise(noiseType, bufferSize);
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         buffer.copyToChannel(generatedData, 0);
         // 環境が切り替わっていても生成結果は次回のためにキャッシュする
-        noiseBuffersRef.current.set(noiseType, buffer);
+        noiseBuffersRef.current.set(cacheKey, buffer);
         if (request && currentRequestRef.current !== request) return null;
         return buffer;
       } catch (e) {

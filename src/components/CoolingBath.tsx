@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { beatSeconds, getSecureRandom } from '../utils/saunaUtils';
+import { beatSeconds } from '../utils/saunaUtils';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
 import HeartRateRow from './HeartRateRow';
+import type { WaterResult } from '../hooks/useSaunaSession';
 
 interface Ripple {
   id: number;
@@ -12,10 +13,11 @@ interface Ripple {
 
 export interface CoolingBathProps {
   initialHeartRate: number;
-  onNext: (finalHeartRate: number, duration: number) => void;
+  onNext: (result: WaterResult) => void;
 }
 
 const COOLING_CONFIG = {
+  WATER_TEMP: 16,
   TARGET_HR: 60,
   HR_DECAY_FACTOR: 0.16,
   MIN_HR: 56,
@@ -34,8 +36,8 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
     const int = setInterval(() => {
       const newRipple: Ripple = {
         id: rippleIdRef.current++,
-        left: getSecureRandom() * 80 + 10 + '%',
-        top: getSecureRandom() * 80 + 10 + '%',
+        left: Math.random() * 80 + 10 + '%',
+        top: Math.random() * 80 + 10 + '%',
       };
       setRipples((prev) => [...prev.slice(-4), newRipple]); // 最大5つの波紋
     }, COOLING_CONFIG.RIPPLE_INTERVAL_MS);
@@ -49,13 +51,13 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
       const diff = (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
       const nextHR = prev + diff;
       // わずかにランダムなゆらぎを加えて自然にする
-      const jitter = (getSecureRandom() - 0.5) * 0.5;
+      const jitter = (Math.random() - 0.5) * 0.5;
       return Math.max(nextHR + jitter, COOLING_CONFIG.MIN_HR);
     });
   });
 
   const handleLeave = () => {
-    onNext(Math.round(heartRate), secondsRef.current);
+    onNext({ heartRate: Math.round(heartRate), waterTime: secondsRef.current });
   };
 
   useKeyboardShortcut(' ', handleLeave, { scope: rootRef });
@@ -79,7 +81,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         <div className="cooling-info-panel">
           <div className="stage-info-row">
             <span className="stage-info-label">水温:</span>
-            <span className="dashboard-value cooling-info-val-temp">16.0°C</span>
+            <span className="dashboard-value cooling-info-val-temp">{COOLING_CONFIG.WATER_TEMP.toFixed(1)}°C</span>
           </div>
 
           <HeartRateRow heartRate={heartRate} icon="💙" />

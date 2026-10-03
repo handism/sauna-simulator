@@ -2,7 +2,7 @@ import { Component, lazy, Suspense, useCallback, useEffect, useState, type React
 import type { AudioEngine } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
 import type { LightingMode } from './3d/lighting';
-import type { Stage } from '../context/SaunaContext';
+import type { AmbientEnv, Stage } from '../context/SaunaContext';
 import { readPreference, writePreference } from '../utils/preferences';
 
 class SceneModuleError extends Error {}
@@ -14,13 +14,13 @@ const SaunaScene = lazy(() =>
 const STORAGE_KEY = 'sui-view-mode';
 const LIGHTING_KEY = 'sui-lighting-mode';
 const QUALITY_KEY = 'sui-quality';
-function initialSceneMode(): boolean {
+type ViewMode = '2d' | '3d';
+function viewQuery(): ViewMode | null {
   const query = new URLSearchParams(window.location.search).get('view');
-  if (query === '3d' || query === '2d') {
-    writePreference(STORAGE_KEY, query);
-    return query === '3d';
-  }
-  return readPreference(STORAGE_KEY, ['2d', '3d'], '2d') === '3d';
+  return query === '3d' || query === '2d' ? query : null;
+}
+function initialSceneMode(): boolean {
+  return (viewQuery() ?? readPreference<ViewMode>(STORAGE_KEY, ['2d', '3d'], '2d')) === '3d';
 }
 class SceneBoundary extends Component<{ children: ReactNode; onError: (error: Error) => void }, { failed: boolean }> {
   state = { failed: false };
@@ -93,7 +93,7 @@ function ActiveScene({
   quality: QualityMode;
   audio: AudioEngine;
   lightingMode: LightingMode;
-  stage: Exclude<Stage, 'start'>;
+  stage: AmbientEnv;
   enteredAt?: number;
   opacity: number;
   loylyEvents: EventTarget;
@@ -172,6 +172,11 @@ export default function SceneMode({
   const [lightingMode, setLightingMode] = usePreference<LightingMode>(LIGHTING_KEY, LIGHTING_VALUES, 'auto');
   const [quality, setQuality] = usePreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard');
   const [enabled, setEnabled] = useState(initialSceneMode);
+  // ?view= overrides the saved choice. Saved after mount: state initializers stay free of side effects.
+  useEffect(() => {
+    const query = viewQuery();
+    if (query) writePreference(STORAGE_KEY, query);
+  }, []);
   const toggle = () => {
     const next = !enabled;
     setEnabled(next);
