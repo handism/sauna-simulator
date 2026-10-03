@@ -1265,5 +1265,312 @@
     ]
    }
   }
+ },
+ "fastLook": {
+  "note": "2026-10-03. JUMP_ANGLE 0.05 -> 0.25 (arrow keys reset the history themselves). resolution-shimmer.visual.ts at ratio 1.5, DPR 1.5, standard, 1 animation frame per step; on = this build, off = same build with &temporal=off. L* residual after the rotation warp.",
+  "fast": {
+   "cssPxPerFrame": 18,
+   "yawPerFrame": 0.07200000000000001,
+   "off": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.9367,
+     "tile": 0.1079,
+     "tileP99": 1.4052
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.7683,
+     "tile": 0.0826,
+     "tileP99": 1.2612
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 1.2042,
+     "tile": 0.1597,
+     "tileP99": 1.8542
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.9938,
+     "tile": 0.1209,
+     "tileP99": 1.7416
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 1.0537,
+     "tile": 0.154,
+     "tileP99": 1.9808
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.956,
+     "tile": 0.1387,
+     "tileP99": 1.8178
+    }
+   ],
+   "on": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.5409,
+     "tile": 0.0773,
+     "tileP99": 1.0763,
+     "relativeToOff": {
+      "pixel": 0.5775,
+      "tile": 0.7164,
+      "tileP99": 0.7659
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.4367,
+     "tile": 0.0587,
+     "tileP99": 0.9111,
+     "relativeToOff": {
+      "pixel": 0.5684,
+      "tile": 0.7107,
+      "tileP99": 0.7224
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 0.7027,
+     "tile": 0.1143,
+     "tileP99": 1.3385,
+     "relativeToOff": {
+      "pixel": 0.5835,
+      "tile": 0.7157,
+      "tileP99": 0.7219
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.5674,
+     "tile": 0.0857,
+     "tileP99": 1.2253,
+     "relativeToOff": {
+      "pixel": 0.5709,
+      "tile": 0.7089,
+      "tileP99": 0.7035
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 0.6121,
+     "tile": 0.1068,
+     "tileP99": 1.3773,
+     "relativeToOff": {
+      "pixel": 0.5809,
+      "tile": 0.6935,
+      "tileP99": 0.6953
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.5586,
+     "tile": 0.0954,
+     "tileP99": 1.2529,
+     "relativeToOff": {
+      "pixel": 0.5843,
+      "tile": 0.6878,
+      "tileP99": 0.6892
+     }
+    }
+   ],
+   "onOverOff": {
+    "pixel": {
+     "min": 0.5684,
+     "median": 0.5791999999999999,
+     "max": 0.5843
+    },
+    "tile": {
+     "min": 0.6878,
+     "median": 0.7098,
+     "max": 0.7164
+    },
+    "tileP99": {
+     "min": 0.6892,
+     "median": 0.7127,
+     "max": 0.7659
+    }
+   }
+  },
+  "slow": {
+   "cssPxPerFrame": 1,
+   "yawPerFrame": 0.004,
+   "off": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.8655,
+     "tile": 0.1021,
+     "tileP99": 1.1925
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.7037,
+     "tile": 0.0751,
+     "tileP99": 1.0908
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 1.0931,
+     "tile": 0.1409,
+     "tileP99": 1.6132
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.9064,
+     "tile": 0.1095,
+     "tileP99": 1.5195
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 0.9295,
+     "tile": 0.129,
+     "tileP99": 1.6261
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.8604,
+     "tile": 0.116,
+     "tileP99": 1.5319
+    }
+   ],
+   "on": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "pixel": 0.5049,
+     "tile": 0.0611,
+     "tileP99": 0.6961,
+     "relativeToOff": {
+      "pixel": 0.5834,
+      "tile": 0.5984,
+      "tileP99": 0.5837
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "pixel": 0.4069,
+     "tile": 0.0441,
+     "tileP99": 0.6153,
+     "relativeToOff": {
+      "pixel": 0.5782,
+      "tile": 0.5872,
+      "tileP99": 0.5641
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "pixel": 0.6389,
+     "tile": 0.0879,
+     "tileP99": 1.027,
+     "relativeToOff": {
+      "pixel": 0.5845,
+      "tile": 0.6238,
+      "tileP99": 0.6366
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "pixel": 0.522,
+     "tile": 0.0678,
+     "tileP99": 0.9595,
+     "relativeToOff": {
+      "pixel": 0.5759,
+      "tile": 0.6192,
+      "tileP99": 0.6315
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "pixel": 0.5328,
+     "tile": 0.0772,
+     "tileP99": 0.9797,
+     "relativeToOff": {
+      "pixel": 0.5732,
+      "tile": 0.5984,
+      "tileP99": 0.6025
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "pixel": 0.4881,
+     "tile": 0.069,
+     "tileP99": 0.9174,
+     "relativeToOff": {
+      "pixel": 0.5673,
+      "tile": 0.5948,
+      "tileP99": 0.5989
+     }
+    }
+   ],
+   "onOverOff": {
+    "pixel": {
+     "min": 0.5673,
+     "median": 0.5770500000000001,
+     "max": 0.5845
+    },
+    "tile": {
+     "min": 0.5872,
+     "median": 0.5984,
+     "max": 0.6238
+    },
+    "tileP99": {
+     "min": 0.5641,
+     "median": 0.6007,
+     "max": 0.6366
+    }
+   }
+  },
+  "gradientOnOverOffStep12": {
+   "fast": [
+    0.881,
+    0.889,
+    0.885,
+    0.895,
+    0.897,
+    0.904
+   ],
+   "slow": [
+    0.904,
+    0.919,
+    0.888,
+    0.893,
+    0.894,
+    0.896
+   ],
+   "views": [
+    "sauna-day",
+    "sauna-evening",
+    "water-day",
+    "water-evening",
+    "totonou-day",
+    "totonou-evening"
+   ]
+  }
  }
 }

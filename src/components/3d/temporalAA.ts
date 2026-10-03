@@ -9,8 +9,12 @@ import * as THREE from 'three';
 
 /** The history's weight once valid. */
 export const HISTORY_WEIGHT = 0.9;
-/** A turn beyond this between two frames (radians) drops the history: a jump, not a look. */
-export const JUMP_ANGLE = 0.05;
+/**
+ * A turn beyond this between two frames (radians) drops the history: a jump, not a look. A finger's
+ * swipe turns about 0.07 a frame at 60 Hz and still gains nearly as much from the history as a slow
+ * drag (docs/3d-qa/temporal-aa/); an arrow key's step resets the history itself (lookControls.ts).
+ */
+export const JUMP_ANGLE = 0.25;
 /**
  * Still frames drawn through the pass before it is skipped. A pause between pointer events keeps
  * the blend (the blended and the plain frame in turn would flicker), and 0.9^60 leaves 0.2% of a

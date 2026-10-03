@@ -1787,3 +1787,15 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [方法・結果](3d-qa/temporal-aa/README.md)、[値](3d-qa/temporal-aa/values.json)。
 
 検証：型検査、41ファイル256単体テスト（`temporalAA.test.ts` 1件追加）、Lint、整形、本番ビルド、ブラウザ回帰20件、フレーム費用（HEADと交互に3組、`?temporal=off` と交互に2組）。
+
+## フェーズ5：速い見回しでも時間方向の蓄積を効かせる（2026-10-03、採用）
+
+- 前回の残件「速い見回し・タッチでの効き方」。指のスワイプは60Hzで1フレーム約0.07rad回り、`JUMP_ANGLE` 0.05radを超えて毎フレーム履歴が捨てられていた（蓄積なしと同じ）。
+- `JUMP_ANGLE` を0.25radにし、矢印キーは押すごとに `lookControls.ts` が履歴を捨てる（`onJump`）。撮影テストの視点の移動も矢印キーなので、静止画の撮影は変わらない。
+- 段1.5・1フレームごと、同じビルドの `&temporal=off` に対する比：スワイプ相当（18 CSS px／フレーム）で画素の残差0.57〜0.58倍・面の残差0.69〜0.72倍、ゆっくり（1 px）で0.57〜0.58倍・0.59〜0.62倍。12フレーム後の勾配は0.88〜0.90倍（ゆっくり0.89〜0.92倍）。残像は目視で見えない。
+- `resolution-shimmer.visual.ts` に `SHIMMER_PX`／`SHIMMER_FRAMES`／`SHIMMER_RATIOS`／`SHIMMER_QUERY`、`summarize_resolution_shimmer.py` に `--baseline` を足した。
+- `scene-touch.e2e.ts` は、動かした後の基準画像を履歴の収束（70フレーム）を待ってから撮る（0.2radの移動でも履歴が残り、直後の画像は収束中で変わり続ける）。
+- 残件：60Hzより遅い表示・さらに速いフリック、他の端末（DPR 2〜3・120Hz）、見回し中の費用（3×3の読み出し）。
+- [方法・結果](3d-qa/temporal-aa/README.md#速い見回し2026-10-03)、[値](3d-qa/temporal-aa/values.json)（`fastLook`）。
+
+検証：型検査、41ファイル256単体テスト（`lookControls.test.ts` に矢印キーでの履歴リセットを追加）、Lint、整形、本番ビルド、ブラウザ回帰20件、見回しのちらつきの撮影4本（速い・ゆっくり×蓄積あり・なし、段1.5）。

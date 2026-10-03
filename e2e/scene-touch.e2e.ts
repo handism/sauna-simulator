@@ -14,6 +14,19 @@ test('touch look survives a second finger and cancellation; controls remain tapp
   await page.getByRole('button', { name: 'UI非表示', exact: true }).tap();
   // Finish UI fades before comparing the static, reduced-motion scene.
   const picture = () => canvas.screenshot({ animations: 'disabled' });
+  // A turn blends with the frames before it until the view has been still for STILL_FRAMES
+  // (src/components/3d/temporalAA.ts); after that the picture is the frame itself.
+  const settled = async () => {
+    await page.evaluate(
+      () =>
+        new Promise<void>((resolve) => {
+          let n = 70;
+          const next = () => (n-- > 0 ? requestAnimationFrame(next) : resolve());
+          next();
+        }),
+    );
+    return picture();
+  };
 
   // CDP generates browser touch/pointer events, including capture and hit testing.
   // This is desktop Chrome touch emulation, not a mobile hardware test.
@@ -26,7 +39,7 @@ test('touch look survives a second finger and cancellation; controls remain tapp
   await touch('touchStart', [{ id: 1, x: 100, y: 420 }]);
   await touch('touchMove', [{ id: 1, x: 150, y: 420 }]);
   await expect.poll(async () => (await picture()).equals(before)).toBe(false);
-  const firstMove = await picture();
+  const firstMove = await settled();
   await touch('touchStart', [
     { id: 1, x: 150, y: 420 },
     { id: 2, x: 280, y: 420 },
@@ -41,7 +54,7 @@ test('touch look survives a second finger and cancellation; controls remain tapp
   await touch('touchMove', [{ id: 1, x: 200, y: 420 }]);
   await expect.poll(async () => (await picture()).equals(firstMove)).toBe(false);
   await touch('touchCancel', []);
-  const cancelled = await picture();
+  const cancelled = await settled();
   await touch('touchStart', [{ id: 3, x: 200, y: 420 }]);
   await touch('touchMove', [{ id: 3, x: 200, y: 480 }]);
   await touch('touchEnd', []);

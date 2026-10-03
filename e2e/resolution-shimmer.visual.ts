@@ -7,17 +7,22 @@ import { rendererCaptureStyle } from './scene-capture';
 // STEPS frames. A pure rotation maps each frame onto the next whatever the depth, so
 // scripts/summarize_resolution_shimmer.py warps one onto the other and keeps what the motion does
 // not explain (aliased edges popping). Review artifacts, not an equivalence test.
+// SHIMMER_PX (CSS px per step, default 1), SHIMMER_FRAMES (animation frames per step, default 2),
+// SHIMMER_RATIOS (comma separated, default all) and SHIMMER_QUERY (added to the URL, e.g.
+// &temporal=off) measure faster turns and compare builds' settings.
 test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: 1.5 });
 
 const STEPS = 12;
-const RATIOS = ['1.5', '1.25', '1'] as const;
+const PX = Number(process.env.SHIMMER_PX ?? 1);
+const FRAMES = Number(process.env.SHIMMER_FRAMES ?? 2);
+const RATIOS = (process.env.SHIMMER_RATIOS ?? '1.5,1.25,1').split(',');
 
 test('capture the dynamic resolution steps while looking around', async ({ page }, info) => {
   test.setTimeout(900_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.addInitScript(controlFrames);
-  await page.goto('?view=3d');
+  await page.goto(`?view=3d${process.env.SHIMMER_QUERY ?? ''}`);
   await page.getByRole('button', { name: '静かに入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
@@ -25,7 +30,15 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
   await page.getByLabel('3Dの画質').selectOption('standard');
   // The held time still draws a frame for each animation frame.
-  const frame = () => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+  const frame = (count = 2) =>
+    page.evaluate(
+      (n) =>
+        new Promise<void>((resolve) => {
+          const next = () => (n-- > 0 ? requestAnimationFrame(next) : resolve());
+          next();
+        }),
+      count,
+    );
   const samples: object[] = [];
   for (const [stage, next] of [
     ['sauna', '限界.. 水風呂へ 💧'],
@@ -47,8 +60,8 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
         await page.mouse.move(x, y);
         await page.mouse.down();
         for (let step = 0; step <= STEPS; step++) {
-          if (step > 0) await page.mouse.move(x + step, y);
-          await frame();
+          if (step > 0) await page.mouse.move(x + step * PX, y);
+          await frame(FRAMES);
           const file = `${stage}-${lighting}-${ratio}-${step}.png`;
           await canvas.screenshot({ path: info.outputPath(file), style: rendererCaptureStyle });
           samples.push({ file, stage, lighting, ratio: Number(ratio), step });
@@ -65,6 +78,6 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   expect(errors).toEqual([]);
   await info.attach('resolution-shimmer', {
     contentType: 'application/json',
-    body: JSON.stringify({ yawPerStep: 0.004, samples }, null, 2),
+    body: JSON.stringify({ yawPerStep: 0.004 * PX, framesPerStep: FRAMES, samples }, null, 2),
   });
 });

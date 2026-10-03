@@ -210,7 +210,8 @@ export default function SaunaScene({
       fail();
     };
     renderer.domElement.addEventListener('webglcontextlost', lost);
-    const look = attachLookControls(element, camera);
+    // A key's step is not blended with the view before it (temporalAA.ts).
+    const look = attachLookControls(element, camera, () => output.resetTemporal());
     let releaseProbes = () => {};
     // Parsed gardens not yet in the scene still hold GPU programs and geometry on exit.
     const gardenScenes: THREE.Object3D[] = [];

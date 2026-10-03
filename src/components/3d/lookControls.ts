@@ -6,8 +6,9 @@ const ARROW_KEYS = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 /**
  * Pointer and arrow-key look-around. Only the pointer that started a drag can end it,
  * so another finger lifting, a cancel or a lost capture does not interrupt the look.
+ * An arrow key steps the view at once: `onJump` follows it (a drag, however fast, is a look).
  */
-export function attachLookControls(element: HTMLElement, camera: THREE.PerspectiveCamera) {
+export function attachLookControls(element: HTMLElement, camera: THREE.PerspectiveCamera, onJump = () => {}) {
   let pointer: { id: number; x: number; y: number } | null = null;
   const pitch = (delta: number) => {
     camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x + delta, -PITCH_LIMIT, PITCH_LIMIT);
@@ -32,6 +33,7 @@ export function attachLookControls(element: HTMLElement, camera: THREE.Perspecti
     event.preventDefault();
     camera.rotation.y += event.key === 'ArrowLeft' ? 0.08 : event.key === 'ArrowRight' ? -0.08 : 0;
     pitch(event.key === 'ArrowUp' ? 0.06 : event.key === 'ArrowDown' ? -0.06 : 0);
+    onJump();
   };
   const listeners = [
     ['pointerdown', down],

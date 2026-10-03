@@ -15,6 +15,8 @@ appearing or vanishing changes the mean and the resampling's own error mostly ca
 error of the same image with nothing changed. The sign of the yaw is checked: the other sign must
 leave a larger residual. Writes <out dir>/shimmer.json and, for local review only,
 <out dir>/tiles-<stage>-<lighting>.png (the tile residual of the first pair at each ratio).
+--baseline <shimmer.json> adds each sequence's ratio to the same sequence of another run (e.g. the
+same speed with ?temporal=off).
 """
 
 import argparse
@@ -115,6 +117,7 @@ def main():
     parser.add_argument('report')
     parser.add_argument('captures')
     parser.add_argument('out')
+    parser.add_argument('--baseline', help="another run's shimmer.json: each sequence's ratio to it")
     args = parser.parse_args()
     captures, out = Path(args.captures), Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -164,6 +167,8 @@ def main():
     relative = {}
     for (stage, lighting), ratios in by_view.items():
         for ratio in (1.25, 1):
+            if ratio not in ratios or 1.5 not in ratios:
+                continue
             for key in ('pixel', 'tile', 'tileP99'):
                 relative.setdefault(f'{ratio}', {}).setdefault(key, []).append(
                     round(ratios[ratio][key] / ratios[1.5][key], 4))
@@ -171,15 +176,33 @@ def main():
                       f'({yaw} rad of yaw per frame), mean over the pairs of a sequence. tile: |mean| over '
                       f'{TILE}x{TILE} capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, '
                       'twice). relativeTo1_5: per view, the ratio to the 1.5 sequence.',
+              'yawPerStep': yaw, 'framesPerStep': body.get('framesPerStep', 2),
               'relativeTo1_5': {ratio: {key: {'min': min(v), 'median': statistics.median(v), 'max': max(v)}
                                         for key, v in values.items()} for ratio, values in relative.items()},
               'sequences': rows}
+    if args.baseline:
+        base = {(r['stage'], r['lighting'], r['ratio']): r
+                for r in json.loads(Path(args.baseline).read_text())['sequences']}
+        against = {}
+        for row in rows:
+            other = base.get((row['stage'], row['lighting'], row['ratio']))
+            if other is None:
+                continue
+            row['relativeToBaseline'] = {key: round(row[key] / other[key], 4) for key in ('pixel', 'tile', 'tileP99')}
+            for key, value in row['relativeToBaseline'].items():
+                against.setdefault(f"{row['ratio']}", {}).setdefault(key, []).append(value)
+        result['relativeToBaseline'] = {
+            'baseline': args.baseline,
+            'byRatio': {ratio: {key: {'min': min(v), 'median': statistics.median(v), 'max': max(v)}
+                                for key, v in values.items()} for ratio, values in against.items()}}
     (out / 'shimmer.json').write_text(json.dumps(result, indent=1) + '\n')
     for row in rows:
         print(row['stage'], row['lighting'], row['ratio'], 'pixel', row['pixel'], 'tile', row['tile'],
               'p99', row['tileP99'], 'trip', row['tripPixel'], row['tripTile'],
               'unwarped', row['firstPairUnwarpedPixel'], 'wrong', row['firstPairWrongSignPixel'])
     print(json.dumps(result['relativeTo1_5'], indent=1))
+    if 'relativeToBaseline' in result:
+        print(json.dumps(result['relativeToBaseline']['byRatio'], indent=1))
 
 
 if __name__ == '__main__':
