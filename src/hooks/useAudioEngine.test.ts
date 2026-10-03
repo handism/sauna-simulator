@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { useAudioEngine } from './useAudioEngine';
+import { AUDIO_PRESETS, useAudioEngine } from './useAudioEngine';
 
 // --- Mocks ---
 
@@ -411,6 +411,31 @@ describe('useAudioEngine', () => {
     expect(mockCreateBufferSource).toHaveBeenCalledTimes(2);
   });
 
+  it('keeps separate buffers for the same noise at different lengths', async () => {
+    const water = AUDIO_PRESETS.water;
+    const bufferSeconds = water.bufferSeconds;
+    water.bufferSeconds = bufferSeconds + 1;
+    try {
+      const { result } = renderHook(() => useAudioEngine());
+      act(() => result.current.init());
+      const postMessage = vi.spyOn((window as any).Worker.prototype, 'postMessage');
+
+      await act(async () => {
+        await result.current.playAmbient('sauna');
+      });
+      await act(async () => {
+        await result.current.playAmbient('water');
+      });
+      const lengths = postMessage.mock.calls
+        .filter(([msg]) => (msg as any).type === 'saunaNoise')
+        .map(([msg]) => (msg as any).length);
+      expect(lengths).toEqual([44100 * bufferSeconds, 44100 * (bufferSeconds + 1)]);
+      expect(mockCreateBuffer.mock.calls.map(([, length]) => length)).toEqual(lengths);
+    } finally {
+      water.bufferSeconds = bufferSeconds;
+    }
+  });
+
   it('starts one loop when it returns to an environment whose noise is still being generated', async () => {
     const { result } = renderHook(() => useAudioEngine());
     act(() => result.current.init());
@@ -474,7 +499,7 @@ describe('useAudioEngine', () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to stop source', testError);
   });
 
-  it('handles worker timeouts gracefully when generateBufferAsync fails', async () => {
+  it('handles worker timeouts gracefully when noise generation fails', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
@@ -500,7 +525,7 @@ describe('useAudioEngine', () => {
     (window as any).Worker.prototype.postMessage = originalPostMessage;
   });
 
-  it('handles worker timeouts gracefully when generateBufferAsync fails for water', async () => {
+  it('handles worker timeouts gracefully when noise generation fails for water', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
@@ -526,7 +551,7 @@ describe('useAudioEngine', () => {
     (window as any).Worker.prototype.postMessage = originalPostMessage;
   });
 
-  it('handles worker timeouts gracefully when generateBufferAsync fails for totonou wind noise', async () => {
+  it('handles worker timeouts gracefully when noise generation fails for totonou wind noise', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
@@ -552,7 +577,7 @@ describe('useAudioEngine', () => {
     (window as any).Worker.prototype.postMessage = originalPostMessage;
   });
 
-  it('handles worker timeouts gracefully when generateBufferAsync fails for loyly white noise', async () => {
+  it('handles worker timeouts gracefully when noise generation fails for loyly white noise', async () => {
     const { result } = renderHook(() => useAudioEngine());
 
     act(() => {
