@@ -2,9 +2,9 @@ import { chooseSceneSetting } from './settings-controls';
 import { expect, test, type Page } from '@playwright/test';
 
 // Dynamic resolution (src/components/3d/dynamicResolution.ts) on a display of ratio 1.5 at the
-// standard quality: frames made slow in proportion to the canvas pixels (a busy wait in every
-// animation frame, 30 ms at ratio 1.5, set by window.suiSlow) step the pixel ratio down to 1, and
-// frames within 60 fps again bring a trial step up after RAISE_AFTER_MS (10 s). Animation frames held
+// standard quality: frames made slower at a larger pixel ratio (one drawn in 3 display frames at
+// 1.5, 2 at 1.25 and each at 1, set by window.suiSlow; see slowEvery) step the pixel ratio down to 1,
+// and frames within 60 fps again bring a trial step up after RAISE_AFTER_MS (10 s). Animation frames held
 // at 30 fps (window.suiCap, as a low power mode does) are as slow at any ratio: the step down is
 // undone. A check of the control loop, not of a GPU's frame budget.
 test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: 1.5, reducedMotion: 'reduce' });
@@ -15,6 +15,10 @@ function slowFrames() {
   // Every other display frame, whoever asks for it.
   let lastTime = -1;
   let skip = false;
+  // Slow frames: a canvas at pixel ratio r draws once in round(4r) - 3 display frames, whatever the
+  // frame's own cost. A busy wait in proportion to the pixels is rounded up to whole display frames,
+  // so a step down gained nothing (and was undone) whenever the waits at both ratios fell in one.
+  let drawn = -1;
   const frame = (callback: FrameRequestCallback) => (time: number) => {
     if (time !== lastTime) {
       lastTime = time;
@@ -25,9 +29,13 @@ function slowFrames() {
       return;
     }
     const canvas = document.querySelector<HTMLCanvasElement>('.sauna-3d-canvas canvas');
-    if (w.suiSlow && canvas) {
-      const ms = (30 * canvas.width * canvas.height) / (1800 * 1200);
-      for (const end = performance.now() + ms; performance.now() < end;);
+    if (w.suiSlow && canvas?.clientWidth) {
+      const every = Math.max(1, Math.round((4 * canvas.width) / canvas.clientWidth) - 3);
+      if (time !== drawn && time - drawn < (every - 0.5) * (1000 / 60)) {
+        request(frame(callback));
+        return;
+      }
+      drawn = time;
     }
     callback(time);
   };

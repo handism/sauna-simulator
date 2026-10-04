@@ -161,6 +161,16 @@ describe('createDynamicResolution', () => {
     expect(again.changes.map(([, ratio]) => ratio)).toEqual([2]);
   });
 
+  it('skips the window after reset (the quality change reallocates its targets)', () => {
+    const controller = createDynamicResolution(1.5);
+    controller.reset(1.5);
+    // A slow first window, then frames within the budget.
+    const slow = run(controller, 0, 1000 / 30, WINDOW_MS + 100, false);
+    expect(slow.changes).toEqual([]);
+    expect(run(controller, slow.end, 1000 / 60, 3 * WINDOW_MS, false).changes).toEqual([]);
+    expect(controller.pixelRatio).toBe(1.5);
+  });
+
   it('undoes a step down that does not make frames faster and holds the next, longer each time', () => {
     // Animation frames held at 30 fps (a low power mode) or slow on the CPU: as slow at any ratio.
     for (const interval of [1000 / 30, 25]) {

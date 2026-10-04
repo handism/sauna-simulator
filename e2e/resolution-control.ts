@@ -3,9 +3,9 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { QUALITY } from '../src/components/3d/quality.ts';
 
 // Sets a step of dynamic resolution (src/components/3d/dynamicResolution.ts) for captures on a
-// display of ratio 1.5 at the standard quality (or 2 at the high one). Frames made slow in proportion to the canvas pixels
-// (a busy wait in every animation frame, as dynamic-resolution.e2e.ts does; a step down that does
-// not make frames faster is undone) step the ratio down; a quality change returns to the largest. The frames then get a held time: no window of the control loop ends, so the ratio
+// display of ratio 1.5 at the standard quality (or 2 at the high one). Frames made slower at a larger
+// pixel ratio (one drawn in round(4r) - 3 display frames, as dynamic-resolution.e2e.ts does; a step
+// down that does not make frames faster is undone) step the ratio down; a quality change returns to the largest. The frames then get a held time: no window of the control loop ends, so the ratio
 // holds whatever the frames cost (a view may miss 60 fps at 1.5 on its own). With reduced motion
 // the water and the lighting are still, so the held time changes no image.
 
@@ -13,15 +13,20 @@ import { QUALITY } from '../src/components/3d/quality.ts';
 export function controlFrames() {
   const w = window as unknown as { suiSlow?: boolean; suiHold?: number };
   const request = window.requestAnimationFrame.bind(window);
-  window.requestAnimationFrame = (callback) =>
-    request((time) => {
-      const canvas = document.querySelector<HTMLCanvasElement>('.sauna-3d-canvas canvas');
-      if (w.suiSlow && canvas) {
-        const ms = (30 * canvas.width * canvas.height) / (1800 * 1200);
-        for (const end = performance.now() + ms; performance.now() < end;);
+  let drawn = -1;
+  const frame = (callback: FrameRequestCallback) => (time: number) => {
+    const canvas = document.querySelector<HTMLCanvasElement>('.sauna-3d-canvas canvas');
+    if (w.suiSlow && canvas?.clientWidth) {
+      const every = Math.max(1, Math.round((4 * canvas.width) / canvas.clientWidth) - 3);
+      if (time !== drawn && time - drawn < (every - 0.5) * (1000 / 60)) {
+        request(frame(callback));
+        return;
       }
-      callback(w.suiHold ?? time);
-    });
+      drawn = time;
+    }
+    callback(w.suiHold ?? time);
+  };
+  window.requestAnimationFrame = (callback) => request(frame(callback));
 }
 
 function frames(page: Page, mode: 'slow' | 'hold') {

@@ -13,6 +13,8 @@ for (const viewport of [
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
     await expect(page.locator('.first-visit-guide')).toBeVisible();
+    // The guide must not push the main action out of a low dock (StageDock pins it to the bottom).
+    await expect(page.getByRole('button', { name: 'ロウリュ', exact: true })).toBeInViewport({ ratio: 1 });
     await page.getByRole('button', { name: 'わかりました' }).click();
     await page.getByRole('button', { name: 'コンパクト表示' }).click();
     await expect(page.locator('.sauna-meters-grid')).toBeHidden();

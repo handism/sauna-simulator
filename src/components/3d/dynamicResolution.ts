@@ -72,14 +72,14 @@ export function createDynamicResolution(max: number) {
     get pixelRatio() {
       return levels[level];
     },
-    /** A new largest ratio (the quality changed): back to it. */
+    /** A new largest ratio (the quality changed): back to it, skipping the window that reallocates. */
     reset(nextMax: number) {
       levels = resolutionLevels(nextMax);
       level = 0;
       raiseAfter = RAISE_AFTER_MS;
       holdFor = HOLD_MS;
       goodSince = raisedAt = downFrom = heldUntil = -1;
-      discard = false;
+      discard = true;
       restart();
     },
     /** The view changed (another stage, another cost): measure afresh and try a step up sooner. */

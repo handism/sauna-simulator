@@ -795,6 +795,20 @@ h2:focus {
   padding: 13px 12px;
   font-size: 0.95rem;
 }
+/* はみ出したドックでは主操作をスクロール領域の下端に固定する（StageDock の data-overflow） */
+.stage-dock[data-overflow='true'] {
+  /* フォーカスした要素を固定した主操作の裏に隠さない */
+  scroll-padding-bottom: 80px;
+}
+.stage-dock[data-overflow='true'] .dock-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin: 0 -16px;
+  padding: 10px 16px 0;
+  background: var(--glass-bg-3d);
+  border-top: 1px solid var(--glass-border);
+}
 
 /* コンパクト表示では時間・主操作・表示復帰だけを残す */
 .stage-dock[data-compact='true'] {
