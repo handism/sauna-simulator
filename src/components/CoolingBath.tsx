@@ -6,6 +6,7 @@ import { useSecondTicker } from '../hooks/useSecondTicker';
 import HeartRateRow from './HeartRateRow';
 import StayTimer from './StayTimer';
 import { ActionIcon } from './ActionIcon';
+import StageStep from './StageStep';
 import type { WaterResult } from '../hooks/useSaunaSession';
 
 interface Ripple {
@@ -16,6 +17,8 @@ interface Ripple {
 
 export interface CoolingBathProps {
   initialHeartRate: number;
+  /** 何セット目か（見出しに表示） */
+  setNumber?: number;
   onNext: (result: WaterResult) => void;
 }
 
@@ -27,7 +30,7 @@ const COOLING_CONFIG = {
   RIPPLE_INTERVAL_MS: 1500,
 };
 
-const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
+const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext }: CoolingBathProps) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [heartRate, setHeartRate] = useState<number>(initialHeartRate);
 
@@ -76,7 +79,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
       />
 
       <header className="stage-heading">
-        <p className="stage-step">02 / 03 · 水風呂</p>
+        <StageStep index={1} setNumber={setNumber} />
         <h2 className="cooling-title" tabIndex={-1}>
           水風呂
         </h2>

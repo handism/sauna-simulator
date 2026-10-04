@@ -12,7 +12,7 @@ const StayTimer = ({ seconds, targetSeconds }: StayTimerProps) => {
   return (
     <div className="stay-timer" data-reached={reached}>
       <div className="stay-timer-row">
-        <span className="stay-timer-label">滞在時間</span>
+        <span className="reading-label stay-timer-label">滞在時間</span>
         <span className="dashboard-value stay-timer-value">{formatMinutesSeconds(seconds)}</span>
       </div>
       <div className="stay-timer-track" aria-hidden="true">

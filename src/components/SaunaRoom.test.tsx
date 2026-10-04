@@ -197,4 +197,13 @@ describe('SaunaRoom', () => {
     expect(duration).toBe(5);
     expect(loylyCount).toBe(1);
   });
+
+  it('shows the current set and the Löyly rise for the compact dock', () => {
+    render(<SaunaRoom audio={mockAudioEngine as any} setNumber={2} onNext={mockOnNext} />);
+    expect(screen.getByText('2セット目')).toBeInTheDocument();
+    expect(screen.getByText('3段階中1番目')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /ロウリュ/ }));
+    expect(screen.getByText('温度 +3.0 · 湿度 +25')).toBeInTheDocument();
+  });
 });

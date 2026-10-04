@@ -104,21 +104,31 @@ function App() {
           writePreference('sui-keep-breathing', value ? 'yes' : 'no');
         }}
       >
-        {(is3d, toggle3d) => (
+        {(is3d, toggle3d, settings) => (
           <div className="app-main-ui-container" ref={contentRef}>
-            {stage !== 'start' && (
-              <div className="app-toolbar">
-                {fullscreen.isSupported && (
-                  <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
-                )}
-                <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
-                <SoundControl key={stage} isMuted={isMuted} volume={volume} onMute={toggleMute} onVolume={setVolume} />
-              </div>
-            )}
+            {/* 右上の操作はすべてここに並べる。入室前は表示設定だけ */}
+            <div className="app-toolbar">
+              {stage !== 'start' && (
+                <>
+                  {fullscreen.isSupported && (
+                    <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
+                  )}
+                  <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
+                  <SoundControl
+                    key={stage}
+                    isMuted={isMuted}
+                    volume={volume}
+                    onMute={toggleMute}
+                    onVolume={setVolume}
+                  />
+                </>
+              )}
+              {settings}
+            </div>
 
             {stage === 'start' && !sessionSummary && (
               <div className="app-start-screen" style={{ opacity }} inert={pendingStage !== null}>
-                <p className="welcome-eyebrow">ひと息つく、あなたの場所</p>
+                <p className="welcome-eyebrow">湯気と水と風のあいだで</p>
                 <h1 className="app-main-title" tabIndex={-1}>
                   ブラウザサウナ
                 </h1>
@@ -139,16 +149,30 @@ function App() {
                     音なしで入室する
                   </button>
                 </div>
-                <button className="entry-scene-choice text-control" aria-pressed={is3d} onClick={toggle3d}>
-                  {is3d ? '3Dで入室します · 2Dに戻す' : '3Dで空間を見渡す'}
-                </button>
-                <p className="app-shortcut-hint">
+                <div className="entry-scene-choice" role="group" aria-label="景色">
+                  <button className="segment-btn" aria-pressed={!is3d} onClick={() => is3d && toggle3d()}>
+                    2Dの景色
+                  </button>
+                  <button className="segment-btn" aria-pressed={is3d} onClick={() => !is3d && toggle3d()}>
+                    3Dで見渡す
+                  </button>
+                </div>
+                <ul className="app-shortcut-hint" aria-label="キーボード操作">
+                  <li>
+                    <kbd>Space</kbd> 各場面の主な操作
+                  </li>
+                  <li>
+                    <kbd>M</kbd> ミュート
+                  </li>
+                  <li>
+                    <kbd>U</kbd> UI表示切替
+                  </li>
                   {fullscreen.isSupported && (
-                    <span>
+                    <li>
                       <kbd>F</kbd> 全画面
-                    </span>
+                    </li>
                   )}
-                </p>
+                </ul>
               </div>
             )}
 
@@ -201,11 +225,18 @@ function App() {
                 {stage === 'sauna' && (
                   <SaunaRoom
                     audio={audio}
+                    setNumber={scoreHistory.length + 1}
                     onLoyly={() => loylyEvents.dispatchEvent(new Event('loyly'))}
                     onNext={completeSauna}
                   />
                 )}
-                {stage === 'water' && <CoolingBath initialHeartRate={heartRate} onNext={completeWater} />}
+                {stage === 'water' && (
+                  <CoolingBath
+                    initialHeartRate={heartRate}
+                    setNumber={scoreHistory.length + 1}
+                    onNext={completeWater}
+                  />
+                )}
                 {stage === 'totonou' && (
                   <TotonouSpace
                     saunaTime={saunaTime}

@@ -5,6 +5,7 @@ import { scoreColor } from '../utils/scoreColor';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { ActionIcon } from './ActionIcon';
 import ScoreHistory from './ScoreHistory';
+import StageStep from './StageStep';
 
 export interface TotonouSpaceProps {
   saunaTime: number;
@@ -104,12 +105,11 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
       </div>
 
       <header className="stage-heading totonou-title-container">
-        <p className="stage-step">03 / 03 · 外気浴</p>
+        <StageStep index={2} setNumber={scoreHistory.length} />
         <h2 className="totonou-title" tabIndex={-1}>
           外気浴
         </h2>
         <p className="totonou-subtitle">風の音に身を任せて</p>
-        {scoreHistory.length > 0 && <p className="totonou-set-label">{scoreHistory.length}セット目</p>}
       </header>
 
       {/* 呼吸サークル (プレミアム仕様、吸う/吐くに合わせて伸縮しグローが強まる) */}

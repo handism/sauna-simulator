@@ -9,6 +9,7 @@ import { calculateHeatIndex, RESTING_HEART_RATE, STAY_TARGET_SECONDS } from '../
 import HeartRateRow from './HeartRateRow';
 import StayTimer from './StayTimer';
 import { ActionIcon } from './ActionIcon';
+import StageStep from './StageStep';
 
 interface Steam {
   id: number;
@@ -24,6 +25,8 @@ interface LoylyDelta {
 
 export interface SaunaRoomProps {
   audio: AudioEngine;
+  /** 何セット目か（見出しに表示） */
+  setNumber?: number;
   onLoyly?: () => void;
   onNext: (result: SaunaResult) => void;
 }
@@ -46,7 +49,7 @@ const SAUNA_CONFIG = {
   STEAM_PARTICLE_DURATION_MS: 4000,
 };
 
-const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
+const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) => {
   const [saunaState, setSaunaState] = useState<{
     temperature: number;
     humidity: number;
@@ -154,7 +157,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
       <div key={steamBurst} className={`steam-overlay ${steamBurst > 0 ? 'active' : ''}`} />
 
       <header className="stage-heading">
-        <p className="stage-step">01 / 03 · サウナ</p>
+        <StageStep index={0} setNumber={setNumber} />
         <h2 className="sauna-room-title" tabIndex={-1}>
           サウナルーム
         </h2>
@@ -188,6 +191,12 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
           </div>
         </div>
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.SAUNA} />
+        {/* コンパクト表示ではメーターを隠すため、ロウリュの上昇幅だけを1行で出す */}
+        {loylyDelta && (loylyDelta.temperature > 0 || loylyDelta.humidity > 0) && (
+          <p key={loylyDelta.id} className="loyly-compact-delta" aria-hidden="true">
+            温度 +{loylyDelta.temperature.toFixed(1)} · 湿度 +{loylyDelta.humidity}
+          </p>
+        )}
 
         {/* 体感温度 & 心拍数情報 */}
         <details className="stage-details">

@@ -1,7 +1,8 @@
 :root {
-  /* 木・石・水を基調とする配色。文字は本文色・控えめ・補足の3段階 */
-  --ink: #f4f0e8;
+  /* 木・石・水を基調とする配色。文字は強調・本文・やや控えめ・控えめ・補足の5段階 */
   --ink-strong: #faf6ed;
+  --ink: #f4f0e8;
+  --ink-soft: #e2dfd5;
   --ink-muted: #d5d3c9;
   --ink-faint: #c6c5bc;
   --wood: #ddc2a3;
@@ -15,11 +16,22 @@
   --stone: #18201b;
   --line: #ffffff24;
   --line-strong: #ffffff40;
+  --line-control: #ffffff4d;
   --focus: #f1d9b7;
   /* 景色が透けるガラス。3D表示中は下の .app-container:has(...) で不透明寄りにする */
   --glass-bg: rgba(22, 28, 24, 0.8);
   --glass-border: rgba(255, 255, 255, 0.15);
   --control-bg: #18201bd9;
+  --control-hover: #354137;
+  --icon-bg: #161c18e6;
+  /* ポップアップ（音・表示設定）の面 */
+  --popover-bg: #18201bfa;
+  --popover-shadow: 0 12px 40px #0006;
+  /* 角丸は4段階。パネル・ポップアップ／ボタン・入力／キー表示／丸 */
+  --radius-lg: 24px;
+  --radius-md: 14px;
+  --radius-sm: 4px;
+  --radius-pill: 999px;
 }
 
 * {
@@ -51,6 +63,15 @@ body {
 #root {
   height: 100dvh;
   width: 100vw;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ---------- Layout ---------- */
@@ -122,7 +143,7 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   padding: 2rem;
   width: 90%;
@@ -137,10 +158,10 @@ body {
   gap: 8px;
   min-height: 44px;
   padding: 16px 32px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-control);
   background-color: var(--control-bg);
-  color: #fff;
+  color: var(--ink-strong);
   font: inherit;
   font-size: 1rem;
   font-weight: 500;
@@ -151,8 +172,9 @@ body {
     box-shadow 0.3s ease,
     opacity 0.5s ease;
 }
+/* 木の色は各場面の主操作（Space キーと同じ操作）に付ける */
 .primary-btn.sauna-loyly-btn,
-.primary-btn.finish-btn,
+.primary-btn.totonou-next-btn,
 .primary-btn.app-btn-primary {
   background-color: var(--wood);
   border-color: var(--wood);
@@ -165,7 +187,7 @@ body {
   color: var(--on-water);
 }
 
-/* Top-right icon controls (fullscreen, UI, mute) laid out as one row. */
+/* Top-right icon controls (fullscreen, UI, sound, display settings) laid out as one row. */
 .app-toolbar {
   position: fixed;
   top: calc(16px + env(safe-area-inset-top, 0px));
@@ -178,10 +200,10 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(22, 28, 24, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--icon-bg);
+  border: 1px solid var(--line-control);
   cursor: pointer;
-  color: #fff;
+  color: var(--ink-strong);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,7 +238,7 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
   }
   .primary-btn.sauna-loyly-btn:hover,
-  .primary-btn.finish-btn:hover,
+  .primary-btn.totonou-next-btn:hover,
   .primary-btn.app-btn-primary:hover {
     background-color: var(--wood-light);
   }
@@ -224,7 +246,7 @@ body {
     background-color: var(--water-light);
   }
   .icon-btn:hover {
-    background: #354137;
+    background: var(--control-hover);
   }
 }
 .primary-btn:active,
@@ -248,15 +270,157 @@ body {
   color: var(--ink-muted);
 }
 
+.text-control {
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 0.8rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 8px 4px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+kbd,
+.button-shortcut {
+  font: inherit;
+  border-radius: var(--radius-sm);
+}
+.button-shortcut,
+.control-hint kbd {
+  font-size: 0.7rem;
+  padding: 1px 4px;
+  border: 1px solid currentColor;
+  opacity: 0.8;
+}
+
 button:focus-visible,
 summary:focus-visible,
-a:focus-visible {
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 4px;
 }
 h1:focus,
 h2:focus {
   outline: none;
+}
+
+/* ---------- Popovers (sound & display settings) ---------- */
+.sound-control,
+.scene-mode-controls {
+  position: relative;
+  pointer-events: auto;
+}
+.sound-control > summary,
+.display-settings > summary {
+  list-style: none;
+}
+.sound-control > summary::-webkit-details-marker,
+.display-settings > summary::-webkit-details-marker {
+  display: none;
+}
+.sound-panel,
+.settings-panel {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  max-height: calc(100dvh - 90px - env(safe-area-inset-top, 0px));
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-strong);
+  background: var(--popover-bg);
+  box-shadow: var(--popover-shadow);
+}
+.sound-panel {
+  width: min(260px, calc(100vw - 32px));
+  padding: 18px;
+  font-size: 0.85rem;
+}
+.settings-panel {
+  width: min(290px, calc(100vw - 32px));
+  padding: 20px;
+  display: grid;
+  gap: 18px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.sound-mute-row,
+.volume-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.volume-label {
+  margin-top: 16px;
+}
+.sound-panel input[type='range'] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--wood);
+  cursor: pointer;
+}
+.control-hint {
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+}
+
+.settings-heading {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+.settings-panel button {
+  min-height: 44px;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  background: #ffffff12;
+  color: var(--ink-strong);
+  cursor: pointer;
+  font: inherit;
+}
+.settings-panel a {
+  color: var(--ink-soft);
+  text-underline-offset: 4px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.settings-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.settings-checkbox input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--wood);
+}
+.scene-lighting-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  color: var(--ink-strong);
+  font-size: 0.9rem;
+}
+.scene-lighting-control select {
+  font: inherit;
+  color: var(--ink-strong);
+  background: var(--stone);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  min-height: 44px;
+  min-width: 140px;
 }
 
 /* ---------- Start & end screens ---------- */
@@ -277,7 +441,7 @@ h2:focus {
   font-size: 0.8rem;
   letter-spacing: 0.18em;
   margin-bottom: 18px;
-  color: #e2cfb4;
+  color: var(--wood-light);
 }
 
 .app-main-title {
@@ -291,7 +455,7 @@ h2:focus {
 .app-subtitle {
   font-size: clamp(1rem, 4vw, 1.2rem);
   margin-bottom: 1.5rem;
-  color: #e2dfd5;
+  color: var(--ink-soft);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   font-weight: 300;
 }
@@ -318,7 +482,7 @@ h2:focus {
   gap: 6px;
   background: var(--control-bg);
   padding: 8px 16px;
-  border-radius: 30px;
+  border-radius: var(--radius-pill);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -333,28 +497,56 @@ h2:focus {
   padding: 12px 24px;
 }
 
+/* 2D／3Dの景色の2択。押した側が選ばれた状態になる */
+.entry-scene-choice {
+  display: flex;
+  margin-top: 18px;
+  padding: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--control-bg);
+}
+.segment-btn {
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+.segment-btn[aria-pressed='true'] {
+  background: var(--ink-strong);
+  color: var(--on-wood);
+  font-weight: 500;
+}
+@media (hover: hover) {
+  .segment-btn[aria-pressed='false']:hover {
+    color: var(--ink-strong);
+  }
+}
+
 /* Keyboard shortcut guide; touch-only devices have no keyboard to use it with. */
 .app-shortcut-hint {
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 6px 16px;
   margin-top: 2rem;
   font-size: 0.8rem;
-  color: #dedbd2;
+  color: var(--ink-soft);
 }
 .app-shortcut-hint kbd {
-  font: inherit;
   padding: 1px 6px;
   margin-right: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 4px;
+  border: 1px solid var(--line-strong);
   background: rgba(255, 255, 255, 0.05);
-}
-@media (hover: none) and (pointer: coarse) {
-  .app-shortcut-hint {
-    display: none;
-  }
 }
 
 .session-summary {
@@ -387,6 +579,8 @@ h2:focus {
 }
 .session-summary-history .score-history {
   justify-content: center;
+  border-top: none;
+  padding-top: 0;
 }
 
 /* ---------- Stage chrome ---------- */
@@ -413,12 +607,38 @@ h2:focus {
   font-size: 0.9rem;
   line-height: 1.7;
 }
+
+/* 3つの点で今のステージを示し、隣にセット数を添える */
 .stage-heading .stage-step {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   font-size: 0.75rem;
   letter-spacing: 0.16em;
 }
-.totonou-set-label {
-  margin-top: 4px;
+.stage-step-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+.stage-step-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-soft);
+  box-shadow: 0 1px 4px #000;
+}
+.stage-step-dot[data-state='done'] {
+  background: var(--ink-soft);
+}
+.stage-step-dot[data-state='current'] {
+  width: 18px;
+  border-radius: var(--radius-pill);
+  border-color: var(--wood);
+  background: var(--wood);
+}
+.stage-step-set {
+  color: var(--wood-light);
 }
 
 .stage-dock {
@@ -435,6 +655,40 @@ h2:focus {
   pointer-events: auto;
 }
 
+/* パネル上端の取っ手。触れる範囲は44pxを保ち、見た目は細い棒と矢印だけ */
+.dock-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 96px;
+  height: 44px;
+  margin: -18px auto -8px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.dock-handle-bar {
+  width: 36px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+  transition: background-color 0.3s ease;
+}
+@media (hover: hover) {
+  .dock-handle:hover {
+    color: var(--ink-strong);
+  }
+  .dock-handle:hover .dock-handle-bar {
+    background: var(--ink-muted);
+  }
+}
+.dock-handle:focus-visible {
+  outline-offset: -2px;
+  border-radius: var(--radius-md);
+}
+
 .stage-details {
   border-top: 1px solid var(--line);
   margin: 14px 0;
@@ -444,10 +698,10 @@ h2:focus {
   min-height: 44px;
   padding: 13px 0;
   font-size: 0.85rem;
-  color: #e2dfd5;
+  color: var(--ink-soft);
 }
 .stage-details summary::marker {
-  color: #bcb9a8;
+  color: var(--ink-faint);
 }
 .stage-details[open] summary {
   margin-bottom: 6px;
@@ -458,6 +712,10 @@ h2:focus {
   align-items: center;
   gap: 12px;
   font-size: 0.9rem;
+}
+.stage-info-row-divided {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
 }
 .detail-note {
   font-size: 0.75rem;
@@ -474,6 +732,39 @@ h2:focus {
   flex: 1;
   padding: 13px 12px;
   font-size: 0.95rem;
+}
+
+/* コンパクト表示では時間・主操作・表示復帰だけを残す */
+.stage-dock[data-compact='true'] {
+  padding: 12px 18px 16px;
+}
+.stage-dock[data-compact='true'] .dock-handle {
+  margin-top: -12px;
+}
+.stage-dock[data-compact='true'] .sauna-meters-grid,
+.stage-dock[data-compact='true'] .stage-details,
+.stage-dock[data-compact='true'] .first-visit-guide,
+.stage-dock[data-compact='true'] .stay-timer-track,
+.stage-dock[data-compact='true'] .stay-timer-target {
+  display: none;
+}
+.stage-dock[data-compact='true'] .stay-timer {
+  border: 0;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.first-visit-guide {
+  background: #ffffff09;
+  border-left: 2px solid var(--wood);
+  padding: 8px 12px 0;
+  margin-bottom: 12px;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--ink-muted);
+}
+.first-visit-guide .text-control {
+  color: var(--wood-light);
 }
 
 .heart-rate {
@@ -507,7 +798,7 @@ h2:focus {
   height: 3px;
   margin: 8px 0 6px;
   background: var(--line);
-  border-radius: 3px;
+  border-radius: var(--radius-pill);
   overflow: hidden;
 }
 .stay-timer-bar {
@@ -556,6 +847,21 @@ h2:focus {
   font-size: 0.8rem;
   color: var(--wood);
   white-space: nowrap;
+  pointer-events: none;
+  animation: meter-delta-rise 1.6s ease-out forwards;
+}
+/* コンパクト表示ではメーターが隠れるため、同じ上昇幅をパネル右上に一瞬だけ出す */
+.loyly-compact-delta {
+  display: none;
+}
+.stage-dock[data-compact='true'] .loyly-compact-delta {
+  display: block;
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--wood);
   pointer-events: none;
   animation: meter-delta-rise 1.6s ease-out forwards;
 }
@@ -789,15 +1095,17 @@ h2:focus {
     opacity 0.5s ease;
   z-index: 10;
 }
+/* 景色の上でも読めるよう、文字の下に暗色の面を敷く */
 .breathing-label {
   font-size: 1.4rem;
-  font-weight: 300;
-  letter-spacing: 6px;
-  /* letterSpacing による右寄りを解消 */
-  margin-left: 4px;
+  font-weight: 500;
+  letter-spacing: 3px;
   z-index: 10;
   color: var(--ink-strong);
-  text-shadow: 0 2px 8px #000;
+  background: #14211de6;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  padding: 14px 18px;
 }
 [data-breath] .aurora-container {
   transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -811,13 +1119,13 @@ h2:focus {
 [data-breath='inhale'] .breathing-circle-premium {
   transform: scale(1.15);
   border-color: #c4d4bb80;
-  background: #b3c3a91a;
+  background: #24332b99;
   box-shadow: 0 0 32px #b3c3a918;
 }
 [data-breath='exhale'] .breathing-circle-premium {
   transform: scale(0.92);
   border-color: #cfbda966;
-  background: #b3c3a90a;
+  background: #18251faa;
   box-shadow: none;
 }
 
@@ -825,10 +1133,39 @@ h2:focus {
 .scene-container:has(.rest-details[open]) .breathing-circle-premium {
   opacity: 0;
 }
+/* コンパクト表示では振り返りが隠れるため、ガイドは出したままにする（上の規則と同じ詳細度なので後に置く） */
+.scene-container:has(.rest-dock[data-compact='true']) .breathing-circle-premium {
+  opacity: 1;
+}
 
 .rest-details {
   margin-top: 0;
   border-top: none;
+}
+.rest-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding-top: 6px;
+}
+.rest-summary dt {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.rest-summary dd {
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.score-details {
+  border-top: 1px solid var(--line);
+}
+.score-details > summary {
+  min-height: 44px;
+  padding: 12px 0;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--ink-muted);
 }
 .totonou-info-panel {
   display: grid;
@@ -847,7 +1184,7 @@ h2:focus {
 .totonou-progress-bg {
   height: 4px;
   background: var(--line);
-  border-radius: 4px;
+  border-radius: var(--radius-pill);
   overflow: hidden;
 }
 .totonou-progress-bar {
@@ -867,10 +1204,6 @@ h2:focus {
   overflow-x: auto;
   border-top: 1px solid var(--line);
   padding-top: 12px;
-}
-.session-summary-history .score-history {
-  border-top: none;
-  padding-top: 0;
 }
 .score-history-item {
   display: flex;
@@ -896,13 +1229,13 @@ h2:focus {
 }
 .score-history-bar {
   width: 14px;
-  border-radius: 4px 4px 0 0;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 }
 .score-history-set {
   color: var(--ink-muted);
 }
 
-/* ---------- 3D scene & display settings ---------- */
+/* ---------- 3D scene ---------- */
 .sauna-3d-canvas {
   position: absolute;
   inset: 0;
@@ -935,89 +1268,17 @@ h2:focus {
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .aurora-container {
   display: none;
 }
-
-.scene-mode-controls {
-  position: fixed;
-  left: 16px;
-  top: calc(16px + env(safe-area-inset-top, 0px));
-  z-index: 30;
-  font-size: 0.85rem;
-  color: var(--ink);
-}
-.display-settings > summary {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  list-style: none;
-  min-height: 44px;
-  padding: 10px 14px;
-  border-radius: 24px;
-  background: #18201bec;
-  border: 1px solid var(--line-strong);
-  cursor: pointer;
-}
-.display-settings > summary::-webkit-details-marker {
-  display: none;
-}
-.settings-panel {
+/* A soft top scrim keeps the sky readable without a visible panel behind the heading. */
+.app-container:has(.sauna-3d-canvas) .scene-container::before {
+  content: '';
   position: absolute;
+  top: 0;
   left: 0;
-  top: 100%;
-  margin-top: 10px;
-  width: min(290px, calc(100vw - 32px));
-  max-height: calc(100dvh - 96px - env(safe-area-inset-top, 0px));
-  overflow-y: auto;
-  padding: 20px;
-  border: 1px solid var(--line-strong);
-  border-radius: 20px;
-  background: #18201bfa;
-  box-shadow: 0 12px 40px #0006;
-  display: grid;
-  gap: 18px;
-  line-height: 1.6;
-}
-.settings-heading {
-  color: var(--ink-muted);
-  font-size: 0.8rem;
-}
-.scene-mode-controls button {
-  min-height: 44px;
-  border: 1px solid #ffffff50;
-  border-radius: 12px;
-  padding: 10px 14px;
-  background: #ffffff12;
-  color: #fff;
-  cursor: pointer;
-  font: inherit;
-}
-.scene-mode-controls a {
-  color: #e0dbc8;
-  text-underline-offset: 4px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-}
-.scene-lighting-control {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  color: #fff;
-  font-size: 0.9rem;
-}
-.scene-lighting-control select {
-  font: inherit;
-  color: #fff;
-  background: #18221c;
-  border: 1px solid var(--line-strong);
-  border-radius: 16px;
-  padding: 8px;
-  min-height: 44px;
-  min-width: 140px;
-}
-.scene-lighting-control select:focus-visible {
-  outline: 2px solid var(--wood);
-  outline-offset: 2px;
+  right: 0;
+  height: 270px;
+  z-index: 9;
+  background: linear-gradient(to bottom, #101915b3, #10191570 58%, transparent);
+  pointer-events: none;
 }
 
 .scene-status {
@@ -1029,7 +1290,7 @@ h2:focus {
   pointer-events: none;
   z-index: 12;
   font-size: 11px;
-  color: #fff;
+  color: var(--ink-strong);
   text-shadow: 0 1px 5px #000;
 }
 .scene-status button {
@@ -1037,9 +1298,9 @@ h2:focus {
   margin-left: 8px;
   padding: 6px 10px;
   border: 1px solid #ffffff80;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: #172625;
-  color: #fff;
+  color: var(--ink-strong);
   cursor: pointer;
 }
 
@@ -1050,11 +1311,18 @@ h2:focus {
   visibility: hidden;
   pointer-events: none;
 }
+.ui-hidden[data-keep-breathing='true'] .scene-container .breathing-circle-premium {
+  visibility: visible;
+  opacity: 1;
+}
 .ui-hidden .scene-status {
   opacity: 0;
 }
 .ui-hidden .scene-status button {
   visibility: hidden;
+}
+.ui-hidden .scene-container::before {
+  display: none;
 }
 
 /* ---------- Reduced motion ---------- */
@@ -1079,7 +1347,8 @@ h2:focus {
     animation: none !important;
   }
   /* The Löyly rise still has to disappear on its own, so it only fades in place. */
-  .meter-delta {
+  .meter-delta,
+  .stage-dock[data-compact='true'] .loyly-compact-delta {
     animation-name: meter-delta-fade;
   }
   /* Without their motion these would only flash in and out (the overlay blurs the whole view). */
@@ -1090,11 +1359,30 @@ h2:focus {
   }
 }
 
+/* ---------- Input-dependent hints ---------- */
+/* タッチだけの端末にはキーボードがないため、キー操作の案内を出さない */
+@media (hover: none) and (pointer: coarse) {
+  .app-shortcut-hint,
+  .button-shortcut,
+  .control-hint {
+    display: none;
+  }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
+  .app-toolbar {
+    gap: 6px;
+  }
+  .button-shortcut {
+    display: none;
+  }
   .stage-dock {
     padding: 16px;
     bottom: calc(34px + env(safe-area-inset-bottom, 0px));
+  }
+  .dock-handle {
+    margin-top: -14px;
   }
   .stage-heading {
     top: calc(86px + env(safe-area-inset-top, 0px));
@@ -1127,14 +1415,13 @@ h2:focus {
   .dock-actions .action-icon {
     width: 16px;
   }
-  .display-settings > summary {
-    padding: 10px;
-    font-size: 0.8rem;
-    gap: 4px;
-  }
   .session-summary {
     padding: 24px 16px;
     gap: 20px 24px;
+  }
+  .breathing-label {
+    font-size: 1rem;
+    padding: 12px 16px;
   }
 }
 @media (max-height: 620px) {
@@ -1153,6 +1440,10 @@ h2:focus {
     bottom: calc(28px + env(safe-area-inset-bottom, 0px));
     padding: 12px 16px;
   }
+  .dock-handle {
+    margin-top: -12px;
+    margin-bottom: -10px;
+  }
   .stage-details {
     margin: 8px 0;
   }
@@ -1161,6 +1452,9 @@ h2:focus {
   }
   .stay-timer-track {
     margin: 6px 0 4px;
+  }
+  .first-visit-guide {
+    font-size: 0.75rem;
   }
   .app-start-screen {
     justify-content: flex-start;
@@ -1176,6 +1470,10 @@ h2:focus {
     width: 130px;
     height: 130px;
     margin-bottom: 46px;
+  }
+  .breathing-label {
+    font-size: 1rem;
+    padding: 10px 12px;
   }
 }
 @media (max-height: 480px) and (min-width: 600px) {
@@ -1198,7 +1496,6 @@ h2:focus {
     height: 110px;
   }
   .breathing-label {
-    font-size: 1rem;
     letter-spacing: 2px;
   }
 }
@@ -1208,214 +1505,6 @@ h2:focus {
   }
   .rest-dock .dock-actions .primary-btn {
     min-height: 44px;
-    padding: 10px 12px;
-  }
-}
-
-/* A soft top scrim keeps the sky readable without a visible panel behind the heading. */
-.app-container:has(.sauna-3d-canvas) .scene-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 270px;
-  z-index: 9;
-  background: linear-gradient(to bottom, #101915b3, #10191570 58%, transparent);
-  pointer-events: none;
-}
-.ui-hidden .scene-container::before {
-  display: none;
-}
-.breathing-label {
-  background: #14211de6;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  padding: 14px 18px;
-  font-weight: 500;
-  letter-spacing: 3px;
-  margin: 0;
-  text-shadow: none;
-}
-[data-breath='inhale'] .breathing-circle-premium {
-  background: #24332b99;
-}
-[data-breath='exhale'] .breathing-circle-premium {
-  background: #18251faa;
-}
-.ui-hidden[data-keep-breathing='true'] .scene-container .breathing-circle-premium {
-  visibility: visible;
-  opacity: 1;
-}
-.text-control {
-  color: var(--ink-muted);
-  font: inherit;
-  font-size: 0.8rem;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  min-height: 44px;
-  padding: 8px 4px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.entry-scene-choice {
-  margin-top: 14px;
-  color: var(--ink);
-}
-.dock-display-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -12px;
-}
-.stage-dock[data-compact='true'] {
-  padding: 12px 18px 16px;
-}
-.stage-dock[data-compact='true'] .sauna-meters-grid,
-.stage-dock[data-compact='true'] .stage-details,
-.stage-dock[data-compact='true'] .first-visit-guide,
-.stage-dock[data-compact='true'] .stay-timer-track,
-.stage-dock[data-compact='true'] .stay-timer-target {
-  display: none;
-}
-.stage-dock[data-compact='true'] .stay-timer {
-  border: 0;
-  padding: 0;
-  margin: 0 0 12px;
-}
-.scene-container:has(.rest-dock[data-compact='true']) .breathing-circle-premium {
-  opacity: 1;
-}
-.first-visit-guide {
-  background: #ffffff09;
-  border-left: 2px solid var(--wood);
-  padding: 8px 12px 0;
-  margin-bottom: 12px;
-  font-size: 0.8rem;
-  line-height: 1.7;
-  color: var(--ink-muted);
-}
-.first-visit-guide .text-control {
-  color: var(--wood-light);
-}
-.button-shortcut,
-.control-hint kbd {
-  font: inherit;
-  font-size: 0.7rem;
-  padding: 1px 4px;
-  border: 1px solid currentColor;
-  border-radius: 4px;
-  opacity: 0.8;
-}
-.rest-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding-top: 6px;
-}
-.rest-summary dt {
-  font-size: 0.75rem;
-  color: var(--ink-muted);
-  margin-bottom: 8px;
-}
-.rest-summary dd {
-  font-size: 1rem;
-  font-variant-numeric: tabular-nums;
-}
-.score-details {
-  border-top: 1px solid var(--line);
-}
-.score-details > summary {
-  min-height: 44px;
-  padding: 12px 0;
-  font-size: 0.8rem;
-  cursor: pointer;
-  color: var(--ink-muted);
-}
-.sound-control {
-  pointer-events: auto;
-}
-.sound-control > summary {
-  list-style: none;
-}
-.sound-control > summary::-webkit-details-marker {
-  display: none;
-}
-.sound-panel {
-  position: absolute;
-  top: 54px;
-  right: 0;
-  width: min(260px, calc(100vw - 32px));
-  max-height: calc(100dvh - 90px - env(safe-area-inset-top, 0px));
-  overflow-y: auto;
-  padding: 18px;
-  border-radius: 20px;
-  border: 1px solid var(--line-strong);
-  background: var(--stone);
-  box-shadow: 0 12px 40px #0006;
-  font-size: 0.85rem;
-}
-.sound-mute-row,
-.volume-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-.volume-label {
-  margin-top: 16px;
-}
-.sound-panel input[type='range'] {
-  width: 100%;
-  min-height: 44px;
-  accent-color: var(--wood);
-  cursor: pointer;
-}
-.control-hint {
-  color: var(--ink-muted);
-  font-size: 0.75rem;
-}
-.settings-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  cursor: pointer;
-}
-.settings-checkbox input {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--wood);
-}
-input:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 4px;
-}
-@media (max-width: 600px) {
-  .button-shortcut {
-    display: none;
-  }
-  .app-toolbar {
-    gap: 6px;
-  }
-  .breathing-label {
-    font-size: 1rem;
-    padding: 12px 16px;
-  }
-}
-@media (hover: none) and (pointer: coarse) {
-  .button-shortcut,
-  .control-hint {
-    display: none;
-  }
-}
-@media (max-height: 620px) {
-  .first-visit-guide {
-    font-size: 0.75rem;
-  }
-  .breathing-label {
-    font-size: 1rem;
     padding: 10px 12px;
   }
 }

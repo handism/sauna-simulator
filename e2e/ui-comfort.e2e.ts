@@ -70,8 +70,8 @@ test('entry offers explicit 3D selection without loading it before entry', async
   const requests: string[] = [];
   page.on('request', (request) => requests.push(request.url()));
   await page.goto('?view=2d');
-  await page.getByRole('button', { name: '3Dで空間を見渡す' }).click();
-  await expect(page.getByRole('button', { name: '3Dで入室します · 2Dに戻す' })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: '3Dで見渡す' }).click();
+  await expect(page.getByRole('button', { name: '3Dで見渡す' })).toHaveAttribute('aria-pressed', 'true');
   expect(requests.some((url) => url.endsWith('.glb'))).toBe(false);
   await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });

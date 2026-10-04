@@ -167,7 +167,8 @@ export default function SceneMode({
   keepBreathing = false,
   onKeepBreathingChange,
 }: {
-  children?: (enabled: boolean, toggle: () => void) => ReactNode;
+  /** Receives the mode, its switch and the settings menu, which the caller places in its toolbar. */
+  children?: (enabled: boolean, toggle: () => void, settings: ReactNode) => ReactNode;
   keepBreathing?: boolean;
   onKeepBreathingChange?: (value: boolean) => void;
   audio: AudioEngine;
@@ -197,6 +198,53 @@ export default function SceneMode({
       window.history.replaceState(null, '', url);
     }
   };
+  const settings = (
+    <div className="scene-mode-controls">
+      <details ref={settingsRef} key={stage} className="display-settings">
+        <summary className="icon-btn" aria-label="表示設定" title="表示設定">
+          <ActionIcon name="settings" />
+        </summary>
+        <div className="settings-panel">
+          {onKeepBreathingChange && (
+            <label className="settings-checkbox">
+              <input
+                type="checkbox"
+                checked={keepBreathing}
+                onChange={(event) => onKeepBreathingChange(event.target.checked)}
+              />
+              UIを隠しても呼吸ガイドを残す
+            </label>
+          )}
+          <p className="settings-heading">景色を選ぶ</p>
+          <button type="button" onClick={toggle} aria-pressed={enabled}>
+            {enabled ? '2Dに切り替え' : '3Dを試す'}
+          </button>
+          {enabled && (
+            <>
+              <PreferenceSelect
+                label="時間帯"
+                ariaLabel="3Dの時間帯"
+                value={lightingMode}
+                options={LIGHTING_OPTIONS}
+                onChange={setLightingMode}
+              />
+              <PreferenceSelect
+                label="画質"
+                ariaLabel="3Dの画質"
+                value={quality}
+                options={QUALITY_OPTIONS}
+                onChange={setQuality}
+              />
+              <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
+                素材クレジット
+              </a>
+              {stage === 'start' && <span>入室すると3Dで体験できます</span>}
+            </>
+          )}
+        </div>
+      </details>
+    </div>
+  );
   return (
     <>
       {enabled && stage !== 'start' && (
@@ -210,52 +258,7 @@ export default function SceneMode({
           loylyEvents={loylyEvents}
         />
       )}
-      <div className="scene-mode-controls">
-        <details ref={settingsRef} key={stage} className="display-settings">
-          <summary>
-            <ActionIcon name="settings" /> 表示設定
-          </summary>
-          <div className="settings-panel">
-            {onKeepBreathingChange && (
-              <label className="settings-checkbox">
-                <input
-                  type="checkbox"
-                  checked={keepBreathing}
-                  onChange={(event) => onKeepBreathingChange(event.target.checked)}
-                />
-                UIを隠しても呼吸ガイドを残す
-              </label>
-            )}
-            <p className="settings-heading">景色を選ぶ</p>
-            <button type="button" onClick={toggle} aria-pressed={enabled}>
-              {enabled ? '2Dに切り替え' : '3Dを試す'}
-            </button>
-            {enabled && (
-              <>
-                <PreferenceSelect
-                  label="時間帯"
-                  ariaLabel="3Dの時間帯"
-                  value={lightingMode}
-                  options={LIGHTING_OPTIONS}
-                  onChange={setLightingMode}
-                />
-                <PreferenceSelect
-                  label="画質"
-                  ariaLabel="3Dの画質"
-                  value={quality}
-                  options={QUALITY_OPTIONS}
-                  onChange={setQuality}
-                />
-                <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
-                  素材クレジット
-                </a>
-                {stage === 'start' && <span>入室すると3Dで体験できます</span>}
-              </>
-            )}
-          </div>
-        </details>
-      </div>
-      {children?.(enabled, toggle)}
+      {children ? children(enabled, toggle, settings) : settings}
     </>
   );
 }
