@@ -6,7 +6,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   page.on('pageerror', (error) => errors.push(error.message));
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('?view=2d');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await page.getByRole('button', { name: '水風呂へ' }).click();
   await page.getByRole('button', { name: '外気浴へ' }).click();
   const aurora = page.locator('.aurora-container');
@@ -76,7 +76,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   ).toBe(true);
   await expect(page.getByRole('status')).toContainText('2Dで続けています');
   await expect(aurora).toBeVisible();
-  await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
   await page.getByRole('button', { name: 'もう一度サウナへ' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   expect(errors).toEqual([]);

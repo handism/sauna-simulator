@@ -12,7 +12,7 @@ test('capture all seated views for manual geometry and lighting review', async (
   page.on('pageerror', (error) => errors.push(error.message));
   const samples: object[] = [];
   await page.goto('?view=3d');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });

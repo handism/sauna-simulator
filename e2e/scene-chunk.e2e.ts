@@ -11,7 +11,7 @@ test('a failed 3D module explains restart and recovers after explicit reload', a
     else await route.continue();
   });
   await page.goto('?view=3d');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.getByRole('status')).toContainText('2Dで続けています');
   await expect(page.locator('.sauna-3d-canvas')).toHaveCount(0);
   await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
@@ -25,10 +25,10 @@ test('a failed 3D module explains restart and recovers after explicit reload', a
   await expect(page.getByRole('button', { name: '最初から再読み込み', exact: true })).toBeInViewport();
   await page.screenshot({ path: info.outputPath('module-reload.png') });
   await page.getByRole('button', { name: '最初から再読み込み', exact: true }).click();
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-stage', 'sauna');
-  await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
   expect(attempts).toBe(2);
   await expect(page.getByRole('button', { name: '最初から再読み込み', exact: true })).toHaveCount(0);
   await info.attach('module-reload', {
@@ -41,7 +41,7 @@ test('2D entry does not request the 3D module or model', async ({ page }) => {
   const requests: string[] = [];
   page.on('request', (request) => requests.push(new URL(request.url()).pathname));
   await page.goto('./');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
@@ -71,7 +71,7 @@ test('a stalled 3D module times out before mounting and can recover after arriva
   try {
     await page.goto('?view=3d');
     const requested = page.waitForRequest(chunkPath);
-    await page.getByRole('button', { name: '静かに入室する' }).click();
+    await page.getByRole('button', { name: '音なしで入室する' }).click();
     await requested;
     const started = Date.now();
     await expect(page.getByRole('status')).toContainText('読み込み中');
@@ -96,10 +96,7 @@ test('a stalled 3D module times out before mounting and can recover after arriva
     await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
     await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-stage', 'totonou');
     await expect(page.locator('.sauna-3d-canvas canvas')).toHaveCount(1);
-    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
     expect(errors).toEqual([]);
     await info.attach('chunk-recovery', {
       body: JSON.stringify(

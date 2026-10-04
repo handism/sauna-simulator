@@ -97,7 +97,7 @@ describe('SaunaRoom', () => {
   it('shows the elapsed time against the suggested stay', () => {
     render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
     expect(screen.getByText('0:00')).toBeInTheDocument();
-    expect(screen.getByText('目安 0:50')).toBeInTheDocument();
+    expect(screen.getByText('体験の目安 0:50')).toBeInTheDocument();
 
     act(() => {
       vi.advanceTimersByTime(50_000);
@@ -154,7 +154,7 @@ describe('SaunaRoom', () => {
 
   it('restarts the steam overlay animation on every Loyly press', () => {
     const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
-    const loylyButton = screen.getByText(/ロウリュ/);
+    const loylyButton = screen.getByRole('button', { name: 'ロウリュ' });
 
     expect(container.querySelector('.steam-overlay')).not.toHaveClass('active');
 

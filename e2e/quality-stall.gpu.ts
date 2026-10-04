@@ -5,7 +5,7 @@ import { observeSoakTiming } from './soak-timing';
 test('diagnose synchronous work on quality changes', async ({ page }, info) => {
   await page.addInitScript(observeSoakTiming);
   await page.goto('?view=3d');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
   await chooseSceneSetting(page, '3Dの時間帯', 'evening');

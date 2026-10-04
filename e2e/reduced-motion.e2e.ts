@@ -7,7 +7,7 @@ const display = (locator: Locator) => locator.evaluate((element) => getComputedS
 
 test('reduced motion stops the 2D stages from pulsing, drifting and flashing', async ({ page }) => {
   await page.goto('?view=2d');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
 
   // The heart pulse is an inline style; the media rule must still win.
@@ -34,7 +34,7 @@ test('reduced motion stops the 2D stages from pulsing, drifting and flashing', a
 test('without the preference the 2D stages keep their motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('?view=2d');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   expect(await animationName(page.locator('.heart-rate-icon'))).toBe('breathe');
   await page.getByRole('button', { name: 'ロウリュ' }).click();

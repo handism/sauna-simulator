@@ -29,6 +29,7 @@ export function useSaunaSession() {
   const [stage, setStage] = useState<Stage>('start');
   const [pendingStage, setPendingStage] = useState<Stage | null>(null);
   const opacity = pendingStage === null ? 1 : 0;
+  const [volume, setVolumeState] = useState(1);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isUiHidden, setIsUiHidden] = useState<boolean>(false);
   // Wall-clock time (Date.now) of entering; the automatic 3D lighting follows the real time since.
@@ -123,6 +124,16 @@ export function useSaunaSession() {
     audio.setMuted(next);
   }, [audio, isMuted]);
 
+  const setVolume = useCallback(
+    (next: number) => {
+      if (!Number.isFinite(next)) return;
+      const clamped = Math.max(0, Math.min(1, next));
+      setVolumeState(clamped);
+      audio.setVolume(clamped);
+    },
+    [audio],
+  );
+
   const toggleUiVisibility = useCallback(() => {
     setIsUiHidden((prev) => !prev);
   }, []);
@@ -132,6 +143,8 @@ export function useSaunaSession() {
       stage,
       pendingStage,
       opacity,
+      volume,
+      setVolume,
       isMuted,
       isUiHidden,
       enteredAt,
@@ -152,6 +165,8 @@ export function useSaunaSession() {
       stage,
       pendingStage,
       opacity,
+      volume,
+      setVolume,
       isMuted,
       isUiHidden,
       enteredAt,

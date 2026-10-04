@@ -11,11 +11,12 @@ test('keyboard shortcuts drive the session and fullscreen in a real browser', as
   await page.keyboard.press('f');
   await expect.poll(() => page.evaluate(() => document.fullscreenElement !== null)).toBe(false);
 
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
 
   // A clicked button keeps focus in Chrome. Space must pour Löyly without also
   // clicking that button on keyup.
+  await page.getByLabel('音の設定', { exact: true }).click();
   await page.getByRole('button', { name: 'ミュート解除', exact: true }).click();
   const mute = page.getByRole('button', { name: 'ミュート', exact: true });
   await expect(mute).toBeFocused();

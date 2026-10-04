@@ -31,7 +31,7 @@ test('automatic lighting follows the time since entering, across stages and a 3D
     const w = window as unknown as { suiNow: number; suiEntered: number };
     w.suiEntered = w.suiNow;
   });
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
   await chooseSceneSetting(page, '3Dの画質', 'standard');

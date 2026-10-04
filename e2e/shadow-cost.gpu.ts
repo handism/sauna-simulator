@@ -74,7 +74,7 @@ for (const [run, variants] of [
         to: PCSS_VARIANTS[variant],
       });
       await page.goto('?view=3d');
-      await page.getByRole('button', { name: '静かに入室する' }).click();
+      await page.getByRole('button', { name: '音なしで入室する' }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
       test.skip(

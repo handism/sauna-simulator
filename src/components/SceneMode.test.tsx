@@ -10,6 +10,7 @@ const audio = {
   stopAmbient: vi.fn(),
   playLoyly: vi.fn(),
   setMuted: vi.fn(),
+  setVolume: vi.fn(),
   setSpatialPose: vi.fn(),
 };
 const steam = vi.hoisted(() => vi.fn());

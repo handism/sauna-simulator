@@ -19,7 +19,7 @@ const StayTimer = ({ seconds, targetSeconds }: StayTimerProps) => {
         <div className="stay-timer-bar" style={{ width: `${Math.min(seconds / targetSeconds, 1) * 100}%` }} />
       </div>
       <p className="stay-timer-target">
-        {reached ? '目安に届きました。出るのはいつでも。' : `目安 ${formatMinutesSeconds(targetSeconds)}`}
+        {reached ? '目安に届きました。出るのはいつでも。' : `体験の目安 ${formatMinutesSeconds(targetSeconds)}`}
       </p>
     </div>
   );

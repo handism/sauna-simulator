@@ -1,3 +1,5 @@
+import FirstVisitGuide from './FirstVisitGuide';
+import StageDock from './StageDock';
 import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
@@ -158,7 +160,8 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
         </h2>
         <p>湯気と木の香りを、ゆっくりと。</p>
       </header>
-      <div className="glass-panel stage-dock sauna-room-panel">
+      <StageDock className="sauna-room-panel">
+        <FirstVisitGuide />
         {/* メインデジタルメーター */}
         <div className="sauna-meters-grid">
           <div className="sauna-meter-box">
@@ -202,13 +205,16 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
         </details>
         <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
-            <ActionIcon name="steam" /> ロウリュ
+            <ActionIcon name="steam" /> ロウリュ{' '}
+            <kbd className="button-shortcut" aria-hidden="true">
+              Space
+            </kbd>
           </button>
           <button className="primary-btn sauna-next-stage-btn" onClick={handleLeave}>
             水風呂へ <ActionIcon name="arrow" />
           </button>
         </div>
-      </div>
+      </StageDock>
 
       {/* サウナストーンからの上昇蒸気パーティクル */}
       {steams.map((steam) => (

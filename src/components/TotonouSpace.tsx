@@ -1,5 +1,6 @@
+import StageDock from './StageDock';
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { calculateTotonouScore } from '../utils/saunaUtils';
+import { calculateTotonouScore, formatMinutesSeconds } from '../utils/saunaUtils';
 import { scoreColor } from '../utils/scoreColor';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { ActionIcon } from './ActionIcon';
@@ -18,7 +19,7 @@ export interface TotonouSpaceProps {
 const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, onFinish }: TotonouSpaceProps) => {
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
-  // メーターは振り返りを初めて開いたときに上がり始める（閉じたまま演出が終わらないように）
+  // メーターはスコアを初めて開いたときに上がり始める（閉じたまま演出が終わらないように）
   const [isRevealed, setIsRevealed] = useState<boolean>(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -117,37 +118,56 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
       </div>
 
       {/* 「ととのい度」情報パネル */}
-      <div className="glass-panel stage-dock rest-dock">
-        <details className="stage-details rest-details" data-fresh={!isRevealed}>
-          {/* summary はキーボード操作でも click になる。開くのは最初の1回だけなので閉じる操作でも差し支えない */}
-          <summary onClick={() => setIsRevealed(true)}>今回のととのいを振り返る</summary>
-          <div className="totonou-info-panel">
-            <div className="totonou-info-row">
-              <span className="reading-label">ととのい度</span>
-              <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
-                0%
-              </span>
+      <StageDock className="rest-dock">
+        <details className="stage-details rest-details">
+          <summary>今回の休息を振り返る</summary>
+          <dl className="rest-summary">
+            <div>
+              <dt>過ごしたセット</dt>
+              <dd>{scoreHistory.length} セット</dd>
             </div>
-
-            {/* プログレスバー */}
-            <div className="totonou-progress-bg">
-              <div
-                ref={totonouBarRef}
-                className="totonou-progress-bar"
-                style={{ width: '0%', background: scoreColor(0) }}
-              />
+            <div>
+              <dt>サウナ / 水風呂</dt>
+              <dd>
+                {formatMinutesSeconds(saunaTime)} / {formatMinutesSeconds(waterTime)}
+              </dd>
             </div>
+          </dl>
+          <p className="detail-note">自分のペースで過ごせたら、それで十分。</p>
+          <details className="score-details">
+            <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
+            <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
+            <div className="totonou-info-panel">
+              <div className="totonou-info-row">
+                <span className="reading-label">ととのい度</span>
+                <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
+                  0%
+                </span>
+              </div>
 
-            {/* フィードバックコメント。表示時に読み上げるため、ライブリージョンは常に置いておく */}
-            <div aria-live="polite">{showFeedback && <p className="totonou-feedback">{feedback}</p>}</div>
+              {/* プログレスバー */}
+              <div className="totonou-progress-bg">
+                <div
+                  ref={totonouBarRef}
+                  className="totonou-progress-bar"
+                  style={{ width: '0%', background: scoreColor(0) }}
+                />
+              </div>
 
-            {/* これまでのセットの推移（2セット目以降） */}
-            {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
-          </div>
+              {/* フィードバックコメント。表示時に読み上げるため、ライブリージョンは常に置いておく */}
+              <div aria-live="polite">{showFeedback && <p className="totonou-feedback">{feedback}</p>}</div>
+
+              {/* これまでのセットの推移（2セット目以降） */}
+              {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
+            </div>
+          </details>
         </details>
         <div className="dock-actions">
           <button className="primary-btn totonou-next-btn" onClick={onNext} aria-keyshortcuts="Space">
-            <ActionIcon name="repeat" /> もう一度サウナへ
+            <ActionIcon name="repeat" /> もう一度サウナへ{' '}
+            <kbd className="button-shortcut" aria-hidden="true">
+              Space
+            </kbd>
           </button>
           {onFinish && (
             <button className="primary-btn finish-btn" onClick={onFinish}>
@@ -155,7 +175,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
             </button>
           )}
         </div>
-      </div>
+      </StageDock>
     </div>
   );
 };

@@ -14,6 +14,7 @@ const mockAudioEngine = {
   stopAmbient: vi.fn(),
   playLoyly: vi.fn(),
   setMuted: vi.fn(),
+  setVolume: vi.fn(),
   setSpatialPose: vi.fn(),
 };
 

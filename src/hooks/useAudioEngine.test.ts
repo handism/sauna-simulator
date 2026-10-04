@@ -242,6 +242,25 @@ describe('useAudioEngine', () => {
     expect(masterGain.gain.setTargetAtTime).toHaveBeenCalledWith(0, expect.any(Number), 0.08);
   });
 
+  it('preserves volume through mute and applies it to the existing master without new nodes', () => {
+    const { result } = renderHook(() => useAudioEngine());
+    act(() => result.current.init());
+    const master = mockCreateGain.mock.results[0].value;
+    const nodes = mockCreateGain.mock.calls.length;
+    act(() => result.current.setVolume(0.3));
+    expect(master.gain.setTargetAtTime).toHaveBeenLastCalledWith(0, 0, 0.08);
+    act(() => result.current.setMuted(false));
+    expect(master.gain.setTargetAtTime).toHaveBeenLastCalledWith(0.3, 0, 0.08);
+    act(() => result.current.setMuted(true));
+    act(() => result.current.setVolume(0.6));
+    expect(master.gain.setTargetAtTime).toHaveBeenLastCalledWith(0, 0, 0.08);
+    act(() => result.current.setMuted(false));
+    expect(master.gain.setTargetAtTime).toHaveBeenLastCalledWith(0.6, 0, 0.08);
+    act(() => result.current.setVolume(0));
+    expect(master.gain.setTargetAtTime).toHaveBeenLastCalledWith(0, 0, 0.08);
+    expect(mockCreateGain).toHaveBeenCalledTimes(nodes);
+  });
+
   it('plays sauna ambient sound', async () => {
     const { result } = renderHook(() => useAudioEngine());
 

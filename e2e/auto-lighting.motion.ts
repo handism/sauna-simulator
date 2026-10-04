@@ -49,13 +49,13 @@ for (const { stage, minute, from } of [
         'click',
         (event) => {
           const button = (event.target as Element).closest('button');
-          if (button?.textContent?.includes('静かに入室する')) clock.entered = Date.now();
+          if (button?.textContent?.includes('音なしで入室する')) clock.entered = Date.now();
         },
         true,
       );
     });
     await page.goto('?view=3d');
-    await page.getByRole('button', { name: '静かに入室する' }).click();
+    await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
     await chooseSceneSetting(page, '3Dの画質', 'standard');

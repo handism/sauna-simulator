@@ -1,4 +1,5 @@
-import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useDismissibleDetails } from '../hooks/useDismissibleDetails';
+import { Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
 import type { AudioEngine } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
 import type { LightingMode } from './3d/lighting';
@@ -162,7 +163,13 @@ export default function SceneMode({
   opacity = 1,
   loylyEvents,
   audio,
+  children,
+  keepBreathing = false,
+  onKeepBreathingChange,
 }: {
+  children?: (enabled: boolean, toggle: () => void) => ReactNode;
+  keepBreathing?: boolean;
+  onKeepBreathingChange?: (value: boolean) => void;
   audio: AudioEngine;
   stage: Stage;
   /** Date.now() of entering, for the automatic lighting (the scene's mount when absent). */
@@ -173,26 +180,7 @@ export default function SceneMode({
   const [lightingMode, setLightingMode] = usePreference<LightingMode>(LIGHTING_KEY, LIGHTING_VALUES, 'auto');
   const [quality, setQuality] = usePreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard');
   const [enabled, setEnabled] = useState(initialSceneMode);
-  const settingsRef = useRef<HTMLDetailsElement>(null);
-  useEffect(() => {
-    const closeOnOutside = (event: PointerEvent) => {
-      if (event.target instanceof Node && !settingsRef.current?.contains(event.target)) {
-        settingsRef.current?.removeAttribute('open');
-      }
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && settingsRef.current?.open) {
-        settingsRef.current.open = false;
-        settingsRef.current.querySelector('summary')?.focus();
-      }
-    };
-    document.addEventListener('pointerdown', closeOnOutside);
-    document.addEventListener('keydown', closeOnEscape);
-    return () => {
-      document.removeEventListener('pointerdown', closeOnOutside);
-      document.removeEventListener('keydown', closeOnEscape);
-    };
-  }, []);
+  const settingsRef = useDismissibleDetails();
   // ?view= overrides the saved choice. Saved after mount: state initializers stay free of side effects.
   useEffect(() => {
     const query = viewQuery();
@@ -228,6 +216,16 @@ export default function SceneMode({
             <ActionIcon name="settings" /> 表示設定
           </summary>
           <div className="settings-panel">
+            {onKeepBreathingChange && (
+              <label className="settings-checkbox">
+                <input
+                  type="checkbox"
+                  checked={keepBreathing}
+                  onChange={(event) => onKeepBreathingChange(event.target.checked)}
+                />
+                UIを隠しても呼吸ガイドを残す
+              </label>
+            )}
             <p className="settings-heading">景色を選ぶ</p>
             <button type="button" onClick={toggle} aria-pressed={enabled}>
               {enabled ? '2Dに切り替え' : '3Dを試す'}
@@ -257,6 +255,7 @@ export default function SceneMode({
           </div>
         </details>
       </div>
+      {children?.(enabled, toggle)}
     </>
   );
 }

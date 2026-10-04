@@ -36,6 +36,7 @@ describe('App Component', () => {
     init: vi.fn(),
     playLoyly: vi.fn(),
     setMuted: vi.fn(),
+    setVolume: vi.fn(),
     setSpatialPose: vi.fn(),
     playAmbient: vi.fn(),
     stopAmbient: vi.fn(),
@@ -50,7 +51,7 @@ describe('App Component', () => {
     renderWithProvider(<App />);
     expect(screen.getByText('ブラウザサウナ')).toBeInTheDocument();
     expect(screen.getByText('音ありで入室する')).toBeInTheDocument();
-    expect(screen.getByText('静かに入室する')).toBeInTheDocument();
+    expect(screen.getByText('音なしで入室する')).toBeInTheDocument();
   });
 
   it('starts experience with sound when "音ありで入室する" is clicked', async () => {
@@ -70,9 +71,9 @@ describe('App Component', () => {
     );
   });
 
-  it('starts experience muted when "静かに入室する" is clicked', async () => {
+  it('starts experience muted when "音なしで入室する" is clicked', async () => {
     renderWithProvider(<App />);
-    const button = screen.getByText('静かに入室する');
+    const button = screen.getByText('音なしで入室する');
     fireEvent.click(button);
 
     expect(mockAudioEngine.init).toHaveBeenCalled();
@@ -138,7 +139,7 @@ describe('App Component', () => {
     renderWithProvider(<App />);
 
     // Start without sound
-    fireEvent.click(screen.getByText('静かに入室する'));
+    fireEvent.click(screen.getByText('音なしで入室する'));
 
     await waitFor(
       () => {
@@ -148,6 +149,7 @@ describe('App Component', () => {
     );
 
     // Initial state (muted)
+    fireEvent.click(screen.getByLabelText('音の設定'));
     const muteButton = screen.getByRole('button', { name: 'ミュート解除' });
     expect(muteButton).toBeInTheDocument();
 
@@ -193,7 +195,7 @@ describe('App Component', () => {
   });
 
   const enterSauna = async () => {
-    fireEvent.click(screen.getByText('静かに入室する'));
+    fireEvent.click(screen.getByText('音なしで入室する'));
     await waitFor(() => expect(screen.getByTestId('sauna-room')).toBeInTheDocument(), { timeout: 1500 });
   };
 
@@ -209,6 +211,7 @@ describe('App Component', () => {
 
     fireEvent.keyDown(document.body, { key: 'm' });
     expect(mockAudioEngine.setMuted).toHaveBeenLastCalledWith(false);
+    fireEvent.click(screen.getByLabelText('音の設定'));
     expect(screen.getByRole('button', { name: 'ミュート' })).toBeInTheDocument();
 
     fireEvent.keyDown(document.body, { key: 'u' });

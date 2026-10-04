@@ -133,7 +133,8 @@ describe('TotonouSpace Component', () => {
     });
     // The meter only starts rising once the reflection is opened.
     expect(screen.queryByText(feedback)).not.toBeInTheDocument();
-    fireEvent.click(screen.getByText('今回のととのいを振り返る'));
+    fireEvent.click(screen.getByText('今回の休息を振り返る'));
+    fireEvent.click(screen.getByText('体験内のスコアを見る'));
     act(() => {
       vi.advanceTimersByTime(10_000);
     });
@@ -150,7 +151,8 @@ describe('TotonouSpace Component', () => {
 
     render(<TotonouSpace saunaTime={35} waterTime={18} loylyCount={0} scoreHistory={[50, 71]} onNext={() => {}} />);
     expect(screen.getByText('2セット目')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('今回のととのいを振り返る'));
+    fireEvent.click(screen.getByText('今回の休息を振り返る'));
+    fireEvent.click(screen.getByText('体験内のスコアを見る'));
     const items = screen.getAllByRole('listitem');
     expect(items.map((item) => item.textContent)).toEqual(['50%1セット', '71%2セット']);
     // 71 is in the same tier as the "心地よい余韻" feedback, so its column shares that tier's color.

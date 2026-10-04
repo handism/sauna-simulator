@@ -1,3 +1,4 @@
+import StageDock from './StageDock';
 import { useState, useEffect, useRef } from 'react';
 import { beatSeconds, STAY_TARGET_SECONDS } from '../utils/saunaUtils';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
@@ -81,7 +82,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         </h2>
         <p>水の音に耳を澄ませて。</p>
       </header>
-      <div className="glass-panel stage-dock cooling-panel">
+      <StageDock className="cooling-panel">
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.WATER} />
         <details className="stage-details">
           <summary>からだの様子を見る</summary>
@@ -95,9 +96,12 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
           <p className="detail-note">数値は体験内のシミュレーションです。</p>
         </details>
         <button className="primary-btn cooling-next-btn" onClick={handleLeave} aria-keyshortcuts="Space">
-          外気浴へ <ActionIcon name="arrow" />
+          外気浴へ <ActionIcon name="arrow" />{' '}
+          <kbd className="button-shortcut" aria-hidden="true">
+            Space
+          </kbd>
         </button>
-      </div>
+      </StageDock>
 
       {/* 水面の波紋エフェクト */}
       {ripples.map((r) => (

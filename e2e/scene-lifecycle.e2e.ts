@@ -5,7 +5,7 @@ const scene = (page: Page) => page.locator('.sauna-3d-canvas');
 const fallback = (page: Page) => page.getByRole('status');
 async function enter(page: Page) {
   await page.goto('?view=3d');
-  await page.getByRole('button', { name: '静かに入室する' }).click();
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
 }
 async function ready(page: Page) {
@@ -33,10 +33,7 @@ test('repeated modes, stages and real context loss preserve the session', async 
   for (let i = 0; i < 5; i++) {
     await retry(page);
     samples.push(await metrics(page));
-    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
   }
   // Counts are renderer resources, not GPU bytes or proof of long-term stability.
   expect(new Set(samples.map((sample) => sample.textures)).size).toBe(1);
@@ -60,7 +57,7 @@ test('repeated modes, stages and real context loss preserve the session', async 
   expect(lost, 'Chrome must support actual WebGL context loss').toBe(true);
   await expect(fallback(page)).toContainText('2Dで続けています');
   await expect(scene(page)).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
   await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
   await retry(page);
@@ -153,7 +150,7 @@ test('corrupt meshopt data falls back to 2D and a fresh model can recover', asyn
   await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
   await retry(page);
   await expect(scene(page)).toHaveAttribute('data-stage', 'water');
-  await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
   expect(errors).toEqual([]);
 });
 

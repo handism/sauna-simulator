@@ -97,15 +97,12 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     expect(Number(resources.geometries)).toBeGreaterThan(0);
     if (baselines.has(key)) expect(resources, `renderer resources for ${key}`).toEqual(baselines.get(key));
     else baselines.set(key, resources);
-    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
     expect(errors).toEqual([]);
   };
   try {
     await page.goto('?view=3d');
-    await page.getByRole('button', { name: '静かに入室する' }).click();
+    await page.getByRole('button', { name: '音なしで入室する' }).click();
     await ready();
     const activeStarted = Date.now();
     // Real time, no fake clock: each cycle exercises all stages and recreates 3D.

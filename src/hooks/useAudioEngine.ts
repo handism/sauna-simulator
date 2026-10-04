@@ -106,6 +106,7 @@ export interface AudioEngine {
   stopAmbient: () => void;
   playLoyly: () => void;
   setMuted: (muted: boolean) => void;
+  setVolume: (volume: number) => void;
 }
 
 function applyFilterSettings(filter: BiquadFilterNode, settings: AudioEffectSettings) {
@@ -134,6 +135,8 @@ export function useAudioEngine(): AudioEngine {
   const ctxRef = useRef<AudioContext | null>(null);
   const spatialRef = useRef<ReturnType<typeof createSpatialAudio>>(null);
   const masterGainRef = useRef<GainNode | null>(null);
+  const volumeRef = useRef(1);
+  const mutedRef = useRef(true);
 
   // 稼働中のソースとゲインを追跡し、フェードアウト後に安全に停止する
   const activeSourcesRef = useRef<AudioScheduledSourceNode[]>([]);
@@ -369,20 +372,37 @@ export function useAudioEngine(): AudioEngine {
     });
   }, [getNoiseBuffer]);
 
-  const setMuted = useCallback((muted: boolean) => {
+  const applyMasterGain = useCallback(() => {
     if (masterGainRef.current && ctxRef.current) {
       const now = ctxRef.current.currentTime;
       masterGainRef.current.gain.cancelScheduledValues(now);
-      masterGainRef.current.gain.setTargetAtTime(muted ? 0 : 1, now, 0.08);
+      masterGainRef.current.gain.setTargetAtTime(mutedRef.current ? 0 : volumeRef.current, now, 0.08);
     }
   }, []);
+
+  const setMuted = useCallback(
+    (muted: boolean) => {
+      mutedRef.current = muted;
+      applyMasterGain();
+    },
+    [applyMasterGain],
+  );
+
+  const setVolume = useCallback(
+    (volume: number) => {
+      if (!Number.isFinite(volume)) return;
+      volumeRef.current = Math.max(0, Math.min(1, volume));
+      applyMasterGain();
+    },
+    [applyMasterGain],
+  );
 
   const setSpatialPose = useCallback((pose: SpatialPose | null) => {
     spatialRef.current?.update(pose);
   }, []);
 
   return useMemo(
-    () => ({ init, playAmbient, stopAmbient, playLoyly, setMuted, setSpatialPose }),
-    [init, playAmbient, stopAmbient, playLoyly, setMuted, setSpatialPose],
+    () => ({ init, playAmbient, stopAmbient, playLoyly, setMuted, setVolume, setSpatialPose }),
+    [init, playAmbient, stopAmbient, playLoyly, setMuted, setVolume, setSpatialPose],
   );
 }
