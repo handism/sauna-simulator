@@ -1933,3 +1933,15 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 撮影のため `stage-compare.visual.ts` に `CAPTURE_QUALITY`・`CAPTURE_PNG`・`CAPTURE_QUERY` を追加した。
 - 残件：見回し中の鏡像パスのGPU時間・波で動く鏡像の見え方（静止画のみ比較）、ドライバーが実際に確保する量・実機、残りの大きいもの（4倍MSAAの半精度の描画先、頂点バッファ28MiB）、他ブラウザ、並列コンパイル、音の実聴。
 - [候補・比較・メモリ](3d-qa/mirror-msaa/README.md)、[値](3d-qa/mirror-msaa/values.json)。
+
+## フェーズ5：メインの描画先のMSAAを2倍に（2026-10-04、不採用・記録）
+
+- 前回までの残件「残りの大きいもの」のうち、シーンを描く4倍MSAAの半精度ターゲット（`hdrOutput.ts`）。標本数を4→2にする候補を、見た目・GPU時間で4倍と交互に比べた。
+- GPU時間：標準・DPR 1.5で全視点9〜12%（1.2〜1.7ms）減。水風呂の夕暮れは17.7→16.1msで60fpsに届く。
+- 見た目：DPR 1.5の等倍でも葉の縁（林のカードの `alphaToCoverage`）・デッキの板・寝椅子の脚・枝の輪郭の段がはっきり分かる。4倍に対する平均ΔEは庭の見える視点で最大1.75、ΔE>2の画素は最大15%（DPR 1では2.43・20%）。鏡像（最大0.55%）とは桁が違う。
+- 判断：不採用。製品コードは4倍のまま、理由のコメントだけ足した。60fpsに届かない場合は動的解像度が画素比を下げる。
+- 撮影のため `cycles-compare.visual.ts` に `CAPTURE_QUALITY`・`CAPTURE_PNG`・`CAPTURE_QUERY`・`CAPTURE_DPR`、`stage-compare.visual.ts` に `CAPTURE_DPR` を追加した。
+- 残件：4倍・DPR 1.25と2倍・DPR 1.5の見た目の比較、高精細・DPR 2での2倍、ドライバーが実際に確保する量・実機、頂点バッファ28MiB、見回し中の鏡像パスのGPU時間、他ブラウザ、並列コンパイル、音の実聴。
+- [比較・費用](3d-qa/main-msaa/README.md)、[値](3d-qa/main-msaa/values.json)。
+
+検証：画像の交互撮影（DPR 1で16回、DPR 1.5で8回）、GPU時間の交互計測8回（全件成功）。製品コードの変更はコメントだけのため、型検査・Lint・整形・単体テストを実行した。

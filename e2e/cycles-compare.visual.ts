@@ -19,10 +19,16 @@ const passes: Record<'sauna' | 'water' | 'totonou', Camera>[] = [
   { sauna: byRender('01.png'), water: byRender('04.png'), totonou: byRender('05.png') },
 ];
 
-test.use({ viewport: { width: 1200, height: 800 } });
+// CAPTURE_DPR sets the device pixel ratio (the quality still caps the drawn one: standard 1.5).
+const DPR = Number(process.env.CAPTURE_DPR ?? 1);
+test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: DPR });
 // CAPTURE_CUT captures with a part of the pool floor's shading skipped (frame-cost.ts), to weigh a
 // cut's image change against its cost.
 const CUT = process.env.CAPTURE_CUT as FrameCostMode | undefined;
+// As stage-compare.visual.ts: CAPTURE_QUALITY picks the 3D quality, CAPTURE_PNG=1 keeps the captures
+// lossless and CAPTURE_QUERY adds to the query, to compare two builds pixel by pixel.
+const QUALITY = process.env.CAPTURE_QUALITY ?? 'standard';
+const FORMAT = process.env.CAPTURE_PNG === '1' ? 'png' : 'jpeg';
 
 // Review artifacts for side-by-side comparison with blender/renders, not an equivalence test.
 test('capture the Cycles review cameras in the browser scene', async ({ page, browser }, info) => {
@@ -37,14 +43,14 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
         definition.views[stage] = { position: camera.position, target: camera.target, fov: camera.fov };
       await route.fulfill({ json: definition });
     });
-    await page.goto('?view=3d&frameRate=full');
+    await page.goto(`?view=3d&frameRate=full${process.env.CAPTURE_QUERY ?? ''}`);
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     const canvas = scene.locator('canvas');
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
     // The woodland foliage loads after the ready scene.
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
-    await chooseSceneSetting(page, '3Dの画質', 'standard');
+    await chooseSceneSetting(page, '3Dの画質', QUALITY);
     const stages = [
       ['sauna', '水風呂へ'],
       ['water', '外気浴へ'],
@@ -58,11 +64,11 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
         await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
         const camera = views[stage];
-        const file = `cycles-${camera.render.replace('.png', '')}-${lighting}.jpg`;
+        const file = `cycles-${camera.render.replace('.png', '')}-${lighting}.${FORMAT === 'png' ? 'png' : 'jpg'}`;
         await canvas.screenshot({
           path: info.outputPath(file),
-          type: 'jpeg',
-          quality: 90,
+          type: FORMAT,
+          ...(FORMAT === 'jpeg' ? { quality: 90 } : {}),
           style: rendererCaptureStyle,
         });
         // 06 is camera 01 in the blue-hour scene; pair captures with the render of the same light.
@@ -112,8 +118,8 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
       {
         browser: browser.version(),
         viewport: page.viewportSize(),
-        deviceScaleFactor: 1,
-        quality: 'standard',
+        deviceScaleFactor: DPR,
+        quality: QUALITY,
         reducedMotion: true,
         captureStyle: rendererCaptureStyle,
         stageOverlays: false,

@@ -19,6 +19,8 @@ const CUT = process.env.CAPTURE_CUT as FrameCostMode | undefined;
 // lossless, for pixel comparisons of two builds.
 const QUALITY = process.env.CAPTURE_QUALITY ?? 'standard';
 const FORMAT = process.env.CAPTURE_PNG === '1' ? 'png' : 'jpeg';
+// CAPTURE_DPR sets the device pixel ratio (the quality still caps the drawn one: standard 1.5).
+test.use({ deviceScaleFactor: Number(process.env.CAPTURE_DPR ?? 1) });
 
 test('capture the water stage views rendered in Cycles', async ({ page }, info) => {
   const errors: string[] = [];

@@ -111,6 +111,8 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
         released = true;
       },
     };
+  // Four samples: two drew about 10% faster but stepped the leaf cards' edges (alpha to coverage,
+  // leafCluster.ts) and the deck's lines visibly even at ratio 1.5 (docs/3d-qa/main-msaa/).
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3));
