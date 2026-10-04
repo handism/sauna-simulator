@@ -5,7 +5,9 @@ import { useModelCandidate } from './model-candidate';
 import { chooseSceneSetting } from './settings-controls';
 import { rendererCaptureStyle, settleRenderer } from './scene-capture';
 
-test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: 1.5 });
+const quality = process.env.CAPTURE_QUALITY ?? 'standard';
+const deviceScaleFactor = Number(process.env.CAPTURE_DPR ?? 1.5);
+test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor });
 
 // The non-uniformly scaled condensation bead has the largest world-normal error.
 // Isolate it at a closer view than the normal seated cameras, without changing geometry.
@@ -32,8 +34,8 @@ test('capture condensation normals at close range', async ({ page, browser }, in
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
-  await chooseSceneSetting(page, '3Dの画質', 'standard');
-  await expect(scene).toHaveAttribute('data-quality', 'standard');
+  await chooseSceneSetting(page, '3Dの画質', quality);
+  await expect(scene).toHaveAttribute('data-quality', quality);
   await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
   await page.waitForTimeout(1200);
   const samples = [];
@@ -53,8 +55,8 @@ test('capture condensation normals at close range', async ({ page, browser }, in
       {
         browser: browser.version(),
         camera,
-        quality: 'standard',
-        deviceScaleFactor: 1.5,
+        quality,
+        deviceScaleFactor,
         sourceSha256: createHash('sha256').update(bytes).digest('hex'),
         bodyCandidate: candidate && {
           sha256: candidate.sha256,
