@@ -1923,3 +1923,13 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - [条件・結果](3d-qa/canvas-msaa/README.md)、[値](3d-qa/canvas-msaa/cost.json)。
 
 検証：GPU時間の交互計測16回（全件成功）。製品コードの変更がないため、型検査・単体テスト・回帰は再実行していない。
+
+## フェーズ5：水面の鏡像のMSAAを2倍に（2026-10-04、採用）
+
+- 前回までの残件「残りの大きいもの」のうち、水面の鏡像の4倍MSAAの半精度ターゲット（高精細・1280×800で色31MiB）。`planarReflection.ts` の標本数を4→2にした。
+- MSAAなしは不採用：鏡像に写る林のカードの `alphaToCoverage` が硬い切り抜きになり、水面の葉の縁が段々になる。2倍は葉の柔らかい縁が残る。
+- 水風呂12視点×標準・高精細を4倍と交互に2回ずつPNGで撮影（同じ版は全画素一致）。4倍に対する平均ΔE76は2倍で0.006〜0.054・ΔE>2は最大0.55%（MSAAなしは0.012〜0.109・1.14%）。
+- GPUメモリ（1280×800・DPR1）：標準195.3→189.4MiB（−3%）、高精細345.6→322.1MiB（−7%）、軽量は鏡像なしで不変。高精細・DPR 2では約94MiB減る。
+- 撮影のため `stage-compare.visual.ts` に `CAPTURE_QUALITY`・`CAPTURE_PNG`・`CAPTURE_QUERY` を追加した。
+- 残件：見回し中の鏡像パスのGPU時間・波で動く鏡像の見え方（静止画のみ比較）、ドライバーが実際に確保する量・実機、残りの大きいもの（4倍MSAAの半精度の描画先、頂点バッファ28MiB）、他ブラウザ、並列コンパイル、音の実聴。
+- [候補・比較・メモリ](3d-qa/mirror-msaa/README.md)、[値](3d-qa/mirror-msaa/values.json)。

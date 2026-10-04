@@ -15,19 +15,25 @@ const VIEWS = [
 // CAPTURE_CUT captures with a part of the pool floor's shading skipped (frame-cost.ts), to weigh a
 // cut's image change against its cost.
 const CUT = process.env.CAPTURE_CUT as FrameCostMode | undefined;
+// CAPTURE_QUALITY picks the 3D quality (standard by default); CAPTURE_PNG=1 keeps the captures
+// lossless, for pixel comparisons of two builds.
+const QUALITY = process.env.CAPTURE_QUALITY ?? 'standard';
+const FORMAT = process.env.CAPTURE_PNG === '1' ? 'png' : 'jpeg';
 
 test('capture the water stage views rendered in Cycles', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   if (CUT) await page.addInitScript(patchFrameCost, CUT);
-  await page.goto('?view=3d&frameRate=full');
+  // CAPTURE_QUERY adds to the query, e.g. &resolution=fixed to keep dynamic resolution from stepping.
+  await page.goto(`?view=3d&frameRate=full${process.env.CAPTURE_QUERY ?? ''}`);
   await page.getByRole('button', { name: '音なしで入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   // The woodland foliage loads after the ready scene.
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
-  await chooseSceneSetting(page, '3Dの画質', 'standard');
+  await chooseSceneSetting(page, '3Dの画質', QUALITY);
+  await expect(scene).toHaveAttribute('data-quality', QUALITY);
   await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(scene).toHaveAttribute('data-stage', 'water');
   await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
@@ -47,8 +53,13 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
       if (pitch === 'level') await press('ArrowUp', 14);
       // The focus ring of the keyboard look would frame the capture.
       await scene.blur();
-      const file = `stage-water-${lighting}-${heading}-${pitch}.jpg`;
-      await canvas.screenshot({ path: info.outputPath(file), type: 'jpeg', quality: 90, style: rendererCaptureStyle });
+      const file = `stage-water-${lighting}-${heading}-${pitch}.${FORMAT === 'png' ? 'png' : 'jpg'}`;
+      await canvas.screenshot({
+        path: info.outputPath(file),
+        type: FORMAT,
+        ...(FORMAT === 'jpeg' ? { quality: 90 } : {}),
+        style: rendererCaptureStyle,
+      });
       samples.push({
         file,
         lighting,
@@ -66,6 +77,6 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
   expect(errors).toEqual([]);
   await info.attach('stage-compare', {
     contentType: 'application/json',
-    body: JSON.stringify({ cut: CUT ?? null, samples }, null, 2),
+    body: JSON.stringify({ cut: CUT ?? null, quality: QUALITY, samples }, null, 2),
   });
 });

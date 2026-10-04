@@ -111,7 +111,10 @@ export function createPlanarReflection(
   // Draws what the mirrored view needs before it (the shadow mask) and returns what ends it.
   beforeDraw: (camera: THREE.Camera, width: number, height: number) => () => void = () => () => {},
 ) {
-  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  // Two samples: the leaf cards' alpha to coverage (leafCluster.ts) needs some to keep soft
+  // edges in the reflection (none cuts them hard), and two keep it close to four at half the
+  // memory (docs/3d-qa/mirror-msaa/).
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 2 });
   uniforms.suiMirror.value = target.texture;
   const camera = new THREE.PerspectiveCamera();
   camera.layers.enable(MIRROR_LAYER);

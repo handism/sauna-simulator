@@ -1,0 +1,309 @@
+{
+ "conditions": "Chrome (Playwright, headless), ANGLE Metal, macOS, 1280x800, DPR 1, ?resolution=fixed, reduced motion, e2e/stage-compare.visual.ts with CAPTURE_PNG=1, 2026-10-04",
+ "note": "Mean CIELAB dE76, share of pixels over dE 2 (%), max dE, against the 4-sample mirror (HEAD c005015). Each build captured twice; repeats were identical (mean 0).",
+ "views": {
+  "standard/day-0-level": {
+   "samples0": {
+    "mean": 0.069,
+    "over2Percent": 0.778,
+    "max": 33.7
+   },
+   "samples2": {
+    "mean": 0.0305,
+    "over2Percent": 0.371,
+    "max": 21.1
+   }
+  },
+  "standard/day-1-down": {
+   "samples0": {
+    "mean": 0.1093,
+    "over2Percent": 1.142,
+    "max": 43.7
+   },
+   "samples2": {
+    "mean": 0.0541,
+    "over2Percent": 0.554,
+    "max": 36.5
+   }
+  },
+  "standard/day-2-level": {
+   "samples0": {
+    "mean": 0.0401,
+    "over2Percent": 0.437,
+    "max": 20.0
+   },
+   "samples2": {
+    "mean": 0.0178,
+    "over2Percent": 0.139,
+    "max": 10.0
+   }
+  },
+  "standard/day-4-level": {
+   "samples0": {
+    "mean": 0.0302,
+    "over2Percent": 0.282,
+    "max": 21.7
+   },
+   "samples2": {
+    "mean": 0.0191,
+    "over2Percent": 0.149,
+    "max": 14.2
+   }
+  },
+  "standard/evening-0-level": {
+   "samples0": {
+    "mean": 0.0698,
+    "over2Percent": 0.845,
+    "max": 44.7
+   },
+   "samples2": {
+    "mean": 0.0315,
+    "over2Percent": 0.392,
+    "max": 36.2
+   }
+  },
+  "standard/evening-1-down": {
+   "samples0": {
+    "mean": 0.0937,
+    "over2Percent": 0.881,
+    "max": 28.8
+   },
+   "samples2": {
+    "mean": 0.0481,
+    "over2Percent": 0.404,
+    "max": 21.4
+   }
+  },
+  "standard/evening-2-level": {
+   "samples0": {
+    "mean": 0.0269,
+    "over2Percent": 0.222,
+    "max": 10.2
+   },
+   "samples2": {
+    "mean": 0.0145,
+    "over2Percent": 0.022,
+    "max": 5.4
+   }
+  },
+  "standard/evening-4-level": {
+   "samples0": {
+    "mean": 0.0337,
+    "over2Percent": 0.347,
+    "max": 25.9
+   },
+   "samples2": {
+    "mean": 0.0217,
+    "over2Percent": 0.208,
+    "max": 19.7
+   }
+  },
+  "standard/night-0-level": {
+   "samples0": {
+    "mean": 0.0401,
+    "over2Percent": 0.467,
+    "max": 51.9
+   },
+   "samples2": {
+    "mean": 0.0217,
+    "over2Percent": 0.134,
+    "max": 44.7
+   }
+  },
+  "standard/night-1-down": {
+   "samples0": {
+    "mean": 0.0619,
+    "over2Percent": 0.462,
+    "max": 30.9
+   },
+   "samples2": {
+    "mean": 0.0327,
+    "over2Percent": 0.126,
+    "max": 25.9
+   }
+  },
+  "standard/night-2-level": {
+   "samples0": {
+    "mean": 0.0219,
+    "over2Percent": 0.068,
+    "max": 5.5
+   },
+   "samples2": {
+    "mean": 0.0131,
+    "over2Percent": 0.004,
+    "max": 3.0
+   }
+  },
+  "standard/night-4-level": {
+   "samples0": {
+    "mean": 0.0274,
+    "over2Percent": 0.266,
+    "max": 20.4
+   },
+   "samples2": {
+    "mean": 0.0174,
+    "over2Percent": 0.119,
+    "max": 15.5
+   }
+  },
+  "high/day-0-level": {
+   "samples0": {
+    "mean": 0.0428,
+    "over2Percent": 0.468,
+    "max": 36.7
+   },
+   "samples2": {
+    "mean": 0.0216,
+    "over2Percent": 0.319,
+    "max": 18.7
+   }
+  },
+  "high/day-1-down": {
+   "samples0": {
+    "mean": 0.0686,
+    "over2Percent": 0.706,
+    "max": 32.9
+   },
+   "samples2": {
+    "mean": 0.0303,
+    "over2Percent": 0.331,
+    "max": 24.4
+   }
+  },
+  "high/day-2-level": {
+   "samples0": {
+    "mean": 0.0249,
+    "over2Percent": 0.284,
+    "max": 19.9
+   },
+   "samples2": {
+    "mean": 0.0094,
+    "over2Percent": 0.074,
+    "max": 7.9
+   }
+  },
+  "high/day-4-level": {
+   "samples0": {
+    "mean": 0.0162,
+    "over2Percent": 0.146,
+    "max": 13.4
+   },
+   "samples2": {
+    "mean": 0.0097,
+    "over2Percent": 0.072,
+    "max": 11.3
+   }
+  },
+  "high/evening-0-level": {
+   "samples0": {
+    "mean": 0.0416,
+    "over2Percent": 0.488,
+    "max": 47.8
+   },
+   "samples2": {
+    "mean": 0.0215,
+    "over2Percent": 0.316,
+    "max": 32.0
+   }
+  },
+  "high/evening-1-down": {
+   "samples0": {
+    "mean": 0.0568,
+    "over2Percent": 0.541,
+    "max": 28.9
+   },
+   "samples2": {
+    "mean": 0.0265,
+    "over2Percent": 0.236,
+    "max": 22.7
+   }
+  },
+  "high/evening-2-level": {
+   "samples0": {
+    "mean": 0.016,
+    "over2Percent": 0.138,
+    "max": 9.7
+   },
+   "samples2": {
+    "mean": 0.0074,
+    "over2Percent": 0.012,
+    "max": 3.7
+   }
+  },
+  "high/evening-4-level": {
+   "samples0": {
+    "mean": 0.0184,
+    "over2Percent": 0.185,
+    "max": 18.2
+   },
+   "samples2": {
+    "mean": 0.0112,
+    "over2Percent": 0.105,
+    "max": 15.0
+   }
+  },
+  "high/night-0-level": {
+   "samples0": {
+    "mean": 0.0219,
+    "over2Percent": 0.226,
+    "max": 59.0
+   },
+   "samples2": {
+    "mean": 0.0126,
+    "over2Percent": 0.072,
+    "max": 39.8
+   }
+  },
+  "high/night-1-down": {
+   "samples0": {
+    "mean": 0.035,
+    "over2Percent": 0.277,
+    "max": 29.8
+   },
+   "samples2": {
+    "mean": 0.0175,
+    "over2Percent": 0.059,
+    "max": 28.9
+   }
+  },
+  "high/night-2-level": {
+   "samples0": {
+    "mean": 0.0124,
+    "over2Percent": 0.035,
+    "max": 4.7
+   },
+   "samples2": {
+    "mean": 0.0064,
+    "over2Percent": 0.002,
+    "max": 2.8
+   }
+  },
+  "high/night-4-level": {
+   "samples0": {
+    "mean": 0.0151,
+    "over2Percent": 0.14,
+    "max": 23.1
+   },
+   "samples2": {
+    "mean": 0.0089,
+    "over2Percent": 0.06,
+    "max": 13.3
+   }
+  }
+ },
+ "memoryMiB": {
+  "note": "gpu-memory.e2e.ts totals (texture+buffer+renderbuffer+drawing buffer); 4 samples from docs/3d-qa/gpu-memory/values.json after",
+  "low": {
+   "samples4": 129.7,
+   "samples2": 129.7
+  },
+  "standard": {
+   "samples4": "195.0-195.3",
+   "samples2": "189.1-189.4"
+  },
+  "high": {
+   "samples4": "344.2-345.6",
+   "samples2": "320.8-322.1"
+  }
+ }
+}
