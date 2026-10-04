@@ -70,7 +70,7 @@ async function rounds(page: Page, query: string, between?: () => Promise<void>) 
   };
   const samples = [await settled(1)];
   for (let round = 0; round < 6; round++) {
-    for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'ロウリュ (Löyly)' }).click();
+    for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'ロウリュ' }).click();
     await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
     await expect(page.getByRole('heading', { name: '水風呂' })).toBeVisible();
     await settled(1);

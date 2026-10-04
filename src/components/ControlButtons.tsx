@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface IconButtonProps {
   label: string;
@@ -6,16 +6,14 @@ interface IconButtonProps {
   pressed: boolean;
   onClick: () => void;
   className?: string;
-  style?: CSSProperties;
   children: ReactNode;
 }
 
-function IconButton({ label, shortcut, pressed, onClick, className = 'mute-btn', style, children }: IconButtonProps) {
+function IconButton({ label, shortcut, pressed, onClick, className = 'icon-btn', children }: IconButtonProps) {
   return (
     <button
       type="button"
       className={className}
-      style={style}
       onClick={onClick}
       aria-label={label}
       aria-pressed={pressed}
@@ -45,8 +43,7 @@ export function UiToggleButton({ isUiHidden, onToggle }: { isUiHidden: boolean; 
       shortcut="U"
       pressed={isUiHidden}
       onClick={onToggle}
-      className="mute-btn ui-toggle-btn"
-      style={{ right: '72px', opacity: isUiHidden ? 0.3 : 1 }}
+      className="icon-btn ui-toggle-btn"
     >
       {isUiHidden ? (
         <>
@@ -89,7 +86,6 @@ export function FullscreenButton({ isFullscreen, onToggle }: { isFullscreen: boo
       shortcut="F"
       pressed={isFullscreen}
       onClick={onToggle}
-      style={{ right: '128px' }}
     >
       {isFullscreen ? (
         <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />

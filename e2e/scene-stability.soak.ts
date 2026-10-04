@@ -118,7 +118,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       await chooseSceneSetting(page, '3Dの時間帯', ['day', 'evening', 'night'][cycle % 3]);
       const canvas = await scene.locator('canvas').elementHandle();
       await warmStages();
-      await page.getByRole('button', { name: 'ロウリュ (Löyly)', exact: true }).click();
+      await page.getByRole('button', { name: 'ロウリュ', exact: true }).click();
       // Let the entire six-second steam lifetime elapse before resource comparison.
       await page.waitForTimeout(6500);
       await sample();
@@ -137,7 +137,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       await ready();
       await warmStages();
       // Warm the recreated renderer's steam resources before comparing it.
-      await page.getByRole('button', { name: 'ロウリュ (Löyly)', exact: true }).click();
+      await page.getByRole('button', { name: 'ロウリュ', exact: true }).click();
       await page.waitForTimeout(6500);
       await sample();
       const remaining = 30_000 - (Date.now() - cycleStarted);

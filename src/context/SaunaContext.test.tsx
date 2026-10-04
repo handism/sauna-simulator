@@ -306,12 +306,12 @@ describe('ending a session', () => {
     });
     expect(mockAudioEngine.stopAmbient).toHaveBeenCalledTimes(1);
     expect(result.current.pendingStage).toBe('start');
-    expect(result.current.sessionSummary).toEqual({ sets: 2, seconds: 66 });
+    expect(result.current.sessionSummary).toEqual({ scores: [95, 95], seconds: 66 });
     expect(result.current.isUiHidden).toBe(false);
     const calls = mockAudioEngine.playAmbient.mock.calls.length;
     act(() => vi.advanceTimersByTime(30_000));
     expect(result.current.stage).toBe('start');
-    expect(result.current.sessionSummary).toEqual({ sets: 2, seconds: 66 });
+    expect(result.current.sessionSummary).toEqual({ scores: [95, 95], seconds: 66 });
     expect(mockAudioEngine.playAmbient).toHaveBeenCalledTimes(calls);
     act(() => result.current.dismissSummary());
     expect(result.current.sessionSummary).toBeNull();

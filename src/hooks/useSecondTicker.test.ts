@@ -27,7 +27,7 @@ describe('useSecondTicker', () => {
     });
 
     // The re-render must not reset the phase: the second tick lands at 2000ms
-    expect(result.current.current).toBe(2);
+    expect(result.current).toBe(2);
     expect(first).toHaveBeenCalledTimes(1);
     expect(second).toHaveBeenCalledTimes(1);
   });
@@ -42,6 +42,6 @@ describe('useSecondTicker', () => {
     });
 
     expect(onTick).not.toHaveBeenCalled();
-    expect(result.current.current).toBe(0);
+    expect(result.current).toBe(0);
   });
 });

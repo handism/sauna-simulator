@@ -12,7 +12,7 @@ test('reduced motion stops the 2D stages from pulsing, drifting and flashing', a
 
   // The heart pulse is an inline style; the media rule must still win.
   expect(await animationName(page.locator('.heart-rate-icon'))).toBe('none');
-  await page.getByRole('button', { name: 'ロウリュ (Löyly)' }).click();
+  await page.getByRole('button', { name: 'ロウリュ' }).click();
   // Löyly still counts; only its full-view blur and the particle are not shown.
   await expect(page.locator('.sauna-steam-particle')).toHaveCount(1);
   expect(await display(page.locator('.sauna-steam-particle'))).toBe('none');
@@ -37,6 +37,6 @@ test('without the preference the 2D stages keep their motion', async ({ page }) 
   await page.getByRole('button', { name: '静かに入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   expect(await animationName(page.locator('.heart-rate-icon'))).toBe('breathe');
-  await page.getByRole('button', { name: 'ロウリュ (Löyly)' }).click();
+  await page.getByRole('button', { name: 'ロウリュ' }).click();
   expect(await display(page.locator('.sauna-steam-particle'))).toBe('block');
 });

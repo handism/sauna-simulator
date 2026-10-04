@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { beatSeconds } from '../utils/saunaUtils';
+import { beatSeconds, STAY_TARGET_SECONDS } from '../utils/saunaUtils';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
 import HeartRateRow from './HeartRateRow';
+import StayTimer from './StayTimer';
 import { ActionIcon } from './ActionIcon';
 import type { WaterResult } from '../hooks/useSaunaSession';
 
@@ -46,7 +47,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   }, []);
 
   // 心拍数低下シミュレーション (1秒ごと。滞在時間も数える)
-  const secondsRef = useSecondTicker(() => {
+  const seconds = useSecondTicker(() => {
     setHeartRate((prev) => {
       // 目標心拍数 TARGET_HR bpm に向けてイージングで急低下
       const diff = (COOLING_CONFIG.TARGET_HR - prev) * COOLING_CONFIG.HR_DECAY_FACTOR;
@@ -58,7 +59,7 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
   });
 
   const handleLeave = () => {
-    onNext({ heartRate: Math.round(heartRate), waterTime: secondsRef.current });
+    onNext({ heartRate: Math.round(heartRate), waterTime: seconds });
   };
 
   useKeyboardShortcut(' ', handleLeave, { scope: rootRef });
@@ -81,13 +82,14 @@ const CoolingBath = ({ initialHeartRate, onNext }: CoolingBathProps) => {
         <p>水の音に耳を澄ませて。</p>
       </header>
       <div className="glass-panel stage-dock cooling-panel">
-        <div className="compact-reading">
-          <span>水温</span>
-          <span className="dashboard-value cooling-info-val-temp">{COOLING_CONFIG.WATER_TEMP.toFixed(1)}°C</span>
-        </div>
+        <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.WATER} />
         <details className="stage-details">
           <summary>からだの様子を見る</summary>
           <div className="cooling-info-panel">
+            <div className="stage-info-row">
+              <span className="reading-label">水温</span>
+              <span className="dashboard-value">{COOLING_CONFIG.WATER_TEMP.toFixed(1)}°C</span>
+            </div>
             <HeartRateRow heartRate={heartRate} />
           </div>
           <p className="detail-note">数値は体験内のシミュレーションです。</p>
