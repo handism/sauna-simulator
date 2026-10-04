@@ -1,7 +1,8 @@
 import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 import { patchFrameCost, type FrameCostMode } from './frame-cost';
-import { rendererCaptureStyle } from './scene-capture';
+import { rendererCaptureStyle, settleRenderer } from './scene-capture';
+import { useModelCandidate } from './model-candidate';
 
 // The water stage's seated view turned as scene-survey.visual.ts turns it, without the stage's
 // DOM effects (its pulsing glow would differ between runs), for the Cycles renders of
@@ -25,6 +26,7 @@ test.use({ deviceScaleFactor: Number(process.env.CAPTURE_DPR ?? 1) });
 test('capture the water stage views rendered in Cycles', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  const candidate = await useModelCandidate(page);
   if (CUT) await page.addInitScript(patchFrameCost, CUT);
   // CAPTURE_QUERY adds to the query, e.g. &resolution=fixed to keep dynamic resolution from stepping.
   await page.goto(`?view=3d&frameRate=full${process.env.CAPTURE_QUERY ?? ''}`);
@@ -55,6 +57,7 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
       if (pitch === 'level') await press('ArrowUp', 14);
       // The focus ring of the keyboard look would frame the capture.
       await scene.blur();
+      await settleRenderer(page);
       const file = `stage-water-${lighting}-${heading}-${pitch}.${FORMAT === 'png' ? 'png' : 'jpg'}`;
       await canvas.screenshot({
         path: info.outputPath(file),
@@ -77,8 +80,22 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
       await page.evaluate(() => (window as unknown as { suiShadowSkips?: number }).suiShadowSkips ?? 0),
     ).toBeGreaterThan(0);
   expect(errors).toEqual([]);
+  if (candidate) expect(candidate.requests()).toBe(1);
   await info.attach('stage-compare', {
     contentType: 'application/json',
-    body: JSON.stringify({ cut: CUT ?? null, quality: QUALITY, samples }, null, 2),
+    body: JSON.stringify(
+      {
+        cut: CUT ?? null,
+        quality: QUALITY,
+        samples,
+        bodyCandidate: candidate && {
+          sha256: candidate.sha256,
+          bytes: candidate.bytes,
+          requests: candidate.requests(),
+        },
+      },
+      null,
+      2,
+    ),
   });
 });

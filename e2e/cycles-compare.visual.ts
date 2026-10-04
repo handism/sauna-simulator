@@ -4,7 +4,8 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { patchFrameCost, type FrameCostMode } from './frame-cost';
-import { rendererCaptureStyle } from './scene-capture';
+import { rendererCaptureStyle, settleRenderer } from './scene-capture';
+import { useModelCandidate } from './model-candidate';
 
 type Camera = { render: string; camera: string; lighting: string; position: number[]; target: number[]; fov: number };
 // Written by scripts/blender_camera_reference.py from the source blend.
@@ -35,6 +36,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   const samples: object[] = [];
+  const candidate = await useModelCandidate(page);
   if (CUT) await page.addInitScript(patchFrameCost, CUT);
   for (const views of passes) {
     await page.route('**/sauna.scene.json', async (route) => {
@@ -63,6 +65,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
       for (const lighting of ['day', 'evening', 'night']) {
         await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
+        await settleRenderer(page);
         const camera = views[stage];
         const file = `cycles-${camera.render.replace('.png', '')}-${lighting}.${FORMAT === 'png' ? 'png' : 'jpg'}`;
         await canvas.screenshot({
@@ -94,6 +97,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
       ).toBeGreaterThan(0);
   }
   expect(errors).toEqual([]);
+  if (candidate) expect(candidate.requests()).toBe(2);
   const hashes = Object.fromEntries(
     await Promise.all(
       [
@@ -127,6 +131,11 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
         muted: true,
         cameraReference: reference.input_sha256,
         hashes,
+        bodyCandidate: candidate && {
+          sha256: candidate.sha256,
+          bytes: candidate.bytes,
+          requests: candidate.requests(),
+        },
         errors,
         samples,
         note: 'Same camera position, direction and vertical FOV as the Cycles renders. Lighting, exposure and materials differ; manual review only.',

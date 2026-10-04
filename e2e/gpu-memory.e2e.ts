@@ -1,6 +1,7 @@
 import { gpuMemory, observeGpuMemory, totalBytes, type GpuMemoryContext } from './gpu-memory';
 import { chooseSceneSetting, switchSceneMode } from './settings-controls';
 import { expect, test, type Page } from '@playwright/test';
+import { useModelCandidate } from './model-candidate';
 
 const stages = [
   ['水風呂へ', 'water'],
@@ -23,6 +24,7 @@ test('GPU memory stays the same over stages, qualities and scene regeneration', 
   test.setTimeout(300_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  const candidate = await useModelCandidate(page);
   await page.addInitScript(observeGpuMemory);
   // A fixed pixel ratio: the dynamic resolution resizes the render targets.
   await page.goto('?view=3d&resolution=fixed');
@@ -95,8 +97,22 @@ test('GPU memory stays the same over stages, qualities and scene regeneration', 
     await round(`regenerated ${i + 1}`);
   }
   const all = await gpuMemory(page);
+  if (candidate) expect(candidate.requests()).toBe(4);
   await info.attach('gpu-memory', {
-    body: JSON.stringify({ samples, released, contexts: all }, null, 2),
+    body: JSON.stringify(
+      {
+        samples,
+        released,
+        contexts: all,
+        bodyCandidate: candidate && {
+          sha256: candidate.sha256,
+          bytes: candidate.bytes,
+          requests: candidate.requests(),
+        },
+      },
+      null,
+      2,
+    ),
     contentType: 'application/json',
   });
 
