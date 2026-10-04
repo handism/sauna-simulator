@@ -163,6 +163,49 @@ describe('refraction', () => {
     expect(THREE.ShaderChunk.opaque_fragment).toContain('vSuiWaterPath');
   });
 
+  it('preserves normalized interleaved int8 normals through transformed underwater cuts', () => {
+    const reference = wall();
+    // A varying smooth normal field, including negative components; padding is not a component.
+    const packed = new Int8Array([100, 60, -50, 17, 80, -85, -50, 17, 85, -70, 65, 17, 105, 40, 60, 17]);
+    const compact = new THREE.InterleavedBufferAttribute(new THREE.InterleavedBuffer(packed, 4), 3, 0, true);
+    const float = new THREE.Float32BufferAttribute(new Float32Array(12), 3);
+    for (let i = 0; i < 4; i++) for (let c = 0; c < 3; c++) float.setComponent(i, c, compact.getComponent(i, c));
+    reference.setAttribute('normal', float);
+    reference.addGroup(0, 3, 0);
+    reference.addGroup(3, 3, 1);
+    const candidate = reference.clone();
+    candidate.setAttribute('normal', compact);
+    const matrix = new THREE.Matrix4().compose(
+      new THREE.Vector3(0.1, 0.03, 0),
+      new THREE.Quaternion(),
+      new THREE.Vector3(1, 0.95, 1.1),
+    );
+    const cut = sliceUnderwater(reference, matrix, LEVEL);
+    expect(cut.triangles).toBeGreaterThan(0);
+    expect(sliceUnderwater(candidate, matrix, LEVEL)).toEqual(cut);
+    expect(candidate.groups).toEqual(reference.groups);
+    expect(candidate.index!.array).toEqual(reference.index!.array);
+    for (const name of ['position', 'uv'])
+      expect(candidate.getAttribute(name).array).toEqual(reference.getAttribute(name).array);
+    const normal = candidate.getAttribute('normal') as THREE.BufferAttribute;
+    expect(normal.array).toBeInstanceOf(Int8Array);
+    expect(normal.normalized).toBe(true);
+    expect(normal.itemSize).toBe(3);
+    expect(normal.count).toBe(candidate.getAttribute('position').count);
+    // Original components survive exactly; newly interpolated normals are requantized once.
+    for (let i = 0; i < 4; i++)
+      for (let c = 0; c < 3; c++) expect(normal.getComponent(i, c)).toBe(compact.getComponent(i, c));
+    for (let i = 4; i < normal.count; i++) {
+      const actual = new THREE.Vector3().fromBufferAttribute(normal, i);
+      const expected = new THREE.Vector3().fromBufferAttribute(reference.getAttribute('normal'), i);
+      expect(Math.abs(actual.length() - 1)).toBeLessThan(0.007);
+      expect(THREE.MathUtils.radToDeg(actual.angleTo(expected))).toBeLessThan(0.5);
+    }
+    expect(packed).toEqual(new Int8Array([100, 60, -50, 17, 80, -85, -50, 17, 85, -70, 65, 17, 105, 40, 60, 17]));
+    candidate.dispose();
+    reference.dispose();
+  });
+
   it('tints the view through the water as the source surface and volume do', () => {
     // Surface only: the Base Color of the transmissive source water.
     expect(waterTransmittance(0)).toEqual([0.93, 0.985, 0.975]);

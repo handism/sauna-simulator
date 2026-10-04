@@ -22,4 +22,23 @@ POSITION・UVもfloat32、COLOR_0は正規化uint16だった。位置の量子�
 node scripts/diagnose_glb_attributes.mjs docs/3d-qa/body-attributes/values.json
 ```
 
-[値](values.json)。候補の採用は保留し、次は法線8bit化の水中分割回帰・画像比較を行う。
+[値](values.json)。
+
+## 水中分割の回帰（2026-10-05）
+
+`diagnose_body_normal_slice.mjs` は配信中の本体の74プリミティブを全復号し、元のfloat32法線と、庭と同じ8bit oct圧縮・復号の候補を、製品の `sliceUnderwater` に通す。ノード階層のワールド変換と水面高さ0.765mを使う。候補はGLTFLoaderと同じ正規化int8・ストライド4のinterleaved属性にする。`prepareModel` が隠す旧水形状は分割しない。GLBと製品コードは変更しない。
+
+- 分割対象は3プリミティブ。追加頂点16,700・追加三角形8,350、材質判定・インデックス・グループ・位置・UV・色は候補と元で完全一致した。
+- 元頂点の法線の最大角度誤差1.21633°、追加頂点は0.53170°。元のint8型とnormalized設定は維持され、補間後の成分を再量子化した法線の長さの誤差は最大0.00601未満だった。
+- **ワールド変換後の最大角度誤差は1.60442°**。非一様スケールの `Glass condensation bead` がローカルの1.01819°を拡大する。ローカルの1.5°以内という検査だけでは、照明が使うワールド法線まで1.5°以内とは言えない。これは分割対象外の結露の粒で、画像への影響は未確認。
+- 分割後の各プリミティブの法線配列のバイト数の和は2,048,220→617,843（差1,430,377、約1.36MiB）。未分割の候補は4バイト/頂点、分割後は3バイト/頂点。旧水形状もこの和に含む。GPUの確保・共有・側面の鏡映像・ドライバーのコピーを計測した値ではない。
+- `refraction.test.ts` に、負の成分と変化する法線を持つinterleaved int8属性・非一様スケール・複数材質の分割回帰を追加。元頂点の保持、追加頂点の方向と長さ、形状・UV・グループの一致、元の配列が変わらないことを検査する。
+
+再実行（Bunで製品のTypeScriptを直接読む）：
+
+```sh
+bun scripts/diagnose_body_normal_slice.mjs docs/3d-qa/body-attributes/slice.json
+bun run test src/components/3d/refraction.test.ts
+```
+
+[分割の値](slice.json) は入力・シーン定義・スクリプト・分割実装のSHA-256を記録し、同じ実行を2回行ってJSON全体が一致した。候補の採用は保留。次は結露の粒を含む画像比較（屈折・水面境界・影も確認）とGPUメモリ実測。数値の誤差検査は画質の合格判定ではない。
