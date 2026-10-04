@@ -5,6 +5,9 @@
 // indices, colors and images stay byte-exact. `--lossless` skips the filters.
 // `--garden path` moves the GARDEN nodes into a second GLB that the browser loads after the
 // scene is ready (SaunaScene.tsx): they are most of the bytes and none of the architecture.
+// Its normals become 8-bit octahedral (KHR_mesh_quantization: normalized int8, stride 4), which
+// keeps a third of their GPU memory; only GPU code reads them (refraction.ts rebuilds attributes
+// as typed arrays, but nothing of the garden reaches the water).
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -15,6 +18,9 @@ const EXTENSION = 'KHR_meshopt_compression';
 const VERSION = 1;
 // World metres for positions, degrees for normals, UV units (1/8192: 1/8 texel at 1024 px).
 const TOLERANCE = { POSITION: 1e-4, NORMAL: 0.1, TEXCOORD_0: 1 / 8192, TEXCOORD_1: 1 / 8192 };
+// Degrees for the garden's 8-bit octahedral normals (measured 1.23 at most).
+const OCT_TOLERANCE = 1.5;
+const QUANTIZATION = 'KHR_mesh_quantization';
 // Normals are unit vectors: one exponent per vector. Positions/UVs: one per component.
 const EXP_MODE = {
   POSITION: 'SharedComponent',
@@ -150,7 +156,8 @@ function subset(keep) {
 }
 
 // Compresses one model; its bufferViews index `binary`. Returns the GLB and its checks.
-function compress(model, binary) {
+// `octNormals` stores lossy NORMALs as 8-bit octahedral int8 (see the top).
+function compress(model, binary, octNormals = false) {
   // Which attribute each accessor holds, and the largest world scale it is drawn at.
   const semantics = new Map();
   const worldScale = new Map();
@@ -259,8 +266,38 @@ function compress(model, binary) {
     assert.deepEqual(Buffer.from(exact.decoded), bytes, `Round-trip mismatch in view ${index}`);
     let compressed = exact.compressed;
     let filter = 'NONE';
+    let outputStride = stride;
     const tolerance = TOLERANCE[semantic];
-    if (!lossless && tolerance !== undefined) {
+    if (!lossless && octNormals && semantic === 'NORMAL') {
+      assert.equal(accessor.componentType, 5126);
+      assert.equal(accessor.type, 'VEC3');
+      const original = new Float32Array(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.length));
+      const padded = new Float32Array(accessor.count * 4);
+      for (let i = 0; i < accessor.count; i++) padded.set(original.subarray(i * 3, i * 3 + 3), i * 4);
+      const filtered = MeshoptEncoder.encodeFilterOct(padded, accessor.count, 4, 8);
+      compressed = MeshoptEncoder.encodeGltfBuffer(filtered, accessor.count, 4, mode, VERSION);
+      const decoded = new Int8Array(accessor.count * 4);
+      MeshoptDecoder.decodeGltfBuffer(
+        new Uint8Array(decoded.buffer),
+        accessor.count,
+        4,
+        compressed,
+        mode,
+        'OCTAHEDRAL',
+      );
+      const restored = new Float32Array(accessor.count * 3);
+      for (let i = 0; i < accessor.count; i++)
+        for (let c = 0; c < 3; c++) restored[i * 3 + c] = Math.max(decoded[i * 4 + c] / 127, -1);
+      const measured = error(semantic, original, restored, accessor.count, 1);
+      assert(measured <= OCT_TOLERANCE, `Octahedral normal error ${measured} in view ${index}`);
+      filter = 'OCTAHEDRAL';
+      outputStride = 4;
+      accessor.componentType = 5120;
+      accessor.normalized = true;
+      view.byteStride = 4;
+      verification.octNormals = (verification.octNormals ?? 0) + 1;
+      verification.maxError.OCT_NORMAL = Math.max(verification.maxError.OCT_NORMAL ?? 0, measured);
+    } else if (!lossless && tolerance !== undefined) {
       assert.equal(accessor.componentType, 5126);
       const original = new Float32Array(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.length));
       for (let bits = 8; bits <= 23; bits++) {
@@ -298,14 +335,15 @@ function compress(model, binary) {
     else verification.filteredViews++;
     view.buffer = 1;
     view.byteOffset = fallbackLength;
-    fallbackLength += bytes.length;
+    view.byteLength = outputStride * accessor.count;
+    fallbackLength += view.byteLength;
     fallbackLength = Math.ceil(fallbackLength / 4) * 4;
     view.extensions = {
       [EXTENSION]: {
         buffer: 0,
         byteOffset: append(Buffer.from(compressed)),
         byteLength: compressed.length,
-        byteStride: stride,
+        byteStride: outputStride,
         count: accessor.count,
         mode,
         filter,
@@ -314,7 +352,8 @@ function compress(model, binary) {
     verification.compressedViews++;
   }
   model.buffers = [{ byteLength }, { byteLength: fallbackLength, extensions: { [EXTENSION]: { fallback: true } } }];
-  for (const key of ['extensionsUsed', 'extensionsRequired']) model[key] = [...(model[key] ?? []), EXTENSION];
+  const required = verification.octNormals ? [EXTENSION, QUANTIZATION] : [EXTENSION];
+  for (const key of ['extensionsUsed', 'extensionsRequired']) model[key] = [...(model[key] ?? []), ...required];
   let json = Buffer.from(JSON.stringify(model));
   json = Buffer.concat([json, Buffer.alloc((4 - (json.length % 4)) % 4, 32)]);
   const header = Buffer.alloc(20);
@@ -338,7 +377,7 @@ if (gardenPath) {
 }
 const files = {};
 for (const [path, part] of outputs) {
-  const { result, verification } = compress(part.model, part.binary);
+  const { result, verification } = compress(part.model, part.binary, path === gardenPath);
   writeFileSync(path, result);
   files[path.split('/').pop()] = {
     outputBytes: result.length,
@@ -358,7 +397,14 @@ writeFileSync(
       codec: 'meshoptimizer 1.1.1',
       extension: EXTENSION,
       version: VERSION,
-      filter: lossless ? null : { name: 'EXPONENTIAL', mode: EXP_MODE, tolerance: TOLERANCE },
+      filter: lossless
+        ? null
+        : {
+            name: 'EXPONENTIAL',
+            mode: EXP_MODE,
+            tolerance: TOLERANCE,
+            gardenNormals: gardenPath && { name: 'OCTAHEDRAL', bits: 8, tolerance: OCT_TOLERANCE },
+          },
       inputBytes: source.length,
       inputSha256: hash(source),
       files,

@@ -10407,6 +10407,11 @@
         "NORMAL": 0.1,
         "TEXCOORD_0": 0.0001220703125,
         "TEXCOORD_1": 0.0001220703125
+      },
+      "gardenNormals": {
+        "name": "OCTAHEDRAL",
+        "bits": 8,
+        "tolerance": 1.5
       }
     },
     "inputBytes": 29442072,
@@ -10458,8 +10463,8 @@
         }
       },
       "sauna-garden.glb": {
-        "outputBytes": 7117228,
-        "outputSha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+        "outputBytes": 5979340,
+        "outputSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
         "nodes": 7,
         "triangles": 445504,
         "verification": {
@@ -10473,31 +10478,39 @@
               "19": 7,
               "20": 6
             },
-            "NORMAL": {
-              "10": 16
-            },
             "TEXCOORD_0": {
               "8": 5
             }
           },
           "maxError": {
             "POSITION": 9.123927337132629e-05,
-            "NORMAL": 0.09489338891534714,
+            "OCT_NORMAL": 1.159396564562088,
             "TEXCOORD_0": 0
-          }
+          },
+          "octNormals": 16
         }
+      }
+    },
+    "gardenReexport": {
+      "note": "2026-10-04: only sauna-garden.glb was replaced. Blender re-exported SUI_Retreat_v11.blend (sha256 edf3c35b…, the recorded input) to a scratch directory with the current scripts, whose compression stores the garden's normals as 8-bit octahedral int8 (KHR_mesh_quantization). That export's sauna.glb differs from the served one (Thermometer numerals gains TEXCOORD_1, image bytes differ) and was not adopted; sauna.glb and its entry in files are unchanged from the 2026-09-27 recompression.",
+      "inputBytes": 29458904,
+      "inputSha256": "13b026bac08af930058c244b94e68f1755601d994d5adc375b10c33f3bd72b98",
+      "previousGarden": {
+        "outputBytes": 7117228,
+        "outputSha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5"
       }
     }
   },
   "output_bytes": 2725640,
   "output_sha256": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
-  "garden_output_bytes": 7117228,
-  "garden_output_sha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5",
+  "garden_output_bytes": 5979340,
+  "garden_output_sha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
   "scene_definition_sha256": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
   "recompressed": {
     "date": "2026-09-27",
     "method": "The previous lossless GLB (sha256 15dcb2da…, git bde1708^) was decoded back to the uncompressed export and compressed with scripts/compress_web_glb.mjs --garden; without --garden the same input reproduces the previous single GLB (sha256 64eb0d1a…) byte for byte. Its JSON chunk differs from the Blender output by whitespace/key layout only, so compression.inputSha256 differs from the original export. Blender was not rerun.",
     "previous_output_sha256": "64eb0d1a60d3080127f8f572e1c273af11f0af33732b30d7209ceefdcf4fdd55",
     "previous_output_bytes": 9842672
-  }
+  },
+  "garden_reexport": "2026-10-04: only sauna-garden.glb was replaced. Blender re-exported SUI_Retreat_v11.blend (sha256 edf3c35b…, the recorded input) to a scratch directory with the current scripts, whose compression stores the garden's normals as 8-bit octahedral int8 (KHR_mesh_quantization). That export's sauna.glb differs from the served one (Thermometer numerals gains TEXCOORD_1, image bytes differ) and was not adopted; sauna.glb and its entry in files are unchanged from the 2026-09-27 recompression."
 }

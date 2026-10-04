@@ -1,0 +1,573 @@
+{
+ "conditions": "gpu-memory.e2e.ts (Chrome headless, ANGLE Metal, macOS, 1280x800, DPR1, ?resolution=fixed); images: cycles-compare.visual.ts + stage-compare.visual.ts, standard quality, CAPTURE_PNG=1 CAPTURE_DPR=1.5 CAPTURE_QUERY=&resolution=fixed, alternating after-1, before-1, before-2, after-2",
+ "garden": {
+  "before": {
+   "bytes": 7117228,
+   "sha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5"
+  },
+  "after": {
+   "bytes": 5979340,
+   "sha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d"
+  },
+  "octNormalMaxErrorDeg": 1.159396564562088
+ },
+ "memory": {
+  "note": "every lap and regeneration gave the same values per stage and quality",
+  "before": {
+   "water/low": {
+    "bufferMiB": 28.32,
+    "textureMiB": 45.67,
+    "renderbufferMiB": 51.78,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 129.68
+   },
+   "totonou/low": {
+    "bufferMiB": 28.32,
+    "textureMiB": 45.67,
+    "renderbufferMiB": 51.78,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 129.68
+   },
+   "sauna/low": {
+    "bufferMiB": 28.32,
+    "textureMiB": 45.67,
+    "renderbufferMiB": 51.78,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 129.68
+   },
+   "water/high": {
+    "bufferMiB": 28.32,
+    "textureMiB": 210.44,
+    "renderbufferMiB": 79.46,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 322.13
+   },
+   "totonou/high": {
+    "bufferMiB": 28.32,
+    "textureMiB": 210.44,
+    "renderbufferMiB": 79.46,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 322.13
+   },
+   "sauna/high": {
+    "bufferMiB": 28.32,
+    "textureMiB": 209.37,
+    "renderbufferMiB": 79.19,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 320.79
+   },
+   "water/standard": {
+    "bufferMiB": 28.32,
+    "textureMiB": 98.51,
+    "renderbufferMiB": 58.68,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 189.42
+   },
+   "totonou/standard": {
+    "bufferMiB": 28.32,
+    "textureMiB": 98.51,
+    "renderbufferMiB": 58.68,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 189.42
+   },
+   "sauna/standard": {
+    "bufferMiB": 28.32,
+    "textureMiB": 98.24,
+    "renderbufferMiB": 58.62,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 189.09
+   }
+  },
+  "after": {
+   "water/low": {
+    "bufferMiB": 22.92,
+    "textureMiB": 45.67,
+    "renderbufferMiB": 51.78,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 124.27
+   },
+   "totonou/low": {
+    "bufferMiB": 22.92,
+    "textureMiB": 45.67,
+    "renderbufferMiB": 51.78,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 124.27
+   },
+   "sauna/low": {
+    "bufferMiB": 22.92,
+    "textureMiB": 45.67,
+    "renderbufferMiB": 51.78,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 124.27
+   },
+   "water/high": {
+    "bufferMiB": 22.92,
+    "textureMiB": 210.44,
+    "renderbufferMiB": 79.46,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 316.72
+   },
+   "totonou/high": {
+    "bufferMiB": 22.92,
+    "textureMiB": 210.44,
+    "renderbufferMiB": 79.46,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 316.72
+   },
+   "sauna/high": {
+    "bufferMiB": 22.92,
+    "textureMiB": 209.37,
+    "renderbufferMiB": 79.19,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 315.38
+   },
+   "water/standard": {
+    "bufferMiB": 22.92,
+    "textureMiB": 98.51,
+    "renderbufferMiB": 58.68,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 184.01
+   },
+   "totonou/standard": {
+    "bufferMiB": 22.92,
+    "textureMiB": 98.51,
+    "renderbufferMiB": 58.68,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 184.01
+   },
+   "sauna/standard": {
+    "bufferMiB": 22.92,
+    "textureMiB": 98.24,
+    "renderbufferMiB": 58.62,
+    "drawingBufferMiB": 3.91,
+    "totalMiB": 183.68
+   }
+  }
+ },
+ "imageDeltaE76": {
+  "beforeVsAfter_run1": {
+   "cycles-01-day.png": {
+    "mean": 0.0762,
+    "gt2": 0.038,
+    "gt5": 0.014,
+    "max": 28.7,
+    "identical": false
+   },
+   "cycles-01-evening.png": {
+    "mean": 0.0488,
+    "gt2": 0.01,
+    "gt5": 0.004,
+    "max": 25.5,
+    "identical": false
+   },
+   "cycles-01-night.png": {
+    "mean": 0.0274,
+    "gt2": 0.014,
+    "gt5": 0.004,
+    "max": 30.9,
+    "identical": false
+   },
+   "cycles-02-day.png": {
+    "mean": 0.0065,
+    "gt2": 0.002,
+    "gt5": 0.001,
+    "max": 25.7,
+    "identical": false
+   },
+   "cycles-02-evening.png": {
+    "mean": 0.0043,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.6,
+    "identical": false
+   },
+   "cycles-02-night.png": {
+    "mean": 0.0028,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 2.7,
+    "identical": false
+   },
+   "cycles-03-day.png": {
+    "mean": 0.001,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 11.9,
+    "identical": false
+   },
+   "cycles-03-evening.png": {
+    "mean": 0.0009,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.5,
+    "identical": false
+   },
+   "cycles-03-night.png": {
+    "mean": 0.0009,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.2,
+    "identical": false
+   },
+   "cycles-04-day.png": {
+    "mean": 0.0042,
+    "gt2": 0.003,
+    "gt5": 0.001,
+    "max": 28.6,
+    "identical": false
+   },
+   "cycles-04-evening.png": {
+    "mean": 0.003,
+    "gt2": 0.002,
+    "gt5": 0.001,
+    "max": 13.2,
+    "identical": false
+   },
+   "cycles-04-night.png": {
+    "mean": 0.0022,
+    "gt2": 0.001,
+    "gt5": 0.0,
+    "max": 10.2,
+    "identical": false
+   },
+   "cycles-05-day.png": {
+    "mean": 0.0696,
+    "gt2": 0.034,
+    "gt5": 0.014,
+    "max": 33.2,
+    "identical": false
+   },
+   "cycles-05-evening.png": {
+    "mean": 0.0488,
+    "gt2": 0.012,
+    "gt5": 0.002,
+    "max": 17.7,
+    "identical": false
+   },
+   "cycles-05-night.png": {
+    "mean": 0.0301,
+    "gt2": 0.022,
+    "gt5": 0.003,
+    "max": 25.2,
+    "identical": false
+   },
+   "cycles-07-day.png": {
+    "mean": 0.0287,
+    "gt2": 0.008,
+    "gt5": 0.002,
+    "max": 14.9,
+    "identical": false
+   },
+   "cycles-07-evening.png": {
+    "mean": 0.024,
+    "gt2": 0.012,
+    "gt5": 0.003,
+    "max": 29.6,
+    "identical": false
+   },
+   "cycles-07-night.png": {
+    "mean": 0.0149,
+    "gt2": 0.021,
+    "gt5": 0.005,
+    "max": 38.8,
+    "identical": false
+   },
+   "stage-water-day-0-level.png": {
+    "mean": 0.0135,
+    "gt2": 0.005,
+    "gt5": 0.002,
+    "max": 18.9,
+    "identical": false
+   },
+   "stage-water-day-1-down.png": {
+    "mean": 0.0001,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 0.9,
+    "identical": false
+   },
+   "stage-water-day-2-level.png": {
+    "mean": 0.0017,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.2,
+    "identical": false
+   },
+   "stage-water-day-4-level.png": {
+    "mean": 0.0035,
+    "gt2": 0.003,
+    "gt5": 0.001,
+    "max": 25.1,
+    "identical": false
+   },
+   "stage-water-evening-0-level.png": {
+    "mean": 0.0113,
+    "gt2": 0.006,
+    "gt5": 0.002,
+    "max": 40.7,
+    "identical": false
+   },
+   "stage-water-evening-1-down.png": {
+    "mean": 0.0001,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.5,
+    "identical": false
+   },
+   "stage-water-evening-2-level.png": {
+    "mean": 0.0011,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.6,
+    "identical": false
+   },
+   "stage-water-evening-4-level.png": {
+    "mean": 0.0027,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 2.4,
+    "identical": false
+   },
+   "stage-water-night-0-level.png": {
+    "mean": 0.0064,
+    "gt2": 0.009,
+    "gt5": 0.004,
+    "max": 49.3,
+    "identical": false
+   },
+   "stage-water-night-1-down.png": {
+    "mean": 0.0,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.5,
+    "identical": false
+   },
+   "stage-water-night-2-level.png": {
+    "mean": 0.0005,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.0,
+    "identical": false
+   },
+   "stage-water-night-4-level.png": {
+    "mean": 0.0022,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 2.9,
+    "identical": false
+   }
+  },
+  "beforeVsAfter_run2": {
+   "cycles-01-day.png": {
+    "mean": 0.0762,
+    "gt2": 0.038,
+    "gt5": 0.014,
+    "max": 28.7,
+    "identical": false
+   },
+   "cycles-01-evening.png": {
+    "mean": 0.0488,
+    "gt2": 0.01,
+    "gt5": 0.004,
+    "max": 25.5,
+    "identical": false
+   },
+   "cycles-01-night.png": {
+    "mean": 0.0274,
+    "gt2": 0.014,
+    "gt5": 0.004,
+    "max": 30.9,
+    "identical": false
+   },
+   "cycles-02-day.png": {
+    "mean": 0.0065,
+    "gt2": 0.002,
+    "gt5": 0.001,
+    "max": 25.7,
+    "identical": false
+   },
+   "cycles-02-evening.png": {
+    "mean": 0.0043,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.6,
+    "identical": false
+   },
+   "cycles-02-night.png": {
+    "mean": 0.0028,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 2.7,
+    "identical": false
+   },
+   "cycles-03-day.png": {
+    "mean": 0.001,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 11.9,
+    "identical": false
+   },
+   "cycles-03-evening.png": {
+    "mean": 0.0009,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.5,
+    "identical": false
+   },
+   "cycles-03-night.png": {
+    "mean": 0.0009,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.2,
+    "identical": false
+   },
+   "cycles-04-day.png": {
+    "mean": 0.0042,
+    "gt2": 0.003,
+    "gt5": 0.001,
+    "max": 28.6,
+    "identical": false
+   },
+   "cycles-04-evening.png": {
+    "mean": 0.003,
+    "gt2": 0.002,
+    "gt5": 0.001,
+    "max": 13.2,
+    "identical": false
+   },
+   "cycles-04-night.png": {
+    "mean": 0.0022,
+    "gt2": 0.001,
+    "gt5": 0.0,
+    "max": 10.2,
+    "identical": false
+   },
+   "cycles-05-day.png": {
+    "mean": 0.0696,
+    "gt2": 0.034,
+    "gt5": 0.014,
+    "max": 33.2,
+    "identical": false
+   },
+   "cycles-05-evening.png": {
+    "mean": 0.0488,
+    "gt2": 0.012,
+    "gt5": 0.002,
+    "max": 17.7,
+    "identical": false
+   },
+   "cycles-05-night.png": {
+    "mean": 0.0301,
+    "gt2": 0.022,
+    "gt5": 0.003,
+    "max": 25.2,
+    "identical": false
+   },
+   "cycles-07-day.png": {
+    "mean": 0.0287,
+    "gt2": 0.008,
+    "gt5": 0.002,
+    "max": 14.9,
+    "identical": false
+   },
+   "cycles-07-evening.png": {
+    "mean": 0.024,
+    "gt2": 0.012,
+    "gt5": 0.003,
+    "max": 29.6,
+    "identical": false
+   },
+   "cycles-07-night.png": {
+    "mean": 0.0149,
+    "gt2": 0.021,
+    "gt5": 0.005,
+    "max": 38.8,
+    "identical": false
+   },
+   "stage-water-day-0-level.png": {
+    "mean": 0.0135,
+    "gt2": 0.005,
+    "gt5": 0.002,
+    "max": 18.9,
+    "identical": false
+   },
+   "stage-water-day-1-down.png": {
+    "mean": 0.0001,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 0.9,
+    "identical": false
+   },
+   "stage-water-day-2-level.png": {
+    "mean": 0.0017,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.2,
+    "identical": false
+   },
+   "stage-water-day-4-level.png": {
+    "mean": 0.0035,
+    "gt2": 0.003,
+    "gt5": 0.001,
+    "max": 25.1,
+    "identical": false
+   },
+   "stage-water-evening-0-level.png": {
+    "mean": 0.0113,
+    "gt2": 0.006,
+    "gt5": 0.002,
+    "max": 40.7,
+    "identical": false
+   },
+   "stage-water-evening-1-down.png": {
+    "mean": 0.0001,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.5,
+    "identical": false
+   },
+   "stage-water-evening-2-level.png": {
+    "mean": 0.0011,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.6,
+    "identical": false
+   },
+   "stage-water-evening-4-level.png": {
+    "mean": 0.0027,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 2.4,
+    "identical": false
+   },
+   "stage-water-night-0-level.png": {
+    "mean": 0.0064,
+    "gt2": 0.009,
+    "gt5": 0.004,
+    "max": 49.3,
+    "identical": false
+   },
+   "stage-water-night-1-down.png": {
+    "mean": 0.0,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.5,
+    "identical": false
+   },
+   "stage-water-night-2-level.png": {
+    "mean": 0.0005,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 1.0,
+    "identical": false
+   },
+   "stage-water-night-4-level.png": {
+    "mean": 0.0022,
+    "gt2": 0.0,
+    "gt5": 0.0,
+    "max": 2.9,
+    "identical": false
+   }
+  }
+ }
+}
