@@ -1,0 +1,1928 @@
+{
+ "conditions": "Chrome (Playwright, headless), ANGLE Metal, macOS, 1280x800, DPR 1, ?resolution=fixed, 2026-10-04",
+ "note": "Estimated from WebGL allocation calls (e2e/gpu-memory.ts); not driver-reported. Before: HEAD a3d7ad5 with the same test (it failed only on the released contexts, which were not lost). After: the R8 shadow color, the canvas without multisampling or depth, and forceContextLoss on dispose.",
+ "before": {
+  "samples": {
+   "water/low": {
+    "bytes": {
+     "texture": 47884308,
+     "buffer": 29700792,
+     "renderbuffer": 54295760
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 168744860,
+    "objects": {
+     "texture": 21,
+     "buffer": 387,
+     "renderbuffer": 5
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 4096000,
+      "allocations": [
+       "texImage2D 640x400 0x8814"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 4096000,
+      "allocations": [
+       "1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 1024000,
+      "allocations": [
+       "640x400 0x81a6"
+      ]
+     }
+    ]
+   },
+   "totonou/low": {
+    "bytes": {
+     "texture": 47884308,
+     "buffer": 29700792,
+     "renderbuffer": 54295760
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 168744860,
+    "objects": {
+     "texture": 21,
+     "buffer": 387,
+     "renderbuffer": 5
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 4096000,
+      "allocations": [
+       "texImage2D 640x400 0x8814"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 4096000,
+      "allocations": [
+       "1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 1024000,
+      "allocations": [
+       "640x400 0x81a6"
+      ]
+     }
+    ]
+   },
+   "sauna/low": {
+    "bytes": {
+     "texture": 47884308,
+     "buffer": 29700792,
+     "renderbuffer": 54295760
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 168744860,
+    "objects": {
+     "texture": 21,
+     "buffer": 387,
+     "renderbuffer": 5
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 4096000,
+      "allocations": [
+       "texImage2D 640x400 0x8814"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 4096000,
+      "allocations": [
+       "1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 1024000,
+      "allocations": [
+       "640x400 0x81a6"
+      ]
+     }
+    ]
+   },
+   "water/high": {
+    "bytes": {
+     "texture": 308741332,
+     "buffer": 29700792,
+     "renderbuffer": 107893760
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 483199884,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     }
+    ]
+   },
+   "totonou/high": {
+    "bytes": {
+     "texture": 308741332,
+     "buffer": 29700792,
+     "renderbuffer": 107893760
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 483199884,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     }
+    ]
+   },
+   "sauna/high": {
+    "bytes": {
+     "texture": 307620740,
+     "buffer": 29700792,
+     "renderbuffer": 107613612
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 481799144,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texImage2D 2048x2048 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     }
+    ]
+   },
+   "water/standard": {
+    "bytes": {
+     "texture": 125315284,
+     "buffer": 29700792,
+     "renderbuffer": 67677440
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 259557516,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 8192000,
+      "allocations": [
+       "4 samples 640x400 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     }
+    ]
+   },
+   "totonou/standard": {
+    "bytes": {
+     "texture": 125315284,
+     "buffer": 29700792,
+     "renderbuffer": 67677440
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 259557516,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 8192000,
+      "allocations": [
+       "4 samples 640x400 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     }
+    ]
+   },
+   "sauna/standard": {
+    "bytes": {
+     "texture": 125036564,
+     "buffer": 29700792,
+     "renderbuffer": 67607760
+    },
+    "drawingBufferBytes": 36864000,
+    "totalBytes": 259209116,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 8192000,
+      "allocations": [
+       "4 samples 640x400 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     }
+    ]
+   }
+  },
+  "distinctTotalsPerKey": {
+   "water/low": 1,
+   "totonou/low": 1,
+   "sauna/low": 1,
+   "water/high": 1,
+   "totonou/high": 1,
+   "sauna/high": 1,
+   "water/standard": 1,
+   "totonou/standard": 1,
+   "sauna/standard": 1
+  },
+  "released": [
+   {
+    "id": 0,
+    "lost": false,
+    "bytes": {
+     "texture": 1060,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "objects": {
+     "texture": 5,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "drawingBufferBytes": 36864000
+   },
+   {
+    "id": 1,
+    "lost": false,
+    "bytes": {
+     "texture": 1060,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "objects": {
+     "texture": 5,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "drawingBufferBytes": 36864000
+   },
+   {
+    "id": 2,
+    "lost": false,
+    "bytes": {
+     "texture": 1060,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "objects": {
+     "texture": 5,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "drawingBufferBytes": 36864000
+   }
+  ]
+ },
+ "after": {
+  "samples": {
+   "water/low": {
+    "bytes": {
+     "texture": 47884308,
+     "buffer": 29700792,
+     "renderbuffer": 54295760
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 135976860,
+    "objects": {
+     "texture": 21,
+     "buffer": 387,
+     "renderbuffer": 5
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 4096000,
+      "allocations": [
+       "texImage2D 640x400 0x8814"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 4096000,
+      "allocations": [
+       "1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 1024000,
+      "allocations": [
+       "640x400 0x81a6"
+      ]
+     }
+    ]
+   },
+   "totonou/low": {
+    "bytes": {
+     "texture": 47884308,
+     "buffer": 29700792,
+     "renderbuffer": 54295760
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 135976860,
+    "objects": {
+     "texture": 21,
+     "buffer": 387,
+     "renderbuffer": 5
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 4096000,
+      "allocations": [
+       "texImage2D 640x400 0x8814"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 4096000,
+      "allocations": [
+       "1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 1024000,
+      "allocations": [
+       "640x400 0x81a6"
+      ]
+     }
+    ]
+   },
+   "sauna/low": {
+    "bytes": {
+     "texture": 47884308,
+     "buffer": 29700792,
+     "renderbuffer": 54295760
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 135976860,
+    "objects": {
+     "texture": 21,
+     "buffer": 387,
+     "renderbuffer": 5
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 4096000,
+      "allocations": [
+       "texImage2D 640x400 0x8814"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 4096000,
+      "allocations": [
+       "1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 1024000,
+      "allocations": [
+       "640x400 0x81a6"
+      ]
+     }
+    ]
+   },
+   "water/high": {
+    "bytes": {
+     "texture": 220660948,
+     "buffer": 29700792,
+     "renderbuffer": 107893760
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 362351500,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     }
+    ]
+   },
+   "totonou/high": {
+    "bytes": {
+     "texture": 220660948,
+     "buffer": 29700792,
+     "renderbuffer": 107893760
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 362351500,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     }
+    ]
+   },
+   "sauna/high": {
+    "bytes": {
+     "texture": 219540356,
+     "buffer": 29700792,
+     "renderbuffer": 107613612
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 360950760,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 16777216,
+      "allocations": [
+       "texStorage2D 1x2048x2048 1 levels 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     }
+    ]
+   },
+   "water/standard": {
+    "bytes": {
+     "texture": 103295188,
+     "buffer": 29700792,
+     "renderbuffer": 67677440
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 204769420,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 8192000,
+      "allocations": [
+       "4 samples 640x400 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     }
+    ]
+   },
+   "totonou/standard": {
+    "bytes": {
+     "texture": 103295188,
+     "buffer": 29700792,
+     "renderbuffer": 67677440
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 204769420,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 8192000,
+      "allocations": [
+       "4 samples 640x400 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     }
+    ]
+   },
+   "sauna/standard": {
+    "bytes": {
+     "texture": 103016468,
+     "buffer": 29700792,
+     "renderbuffer": 67607760
+    },
+    "drawingBufferBytes": 4096000,
+    "totalBytes": 204421020,
+    "objects": {
+     "texture": 38,
+     "buffer": 387,
+     "renderbuffer": 8
+    },
+    "largest": [
+     {
+      "kind": "renderbuffer",
+      "bytes": 32768000,
+      "allocations": [
+       "4 samples 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 16384000,
+      "allocations": [
+       "4 samples 1280x800 0x81a6"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 8192000,
+      "allocations": [
+       "texImage2D 1280x800 0x881a"
+      ]
+     },
+     {
+      "kind": "renderbuffer",
+      "bytes": 8192000,
+      "allocations": [
+       "4 samples 640x400 0x881a"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8c43"
+      ]
+     },
+     {
+      "kind": "texture",
+      "bytes": 5592404,
+      "allocations": [
+       "texStorage2D 1x1024x1024 11 levels 0x8058"
+      ]
+     }
+    ]
+   }
+  },
+  "distinctTotalsPerKey": {
+   "water/low": 1,
+   "totonou/low": 1,
+   "sauna/low": 1,
+   "water/high": 1,
+   "totonou/high": 1,
+   "sauna/high": 1,
+   "water/standard": 1,
+   "totonou/standard": 1,
+   "sauna/standard": 1
+  },
+  "released": [
+   {
+    "id": 0,
+    "lost": true,
+    "bytes": {
+     "texture": 1060,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "objects": {
+     "texture": 5,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "drawingBufferBytes": 0
+   },
+   {
+    "id": 1,
+    "lost": true,
+    "bytes": {
+     "texture": 1060,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "objects": {
+     "texture": 5,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "drawingBufferBytes": 0
+   },
+   {
+    "id": 2,
+    "lost": true,
+    "bytes": {
+     "texture": 1060,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "objects": {
+     "texture": 5,
+     "buffer": 0,
+     "renderbuffer": 0
+    },
+    "drawingBufferBytes": 0
+   }
+  ]
+ }
+}

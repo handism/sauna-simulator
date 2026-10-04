@@ -1,7 +1,21 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
-import { createHdrOutput } from './hdrOutput';
+import { createHdrOutput, createRenderer } from './hdrOutput';
 import { PREPASS_LAYER } from './depthPrepass';
+
+// The parameters of each renderer made (createRenderer).
+const made = vi.hoisted(() => [] as THREE.WebGLRendererParameters[]);
+vi.mock('three', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('three')>();
+  return {
+    ...actual,
+    WebGLRenderer: class {
+      constructor(parameters: THREE.WebGLRendererParameters) {
+        made.push(parameters);
+      }
+    },
+  };
+});
 
 function fakeRenderer(halfFloat: boolean) {
   const targets: (THREE.WebGLRenderTarget | null)[] = [];
@@ -153,5 +167,41 @@ describe('HDR output', () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+});
+
+describe('the canvas', () => {
+  const contexts = (halfFloat: boolean) => {
+    const lose = vi.fn();
+    const context = {
+      getExtension: (name: string) =>
+        name === 'WEBGL_lose_context'
+          ? { loseContext: lose }
+          : halfFloat && name === 'EXT_color_buffer_float'
+            ? {}
+            : null,
+    };
+    const getContext = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(context as any);
+    return { context, lose, getContext };
+  };
+
+  it('has no multisampling or depth when the scene is drawn into a half-float target', () => {
+    made.length = 0;
+    const { context, lose, getContext } = contexts(true);
+    createRenderer();
+    expect(getContext).toHaveBeenCalledWith('webgl2', { alpha: true, antialias: false, depth: false });
+    expect(made).toEqual([expect.objectContaining({ context, alpha: true, antialias: false, depth: false })]);
+    expect(lose).not.toHaveBeenCalled();
+    getContext.mockRestore();
+  });
+
+  it('keeps a multisampled canvas when the scene is drawn into it', () => {
+    made.length = 0;
+    const { lose, getContext } = contexts(false);
+    createRenderer();
+    // The probing context is released for three's own.
+    expect(lose).toHaveBeenCalledOnce();
+    expect(made).toEqual([{ antialias: true, alpha: true }]);
+    getContext.mockRestore();
   });
 });

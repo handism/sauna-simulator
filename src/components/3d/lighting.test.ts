@@ -279,6 +279,8 @@ describe('cached shadows', () => {
       const target = new THREE.WebGLRenderTarget(16, 16);
       target.addEventListener('dispose', () => disposed.push(true));
       light.shadow.map = target;
+      // The shaders read the depth texture: the color three allocates beside it is one channel.
+      expect(light.shadow.map.texture.format).toBe(THREE.RedFormat);
     }
     lighting.setShadowSize(0);
     for (const light of shadowLights) {

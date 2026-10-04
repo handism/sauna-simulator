@@ -26,6 +26,20 @@ void main() {
 	gl_FragColor.a = 1.0;
 }`;
 
+/**
+ * With half-float color buffers the scene is drawn multisampled into its own target and the canvas
+ * only gets the full-screen pass, so the canvas needs neither multisampling nor depth (with them,
+ * about 36 bytes a pixel instead of 4). Without, the scene is drawn into the canvas as before.
+ */
+export function createRenderer() {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('webgl2', { alpha: true, antialias: false, depth: false });
+  if (context?.getExtension('EXT_color_buffer_float'))
+    return new THREE.WebGLRenderer({ canvas, context, alpha: true, antialias: false, depth: false });
+  context?.getExtension('WEBGL_lose_context')?.loseContext();
+  return new THREE.WebGLRenderer({ antialias: true, alpha: true });
+}
+
 export interface RenderStats {
   calls: number;
   triangles: number;

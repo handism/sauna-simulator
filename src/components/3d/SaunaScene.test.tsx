@@ -31,6 +31,7 @@ vi.mock('three', async (importOriginal) => {
       getContext = () => ({ isContextLost: () => false });
       setAnimationLoop = vi.fn();
       dispose = vi.fn();
+      forceContextLoss = vi.fn();
       constructor() {
         mocks.renderers.push(this);
       }
@@ -117,10 +118,14 @@ beforeEach(() => {
     },
   );
   vi.stubGlobal('matchMedia', () => ({ matches: false }));
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
-    createRadialGradient: () => ({ addColorStop() {} }),
-    fillRect() {},
-  } as any);
+  // A 2D context for the steam's sprite; no WebGL2 of its own (the mocked renderer is made instead).
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(((type: string) =>
+    type === 'webgl2'
+      ? null
+      : {
+          createRadialGradient: () => ({ addColorStop() {} }),
+          fillRect() {},
+        }) as any);
   mocks.garden.mockImplementation(() => new Promise(() => {}));
   vi.stubGlobal(
     'fetch',
@@ -275,6 +280,7 @@ describe('3D scene load and teardown', () => {
     view.unmount();
     for (const dispose of loaded.disposals) expect(dispose).toHaveBeenCalledOnce();
     expect(renderer.dispose).toHaveBeenCalledOnce();
+    expect(renderer.forceContextLoss).toHaveBeenCalledOnce();
     expect(renderer.domElement.isConnected).toBe(false);
   });
 

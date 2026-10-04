@@ -78,6 +78,25 @@ export function sceneWeights(time: number): [number, number, number] {
   return [Math.max(0, 1 - t), 1 - Math.abs(t - 1), Math.max(0, t - 1)];
 }
 
+/**
+ * three draws each shadow map into a render target with an RGBA8 color texture beside the depth
+ * texture the shaders read (WebGLLights), 16 MB never read at 2048². three creates the target in
+ * its first shadow pass (and again when the map is null), so the color is narrowed to R8 as the
+ * target is set, before it is allocated.
+ */
+export function narrowShadowColor(shadow: THREE.LightShadow) {
+  let map = shadow.map;
+  Object.defineProperty(shadow, 'map', {
+    configurable: true,
+    enumerable: true,
+    get: () => map,
+    set(target: THREE.WebGLRenderTarget | null) {
+      if (target) target.texture.format = THREE.RedFormat;
+      map = target;
+    },
+  });
+}
+
 export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer) {
   // Cycles renders the courtyard without mist, so distant trees keep their color. The sky is the
   // source worlds' sky in scene-linear radiance (sky.ts), tone mapped with the rest of the scene.
@@ -181,6 +200,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     light.shadow.autoUpdate = false;
   }
   const shadowLights = [sun, lounge, ...duskLights];
+  for (const light of shadowLights) narrowShadowColor(light.shadow);
   scene.add(sun, ...interior, lounge, lounge.target);
   for (const light of duskLights) scene.add(light, light.target);
   // Every source scene lights the courtyard along the 'Late afternoon sunlight' direction: the

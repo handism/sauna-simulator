@@ -21,7 +21,7 @@ import { applyGlass } from './glass';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
 import { applyCaustics } from './caustics';
 import { applyWaterBottom } from './waterBottom';
-import { createHdrOutput, type RenderStats } from './hdrOutput';
+import { createHdrOutput, createRenderer, type RenderStats } from './hdrOutput';
 import { createDepthPrepass } from './depthPrepass';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
 import { createShadowMask } from './shadowMask';
@@ -94,7 +94,7 @@ export default function SaunaScene({
     };
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer = createRenderer();
     } catch {
       onError();
       return;
@@ -456,6 +456,8 @@ export default function SaunaScene({
       prepass.dispose();
       shadowMask?.dispose();
       renderer.dispose();
+      // Frees the drawing buffer and three's own textures now rather than when the context is collected.
+      renderer.forceContextLoss();
       renderer.domElement.remove();
     };
   }, [audio, loylyEvents, onReady, onError]);
