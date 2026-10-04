@@ -46,7 +46,9 @@ for (const viewport of [
     await page.getByText('体験内のスコアを見る').click();
     await expect(page.getByText('ととのい度', { exact: true })).toBeVisible();
     await page.screenshot({ path: info.outputPath('rest-details.png') });
-    await page.getByText('今回の休息を振り返る').click();
+    // 振り返りとスコアは片方だけ開くため、スコアを開いた時点で振り返りは閉じている
+    await expect(page.locator('.rest-summary')).toBeHidden();
+    await page.getByText('体験内のスコアを見る').click();
     const finish = page.getByRole('button', { name: '今日はここまで' });
     await expect(finish).toBeInViewport({ ratio: 1 });
     await finish.click();

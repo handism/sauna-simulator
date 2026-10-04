@@ -34,13 +34,13 @@
 ### スタイリング
 - 共通 UI は `.glass-panel` と `.primary-btn`。通常の操作は下部の `.stage-dock` にまとめ、心拍・体感温度・ととのい度はネイティブ `details` で開く。`ActionIcon` の線画アイコンと木・石・水を基調とする配色を使う。UI非表示は見出し・操作パネル・呼吸ガイドを隠し、音・表示復帰・設定の操作は残す。「表示設定」の「UIを隠しても呼吸ガイドを残す」で呼吸だけ維持できる（`sui-keep-breathing`）。見出しには局所的な暗色グラデーション、呼吸の文字には暗色の面を敷く。
 - `StageDock` はコンパクト／詳細の切替を担当（`sui-dock`、パネル上端の取っ手）。コンパクト時も時間・主操作・表示復帰は残し、ロウリュの上昇幅は `.loyly-compact-delta` で出す。ステージ見出しの進み具合とセット数は `StageStep`。`FirstVisitGuide` はサウナの初回案内を担当し、明示的な「わかりました」で以後非表示（`sui-guide-dismissed`）。ストレージが使えなくても操作を継続する。
-- 色・角丸は `index.css` の `:root` の変数（`--ink` 系の文字色、`--wood`・`--water`・`--moss`、`--radius-*` など）を使い、値を直接書かない。木の色の塗りは各場面の主操作（`Space` と同じ操作）に付ける。ガラスパネルは2Dでは景色を透かし、3D表示中は描画負荷を避けるためブラーを外して不透明寄りにする
-- 右上のアイコン操作（全画面・UI・音の設定・表示設定）は `.app-toolbar` に横並びで置く。入室前は表示設定だけを出す。ボタンの hover の浮き上がりは `(hover: hover)` の環境だけで、押下時は `:active` で沈む
+- 色・角丸は `index.css` の `:root` の変数（`--ink` 系の文字色、`--wood`・`--water`・`--moss`、`--radius-*` など）を使い、値を直接書かない。木の色の塗りは各場面の主操作（`Space` と同じ操作。入室・終了画面では唯一の進む操作）に付け、2D/3Dの選択などには使わない。開閉の印はブラウザ標準の三角ではなく線のシェブロン（`.stage-details`/`.score-details` の `summary::before`）。ガラスパネルは2Dでは景色を透かし、3D表示中は描画負荷を避けるためブラーを外して不透明寄りにする
+- 右上のアイコン操作（UI・音の設定・表示設定）は `.app-toolbar` に横並びで置く。入室前は表示設定だけを出す。全画面は使用頻度が低いため表示設定メニューの先頭（`SceneMode` の `settingsExtra`、`FullscreenMenuButton`）に置き、入室前から使える。入室画面は景色の選択を入室ボタンより上に置き、ヘッドホン推奨は「音あり」ボタンの補足文（`aria-describedby`）にするボタンの hover の浮き上がりは `(hover: hover)` の環境だけで、押下時は `:active` で沈む
 - 外部フォントは読み込まない（OS標準の和文・欧文フォントスタック）
 - ステージ固有の色や背景はコンポーネント内のインラインスタイルで上書きする。ただし状態で切り替わる見た目（外気浴の呼吸の吸う/吐く）は `data-*` 属性と `index.css` のセレクタで切り替える
 
 ### コンポーネント設計
-- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする。記録は名前付きのオブジェクト（`useSaunaSession.ts` の `SaunaResult` / `WaterResult`）で渡す。セットごとのととのい度（`scoreHistory`）は水風呂を出る遷移が受け付けられたときに `useSaunaSession` が確定し、入室ごとにリセットする。ととのい度の段階（`TOTONOU_TIERS`）はフィードバック文と表示色（`src/utils/scoreColor.ts`、色は棒にだけ付ける）で共有する。セットごとの推移は `ScoreHistory` で外気浴と終了画面に出す（`sessionSummary.scores`）。サウナ・水風呂の滞在時間表示（`StayTimer`）の目安は、ととのい度が満点になる `STAY_TARGET_SECONDS` と共有する。外気浴の振り返りはセット数・サウナ／水風呂の滞在時間を先に表示し、スコアは入れ子のdetailsに置く。メーターはスコアを初めて開いたときに上がり始める。終了画面でもスコアは任意で展開する
+- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする。記録は名前付きのオブジェクト（`useSaunaSession.ts` の `SaunaResult` / `WaterResult`）で渡す。セットごとのととのい度（`scoreHistory`）は水風呂を出る遷移が受け付けられたときに `useSaunaSession` が確定し、入室ごとにリセットする。ととのい度の段階（`TOTONOU_TIERS`）はフィードバック文と表示色（`src/utils/scoreColor.ts`、色は棒にだけ付ける）で共有する。セットごとの推移は `ScoreHistory` で外気浴と終了画面に出す（`sessionSummary.scores`）。サウナ・水風呂の滞在時間表示（`StayTimer`）の目安は、ととのい度が満点になる `STAY_TARGET_SECONDS` と共有する。水風呂は心拍を開かずに見える位置に出す（コンパクト時は隠す）。外気浴の振り返りはセット数・サウナ／水風呂の滞在時間の details と、スコアの details を並べ、同じ `name` で片方だけ開く（パネルが伸びて操作が画面外に出ないように）。メーターはスコアを初めて開いたときに上がり始める。終了画面でもスコアは任意で展開する
 - `audio` と各種セッション値は `App.tsx` が `useSaunaContext()` から取得し、props で各コンポーネントに渡す。コンポーネント側は context を直接参照しない
 
 ### キーボードショートカット・全画面

@@ -53,7 +53,7 @@ for (const viewport of [
     await expect(page.getByText('ととのい度', { exact: true })).toBeHidden();
     await page.getByText('体験内のスコアを見る').click();
     await expect(page.getByText('ととのい度', { exact: true })).toBeVisible();
-    await page.getByText('今回の休息を振り返る').click();
+    await page.getByText('体験内のスコアを見る').click();
     await page.getByRole('button', { name: 'もう一度サウナへ' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
     await expect(page.locator('.first-visit-guide')).toHaveCount(0);

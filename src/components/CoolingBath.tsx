@@ -87,14 +87,17 @@ const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext }: CoolingBathPro
       </header>
       <StageDock className="cooling-panel">
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.WATER} />
+        {/* 水風呂は心拍が落ち着いていく場面なので、心拍は開かずに見えるところに置く */}
+        <div className="cooling-heart">
+          <HeartRateRow heartRate={heartRate} divided={false} />
+        </div>
         <details className="stage-details">
-          <summary>からだの様子を見る</summary>
+          <summary>水の様子を見る</summary>
           <div className="cooling-info-panel">
             <div className="stage-info-row">
               <span className="reading-label">水温</span>
               <span className="dashboard-value">{COOLING_CONFIG.WATER_TEMP.toFixed(1)}°C</span>
             </div>
-            <HeartRateRow heartRate={heartRate} />
           </div>
           <p className="detail-note">数値は体験内のシミュレーションです。</p>
         </details>

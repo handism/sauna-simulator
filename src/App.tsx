@@ -8,7 +8,7 @@ import ScoreHistory from './components/ScoreHistory';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
-import { FullscreenButton, UiToggleButton } from './components/ControlButtons';
+import { FullscreenMenuButton, UiToggleButton } from './components/ControlButtons';
 import { useSaunaContext, type AmbientEnv } from './context/SaunaContext';
 import { useFullscreen } from './hooks/useFullscreen';
 import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
@@ -99,6 +99,11 @@ function App() {
         opacity={opacity}
         loylyEvents={loylyEvents}
         keepBreathing={keepBreathing}
+        settingsExtra={
+          fullscreen.isSupported && (
+            <FullscreenMenuButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
+          )
+        }
         onKeepBreathingChange={(value) => {
           setKeepBreathing(value);
           writePreference('sui-keep-breathing', value ? 'yes' : 'no');
@@ -106,13 +111,10 @@ function App() {
       >
         {(is3d, toggle3d, settings) => (
           <div className="app-main-ui-container" ref={contentRef}>
-            {/* 右上の操作はすべてここに並べる。入室前は表示設定だけ */}
+            {/* 右上の操作はすべてここに並べる。入室前は表示設定だけ。全画面は表示設定の中 */}
             <div className="app-toolbar">
               {stage !== 'start' && (
                 <>
-                  {fullscreen.isSupported && (
-                    <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
-                  )}
                   <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
                   <SoundControl
                     key={stage}
@@ -137,24 +139,30 @@ function App() {
                 <p className="journey-guide" aria-label="体験の流れ">
                   サウナ <ActionIcon name="arrow" /> 水風呂 <ActionIcon name="arrow" /> 外気浴
                 </p>
-                <p className="app-headphone-notice">
-                  <ActionIcon name="headphones" /> ヘッドホン・イヤホン推奨
-                </p>
-
-                <div className="app-btn-group">
-                  <button className="primary-btn app-btn-primary" onClick={() => handleStart(true)}>
-                    音ありで入室する
-                  </button>
-                  <button className="primary-btn app-btn-secondary" onClick={() => handleStart(false)}>
-                    音なしで入室する
-                  </button>
-                </div>
+                {/* 景色は入室前に決めるため、入室ボタンより先に置く */}
                 <div className="entry-scene-choice" role="group" aria-label="景色">
                   <button className="segment-btn" aria-pressed={!is3d} onClick={() => is3d && toggle3d()}>
                     2Dの景色
                   </button>
                   <button className="segment-btn" aria-pressed={is3d} onClick={() => !is3d && toggle3d()}>
                     3Dで見渡す
+                  </button>
+                </div>
+
+                <div className="app-btn-group">
+                  <button
+                    className="primary-btn app-btn-primary"
+                    onClick={() => handleStart(true)}
+                    aria-describedby="headphone-note"
+                  >
+                    音ありで入室する
+                  </button>
+                  {/* 音ありの補足。押せる部品に見えないよう、面や枠を付けない */}
+                  <p id="headphone-note" className="entry-note">
+                    <ActionIcon name="headphones" /> ヘッドホン・イヤホン推奨
+                  </p>
+                  <button className="primary-btn app-btn-secondary" onClick={() => handleStart(false)}>
+                    音なしで入室する
                   </button>
                 </div>
                 <ul className="app-shortcut-hint" aria-label="キーボード操作">
@@ -183,37 +191,34 @@ function App() {
                   今日のひと息
                 </h1>
                 <p className="app-subtitle">この余韻を、日常へ。</p>
-                <dl className="glass-panel session-summary">
-                  <div>
-                    <dt>過ごしたセット</dt>
-                    <dd>
-                      {sessionSummary.scores.length}
-                      <span> セット</span>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>滞在時間</dt>
-                    <dd>
-                      {Math.floor(sessionSummary.seconds / 60)}
-                      <span> 分 </span>
-                      {sessionSummary.seconds % 60}
-                      <span> 秒</span>
-                    </dd>
-                  </div>
-                  {sessionSummary.scores.length > 0 && (
-                    <div className="session-summary-history">
-                      <dt>体験の振り返り</dt>
+                <div className="glass-panel session-summary">
+                  <dl className="session-summary-stats">
+                    <div>
+                      <dt>過ごしたセット</dt>
                       <dd>
-                        <details className="score-details">
-                          <summary>体験内のスコアを見る</summary>
-                          <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
-                          <ScoreHistory scores={sessionSummary.scores} />
-                        </details>
+                        {sessionSummary.scores.length}
+                        <span> セット</span>
                       </dd>
                     </div>
+                    <div>
+                      <dt>滞在時間</dt>
+                      <dd>
+                        {Math.floor(sessionSummary.seconds / 60)}
+                        <span> 分 </span>
+                        {sessionSummary.seconds % 60}
+                        <span> 秒</span>
+                      </dd>
+                    </div>
+                  </dl>
+                  {sessionSummary.scores.length > 0 && (
+                    <details className="score-details session-summary-history">
+                      <summary>体験内のスコアを見る</summary>
+                      <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
+                      <ScoreHistory scores={sessionSummary.scores} />
+                    </details>
                   )}
-                </dl>
-                <button className="primary-btn" onClick={dismissSummary}>
+                </div>
+                <button className="primary-btn session-end-btn" onClick={dismissSummary}>
                   トップに戻る <ActionIcon name="arrow" />
                 </button>
               </section>

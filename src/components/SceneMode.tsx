@@ -166,10 +166,13 @@ export default function SceneMode({
   children,
   keepBreathing = false,
   onKeepBreathingChange,
+  settingsExtra,
 }: {
   /** Receives the mode, its switch and the settings menu, which the caller places in its toolbar. */
   children?: (enabled: boolean, toggle: () => void, settings: ReactNode) => ReactNode;
   keepBreathing?: boolean;
+  /** Placed at the top of the settings menu (the fullscreen switch). */
+  settingsExtra?: ReactNode;
   onKeepBreathingChange?: (value: boolean) => void;
   audio: AudioEngine;
   stage: Stage;
@@ -205,6 +208,7 @@ export default function SceneMode({
           <ActionIcon name="settings" />
         </summary>
         <div className="settings-panel">
+          {settingsExtra}
           {onKeepBreathingChange && (
             <label className="settings-checkbox">
               <input

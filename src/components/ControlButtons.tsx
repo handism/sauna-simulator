@@ -79,19 +79,20 @@ export function MuteButton({ isMuted, onToggle }: { isMuted: boolean; onToggle: 
   );
 }
 
-export function FullscreenButton({ isFullscreen, onToggle }: { isFullscreen: boolean; onToggle: () => void }) {
+// 使う頻度が低いため、右上のアイコンではなく表示設定の中に置く。F キーは常に使える
+export function FullscreenMenuButton({ isFullscreen, onToggle }: { isFullscreen: boolean; onToggle: () => void }) {
   return (
-    <IconButton
-      label={isFullscreen ? '全画面を終了' : '全画面表示'}
-      shortcut="F"
-      pressed={isFullscreen}
+    <button
+      type="button"
+      className="settings-row-btn"
       onClick={onToggle}
+      aria-pressed={isFullscreen}
+      aria-keyshortcuts="F"
     >
-      {isFullscreen ? (
-        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
-      ) : (
-        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
-      )}
-    </IconButton>
+      {isFullscreen ? '全画面を終了' : '全画面表示'}
+      <kbd className="button-shortcut" aria-hidden="true">
+        F
+      </kbd>
+    </button>
   );
 }

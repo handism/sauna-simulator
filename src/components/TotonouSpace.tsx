@@ -119,7 +119,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
 
       {/* 「ととのい度」情報パネル */}
       <StageDock className="rest-dock">
-        <details className="stage-details rest-details">
+        <details className="stage-details rest-details" name="rest-review">
           <summary>今回の休息を振り返る</summary>
           <dl className="rest-summary">
             <div>
@@ -134,33 +134,35 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
             </div>
           </dl>
           <p className="detail-note">自分のペースで過ごせたら、それで十分。</p>
-          <details className="score-details">
-            <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
-            <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
-            <div className="totonou-info-panel">
-              <div className="totonou-info-row">
-                <span className="reading-label">ととのい度</span>
-                <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
-                  0%
-                </span>
-              </div>
-
-              {/* プログレスバー */}
-              <div className="totonou-progress-bg">
-                <div
-                  ref={totonouBarRef}
-                  className="totonou-progress-bar"
-                  style={{ width: '0%', background: scoreColor(0) }}
-                />
-              </div>
-
-              {/* フィードバックコメント。表示時に読み上げるため、ライブリージョンは常に置いておく */}
-              <div aria-live="polite">{showFeedback && <p className="totonou-feedback">{feedback}</p>}</div>
-
-              {/* これまでのセットの推移（2セット目以降） */}
-              {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
+        </details>
+        {/* スコアは振り返りと並べて置き、開いたときだけ見せる（入れ子にすると2段開く必要がある）。
+            同じ name で片方だけ開き、パネルが伸びて操作ボタンが画面外に出ないようにする */}
+        <details className="stage-details score-details" name="rest-review">
+          <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
+          <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
+          <div className="totonou-info-panel">
+            <div className="totonou-info-row">
+              <span className="reading-label">ととのい度</span>
+              <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
+                0%
+              </span>
             </div>
-          </details>
+
+            {/* プログレスバー */}
+            <div className="totonou-progress-bg">
+              <div
+                ref={totonouBarRef}
+                className="totonou-progress-bar"
+                style={{ width: '0%', background: scoreColor(0) }}
+              />
+            </div>
+
+            {/* フィードバックコメント。表示時に読み上げるため、ライブリージョンは常に置いておく */}
+            <div aria-live="polite">{showFeedback && <p className="totonou-feedback">{feedback}</p>}</div>
+
+            {/* これまでのセットの推移（2セット目以降） */}
+            {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
+          </div>
         </details>
         <div className="dock-actions">
           <button className="primary-btn totonou-next-btn" onClick={onNext} aria-keyshortcuts="Space">

@@ -18,6 +18,12 @@
   --line-strong: #ffffff40;
   --line-control: #ffffff4d;
   --focus: #f1d9b7;
+  /* 暗い面に重ねる白の薄塗り。案内の地・キー表示・設定のボタン・押せる面のhover */
+  --tint-faint: #ffffff09;
+  --tint-subtle: #ffffff0d;
+  --tint: #ffffff12;
+  --tint-hover: #ffffff33;
+  --void: #000;
   /* 景色が透けるガラス。3D表示中は下の .app-container:has(...) で不透明寄りにする */
   --glass-bg: rgba(22, 28, 24, 0.8);
   --glass-border: rgba(255, 255, 255, 0.15);
@@ -27,6 +33,27 @@
   /* ポップアップ（音・表示設定）の面 */
   --popover-bg: #18201bfa;
   --popover-shadow: 0 12px 40px #0006;
+  --panel-shadow: 0 8px 32px #0000005e;
+  --lift-shadow: 0 4px 16px #0006;
+  /* 景色の上の文字の影。タイトル／サブタイトル／ステージ見出し／3Dの状態表示 */
+  --text-shadow-title: 0 4px 16px #0009;
+  --text-shadow-soft: 0 2px 8px #0009;
+  --text-shadow-heading: 0 2px 12px #000, 0 1px 4px #000;
+  --text-shadow-status: 0 1px 5px #000;
+  /* 外気浴の呼吸ガイド。円は吸う（苔）と吐く（木）で色味を変え、文字の下には暗色の面を敷く */
+  --breath-bg: #14211d6b;
+  --breath-label-bg: #14211de6;
+  --breath-inhale-border: #c4d4bb80;
+  --breath-inhale-bg: #24332b99;
+  --breath-inhale-glow: #b3c3a918;
+  --breath-exhale-border: #cfbda966;
+  --breath-exhale-bg: #18251faa;
+  /* 3D表示中のパネル・見出しの下の暗幕・状態表示のボタン */
+  --glass-bg-3d: #101714f0;
+  --scrim-top: #101915b3;
+  --scrim-mid: #10191570;
+  --status-btn-bg: #172625;
+  --status-btn-border: #ffffff80;
   /* 角丸は4段階。パネル・ポップアップ／ボタン・入力／キー表示／丸 */
   --radius-lg: 24px;
   --radius-md: 14px;
@@ -53,7 +80,7 @@ body {
     Meiryo,
     sans-serif;
   color: var(--ink);
-  background: #000;
+  background: var(--void);
   overflow: hidden;
   height: 100dvh;
   width: 100vw;
@@ -144,7 +171,7 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: var(--panel-shadow);
   padding: 2rem;
   width: 90%;
   max-width: 400px;
@@ -172,10 +199,11 @@ body {
     box-shadow 0.3s ease,
     opacity 0.5s ease;
 }
-/* 木の色は各場面の主操作（Space キーと同じ操作）に付ける */
+/* 木の色は各場面の主操作（Space キーと同じ操作。入室・終了画面では唯一の進む操作）に付ける */
 .primary-btn.sauna-loyly-btn,
 .primary-btn.totonou-next-btn,
-.primary-btn.app-btn-primary {
+.primary-btn.app-btn-primary,
+.primary-btn.session-end-btn {
   background-color: var(--wood);
   border-color: var(--wood);
   color: var(--on-wood);
@@ -232,14 +260,15 @@ body {
   .primary-btn:hover,
   .icon-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--lift-shadow);
   }
   .primary-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--tint-hover);
   }
   .primary-btn.sauna-loyly-btn:hover,
   .primary-btn.totonou-next-btn:hover,
-  .primary-btn.app-btn-primary:hover {
+  .primary-btn.app-btn-primary:hover,
+  .primary-btn.session-end-btn:hover {
     background-color: var(--wood-light);
   }
   .primary-btn.cooling-next-btn:hover {
@@ -379,10 +408,18 @@ h2:focus {
   border: 1px solid var(--line-control);
   border-radius: var(--radius-md);
   padding: 10px 14px;
-  background: #ffffff12;
+  background: var(--tint);
   color: var(--ink-strong);
   cursor: pointer;
   font: inherit;
+}
+/* 全画面の切り替え。文言とキーを両端に置く */
+.settings-panel .settings-row-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
 }
 .settings-panel a {
   color: var(--ink-soft);
@@ -449,14 +486,14 @@ h2:focus {
   margin-bottom: 0.5rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  text-shadow: var(--text-shadow-title);
 }
 
 .app-subtitle {
   font-size: clamp(1rem, 4vw, 1.2rem);
   margin-bottom: 1.5rem;
   color: var(--ink-soft);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  text-shadow: var(--text-shadow-soft);
   font-weight: 300;
 }
 
@@ -464,26 +501,13 @@ h2:focus {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin: 6px 0 24px;
+  margin: 6px 0 28px;
   color: var(--ink);
   font-size: 0.9rem;
 }
 .journey-guide .action-icon {
   width: 16px;
   color: var(--wood-deep);
-}
-
-.app-headphone-notice {
-  font-size: 0.9rem;
-  color: var(--ink-muted);
-  margin-bottom: 28px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--control-bg);
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .app-btn-group {
@@ -493,14 +517,28 @@ h2:focus {
   width: 100%;
   max-width: 280px;
 }
+/* 音ありの補足。直上のボタンに寄せ、押せる部品と見分けられるよう面や枠を付けない */
+.entry-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: -7px 0 7px;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-shadow: var(--text-shadow-soft);
+}
+.entry-note .action-icon {
+  width: 16px;
+}
 .app-btn-secondary {
   padding: 12px 24px;
 }
 
-/* 2D／3Dの景色の2択。押した側が選ばれた状態になる */
+/* 2D／3Dの景色の2択。入室前に決めるため入室ボタンの上に置く。押した側が選ばれた状態になる */
 .entry-scene-choice {
   display: flex;
-  margin-top: 18px;
+  margin-bottom: 24px;
   padding: 3px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-pill);
@@ -520,9 +558,10 @@ h2:focus {
     background-color 0.3s ease,
     color 0.3s ease;
 }
+/* 木の色は主操作に取っておくため、選択中は明るい薄塗りで示す */
 .segment-btn[aria-pressed='true'] {
-  background: var(--ink-strong);
-  color: var(--on-wood);
+  background: var(--line-strong);
+  color: var(--ink-strong);
   font-weight: 500;
 }
 @media (hover: hover) {
@@ -546,16 +585,18 @@ h2:focus {
   padding: 1px 6px;
   margin-right: 4px;
   border: 1px solid var(--line-strong);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--tint-subtle);
 }
 
 .session-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px 32px;
   margin: 12px 0 32px;
   width: min(460px, 100%);
   max-width: 460px;
+}
+.session-summary-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 32px;
 }
 .session-summary dt {
   color: var(--ink-muted);
@@ -570,12 +611,10 @@ h2:focus {
   font-size: 0.85rem;
 }
 .session-summary-history {
-  grid-column: 1 / -1;
-  border-top: 1px solid var(--line);
-  padding-top: 20px;
+  margin-top: 20px;
 }
-.session-summary-history dd {
-  font-size: 1rem;
+.session-summary-history > summary {
+  justify-content: center;
 }
 .session-summary-history .score-history {
   justify-content: center;
@@ -593,9 +632,7 @@ h2:focus {
   text-align: center;
   z-index: 10;
   color: var(--ink);
-  text-shadow:
-    0 2px 12px #000,
-    0 1px 4px #000;
+  text-shadow: var(--text-shadow-heading);
 }
 .stage-heading h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
@@ -626,7 +663,7 @@ h2:focus {
   height: 6px;
   border-radius: 50%;
   border: 1px solid var(--ink-soft);
-  box-shadow: 0 1px 4px #000;
+  box-shadow: 0 1px 4px var(--void);
 }
 .stage-step-dot[data-state='done'] {
   background: var(--ink-soft);
@@ -693,18 +730,43 @@ h2:focus {
   border-top: 1px solid var(--line);
   margin: 14px 0;
 }
-.stage-details summary {
+.stage-details > summary {
   cursor: pointer;
   min-height: 44px;
   padding: 13px 0;
   font-size: 0.85rem;
   color: var(--ink-soft);
 }
-.stage-details summary::marker {
-  color: var(--ink-faint);
-}
-.stage-details[open] summary {
+.stage-details[open] > summary {
   margin-bottom: 6px;
+}
+/* 開閉の印はブラウザ標準の三角ではなく、パネルの取っ手と同じ線のシェブロンにする */
+.stage-details > summary,
+.score-details > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+}
+.stage-details > summary::-webkit-details-marker,
+.score-details > summary::-webkit-details-marker {
+  display: none;
+}
+.stage-details > summary::before,
+.score-details > summary::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  border-right: 1.5px solid var(--ink-faint);
+  border-bottom: 1.5px solid var(--ink-faint);
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+.stage-details[open] > summary::before,
+.score-details[open] > summary::before {
+  transform: translateY(-2px) rotate(45deg);
 }
 .stage-info-row {
   display: flex;
@@ -742,6 +804,7 @@ h2:focus {
   margin-top: -12px;
 }
 .stage-dock[data-compact='true'] .sauna-meters-grid,
+.stage-dock[data-compact='true'] .cooling-heart,
 .stage-dock[data-compact='true'] .stage-details,
 .stage-dock[data-compact='true'] .first-visit-guide,
 .stage-dock[data-compact='true'] .stay-timer-track,
@@ -755,7 +818,7 @@ h2:focus {
 }
 
 .first-visit-guide {
-  background: #ffffff09;
+  background: var(--tint-faint);
   border-left: 2px solid var(--wood);
   padding: 8px 12px 0;
   margin-bottom: 12px;
@@ -819,6 +882,19 @@ h2:focus {
 .cooling-panel .stay-timer {
   margin-top: 0;
 }
+/* 水風呂の心拍。滞在時間と同じ大きさで並べ、落ち着いていく様子を主役にする */
+.cooling-heart {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.cooling-heart .heart-rate-value {
+  font-size: 1.35rem;
+  color: var(--ink-strong);
+}
+.cooling-heart .heart-rate-icon {
+  color: var(--water);
+}
 
 /* ---------- Sauna ---------- */
 .sauna-meters-grid {
@@ -827,23 +903,24 @@ h2:focus {
   gap: 24px;
   margin-bottom: 4px;
 }
+/* 見出しを数値の上に置く。横並びで両端に寄せると、隣の列の見出しと数値がつながって読める */
 .sauna-meter-box {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 .sauna-meter-value {
   position: relative;
   font-size: 1.35rem;
   color: var(--ink-strong);
 }
-/* The rise from the latest Löyly, shown briefly beside the reading. */
+/* The rise from the latest Löyly, shown briefly to the right of the reading. */
 .meter-delta {
   position: absolute;
-  right: 100%;
+  left: 100%;
   top: 0.15em;
-  margin-right: 8px;
+  margin-left: 8px;
   font-size: 0.8rem;
   color: var(--wood);
   white-space: nowrap;
@@ -1083,7 +1160,7 @@ h2:focus {
   margin-bottom: 56px;
   border-radius: 50%;
   border: 1px solid var(--line);
-  background: #14211d6b;
+  background: var(--breath-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1095,15 +1172,14 @@ h2:focus {
     opacity 0.5s ease;
   z-index: 10;
 }
-/* 景色の上でも読めるよう、文字の下に暗色の面を敷く */
+/* 景色の上でも読めるよう、文字の下に暗色の面を敷く。枠は円だけに引き、二重の囲みにしない */
 .breathing-label {
   font-size: 1.4rem;
   font-weight: 500;
   letter-spacing: 3px;
   z-index: 10;
   color: var(--ink-strong);
-  background: #14211de6;
-  border: 1px solid var(--line-strong);
+  background: var(--breath-label-bg);
   border-radius: var(--radius-pill);
   padding: 14px 18px;
 }
@@ -1118,19 +1194,19 @@ h2:focus {
 }
 [data-breath='inhale'] .breathing-circle-premium {
   transform: scale(1.15);
-  border-color: #c4d4bb80;
-  background: #24332b99;
-  box-shadow: 0 0 32px #b3c3a918;
+  border-color: var(--breath-inhale-border);
+  background: var(--breath-inhale-bg);
+  box-shadow: 0 0 32px var(--breath-inhale-glow);
 }
 [data-breath='exhale'] .breathing-circle-premium {
   transform: scale(0.92);
-  border-color: #cfbda966;
-  background: #18251faa;
+  border-color: var(--breath-exhale-border);
+  background: var(--breath-exhale-bg);
   box-shadow: none;
 }
 
-/* 振り返りを開くとパネルが呼吸ガイドに重なり、半透明のガラス越しに文字が透けるため、ガイドを退かせる */
-.scene-container:has(.rest-details[open]) .breathing-circle-premium {
+/* 振り返りかスコアを開くとパネルが呼吸ガイドに重なり、半透明のガラス越しに文字が透けるため、ガイドを退かせる */
+.scene-container:has(.rest-dock [open]) .breathing-circle-premium {
   opacity: 0;
 }
 /* コンパクト表示では振り返りが隠れるため、ガイドは出したままにする（上の規則と同じ詳細度なので後に置く） */
@@ -1141,6 +1217,9 @@ h2:focus {
 .rest-details {
   margin-top: 0;
   border-top: none;
+}
+.rest-dock .score-details {
+  margin-top: 0;
 }
 .rest-summary {
   display: grid;
@@ -1254,7 +1333,7 @@ h2:focus {
 }
 /* Over a live WebGL frame a blur would be recomputed every frame; panels go near-opaque instead. */
 .app-container:has(.sauna-3d-canvas) .glass-panel {
-  background: rgba(16, 23, 20, 0.94);
+  background: var(--glass-bg-3d);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -1277,7 +1356,7 @@ h2:focus {
   right: 0;
   height: 270px;
   z-index: 9;
-  background: linear-gradient(to bottom, #101915b3, #10191570 58%, transparent);
+  background: linear-gradient(to bottom, var(--scrim-top), var(--scrim-mid) 58%, transparent);
   pointer-events: none;
 }
 
@@ -1291,15 +1370,15 @@ h2:focus {
   z-index: 12;
   font-size: 11px;
   color: var(--ink-strong);
-  text-shadow: 0 1px 5px #000;
+  text-shadow: var(--text-shadow-status);
 }
 .scene-status button {
   pointer-events: auto;
   margin-left: 8px;
   padding: 6px 10px;
-  border: 1px solid #ffffff80;
+  border: 1px solid var(--status-btn-border);
   border-radius: var(--radius-sm);
-  background: #172625;
+  background: var(--status-btn-bg);
   color: var(--ink-strong);
   cursor: pointer;
 }
@@ -1331,7 +1410,9 @@ h2:focus {
   .scene-3d-layer,
   .app-stage-container,
   .app-start-screen,
-  .stay-timer-bar {
+  .stay-timer-bar,
+  .stage-details > summary::before,
+  .score-details > summary::before {
     transition: none;
   }
   .primary-btn:active,
@@ -1393,17 +1474,6 @@ h2:focus {
   .sauna-meter-value,
   .stay-timer-value {
     font-size: 1.2rem;
-  }
-  /* 狭い列では見出しを数値の上に置き、ロウリュの上昇幅は数値の右に出す */
-  .sauna-meter-box {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-  }
-  .meter-delta {
-    right: auto;
-    left: 100%;
-    margin: 0 0 0 8px;
   }
   .dock-actions {
     gap: 8px;
