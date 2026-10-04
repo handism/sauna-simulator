@@ -94,6 +94,18 @@ describe('createDynamicResolution', () => {
     expect(changes).toBe(0);
   });
 
+  it('does not count the frames between pauses (a still view at 30 fps)', () => {
+    const controller = createDynamicResolution(1.5);
+    let changes = 0;
+    for (let now = 0; now < 30_000; now += 1000 / 30) {
+      if (controller.frame(now) !== null) changes++;
+      controller.pause();
+    }
+    expect(changes).toBe(0);
+    // Slow frames after the pause still step down.
+    expect(run(controller, 30_000, 30, 3 * WINDOW_MS).changes).toEqual([[expect.any(Number), 1.25]]);
+  });
+
   it('tries a step up after a run within the budget and backs off when it turns slow', () => {
     const controller = createDynamicResolution(1.5);
     let t = stepDown(controller, 0);

@@ -6,7 +6,7 @@ test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, reducedMotion:
 test('touch look survives a second finger and cancellation; controls remain tappable', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('?view=3d');
+  await page.goto('?view=3d&frameRate=full');
   await page.getByRole('button', { name: '音なしで入室する' }).tap();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');

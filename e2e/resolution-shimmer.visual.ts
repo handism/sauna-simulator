@@ -28,7 +28,7 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.addInitScript(controlFrames);
-  await page.goto(`?view=3d${process.env.SHIMMER_QUERY ?? ''}`);
+  await page.goto(`?view=3d&frameRate=full${process.env.SHIMMER_QUERY ?? ''}`);
   await page.getByRole('button', { name: '音なしで入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');

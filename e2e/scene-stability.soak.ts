@@ -101,7 +101,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
     expect(errors).toEqual([]);
   };
   try {
-    await page.goto('?view=3d');
+    await page.goto('?view=3d&frameRate=full');
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     await ready();
     const activeStarted = Date.now();

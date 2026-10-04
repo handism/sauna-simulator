@@ -89,6 +89,10 @@ export function createDynamicResolution(max: number) {
       goodSince = raisedAt = downFrom = heldUntil = -1;
       restart();
     },
+    /** Frames at a capped rate follow (frameRate.ts): the window so far is not counted. */
+    pause() {
+      restart();
+    },
     /** Each drawn frame's time (requestAnimationFrame's); the new pixel ratio when it changes. */
     frame(now: number): number | null {
       if (last < 0 || now - last > HITCH_MS) {

@@ -37,7 +37,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
         definition.views[stage] = { position: camera.position, target: camera.target, fov: camera.fov };
       await route.fulfill({ json: definition });
     });
-    await page.goto('?view=3d');
+    await page.goto('?view=3d&frameRate=full');
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     const canvas = scene.locator('canvas');

@@ -10,7 +10,7 @@ import './agx';
 import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
-import { createSteam } from './steam';
+import { createSteam, LIFETIME_SECONDS } from './steam';
 import { createFrameMetrics } from './frameMetrics';
 import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
 import { attachLookControls } from './lookControls';
@@ -26,6 +26,7 @@ import { createDepthPrepass } from './depthPrepass';
 import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';
 import { createShadowMask } from './shadowMask';
 import { createDynamicResolution } from './dynamicResolution';
+import { createFrameRate } from './frameRate';
 
 export interface SceneProps {
   audio: AudioEngine;
@@ -145,7 +146,10 @@ export default function SaunaScene({
     scene.add(steam.points);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onLoyly = () => {
-      if (ready && stageRef.current === 'sauna') steam.start(performance.now());
+      if (!ready || stageRef.current !== 'sauna') return;
+      const now = performance.now();
+      steam.start(now);
+      frameRate?.hold(now, LIFETIME_SECONDS * 1000);
     };
     loylyEvents.addEventListener('loyly', onLoyly);
     const metrics = createFrameMetrics(element);
@@ -154,6 +158,10 @@ export default function SaunaScene({
     const query = new URLSearchParams(window.location.search);
     const resolution = query.get('resolution') === 'fixed' ? null : createDynamicResolution(1);
     setData('resolution', resolution ? 'auto' : 'fixed');
+    // A still view draws at 30 fps (frameRate.ts); ?frameRate=full draws every frame, for frame
+    // cost measurements and tests that drive the animation frames themselves.
+    const frameRate = query.get('frameRate') === 'full' ? null : createFrameRate();
+    setData('frameRate', frameRate ? 'auto' : 'full');
     // ?temporal=off draws each frame on its own (temporalAA.ts), for comparisons.
     const temporal = query.get('temporal') !== 'off';
     const applyQuality = () => {
@@ -388,12 +396,24 @@ export default function SaunaScene({
             if (!disposed && !failed) setGarden('failed');
           }
         })();
+        // The view drawn last: a moving one holds the full rate.
+        const seenPosition = new THREE.Vector3();
+        const seenQuaternion = new THREE.Quaternion();
         renderer.setAnimationLoop((now) => {
           if (document.hidden) {
             metrics.pause();
             return;
           }
-          const ratio = resolution?.frame(now) ?? null;
+          if (!camera.position.equals(seenPosition) || !camera.quaternion.equals(seenQuaternion)) {
+            seenPosition.copy(camera.position);
+            seenQuaternion.copy(camera.quaternion);
+            frameRate?.hold(now);
+          }
+          if (frameRate && !frameRate.draw(now)) return;
+          // The resolution follows the full rate's frames only: 30 fps is not a slow GPU.
+          const capped = frameRate !== null && !frameRate.full(now);
+          if (capped) resolution?.pause();
+          const ratio = capped ? null : (resolution?.frame(now) ?? null);
           if (ratio !== null) {
             renderer.setPixelRatio(ratio);
             setData('pixelRatio', String(renderer.getPixelRatio()));

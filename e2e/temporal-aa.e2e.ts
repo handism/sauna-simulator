@@ -37,7 +37,7 @@ async function differingShare(page: Page, a: Buffer, b: Buffer, levels: number) 
 }
 
 async function enter(page: Page, query: string) {
-  await page.goto(`?view=3d&resolution=fixed${query}`);
+  await page.goto(`?view=3d&frameRate=full&resolution=fixed${query}`);
   await page.getByRole('button', { name: '音なしで入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });

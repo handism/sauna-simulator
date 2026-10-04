@@ -26,7 +26,7 @@ test('automatic lighting follows the time since entering, across stages and a 3D
       const w = window as unknown as { suiNow: number; suiEntered: number };
       w.suiNow = w.suiEntered + ms;
     }, minutes * 60_000);
-  await page.goto('?view=3d');
+  await page.goto('?view=3d&frameRate=full');
   await page.evaluate(() => {
     const w = window as unknown as { suiNow: number; suiEntered: number };
     w.suiEntered = w.suiNow;

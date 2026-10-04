@@ -13,7 +13,7 @@ export function updateSteamPositions(positions: Float32Array, age: number, reduc
 }
 
 const PARTICLES = 90;
-const LIFETIME_SECONDS = 6;
+export const LIFETIME_SECONDS = 6;
 const PEAK_OPACITY = 0.24;
 
 /**

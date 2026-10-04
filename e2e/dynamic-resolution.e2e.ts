@@ -38,7 +38,7 @@ async function enter(page: Page, query: string) {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.addInitScript(slowFrames);
-  await page.goto(`?view=3d${query}`);
+  await page.goto(`?view=3d&frameRate=full${query}`);
   await page.getByRole('button', { name: '音なしで入室する' }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });

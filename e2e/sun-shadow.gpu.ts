@@ -113,7 +113,7 @@ for (const mode of modes) {
           await route.fulfill({ json: definition });
         });
       }
-      await page.goto('?view=3d');
+      await page.goto('?view=3d&frameRate=full');
       await page.getByRole('button', { name: '音なしで入室する' }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });

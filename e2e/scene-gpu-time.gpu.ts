@@ -25,7 +25,7 @@ test('measure the GPU time of the sauna and plunge views', async ({ page, browse
       if (camera) definition.views.water = { position: camera.position, target: camera.target, fov: camera.fov };
       await route.fulfill({ json: definition });
     });
-    await page.goto('?view=3d');
+    await page.goto('?view=3d&frameRate=full');
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });

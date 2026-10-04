@@ -24,7 +24,7 @@ for (const [label, variant] of [
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     await page.addInitScript(patchShadows, { from: [BLOCKER_SAMPLES, FILTER_SAMPLES], to: PCSS_VARIANTS[variant] });
-    await page.goto('?view=3d');
+    await page.goto('?view=3d&frameRate=full');
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     const canvas = scene.locator('canvas');
