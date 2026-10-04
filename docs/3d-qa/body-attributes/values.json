@@ -1,0 +1,5514 @@
+{
+  "path": "public/models/sauna.glb",
+  "sha256": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
+  "scriptSha256": "6976b0239f77b11c4547d5cc2aca2d34d51c76a238712db651de8092185de6e8",
+  "method": "Unique accessors, decoded finite values. Oct8 roundtrip only; excludes runtime subdivision, driver allocation and visual validation.",
+  "totals": {
+    "POSITION": {
+      "count": 153985,
+      "decodedBytes": 1847820,
+      "compressedBytes": 424352
+    },
+    "NORMAL": {
+      "count": 153985,
+      "decodedBytes": 1847820,
+      "compressedBytes": 518896,
+      "oct8DecodedBytes": 615940,
+      "oct8CompressedBytes": 214282,
+      "maxAngleDegrees": 1.2163294997798866
+    },
+    "TEXCOORD_0": {
+      "count": 134591,
+      "decodedBytes": 1076728,
+      "compressedBytes": 282517
+    },
+    "TEXCOORD_1": {
+      "count": 74998,
+      "decodedBytes": 599984,
+      "compressedBytes": 47338
+    },
+    "COLOR_0": {
+      "count": 64084,
+      "decodedBytes": 512672,
+      "compressedBytes": 19935
+    }
+  },
+  "rows": [
+    {
+      "mesh": "立方体.004",
+      "semantic": "POSITION",
+      "accessor": 0,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 13489,
+      "decodedBytes": 161868,
+      "compressedBytes": 25368,
+      "min": [
+        -3.344970703125,
+        -0.93499755859375,
+        -1.260009765625
+      ],
+      "max": [
+        10.4449462890625,
+        0.09999847412109375,
+        6.28399658203125
+      ]
+    },
+    {
+      "mesh": "立方体.004",
+      "semantic": "NORMAL",
+      "accessor": 1,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 13489,
+      "decodedBytes": 161868,
+      "compressedBytes": 37967,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 53956,
+        "compressedBytes": 14180,
+        "maxAngleDegrees": 0.6365935759640523
+      }
+    },
+    {
+      "mesh": "立方体.004",
+      "semantic": "TEXCOORD_0",
+      "accessor": 2,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 13489,
+      "decodedBytes": 107912,
+      "compressedBytes": 523,
+      "min": [
+        0,
+        0
+      ],
+      "max": [
+        0.8746337890625,
+        1
+      ]
+    },
+    {
+      "mesh": "立方体.004",
+      "semantic": "TEXCOORD_1",
+      "accessor": 3,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 13489,
+      "decodedBytes": 107912,
+      "compressedBytes": 32920,
+      "min": [
+        -2.0205078125,
+        -1.61822509765625
+      ],
+      "max": [
+        4.748779296875,
+        1.28570556640625
+      ]
+    },
+    {
+      "mesh": "立方体.004",
+      "semantic": "COLOR_0",
+      "accessor": 4,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 13489,
+      "decodedBytes": 107912,
+      "compressedBytes": 4619,
+      "min": [
+        0.007339589763432741,
+        0.007339589763432741,
+        0.007339589763432741,
+        1
+      ],
+      "max": [
+        0.9933775663375854,
+        0.9933775663375854,
+        0.9933775663375854,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.001",
+      "semantic": "POSITION",
+      "accessor": 6,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 22988,
+      "decodedBytes": 275856,
+      "compressedBytes": 80294,
+      "min": [
+        -10.1695556640625,
+        -0.549468994140625,
+        -5.7188720703125
+      ],
+      "max": [
+        9.82568359375,
+        3.81500244140625,
+        8.885009765625
+      ]
+    },
+    {
+      "mesh": "Cube.001",
+      "semantic": "NORMAL",
+      "accessor": 7,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 22988,
+      "decodedBytes": 275856,
+      "compressedBytes": 89258,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 91952,
+        "compressedBytes": 37321,
+        "maxAngleDegrees": 1.1789567584473613
+      }
+    },
+    {
+      "mesh": "Cube.001",
+      "semantic": "TEXCOORD_0",
+      "accessor": 8,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 22988,
+      "decodedBytes": 183904,
+      "compressedBytes": 65939,
+      "min": [
+        -5.36181640625,
+        -4.005126953125
+      ],
+      "max": [
+        5.838134765625,
+        3.994873046875
+      ]
+    },
+    {
+      "mesh": "Cube.001",
+      "semantic": "TEXCOORD_1",
+      "accessor": 9,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 22988,
+      "decodedBytes": 183904,
+      "compressedBytes": 7439,
+      "min": [
+        0,
+        0.527587890625
+      ],
+      "max": [
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.001",
+      "semantic": "COLOR_0",
+      "accessor": 10,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 22988,
+      "decodedBytes": 183904,
+      "compressedBytes": 7039,
+      "min": [
+        0.008316166698932648,
+        0.008316166698932648,
+        0.008316166698932648,
+        1
+      ],
+      "max": [
+        0.9947051405906677,
+        0.9947051405906677,
+        0.9947051405906677,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.105",
+      "semantic": "POSITION",
+      "accessor": 12,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.105",
+      "semantic": "NORMAL",
+      "accessor": 13,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.105",
+      "semantic": "TEXCOORD_0",
+      "accessor": 14,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 207,
+      "min": [
+        1.447021484375,
+        -0.879638671875
+      ],
+      "max": [
+        1.7392578125,
+        -0.3072509765625
+      ]
+    },
+    {
+      "mesh": "Cube.105",
+      "semantic": "COLOR_0",
+      "accessor": 15,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.6740978360176086,
+        0.6740978360176086,
+        0.6740978360176086,
+        1
+      ],
+      "max": [
+        0.6740978360176086,
+        0.6740978360176086,
+        0.6740978360176086,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.106",
+      "semantic": "POSITION",
+      "accessor": 17,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.106",
+      "semantic": "NORMAL",
+      "accessor": 18,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.106",
+      "semantic": "TEXCOORD_0",
+      "accessor": 19,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        1.486083984375,
+        -0.98193359375
+      ],
+      "max": [
+        1.778564453125,
+        -0.4095458984375
+      ]
+    },
+    {
+      "mesh": "Cube.106",
+      "semantic": "COLOR_0",
+      "accessor": 20,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.45397114753723145,
+        0.45397114753723145,
+        0.45397114753723145,
+        1
+      ],
+      "max": [
+        0.45397114753723145,
+        0.45397114753723145,
+        0.45397114753723145,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.108",
+      "semantic": "POSITION",
+      "accessor": 22,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.108",
+      "semantic": "NORMAL",
+      "accessor": 23,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.108",
+      "semantic": "TEXCOORD_0",
+      "accessor": 24,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 206,
+      "min": [
+        1.611083984375,
+        -0.5775146484375
+      ],
+      "max": [
+        1.9033203125,
+        -0.0052490234375
+      ]
+    },
+    {
+      "mesh": "Cube.108",
+      "semantic": "COLOR_0",
+      "accessor": 25,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.08294804394245148,
+        0.08294804394245148,
+        0.08294804394245148,
+        1
+      ],
+      "max": [
+        0.08294804394245148,
+        0.08294804394245148,
+        0.08294804394245148,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.109",
+      "semantic": "POSITION",
+      "accessor": 27,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.109",
+      "semantic": "NORMAL",
+      "accessor": 28,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.109",
+      "semantic": "TEXCOORD_0",
+      "accessor": 29,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 205,
+      "min": [
+        0.669921875,
+        -0.852783203125
+      ],
+      "max": [
+        0.962158203125,
+        -0.280517578125
+      ]
+    },
+    {
+      "mesh": "Cube.109",
+      "semantic": "COLOR_0",
+      "accessor": 30,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.15176622569561005,
+        0.15176622569561005,
+        0.15176622569561005,
+        1
+      ],
+      "max": [
+        0.15176622569561005,
+        0.15176622569561005,
+        0.15176622569561005,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.111",
+      "semantic": "POSITION",
+      "accessor": 32,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.111",
+      "semantic": "NORMAL",
+      "accessor": 33,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.111",
+      "semantic": "TEXCOORD_0",
+      "accessor": 34,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 207,
+      "min": [
+        1.776123046875,
+        0.00994873046875
+      ],
+      "max": [
+        2.068603515625,
+        0.582275390625
+      ]
+    },
+    {
+      "mesh": "Cube.111",
+      "semantic": "COLOR_0",
+      "accessor": 35,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.4717021584510803,
+        0.4717021584510803,
+        0.4717021584510803,
+        1
+      ],
+      "max": [
+        0.4717021584510803,
+        0.4717021584510803,
+        0.4717021584510803,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.112",
+      "semantic": "POSITION",
+      "accessor": 37,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.112",
+      "semantic": "NORMAL",
+      "accessor": 38,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.112",
+      "semantic": "TEXCOORD_0",
+      "accessor": 39,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 223,
+      "min": [
+        0.16748046875,
+        -0.41015625
+      ],
+      "max": [
+        0.459716796875,
+        0.162109375
+      ]
+    },
+    {
+      "mesh": "Cube.112",
+      "semantic": "COLOR_0",
+      "accessor": 40,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.5674524903297424,
+        0.5674524903297424,
+        0.5674524903297424,
+        1
+      ],
+      "max": [
+        0.5674524903297424,
+        0.5674524903297424,
+        0.5674524903297424,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.114",
+      "semantic": "POSITION",
+      "accessor": 41,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.114",
+      "semantic": "NORMAL",
+      "accessor": 42,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.114",
+      "semantic": "TEXCOORD_0",
+      "accessor": 43,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 207,
+      "min": [
+        0.0732421875,
+        -0.71826171875
+      ],
+      "max": [
+        0.3656005859375,
+        -0.145751953125
+      ]
+    },
+    {
+      "mesh": "Cube.114",
+      "semantic": "COLOR_0",
+      "accessor": 44,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.7753413915634155,
+        0.7753413915634155,
+        0.7753413915634155,
+        1
+      ],
+      "max": [
+        0.7753413915634155,
+        0.7753413915634155,
+        0.7753413915634155,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.115",
+      "semantic": "POSITION",
+      "accessor": 46,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.115",
+      "semantic": "NORMAL",
+      "accessor": 47,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.115",
+      "semantic": "TEXCOORD_0",
+      "accessor": 48,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 232,
+      "min": [
+        0.96533203125,
+        -0.4222412109375
+      ],
+      "max": [
+        1.2578125,
+        0.15008544921875
+      ]
+    },
+    {
+      "mesh": "Cube.115",
+      "semantic": "COLOR_0",
+      "accessor": 49,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.6294499039649963,
+        0.6294499039649963,
+        0.6294499039649963,
+        1
+      ],
+      "max": [
+        0.6294499039649963,
+        0.6294499039649963,
+        0.6294499039649963,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.117",
+      "semantic": "POSITION",
+      "accessor": 51,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.117",
+      "semantic": "NORMAL",
+      "accessor": 52,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.117",
+      "semantic": "TEXCOORD_0",
+      "accessor": 53,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 226,
+      "min": [
+        0.39013671875,
+        -0.3975830078125
+      ],
+      "max": [
+        0.682373046875,
+        0.1746826171875
+      ]
+    },
+    {
+      "mesh": "Cube.117",
+      "semantic": "COLOR_0",
+      "accessor": 54,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.9136644601821899,
+        0.9136644601821899,
+        0.9136644601821899,
+        1
+      ],
+      "max": [
+        0.9136644601821899,
+        0.9136644601821899,
+        0.9136644601821899,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.118",
+      "semantic": "POSITION",
+      "accessor": 55,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.118",
+      "semantic": "NORMAL",
+      "accessor": 56,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.118",
+      "semantic": "TEXCOORD_0",
+      "accessor": 57,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        0.0567626953125,
+        0.1865234375
+      ],
+      "max": [
+        0.34912109375,
+        0.7587890625
+      ]
+    },
+    {
+      "mesh": "Cube.118",
+      "semantic": "COLOR_0",
+      "accessor": 58,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.21974517405033112,
+        0.21974517405033112,
+        0.21974517405033112,
+        1
+      ],
+      "max": [
+        0.21974517405033112,
+        0.21974517405033112,
+        0.21974517405033112,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.120",
+      "semantic": "POSITION",
+      "accessor": 59,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.120",
+      "semantic": "NORMAL",
+      "accessor": 60,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.120",
+      "semantic": "TEXCOORD_0",
+      "accessor": 61,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        1.222900390625,
+        -0.8043212890625
+      ],
+      "max": [
+        1.51513671875,
+        -0.2320556640625
+      ]
+    },
+    {
+      "mesh": "Cube.120",
+      "semantic": "COLOR_0",
+      "accessor": 62,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.3698481619358063,
+        0.3698481619358063,
+        0.3698481619358063,
+        1
+      ],
+      "max": [
+        0.3698481619358063,
+        0.3698481619358063,
+        0.3698481619358063,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.121",
+      "semantic": "POSITION",
+      "accessor": 63,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.121",
+      "semantic": "NORMAL",
+      "accessor": 64,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.121",
+      "semantic": "TEXCOORD_0",
+      "accessor": 65,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 206,
+      "min": [
+        1.298583984375,
+        0.3428955078125
+      ],
+      "max": [
+        1.5908203125,
+        0.9151611328125
+      ]
+    },
+    {
+      "mesh": "Cube.121",
+      "semantic": "COLOR_0",
+      "accessor": 66,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.8121461868286133,
+        0.8121461868286133,
+        0.8121461868286133,
+        1
+      ],
+      "max": [
+        0.8121461868286133,
+        0.8121461868286133,
+        0.8121461868286133,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.123",
+      "semantic": "POSITION",
+      "accessor": 68,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.123",
+      "semantic": "NORMAL",
+      "accessor": 69,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.123",
+      "semantic": "TEXCOORD_0",
+      "accessor": 70,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 204,
+      "min": [
+        0.407470703125,
+        -0.9609375
+      ],
+      "max": [
+        0.69970703125,
+        -0.388671875
+      ]
+    },
+    {
+      "mesh": "Cube.123",
+      "semantic": "COLOR_0",
+      "accessor": 71,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.21849393844604492,
+        0.21849393844604492,
+        0.21849393844604492,
+        1
+      ],
+      "max": [
+        0.21849393844604492,
+        0.21849393844604492,
+        0.21849393844604492,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.124",
+      "semantic": "POSITION",
+      "accessor": 72,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.124",
+      "semantic": "NORMAL",
+      "accessor": 73,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.124",
+      "semantic": "TEXCOORD_0",
+      "accessor": 74,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 205,
+      "min": [
+        0.43603515625,
+        0.084716796875
+      ],
+      "max": [
+        0.728271484375,
+        0.656982421875
+      ]
+    },
+    {
+      "mesh": "Cube.124",
+      "semantic": "COLOR_0",
+      "accessor": 75,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.4453955888748169,
+        0.4453955888748169,
+        0.4453955888748169,
+        1
+      ],
+      "max": [
+        0.4453955888748169,
+        0.4453955888748169,
+        0.4453955888748169,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.126",
+      "semantic": "POSITION",
+      "accessor": 77,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.126",
+      "semantic": "NORMAL",
+      "accessor": 78,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.126",
+      "semantic": "TEXCOORD_0",
+      "accessor": 79,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 209,
+      "min": [
+        0.6771240234375,
+        -1.082275390625
+      ],
+      "max": [
+        0.969482421875,
+        -0.510009765625
+      ]
+    },
+    {
+      "mesh": "Cube.126",
+      "semantic": "COLOR_0",
+      "accessor": 80,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.7406424283981323,
+        0.7406424283981323,
+        0.7406424283981323,
+        1
+      ],
+      "max": [
+        0.7406424283981323,
+        0.7406424283981323,
+        0.7406424283981323,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.127",
+      "semantic": "POSITION",
+      "accessor": 81,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.127",
+      "semantic": "NORMAL",
+      "accessor": 82,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.127",
+      "semantic": "TEXCOORD_0",
+      "accessor": 83,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 224,
+      "min": [
+        1.407470703125,
+        -0.115234375
+      ],
+      "max": [
+        1.69970703125,
+        0.45709228515625
+      ]
+    },
+    {
+      "mesh": "Cube.127",
+      "semantic": "COLOR_0",
+      "accessor": 84,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.4257267117500305,
+        0.4257267117500305,
+        0.4257267117500305,
+        1
+      ],
+      "max": [
+        0.4257267117500305,
+        0.4257267117500305,
+        0.4257267117500305,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.129",
+      "semantic": "POSITION",
+      "accessor": 85,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.129",
+      "semantic": "NORMAL",
+      "accessor": 86,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.129",
+      "semantic": "TEXCOORD_0",
+      "accessor": 87,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 233,
+      "min": [
+        -0.100189208984375,
+        0.4677734375
+      ],
+      "max": [
+        0.192108154296875,
+        1.0400390625
+      ]
+    },
+    {
+      "mesh": "Cube.129",
+      "semantic": "COLOR_0",
+      "accessor": 88,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.4929121732711792,
+        0.4929121732711792,
+        0.4929121732711792,
+        1
+      ],
+      "max": [
+        0.4929121732711792,
+        0.4929121732711792,
+        0.4929121732711792,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.130",
+      "semantic": "POSITION",
+      "accessor": 90,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.130",
+      "semantic": "NORMAL",
+      "accessor": 91,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.130",
+      "semantic": "TEXCOORD_0",
+      "accessor": 92,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 230,
+      "min": [
+        1.2255859375,
+        -0.4390869140625
+      ],
+      "max": [
+        1.517822265625,
+        0.1331787109375
+      ]
+    },
+    {
+      "mesh": "Cube.130",
+      "semantic": "COLOR_0",
+      "accessor": 93,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.8028076887130737,
+        0.8028076887130737,
+        0.8028076887130737,
+        1
+      ],
+      "max": [
+        0.8028076887130737,
+        0.8028076887130737,
+        0.8028076887130737,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.132",
+      "semantic": "POSITION",
+      "accessor": 94,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.132",
+      "semantic": "NORMAL",
+      "accessor": 95,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.132",
+      "semantic": "TEXCOORD_0",
+      "accessor": 96,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 231,
+      "min": [
+        1.413330078125,
+        -0.5006103515625
+      ],
+      "max": [
+        1.70556640625,
+        0.0716552734375
+      ]
+    },
+    {
+      "mesh": "Cube.132",
+      "semantic": "COLOR_0",
+      "accessor": 97,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.9405050873756409,
+        0.9405050873756409,
+        0.9405050873756409,
+        1
+      ],
+      "max": [
+        0.9405050873756409,
+        0.9405050873756409,
+        0.9405050873756409,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.133",
+      "semantic": "POSITION",
+      "accessor": 98,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.133",
+      "semantic": "NORMAL",
+      "accessor": 99,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.133",
+      "semantic": "TEXCOORD_0",
+      "accessor": 100,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 226,
+      "min": [
+        1.163330078125,
+        -0.5164794921875
+      ],
+      "max": [
+        1.45556640625,
+        0.055908203125
+      ]
+    },
+    {
+      "mesh": "Cube.133",
+      "semantic": "COLOR_0",
+      "accessor": 101,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.034134432673454285,
+        0.034134432673454285,
+        0.034134432673454285,
+        1
+      ],
+      "max": [
+        0.034134432673454285,
+        0.034134432673454285,
+        0.034134432673454285,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.135",
+      "semantic": "POSITION",
+      "accessor": 103,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.135",
+      "semantic": "NORMAL",
+      "accessor": 104,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.135",
+      "semantic": "TEXCOORD_0",
+      "accessor": 105,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 230,
+      "min": [
+        0.28515625,
+        -0.2115478515625
+      ],
+      "max": [
+        0.577392578125,
+        0.36083984375
+      ]
+    },
+    {
+      "mesh": "Cube.135",
+      "semantic": "COLOR_0",
+      "accessor": 106,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.04115358367562294,
+        0.04115358367562294,
+        0.04115358367562294,
+        1
+      ],
+      "max": [
+        0.04115358367562294,
+        0.04115358367562294,
+        0.04115358367562294,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.136",
+      "semantic": "POSITION",
+      "accessor": 107,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.136",
+      "semantic": "NORMAL",
+      "accessor": 108,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.136",
+      "semantic": "TEXCOORD_0",
+      "accessor": 109,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        1.81201171875,
+        -1.04296875
+      ],
+      "max": [
+        2.1044921875,
+        -0.470703125
+      ]
+    },
+    {
+      "mesh": "Cube.136",
+      "semantic": "COLOR_0",
+      "accessor": 110,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.18374913930892944,
+        0.18374913930892944,
+        0.18374913930892944,
+        1
+      ],
+      "max": [
+        0.18374913930892944,
+        0.18374913930892944,
+        0.18374913930892944,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.138",
+      "semantic": "POSITION",
+      "accessor": 111,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.138",
+      "semantic": "NORMAL",
+      "accessor": 112,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.138",
+      "semantic": "TEXCOORD_0",
+      "accessor": 113,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 206,
+      "min": [
+        1.216552734375,
+        -1.133544921875
+      ],
+      "max": [
+        1.509033203125,
+        -0.561279296875
+      ]
+    },
+    {
+      "mesh": "Cube.138",
+      "semantic": "COLOR_0",
+      "accessor": 114,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.19684138894081116,
+        0.19684138894081116,
+        0.19684138894081116,
+        1
+      ],
+      "max": [
+        0.19684138894081116,
+        0.19684138894081116,
+        0.19684138894081116,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.139",
+      "semantic": "POSITION",
+      "accessor": 115,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.139",
+      "semantic": "NORMAL",
+      "accessor": 116,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.139",
+      "semantic": "TEXCOORD_0",
+      "accessor": 117,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        0.6319580078125,
+        -1.18017578125
+      ],
+      "max": [
+        0.9241943359375,
+        -0.60791015625
+      ]
+    },
+    {
+      "mesh": "Cube.139",
+      "semantic": "COLOR_0",
+      "accessor": 118,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.4579232335090637,
+        0.4579232335090637,
+        0.4579232335090637,
+        1
+      ],
+      "max": [
+        0.4579232335090637,
+        0.4579232335090637,
+        0.4579232335090637,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.141",
+      "semantic": "POSITION",
+      "accessor": 120,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.141",
+      "semantic": "NORMAL",
+      "accessor": 121,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.141",
+      "semantic": "TEXCOORD_0",
+      "accessor": 122,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 206,
+      "min": [
+        0.727294921875,
+        0.66650390625
+      ],
+      "max": [
+        1.01953125,
+        1.23876953125
+      ]
+    },
+    {
+      "mesh": "Cube.141",
+      "semantic": "COLOR_0",
+      "accessor": 123,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.8851911425590515,
+        0.8851911425590515,
+        0.8851911425590515,
+        1
+      ],
+      "max": [
+        0.8851911425590515,
+        0.8851911425590515,
+        0.8851911425590515,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.142",
+      "semantic": "POSITION",
+      "accessor": 125,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.142",
+      "semantic": "NORMAL",
+      "accessor": 126,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.142",
+      "semantic": "TEXCOORD_0",
+      "accessor": 127,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        1.244384765625,
+        0.134765625
+      ],
+      "max": [
+        1.536865234375,
+        0.70703125
+      ]
+    },
+    {
+      "mesh": "Cube.142",
+      "semantic": "COLOR_0",
+      "accessor": 128,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.43424123525619507,
+        0.43424123525619507,
+        0.43424123525619507,
+        1
+      ],
+      "max": [
+        0.43424123525619507,
+        0.43424123525619507,
+        0.43424123525619507,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.144",
+      "semantic": "POSITION",
+      "accessor": 129,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.144",
+      "semantic": "NORMAL",
+      "accessor": 130,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.144",
+      "semantic": "TEXCOORD_0",
+      "accessor": 131,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        0.0985107421875,
+        -0.822021484375
+      ],
+      "max": [
+        0.3907470703125,
+        -0.24951171875
+      ]
+    },
+    {
+      "mesh": "Cube.144",
+      "semantic": "COLOR_0",
+      "accessor": 132,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.4256046414375305,
+        0.4256046414375305,
+        0.4256046414375305,
+        1
+      ],
+      "max": [
+        0.4256046414375305,
+        0.4256046414375305,
+        0.4256046414375305,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.145",
+      "semantic": "POSITION",
+      "accessor": 133,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.145",
+      "semantic": "NORMAL",
+      "accessor": 134,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.145",
+      "semantic": "TEXCOORD_0",
+      "accessor": 135,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 208,
+      "min": [
+        0.4915771484375,
+        -1.092041015625
+      ],
+      "max": [
+        0.783935546875,
+        -0.519775390625
+      ]
+    },
+    {
+      "mesh": "Cube.145",
+      "semantic": "COLOR_0",
+      "accessor": 136,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.5528038740158081,
+        0.5528038740158081,
+        0.5528038740158081,
+        1
+      ],
+      "max": [
+        0.5528038740158081,
+        0.5528038740158081,
+        0.5528038740158081,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.147",
+      "semantic": "POSITION",
+      "accessor": 137,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.147",
+      "semantic": "NORMAL",
+      "accessor": 138,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.147",
+      "semantic": "TEXCOORD_0",
+      "accessor": 139,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 207,
+      "min": [
+        0.9755859375,
+        -0.7294921875
+      ],
+      "max": [
+        1.267822265625,
+        -0.1572265625
+      ]
+    },
+    {
+      "mesh": "Cube.147",
+      "semantic": "COLOR_0",
+      "accessor": 140,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.5496147274971008,
+        0.5496147274971008,
+        0.5496147274971008,
+        1
+      ],
+      "max": [
+        0.5496147274971008,
+        0.5496147274971008,
+        0.5496147274971008,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.148",
+      "semantic": "POSITION",
+      "accessor": 141,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.148",
+      "semantic": "NORMAL",
+      "accessor": 142,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.148",
+      "semantic": "TEXCOORD_0",
+      "accessor": 143,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 226,
+      "min": [
+        0.0791015625,
+        -0.524169921875
+      ],
+      "max": [
+        0.371337890625,
+        0.048095703125
+      ]
+    },
+    {
+      "mesh": "Cube.148",
+      "semantic": "COLOR_0",
+      "accessor": 144,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.06771954149007797,
+        0.06771954149007797,
+        0.06771954149007797,
+        1
+      ],
+      "max": [
+        0.06771954149007797,
+        0.06771954149007797,
+        0.06771954149007797,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.150",
+      "semantic": "POSITION",
+      "accessor": 145,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.150",
+      "semantic": "NORMAL",
+      "accessor": 146,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.150",
+      "semantic": "TEXCOORD_0",
+      "accessor": 147,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 204,
+      "min": [
+        0.56201171875,
+        -0.58203125
+      ],
+      "max": [
+        0.854248046875,
+        -0.009521484375
+      ]
+    },
+    {
+      "mesh": "Cube.150",
+      "semantic": "COLOR_0",
+      "accessor": 148,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.5274738669395447,
+        0.5274738669395447,
+        0.5274738669395447,
+        1
+      ],
+      "max": [
+        0.5274738669395447,
+        0.5274738669395447,
+        0.5274738669395447,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.151",
+      "semantic": "POSITION",
+      "accessor": 149,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.151",
+      "semantic": "NORMAL",
+      "accessor": 150,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.151",
+      "semantic": "TEXCOORD_0",
+      "accessor": 151,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 205,
+      "min": [
+        1.16552734375,
+        0.65625
+      ],
+      "max": [
+        1.457763671875,
+        1.228515625
+      ]
+    },
+    {
+      "mesh": "Cube.151",
+      "semantic": "COLOR_0",
+      "accessor": 152,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.807553231716156,
+        0.807553231716156,
+        0.807553231716156,
+        1
+      ],
+      "max": [
+        0.807553231716156,
+        0.807553231716156,
+        0.807553231716156,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.153",
+      "semantic": "POSITION",
+      "accessor": 154,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.153",
+      "semantic": "NORMAL",
+      "accessor": 155,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.153",
+      "semantic": "TEXCOORD_0",
+      "accessor": 156,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 206,
+      "min": [
+        0.6220703125,
+        0.2353515625
+      ],
+      "max": [
+        0.914306640625,
+        0.8076171875
+      ]
+    },
+    {
+      "mesh": "Cube.153",
+      "semantic": "COLOR_0",
+      "accessor": 157,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.5067673921585083,
+        0.5067673921585083,
+        0.5067673921585083,
+        1
+      ],
+      "max": [
+        0.5067673921585083,
+        0.5067673921585083,
+        0.5067673921585083,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.154",
+      "semantic": "POSITION",
+      "accessor": 158,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.154",
+      "semantic": "NORMAL",
+      "accessor": 159,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.154",
+      "semantic": "TEXCOORD_0",
+      "accessor": 160,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 204,
+      "min": [
+        0.69580078125,
+        0.274658203125
+      ],
+      "max": [
+        0.988037109375,
+        0.846923828125
+      ]
+    },
+    {
+      "mesh": "Cube.154",
+      "semantic": "COLOR_0",
+      "accessor": 161,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.7150377631187439,
+        0.7150377631187439,
+        0.7150377631187439,
+        1
+      ],
+      "max": [
+        0.7150377631187439,
+        0.7150377631187439,
+        0.7150377631187439,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.156",
+      "semantic": "POSITION",
+      "accessor": 163,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.156",
+      "semantic": "NORMAL",
+      "accessor": 164,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.156",
+      "semantic": "TEXCOORD_0",
+      "accessor": 165,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 205,
+      "min": [
+        1.177001953125,
+        -1.155517578125
+      ],
+      "max": [
+        1.46923828125,
+        -0.583251953125
+      ]
+    },
+    {
+      "mesh": "Cube.156",
+      "semantic": "COLOR_0",
+      "accessor": 166,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.7247577905654907,
+        0.7247577905654907,
+        0.7247577905654907,
+        1
+      ],
+      "max": [
+        0.7247577905654907,
+        0.7247577905654907,
+        0.7247577905654907,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.157",
+      "semantic": "POSITION",
+      "accessor": 167,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 216,
+      "min": [
+        -0.095001220703125,
+        -0.05999755859375,
+        -0.7440185546875
+      ],
+      "max": [
+        0.095001220703125,
+        0.05999755859375,
+        0.7440185546875
+      ]
+    },
+    {
+      "mesh": "Cube.157",
+      "semantic": "NORMAL",
+      "accessor": 168,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 912,
+      "compressedBytes": 235,
+      "min": [
+        -0.998046875,
+        -1,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 304,
+        "compressedBytes": 114,
+        "maxAngleDegrees": 0.4847159025375624
+      }
+    },
+    {
+      "mesh": "Cube.157",
+      "semantic": "TEXCOORD_0",
+      "accessor": 169,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 232,
+      "min": [
+        1.221435546875,
+        -0.07989501953125
+      ],
+      "max": [
+        1.513671875,
+        0.492431640625
+      ]
+    },
+    {
+      "mesh": "Cube.157",
+      "semantic": "COLOR_0",
+      "accessor": 170,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 76,
+      "decodedBytes": 608,
+      "compressedBytes": 27,
+      "min": [
+        0.038742657750844955,
+        0.038742657750844955,
+        0.038742657750844955,
+        1
+      ],
+      "max": [
+        0.038742657750844955,
+        0.038742657750844955,
+        0.038742657750844955,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.320",
+      "semantic": "POSITION",
+      "accessor": 171,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 24921,
+      "decodedBytes": 299052,
+      "compressedBytes": 55850,
+      "min": [
+        -0.469970703125,
+        -1.6699981689453125,
+        -4.66497802734375
+      ],
+      "max": [
+        13.12744140625,
+        1.7599945068359375,
+        3.1199951171875
+      ]
+    },
+    {
+      "mesh": "Cube.320",
+      "semantic": "NORMAL",
+      "accessor": 172,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 24921,
+      "decodedBytes": 299052,
+      "compressedBytes": 73329,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 99684,
+        "compressedBytes": 30505,
+        "maxAngleDegrees": 1.0102194981071786
+      }
+    },
+    {
+      "mesh": "Cube.320",
+      "semantic": "TEXCOORD_0",
+      "accessor": 173,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 24921,
+      "decodedBytes": 199368,
+      "compressedBytes": 54133,
+      "min": [
+        0,
+        0
+      ],
+      "max": [
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.320",
+      "semantic": "TEXCOORD_1",
+      "accessor": 174,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 24921,
+      "decodedBytes": 199368,
+      "compressedBytes": 2112,
+      "min": [
+        0,
+        0
+      ],
+      "max": [
+        0.874755859375,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.611",
+      "semantic": "POSITION",
+      "accessor": 176,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5778,
+      "decodedBytes": 69336,
+      "compressedBytes": 11818,
+      "min": [
+        -0.3499755859375,
+        -0.05000019073486328,
+        -3.89501953125
+      ],
+      "max": [
+        6.739990234375,
+        0.05000019073486328,
+        0.29498291015625
+      ]
+    },
+    {
+      "mesh": "Cube.611",
+      "semantic": "NORMAL",
+      "accessor": 177,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5778,
+      "decodedBytes": 69336,
+      "compressedBytes": 14253,
+      "min": [
+        -0.99609375,
+        -1,
+        -0.99609375
+      ],
+      "max": [
+        0.99609375,
+        1,
+        0.99609375
+      ],
+      "oct8": {
+        "decodedBytes": 23112,
+        "compressedBytes": 5733,
+        "maxAngleDegrees": 0.25031328153215354
+      }
+    },
+    {
+      "mesh": "Cube.611",
+      "semantic": "TEXCOORD_0",
+      "accessor": 178,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5778,
+      "decodedBytes": 46224,
+      "compressedBytes": 15171,
+      "min": [
+        -0.259033203125,
+        -1.2127685546875
+      ],
+      "max": [
+        2.257080078125,
+        1.2132568359375
+      ]
+    },
+    {
+      "mesh": "Cube.611",
+      "semantic": "COLOR_0",
+      "accessor": 179,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 5778,
+      "decodedBytes": 46224,
+      "compressedBytes": 1850,
+      "min": [
+        0.006164644844830036,
+        0.006164644844830036,
+        0.006164644844830036,
+        1
+      ],
+      "max": [
+        0.9845273494720459,
+        0.9845273494720459,
+        0.9845273494720459,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.693",
+      "semantic": "POSITION",
+      "accessor": 181,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 271,
+      "decodedBytes": 3252,
+      "compressedBytes": 685,
+      "min": [
+        -9.050048828125,
+        -0.0800018310546875,
+        -0.055999755859375
+      ],
+      "max": [
+        3.4949951171875,
+        0.50250244140625,
+        1.00750732421875
+      ]
+    },
+    {
+      "mesh": "Cube.693",
+      "semantic": "NORMAL",
+      "accessor": 182,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 271,
+      "decodedBytes": 3252,
+      "compressedBytes": 1039,
+      "min": [
+        -0.953125,
+        -0.970703125,
+        -0.99609375
+      ],
+      "max": [
+        0.953125,
+        1,
+        0.99609375
+      ],
+      "oct8": {
+        "decodedBytes": 1084,
+        "compressedBytes": 427,
+        "maxAngleDegrees": 0.6652372160008317
+      }
+    },
+    {
+      "mesh": "Cube.693",
+      "semantic": "TEXCOORD_0",
+      "accessor": 183,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 271,
+      "decodedBytes": 2168,
+      "compressedBytes": 667,
+      "min": [
+        0.125,
+        0
+      ],
+      "max": [
+        0.874755859375,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.213",
+      "semantic": "POSITION",
+      "accessor": 185,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 12839,
+      "decodedBytes": 154068,
+      "compressedBytes": 28407,
+      "min": [
+        -0.0860595703125,
+        -1.6100006103515625,
+        -0.125
+      ],
+      "max": [
+        13.10498046875,
+        1.6750030517578125,
+        5.29498291015625
+      ]
+    },
+    {
+      "mesh": "Cube.213",
+      "semantic": "NORMAL",
+      "accessor": 186,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 12839,
+      "decodedBytes": 154068,
+      "compressedBytes": 36126,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 51356,
+        "compressedBytes": 13915,
+        "maxAngleDegrees": 0.8030137850348932
+      }
+    },
+    {
+      "mesh": "Cube.213",
+      "semantic": "TEXCOORD_0",
+      "accessor": 187,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 12839,
+      "decodedBytes": 102712,
+      "compressedBytes": 26563,
+      "min": [
+        -0.112548828125,
+        -2.0283203125
+      ],
+      "max": [
+        2.126708984375,
+        1.9423828125
+      ]
+    },
+    {
+      "mesh": "Cube.213",
+      "semantic": "TEXCOORD_1",
+      "accessor": 188,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 12839,
+      "decodedBytes": 102712,
+      "compressedBytes": 4583,
+      "min": [
+        0,
+        0
+      ],
+      "max": [
+        0.874267578125,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.213",
+      "semantic": "COLOR_0",
+      "accessor": 189,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 12839,
+      "decodedBytes": 102712,
+      "compressedBytes": 4201,
+      "min": [
+        0.007339589763432741,
+        0.007339589763432741,
+        0.007339589763432741,
+        1
+      ],
+      "max": [
+        0.9730525612831116,
+        0.9730525612831116,
+        0.9730525612831116,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "POSITION",
+      "accessor": 191,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1022,
+      "decodedBytes": 12264,
+      "compressedBytes": 2717,
+      "min": [
+        -2.449951171875,
+        -0.5050048828125,
+        -1.20501708984375
+      ],
+      "max": [
+        2.449951171875,
+        0.915008544921875,
+        0.7080078125
+      ]
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "NORMAL",
+      "accessor": 192,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1022,
+      "decodedBytes": 12264,
+      "compressedBytes": 3122,
+      "min": [
+        -0.95703125,
+        -0.984375,
+        -0.98828125
+      ],
+      "max": [
+        0.95703125,
+        0.984375,
+        0.98828125
+      ],
+      "oct8": {
+        "decodedBytes": 4088,
+        "compressedBytes": 1321,
+        "maxAngleDegrees": 0.5522577286980167
+      }
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "TEXCOORD_0",
+      "accessor": 193,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1022,
+      "decodedBytes": 8176,
+      "compressedBytes": 1864,
+      "min": [
+        -0.072998046875,
+        -1.833251953125
+      ],
+      "max": [
+        2.064453125,
+        1.73095703125
+      ]
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "COLOR_0",
+      "accessor": 194,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 1022,
+      "decodedBytes": 8176,
+      "compressedBytes": 417,
+      "min": [
+        0.08352788537740707,
+        0.08352788537740707,
+        0.08352788537740707,
+        1
+      ],
+      "max": [
+        0.9703669548034668,
+        0.9703669548034668,
+        0.9703669548034668,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "POSITION",
+      "accessor": 196,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 244,
+      "decodedBytes": 2928,
+      "compressedBytes": 999,
+      "min": [
+        -2.449951171875,
+        -0.49005126953125,
+        -1.20501708984375
+      ],
+      "max": [
+        2.449951171875,
+        0.894989013671875,
+        0.7080078125
+      ]
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "NORMAL",
+      "accessor": 197,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 244,
+      "decodedBytes": 2928,
+      "compressedBytes": 1054,
+      "min": [
+        -0.95703125,
+        -0.26171875,
+        -0.98828125
+      ],
+      "max": [
+        0.95703125,
+        0.26171875,
+        0.98828125
+      ],
+      "oct8": {
+        "decodedBytes": 976,
+        "compressedBytes": 494,
+        "maxAngleDegrees": 0.41413609330012313
+      }
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "TEXCOORD_0",
+      "accessor": 198,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 244,
+      "decodedBytes": 1952,
+      "compressedBytes": 581,
+      "min": [
+        -0.042236328125,
+        -0.9140625
+      ],
+      "max": [
+        2.03369140625,
+        0.809814453125
+      ]
+    },
+    {
+      "mesh": "Cube.696",
+      "semantic": "COLOR_0",
+      "accessor": 199,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 244,
+      "decodedBytes": 1952,
+      "compressedBytes": 27,
+      "min": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "max": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.325",
+      "semantic": "POSITION",
+      "accessor": 201,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 141,
+      "decodedBytes": 1692,
+      "compressedBytes": 383,
+      "min": [
+        -2.04498291015625,
+        -1.57501220703125,
+        -4.405029296875
+      ],
+      "max": [
+        3.67999267578125,
+        1.595001220703125,
+        0.009033203125
+      ]
+    },
+    {
+      "mesh": "Cube.325",
+      "semantic": "NORMAL",
+      "accessor": 202,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 141,
+      "decodedBytes": 1692,
+      "compressedBytes": 452,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 564,
+        "compressedBytes": 224,
+        "maxAngleDegrees": 0.05638652824499495
+      }
+    },
+    {
+      "mesh": "Cube.325",
+      "semantic": "TEXCOORD_0",
+      "accessor": 203,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 141,
+      "decodedBytes": 1128,
+      "compressedBytes": 331,
+      "min": [
+        0.125,
+        0
+      ],
+      "max": [
+        0.875,
+        1
+      ]
+    },
+    {
+      "mesh": "ICO球",
+      "semantic": "POSITION",
+      "accessor": 205,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5700,
+      "decodedBytes": 68400,
+      "compressedBytes": 8929,
+      "min": [
+        -100.1015625,
+        -260.34375,
+        -0.854644775390625
+      ],
+      "max": [
+        128.8515625,
+        64.578125,
+        0.854644775390625
+      ]
+    },
+    {
+      "mesh": "ICO球",
+      "semantic": "NORMAL",
+      "accessor": 206,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5700,
+      "decodedBytes": 68400,
+      "compressedBytes": 28626,
+      "min": [
+        -0.990234375,
+        -0.86328125,
+        -0.94140625
+      ],
+      "max": [
+        0.990234375,
+        0.86328125,
+        0.94140625
+      ],
+      "oct8": {
+        "decodedBytes": 22800,
+        "compressedBytes": 11801,
+        "maxAngleDegrees": 1.0181916424827633
+      }
+    },
+    {
+      "mesh": "ICO球",
+      "semantic": "TEXCOORD_0",
+      "accessor": 207,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5700,
+      "decodedBytes": 45600,
+      "compressedBytes": 7725,
+      "min": [
+        0,
+        0.527587890625
+      ],
+      "max": [
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": "Thermometer numerals",
+      "semantic": "POSITION",
+      "accessor": 209,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 2054,
+      "decodedBytes": 24648,
+      "compressedBytes": 5139,
+      "min": [
+        -4.8448486328125,
+        -0.00048828125,
+        -0.7398223876953125
+      ],
+      "max": [
+        0.106689453125,
+        4.237548828125,
+        0.0009918212890625
+      ]
+    },
+    {
+      "mesh": "Thermometer numerals",
+      "semantic": "NORMAL",
+      "accessor": 210,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 2054,
+      "decodedBytes": 24648,
+      "compressedBytes": 2172,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 8216,
+        "compressedBytes": 1005,
+        "maxAngleDegrees": 0.6365935759640523
+      }
+    },
+    {
+      "mesh": "Thermometer numerals",
+      "semantic": "TEXCOORD_0",
+      "accessor": 211,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 2054,
+      "decodedBytes": 16432,
+      "compressedBytes": 2855,
+      "min": [
+        0,
+        0
+      ],
+      "max": [
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.330",
+      "semantic": "POSITION",
+      "accessor": 213,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 288,
+      "decodedBytes": 3456,
+      "compressedBytes": 788,
+      "min": [
+        -0.1600341796875,
+        -0.4799957275390625,
+        -1.92498779296875
+      ],
+      "max": [
+        3.1600341796875,
+        0.4799957275390625,
+        1.92498779296875
+      ]
+    },
+    {
+      "mesh": "Cube.330",
+      "semantic": "NORMAL",
+      "accessor": 214,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 288,
+      "decodedBytes": 3456,
+      "compressedBytes": 835,
+      "min": [
+        -0.998046875,
+        -0.986328125,
+        -0.998046875
+      ],
+      "max": [
+        0.998046875,
+        0.986328125,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 1152,
+        "compressedBytes": 335,
+        "maxAngleDegrees": 0.3316905581668425
+      }
+    },
+    {
+      "mesh": "Cube.330",
+      "semantic": "TEXCOORD_0",
+      "accessor": 215,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 288,
+      "decodedBytes": 2304,
+      "compressedBytes": 880,
+      "min": [
+        -0.85498046875,
+        -2.012451171875
+      ],
+      "max": [
+        2.9716796875,
+        1.360107421875
+      ]
+    },
+    {
+      "mesh": "Cube.330",
+      "semantic": "COLOR_0",
+      "accessor": 216,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 288,
+      "decodedBytes": 2304,
+      "compressedBytes": 107,
+      "min": [
+        0.08505378663539886,
+        0.08505378663539886,
+        0.08505378663539886,
+        1
+      ],
+      "max": [
+        0.8451972007751465,
+        0.8451972007751465,
+        0.8451972007751465,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.334",
+      "semantic": "POSITION",
+      "accessor": 218,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 15094,
+      "decodedBytes": 181128,
+      "compressedBytes": 31263,
+      "min": [
+        -0.0994873046875,
+        -0.0074999332427978516,
+        -3.0970458984375
+      ],
+      "max": [
+        2.5594482421875,
+        0.0074999332427978516,
+        0.0970458984375
+      ]
+    },
+    {
+      "mesh": "Cube.334",
+      "semantic": "NORMAL",
+      "accessor": 219,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 15094,
+      "decodedBytes": 181128,
+      "compressedBytes": 42980,
+      "min": [
+        -0.970703125,
+        -1,
+        -0.970703125
+      ],
+      "max": [
+        0.970703125,
+        1,
+        0.970703125
+      ],
+      "oct8": {
+        "decodedBytes": 60376,
+        "compressedBytes": 15807,
+        "maxAngleDegrees": 0.41244900532232015
+      }
+    },
+    {
+      "mesh": "Cube.334",
+      "semantic": "TEXCOORD_0",
+      "accessor": 220,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 15094,
+      "decodedBytes": 120752,
+      "compressedBytes": 32972,
+      "min": [
+        0.125,
+        0
+      ],
+      "max": [
+        0.8712158203125,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.543",
+      "semantic": "POSITION",
+      "accessor": 222,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1870,
+      "decodedBytes": 22440,
+      "compressedBytes": 4383,
+      "min": [
+        -1.16937255859375,
+        -2.22760009765625,
+        -1.955322265625
+      ],
+      "max": [
+        3.195098876953125,
+        0.045166015625,
+        12.2564697265625
+      ]
+    },
+    {
+      "mesh": "Cube.543",
+      "semantic": "NORMAL",
+      "accessor": 223,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1870,
+      "decodedBytes": 22440,
+      "compressedBytes": 7924,
+      "min": [
+        -0.994140625,
+        -1,
+        -0.99609375
+      ],
+      "max": [
+        0.99609375,
+        1,
+        0.99609375
+      ],
+      "oct8": {
+        "decodedBytes": 7480,
+        "compressedBytes": 3269,
+        "maxAngleDegrees": 0.8984164156910349
+      }
+    },
+    {
+      "mesh": "Cube.543",
+      "semantic": "TEXCOORD_0",
+      "accessor": 224,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1870,
+      "decodedBytes": 14960,
+      "compressedBytes": 1438,
+      "min": [
+        -1.337646484375,
+        -1.88818359375
+      ],
+      "max": [
+        2.5693359375,
+        2.3095703125
+      ]
+    },
+    {
+      "mesh": "Cube.543",
+      "semantic": "COLOR_0",
+      "accessor": 225,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 1870,
+      "decodedBytes": 14960,
+      "compressedBytes": 461,
+      "min": [
+        0.11639581620693207,
+        0.11639581620693207,
+        0.11639581620693207,
+        1
+      ],
+      "max": [
+        0.9302510023117065,
+        0.9302510023117065,
+        0.9302510023117065,
+        1
+      ]
+    },
+    {
+      "mesh": "Cylinder.098",
+      "semantic": "POSITION",
+      "accessor": 227,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 761,
+      "decodedBytes": 9132,
+      "compressedBytes": 2117,
+      "min": [
+        -5.260009765625,
+        -0.59002685546875,
+        -4.1800537109375
+      ],
+      "max": [
+        2.3599853515625,
+        2.71002197265625,
+        0.5
+      ]
+    },
+    {
+      "mesh": "Cylinder.098",
+      "semantic": "NORMAL",
+      "accessor": 228,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 761,
+      "decodedBytes": 9132,
+      "compressedBytes": 2375,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 3044,
+        "compressedBytes": 1071,
+        "maxAngleDegrees": 0.4246907596015953
+      }
+    },
+    {
+      "mesh": "Cylinder.098",
+      "semantic": "TEXCOORD_0",
+      "accessor": 229,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 761,
+      "decodedBytes": 6088,
+      "compressedBytes": 2427,
+      "min": [
+        0,
+        0.001220703125
+      ],
+      "max": [
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": "Cylinder.098",
+      "semantic": "TEXCOORD_1",
+      "accessor": 230,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 761,
+      "decodedBytes": 6088,
+      "compressedBytes": 284,
+      "min": [
+        0,
+        0.360107421875
+      ],
+      "max": [
+        0.8719482421875,
+        1
+      ]
+    },
+    {
+      "mesh": "Cube.002",
+      "semantic": "POSITION",
+      "accessor": 232,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 24,
+      "decodedBytes": 288,
+      "compressedBytes": 52,
+      "min": [
+        -100,
+        -0.10000000149011612,
+        -100
+      ],
+      "max": [
+        100,
+        0.10000000149011612,
+        100
+      ]
+    },
+    {
+      "mesh": "Cube.002",
+      "semantic": "NORMAL",
+      "accessor": 233,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 24,
+      "decodedBytes": 288,
+      "compressedBytes": 127,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 96,
+        "compressedBytes": 88,
+        "maxAngleDegrees": 0
+      }
+    },
+    {
+      "mesh": "Cube.002",
+      "semantic": "TEXCOORD_0",
+      "accessor": 234,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 24,
+      "decodedBytes": 192,
+      "compressedBytes": 64,
+      "min": [
+        0.125,
+        0
+      ],
+      "max": [
+        0.875,
+        1
+      ]
+    },
+    {
+      "mesh": "Cylinder.102",
+      "semantic": "POSITION",
+      "accessor": 236,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 18330,
+      "decodedBytes": 219960,
+      "compressedBytes": 44730,
+      "min": [
+        -13.5914306640625,
+        -2.09002685546875,
+        -10.9815673828125
+      ],
+      "max": [
+        0.2884521484375,
+        0.816314697265625,
+        1.6279296875
+      ]
+    },
+    {
+      "mesh": "Cylinder.102",
+      "semantic": "NORMAL",
+      "accessor": 237,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 18330,
+      "decodedBytes": 219960,
+      "compressedBytes": 87295,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 73320,
+        "compressedBytes": 31201,
+        "maxAngleDegrees": 1.2163294997798866
+      }
+    },
+    {
+      "mesh": "Cylinder.102",
+      "semantic": "TEXCOORD_0",
+      "accessor": 238,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 18330,
+      "decodedBytes": 146640,
+      "compressedBytes": 49823,
+      "min": [
+        0,
+        0.001708984375
+      ],
+      "max": [
+        1,
+        0.989990234375
+      ]
+    },
+    {
+      "mesh": "Mossy woodland terrain",
+      "semantic": "POSITION",
+      "accessor": 240,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5682,
+      "decodedBytes": 68184,
+      "compressedBytes": 26122,
+      "min": [
+        -60.0010986328125,
+        -0.391632080078125,
+        -22.008056640625
+      ],
+      "max": [
+        40.00189208984375,
+        2.4465065002441406,
+        85.000244140625
+      ]
+    },
+    {
+      "mesh": "Mossy woodland terrain",
+      "semantic": "NORMAL",
+      "accessor": 241,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 5682,
+      "decodedBytes": 68184,
+      "compressedBytes": 13837,
+      "min": [
+        -0.30859375,
+        -1,
+        -0.37890625
+      ],
+      "max": [
+        0.1640625,
+        1,
+        0.998046875
+      ],
+      "oct8": {
+        "decodedBytes": 22728,
+        "compressedBytes": 6650,
+        "maxAngleDegrees": 0.8205920079544993
+      }
+    },
+    {
+      "mesh": "V4 rippled spring water volume",
+      "semantic": "POSITION",
+      "accessor": 243,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1039,
+      "decodedBytes": 12468,
+      "compressedBytes": 4184,
+      "min": [
+        -0.155029296875,
+        0.214996337890625,
+        -4.137939453125
+      ],
+      "max": [
+        2.5150146484375,
+        1.104156494140625,
+        -0.905029296875
+      ]
+    },
+    {
+      "mesh": "V4 rippled spring water volume",
+      "semantic": "NORMAL",
+      "accessor": 244,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1039,
+      "decodedBytes": 12468,
+      "compressedBytes": 4376,
+      "min": [
+        -0.771484375,
+        -0.974609375,
+        -0.970703125
+      ],
+      "max": [
+        0.767578125,
+        1,
+        0.96875
+      ],
+      "oct8": {
+        "decodedBytes": 4156,
+        "compressedBytes": 1731,
+        "maxAngleDegrees": 1.1360730396011403
+      }
+    },
+    {
+      "mesh": "V4 resting sandal sole",
+      "semantic": "POSITION",
+      "accessor": 246,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 256,
+      "decodedBytes": 3072,
+      "compressedBytes": 957,
+      "min": [
+        -0.0999755859375,
+        0.100006103515625,
+        -0.2940673828125
+      ],
+      "max": [
+        0.4395751953125,
+        0.1300048828125,
+        0.2049560546875
+      ]
+    },
+    {
+      "mesh": "V4 resting sandal sole",
+      "semantic": "NORMAL",
+      "accessor": 247,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 256,
+      "decodedBytes": 3072,
+      "compressedBytes": 1075,
+      "min": [
+        -0.92578125,
+        -0.919921875,
+        -0.927734375
+      ],
+      "max": [
+        0.92578125,
+        0.919921875,
+        0.927734375
+      ],
+      "oct8": {
+        "decodedBytes": 1024,
+        "compressedBytes": 561,
+        "maxAngleDegrees": 0.8123026770336336
+      }
+    },
+    {
+      "mesh": "V5 extended forest floor",
+      "semantic": "POSITION",
+      "accessor": 249,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 376,
+      "decodedBytes": 4512,
+      "compressedBytes": 2652,
+      "min": [
+        -45.000244140625,
+        -0.5041065216064453,
+        -50.000244140625
+      ],
+      "max": [
+        45.000244140625,
+        -0.25661468505859375,
+        2.0001220703125
+      ]
+    },
+    {
+      "mesh": "V5 extended forest floor",
+      "semantic": "NORMAL",
+      "accessor": 250,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 376,
+      "decodedBytes": 4512,
+      "compressedBytes": 1027,
+      "min": [
+        -0.0390625,
+        0.998046875,
+        -0.044921875
+      ],
+      "max": [
+        0.03515625,
+        1,
+        0.044921875
+      ],
+      "oct8": {
+        "decodedBytes": 1504,
+        "compressedBytes": 430,
+        "maxAngleDegrees": 0.4131354427080581
+      }
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "POSITION",
+      "accessor": 252,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 948,
+      "decodedBytes": 11376,
+      "compressedBytes": 4956,
+      "min": [
+        -6.0809326171875,
+        6.99609375,
+        1.1890869140625
+      ],
+      "max": [
+        3.64794921875,
+        7.9127197265625,
+        5.2835693359375
+      ]
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "NORMAL",
+      "accessor": 253,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 948,
+      "decodedBytes": 11376,
+      "compressedBytes": 1624,
+      "min": [
+        -0.21875,
+        -0.9765625,
+        -0.21875
+      ],
+      "max": [
+        0.21875,
+        -0.9765625,
+        0.21875
+      ],
+      "oct8": {
+        "decodedBytes": 3792,
+        "compressedBytes": 985,
+        "maxAngleDegrees": 0.7123345435527771
+      }
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "POSITION",
+      "accessor": 255,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 948,
+      "decodedBytes": 11376,
+      "compressedBytes": 4946,
+      "min": [
+        -5.72900390625,
+        6.7147216796875,
+        0.8172607421875
+      ],
+      "max": [
+        4.0029296875,
+        7.9705810546875,
+        5.4381103515625
+      ]
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "NORMAL",
+      "accessor": 256,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 948,
+      "decodedBytes": 11376,
+      "compressedBytes": 1612,
+      "min": [
+        -0.21875,
+        -0.9765625,
+        -0.21875
+      ],
+      "max": [
+        0.21875,
+        -0.9765625,
+        0.21875
+      ],
+      "oct8": {
+        "decodedBytes": 3792,
+        "compressedBytes": 978,
+        "maxAngleDegrees": 0.7637911135103772
+      }
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "POSITION",
+      "accessor": 257,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1064,
+      "decodedBytes": 12768,
+      "compressedBytes": 6327,
+      "min": [
+        -5.88494873046875,
+        6.954345703125,
+        0.833740234375
+      ],
+      "max": [
+        3.8023681640625,
+        8.0372314453125,
+        5.15899658203125
+      ]
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "NORMAL",
+      "accessor": 258,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1064,
+      "decodedBytes": 12768,
+      "compressedBytes": 1886,
+      "min": [
+        -0.21875,
+        -0.9765625,
+        -0.21875
+      ],
+      "max": [
+        0.21875,
+        -0.9765625,
+        0.21875
+      ],
+      "oct8": {
+        "decodedBytes": 4256,
+        "compressedBytes": 1108,
+        "maxAngleDegrees": 0.7637911135103772
+      }
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "POSITION",
+      "accessor": 260,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 880,
+      "decodedBytes": 10560,
+      "compressedBytes": 4596,
+      "min": [
+        -6.145751953125,
+        6.7803955078125,
+        0.8046875
+      ],
+      "max": [
+        3.8897705078125,
+        7.8695068359375,
+        5.1644287109375
+      ]
+    },
+    {
+      "mesh": "V5 light filtering canopy web leaves",
+      "semantic": "NORMAL",
+      "accessor": 261,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 880,
+      "decodedBytes": 10560,
+      "compressedBytes": 1550,
+      "min": [
+        -0.21875,
+        -0.9765625,
+        -0.21875
+      ],
+      "max": [
+        0.21875,
+        -0.9765625,
+        0.21875
+      ],
+      "oct8": {
+        "decodedBytes": 3520,
+        "compressedBytes": 925,
+        "maxAngleDegrees": 0.7637911135103772
+      }
+    },
+    {
+      "mesh": "V6 compressed linen pillow 0",
+      "semantic": "POSITION",
+      "accessor": 263,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1396,
+      "decodedBytes": 16752,
+      "compressedBytes": 6434,
+      "min": [
+        -0.3408203125,
+        -0.347015380859375,
+        -0.38592529296875
+      ],
+      "max": [
+        1.8624267578125,
+        0.071502685546875,
+        0.17620849609375
+      ]
+    },
+    {
+      "mesh": "V6 compressed linen pillow 0",
+      "semantic": "NORMAL",
+      "accessor": 264,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1396,
+      "decodedBytes": 16752,
+      "compressedBytes": 6606,
+      "min": [
+        -0.998046875,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 5584,
+        "compressedBytes": 2844,
+        "maxAngleDegrees": 1.0295021961951567
+      }
+    },
+    {
+      "mesh": "V6 compressed linen pillow 0",
+      "semantic": "TEXCOORD_0",
+      "accessor": 265,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1396,
+      "decodedBytes": 11168,
+      "compressedBytes": 2140,
+      "min": [
+        0,
+        0.010498046875
+      ],
+      "max": [
+        0.9876708984375,
+        1
+      ]
+    },
+    {
+      "mesh": "V6 compressed linen pillow 0",
+      "semantic": "COLOR_0",
+      "accessor": 266,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 1396,
+      "decodedBytes": 11168,
+      "compressedBytes": 163,
+      "min": [
+        0.008468757383525372,
+        0.008468757383525372,
+        0.008468757383525372,
+        1
+      ],
+      "max": [
+        0.7663233280181885,
+        0.7663233280181885,
+        0.7663233280181885,
+        1
+      ]
+    },
+    {
+      "mesh": "V7 lobed maple leaves web leaves",
+      "semantic": "POSITION",
+      "accessor": 268,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 4862,
+      "decodedBytes": 58344,
+      "compressedBytes": 20933,
+      "min": [
+        3.0235595703125,
+        1.275634765625,
+        -7.6624755859375
+      ],
+      "max": [
+        6.4022216796875,
+        3.28485107421875,
+        -5.2158203125
+      ]
+    },
+    {
+      "mesh": "V7 lobed maple leaves web leaves",
+      "semantic": "NORMAL",
+      "accessor": 269,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 4862,
+      "decodedBytes": 58344,
+      "compressedBytes": 17491,
+      "min": [
+        -0.24609375,
+        0.75390625,
+        0.173828125
+      ],
+      "max": [
+        0.2421875,
+        0.984375,
+        0.65625
+      ],
+      "oct8": {
+        "decodedBytes": 19448,
+        "compressedBytes": 10026,
+        "maxAngleDegrees": 1.008489122886408
+      }
+    },
+    {
+      "mesh": "立方体.011",
+      "semantic": "POSITION",
+      "accessor": 271,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 433,
+      "decodedBytes": 5196,
+      "compressedBytes": 2538,
+      "min": [
+        -5.600341796875,
+        -0.064056396484375,
+        -6.8006591796875
+      ],
+      "max": [
+        6.4002685546875,
+        1.899261474609375,
+        1.199951171875
+      ]
+    },
+    {
+      "mesh": "立方体.011",
+      "semantic": "NORMAL",
+      "accessor": 272,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 433,
+      "decodedBytes": 5196,
+      "compressedBytes": 1802,
+      "min": [
+        -0.70703125,
+        -1,
+        -0.70703125
+      ],
+      "max": [
+        0.70703125,
+        1,
+        0.70703125
+      ],
+      "oct8": {
+        "decodedBytes": 1732,
+        "compressedBytes": 879,
+        "maxAngleDegrees": 0.9111455349197036
+      }
+    },
+    {
+      "mesh": "立方体.011",
+      "semantic": "TEXCOORD_0",
+      "accessor": 273,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 433,
+      "decodedBytes": 3464,
+      "compressedBytes": 160,
+      "min": [
+        0,
+        0.00341796875
+      ],
+      "max": [
+        0.8717041015625,
+        1
+      ]
+    },
+    {
+      "mesh": "V7 weighted linen towel 0",
+      "semantic": "POSITION",
+      "accessor": 275,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1434,
+      "decodedBytes": 17208,
+      "compressedBytes": 7869,
+      "min": [
+        3.6148681640625,
+        0.2330474853515625,
+        -1.338134765625
+      ],
+      "max": [
+        6.4976806640625,
+        0.544219970703125,
+        0.10809326171875
+      ]
+    },
+    {
+      "mesh": "V7 weighted linen towel 0",
+      "semantic": "NORMAL",
+      "accessor": 276,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1434,
+      "decodedBytes": 17208,
+      "compressedBytes": 6943,
+      "min": [
+        -1,
+        -1,
+        -0.994140625
+      ],
+      "max": [
+        0.99609375,
+        1,
+        0.99609375
+      ],
+      "oct8": {
+        "decodedBytes": 5736,
+        "compressedBytes": 2975,
+        "maxAngleDegrees": 0.8851148381654219
+      }
+    },
+    {
+      "mesh": "V7 weighted linen towel 0",
+      "semantic": "TEXCOORD_0",
+      "accessor": 277,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1434,
+      "decodedBytes": 11472,
+      "compressedBytes": 4361,
+      "min": [
+        -0.003173828125,
+        -0.0009765625
+      ],
+      "max": [
+        1.00244140625,
+        1.000732421875
+      ]
+    },
+    {
+      "mesh": "V7 weighted linen towel 0",
+      "semantic": "COLOR_0",
+      "accessor": 278,
+      "componentType": 5123,
+      "normalized": true,
+      "count": 1434,
+      "decodedBytes": 11472,
+      "compressedBytes": 79,
+      "min": [
+        0.23349355161190033,
+        0.23349355161190033,
+        0.23349355161190033,
+        1
+      ],
+      "max": [
+        0.6467384099960327,
+        0.6467384099960327,
+        0.6467384099960327,
+        1
+      ]
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "POSITION",
+      "accessor": 280,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 282,
+      "decodedBytes": 3384,
+      "compressedBytes": 1510,
+      "min": [
+        -8.2977294921875,
+        -0.3391685485839844,
+        4.8677978515625
+      ],
+      "max": [
+        10.2843017578125,
+        -0.0414581298828125,
+        8.031005859375
+      ]
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "NORMAL",
+      "accessor": 281,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 282,
+      "decodedBytes": 3384,
+      "compressedBytes": 639,
+      "min": [
+        -0.947265625,
+        0.3203125,
+        -0.9453125
+      ],
+      "max": [
+        0.947265625,
+        0.3203125,
+        0.947265625
+      ],
+      "oct8": {
+        "decodedBytes": 1128,
+        "compressedBytes": 369,
+        "maxAngleDegrees": 0.847226169767229
+      }
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "POSITION",
+      "accessor": 283,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 351,
+      "decodedBytes": 4212,
+      "compressedBytes": 1903,
+      "min": [
+        -8.14501953125,
+        -0.3374481201171875,
+        4.8270263671875
+      ],
+      "max": [
+        9.8233642578125,
+        -0.019504547119140625,
+        7.8682861328125
+      ]
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "NORMAL",
+      "accessor": 284,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 351,
+      "decodedBytes": 4212,
+      "compressedBytes": 800,
+      "min": [
+        -0.947265625,
+        0.3203125,
+        -0.947265625
+      ],
+      "max": [
+        0.943359375,
+        0.3203125,
+        0.947265625
+      ],
+      "oct8": {
+        "decodedBytes": 1404,
+        "compressedBytes": 449,
+        "maxAngleDegrees": 0.9252471547193354
+      }
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "POSITION",
+      "accessor": 286,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 333,
+      "decodedBytes": 3996,
+      "compressedBytes": 1814,
+      "min": [
+        -8.2857666015625,
+        -0.3379173278808594,
+        4.6812744140625
+      ],
+      "max": [
+        9.9207763671875,
+        -0.0133514404296875,
+        7.92913818359375
+      ]
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "NORMAL",
+      "accessor": 287,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 333,
+      "decodedBytes": 3996,
+      "compressedBytes": 768,
+      "min": [
+        -0.947265625,
+        0.3203125,
+        -0.9453125
+      ],
+      "max": [
+        0.947265625,
+        0.3203125,
+        0.947265625
+      ],
+      "oct8": {
+        "decodedBytes": 1332,
+        "compressedBytes": 430,
+        "maxAngleDegrees": 1.0382299010632121
+      }
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "POSITION",
+      "accessor": 289,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 324,
+      "decodedBytes": 3888,
+      "compressedBytes": 1744,
+      "min": [
+        -8.3343505859375,
+        -0.3354759216308594,
+        4.6795654296875
+      ],
+      "max": [
+        9.8538818359375,
+        -0.033298492431640625,
+        8.051025390625
+      ]
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "NORMAL",
+      "accessor": 290,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 324,
+      "decodedBytes": 3888,
+      "compressedBytes": 754,
+      "min": [
+        -0.947265625,
+        0.3203125,
+        -0.947265625
+      ],
+      "max": [
+        0.947265625,
+        0.3203125,
+        0.947265625
+      ],
+      "oct8": {
+        "decodedBytes": 1296,
+        "compressedBytes": 412,
+        "maxAngleDegrees": 0.9642253548237064
+      }
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "POSITION",
+      "accessor": 292,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 282,
+      "decodedBytes": 3384,
+      "compressedBytes": 1564,
+      "min": [
+        -8.2703857421875,
+        -0.3362236022949219,
+        4.9312744140625
+      ],
+      "max": [
+        10.09375,
+        -0.000362396240234375,
+        7.9625244140625
+      ]
+    },
+    {
+      "mesh": "V8 selective low grass",
+      "semantic": "NORMAL",
+      "accessor": 293,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 282,
+      "decodedBytes": 3384,
+      "compressedBytes": 642,
+      "min": [
+        -0.9453125,
+        0.3203125,
+        -0.947265625
+      ],
+      "max": [
+        0.947265625,
+        0.3203125,
+        0.9453125
+      ],
+      "oct8": {
+        "decodedBytes": 1128,
+        "compressedBytes": 369,
+        "maxAngleDegrees": 1.0851692609216905
+      }
+    },
+    {
+      "mesh": "V10 sparse path leaf litter",
+      "semantic": "POSITION",
+      "accessor": 295,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1050,
+      "decodedBytes": 12600,
+      "compressedBytes": 3548,
+      "min": [
+        -1.7544708251953125,
+        -0.3217430114746094,
+        4.57666015625
+      ],
+      "max": [
+        0.6716461181640625,
+        -0.070770263671875,
+        9.7891845703125
+      ]
+    },
+    {
+      "mesh": "V10 sparse path leaf litter",
+      "semantic": "NORMAL",
+      "accessor": 296,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 1050,
+      "decodedBytes": 12600,
+      "compressedBytes": 4326,
+      "min": [
+        -0.9453125,
+        0.25,
+        -0.806640625
+      ],
+      "max": [
+        0.921875,
+        0.994140625,
+        0.939453125
+      ],
+      "oct8": {
+        "decodedBytes": 4200,
+        "compressedBytes": 2133,
+        "maxAngleDegrees": 0.9926634058923262
+      }
+    },
+    {
+      "mesh": "球.024",
+      "semantic": "POSITION",
+      "accessor": 298,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 2376,
+      "decodedBytes": 28512,
+      "compressedBytes": 4287,
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        544.75,
+        58.5,
+        1
+      ]
+    },
+    {
+      "mesh": "球.024",
+      "semantic": "NORMAL",
+      "accessor": 299,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 2376,
+      "decodedBytes": 28512,
+      "compressedBytes": 8723,
+      "min": [
+        -0.9375,
+        -0.9609375,
+        -0.9375
+      ],
+      "max": [
+        0.9375,
+        0.9609375,
+        0.9375
+      ],
+      "oct8": {
+        "decodedBytes": 9504,
+        "compressedBytes": 4942,
+        "maxAngleDegrees": 0.7775527074060659
+      }
+    },
+    {
+      "mesh": "球.024",
+      "semantic": "TEXCOORD_0",
+      "accessor": 300,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 2376,
+      "decodedBytes": 19008,
+      "compressedBytes": 3099,
+      "min": [
+        0,
+        0
+      ],
+      "max": [
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": "V11 hourglass blown glass",
+      "semantic": "POSITION",
+      "accessor": 302,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 717,
+      "decodedBytes": 8604,
+      "compressedBytes": 2722,
+      "min": [
+        -1.00213623046875,
+        1.72479248046875,
+        -4.3421630859375
+      ],
+      "max": [
+        -0.87786865234375,
+        2.13519287109375,
+        -4.2178955078125
+      ]
+    },
+    {
+      "mesh": "V11 hourglass blown glass",
+      "semantic": "NORMAL",
+      "accessor": 303,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 717,
+      "decodedBytes": 8604,
+      "compressedBytes": 2880,
+      "min": [
+        -1,
+        -0.837890625,
+        -1
+      ],
+      "max": [
+        1,
+        0.837890625,
+        1
+      ],
+      "oct8": {
+        "decodedBytes": 2868,
+        "compressedBytes": 1412,
+        "maxAngleDegrees": 1.015814314164338
+      }
+    },
+    {
+      "mesh": "円錐",
+      "semantic": "POSITION",
+      "accessor": 305,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 402,
+      "decodedBytes": 4824,
+      "compressedBytes": 1048,
+      "min": [
+        -0.04296875,
+        -0.02752685546875,
+        -0.04296875
+      ],
+      "max": [
+        0.04296875,
+        0.31500244140625,
+        0.04296875
+      ]
+    },
+    {
+      "mesh": "円錐",
+      "semantic": "NORMAL",
+      "accessor": 306,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 402,
+      "decodedBytes": 4824,
+      "compressedBytes": 2141,
+      "min": [
+        -0.88671875,
+        -1,
+        -0.88671875
+      ],
+      "max": [
+        0.88671875,
+        1,
+        0.88671875
+      ],
+      "oct8": {
+        "decodedBytes": 1608,
+        "compressedBytes": 873,
+        "maxAngleDegrees": 0.6591544569005096
+      }
+    },
+    {
+      "mesh": "円錐",
+      "semantic": "TEXCOORD_0",
+      "accessor": 307,
+      "componentType": 5126,
+      "normalized": false,
+      "count": 402,
+      "decodedBytes": 3216,
+      "compressedBytes": 1125,
+      "min": [
+        0,
+        0
+      ],
+      "max": [
+        1,
+        1
+      ]
+    }
+  ]
+}
