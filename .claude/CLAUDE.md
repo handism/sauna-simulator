@@ -8,7 +8,6 @@
 
 - パッケージマネージャは **bun**
 - Vitest の設定は `vite.config.ts` の `test` に一本化している。`src/hooks/useAudioEngine.bench.test.ts` は名前に反して `describe`/`it` による通常のテストで、`bun run test` の対象に含まれる（`vitest bench` の対象ではない）
-- 整形は Prettier（`bun run format` / `bun run format:check`、CIで検査）。Markdown・JSON・`docs/`・`public/` は対象外
 - ビルドの警告上限は遅延ロードする3Dチャンクに合わせてあり、2Dで必ず取得する入口チャンクだけは `vite.config.ts` のプラグインが 500kB で警告する
 
 ## アーキテクチャ
@@ -55,7 +54,7 @@
 - Three.js 0.186.0を直接ラップした `src/components/3d/SaunaScene.tsx` は `React.lazy` で遅延ロードする。3D専用チャンクは通常の2D利用時に取得しない。庭の木々は別GLB（`public/models/sauna-garden.glb`）で、本体で準備完了にした後に読み込む。失敗しても3Dは続ける。
 - `App` が所有する `EventTarget` に `SaunaRoom.onLoyly` から押下を通知。音は従来の `audio.playLoyly()` で一度だけ再生。3Dはロード完了後の通知だけを消費し、過去の通知は保存しない。
 - 見回しはPointer Events／矢印キー。3DはUI外で入力を受け、UI復帰・モード切り替えは常に残す。モデル失敗・30秒タイムアウト・WebGLコンテキスト喪失時は3Dを解放し2D表示を継続。
-- Blender元データは `blender/` に置くがGit管理外。元blendは水の側面・底をフラット化済み（`scripts/flatten_water_sides.py`、修正前は `SUI_Retreat_v11.blend`）で、Worldには拡散反射を経ない経路にだけ見える空（雲・日光の円盤・星）を入れてある（`scripts/build_sky_world.py`、入れる前は `SUI_Retreat_v12.blend`。照明は変わらない）。月夜のシーン `SUI • Night` を追加してある（`scripts/build_night_scene.py` と `build_sky_world.py --keys night`、追加前は `SUI_Retreat_v13.blend`。昼・ブルーアワーは不変）。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`、書き出しレポート（配信しない）は `docs/3d-export/`。QA記録 `docs/3d-qa/` はREADME・JSONのみGit管理し、画像（jpg/png）はローカルに置く（履歴の肥大を避けるため）。入力を保存しない。再実行方法・未完了事項は `docs/3d-sauna-progress.md`。
+- Blender元データは `blender/` に置くがGit管理外。元blendは加工済みで、上書き保存するスクリプトがある（実行前に複製する。各加工と加工前の版は `scripts/CLAUDE.md`）。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`、書き出しレポート（配信しない）は `docs/3d-export/`。QA記録 `docs/3d-qa/` はREADME・JSONのみGit管理し、画像（jpg/png）はローカルに置く（履歴の肥大を避けるため）。入力を保存しない。再実行方法・未完了事項は `docs/3d-sauna-progress.md`。
 - `bunx tsc -b` / `bun run test` / `bun run lint` / `bun run format:check` / `bun run build` を検証する。ESLintはTS/TSXも対象（react-hooks・react-refreshルールを含む）。既存テストの段階的移行のため `no-explicit-any` は無効。
 - 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual` / `:network`）は `e2e/CLAUDE.md`。3D表示の失敗・読み込み期限・外気浴背景の契約は `src/components/CLAUDE.md`。
 
