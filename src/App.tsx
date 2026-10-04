@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './index.css';
 import SceneMode from './components/SceneMode';
 import { ActionIcon } from './components/ActionIcon';
+import ScoreHistory from './components/ScoreHistory';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
@@ -89,13 +90,13 @@ function App() {
       />
       <div className="app-main-ui-container" ref={contentRef}>
         {stage !== 'start' && (
-          <>
+          <div className="app-toolbar">
             {fullscreen.isSupported && (
               <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
             )}
             <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
             <MuteButton isMuted={isMuted} onToggle={toggleMute} />
-          </>
+          </div>
         )}
 
         {stage === 'start' && !sessionSummary && (
@@ -151,7 +152,7 @@ function App() {
               <div>
                 <dt>過ごしたセット</dt>
                 <dd>
-                  {sessionSummary.sets}
+                  {sessionSummary.scores.length}
                   <span> セット</span>
                 </dd>
               </div>
@@ -164,6 +165,14 @@ function App() {
                   <span> 秒</span>
                 </dd>
               </div>
+              {sessionSummary.scores.length > 0 && (
+                <div className="session-summary-history">
+                  <dt>ととのい度の推移</dt>
+                  <dd>
+                    <ScoreHistory scores={sessionSummary.scores} />
+                  </dd>
+                </div>
+              )}
             </dl>
             <button className="primary-btn" onClick={dismissSummary}>
               トップに戻る <ActionIcon name="arrow" />

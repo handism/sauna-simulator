@@ -31,11 +31,13 @@
 
 ### スタイリング
 - 共通 UI は `.glass-panel` と `.primary-btn`。通常の操作は下部の `.stage-dock` にまとめ、心拍・体感温度・ととのい度はネイティブ `details` で開く。`ActionIcon` の線画アイコンと木・石・水を基調とする配色を使う。UI非表示は見出し・操作パネル・呼吸ガイドを隠し、音・表示復帰・設定の操作は残す。
+- 色は `index.css` の `:root` の変数（`--ink` 系の文字色、`--wood`・`--water`・`--moss` など）を使う。ガラスパネルは2Dでは景色を透かし、3D表示中は描画負荷を避けるためブラーを外して不透明寄りにする
+- 右上のアイコン操作（全画面・UI・ミュート）は `.app-toolbar` に横並びで置く。ボタンの hover の浮き上がりは `(hover: hover)` の環境だけで、押下時は `:active` で沈む
 - 外部フォントは読み込まない（OS標準の和文・欧文フォントスタック）
 - ステージ固有の色や背景はコンポーネント内のインラインスタイルで上書きする。ただし状態で切り替わる見た目（外気浴の呼吸の吸う/吐く）は `data-*` 属性と `index.css` のセレクタで切り替える
 
 ### コンポーネント設計
-- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする。記録は名前付きのオブジェクト（`useSaunaSession.ts` の `SaunaResult` / `WaterResult`）で渡す。セットごとのととのい度（`scoreHistory`）は水風呂を出る遷移が受け付けられたときに `useSaunaSession` が確定し、入室ごとにリセットする。ととのい度の段階（`TOTONOU_TIERS`）はフィードバック文と表示色で共有する
+- 各ステージコンポーネント（`SaunaRoom`, `CoolingBath`, `TotonouSpace`）は `onNext` コールバックを受け取り、次ステージへの遷移をトリガーする。記録は名前付きのオブジェクト（`useSaunaSession.ts` の `SaunaResult` / `WaterResult`）で渡す。セットごとのととのい度（`scoreHistory`）は水風呂を出る遷移が受け付けられたときに `useSaunaSession` が確定し、入室ごとにリセットする。ととのい度の段階（`TOTONOU_TIERS`）はフィードバック文と表示色（`src/utils/scoreColor.ts`、色は棒にだけ付ける）で共有する。セットごとの推移は `ScoreHistory` で外気浴と終了画面に出す（`sessionSummary.scores`）。サウナ・水風呂の滞在時間表示（`StayTimer`）の目安は、ととのい度が満点になる `STAY_TARGET_SECONDS` と共有する。外気浴のメーターは振り返りを初めて開いたときに上がり始める
 - `audio` と各種セッション値は `App.tsx` が `useSaunaContext()` から取得し、props で各コンポーネントに渡す。コンポーネント側は context を直接参照しない
 
 ### キーボードショートカット・全画面

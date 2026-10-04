@@ -11,11 +11,17 @@ export const TOTONOU_TIERS = {
   GOOD: 70,
 } as const;
 
+// ととのい度が満点になる滞在時間（秒）。滞在時間表示の目安にも使う
+export const STAY_TARGET_SECONDS = {
+  SAUNA: 50,
+  WATER: 20,
+} as const;
+
 export const calculateTotonouScore = (saunaTime: number, waterTime: number, loylyCount: number) => {
   // サウナスコア (最大60点): 50秒以上滞在で50点、ロウリュ1回につき+5点 (上限10点)
-  const saunaScore = Math.min(saunaTime / 50, 1.0) * 50 + Math.min(loylyCount * 5, 10);
+  const saunaScore = Math.min(saunaTime / STAY_TARGET_SECONDS.SAUNA, 1.0) * 50 + Math.min(loylyCount * 5, 10);
   // 水風呂スコア (最大40点): 20秒以上滞在で満点
-  const waterScore = Math.min(waterTime / 20, 1.0) * 40;
+  const waterScore = Math.min(waterTime / STAY_TARGET_SECONDS.WATER, 1.0) * 40;
 
   const totalScore = Math.min(Math.round(saunaScore + waterScore), 100);
 
@@ -38,3 +44,7 @@ export const calculateTotonouScore = (saunaTime: number, waterTime: number, loyl
 
 // 心拍1回あたりの秒数。脈動アニメーションの周期に使う
 export const beatSeconds = (heartRate: number): number => 60 / heartRate;
+
+// 秒数を「分:秒」で表す（滞在時間の表示用）
+export const formatMinutesSeconds = (seconds: number): string =>
+  `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;

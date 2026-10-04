@@ -58,7 +58,7 @@ describe('SaunaRoom', () => {
     const onLoyly = vi.fn();
     render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} onLoyly={onLoyly} />);
 
-    const loylyBtn = screen.getByRole('button', { name: /ロウリュ \(Löyly\)/i });
+    const loylyBtn = screen.getByRole('button', { name: /^ロウリュ$/ });
     act(() => {
       fireEvent.click(loylyBtn);
     });
@@ -68,6 +68,42 @@ describe('SaunaRoom', () => {
     // Temperature +3, Humidity +25
     expect(screen.getByText('93.0°C')).toBeInTheDocument();
     expect(screen.getByText('40%')).toBeInTheDocument();
+  });
+
+  it('shows how much each Löyly raised the readings, without the part clipped at the maximum', () => {
+    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    const loylyBtn = screen.getByRole('button', { name: /^ロウリュ$/ });
+
+    act(() => {
+      fireEvent.click(loylyBtn);
+    });
+    expect(screen.getByText('+3.0')).toBeInTheDocument();
+    expect(screen.getByText('+25')).toBeInTheDocument();
+
+    // 40% -> 65% -> 90% (max): the third pour can only show what is left.
+    act(() => {
+      fireEvent.click(loylyBtn);
+    });
+    act(() => {
+      fireEvent.click(loylyBtn);
+    });
+    expect(screen.getByText('90%')).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(loylyBtn);
+    });
+    expect(screen.queryByText(/^\+\d+$/)).not.toBeInTheDocument();
+  });
+
+  it('shows the elapsed time against the suggested stay', () => {
+    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    expect(screen.getByText('0:00')).toBeInTheDocument();
+    expect(screen.getByText('目安 0:50')).toBeInTheDocument();
+
+    act(() => {
+      vi.advanceTimersByTime(50_000);
+    });
+    expect(screen.getByText('0:50')).toBeInTheDocument();
+    expect(screen.getByText('目安に届きました。出るのはいつでも。')).toBeInTheDocument();
   });
 
   it('pours Löyly with the Space key', () => {
@@ -97,7 +133,7 @@ describe('SaunaRoom', () => {
 
   it('removes every steam particle after rapid Loyly presses', () => {
     const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
-    const loylyBtn = screen.getByRole('button', { name: /ロウリュ \(Löyly\)/i });
+    const loylyBtn = screen.getByRole('button', { name: /^ロウリュ$/ });
 
     // Same millisecond, then a second press before the first particle expires.
     act(() => {
@@ -141,7 +177,7 @@ describe('SaunaRoom', () => {
       vi.advanceTimersByTime(5000);
     });
 
-    const loylyBtn = screen.getByRole('button', { name: /ロウリュ \(Löyly\)/i });
+    const loylyBtn = screen.getByRole('button', { name: /^ロウリュ$/ });
     act(() => {
       fireEvent.click(loylyBtn); // loylyCount = 1
     });

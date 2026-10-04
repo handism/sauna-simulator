@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { calculateTotonouScore, TOTONOU_TIERS } from '../utils/saunaUtils';
+import { calculateTotonouScore } from '../utils/saunaUtils';
+import { scoreColor } from '../utils/scoreColor';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { ActionIcon } from './ActionIcon';
+import ScoreHistory from './ScoreHistory';
 
 export interface TotonouSpaceProps {
   saunaTime: number;
@@ -13,18 +15,11 @@ export interface TotonouSpaceProps {
   onFinish?: () => void;
 }
 
-// ととのい度の表示色。閾値の高い順に並べ、最初に達した段階の色を使う（段階はフィードバック文と共通）
-const SCORE_COLORS = [
-  { min: TOTONOU_TIERS.EXCELLENT, color: '#c5d5bb' },
-  { min: TOTONOU_TIERS.GOOD, color: '#b9d1d4' },
-  { min: 0, color: '#e2cfb4' },
-] as const;
-
-const scoreColor = (score: number) => SCORE_COLORS.find(({ min }) => score >= min)?.color ?? SCORE_COLORS[2].color;
-
 const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, onFinish }: TotonouSpaceProps) => {
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  // メーターは振り返りを初めて開いたときに上がり始める（閉じたまま演出が終わらないように）
+  const [isRevealed, setIsRevealed] = useState<boolean>(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const totonouTextRef = useRef<HTMLSpanElement>(null);
@@ -49,6 +44,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
   // ととのいメーターの上昇アニメーション (requestAnimationFrame で最適化)
   // ステージごとにマウントし直されるため、表示中に maxTotonou は変わらない
   useEffect(() => {
+    if (!isRevealed) return;
     let animationFrameId: number;
     let currentLevel = 0;
     let feedbackShown = false;
@@ -74,11 +70,11 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
       if (totonouTextRef.current) {
         const rounded = Math.round(currentLevel);
         totonouTextRef.current.textContent = `${rounded}%`;
-        totonouTextRef.current.style.color = scoreColor(rounded);
       }
 
       if (totonouBarRef.current) {
         totonouBarRef.current.style.width = `${currentLevel}%`;
+        totonouBarRef.current.style.background = scoreColor(Math.round(currentLevel));
       }
 
       // フィードバック表示は一度だけ setState を呼ぶ
@@ -95,7 +91,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
     animationFrameId = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [maxTotonou]);
+  }, [maxTotonou, isRevealed]);
 
   return (
     <div ref={rootRef} className="scene-container" data-breath={isInhaling ? 'inhale' : 'exhale'}>
@@ -107,7 +103,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
       </div>
 
       <header className="stage-heading totonou-title-container">
-        <p className="stage-step">03 / 03 · 休息</p>
+        <p className="stage-step">03 / 03 · 外気浴</p>
         <h2 className="totonou-title" tabIndex={-1}>
           外気浴
         </h2>
@@ -117,46 +113,36 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
 
       {/* 呼吸サークル (プレミアム仕様、吸う/吐くに合わせて伸縮しグローが強まる) */}
       <div className="breathing-circle-premium">
-        <div className="breathing-label">{isInhaling ? '吸って...' : '吐いて...'}</div>
+        <div className="breathing-label">{isInhaling ? '吸って…' : '吐いて…'}</div>
       </div>
 
       {/* 「ととのい度」情報パネル */}
       <div className="glass-panel stage-dock rest-dock">
-        <details className="stage-details rest-details">
-          <summary>今回のととのいを振り返る</summary>
+        <details className="stage-details rest-details" data-fresh={!isRevealed}>
+          {/* summary はキーボード操作でも click になる。開くのは最初の1回だけなので閉じる操作でも差し支えない */}
+          <summary onClick={() => setIsRevealed(true)}>今回のととのいを振り返る</summary>
           <div className="totonou-info-panel">
             <div className="totonou-info-row">
-              <span className="totonou-info-label">ととのい度:</span>
-              <span
-                ref={totonouTextRef}
-                className="dashboard-value totonou-progress-val"
-                style={{ color: scoreColor(0) }}
-              >
+              <span className="reading-label">ととのい度</span>
+              <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
                 0%
               </span>
             </div>
 
             {/* プログレスバー */}
             <div className="totonou-progress-bg">
-              <div ref={totonouBarRef} className="totonou-progress-bar" style={{ width: '0%' }} />
+              <div
+                ref={totonouBarRef}
+                className="totonou-progress-bar"
+                style={{ width: '0%', background: scoreColor(0) }}
+              />
             </div>
 
             {/* フィードバックコメント。表示時に読み上げるため、ライブリージョンは常に置いておく */}
             <div aria-live="polite">{showFeedback && <p className="totonou-feedback">{feedback}</p>}</div>
 
             {/* これまでのセットの推移（2セット目以降） */}
-            {scoreHistory.length > 1 && (
-              <ol className="totonou-history" aria-label="セットごとのととのい度">
-                {scoreHistory.map((score, i) => (
-                  <li key={i} className="totonou-history-item">
-                    <span className="totonou-history-set">{i + 1}セット</span>
-                    <span className="dashboard-value" style={{ color: scoreColor(score) }}>
-                      {score}%
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            )}
+            {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
           </div>
         </details>
         <div className="dock-actions">

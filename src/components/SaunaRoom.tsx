@@ -3,13 +3,21 @@ import { AudioEngine } from '../hooks/useAudioEngine';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
 import type { SaunaResult } from '../hooks/useSaunaSession';
-import { calculateHeatIndex, RESTING_HEART_RATE } from '../utils/saunaUtils';
+import { calculateHeatIndex, RESTING_HEART_RATE, STAY_TARGET_SECONDS } from '../utils/saunaUtils';
 import HeartRateRow from './HeartRateRow';
+import StayTimer from './StayTimer';
 import { ActionIcon } from './ActionIcon';
 
 interface Steam {
   id: number;
   left: string;
+}
+
+/** 直近のロウリュで上がった温度・湿度。メーター横に一瞬だけ表示する */
+interface LoylyDelta {
+  id: number;
+  temperature: number;
+  humidity: number;
 }
 
 export interface SaunaRoomProps {
@@ -49,6 +57,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const [steams, setSteams] = useState<Steam[]>([]);
   // ロウリュごとに増やし、曇り演出の要素を作り直してアニメーションを最初から再生する
   const [steamBurst, setSteamBurst] = useState<number>(0);
+  const [loylyDelta, setLoylyDelta] = useState<LoylyDelta | null>(null);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const loylyCountRef = useRef<number>(0);
@@ -70,6 +79,14 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const handleLoyly = () => {
     audio.playLoyly();
     onLoyly?.();
+    // 上限で頭打ちになった分は表示しない（直前の表示値からの差分）
+    setLoylyDelta({
+      id: steamBurst,
+      temperature: Math.min(temperature + SAUNA_CONFIG.LOYLY_TEMP_INC, SAUNA_CONFIG.MAX_TEMP) - temperature,
+      humidity:
+        Math.round(Math.min(humidity + SAUNA_CONFIG.LOYLY_HUMIDITY_INC, SAUNA_CONFIG.MAX_HUMIDITY)) -
+        Math.round(humidity),
+    });
     setSaunaState((prev) => ({
       ...prev,
       temperature: Math.min(prev.temperature + SAUNA_CONFIG.LOYLY_TEMP_INC, SAUNA_CONFIG.MAX_TEMP),
@@ -97,7 +114,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   useKeyboardShortcut(' ', handleLoyly, { scope: rootRef });
 
   // メインシミュレーションループ (1秒ごと。滞在時間も数える)
-  const secondsRef = useSecondTicker(() => {
+  const seconds = useSecondTicker(() => {
     setSaunaState((prev) => {
       // 自然減衰 (温度と湿度は徐々に下がる)
       const nextTemp = Math.max(prev.temperature - SAUNA_CONFIG.TEMP_DECAY, SAUNA_CONFIG.MIN_TEMP);
@@ -126,7 +143,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
   const heatIndex = calculateHeatIndex(temperature, humidity);
 
   const handleLeave = () => {
-    onNext({ heartRate: Math.round(heartRate), saunaTime: secondsRef.current, loylyCount: loylyCountRef.current });
+    onNext({ heartRate: Math.round(heartRate), saunaTime: seconds, loylyCount: loylyCountRef.current });
   };
 
   return (
@@ -145,22 +162,37 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
         {/* メインデジタルメーター */}
         <div className="sauna-meters-grid">
           <div className="sauna-meter-box">
-            <span className="sauna-meter-label-temp">温度</span>
-            <div className="dashboard-value sauna-meter-val-temp">{temperature.toFixed(1)}°C</div>
+            <span className="reading-label">温度</span>
+            <div className="dashboard-value sauna-meter-value">
+              {loylyDelta && loylyDelta.temperature > 0 && (
+                <span key={loylyDelta.id} className="meter-delta" aria-hidden="true">
+                  +{loylyDelta.temperature.toFixed(1)}
+                </span>
+              )}
+              {temperature.toFixed(1)}°C
+            </div>
           </div>
           <div className="sauna-meter-box">
-            <span className="sauna-meter-label-hum">湿度</span>
-            <div className="dashboard-value sauna-meter-val-hum">{Math.round(humidity)}%</div>
+            <span className="reading-label">湿度</span>
+            <div className="dashboard-value sauna-meter-value">
+              {loylyDelta && loylyDelta.humidity > 0 && (
+                <span key={loylyDelta.id} className="meter-delta" aria-hidden="true">
+                  +{loylyDelta.humidity}
+                </span>
+              )}
+              {Math.round(humidity)}%
+            </div>
           </div>
         </div>
+        <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.SAUNA} />
 
         {/* 体感温度 & 心拍数情報 */}
         <details className="stage-details">
           <summary>からだの様子を見る</summary>
           <div className="sauna-info-panel">
             <div className="stage-info-row">
-              <span className="stage-info-label">体感温度:</span>
-              <span className="dashboard-value sauna-info-val-heat">{heatIndex.toFixed(1)}°C</span>
+              <span className="reading-label">体感温度</span>
+              <span className="dashboard-value">{heatIndex.toFixed(1)}°C</span>
             </div>
 
             <HeartRateRow heartRate={heartRate} />
@@ -170,7 +202,7 @@ const SaunaRoom = ({ audio, onNext, onLoyly }: SaunaRoomProps) => {
         </details>
         <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
-            <ActionIcon name="steam" /> ロウリュ (Löyly)
+            <ActionIcon name="steam" /> ロウリュ
           </button>
           <button className="primary-btn sauna-next-stage-btn" onClick={handleLeave}>
             水風呂へ <ActionIcon name="arrow" />

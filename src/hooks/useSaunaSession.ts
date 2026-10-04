@@ -37,7 +37,8 @@ export function useSaunaSession() {
   // 水風呂を出た時点で確定する、セットごとのととのい度（入室ごとにリセット）
   const [scoreHistory, setScoreHistory] = useState<readonly number[]>([]);
 
-  const [sessionSummary, setSessionSummary] = useState<{ sets: number; seconds: number } | null>(null);
+  // 終了操作時に確定する、その日のセットごとのととのい度と入室からの実時間
+  const [sessionSummary, setSessionSummary] = useState<{ scores: readonly number[]; seconds: number } | null>(null);
   const dismissSummary = useCallback(() => setSessionSummary(null), []);
 
   const audio = useAudioEngine();
@@ -109,11 +110,11 @@ export function useSaunaSession() {
     if (stage !== 'totonou' || !changeStage('start')) return;
     audio.stopAmbient();
     setSessionSummary({
-      sets: scoreHistory.length,
+      scores: scoreHistory,
       seconds: enteredAt === null ? 0 : Math.max(0, Math.floor((Date.now() - enteredAt) / 1000)),
     });
     setIsUiHidden(false);
-  }, [stage, changeStage, audio, scoreHistory.length, enteredAt]);
+  }, [stage, changeStage, audio, scoreHistory, enteredAt]);
 
   // 音量の変更は state の updater（純粋であるべき）の外で行う
   const toggleMute = useCallback(() => {

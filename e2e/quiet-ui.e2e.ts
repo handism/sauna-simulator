@@ -22,11 +22,12 @@ for (const viewport of [
     await page.screenshot({ path: info.outputPath('welcome.png') });
     await page.getByRole('button', { name: '静かに入室する' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeFocused();
-    await expect(page.getByText('心拍数:')).toBeHidden();
+    await expect(page.getByText('目安 0:50')).toBeVisible();
+    await expect(page.getByText('心拍数', { exact: true })).toBeHidden();
     await page.getByText('からだの様子を見る').click();
-    await expect(page.getByText('心拍数:')).toBeVisible();
+    await expect(page.getByText('心拍数', { exact: true })).toBeVisible();
     await page.getByText('からだの様子を見る').click();
-    await page.getByRole('button', { name: 'ロウリュ (Löyly)' }).click();
+    await page.getByRole('button', { name: 'ロウリュ' }).click();
     await expect(page.locator('.sauna-steam-particle')).toHaveCount(1);
     await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
     await expect(page.getByRole('button', { name: '水風呂へ' })).toBeHidden();
@@ -38,10 +39,10 @@ for (const viewport of [
     await expect(page.getByRole('heading', { name: '水風呂' })).toBeFocused();
     await page.getByRole('button', { name: '外気浴へ' }).click();
     await expect(page.getByRole('heading', { name: '外気浴' })).toBeFocused();
-    await expect(page.getByText('ととのい度:')).toBeHidden();
+    await expect(page.getByText('ととのい度', { exact: true })).toBeHidden();
     await page.screenshot({ path: info.outputPath('rest.png') });
     await page.getByText('今回のととのいを振り返る').click();
-    await expect(page.getByText('ととのい度:')).toBeVisible();
+    await expect(page.getByText('ととのい度', { exact: true })).toBeVisible();
     await page.screenshot({ path: info.outputPath('rest-details.png') });
     await page.getByText('今回のととのいを振り返る').click();
     const finish = page.getByRole('button', { name: '今日はここまで' });
@@ -49,6 +50,7 @@ for (const viewport of [
     await finish.click();
     await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeFocused();
     await expect(page.locator('.session-summary')).toContainText('1 セット');
+    await expect(page.getByRole('list', { name: 'セットごとのととのい度' }).getByRole('listitem')).toHaveCount(1);
     await page.screenshot({ path: info.outputPath('finished.png') });
     await page.getByRole('button', { name: 'トップに戻る' }).click();
     await expect(page.getByRole('heading', { name: 'ブラウザサウナ' })).toBeFocused();

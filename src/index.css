@@ -1,16 +1,25 @@
 :root {
-  /* Color Palette */
-  --sauna-bg-start: #3b1d12;
-  --sauna-bg-end: #1f0b06;
-  --stone-color: #2b2b2b;
-  --water-bg-start: #0a264a;
-  --water-bg-end: #031121;
-  --totonou-bg-start: #04091a;
-  --totonou-bg-end: #000000;
-  --text-main: #fcfcfc;
-  --accent: #ddc2a3;
-  --glass-bg: rgba(22, 28, 24, 0.94);
+  /* 木・石・水を基調とする配色。文字は本文色・控えめ・補足の3段階 */
+  --ink: #f4f0e8;
+  --ink-strong: #faf6ed;
+  --ink-muted: #d5d3c9;
+  --ink-faint: #c6c5bc;
+  --wood: #ddc2a3;
+  --wood-light: #ecd8be;
+  --wood-deep: #cfb296;
+  --on-wood: #26221c;
+  --water: #bbcfd0;
+  --water-light: #d0e1e1;
+  --on-water: #192829;
+  --moss: #c5d5bb;
+  --stone: #18201b;
+  --line: #ffffff24;
+  --line-strong: #ffffff40;
+  --focus: #f1d9b7;
+  /* 景色が透けるガラス。3D表示中は下の .app-container:has(...) で不透明寄りにする */
+  --glass-bg: rgba(22, 28, 24, 0.8);
   --glass-border: rgba(255, 255, 255, 0.15);
+  --control-bg: #18201bd9;
 }
 
 * {
@@ -31,8 +40,8 @@ body {
     'Noto Sans JP',
     Meiryo,
     sans-serif;
-  color: var(--text-main);
-  background: var(--totonou-bg-end);
+  color: var(--ink);
+  background: #000;
   overflow: hidden;
   height: 100dvh;
   width: 100vw;
@@ -44,28 +53,41 @@ body {
   width: 100vw;
 }
 
-/* Glassmorphism Classes */
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  padding: 2rem;
-  width: 90%;
-  max-width: 400px;
-}
-
-/* Base App Layout */
+/* ---------- Layout ---------- */
 .app-container {
   width: 100%;
   height: 100%;
   position: relative;
-  transition: background 2s ease;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.app-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* The UI receives input only on controls; uncovered scenery remains draggable. */
+.app-main-ui-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.app-main-ui-container button,
+.app-main-ui-container a {
+  pointer-events: auto;
+}
+
+.app-stage-container {
+  transition: opacity 1s;
+  width: 100%;
+  height: 100%;
 }
 
 .scene-container {
@@ -79,107 +101,513 @@ body {
   overflow: hidden;
 }
 
-/* Generic Button */
+/* One session deadline controls both background modes and stage UI. */
+.background-stack,
+.scene-3d-layer {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1s ease;
+}
+.background-stack {
+  z-index: 0;
+}
+.scene-3d-layer {
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ---------- Shared surfaces & controls ---------- */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  transition: opacity 0.5s ease;
+}
+
 .primary-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
   padding: 16px 32px;
-  border-radius: 50px;
-  font-size: 1.2rem;
-  font-weight: 600;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: var(--control-bg);
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
   transition:
     background-color 0.3s ease,
-    transform 0.3s ease,
+    transform 0.15s ease,
     box-shadow 0.3s ease,
     opacity 0.5s ease;
-  backdrop-filter: blur(10px);
 }
-.primary-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+.primary-btn.sauna-loyly-btn,
+.primary-btn.finish-btn,
+.primary-btn.app-btn-primary {
+  background-color: var(--wood);
+  border-color: var(--wood);
+  color: var(--on-wood);
+}
+.primary-btn.cooling-next-btn {
+  width: 100%;
+  background-color: var(--water);
+  border-color: var(--water);
+  color: var(--on-water);
 }
 
-/* Mute Button */
-.mute-btn {
+/* Top-right icon controls (fullscreen, UI, mute) laid out as one row. */
+.app-toolbar {
   position: fixed;
   top: calc(16px + env(safe-area-inset-top, 0px));
   right: 16px;
   z-index: 20;
+  display: flex;
+  gap: 12px;
+}
+.icon-btn {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   background: rgba(22, 28, 24, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.15s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease,
+    border-color 0.3s ease;
 }
-.mute-btn:hover {
-  background: #354137;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+/* While the UI is hidden the controls recede, but the way back stays clearly marked. */
+.ui-hidden .icon-btn {
+  opacity: 0.55;
+}
+.ui-hidden .icon-btn.ui-toggle-btn,
+.ui-hidden .icon-btn:hover,
+.ui-hidden .icon-btn:focus-visible {
+  opacity: 1;
+}
+.ui-hidden .ui-toggle-btn {
+  border-color: var(--wood);
 }
 
-/* Steam Animation */
-@keyframes steam-rise {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0;
+/* Hover lift only where a pointer can hover; touch gets a press instead of a sticky lift. */
+@media (hover: hover) {
+  .primary-btn:hover,
+  .icon-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
-  20% {
-    opacity: 0.8;
+  .primary-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  .primary-btn.sauna-loyly-btn:hover,
+  .primary-btn.finish-btn:hover,
+  .primary-btn.app-btn-primary:hover {
+    background-color: var(--wood-light);
+  }
+  .primary-btn.cooling-next-btn:hover {
+    background-color: var(--water-light);
+  }
+  .icon-btn:hover {
+    background: #354137;
+  }
+}
+.primary-btn:active,
+.icon-btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
+.action-icon {
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.dashboard-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.reading-label {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+button:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+h1:focus,
+h2:focus {
+  outline: none;
+}
+
+/* ---------- Start & end screens ---------- */
+.app-start-screen {
+  text-align: center;
+  transition: opacity 1s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 88px 24px 32px;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+.welcome-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  margin-bottom: 18px;
+  color: #e2cfb4;
+}
+
+.app-main-title {
+  font-size: clamp(1.7rem, 7vw, 3.5rem);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.app-subtitle {
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  margin-bottom: 1.5rem;
+  color: #e2dfd5;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  font-weight: 300;
+}
+
+.journey-guide {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 6px 0 24px;
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+.journey-guide .action-icon {
+  width: 16px;
+  color: var(--wood-deep);
+}
+
+.app-headphone-notice {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--control-bg);
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 280px;
+}
+.app-btn-secondary {
+  padding: 12px 24px;
+}
+
+/* Keyboard shortcut guide; touch-only devices have no keyboard to use it with. */
+.app-shortcut-hint {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: #dedbd2;
+}
+.app-shortcut-hint kbd {
+  font: inherit;
+  padding: 1px 6px;
+  margin-right: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+@media (hover: none) and (pointer: coarse) {
+  .app-shortcut-hint {
+    display: none;
+  }
+}
+
+.session-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 32px;
+  margin: 12px 0 32px;
+  width: min(460px, 100%);
+  max-width: 460px;
+}
+.session-summary dt {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+.session-summary dd {
+  font-size: 1.8rem;
+  font-variant-numeric: tabular-nums;
+}
+.session-summary dd span {
+  font-size: 0.85rem;
+}
+.session-summary-history {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.session-summary-history dd {
+  font-size: 1rem;
+}
+.session-summary-history .score-history {
+  justify-content: center;
+}
+
+/* ---------- Stage chrome ---------- */
+/* Stage headings leave the center of the scenery unobstructed. */
+.stage-heading {
+  position: absolute;
+  top: calc(88px + env(safe-area-inset-top, 0px));
+  left: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 10;
+  color: var(--ink);
+  text-shadow:
+    0 2px 12px #000,
+    0 1px 4px #000;
+}
+.stage-heading h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  margin: 8px 0;
+}
+.stage-heading p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.stage-heading .stage-step {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+}
+.totonou-set-label {
+  margin-top: 4px;
+}
+
+.stage-dock {
+  position: absolute;
+  bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  width: min(540px, calc(100% - 32px));
+  max-width: 540px;
+  max-height: calc(100dvh - 260px - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px;
+  z-index: 12;
+  text-align: left;
+  pointer-events: auto;
+}
+
+.stage-details {
+  border-top: 1px solid var(--line);
+  margin: 14px 0;
+}
+.stage-details summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 13px 0;
+  font-size: 0.85rem;
+  color: #e2dfd5;
+}
+.stage-details summary::marker {
+  color: #bcb9a8;
+}
+.stage-details[open] summary {
+  margin-bottom: 6px;
+}
+/* An unread result waits inside the rest stage's details. */
+.rest-details[data-fresh='true'] summary::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--moss);
+  vertical-align: middle;
+}
+
+.stage-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+.detail-note {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  margin: 12px 0;
+  line-height: 1.6;
+}
+
+.dock-actions {
+  display: flex;
+  gap: 12px;
+}
+.dock-actions .primary-btn {
+  flex: 1;
+  padding: 13px 12px;
+  font-size: 0.95rem;
+}
+
+.heart-rate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.heart-rate-icon {
+  display: inline-flex;
+  color: var(--wood-deep);
+}
+.heart-rate-unit {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* Elapsed time in a stage, with a thin bar that fills at the suggested length. */
+.stay-timer {
+  margin-top: 14px;
+}
+.stay-timer-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.stay-timer-value {
+  font-size: 1.35rem;
+  color: var(--ink-strong);
+}
+.stay-timer-track {
+  height: 3px;
+  margin: 8px 0 6px;
+  background: var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.stay-timer-bar {
+  height: 100%;
+  background: var(--wood);
+  transition: width 1s linear;
+}
+.cooling-panel .stay-timer-bar {
+  background: var(--water);
+}
+.stay-timer-target {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+.stay-timer[data-reached='true'] .stay-timer-target {
+  color: var(--moss);
+}
+.cooling-panel .stay-timer {
+  margin-top: 0;
+}
+
+/* ---------- Sauna ---------- */
+.sauna-meters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 4px;
+}
+.sauna-meter-box {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.sauna-meter-value {
+  position: relative;
+  font-size: 1.35rem;
+  color: var(--ink-strong);
+}
+/* The rise from the latest Löyly, shown briefly beside the reading. */
+.meter-delta {
+  position: absolute;
+  right: 100%;
+  top: 0.15em;
+  margin-right: 8px;
+  font-size: 0.8rem;
+  color: var(--wood);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: meter-delta-rise 1.6s ease-out forwards;
+}
+@keyframes meter-delta-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 1;
   }
   100% {
-    transform: translateY(-50vh) scale(3);
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes meter-delta-fade {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
     opacity: 0;
   }
 }
 
-/* Water Ripple Animations */
-@keyframes ripple {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
+.sauna-info-panel,
+.cooling-info-panel {
+  display: grid;
+  gap: 12px;
 }
 
-/* Breathing Animation */
-@keyframes breathe {
-  0% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% {
-    transform: scale(1.1);
-    filter: brightness(1.5);
-  }
-  100% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-}
-
-/* --- Premium Animations & Styles --- */
-
-/* Steam Blur Overlay (Sauna Room) */
+/* Steam blur overlay after Löyly. */
 .steam-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(255, 255, 255, 0.05);
   pointer-events: none;
   z-index: 15;
@@ -187,11 +615,9 @@ body {
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
 }
-
 .steam-overlay.active {
   animation: steam-blur-fade 7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
-
 @keyframes steam-blur-fade {
   0% {
     backdrop-filter: blur(0px);
@@ -219,399 +645,6 @@ body {
   }
 }
 
-/* Cooling Glow Overlay (Water Bath) */
-.cooling-glow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 8;
-  transition: box-shadow 0.3s ease;
-}
-
-@keyframes glow-pulse {
-  0% {
-    box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25);
-  }
-  50% {
-    box-shadow: inset 0 0 100px rgba(56, 189, 248, 0.6);
-  }
-  100% {
-    box-shadow: inset 0 0 50px rgba(56, 189, 248, 0.25);
-  }
-}
-
-/* Aurora Backdrop (Totonou Space) */
-.aurora-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1;
-  opacity: 0.65;
-  pointer-events: none;
-  background: radial-gradient(circle at center, rgba(15, 23, 42, 0.8) 0%, rgba(2, 6, 23, 1) 100%);
-  transition: opacity 2s ease;
-}
-
-.aurora-blob {
-  position: absolute;
-  width: 70vw;
-  height: 70vw;
-  max-width: 600px;
-  max-height: 600px;
-  border-radius: 50%;
-  filter: blur(80px);
-  -webkit-filter: blur(80px);
-  opacity: 0.45;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  transform-origin: center center;
-}
-
-.aurora-blob.one {
-  background: radial-gradient(circle, rgba(141, 151, 117, 0.3) 0%, transparent 70%);
-  top: -10%;
-  left: -10%;
-  animation: float-aurora 25s infinite alternate ease-in-out;
-}
-
-.aurora-blob.two {
-  background: radial-gradient(circle, rgba(125, 155, 149, 0.3) 0%, transparent 70%);
-  bottom: -15%;
-  right: -10%;
-  animation: float-aurora 32s infinite alternate-reverse ease-in-out;
-}
-
-.aurora-blob.three {
-  background: radial-gradient(circle, rgba(162, 142, 110, 0.2) 0%, transparent 70%);
-  top: 35%;
-  left: 30%;
-  animation: float-aurora 20s infinite alternate ease-in-out -7s;
-}
-
-@keyframes float-aurora {
-  0% {
-    transform: translate(0, 0) scale(1) rotate(0deg);
-  }
-  50% {
-    transform: translate(12%, 8%) scale(1.2) rotate(180deg);
-  }
-  100% {
-    transform: translate(-6%, -10%) scale(0.9) rotate(360deg);
-  }
-}
-
-/* Premium Breathing Circle with Glow */
-.breathing-circle-premium {
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 50%, transparent 70%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 0 40px rgba(255, 255, 255, 0.05),
-    inset 0 0 30px rgba(255, 255, 255, 0.05);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition:
-    transform 4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1),
-    background 4s ease,
-    opacity 0.5s ease;
-  z-index: 10;
-}
-
-/* 外気浴の呼吸サイクル（TotonouSpace の data-breath。4秒ごとに吸う/吐くが切り替わる） */
-[data-breath] .aurora-container {
-  transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-breath='inhale'] .aurora-container {
-  opacity: 0.75;
-}
-
-[data-breath='exhale'] .aurora-container {
-  opacity: 0.45;
-}
-
-[data-breath='inhale'] .breathing-circle-premium {
-  transform: scale(1.15);
-  box-shadow:
-    0 0 50px rgba(6, 182, 212, 0.15),
-    inset 0 0 40px rgba(6, 182, 212, 0.1);
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.01) 60%, transparent 80%);
-  border-color: rgba(6, 182, 212, 0.25);
-}
-
-[data-breath='exhale'] .breathing-circle-premium {
-  transform: scale(0.92);
-  box-shadow:
-    0 0 30px rgba(139, 92, 246, 0.08),
-    inset 0 0 20px rgba(139, 92, 246, 0.05);
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, rgba(139, 92, 246, 0.01) 60%, transparent 80%);
-  border-color: rgba(139, 92, 246, 0.15);
-}
-
-.breathing-label {
-  font-size: 1.4rem;
-  font-weight: 300;
-  letter-spacing: 6px;
-  /* letterSpacing による右寄りを解消 */
-  margin-left: 4px;
-  z-index: 10;
-  transition: color 4s ease;
-}
-
-[data-breath='inhale'] .breathing-label {
-  color: #a5f3fc;
-}
-
-[data-breath='exhale'] .breathing-label {
-  color: #ddd6fe;
-}
-
-/* Dashboard Metrics for Simulator feeling */
-.dashboard-value {
-  font-variant-numeric: tabular-nums;
-  font-weight: 500;
-}
-
-/* Transitions for UI fading */
-.glass-panel,
-h2,
-p {
-  transition: opacity 0.5s ease;
-}
-
-/* UI Hidden State */
-/* App.tsx Extracted Styles */
-.app-bg-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  z-index: 0;
-}
-
-.app-main-ui-container {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-}
-
-/* Stage headings leave the center of the scenery unobstructed. */
-.stage-heading {
-  position: absolute;
-  top: calc(88px + env(safe-area-inset-top, 0px));
-  left: 20px;
-  right: 20px;
-  text-align: center;
-  z-index: 10;
-  color: #f4f0e8;
-  text-shadow:
-    0 2px 12px #000,
-    0 1px 4px #000;
-}
-.stage-heading h2 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  margin: 8px 0;
-}
-.stage-heading p {
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-.stage-heading .stage-step {
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
-}
-.totonou-set-label {
-  margin-top: 4px;
-}
-.stage-dock {
-  position: absolute;
-  bottom: calc(40px + env(safe-area-inset-bottom, 0px));
-  width: min(540px, calc(100% - 32px));
-  max-width: 540px;
-  max-height: calc(100dvh - 260px - env(safe-area-inset-bottom, 0px));
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 20px;
-  z-index: 12;
-  text-align: left;
-  pointer-events: auto;
-}
-.sauna-meters-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 4px;
-}
-.sauna-meter-box {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-.sauna-meter-label-temp,
-.sauna-meter-label-hum,
-.compact-reading > span:first-child {
-  font-size: 0.85rem;
-  color: #d5d3c9;
-}
-.sauna-meter-val-temp,
-.sauna-meter-val-hum,
-.cooling-info-val-temp {
-  font-size: 1.35rem;
-  color: #faf6ed;
-}
-.compact-reading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-.stage-details {
-  border-top: 1px solid #ffffff24;
-  margin: 14px 0;
-}
-.stage-details summary {
-  cursor: pointer;
-  min-height: 44px;
-  padding: 13px 0;
-  font-size: 0.85rem;
-  color: #e2dfd5;
-}
-.stage-details summary::marker {
-  color: #bcb9a8;
-}
-.stage-details[open] summary {
-  margin-bottom: 6px;
-}
-.sauna-info-panel,
-.cooling-info-panel {
-  display: grid;
-  gap: 12px;
-}
-.stage-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.9rem;
-}
-.stage-info-label {
-  color: #d5d3c9;
-}
-.heart-rate {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.heart-rate-icon {
-  display: inline-flex;
-  color: #cfb296;
-}
-.heart-rate-unit {
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-.detail-note {
-  font-size: 0.75rem;
-  color: #c6c5bc;
-  margin: 12px 0;
-  line-height: 1.6;
-}
-.dock-actions {
-  display: flex;
-  gap: 12px;
-}
-.dock-actions .primary-btn {
-  flex: 1;
-  padding: 13px 12px;
-  font-size: 0.95rem;
-}
-.sauna-loyly-btn,
-.finish-btn {
-  background: #ddc2a3;
-  color: #26221c;
-  border-color: #ddc2a3;
-}
-.sauna-loyly-btn:hover,
-.finish-btn:hover {
-  background: #ecd8be;
-}
-.cooling-next-btn {
-  width: 100%;
-  background: #bbcfd0;
-  color: #192829;
-  border-color: #bbcfd0;
-}
-.cooling-next-btn:hover {
-  background: #d0e1e1;
-}
-.rest-details {
-  margin-top: 0;
-}
-.totonou-info-panel {
-  display: grid;
-  gap: 12px;
-  padding: 4px 0 16px;
-}
-.totonou-info-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-.totonou-info-label {
-  color: #d5d3c9;
-  font-size: 0.9rem;
-}
-.totonou-progress-val {
-  font-size: 1.5rem;
-}
-.totonou-progress-bg {
-  height: 4px;
-  background: #ffffff24;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.totonou-progress-bar {
-  height: 100%;
-  background: #b9c9ab;
-}
-.totonou-feedback {
-  font-size: 0.9rem;
-  color: #f4f0e8;
-  line-height: 1.7;
-}
-.totonou-history {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  border-top: 1px solid #ffffff24;
-  padding-top: 12px;
-}
-.totonou-history-item {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  font-size: 0.85rem;
-}
-.totonou-history-set {
-  color: #d5d3c9;
-}
 /* Screen-space effects are replaced by world-space effects when 3D is ready. */
 .sauna-steam-particle {
   position: absolute;
@@ -624,6 +657,56 @@ p {
   pointer-events: none;
   z-index: 5;
 }
+@keyframes steam-rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-50vh) scale(3);
+    opacity: 0;
+  }
+}
+
+/* Heartbeat icon pulse (period set inline from the heart rate). */
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* ---------- Cooling bath ---------- */
+/* Cold inset glow that pulses with the heart rate (period set inline). */
+.cooling-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+}
+@keyframes glow-pulse {
+  0% {
+    box-shadow: inset 0 0 50px rgba(150, 196, 200, 0.18);
+  }
+  50% {
+    box-shadow: inset 0 0 100px rgba(150, 196, 200, 0.42);
+  }
+  100% {
+    box-shadow: inset 0 0 50px rgba(150, 196, 200, 0.18);
+  }
+}
+
 .cooling-ripple-effect {
   position: absolute;
   width: 120px;
@@ -634,110 +717,204 @@ p {
   pointer-events: none;
   z-index: 5;
 }
-
-.app-start-screen {
-  text-align: center;
-  transition: opacity 1s;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 88px 24px 32px;
-  overflow-y: auto;
-  pointer-events: auto;
-}
-
-.app-main-title {
-  font-size: clamp(1.7rem, 7vw, 3.5rem);
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-  text-align: center;
-}
-
-.app-subtitle {
-  font-size: clamp(1rem, 4vw, 1.2rem);
-  margin-bottom: 1.5rem;
-  color: #cbd5e1;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  text-align: center;
-  font-weight: 300;
-}
-
-.app-headphone-notice {
-  font-size: 0.9rem;
-  color: #d5d3c9;
-  margin-bottom: 2.5rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 8px 16px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Keyboard shortcut guide; touch-only devices have no keyboard to use it with. */
-.app-shortcut-hint {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 16px;
-  margin-top: 2rem;
-  font-size: 0.8rem;
-  color: #d5d3c9;
-}
-.app-shortcut-hint kbd {
-  font: inherit;
-  padding: 1px 6px;
-  margin-right: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-}
-@media (hover: none) and (pointer: coarse) {
-  .app-shortcut-hint {
-    display: none;
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
   }
 }
 
-.app-btn-group {
+/* ---------- Rest (外気浴) ---------- */
+.aurora-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0.65;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(16, 24, 21, 0.8) 0%, rgba(4, 8, 7, 1) 100%);
+  transition: opacity 2s ease;
+}
+.aurora-blob {
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  max-width: 600px;
+  max-height: 600px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform-origin: center center;
+}
+.aurora-blob.one {
+  background: radial-gradient(circle, rgba(141, 151, 117, 0.3) 0%, transparent 70%);
+  top: -10%;
+  left: -10%;
+  animation: float-aurora 25s infinite alternate ease-in-out;
+}
+.aurora-blob.two {
+  background: radial-gradient(circle, rgba(125, 155, 149, 0.3) 0%, transparent 70%);
+  bottom: -15%;
+  right: -10%;
+  animation: float-aurora 32s infinite alternate-reverse ease-in-out;
+}
+.aurora-blob.three {
+  background: radial-gradient(circle, rgba(162, 142, 110, 0.2) 0%, transparent 70%);
+  top: 35%;
+  left: 30%;
+  animation: float-aurora 20s infinite alternate ease-in-out -7s;
+}
+@keyframes float-aurora {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(12%, 8%) scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: translate(-6%, -10%) scale(0.9) rotate(360deg);
+  }
+}
+
+/* Breathing guide. TotonouSpace flips data-breath between inhale and exhale every 4 seconds. */
+.breathing-circle-premium {
+  width: clamp(150px, 23vh, 230px);
+  height: clamp(150px, 23vh, 230px);
+  margin-bottom: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #14211d6b;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  max-width: 280px;
+  justify-content: center;
+  align-items: center;
+  transition:
+    transform 4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1),
+    background 4s ease,
+    border-color 4s ease,
+    opacity 0.5s ease;
+  z-index: 10;
+}
+.breathing-label {
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: 6px;
+  /* letterSpacing による右寄りを解消 */
+  margin-left: 4px;
+  z-index: 10;
+  color: var(--ink-strong);
+  text-shadow: 0 2px 8px #000;
+}
+[data-breath] .aurora-container {
+  transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-breath='inhale'] .aurora-container {
+  opacity: 0.75;
+}
+[data-breath='exhale'] .aurora-container {
+  opacity: 0.45;
+}
+[data-breath='inhale'] .breathing-circle-premium {
+  transform: scale(1.15);
+  border-color: #c4d4bb80;
+  background: #b3c3a91a;
+  box-shadow: 0 0 32px #b3c3a918;
+}
+[data-breath='exhale'] .breathing-circle-premium {
+  transform: scale(0.92);
+  border-color: #cfbda966;
+  background: #b3c3a90a;
+  box-shadow: none;
 }
 
-.app-btn-primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #26221c;
+/* 振り返りを開くとパネルが呼吸ガイドに重なり、半透明のガラス越しに文字が透けるため、ガイドを退かせる */
+.scene-container:has(.rest-details[open]) .breathing-circle-premium {
+  opacity: 0;
 }
 
-.app-btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 1rem;
-  padding: 12px 24px;
+.rest-details {
+  margin-top: 0;
+  border-top: none;
 }
-
-.app-stage-container {
-  transition: opacity 1s;
-  width: 100%;
+.totonou-info-panel {
+  display: grid;
+  gap: 12px;
+  padding: 4px 0 16px;
+}
+.totonou-info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.totonou-progress-val {
+  font-size: 1.5rem;
+  color: var(--ink-strong);
+}
+.totonou-progress-bg {
+  height: 4px;
+  background: var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.totonou-progress-bar {
   height: 100%;
 }
+.totonou-feedback {
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.7;
+}
 
-/* The UI receives input only on controls; uncovered scenery remains draggable. */
-.app-main-ui-container {
-  pointer-events: none;
+/* Per-set score as small columns on a shared 0–100% scale. */
+.score-history {
+  list-style: none;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
 }
-.app-main-ui-container button,
-.app-main-ui-container a {
-  pointer-events: auto;
+.session-summary-history .score-history {
+  border-top: none;
+  padding-top: 0;
 }
+.score-history-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 44px;
+  font-size: 0.8rem;
+}
+.score-history-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  align-self: stretch;
+  /* 100%の棒（40px）と値の行が収まる高さ。基線は全セットで揃う */
+  height: 62px;
+  border-bottom: 1px solid var(--line-strong);
+}
+.score-history-value {
+  color: var(--ink);
+}
+.score-history-bar {
+  width: 14px;
+  border-radius: 4px 4px 0 0;
+}
+.score-history-set {
+  color: var(--ink-muted);
+}
+
+/* ---------- 3D scene & display settings ---------- */
 .sauna-3d-canvas {
   position: absolute;
   inset: 0;
@@ -748,16 +925,36 @@ p {
   display: block;
 }
 .sauna-3d-canvas:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--wood);
   outline-offset: -4px;
 }
+.scene-3d-layer .sauna-3d-canvas {
+  pointer-events: auto;
+}
+/* Over a live WebGL frame a blur would be recomputed every frame; panels go near-opaque instead. */
+.app-container:has(.sauna-3d-canvas) .glass-panel {
+  background: rgba(16, 23, 20, 0.94);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+/* Effects with a world position replace the former screen-space particles. */
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .cooling-ripple-effect,
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .sauna-steam-particle,
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .steam-overlay {
+  display: none;
+}
+/* The 2D aurora backdrop would tint and darken the whole lit 3D garden. */
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .aurora-container {
+  display: none;
+}
+
 .scene-mode-controls {
   position: fixed;
   left: 16px;
   top: calc(16px + env(safe-area-inset-top, 0px));
   z-index: 30;
   font-size: 0.85rem;
-  color: #f4f0e8;
+  color: var(--ink);
 }
 .display-settings > summary {
   display: flex;
@@ -768,7 +965,7 @@ p {
   padding: 10px 14px;
   border-radius: 24px;
   background: #18201bec;
-  border: 1px solid #ffffff40;
+  border: 1px solid var(--line-strong);
   cursor: pointer;
 }
 .display-settings > summary::-webkit-details-marker {
@@ -783,7 +980,7 @@ p {
   max-height: calc(100dvh - 96px - env(safe-area-inset-top, 0px));
   overflow-y: auto;
   padding: 20px;
-  border: 1px solid #ffffff40;
+  border: 1px solid var(--line-strong);
   border-radius: 20px;
   background: #18201bfa;
   box-shadow: 0 12px 40px #0006;
@@ -792,7 +989,7 @@ p {
   line-height: 1.6;
 }
 .settings-heading {
-  color: #d5d3c9;
+  color: var(--ink-muted);
   font-size: 0.8rem;
 }
 .scene-mode-controls button {
@@ -812,6 +1009,29 @@ p {
   display: flex;
   align-items: center;
 }
+.scene-lighting-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.scene-lighting-control select {
+  font: inherit;
+  color: #fff;
+  background: #18221c;
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  padding: 8px;
+  min-height: 44px;
+  min-width: 140px;
+}
+.scene-lighting-control select:focus-visible {
+  outline: 2px solid var(--wood);
+  outline-offset: 2px;
+}
+
 .scene-status {
   position: fixed;
   bottom: 10px;
@@ -824,82 +1044,6 @@ p {
   color: #fff;
   text-shadow: 0 1px 5px #000;
 }
-.ui-hidden .scene-status {
-  opacity: 0;
-}
-.app-container:has(.sauna-3d-canvas) .glass-panel {
-  background: rgba(16, 23, 20, 0.94);
-}
-/* One session deadline controls both background modes and stage UI. */
-.background-stack,
-.scene-3d-layer {
-  position: absolute;
-  inset: 0;
-  transition: opacity 1s ease;
-}
-.background-stack {
-  z-index: 0;
-}
-.scene-3d-layer {
-  z-index: 2;
-  pointer-events: none;
-}
-.scene-3d-layer .sauna-3d-canvas {
-  pointer-events: auto;
-}
-@media (prefers-reduced-motion: reduce) {
-  .background-stack,
-  .scene-3d-layer,
-  .app-stage-container,
-  .app-start-screen {
-    transition: none;
-  }
-  /* Looping and drifting decoration stops; the readouts keep showing the same state. The heart
-     and glow pulses are inline styles, hence !important. The breathing circle stays: it is a
-     slow guide, not decoration. */
-  .aurora-blob,
-  .heart-rate-icon,
-  .cooling-glow,
-  .totonou-feedback {
-    animation: none !important;
-  }
-  /* Without their motion these would only flash in and out (the overlay blurs the whole view). */
-  .steam-overlay,
-  .sauna-steam-particle,
-  .cooling-ripple-effect {
-    display: none;
-  }
-}
-/* Effects with a world position replace the former screen-space particles. */
-.app-container:has(.sauna-3d-canvas[data-load-ms]) .cooling-ripple-effect,
-.app-container:has(.sauna-3d-canvas[data-load-ms]) .sauna-steam-particle,
-.app-container:has(.sauna-3d-canvas[data-load-ms]) .steam-overlay {
-  display: none;
-}
-/* The 2D aurora backdrop would tint and darken the whole lit 3D garden. */
-.app-container:has(.sauna-3d-canvas[data-load-ms]) .aurora-container {
-  display: none;
-}
-
-.scene-lighting-control {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #fff;
-}
-.scene-lighting-control select {
-  font: inherit;
-  color: #fff;
-  background: #18221c;
-  border: 1px solid #ffffff40;
-  border-radius: 16px;
-  padding: 8px;
-}
-.scene-lighting-control select:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
 .scene-status button {
   pointer-events: auto;
   margin-left: 8px;
@@ -910,133 +1054,55 @@ p {
   color: #fff;
   cursor: pointer;
 }
-.ui-hidden .scene-status button {
-  visibility: hidden;
-}
 
-/* Shared quiet, high-contrast controls. */
-.action-icon {
-  flex-shrink: 0;
-  vertical-align: middle;
-}
-.primary-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  border-radius: 14px;
-  font-size: 1rem;
-  font-weight: 500;
-  background-color: #18201bd9;
-}
-.primary-btn.sauna-loyly-btn,
-.primary-btn.finish-btn,
-.primary-btn.app-btn-primary {
-  background-color: #ddc2a3;
-  color: #26221c;
-}
-.primary-btn.sauna-loyly-btn:hover,
-.primary-btn.finish-btn:hover,
-.primary-btn.app-btn-primary:hover {
-  background-color: #ecd8be;
-}
-.primary-btn.cooling-next-btn {
-  background-color: #bbcfd0;
-  color: #192829;
-}
-.primary-btn.cooling-next-btn:hover {
-  background-color: #d0e1e1;
-}
-button:focus-visible,
-summary:focus-visible,
-a:focus-visible {
-  outline: 2px solid #f1d9b7;
-  outline-offset: 4px;
-}
-h1:focus,
-h2:focus {
-  outline: none;
-}
-.welcome-eyebrow {
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
-  margin-bottom: 18px;
-  color: #e2cfb4;
-}
-.journey-guide {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 6px 0 24px;
-  color: #f4f0e8;
-  font-size: 0.9rem;
-}
-.journey-guide .action-icon {
-  width: 16px;
-  color: #cfb296;
-}
-.app-headphone-notice {
-  margin-bottom: 28px;
-  background: #18201bd9;
-}
-.app-shortcut-hint {
-  color: #dedbd2;
-}
-.session-summary {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-  margin: 12px 0 32px;
-  width: min(460px, 100%);
-  max-width: 460px;
-}
-.session-summary dt {
-  color: #d5d3c9;
-  font-size: 0.8rem;
-  margin-bottom: 12px;
-}
-.session-summary dd {
-  font-size: 1.8rem;
-  font-variant-numeric: tabular-nums;
-}
-.session-summary dd span {
-  font-size: 0.85rem;
-}
-.scene-lighting-control {
-  justify-content: space-between;
-  font-size: 0.9rem;
-}
-.scene-lighting-control select {
-  min-height: 44px;
-  min-width: 140px;
-}
-.breathing-circle-premium {
-  width: clamp(150px, 23vh, 230px);
-  height: clamp(150px, 23vh, 230px);
-  background: #14211d6b;
-  margin-bottom: 56px;
-}
-[data-breath='inhale'] .breathing-circle-premium {
-  border-color: #c4d4bb80;
-  background: #b3c3a91a;
-  box-shadow: 0 0 32px #b3c3a918;
-}
-[data-breath='exhale'] .breathing-circle-premium {
-  border-color: #cfbda966;
-  background: #b3c3a90a;
-  box-shadow: none;
-}
-[data-breath] .breathing-label {
-  color: #faf6ed;
-  text-shadow: 0 2px 8px #000;
-}
+/* ---------- UI hidden ---------- */
 .ui-hidden .stage-dock,
 .ui-hidden .stage-heading,
 .ui-hidden .breathing-circle-premium {
   visibility: hidden;
   pointer-events: none;
 }
+.ui-hidden .scene-status {
+  opacity: 0;
+}
+.ui-hidden .scene-status button {
+  visibility: hidden;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .background-stack,
+  .scene-3d-layer,
+  .app-stage-container,
+  .app-start-screen,
+  .stay-timer-bar {
+    transition: none;
+  }
+  .primary-btn:active,
+  .icon-btn:active {
+    transform: none;
+  }
+  /* Looping and drifting decoration stops; the readouts keep showing the same state. The heart
+     and glow pulses are inline styles, hence !important. The breathing circle stays: it is a
+     slow guide, not decoration. */
+  .aurora-blob,
+  .heart-rate-icon,
+  .cooling-glow {
+    animation: none !important;
+  }
+  /* The Löyly rise still has to disappear on its own, so it only fades in place. */
+  .meter-delta {
+    animation-name: meter-delta-fade;
+  }
+  /* Without their motion these would only flash in and out (the overlay blurs the whole view). */
+  .steam-overlay,
+  .sauna-steam-particle,
+  .cooling-ripple-effect {
+    display: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
 @media (max-width: 600px) {
   .stage-dock {
     padding: 16px;
@@ -1048,9 +1114,20 @@ h2:focus {
   .sauna-meters-grid {
     gap: 16px;
   }
-  .sauna-meter-val-temp,
-  .sauna-meter-val-hum {
+  .sauna-meter-value,
+  .stay-timer-value {
     font-size: 1.2rem;
+  }
+  /* 狭い列では見出しを数値の上に置き、ロウリュの上昇幅は数値の右に出す */
+  .sauna-meter-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .meter-delta {
+    right: auto;
+    left: 100%;
+    margin: 0 0 0 8px;
   }
   .dock-actions {
     gap: 8px;
@@ -1069,7 +1146,7 @@ h2:focus {
   }
   .session-summary {
     padding: 24px 16px;
-    gap: 24px;
+    gap: 20px 24px;
   }
 }
 @media (max-height: 620px) {
@@ -1091,8 +1168,21 @@ h2:focus {
   .stage-details {
     margin: 8px 0;
   }
+  .stay-timer {
+    margin-top: 8px;
+  }
+  .stay-timer-track {
+    margin: 6px 0 4px;
+  }
   .app-start-screen {
     justify-content: flex-start;
+  }
+  .welcome-eyebrow {
+    margin-bottom: 10px;
+  }
+  .session-summary {
+    margin: 4px 0 20px;
+    padding: 20px 16px;
   }
   .breathing-circle-premium {
     width: 130px;
@@ -1124,7 +1214,6 @@ h2:focus {
     letter-spacing: 2px;
   }
 }
-
 @media (max-width: 360px) {
   .rest-dock .dock-actions {
     flex-direction: column;
