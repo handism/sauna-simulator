@@ -479,7 +479,8 @@ describe('refraction', () => {
       expect(single.defines?.SUI_SIDE_IMAGE).toBe('');
       expect(single.defines?.SUI_HARD_SHADOW).toBe('');
       expect(single.defines?.SUI_REFRACTION).toBe(material.defines?.SUI_REFRACTION);
-      expect(single.defines?.SUI_SIDE_FLIPPED !== undefined).toBe(flipped);
+      // One program for every image: the flip is decided from suiSide in the shader.
+      expect(single.defines?.SUI_SIDE_FLIPPED).toBeUndefined();
       expect(single.side).toBe(flipped ? THREE.BackSide : THREE.FrontSide);
       expect(single.blending).toBe(THREE.NormalBlending);
       expect(single.customProgramCacheKey()).toBe('wall program|side-image');

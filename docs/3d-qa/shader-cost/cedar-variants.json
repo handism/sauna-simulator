@@ -1,0 +1,128 @@
+{
+ "browser": "cft",
+ "version": "153.0.8010.12",
+ "program": "V11 | cedar end grain",
+ "repeat": 3,
+ "rows": [
+  {
+   "variant": "base",
+   "repeat": 0,
+   "linked": 345,
+   "drawn": 193,
+   "units": 13,
+   "fragmentLength": 132009
+  },
+  {
+   "variant": "noShadows",
+   "repeat": 0,
+   "linked": 274,
+   "drawn": 186,
+   "units": 6,
+   "fragmentLength": 130740
+  },
+  {
+   "variant": "oneSpot",
+   "repeat": 0,
+   "linked": 293,
+   "drawn": 172,
+   "units": 13,
+   "fragmentLength": 130384
+  },
+  {
+   "variant": "oneSpotNoShadows",
+   "repeat": 0,
+   "linked": 277,
+   "drawn": 152,
+   "units": 6,
+   "fragmentLength": 129975
+  },
+  {
+   "variant": "noRectAreas",
+   "repeat": 0,
+   "linked": 281,
+   "drawn": 161,
+   "units": 13,
+   "fragmentLength": 131085
+  },
+  {
+   "variant": "base",
+   "repeat": 1,
+   "linked": 301,
+   "drawn": 194,
+   "units": 13,
+   "fragmentLength": 132009
+  },
+  {
+   "variant": "noShadows",
+   "repeat": 1,
+   "linked": 273,
+   "drawn": 174,
+   "units": 6,
+   "fragmentLength": 130740
+  },
+  {
+   "variant": "oneSpot",
+   "repeat": 1,
+   "linked": 284,
+   "drawn": 155,
+   "units": 13,
+   "fragmentLength": 130384
+  },
+  {
+   "variant": "oneSpotNoShadows",
+   "repeat": 1,
+   "linked": 277,
+   "drawn": 160,
+   "units": 6,
+   "fragmentLength": 129975
+  },
+  {
+   "variant": "noRectAreas",
+   "repeat": 1,
+   "linked": 288,
+   "drawn": 156,
+   "units": 13,
+   "fragmentLength": 131085
+  },
+  {
+   "variant": "base",
+   "repeat": 2,
+   "linked": 300,
+   "drawn": 199,
+   "units": 13,
+   "fragmentLength": 132009
+  },
+  {
+   "variant": "noShadows",
+   "repeat": 2,
+   "linked": 282,
+   "drawn": 173,
+   "units": 6,
+   "fragmentLength": 130740
+  },
+  {
+   "variant": "oneSpot",
+   "repeat": 2,
+   "linked": 288,
+   "drawn": 165,
+   "units": 13,
+   "fragmentLength": 130382
+  },
+  {
+   "variant": "oneSpotNoShadows",
+   "repeat": 2,
+   "linked": 281,
+   "drawn": 158,
+   "units": 6,
+   "fragmentLength": 129973
+  },
+  {
+   "variant": "noRectAreas",
+   "repeat": 2,
+   "linked": 273,
+   "drawn": 151,
+   "units": 13,
+   "fragmentLength": 131085
+  }
+ ]
+}

@@ -1,0 +1,575 @@
+{
+ "note": "stage-compare.visual.ts + cycles-compare.visual.ts, CAPTURE_PNG=1 CAPTURE_QUERY=&resolution=fixed, standard quality, installed Chrome headless. before = HEAD 0a616ee (worktree), after = this change; order before, after, before, after. pixels = count whose max channel difference > 0.",
+ "rows": [
+  {
+   "file": "cycles-01-day.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 45,
+    "max": 49
+   },
+   "after1_after2": {
+    "pixels": 45,
+    "max": 49
+   }
+  },
+  {
+   "file": "cycles-01-evening.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 45,
+    "max": 29
+   },
+   "after1_after2": {
+    "pixels": 45,
+    "max": 29
+   }
+  },
+  {
+   "file": "cycles-01-night.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 44,
+    "max": 19
+   },
+   "after1_after2": {
+    "pixels": 44,
+    "max": 19
+   }
+  },
+  {
+   "file": "cycles-02-day.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-02-evening.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-02-night.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-03-day.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-03-evening.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-03-night.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-04-day.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 18,
+    "max": 52
+   },
+   "after1_after2": {
+    "pixels": 18,
+    "max": 52
+   }
+  },
+  {
+   "file": "cycles-04-evening.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 18,
+    "max": 29
+   },
+   "after1_after2": {
+    "pixels": 18,
+    "max": 29
+   }
+  },
+  {
+   "file": "cycles-04-night.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 18,
+    "max": 14
+   },
+   "after1_after2": {
+    "pixels": 18,
+    "max": 14
+   }
+  },
+  {
+   "file": "cycles-05-day.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 21,
+    "max": 41
+   },
+   "after1_after2": {
+    "pixels": 21,
+    "max": 41
+   }
+  },
+  {
+   "file": "cycles-05-evening.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 21,
+    "max": 26
+   },
+   "after1_after2": {
+    "pixels": 21,
+    "max": 26
+   }
+  },
+  {
+   "file": "cycles-05-night.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 21,
+    "max": 20
+   },
+   "after1_after2": {
+    "pixels": 21,
+    "max": 20
+   }
+  },
+  {
+   "file": "cycles-07-day.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-07-evening.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "cycles-07-night.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-day-0-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-day-1-down.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-day-2-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-day-4-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-evening-0-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-evening-1-down.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-evening-2-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-evening-4-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-night-0-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-night-1-down.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-night-2-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  },
+  {
+   "file": "stage-water-night-4-level.png",
+   "before1_after1": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before2_after2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "before1_before2": {
+    "pixels": 0,
+    "max": 0
+   },
+   "after1_after2": {
+    "pixels": 0,
+    "max": 0
+   }
+  }
+ ]
+}

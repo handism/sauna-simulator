@@ -215,6 +215,8 @@ const inBox = (p: string) =>
   `${p}.y >= ${WATER_BOX.min.y.toFixed(4)} && all( greaterThanEqual( ${p}.xz, ${vec2(WATER_BOX.min)} ) ) && all( lessThanEqual( ${p}.xz, ${vec2(WATER_BOX.max)} ) )`;
 
 // Declarations for both stages. suiSide is the image's sides (0 for the true one).
+// An image in one side (not a corner) is mirrored once, reversing the winding.
+const SIDE_FLIP = 'suiSide.x * suiSide.y == 0.0';
 const declarations = (level: string) => /* glsl */ `
 #ifdef SUI_REFRACTION
 varying float vSuiWaterPath;
@@ -756,7 +758,9 @@ export function addSideImages(root: THREE.Object3D, level: number, waterTime: { 
       geometry.boundingBox = mirrored;
       geometry.boundingSphere = mirrored.getBoundingSphere(new THREE.Sphere());
       // One mirror reverses the winding: swap the culled side and undo the normal flip that
-      // brings (FLIP_SIDED), or flip the facing of double-sided materials.
+      // brings (FLIP_SIDED), or flip the facing of double-sided materials (SIDE_FLIP, from suiSide
+      // in the shader: a define made the side and corner images two programs, each built again by
+      // ANGLE's Metal backend with no shader cache, docs/3d-qa/shader-cost/).
       const flipped = sides[0] * sides[1] === 0;
       const side = { value: new THREE.Vector2(...sides) };
       const depths: THREE.Material[] = [];
@@ -770,7 +774,6 @@ export function addSideImages(root: THREE.Object3D, level: number, waterTime: { 
           ...material.defines,
           SUI_SIDE_IMAGE: '',
           SUI_HARD_SHADOW: '',
-          ...(flipped ? { SUI_SIDE_FLIPPED: '' } : {}),
         };
         copy.defines = { ...defines, SUI_SIDE_TESTED: '' };
         if (flipped && material.side !== THREE.DoubleSide)
@@ -910,11 +913,10 @@ if (!THREE.ShaderChunk.project_vertex.includes('SUI_REFRACTION')) {
     VIEW_DIR,
     VIEW_DIR + sideView,
   );
-  THREE.ShaderChunk.defaultnormal_vertex +=
-    '\n#if defined( SUI_SIDE_FLIPPED ) && ! defined( DOUBLE_SIDED )\ntransformedNormal = - transformedNormal;\n#endif\n';
+  THREE.ShaderChunk.defaultnormal_vertex += `\n#if defined( SUI_SIDE_IMAGE ) && ! defined( DOUBLE_SIDED )\nif ( ${SIDE_FLIP} ) transformedNormal = - transformedNormal;\n#endif\n`;
   THREE.ShaderChunk.normal_fragment_begin = THREE.ShaderChunk.normal_fragment_begin.replace(
     FACING,
-    FACING + '\n#if defined( SUI_SIDE_FLIPPED ) && defined( DOUBLE_SIDED )\nfaceDirection = - faceDirection;\n#endif',
+    `${FACING}\n#if defined( SUI_SIDE_IMAGE ) && defined( DOUBLE_SIDED )\nif ( ${SIDE_FLIP} ) faceDirection = - faceDirection;\n#endif`,
   );
   THREE.ShaderChunk.opaque_fragment += tint(level);
 }

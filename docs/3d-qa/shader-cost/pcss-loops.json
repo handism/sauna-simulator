@@ -1,0 +1,912 @@
+{
+ "cold": true,
+ "note": "Playwright engines (webkit is not Safari). 1200x800, DPR 1.5, reduced motion, frameRate=full; quality from sui-quality. data = the canvas data-* metrics 5 s after each stage; context = the last live WebGL context.",
+ "versions": {
+  "cft": "153.0.8010.12",
+  "webkit": "26.6"
+ },
+ "app": "http://127.0.0.1:4191/sauna-simulator/",
+ "script": "b2a46b1131dcdb5c956d9e72e21495ad792fd7fc537809c5e9dca81bb03809c4",
+ "rows": [
+  {
+   "browser": "cft",
+   "quality": "standard",
+   "run": "cold",
+   "stages": [
+    {
+     "stage": "sauna",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "sauna",
+      "sideImagesShown": "20",
+      "mirrorCalls": "78",
+      "mirrorTriangles": "556840",
+      "mirrorSize": "900x600",
+      "drawCalls": "138",
+      "triangles": "732438",
+      "loadMs": "15993",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "119",
+      "gardenMs": "16410",
+      "frameMeanMs": "20.83",
+      "frameMaxMs": "400.00"
+     }
+    },
+    {
+     "stage": "water",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "water",
+      "sideImagesShown": "32",
+      "mirrorCalls": "52",
+      "mirrorTriangles": "548166",
+      "mirrorSize": "600x400",
+      "drawCalls": "129",
+      "triangles": "720272",
+      "loadMs": "15993",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "31",
+      "geometries": "127",
+      "gardenMs": "16410"
+     }
+    },
+    {
+     "stage": "totonou",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "totonou",
+      "sideImagesShown": "0",
+      "mirrorCalls": "0",
+      "mirrorTriangles": "0",
+      "mirrorSize": "600x400",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "loadMs": "15993",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "127",
+      "gardenMs": "16410",
+      "frameMeanMs": "16.67",
+      "frameMaxMs": "16.80"
+     }
+    }
+   ],
+   "outcome": "ready",
+   "wallMs": 18542,
+   "context": {
+    "contexts": 1,
+    "live": 1,
+    "type": "webgl2",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+    "vendor": "Google Inc. (Apple)",
+    "maxSamples": 4,
+    "maxTextureUnits": 16,
+    "maxTextureSize": 16384,
+    "maxFragmentUniformVectors": 1024,
+    "extensions": {
+     "EXT_color_buffer_float": true,
+     "EXT_color_buffer_half_float": true,
+     "EXT_float_blend": true,
+     "OES_texture_float_linear": true,
+     "KHR_parallel_shader_compile": true,
+     "EXT_disjoint_timer_query_webgl2": true,
+     "WEBGL_lose_context": true
+    },
+    "links": 49,
+    "programsDone": 48,
+    "firstLinkToLastDoneMs": 16239,
+    "blockingMs": {
+     "getProgramInfoLog": 14657,
+     "getShaderInfoLog": 34
+    },
+    "longestCalls": [
+     [
+      "getProgramInfoLog",
+      5740,
+      5586,
+      "V2 | mineral charcoal stone | 39607 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_FLIPPED USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP"
+     ],
+     [
+      "getProgramInfoLog",
+      13959,
+      1475,
+      " | 15935 | SUI_IRRADIANCE SUI_REFLECTION USE_SHADOWMAP SUI_REFLECTION_KIND"
+     ],
+     [
+      "getProgramInfoLog",
+      1071,
+      433,
+      " | 37256 | USE_MAP USE_SHADOWMAP"
+     ],
+     [
+      "getProgramInfoLog",
+      3448,
+      412,
+      "V11 | cedar end grain | 160812 | SUI_IRRADIANCE SUI_REFLECTION SUI_SHADOW_MASK USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      1567,
+      409,
+      "2700K concealed LED | 160724 | SUI_IRRADIANCE SUI_REFLECTION SUI_SHADOW_MASK USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      2195,
+      392,
+      "V9 | layered living moss | 164203 | SUI_IRRADIANCE SUI_REFLECTION SUI_SHADOW_MASK USE_SHADOWMAP USE_SPECULAR SUI_FBM SUI_REFLECTION_KIND SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      2829,
+      387,
+      "V2 | outdoor ash / grain & wear | 161791 | SUI_IRRADIANCE SUI_REFLECTION SUI_SHADOW_MASK USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      12837,
+      383,
+      "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c | 169301 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_TESTED USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      11453,
+      379,
+      "V2 | mineral charcoal stone | 161993 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_TESTED USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      13584,
+      374,
+      "V10 | submerged light / Teal glazed pool tile | 168222 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_TESTED USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      13222,
+      361,
+      "V10 | submerged light / Teal glazed pool tile | 168274 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_FLIPPED SUI_SIDE_TESTED USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      4721,
+      350,
+      "V10 | submerged light / Teal glazed pool tile | 168109 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_HARD_SHADOW USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ]
+    ],
+    "longestGaps": [
+     [
+      1059,
+      14769
+     ],
+     [
+      -129,
+      184
+     ]
+    ]
+   },
+   "stillThreeD": true,
+   "errors": []
+  },
+  {
+   "browser": "cft",
+   "quality": "standard",
+   "run": "warm",
+   "stages": [
+    {
+     "stage": "sauna",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "sauna",
+      "sideImagesShown": "20",
+      "mirrorCalls": "78",
+      "mirrorTriangles": "556840",
+      "mirrorSize": "900x600",
+      "drawCalls": "138",
+      "triangles": "732438",
+      "loadMs": "660",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "119",
+      "gardenMs": "791",
+      "frameMeanMs": "16.76",
+      "frameMaxMs": "33.30"
+     }
+    },
+    {
+     "stage": "water",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.25",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "water",
+      "sideImagesShown": "32",
+      "mirrorCalls": "52",
+      "mirrorTriangles": "548166",
+      "mirrorSize": "750x500",
+      "drawCalls": "129",
+      "triangles": "720272",
+      "loadMs": "660",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "127",
+      "gardenMs": "791",
+      "frameMeanMs": "16.76",
+      "frameMaxMs": "33.30"
+     }
+    },
+    {
+     "stage": "totonou",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.25",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "totonou",
+      "sideImagesShown": "0",
+      "mirrorCalls": "0",
+      "mirrorTriangles": "0",
+      "mirrorSize": "750x500",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "loadMs": "660",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "127",
+      "gardenMs": "791",
+      "frameMeanMs": "16.67",
+      "frameMaxMs": "16.80"
+     }
+    }
+   ],
+   "outcome": "ready",
+   "wallMs": 2314,
+   "context": {
+    "contexts": 1,
+    "live": 1,
+    "type": "webgl2",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+    "vendor": "Google Inc. (Apple)",
+    "maxSamples": 4,
+    "maxTextureUnits": 16,
+    "maxTextureSize": 16384,
+    "maxFragmentUniformVectors": 1024,
+    "extensions": {
+     "EXT_color_buffer_float": true,
+     "EXT_color_buffer_half_float": true,
+     "EXT_float_blend": true,
+     "OES_texture_float_linear": true,
+     "KHR_parallel_shader_compile": true,
+     "EXT_disjoint_timer_query_webgl2": true,
+     "WEBGL_lose_context": true
+    },
+    "links": 51,
+    "programsDone": 50,
+    "firstLinkToLastDoneMs": 664,
+    "blockingMs": {
+     "getProgramInfoLog": 179
+    },
+    "longestCalls": [
+     [
+      "getProgramInfoLog",
+      357,
+      108,
+      " | 7252 | "
+     ],
+     [
+      "getProgramInfoLog",
+      466,
+      25,
+      ""
+     ],
+     [
+      "getProgramInfoLog",
+      634,
+      23,
+      ""
+     ],
+     [
+      "getProgramInfoLog",
+      308,
+      9,
+      ""
+     ],
+     [
+      "getProgramInfoLog",
+      281,
+      7,
+      ""
+     ],
+     [
+      "getProgramInfoLog",
+      298,
+      7,
+      ""
+     ]
+    ],
+    "longestGaps": [
+     [
+      261,
+      241
+     ],
+     [
+      -124,
+      175
+     ]
+    ]
+   },
+   "stillThreeD": true,
+   "errors": []
+  },
+  {
+   "browser": "webkit",
+   "quality": "standard",
+   "run": "cold",
+   "stages": [
+    {
+     "stage": "sauna",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "sauna",
+      "sideImagesShown": "20",
+      "mirrorCalls": "78",
+      "mirrorTriangles": "556840",
+      "mirrorSize": "900x600",
+      "drawCalls": "138",
+      "triangles": "732438",
+      "loadMs": "16417",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "119",
+      "gardenMs": "16896",
+      "frameMeanMs": "21.69",
+      "frameMaxMs": "842.00"
+     }
+    },
+    {
+     "stage": "water",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "water",
+      "sideImagesShown": "32",
+      "mirrorCalls": "52",
+      "mirrorTriangles": "548166",
+      "mirrorSize": "900x600",
+      "drawCalls": "129",
+      "triangles": "720272",
+      "loadMs": "16417",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "127",
+      "gardenMs": "16896",
+      "frameMeanMs": "16.58",
+      "frameMaxMs": "37.00"
+     }
+    },
+    {
+     "stage": "totonou",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "totonou",
+      "sideImagesShown": "0",
+      "mirrorCalls": "0",
+      "mirrorTriangles": "0",
+      "mirrorSize": "900x600",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "loadMs": "16417",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "127",
+      "gardenMs": "16896",
+      "frameMeanMs": "16.65",
+      "frameMaxMs": "27.00"
+     }
+    }
+   ],
+   "outcome": "ready",
+   "wallMs": 19324,
+   "context": {
+    "contexts": 1,
+    "live": 1,
+    "type": "webgl2",
+    "version": "WebGL 2.0",
+    "renderer": "Apple GPU",
+    "vendor": "Apple Inc.",
+    "maxSamples": 4,
+    "maxTextureUnits": 16,
+    "maxTextureSize": 16384,
+    "maxFragmentUniformVectors": 1024,
+    "extensions": {
+     "EXT_color_buffer_float": true,
+     "EXT_color_buffer_half_float": true,
+     "EXT_float_blend": true,
+     "OES_texture_float_linear": true,
+     "KHR_parallel_shader_compile": true,
+     "EXT_disjoint_timer_query_webgl2": false,
+     "WEBGL_lose_context": true
+    },
+    "links": 51,
+    "programsDone": 50,
+    "firstLinkToLastDoneMs": 17080,
+    "blockingMs": {
+     "getProgramInfoLog": 15458,
+     "getProgramParameter": 13
+    },
+    "longestCalls": [
+     [
+      "getProgramInfoLog",
+      5943,
+      5770,
+      "V2 | mineral charcoal stone | 39607 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_FLIPPED USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP"
+     ],
+     [
+      "getProgramInfoLog",
+      14389,
+      1498,
+      " | 15935 | SUI_IRRADIANCE SUI_REFLECTION USE_SHADOWMAP SUI_REFLECTION_KIND"
+     ],
+     [
+      "getProgramInfoLog",
+      1046,
+      583,
+      " | 37256 | USE_MAP USE_SHADOWMAP"
+     ],
+     [
+      "getProgramInfoLog",
+      3777,
+      426,
+      " | 4111 | USE_SHADOWMAP"
+     ],
+     [
+      "getProgramInfoLog",
+      13254,
+      407,
+      "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c | 169301 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_TESTED USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      1668,
+      401,
+      "2700K concealed LED | 160724 | SUI_IRRADIANCE SUI_REFLECTION SUI_SHADOW_MASK USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      2280,
+      395,
+      "V9 | layered living moss | 164203 | SUI_IRRADIANCE SUI_REFLECTION SUI_SHADOW_MASK USE_SHADOWMAP USE_SPECULAR SUI_FBM SUI_REFLECTION_KIND SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      3375,
+      390,
+      "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c | 169203 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SHADOW_MASK USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      4898,
+      371,
+      "V10 | submerged light / Teal glazed pool tile | 168109 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_HARD_SHADOW USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      11839,
+      370,
+      "V2 | mineral charcoal stone | 161993 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_TESTED USE_MAP USE_NORMALMAP USE_NORMALMAP_TANGENTSPACE USE_COLOR USE_COLOR_ALPHA USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      14022,
+      366,
+      "V10 | submerged light / Teal glazed pool tile | 168222 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_TESTED USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_CAUSTIC_CELLS SUI_MASKED SUI_SHADOW_FACING"
+     ],
+     [
+      "getProgramInfoLog",
+      12563,
+      362,
+      "Blackened bronze | 160928 | SUI_REFRACTION SUI_IRRADIANCE SUI_REFLECTION SUI_WATER_BOTTOM SUI_SIDE_IMAGE SUI_HARD_SHADOW SUI_SIDE_TESTED USE_SHADOWMAP USE_SPECULAR SUI_REFLECTION_KIND SUI_FBM SUI_MASKED SUI_SHADOW_FACING"
+     ]
+    ],
+    "longestGaps": [
+     [
+      1030,
+      15218
+     ],
+     [
+      16725,
+      809
+     ],
+     [
+      -127,
+      172
+     ]
+    ]
+   },
+   "stillThreeD": true,
+   "errors": []
+  },
+  {
+   "browser": "webkit",
+   "quality": "standard",
+   "run": "warm",
+   "stages": [
+    {
+     "stage": "sauna",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "sauna",
+      "sideImagesShown": "20",
+      "mirrorCalls": "78",
+      "mirrorTriangles": "556840",
+      "mirrorSize": "900x600",
+      "drawCalls": "138",
+      "triangles": "732438",
+      "loadMs": "433",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "119",
+      "gardenMs": "518",
+      "frameMeanMs": "16.77",
+      "frameMaxMs": "42.00"
+     }
+    },
+    {
+     "stage": "water",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "water",
+      "sideImagesShown": "32",
+      "mirrorCalls": "52",
+      "mirrorTriangles": "548166",
+      "mirrorSize": "900x600",
+      "drawCalls": "129",
+      "triangles": "720272",
+      "loadMs": "433",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "127",
+      "gardenMs": "518",
+      "frameMeanMs": "16.38",
+      "frameMaxMs": "32.00"
+     }
+    },
+    {
+     "stage": "totonou",
+     "data": {
+      "resolution": "auto",
+      "frameRate": "full",
+      "temporal": "on",
+      "quality": "standard",
+      "pixelRatio": "1.5",
+      "irradianceProbes": "4916",
+      "refractionMaterials": "4",
+      "refractionTriangles": "8350",
+      "causticMaterials": "2",
+      "glassMeshes": "2",
+      "irradianceMaterials": "87",
+      "reflectionMaterials": "87",
+      "waterBottomMaterials": "4",
+      "foliageMaterials": "26",
+      "noiseColorMaterials": "5",
+      "imageRampMaterials": "44",
+      "leafClusterMaterials": "5",
+      "sideImageMeshes": "32",
+      "prepassMeshes": "87",
+      "shadowMaskMeshes": "87",
+      "sideImageTriangles": "136272",
+      "stage": "totonou",
+      "sideImagesShown": "0",
+      "mirrorCalls": "0",
+      "mirrorTriangles": "0",
+      "mirrorSize": "900x600",
+      "drawCalls": "83",
+      "triangles": "539614",
+      "loadMs": "433",
+      "garden": "ready",
+      "lighting": "auto",
+      "timeOfDay": "0.000",
+      "textures": "33",
+      "geometries": "127",
+      "gardenMs": "518",
+      "frameMeanMs": "16.71",
+      "frameMaxMs": "32.00"
+     }
+    }
+   ],
+   "outcome": "ready",
+   "wallMs": 2106,
+   "context": {
+    "contexts": 1,
+    "live": 1,
+    "type": "webgl2",
+    "version": "WebGL 2.0",
+    "renderer": "Apple GPU",
+    "vendor": "Apple Inc.",
+    "maxSamples": 4,
+    "maxTextureUnits": 16,
+    "maxTextureSize": 16384,
+    "maxFragmentUniformVectors": 1024,
+    "extensions": {
+     "EXT_color_buffer_float": true,
+     "EXT_color_buffer_half_float": true,
+     "EXT_float_blend": true,
+     "OES_texture_float_linear": true,
+     "KHR_parallel_shader_compile": true,
+     "EXT_disjoint_timer_query_webgl2": false,
+     "WEBGL_lose_context": true
+    },
+    "links": 51,
+    "programsDone": 50,
+    "firstLinkToLastDoneMs": 354,
+    "blockingMs": {
+     "getProgramInfoLog": 15
+    },
+    "longestCalls": [
+     [
+      "getProgramInfoLog",
+      223,
+      9,
+      ""
+     ],
+     [
+      "getProgramInfoLog",
+      151,
+      6,
+      ""
+     ]
+    ],
+    "longestGaps": [
+     [
+      -123,
+      170
+     ],
+     [
+      121,
+      134
+     ]
+    ]
+   },
+   "stillThreeD": true,
+   "errors": []
+  }
+ ]
+}

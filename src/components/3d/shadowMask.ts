@@ -329,6 +329,7 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
     return materials.get(key)!;
   };
   const hidden = new THREE.MeshBasicMaterial({ visible: false });
+  const shadowsOnly = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false, depthTest: false });
   const marked = new WeakSet<THREE.Material>();
   const mark = (material: THREE.MeshStandardMaterial) => {
     if (marked.has(material)) return;
@@ -395,7 +396,11 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
       });
       // The static shadow maps are drawn by the first render after they need it, of the objects on
       // that render's camera layers: drawn by this pass's layers, they would hold none. A frame that
-      // needs them (loading, a quality change) first renders the view as it is, into this target.
+      // needs them (loading, a quality change) first renders the view's layers into this target,
+      // the view itself with a material writing nothing: three draws the shadow maps with each
+      // object's own material. Drawn with theirs, the view had ANGLE's Metal backend build every
+      // material's pipeline for this target's format as well, about 0.2 s each with no shader
+      // cache (a first visit, docs/3d-qa/shader-cost/).
       const refresh = casters.some(({ shadow }) => shadow.needsUpdate || !shadow.map);
       const target = targetFor(pass);
       const w = Math.max(1, Math.ceil(width / 2)),
@@ -411,9 +416,10 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
       renderer.setClearColor(0x000000, 0);
       renderer.setRenderTarget(target);
       if (refresh) {
-        // Not reading the target it draws into.
-        uniforms.suiShadowMask.value = null;
+        const override = scene.overrideMaterial;
+        scene.overrideMaterial = shadowsOnly;
         renderer.render(scene, camera);
+        scene.overrideMaterial = override;
       }
       renderer.clear();
       renderer.autoClear = false;
@@ -437,6 +443,7 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
       targets.clear();
       for (const material of [...materials.values(), ...cutouts.values()]) material.dispose();
       hidden.dispose();
+      shadowsOnly.dispose();
     },
   };
 }
