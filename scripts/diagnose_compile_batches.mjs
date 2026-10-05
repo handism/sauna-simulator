@@ -150,6 +150,9 @@ function hook({ batch, nonce }) {
     events: [],
     intervals: [],
     slowCalls: [],
+    programs: [],
+    programQueries: [],
+    recentDraws: [],
   });
   probe.mark = (phase) => {
     probe.phase = phase;
@@ -167,9 +170,29 @@ function hook({ batch, nonce }) {
     shaders = new WeakMap(),
     heavy = new WeakMap(),
     ids = new WeakMap();
+  const describe = (program) => {
+    if (!program) return null;
+    if (!ids.has(program)) {
+      const text = (shaders.get(program) ?? []).map((shader) => sources.get(shader) ?? '').join('\n');
+      const id = ++next;
+      ids.set(program, id);
+      heavy.set(program, text.length > 160000);
+      probe.programs.push({
+        id,
+        chars: text.length,
+        name: text.match(/#define SHADER_NAME ([^\r\n]+)/)?.[1] ?? 'unnamed',
+        defines: [
+          ...new Set([...text.matchAll(/^#define (SUI_\w+|USE_ALPHATEST|USE_SHADOWMAP)\b/gm)].map((match) => match[1])),
+        ],
+      });
+    }
+    return ids.get(program);
+  };
   const state = new WeakMap();
   let next = 0,
-    started = 0;
+    started = 0,
+    drawSequence = 0,
+    stepDraws = [];
   const at = (gl) => {
     if (!state.has(gl)) state.set(gl, { program: null });
     return state.get(gl);
@@ -200,10 +223,7 @@ function hook({ batch, nonce }) {
   const allow = (gl) => {
     const program = at(gl).program;
     if (!program) return true;
-    if (!heavy.has(program)) {
-      heavy.set(program, (shaders.get(program) ?? []).reduce((n, s) => n + (sources.get(s)?.length ?? 0), 0) > 160000);
-      ids.set(program, ++next);
-    }
+    describe(program);
     if (!probe.active || !heavy.get(program)) return true;
     // Query the bound framebuffer's formats/samples rather than its object identity: identical
     // targets share Metal pipelines. The synchronous queries are part of this diagnostic's cost.
@@ -255,13 +275,30 @@ function hook({ batch, nonce }) {
   for (const name of ['drawElements', 'drawArrays', 'drawElementsInstanced', 'drawArraysInstanced']) {
     const draw = p[name];
     p[name] = function (...args) {
-      if (allow(this)) return draw.apply(this, args);
+      if (!allow(this)) return;
+      const entry = {
+        sequence: ++drawSequence,
+        program: describe(at(this).program),
+        name,
+        start: performance.now(),
+        phase: probe.phase,
+        step: probe.active ? probe.steps.length : null,
+      };
+      // Only actual submitted draws enter this history; suppressed calls do not.
+      // No new GL queries here: correlation must not introduce another driver barrier.
+      const result = draw.apply(this, args);
+      entry.end = performance.now();
+      probe.recentDraws.push(entry);
+      if (probe.recentDraws.length > 8) probe.recentDraws.shift();
+      if (probe.active) stepDraws.push(entry);
+      return result;
     };
   }
   probe.begin = () => {
     started = performance.now();
     probe.admitted = 0;
     probe.pending = false;
+    stepDraws = [];
   };
   probe.end = (gl) => {
     // The output pass leaves the canvas bound. Readback drains preceding draws, unlike finish()
@@ -274,6 +311,7 @@ function hook({ batch, nonce }) {
       drainMs: performance.now() - drawEnd,
       end: performance.now(),
       ms: performance.now() - started,
+      draws: stepDraws,
       newPipelines: probe.admitted,
       pending: probe.pending,
     });
@@ -312,11 +350,30 @@ function hook({ batch, nonce }) {
     p[name] = function (...args) {
       const start = performance.now();
       const phase = probe.phase;
+      const boundProgram = describe(at(this).program);
+      const subjectProgram =
+        name.startsWith('getProgram') ||
+        ['getActiveUniform', 'getActiveAttrib', 'getUniformLocation', 'getAttribLocation'].includes(name)
+          ? describe(args[0])
+          : null;
+      const precedingDraws = [...probe.recentDraws];
       try {
         return call.apply(this, args);
       } finally {
         const end = performance.now();
-        if (end - start > 100) probe.slowCalls.push({ name, start, end, ms: end - start, phase });
+        if (name === 'getProgramInfoLog')
+          probe.programQueries.push({ name, start, end, ms: end - start, phase, subjectProgram, precedingDraws });
+        if (end - start > 100)
+          probe.slowCalls.push({
+            name,
+            start,
+            end,
+            ms: end - start,
+            phase,
+            boundProgram,
+            subjectProgram,
+            precedingDraws,
+          });
       }
     };
   }
@@ -400,6 +457,8 @@ try {
         events: window.__suiBatches.events,
         intervals: window.__suiBatches.intervals,
         slowCalls: window.__suiBatches.slowCalls,
+        programs: window.__suiBatches.programs,
+        programQueries: window.__suiBatches.programQueries,
         pipelines: window.__suiBatches.seen.size,
       }));
       row.batch = batch;
@@ -451,7 +510,7 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 2,
+        schema: 3,
         engine,
         version,
         revision,

@@ -30,6 +30,28 @@ def timeline(row):
     assert ("batch-warmup" in phases) == bool(row["batch"])
     assert set(phases) == set(required + ["before-entry", "measurement-end"] + (["batch-warmup"] if row["batch"] else [])), "unknown phases"
     end = events[-1]["at"]
+    programs = {p["id"]: p for p in row["programs"]}
+    assert len(programs) == len(row["programs"]) and programs, "missing/duplicate programs"
+    assert all(p["chars"] > 0 and p["name"] and isinstance(p["defines"], list) for p in programs.values())
+    def validate_draw(draw):
+        assert draw["program"] in programs, "unknown draw program"
+        assert 0 <= draw["start"] <= draw["end"] <= end
+        assert draw["sequence"] > 0
+    for index, step in enumerate(row["steps"]):
+        for draw in step["draws"]:
+            validate_draw(draw)
+            assert draw["step"] == index and draw["phase"] == "batch-warmup"
+            assert step["start"] <= draw["start"] <= draw["end"] <= step["end"]
+        assert all(a["sequence"] < b["sequence"] for a, b in zip(step["draws"], step["draws"][1:]))
+    assert all(a["end"] <= b["start"] for a, b in zip(row["programQueries"], row["programQueries"][1:])), "overlapping program queries"
+    for call in row["slowCalls"] + row["programQueries"]:
+        assert 0 <= call["start"] <= call["end"] <= end and math.isfinite(call["ms"])
+        assert abs(call["ms"] - (call["end"] - call["start"])) < 1
+        assert all(call.get(key) is None or call[key] in programs for key in ["subjectProgram", "boundProgram"])
+        assert len(call["precedingDraws"]) <= 8
+        for draw in call["precedingDraws"]:
+            validate_draw(draw)
+            assert draw["end"] <= call["start"], "draw is not preceding the call"
     assert all(a["end"] <= b["start"] for a, b in zip(row["steps"], row["steps"][1:])), "overlapping steps"
     for step in row["steps"]:
         assert 0 <= step["start"] <= step["end"] <= end
@@ -54,17 +76,28 @@ def timeline(row):
                                                      for step in row["steps"])})
     longest = {kind: max((s for s in intervals if s["kind"] == kind), key=lambda s: s["ms"], default=None)
                for kind in ["timer", "raf"]}
+    first_queries = [c for c in row["programQueries"] if row["steps"] and row["steps"][0]["start"] <= c["start"] <= row["steps"][0]["end"]]
+    first_draws = {}
+    for draw in row["steps"][0]["draws"] if row["steps"] else []:
+        group = first_draws.setdefault(draw["program"], {"program": draw["program"], "count": 0, "firstDraw": draw})
+        group["count"] += 1
+        group["lastDraw"] = draw
     return {"round": row["round"], "batch": row["batch"], "phases": spans, "longestIntervals": longest,
             "intervalsOverOneSecond": [s for s in intervals if s["ms"] > 1000],
             "outsideWarmupIntervalsOverHalfSecond": [s for s in intervals if s["ms"] > 500 and s["warmupStepOverlapMs"] == 0],
-            "slowCalls": row["slowCalls"],
+            "slowCalls": row["slowCalls"], "programs": row["programs"],
+            "firstStepDraws": list(first_draws.values()),
+            "firstStepProgramQueries": first_queries,
+            "firstStepProgramQueryMs": sum(c["ms"] for c in first_queries),
+            "firstStepHeavyProgramsQueried": sorted({c["subjectProgram"] for c in first_queries if programs[c["subjectProgram"]]["chars"] > 160000}),
+            "firstStepHeavyProgramsDrawn": sorted({p for p in first_draws if programs[p]["chars"] > 160000}),
             "maxDrawMs": max((s["drawMs"] for s in row["steps"]), default=0),
             "maxDrainMs": max((s["drainMs"] for s in row["steps"]), default=0)}
 
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 2, "timeline schema required"
+    assert report["schema"] == 3, "timeline schema required"
     assert report["script"] == digest("scripts/diagnose_compile_batches.mjs"), "script changed"
     assert report["source"] == digest("src/components/3d/SaunaScene.tsx"), "scene changed"
     for file, expected in report["inputs"].items():
@@ -104,15 +137,16 @@ def summarize(path):
             "maxStepMs": [max((s["ms"] for s in r["steps"]), default=0) for r in selected],
             "interceptedPipelineKeys": [r["pipelines"] for r in selected],
         }
-    comparisons = []
-    for (round_, batch, stage), image in images.items():
-        reference = images[0, 0, stage]
-        delta = np.abs(image - reference)
-        comparisons.append({"round": round_, "batch": batch, "stage": stage,
-                            "changedPixels": int(np.any(delta, axis=2).sum()),
-                            "maxChannelDelta": int(delta.max()), "meanChannelDelta": float(delta.mean())})
+    def compare(reference_round):
+        comparisons = []
+        for (round_, batch, stage), image in images.items():
+            delta = np.abs(image - images[reference_round, 0, stage])
+            comparisons.append({"round": round_, "batch": batch, "stage": stage,
+                                "changedPixels": int(np.any(delta, axis=2).sum()),
+                                "maxChannelDelta": int(delta.max()), "meanChannelDelta": float(delta.mean())})
+        return comparisons
     return {"engine": report["engine"], "version": report["version"], "report": str(path),
-            "reportSha256": digest(path), "timings": timings, "images": comparisons, "timelines": timelines}
+            "reportSha256": digest(path), "timings": timings, "images": compare(0), "imagesVsLastBaseline": compare(repeat - 1), "timelines": timelines}
 
 
 if __name__ == "__main__":
@@ -120,6 +154,6 @@ if __name__ == "__main__":
     parser.add_argument("reports", nargs="+")
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
-    result = {"note": "Timer gaps cover page initialization through garden-ready + 500ms, including time before entry; phase attribution uses interval overlaps, not callback labels. Nested slow WebGL calls overlap and must not be summed. Instrumented fresh shaders; not product load times or FPS. Image comparisons use first baseline of each engine.",
+    result = {"note": "Timer gaps cover page initialization through garden-ready + 500ms, including time before entry; phase attribution uses interval overlaps, not callback labels. Nested slow WebGL calls overlap and must not be summed. Instrumented fresh shaders; not product load times or FPS. Image comparisons use both the first and final baseline of each engine.",
               "runs": [summarize(path) for path in args.reports]}
     Path(args.out).write_text(json.dumps(result, indent=2) + "\n")
