@@ -5,6 +5,8 @@
 // frames), and a frame within it only shows the interval: `repeat` > 1 runs each callback that
 // draws that many times (same time, so nothing advances, and no further frames scheduled) to make
 // the GPU the limit, and the interval between frames / repeat is the cost of one frame.
+// `suiAfterDraw`, when set, runs after every callback that draws (each repeat too), e.g. to move
+// the view so that view-dependent passes are not kept between the repeated frames.
 export function timeFrames(repeat = 1) {
   type Timed = Window & {
     suiGl?: WebGL2RenderingContext;
@@ -12,6 +14,7 @@ export function timeFrames(repeat = 1) {
     suiMeasure?: boolean;
     suiGpuMs: number[];
     suiFrameAt: number[];
+    suiAfterDraw?: () => void;
   };
   const w = window as unknown as Timed;
   w.suiGpuMs = [];
@@ -50,9 +53,13 @@ export function timeFrames(repeat = 1) {
       if (query) gl!.beginQuery(timer!.TIME_ELAPSED_EXT, query);
       const before = draws;
       callback(time);
+      if (draws > before) w.suiAfterDraw?.();
       if (draws > before && repeat > 1) {
         window.requestAnimationFrame = () => 0;
-        for (let i = 1; i < repeat; i++) callback(time);
+        for (let i = 1; i < repeat; i++) {
+          callback(time);
+          w.suiAfterDraw?.();
+        }
         window.requestAnimationFrame = wrapped;
       }
       if (w.suiMeasure && draws > before) w.suiFrameAt.push(time);

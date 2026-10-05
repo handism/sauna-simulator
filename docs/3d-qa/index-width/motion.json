@@ -1,0 +1,3459 @@
+{
+  "scriptSha256": "416b29eabd8bafb90d7edeb8f8d3219af329d40e4d5605baa0f1066f8292a78e",
+  "browser": "154.0.8037.97",
+  "stats": {
+    "startTime": "2026-10-05T07:12:41.098Z",
+    "duration": 855185.415,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "repeat": 4,
+  "loads": 6,
+  "candidate": {
+    "inputSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+    "outputSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f"
+  },
+  "views": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "drawCalls": [
+        "138",
+        "142",
+        "142",
+        "138"
+      ],
+      "mirrorCallsMoving": [
+        "80",
+        "84",
+        "84",
+        "80"
+      ],
+      "stillIntervalMeanMs": [
+        7.578442028985509,
+        7.633576642335767,
+        7.891287878787883,
+        7.658823529411764
+      ],
+      "stillRatio": [
+        1.0072751910141138,
+        1.0303524880137789
+      ],
+      "movingIntervalMeanMs": [
+        10.867010309278355,
+        9.798842592592589,
+        9.708944954128437,
+        9.760416666666666
+      ],
+      "movingRatio": [
+        0.90170546578264,
+        0.994726484094269
+      ],
+      "movingExtraMs": [
+        3.2885682802928455,
+        2.1652659502568214,
+        1.8176570753405548,
+        2.101593137254902
+      ],
+      "movingExtraDifferenceMs": [
+        -1.123302330036024,
+        -0.28393606191434717
+      ]
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "drawCalls": [
+        "138",
+        "142",
+        "142",
+        "138"
+      ],
+      "mirrorCallsMoving": [
+        "80",
+        "84",
+        "84",
+        "80"
+      ],
+      "stillIntervalMeanMs": [
+        10.47821782178217,
+        10.689646464646462,
+        10.73181818181818,
+        10.54125
+      ],
+      "stillRatio": [
+        1.0201779201826453,
+        1.0180783286439636
+      ],
+      "movingIntervalMeanMs": [
+        13.219753086419743,
+        13.007621951219512,
+        13.007621951219512,
+        12.951506024096368
+      ],
+      "movingRatio": [
+        0.9839534722158959,
+        1.0043327723446787
+      ],
+      "movingExtraMs": [
+        2.741535264637573,
+        2.317975486573051,
+        2.2758037694013318,
+        2.410256024096368
+      ],
+      "movingExtraDifferenceMs": [
+        -0.42355977806452216,
+        -0.1344522546950362
+      ]
+    },
+    {
+      "stage": "sauna",
+      "lighting": "night",
+      "drawCalls": [
+        "138",
+        "142",
+        "142",
+        "138"
+      ],
+      "mirrorCallsMoving": [
+        "80",
+        "84",
+        "84",
+        "80"
+      ],
+      "stillIntervalMeanMs": [
+        11.347074468085106,
+        11.46881720430106,
+        11.424462365591403,
+        11.379838709677408
+      ],
+      "stillRatio": [
+        1.0107289977305047,
+        1.003921290718826
+      ],
+      "movingIntervalMeanMs": [
+        14.199013157894736,
+        14.01428571428572,
+        13.960389610389619,
+        14.01461038961039
+      ],
+      "movingRatio": [
+        0.9869901209644061,
+        0.9961311247538521
+      ],
+      "movingExtraMs": [
+        2.8519386898096304,
+        2.5454685099846603,
+        2.5359272447982164,
+        2.6347716799329817
+      ],
+      "movingExtraDifferenceMs": [
+        -0.30647017982497005,
+        -0.09884443513476526
+      ]
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "drawCalls": [
+        "129",
+        "133",
+        "133",
+        "129"
+      ],
+      "mirrorCallsMoving": [
+        "52",
+        "56",
+        "56",
+        "52"
+      ],
+      "stillIntervalMeanMs": [
+        8.933262711864407,
+        9.051293103448282,
+        9.04529914529914,
+        9.009615384615385
+      ],
+      "stillRatio": [
+        1.0132124617164922,
+        1.0039606308549738
+      ],
+      "movingIntervalMeanMs": [
+        10.54125,
+        10.499499999999971,
+        10.436633663366358,
+        10.437128712871301
+      ],
+      "movingRatio": [
+        0.9960393691450228,
+        0.9999525684200548
+      ],
+      "movingExtraMs": [
+        1.6079872881355932,
+        1.4482068965516888,
+        1.391334518067218,
+        1.427513328255916
+      ],
+      "movingExtraDifferenceMs": [
+        -0.15978039158390445,
+        -0.03617881018869795
+      ]
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "drawCalls": [
+        "129",
+        "133",
+        "133",
+        "129"
+      ],
+      "mirrorCallsMoving": [
+        "52",
+        "56",
+        "56",
+        "52"
+      ],
+      "stillIntervalMeanMs": [
+        10.98046875,
+        10.996134020618557,
+        10.910309278350509,
+        10.910051546391768
+      ],
+      "stillRatio": [
+        1.001426648622679,
+        1.0000236233493165
+      ],
+      "movingIntervalMeanMs": [
+        12.64647058823526,
+        12.697916666666666,
+        12.597352941176487,
+        12.548823529411782
+      ],
+      "movingRatio": [
+        1.0040680186675375,
+        1.0038672479257487
+      ],
+      "movingExtraMs": [
+        1.6660018382352604,
+        1.701782646048109,
+        1.6870436628259782,
+        1.638771983020014
+      ],
+      "movingExtraDifferenceMs": [
+        0.035780807812848536,
+        0.04827167980596414
+      ]
+    },
+    {
+      "stage": "water",
+      "lighting": "night",
+      "drawCalls": [
+        "129",
+        "133",
+        "133",
+        "129"
+      ],
+      "mirrorCallsMoving": [
+        "52",
+        "56",
+        "56",
+        "52"
+      ],
+      "stillIntervalMeanMs": [
+        11.469086021505376,
+        11.629670329670361,
+        11.629395604395581,
+        11.5483695652174
+      ],
+      "stillRatio": [
+        1.0140014913013886,
+        1.0070162319209306
+      ],
+      "movingIntervalMeanMs": [
+        13.554113924050606,
+        13.4890625,
+        13.384687500000018,
+        13.270987654320997
+      ],
+      "movingRatio": [
+        0.9952006140412337,
+        1.008567549653473
+      ],
+      "movingExtraMs": [
+        2.08502790254523,
+        1.859392170329638,
+        1.7552918956044365,
+        1.722618089103598
+      ],
+      "movingExtraDifferenceMs": [
+        -0.22563573221559174,
+        0.03267380650083851
+      ]
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "drawCalls": [
+        "83",
+        "87",
+        "87",
+        "83"
+      ],
+      "mirrorCallsMoving": [
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "stillIntervalMeanMs": [
+        5.298974358974337,
+        5.304768041237113,
+        5.304768041237113,
+        5.332383419689127
+      ],
+      "stillRatio": [
+        1.0010933591805298,
+        0.994821194149309
+      ],
+      "movingIntervalMeanMs": [
+        5.740555555555572,
+        5.547860962566829,
+        5.503342245989304,
+        5.47406914893617
+      ],
+      "movingRatio": [
+        0.9664327622781635,
+        1.0053475935828877
+      ],
+      "movingExtraMs": [
+        0.44158119658123507,
+        0.2430929213297155,
+        0.198574204752191,
+        0.14168572924704304
+      ],
+      "movingExtraDifferenceMs": [
+        -0.19848827525151957,
+        0.05688847550514797
+      ]
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "drawCalls": [
+        "83",
+        "87",
+        "87",
+        "83"
+      ],
+      "mirrorCallsMoving": [
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "stillIntervalMeanMs": [
+        7.891098484848484,
+        7.951526717557208,
+        7.95435606060605,
+        7.954356060606105
+      ],
+      "stillRatio": [
+        1.0076577719597277,
+        0.9999999999999931
+      ],
+      "movingIntervalMeanMs": [
+        8.299799999999989,
+        8.105078124999977,
+        8.072656249999966,
+        8.044615384615406
+      ],
+      "movingRatio": [
+        0.9765389678064518,
+        1.003485668865933
+      ],
+      "movingExtraMs": [
+        0.4087015151515043,
+        0.15355140744276952,
+        0.11830018939391618,
+        0.0902593240093017
+      ],
+      "movingExtraDifferenceMs": [
+        -0.2551501077087348,
+        0.028040865384614477
+      ]
+    },
+    {
+      "stage": "totonou",
+      "lighting": "night",
+      "drawCalls": [
+        "83",
+        "87",
+        "87",
+        "83"
+      ],
+      "mirrorCallsMoving": [
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "stillIntervalMeanMs": [
+        8.467338709677396,
+        8.502235772357736,
+        8.433669354838663,
+        8.433870967741958
+      ],
+      "stillRatio": [
+        1.004121373181925,
+        0.9999760948556047
+      ],
+      "movingIntervalMeanMs": [
+        8.79216101694914,
+        8.537909836065573,
+        8.606147540983642,
+        8.572131147541008
+      ],
+      "movingRatio": [
+        0.9710820604407229,
+        1.0039682539682553
+      ],
+      "movingExtraMs": [
+        0.3248223072717451,
+        0.03567406370783743,
+        0.17247818614497845,
+        0.13826017979904925
+      ],
+      "movingExtraDifferenceMs": [
+        -0.28914824356390767,
+        0.0342180063459292
+      ]
+    }
+  ],
+  "ratioRange": {
+    "still": [
+      0.994821194149309,
+      1.0303524880137789
+    ],
+    "moving": [
+      0.90170546578264,
+      1.008567549653473
+    ]
+  },
+  "loadRuns": [
+    {
+      "variant": "original",
+      "loadMs": {
+        "median": 522.0,
+        "values": [
+          538,
+          524,
+          520,
+          523,
+          520,
+          521
+        ]
+      },
+      "gardenPhaseMs": {
+        "median": 149.5,
+        "values": [
+          149,
+          152,
+          147,
+          146,
+          150,
+          151
+        ]
+      },
+      "firstCallbackMs": {
+        "median": 26.24999999254942,
+        "values": [
+          28.299999997019768,
+          20.899999991059303,
+          27.399999991059303,
+          25.099999994039536,
+          18.799999997019768,
+          33.5
+        ]
+      },
+      "firstIntervalMs": {
+        "median": 26.75,
+        "values": [
+          28.900000005960464,
+          21.599999994039536,
+          27.799999997019768,
+          25.700000002980232,
+          19.5,
+          34.099999994039536
+        ]
+      }
+    },
+    {
+      "variant": "candidate",
+      "loadMs": {
+        "median": 525.0,
+        "values": [
+          524,
+          527,
+          526,
+          533,
+          519,
+          519
+        ]
+      },
+      "gardenPhaseMs": {
+        "median": 149.5,
+        "values": [
+          152,
+          152,
+          136,
+          147,
+          149,
+          150
+        ]
+      },
+      "firstCallbackMs": {
+        "median": 21.399999998509884,
+        "values": [
+          22.700000002980232,
+          19.700000002980232,
+          26,
+          23.400000005960464,
+          19.600000008940697,
+          20.099999994039536
+        ]
+      },
+      "firstIntervalMs": {
+        "median": 21.899999998509884,
+        "values": [
+          23.299999997019768,
+          20.299999997019768,
+          26.69999998807907,
+          23.799999997019768,
+          20,
+          20.5
+        ]
+      }
+    },
+    {
+      "variant": "candidate",
+      "loadMs": {
+        "median": 522.0,
+        "values": [
+          524,
+          522,
+          520,
+          524,
+          522,
+          522
+        ]
+      },
+      "gardenPhaseMs": {
+        "median": 150.0,
+        "values": [
+          148,
+          146,
+          149,
+          154,
+          152,
+          151
+        ]
+      },
+      "firstCallbackMs": {
+        "median": 25.049999997019768,
+        "values": [
+          25.200000002980232,
+          24.899999991059303,
+          23.599999994039536,
+          20.100000008940697,
+          27.599999994039536,
+          28.299999997019768
+        ]
+      },
+      "firstIntervalMs": {
+        "median": 25.44999999552965,
+        "values": [
+          25.599999994039536,
+          25.299999997019768,
+          24.19999998807907,
+          20.5,
+          28.099999994039536,
+          28.799999997019768
+        ]
+      }
+    },
+    {
+      "variant": "original",
+      "loadMs": {
+        "median": 525.0,
+        "values": [
+          551,
+          519,
+          536,
+          519,
+          529,
+          521
+        ]
+      },
+      "gardenPhaseMs": {
+        "median": 145.5,
+        "values": [
+          149,
+          143,
+          144,
+          147,
+          148,
+          143
+        ]
+      },
+      "firstCallbackMs": {
+        "median": 19.649999998509884,
+        "values": [
+          19.799999997019768,
+          20.200000002980232,
+          19.100000008940697,
+          19.899999991059303,
+          19.5,
+          19.200000002980232
+        ]
+      },
+      "firstIntervalMs": {
+        "median": 20.099999994039536,
+        "values": [
+          20.099999994039536,
+          20.599999994039536,
+          19.600000008940697,
+          20.399999991059303,
+          20.099999994039536,
+          19.80000001192093
+        ]
+      }
+    }
+  ],
+  "loadMedians": {
+    "original": {
+      "loadMs": 522.0,
+      "gardenPhaseMs": 147.5,
+      "firstCallbackMs": 20.049999997019768,
+      "firstIntervalMs": 20.49999999254942
+    },
+    "candidate": {
+      "loadMs": 523.0,
+      "gardenPhaseMs": 149.5,
+      "firstCallbackMs": 23.5,
+      "firstIntervalMs": 23.99999999254942
+    }
+  },
+  "runs": [
+    {
+      "index": 0,
+      "variant": "original",
+      "browser": "154.0.8037.97",
+      "quality": "standard",
+      "repeat": 4,
+      "loads": 6,
+      "inputHashes": {
+        "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+        "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/garden-motion.gpu.ts": "0396194403a7a201b0cec620e44204fc9b743a6741ca42f3e342a0dc07dc03df",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3"
+      },
+      "dpr": 1,
+      "modelSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "modelBytes": 5979340,
+      "originalSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "candidateSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "still": {
+            "frames": 139,
+            "intervalMeanMs": 7.578442028985509,
+            "gpuTimerMedianMs": 76.848208,
+            "mirror": {
+              "calls": "78",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 98,
+            "intervalMeanMs": 10.867010309278355,
+            "gpuTimerMedianMs": 190.418124,
+            "mirror": {
+              "calls": "80",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "78",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "138",
+            "triangles": "732438",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "119",
+            "gardenMs": "682",
+            "frameMeanMs": "7.68",
+            "frameMaxMs": "66.60"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "evening",
+          "still": {
+            "frames": 102,
+            "intervalMeanMs": 10.47821782178217,
+            "gpuTimerMedianMs": 132.8245,
+            "mirror": {
+              "calls": "78",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 82,
+            "intervalMeanMs": 13.219753086419743,
+            "gpuTimerMedianMs": 243.251541,
+            "mirror": {
+              "calls": "80",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "78",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "138",
+            "triangles": "732438",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "119",
+            "gardenMs": "682",
+            "frameMeanMs": "7.68",
+            "frameMaxMs": "66.60"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "still": {
+            "frames": 95,
+            "intervalMeanMs": 11.347074468085106,
+            "gpuTimerMedianMs": 145.541749,
+            "mirror": {
+              "calls": "78",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 77,
+            "intervalMeanMs": 14.199013157894736,
+            "gpuTimerMedianMs": 260.103458,
+            "mirror": {
+              "calls": "80",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "78",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "138",
+            "triangles": "732438",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "119",
+            "gardenMs": "682",
+            "frameMeanMs": "7.68",
+            "frameMaxMs": "66.60"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "still": {
+            "frames": 119,
+            "intervalMeanMs": 8.933262711864407,
+            "gpuTimerMedianMs": 107.345999,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 101,
+            "intervalMeanMs": 10.54125,
+            "gpuTimerMedianMs": 148.396208,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "52",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "129",
+            "triangles": "720272",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "682",
+            "frameMeanMs": "19.35",
+            "frameMaxMs": "1699.90"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "evening",
+          "still": {
+            "frames": 97,
+            "intervalMeanMs": 10.98046875,
+            "gpuTimerMedianMs": 137.170875,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 86,
+            "intervalMeanMs": 12.64647058823526,
+            "gpuTimerMedianMs": 182.418958,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "52",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "129",
+            "triangles": "720272",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "682",
+            "frameMeanMs": "19.35",
+            "frameMaxMs": "1699.90"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "still": {
+            "frames": 94,
+            "intervalMeanMs": 11.469086021505376,
+            "gpuTimerMedianMs": 144.689083,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 80,
+            "intervalMeanMs": 13.554113924050606,
+            "gpuTimerMedianMs": 194.545166,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "52",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "129",
+            "triangles": "720272",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "682",
+            "frameMeanMs": "19.35",
+            "frameMaxMs": "1699.90"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "still": {
+            "frames": 196,
+            "intervalMeanMs": 5.298974358974337,
+            "gpuTimerMedianMs": 61.680791,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 181,
+            "intervalMeanMs": 5.740555555555572,
+            "gpuTimerMedianMs": 69.811374,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "83",
+            "triangles": "539614",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "682",
+            "frameMeanMs": "16.30",
+            "frameMaxMs": "1549.90"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "evening",
+          "still": {
+            "frames": 133,
+            "intervalMeanMs": 7.891098484848484,
+            "gpuTimerMedianMs": 99.05475,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 126,
+            "intervalMeanMs": 8.299799999999989,
+            "gpuTimerMedianMs": 101.827541,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "83",
+            "triangles": "539614",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "682",
+            "frameMeanMs": "16.30",
+            "frameMaxMs": "1549.90"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "still": {
+            "frames": 125,
+            "intervalMeanMs": 8.467338709677396,
+            "gpuTimerMedianMs": 107.053416,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 119,
+            "intervalMeanMs": 8.79216101694914,
+            "gpuTimerMedianMs": 108.486749,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "83",
+            "triangles": "539614",
+            "loadMs": "455",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "682",
+            "frameMeanMs": "16.30",
+            "frameMaxMs": "1549.90"
+          }
+        }
+      ],
+      "loadRuns": [
+        {
+          "loadMs": 538,
+          "gardenMs": 687,
+          "gardenPhaseMs": 149,
+          "firstCallbackMs": 28.299999997019768,
+          "firstIntervalMs": 28.900000005960464,
+          "laterCallbackMs": [
+            3.3999999910593033,
+            3.800000011920929,
+            3.5999999940395355
+          ],
+          "laterIntervalMs": [
+            4.399999991059303,
+            17.100000008940697
+          ],
+          "loadingCallbacks": 7,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 524,
+          "gardenMs": 676,
+          "gardenPhaseMs": 152,
+          "firstCallbackMs": 20.899999991059303,
+          "firstIntervalMs": 21.599999994039536,
+          "laterCallbackMs": [
+            3.2000000029802322,
+            3.0999999940395355,
+            3.9000000059604645
+          ],
+          "laterIntervalMs": [
+            11.700000002980232,
+            16.799999997019768
+          ],
+          "loadingCallbacks": 9,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 520,
+          "gardenMs": 667,
+          "gardenPhaseMs": 147,
+          "firstCallbackMs": 27.399999991059303,
+          "firstIntervalMs": 27.799999997019768,
+          "laterCallbackMs": [
+            3.5,
+            3.5999999940395355,
+            3.5
+          ],
+          "laterIntervalMs": [
+            6.5,
+            16.299999997019768
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 523,
+          "gardenMs": 669,
+          "gardenPhaseMs": 146,
+          "firstCallbackMs": 25.099999994039536,
+          "firstIntervalMs": 25.700000002980232,
+          "laterCallbackMs": [
+            3.3999999910593033,
+            3.4000000059604645,
+            3.7000000029802322
+          ],
+          "laterIntervalMs": [
+            7.5999999940395355,
+            16.700000002980232
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 520,
+          "gardenMs": 670,
+          "gardenPhaseMs": 150,
+          "firstCallbackMs": 18.799999997019768,
+          "firstIntervalMs": 19.5,
+          "laterCallbackMs": [
+            3.199999988079071,
+            3.6000000089406967,
+            3.5
+          ],
+          "laterIntervalMs": [
+            13.699999988079071,
+            16.80000001192093
+          ],
+          "loadingCallbacks": 9,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 521,
+          "gardenMs": 672,
+          "gardenPhaseMs": 151,
+          "firstCallbackMs": 33.5,
+          "firstIntervalMs": 34.099999994039536,
+          "laterCallbackMs": [
+            3.6000000089406967,
+            3.7000000029802322,
+            3.699999988079071
+          ],
+          "laterIntervalMs": [
+            15.799999997019768,
+            16.80000001192093
+          ],
+          "loadingCallbacks": 7,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "variant": "candidate",
+      "browser": "154.0.8037.97",
+      "quality": "standard",
+      "repeat": 4,
+      "loads": 6,
+      "inputHashes": {
+        "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+        "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/garden-motion.gpu.ts": "0396194403a7a201b0cec620e44204fc9b743a6741ca42f3e342a0dc07dc03df",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3"
+      },
+      "dpr": 1,
+      "modelSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f",
+      "modelBytes": 5983996,
+      "originalSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "candidateSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "still": {
+            "frames": 138,
+            "intervalMeanMs": 7.633576642335767,
+            "gpuTimerMedianMs": 90.812958,
+            "mirror": {
+              "calls": "82",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 109,
+            "intervalMeanMs": 9.798842592592589,
+            "gpuTimerMedianMs": 176.003458,
+            "mirror": {
+              "calls": "84",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "82",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "142",
+            "triangles": "732438",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "123",
+            "gardenMs": "679",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "50.00"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "evening",
+          "still": {
+            "frames": 100,
+            "intervalMeanMs": 10.689646464646462,
+            "gpuTimerMedianMs": 135.70425,
+            "mirror": {
+              "calls": "82",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 83,
+            "intervalMeanMs": 13.007621951219512,
+            "gpuTimerMedianMs": 238.898458,
+            "mirror": {
+              "calls": "84",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "82",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "142",
+            "triangles": "732438",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "123",
+            "gardenMs": "679",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "50.00"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "still": {
+            "frames": 94,
+            "intervalMeanMs": 11.46881720430106,
+            "gpuTimerMedianMs": 147.283833,
+            "mirror": {
+              "calls": "82",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 78,
+            "intervalMeanMs": 14.01428571428572,
+            "gpuTimerMedianMs": 256.492208,
+            "mirror": {
+              "calls": "84",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "82",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "142",
+            "triangles": "732438",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "123",
+            "gardenMs": "679",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "50.00"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "still": {
+            "frames": 117,
+            "intervalMeanMs": 9.051293103448282,
+            "gpuTimerMedianMs": 109.089041,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 101,
+            "intervalMeanMs": 10.499499999999971,
+            "gpuTimerMedianMs": 146.621083,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "56",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "133",
+            "triangles": "720272",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "679",
+            "frameMeanMs": "18.70",
+            "frameMaxMs": "1649.90"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "evening",
+          "still": {
+            "frames": 98,
+            "intervalMeanMs": 10.996134020618557,
+            "gpuTimerMedianMs": 136.937749,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 85,
+            "intervalMeanMs": 12.697916666666666,
+            "gpuTimerMedianMs": 181.679208,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "56",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "133",
+            "triangles": "720272",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "679",
+            "frameMeanMs": "18.70",
+            "frameMaxMs": "1649.90"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "still": {
+            "frames": 92,
+            "intervalMeanMs": 11.629670329670361,
+            "gpuTimerMedianMs": 146.425458,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 81,
+            "intervalMeanMs": 13.4890625,
+            "gpuTimerMedianMs": 193.600166,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "56",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "133",
+            "triangles": "720272",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "679",
+            "frameMeanMs": "18.70",
+            "frameMaxMs": "1649.90"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "still": {
+            "frames": 195,
+            "intervalMeanMs": 5.304768041237113,
+            "gpuTimerMedianMs": 62.200833,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 188,
+            "intervalMeanMs": 5.547860962566829,
+            "gpuTimerMedianMs": 66.223583,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "87",
+            "triangles": "539614",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "679",
+            "frameMeanMs": "16.11",
+            "frameMaxMs": "1583.30"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "evening",
+          "still": {
+            "frames": 132,
+            "intervalMeanMs": 7.951526717557208,
+            "gpuTimerMedianMs": 99.425499,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 129,
+            "intervalMeanMs": 8.105078124999977,
+            "gpuTimerMedianMs": 99.685083,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "87",
+            "triangles": "539614",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "679",
+            "frameMeanMs": "16.11",
+            "frameMaxMs": "1583.30"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "still": {
+            "frames": 124,
+            "intervalMeanMs": 8.502235772357736,
+            "gpuTimerMedianMs": 107.542916,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 123,
+            "intervalMeanMs": 8.537909836065573,
+            "gpuTimerMedianMs": 104.942083,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "87",
+            "triangles": "539614",
+            "loadMs": "525",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "679",
+            "frameMeanMs": "16.11",
+            "frameMaxMs": "1583.30"
+          }
+        }
+      ],
+      "loadRuns": [
+        {
+          "loadMs": 524,
+          "gardenMs": 676,
+          "gardenPhaseMs": 152,
+          "firstCallbackMs": 22.700000002980232,
+          "firstIntervalMs": 23.299999997019768,
+          "laterCallbackMs": [
+            3.4000000059604645,
+            3.5999999940395355,
+            3.7000000029802322
+          ],
+          "laterIntervalMs": [
+            10.400000005960464,
+            16.799999997019768
+          ],
+          "loadingCallbacks": 9,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 527,
+          "gardenMs": 679,
+          "gardenPhaseMs": 152,
+          "firstCallbackMs": 19.700000002980232,
+          "firstIntervalMs": 20.299999997019768,
+          "laterCallbackMs": [
+            3.7000000029802322,
+            3.7000000029802322,
+            3.7000000029802322
+          ],
+          "laterIntervalMs": [
+            14,
+            16.700000002980232
+          ],
+          "loadingCallbacks": 9,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 526,
+          "gardenMs": 662,
+          "gardenPhaseMs": 136,
+          "firstCallbackMs": 26,
+          "firstIntervalMs": 26.69999998807907,
+          "laterCallbackMs": [
+            3.7000000029802322,
+            3.7000000029802322,
+            3.7999999970197678
+          ],
+          "laterIntervalMs": [
+            7,
+            16.600000008940697
+          ],
+          "loadingCallbacks": 7,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 533,
+          "gardenMs": 680,
+          "gardenPhaseMs": 147,
+          "firstCallbackMs": 23.400000005960464,
+          "firstIntervalMs": 23.799999997019768,
+          "laterCallbackMs": [
+            3.6000000089406967,
+            3.7999999970197678,
+            4.200000002980232
+          ],
+          "laterIntervalMs": [
+            9.300000011920929,
+            16.599999994039536
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 519,
+          "gardenMs": 668,
+          "gardenPhaseMs": 149,
+          "firstCallbackMs": 19.600000008940697,
+          "firstIntervalMs": 20,
+          "laterCallbackMs": [
+            3.2000000029802322,
+            3.699999988079071,
+            3.7999999970197678
+          ],
+          "laterIntervalMs": [
+            13.100000008940697,
+            16.899999991059303
+          ],
+          "loadingCallbacks": 9,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 519,
+          "gardenMs": 669,
+          "gardenPhaseMs": 150,
+          "firstCallbackMs": 20.099999994039536,
+          "firstIntervalMs": 20.5,
+          "laterCallbackMs": [
+            3,
+            3.5,
+            3.6000000089406967
+          ],
+          "laterIntervalMs": [
+            12.599999994039536,
+            17.200000002980232
+          ],
+          "loadingCallbacks": 9,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "variant": "candidate",
+      "browser": "154.0.8037.97",
+      "quality": "standard",
+      "repeat": 4,
+      "loads": 6,
+      "inputHashes": {
+        "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+        "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/garden-motion.gpu.ts": "0396194403a7a201b0cec620e44204fc9b743a6741ca42f3e342a0dc07dc03df",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3"
+      },
+      "dpr": 1,
+      "modelSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f",
+      "modelBytes": 5983996,
+      "originalSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "candidateSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "still": {
+            "frames": 133,
+            "intervalMeanMs": 7.891287878787883,
+            "gpuTimerMedianMs": 92.732624,
+            "mirror": {
+              "calls": "82",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 110,
+            "intervalMeanMs": 9.708944954128437,
+            "gpuTimerMedianMs": 172.654124,
+            "mirror": {
+              "calls": "84",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "82",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "142",
+            "triangles": "732438",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "123",
+            "gardenMs": "671",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "66.70"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "evening",
+          "still": {
+            "frames": 100,
+            "intervalMeanMs": 10.73181818181818,
+            "gpuTimerMedianMs": 135.531458,
+            "mirror": {
+              "calls": "82",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 83,
+            "intervalMeanMs": 13.007621951219512,
+            "gpuTimerMedianMs": 237.059291,
+            "mirror": {
+              "calls": "84",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "82",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "142",
+            "triangles": "732438",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "123",
+            "gardenMs": "671",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "66.70"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "still": {
+            "frames": 94,
+            "intervalMeanMs": 11.424462365591403,
+            "gpuTimerMedianMs": 146.175999,
+            "mirror": {
+              "calls": "82",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 78,
+            "intervalMeanMs": 13.960389610389619,
+            "gpuTimerMedianMs": 255.404291,
+            "mirror": {
+              "calls": "84",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "82",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "142",
+            "triangles": "732438",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "123",
+            "gardenMs": "671",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "66.70"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "still": {
+            "frames": 118,
+            "intervalMeanMs": 9.04529914529914,
+            "gpuTimerMedianMs": 107.35275,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 102,
+            "intervalMeanMs": 10.436633663366358,
+            "gpuTimerMedianMs": 145.195625,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "56",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "133",
+            "triangles": "720272",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "671",
+            "frameMeanMs": "18.80",
+            "frameMaxMs": "1616.60"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "evening",
+          "still": {
+            "frames": 98,
+            "intervalMeanMs": 10.910309278350509,
+            "gpuTimerMedianMs": 136.514416,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 86,
+            "intervalMeanMs": 12.597352941176487,
+            "gpuTimerMedianMs": 179.296666,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "56",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "133",
+            "triangles": "720272",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "671",
+            "frameMeanMs": "18.80",
+            "frameMaxMs": "1616.60"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "still": {
+            "frames": 92,
+            "intervalMeanMs": 11.629395604395581,
+            "gpuTimerMedianMs": 147.171958,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 81,
+            "intervalMeanMs": 13.384687500000018,
+            "gpuTimerMedianMs": 191.459291,
+            "mirror": {
+              "calls": "56",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "56",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "133",
+            "triangles": "720272",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "671",
+            "frameMeanMs": "18.80",
+            "frameMaxMs": "1616.60"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "still": {
+            "frames": 195,
+            "intervalMeanMs": 5.304768041237113,
+            "gpuTimerMedianMs": 62.479375,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 188,
+            "intervalMeanMs": 5.503342245989304,
+            "gpuTimerMedianMs": 65.777916,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "87",
+            "triangles": "539614",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "671",
+            "frameMeanMs": "16.20",
+            "frameMaxMs": "1650.00"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "evening",
+          "still": {
+            "frames": 133,
+            "intervalMeanMs": 7.95435606060605,
+            "gpuTimerMedianMs": 98.307583,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 129,
+            "intervalMeanMs": 8.072656249999966,
+            "gpuTimerMedianMs": 98.689916,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "87",
+            "triangles": "539614",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "671",
+            "frameMeanMs": "16.20",
+            "frameMaxMs": "1650.00"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "still": {
+            "frames": 125,
+            "intervalMeanMs": 8.433669354838663,
+            "gpuTimerMedianMs": 105.951874,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 123,
+            "intervalMeanMs": 8.606147540983642,
+            "gpuTimerMedianMs": 105.791041,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "91",
+            "shadowMaskMeshes": "91",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "87",
+            "triangles": "539614",
+            "loadMs": "522",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "131",
+            "gardenMs": "671",
+            "frameMeanMs": "16.20",
+            "frameMaxMs": "1650.00"
+          }
+        }
+      ],
+      "loadRuns": [
+        {
+          "loadMs": 524,
+          "gardenMs": 672,
+          "gardenPhaseMs": 148,
+          "firstCallbackMs": 25.200000002980232,
+          "firstIntervalMs": 25.599999994039536,
+          "laterCallbackMs": [
+            3.5,
+            3.8999999910593033,
+            4.100000008940697
+          ],
+          "laterIntervalMs": [
+            8.600000008940697,
+            16.69999998807907
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 522,
+          "gardenMs": 668,
+          "gardenPhaseMs": 146,
+          "firstCallbackMs": 24.899999991059303,
+          "firstIntervalMs": 25.299999997019768,
+          "laterCallbackMs": [
+            3.5999999940395355,
+            3.300000011920929,
+            3.7000000029802322
+          ],
+          "laterIntervalMs": [
+            8.099999994039536,
+            16.700000002980232
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 520,
+          "gardenMs": 669,
+          "gardenPhaseMs": 149,
+          "firstCallbackMs": 23.599999994039536,
+          "firstIntervalMs": 24.19999998807907,
+          "laterCallbackMs": [
+            3.5,
+            3.5,
+            3.6000000089406967
+          ],
+          "laterIntervalMs": [
+            9.100000008940697,
+            16.099999994039536
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 524,
+          "gardenMs": 678,
+          "gardenPhaseMs": 154,
+          "firstCallbackMs": 20.100000008940697,
+          "firstIntervalMs": 20.5,
+          "laterCallbackMs": [
+            3.2000000029802322,
+            3.699999988079071,
+            3.8999999910593033
+          ],
+          "laterIntervalMs": [
+            12.800000011920929,
+            17.5
+          ],
+          "loadingCallbacks": 9,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 522,
+          "gardenMs": 674,
+          "gardenPhaseMs": 152,
+          "firstCallbackMs": 27.599999994039536,
+          "firstIntervalMs": 28.099999994039536,
+          "laterCallbackMs": [
+            3.9000000059604645,
+            3.2999999970197678,
+            3.5999999940395355
+          ],
+          "laterIntervalMs": [
+            5.200000002980232,
+            16.700000002980232
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        },
+        {
+          "loadMs": 522,
+          "gardenMs": 673,
+          "gardenPhaseMs": 151,
+          "firstCallbackMs": 28.299999997019768,
+          "firstIntervalMs": 28.799999997019768,
+          "laterCallbackMs": [
+            3.5,
+            3.5,
+            3.7999999970197678
+          ],
+          "laterIntervalMs": [
+            5.300000011920929,
+            16.799999997019768
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "142"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "variant": "original",
+      "browser": "154.0.8037.97",
+      "quality": "standard",
+      "repeat": 4,
+      "loads": 6,
+      "inputHashes": {
+        "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+        "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/garden-motion.gpu.ts": "0396194403a7a201b0cec620e44204fc9b743a6741ca42f3e342a0dc07dc03df",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3"
+      },
+      "dpr": 1,
+      "modelSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "modelBytes": 5979340,
+      "originalSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "candidateSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "still": {
+            "frames": 137,
+            "intervalMeanMs": 7.658823529411764,
+            "gpuTimerMedianMs": 90.985708,
+            "mirror": {
+              "calls": "78",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 109,
+            "intervalMeanMs": 9.760416666666666,
+            "gpuTimerMedianMs": 174.616333,
+            "mirror": {
+              "calls": "80",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "78",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "138",
+            "triangles": "732438",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "119",
+            "gardenMs": "672",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "66.70"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "evening",
+          "still": {
+            "frames": 101,
+            "intervalMeanMs": 10.54125,
+            "gpuTimerMedianMs": 134.222375,
+            "mirror": {
+              "calls": "78",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 84,
+            "intervalMeanMs": 12.951506024096368,
+            "gpuTimerMedianMs": 238.065791,
+            "mirror": {
+              "calls": "80",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "78",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "138",
+            "triangles": "732438",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "119",
+            "gardenMs": "672",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "66.70"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "still": {
+            "frames": 94,
+            "intervalMeanMs": 11.379838709677408,
+            "gpuTimerMedianMs": 146.095541,
+            "mirror": {
+              "calls": "78",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 78,
+            "intervalMeanMs": 14.01461038961039,
+            "gpuTimerMedianMs": 256.171,
+            "mirror": {
+              "calls": "80",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "78",
+            "mirrorTriangles": "556840",
+            "mirrorSize": "600x400",
+            "drawCalls": "138",
+            "triangles": "732438",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "119",
+            "gardenMs": "672",
+            "frameMeanMs": "7.50",
+            "frameMaxMs": "66.70"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "still": {
+            "frames": 118,
+            "intervalMeanMs": 9.009615384615385,
+            "gpuTimerMedianMs": 107.486916,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 102,
+            "intervalMeanMs": 10.437128712871301,
+            "gpuTimerMedianMs": 144.916124,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "52",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "129",
+            "triangles": "720272",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "672",
+            "frameMeanMs": "18.33",
+            "frameMaxMs": "1616.60"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "evening",
+          "still": {
+            "frames": 98,
+            "intervalMeanMs": 10.910051546391768,
+            "gpuTimerMedianMs": 137.487916,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 86,
+            "intervalMeanMs": 12.548823529411782,
+            "gpuTimerMedianMs": 178.556916,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "52",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "129",
+            "triangles": "720272",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "672",
+            "frameMeanMs": "18.33",
+            "frameMaxMs": "1616.60"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "still": {
+            "frames": 93,
+            "intervalMeanMs": 11.5483695652174,
+            "gpuTimerMedianMs": 145.683833,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 82,
+            "intervalMeanMs": 13.270987654320997,
+            "gpuTimerMedianMs": 189.608291,
+            "mirror": {
+              "calls": "52",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "52",
+            "mirrorTriangles": "548166",
+            "mirrorSize": "600x400",
+            "drawCalls": "129",
+            "triangles": "720272",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "672",
+            "frameMeanMs": "18.33",
+            "frameMaxMs": "1616.60"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "still": {
+            "frames": 194,
+            "intervalMeanMs": 5.332383419689127,
+            "gpuTimerMedianMs": 62.690541,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 189,
+            "intervalMeanMs": 5.47406914893617,
+            "gpuTimerMedianMs": 65.790583,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "83",
+            "triangles": "539614",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "672",
+            "frameMeanMs": "17.04",
+            "frameMaxMs": "1649.90"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "evening",
+          "still": {
+            "frames": 133,
+            "intervalMeanMs": 7.954356060606105,
+            "gpuTimerMedianMs": 99.657375,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 131,
+            "intervalMeanMs": 8.044615384615406,
+            "gpuTimerMedianMs": 98.896625,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "83",
+            "triangles": "539614",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "evening",
+            "timeOfDay": "1.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "672",
+            "frameMeanMs": "17.04",
+            "frameMaxMs": "1649.90"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "still": {
+            "frames": 125,
+            "intervalMeanMs": 8.433870967741958,
+            "gpuTimerMedianMs": 107.188583,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "moving": {
+            "frames": 123,
+            "intervalMeanMs": 8.572131147541008,
+            "gpuTimerMedianMs": 105.29875,
+            "mirror": {
+              "calls": "0",
+              "size": "600x400"
+            }
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "refractionMaterials": "4",
+            "refractionTriangles": "8350",
+            "causticMaterials": "2",
+            "glassMeshes": "2",
+            "irradianceMaterials": "87",
+            "reflectionMaterials": "87",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "26",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "44",
+            "leafClusterMaterials": "5",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "87",
+            "shadowMaskMeshes": "87",
+            "sideImageTriangles": "136272",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "83",
+            "triangles": "539614",
+            "loadMs": "521",
+            "garden": "ready",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "textures": "33",
+            "geometries": "127",
+            "gardenMs": "672",
+            "frameMeanMs": "17.04",
+            "frameMaxMs": "1649.90"
+          }
+        }
+      ],
+      "loadRuns": [
+        {
+          "loadMs": 551,
+          "gardenMs": 700,
+          "gardenPhaseMs": 149,
+          "firstCallbackMs": 19.799999997019768,
+          "firstIntervalMs": 20.099999994039536,
+          "laterCallbackMs": [
+            3.4000000059604645,
+            3.5,
+            3.8999999910593033
+          ],
+          "laterIntervalMs": [
+            13.100000008940697,
+            16.700000002980232
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 519,
+          "gardenMs": 662,
+          "gardenPhaseMs": 143,
+          "firstCallbackMs": 20.200000002980232,
+          "firstIntervalMs": 20.599999994039536,
+          "laterCallbackMs": [
+            3.5,
+            3.3999999910593033,
+            3.9000000059604645
+          ],
+          "laterIntervalMs": [
+            12.900000005960464,
+            16.599999994039536
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 536,
+          "gardenMs": 680,
+          "gardenPhaseMs": 144,
+          "firstCallbackMs": 19.100000008940697,
+          "firstIntervalMs": 19.600000008940697,
+          "laterCallbackMs": [
+            3.7000000029802322,
+            3.5,
+            3.7000000029802322
+          ],
+          "laterIntervalMs": [
+            13.700000002980232,
+            16.69999998807907
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 519,
+          "gardenMs": 666,
+          "gardenPhaseMs": 147,
+          "firstCallbackMs": 19.899999991059303,
+          "firstIntervalMs": 20.399999991059303,
+          "laterCallbackMs": [
+            3.5,
+            3.5,
+            3.8999999910593033
+          ],
+          "laterIntervalMs": [
+            12.900000005960464,
+            16.700000002980232
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 529,
+          "gardenMs": 677,
+          "gardenPhaseMs": 148,
+          "firstCallbackMs": 19.5,
+          "firstIntervalMs": 20.099999994039536,
+          "laterCallbackMs": [
+            3.5,
+            3.5,
+            3.8999999910593033
+          ],
+          "laterIntervalMs": [
+            13.200000002980232,
+            16.700000002980232
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        },
+        {
+          "loadMs": 521,
+          "gardenMs": 664,
+          "gardenPhaseMs": 143,
+          "firstCallbackMs": 19.200000002980232,
+          "firstIntervalMs": 19.80000001192093,
+          "laterCallbackMs": [
+            3.199999988079071,
+            3.800000011920929,
+            3.7999999970197678
+          ],
+          "laterIntervalMs": [
+            13.199999988079071,
+            16.600000008940697
+          ],
+          "loadingCallbacks": 8,
+          "stage": "sauna",
+          "lighting": "day",
+          "quality": "standard",
+          "drawCalls": "138"
+        }
+      ]
+    }
+  ],
+  "note": "Drawn-frame mean intervals / repeat under added GPU load; moving = a 1 CSS px drag after every drawn frame, alternating, so the mirror is redrawn every frame. Static shadow maps are redrawn only by the garden's addition (firstCallbackMs: CPU time of the first callback drawing the garden, with its buffer uploads) and quality changes. Not GPU-only time, display FPS, a real device or driver allocation."
+}
