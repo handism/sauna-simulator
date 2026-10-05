@@ -2104,3 +2104,13 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - `scripts/diagnose_parallel_compile.mjs` を追加（別のcontextのページAの条件を変え、ページBの各プログラムのリンク→完了の時刻を初期化スクリプトで記録）。Chrome 154.0.8037.97／macOS・DPR 1.5で2回：単独は全50プログラム0.39〜0.47秒、3D・重いWebGLが描画中でも0.82〜1.08秒で止まらずに進む。3Dのページを画面転送中は最初の完了まで18.6秒・全体26秒、DOMスナップショットだけなら0.82〜0.90秒。小さなプログラム40個の対照は画面転送中でも0.24〜0.65秒。
 - 判断：製品の動作は変えない。上限1秒は描画中の別ページによる約2倍の遅れをほぼ覆い、画面転送は利用者の環境では通常起きない。`SaunaScene.tsx` のコメント、`src/components/3d/CLAUDE.md`、`e2e/CLAUDE.md`（読み込み時間を測るテストの注意）を更新した。Chrome内部の止まり方・他ブラウザ・OSの画面収録は未確認。[原因・値](3d-qa/load-compile/README.md)、[値](3d-qa/load-compile/parallel-compile.json)。
 - 残件：ドライバーの実確保量・実機、他ブラウザ、音の実聴。
+
+## フェーズ5：他ブラウザとシェーダーの初回コンパイル（2026-10-05、確認）
+
+- 残件「他ブラウザ」。`scripts/diagnose_other_browsers.mjs` を追加し、PlaywrightのWebKit 26.6・Chrome for Testing 153（CfT）・Chrome 154で3画質の読み込み・全ステージ・WebGLの機能・同期待ち・画像を記録した。Firefox 155はこの環境で起動できず未確認。WebKitでも3Dは全ステージで動き（HDR出力・TAA・鏡像あり、GPU時間の拡張なし）、画像のChromeとの差はUIの文字・パネルの高さだけ。
+- **Metalのシェーダーキャッシュ（ブラウザを閉じても残る）がない初回は、WebKit・CfTとも入室時にメインスレッドが軽量約6秒・標準／高精細約14.5秒止まる**（`data-load-ms` 6.9〜7.0／15.6〜15.9秒、2回目は0.4〜0.6秒）。これまでのChromeの約0.4秒はキャッシュが効いた値だった。検証専用ブラウザのキャッシュだけを `SUI_COLD=1` で消して再現した。
+- 待ちの上限を60秒にした一時ビルドでも止まり、`scripts/diagnose_metal_pipeline.mjs` の合成シェーダーでは、`COMPLETION_STATUS_KHR` は実際のコンパイルの前に真になり、Metalのコンパイルは最初の描画で（描画先の形式・MSAA・ブレンドの組み合わせごとに）行われた。待ちの延長や画面外の小さなターゲットでの温めでは消えない。重いのは約16万字の材質シェーダー約40通り（側面の像・硬い影・影マスクの組み合わせ）の合計。
+- 判断：製品の動作は変えていない。対策（本物の描画を複数フレームに分けて温める、プログラムの組み合わせを減らす）は未実施。[記録](3d-qa/other-browsers/README.md)、[初回](3d-qa/other-browsers/cold.json)、[Chrome](3d-qa/other-browsers/chrome.json)、[合成](3d-qa/other-browsers/metal-pipeline.json)。
+- 残件：初回コンパイルの停止の対策、実際のSafari・Windows・モバイル・遅い端末での初回の長さ（30秒の期限）、Firefox、ドライバーの実確保量・実機、音の実聴。
+
+検証：記録用の計測（CfT・WebKitの初回／2回目×3画質、Chrome×3画質、合成2種）は全件成功。製品・配信物の変更がないため通常ブラウザ回帰は再実行していない。

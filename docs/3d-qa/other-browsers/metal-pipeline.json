@@ -1,0 +1,250 @@
+{
+ "note": "Heavy synthetic programs, cold Metal shader cache. linked: COMPLETION_STATUS_KHR times and the first draw (+readPixels) after waiting; targets: one draw per target/state, timed with getError.",
+ "versions": {
+  "cft": "153.0.8010.12",
+  "webkit": "26.6"
+ },
+ "script": "353ad505373c0a4f27d3ab03b2c99f218d1dea8fe0d1e72a00fb26b90f9059b9",
+ "rows": [
+  {
+   "browser": "cft",
+   "test": "linked",
+   "wait": 0,
+   "linkMs": 4,
+   "completedMs": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "firstDrawMs": [
+    2075,
+    1237,
+    1223,
+    1200,
+    1419,
+    1189,
+    1208,
+    1208
+   ]
+  },
+  {
+   "browser": "cft",
+   "test": "linked",
+   "wait": 3000,
+   "linkMs": 4,
+   "completedMs": [
+    741,
+    718,
+    752,
+    784,
+    784,
+    795,
+    807,
+    795
+   ],
+   "firstDrawMs": [
+    1252,
+    1185,
+    1170,
+    1201,
+    1167,
+    1147,
+    1198,
+    1165
+   ]
+  },
+  {
+   "browser": "cft",
+   "test": "linked",
+   "wait": 10000,
+   "linkMs": 4,
+   "completedMs": [
+    1454,
+    1467,
+    1502,
+    1443,
+    1525,
+    1525,
+    1537,
+    1537
+   ],
+   "firstDrawMs": [
+    1212,
+    1181,
+    1236,
+    1195,
+    1170,
+    1200,
+    1154,
+    1182
+   ]
+  },
+  {
+   "browser": "cft",
+   "test": "targets",
+   "programs": [
+    {
+     "rgba8": 1192,
+     "rgba16fMsaa4": 1226,
+     "rgba16fMsaa4Blend": 1136,
+     "rgba8Again": 204
+    },
+    {
+     "rgba8": 1195,
+     "rgba16fMsaa4": 1165,
+     "rgba16fMsaa4Blend": 1103,
+     "rgba8Again": 0
+    },
+    {
+     "rgba8": 1224,
+     "rgba16fMsaa4": 1212,
+     "rgba16fMsaa4Blend": 1120,
+     "rgba8Again": 1
+    },
+    {
+     "rgba8": 1174,
+     "rgba16fMsaa4": 1139,
+     "rgba16fMsaa4Blend": 1082,
+     "rgba8Again": 1
+    },
+    {
+     "rgba8": 1205,
+     "rgba16fMsaa4": 1201,
+     "rgba16fMsaa4Blend": 1130,
+     "rgba8Again": 0
+    },
+    {
+     "rgba8": 1185,
+     "rgba16fMsaa4": 1221,
+     "rgba16fMsaa4Blend": 1126,
+     "rgba8Again": 0
+    }
+   ]
+  },
+  {
+   "browser": "webkit",
+   "test": "linked",
+   "wait": 0,
+   "linkMs": 2,
+   "completedMs": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "firstDrawMs": [
+    1834,
+    1180,
+    1158,
+    1179,
+    1165,
+    1214,
+    1201,
+    1246
+   ]
+  },
+  {
+   "browser": "webkit",
+   "test": "linked",
+   "wait": 3000,
+   "linkMs": 3,
+   "completedMs": [
+    578,
+    644,
+    566,
+    566,
+    566,
+    616,
+    644,
+    616
+   ],
+   "firstDrawMs": [
+    1253,
+    1215,
+    1171,
+    1178,
+    1156,
+    1150,
+    1163,
+    1219
+   ]
+  },
+  {
+   "browser": "webkit",
+   "test": "linked",
+   "wait": 10000,
+   "linkMs": 2,
+   "completedMs": [
+    570,
+    545,
+    594,
+    643,
+    582,
+    657,
+    627,
+    657
+   ],
+   "firstDrawMs": [
+    1256,
+    1158,
+    1217,
+    1206,
+    1171,
+    1166,
+    1157,
+    1168
+   ]
+  },
+  {
+   "browser": "webkit",
+   "test": "targets",
+   "programs": [
+    {
+     "rgba8": 1231,
+     "rgba16fMsaa4": 1222,
+     "rgba16fMsaa4Blend": 1188,
+     "rgba8Again": 0
+    },
+    {
+     "rgba8": 1234,
+     "rgba16fMsaa4": 1199,
+     "rgba16fMsaa4Blend": 1146,
+     "rgba8Again": 0
+    },
+    {
+     "rgba8": 1231,
+     "rgba16fMsaa4": 1208,
+     "rgba16fMsaa4Blend": 1154,
+     "rgba8Again": 0
+    },
+    {
+     "rgba8": 1188,
+     "rgba16fMsaa4": 1146,
+     "rgba16fMsaa4Blend": 1079,
+     "rgba8Again": 0
+    },
+    {
+     "rgba8": 1151,
+     "rgba16fMsaa4": 1171,
+     "rgba16fMsaa4Blend": 1135,
+     "rgba8Again": 0
+    },
+    {
+     "rgba8": 1143,
+     "rgba16fMsaa4": 1174,
+     "rgba16fMsaa4Blend": 1092,
+     "rgba8Again": 0
+    }
+   ]
+  }
+ ]
+}
