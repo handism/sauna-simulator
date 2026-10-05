@@ -1,0 +1,1245 @@
+{
+ "note": "e2e/resolution-shimmer.visual.ts (1200x800, DPR 1.5, standard, reduced motion, ratios 1.5 and 1.25, 1 CSS px per step, 2 frames per step) summarised by scripts/summarize_resolution_shimmer.py. 2 samples = a worktree of the commit below with only hdrOutput.ts samples: 4 -> 2. Order: x4-1, x2-1, x2-2, x4-2, x4-off, x2-off.",
+ "commit": "840b5c11c975902f328b2568c41faa9d66a9bc49",
+ "browser": "Chrome 154.0.8037.97, macOS, M1 Max, Playwright 1.63.0",
+ "inputs": {
+  "e2e/resolution-shimmer.visual.ts": "bd3542cb8a3defb511fd0832f87148e65eacc79143864504161957dfc810327a",
+  "e2e/resolution-control.ts": "0c28238fad8d67f24b9473e0c04f855706c38ba245344c70cd6c23c44af364d7",
+  "scripts/summarize_resolution_shimmer.py": "01f144a11704303867d7a24fd1b7f853d459cc18a7206845e03542fa14c4aea5",
+  "src/components/3d/hdrOutput.ts": "23e7de0702bb2221d2cb1750a07975dbcd4fef221c6913dd1c527dde4c4f3b93",
+  "src/components/3d/temporalAA.ts": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+  "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+  "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d"
+ },
+ "comparisons": {
+  "x2-2-vs-x4": {
+   "note": "pair 2: 2 samples against 4 at the same step",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 1.2448,
+      "median": 1.3089,
+      "max": 1.3317
+     },
+     "tile": {
+      "min": 1.2978,
+      "median": 1.3577,
+      "max": 1.4017
+     },
+     "tileP99": {
+      "min": 1.3573,
+      "median": 1.3974,
+      "max": 1.4353
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 1.2288,
+      "median": 1.30545,
+      "max": 1.3319
+     },
+     "tile": {
+      "min": 1.277,
+      "median": 1.34605,
+      "max": 1.3982
+     },
+     "tileP99": {
+      "min": 1.385,
+      "median": 1.4038,
+      "max": 1.4206
+     }
+    }
+   }
+  },
+  "x2-1-vs-x4-125": {
+   "note": "pair 1: 2 samples against 4 samples at 1.25 (row 1.5 = 2x@1.5 vs 4x@1.25)",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 1.5052,
+      "median": 1.59015,
+      "max": 1.71
+     },
+     "tile": {
+      "min": 1.0319,
+      "median": 1.1105,
+      "max": 1.1739
+     },
+     "tileP99": {
+      "min": 1.1758,
+      "median": 1.18715,
+      "max": 1.2459
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 1.2283,
+      "median": 1.31755,
+      "max": 1.337
+     },
+     "tile": {
+      "min": 1.277,
+      "median": 1.35975,
+      "max": 1.405
+     },
+     "tileP99": {
+      "min": 1.3947,
+      "median": 1.4174,
+      "max": 1.426
+     }
+    }
+   }
+  },
+  "x2-2-vs-x4-125": {
+   "note": "pair 2: as above",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 1.5046,
+      "median": 1.59265,
+      "max": 1.7097
+     },
+     "tile": {
+      "min": 1.0306,
+      "median": 1.11265,
+      "max": 1.1723
+     },
+     "tileP99": {
+      "min": 1.175,
+      "median": 1.1858,
+      "max": 1.2448
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 1.2288,
+      "median": 1.30545,
+      "max": 1.3319
+     },
+     "tile": {
+      "min": 1.277,
+      "median": 1.34605,
+      "max": 1.3982
+     },
+     "tileP99": {
+      "min": 1.385,
+      "median": 1.4038,
+      "max": 1.4206
+     }
+    }
+   }
+  },
+  "x4-2-vs-off": {
+   "note": "4 samples: temporal on against ?temporal=off",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 0.6019,
+      "median": 0.6151,
+      "max": 0.6247
+     },
+     "tile": {
+      "min": 0.6165,
+      "median": 0.62885,
+      "max": 0.6502
+     },
+     "tileP99": {
+      "min": 0.5999,
+      "median": 0.6304,
+      "max": 0.6618
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 0.6136,
+      "median": 0.6234,
+      "max": 0.6514
+     },
+     "tile": {
+      "min": 0.6203,
+      "median": 0.6234999999999999,
+      "max": 0.6405
+     },
+     "tileP99": {
+      "min": 0.5934,
+      "median": 0.61025,
+      "max": 0.6174
+     }
+    }
+   }
+  },
+  "x2-2-vs-off": {
+   "note": "2 samples: temporal on against ?temporal=off",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 0.5941,
+      "median": 0.6004499999999999,
+      "max": 0.607
+     },
+     "tile": {
+      "min": 0.6398,
+      "median": 0.663,
+      "max": 0.694
+     },
+     "tileP99": {
+      "min": 0.6331,
+      "median": 0.68125,
+      "max": 0.7252
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 0.5873,
+      "median": 0.5951500000000001,
+      "max": 0.6289
+     },
+     "tile": {
+      "min": 0.6281,
+      "median": 0.6381,
+      "max": 0.6467
+     },
+     "tileP99": {
+      "min": 0.6095,
+      "median": 0.6361,
+      "max": 0.6387
+     }
+    }
+   }
+  },
+  "x2-off-vs-x4-off": {
+   "note": "temporal off: 2 samples against 4",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 1.2812,
+      "median": 1.33095,
+      "max": 1.3493
+     },
+     "tile": {
+      "min": 1.2573,
+      "median": 1.28445,
+      "max": 1.3196
+     },
+     "tileP99": {
+      "min": 1.2629,
+      "median": 1.31175,
+      "max": 1.3373
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 1.2728,
+      "median": 1.3675,
+      "max": 1.3916
+     },
+     "tile": {
+      "min": 1.2747,
+      "median": 1.323,
+      "max": 1.3547
+     },
+     "tileP99": {
+      "min": 1.3205,
+      "median": 1.36015,
+      "max": 1.3735
+     }
+    }
+   }
+  },
+  "x4-2-vs-x4-1": {
+   "note": "repeat of the 4-sample build",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 0.9951,
+      "median": 0.99905,
+      "max": 1.0049
+     },
+     "tile": {
+      "min": 0.9957,
+      "median": 1.00065,
+      "max": 1.0056
+     },
+     "tileP99": {
+      "min": 0.9977,
+      "median": 1.0013,
+      "max": 1.0053
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 0.9996,
+      "median": 1.0004,
+      "max": 1.0014
+     },
+     "tile": {
+      "min": 1.0,
+      "median": 1.0013,
+      "max": 1.0023
+     },
+     "tileP99": {
+      "min": 0.9977,
+      "median": 1.00075,
+      "max": 1.0022
+     }
+    }
+   }
+  },
+  "x2-2-vs-x2-1": {
+   "note": "repeat of the 2-sample build",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 0.9988,
+      "median": 0.99945,
+      "max": 1.0045
+     },
+     "tile": {
+      "min": 0.9982,
+      "median": 1.0,
+      "max": 1.0049
+     },
+     "tileP99": {
+      "min": 0.997,
+      "median": 1.0006,
+      "max": 1.0044
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 0.9879,
+      "median": 0.99685,
+      "max": 1.0006
+     },
+     "tile": {
+      "min": 0.9888,
+      "median": 0.9957499999999999,
+      "max": 1.0017
+     },
+     "tileP99": {
+      "min": 0.9871,
+      "median": 0.99655,
+      "max": 1.0
+     }
+    }
+   }
+  },
+  "x2-1-vs-x4": {
+   "note": "pair 1: 2 samples against 4 at the same step",
+   "byRatio": {
+    "1.5": {
+     "pixel": {
+      "min": 1.2452,
+      "median": 1.3027,
+      "max": 1.3344
+     },
+     "tile": {
+      "min": 1.2974,
+      "median": 1.35565,
+      "max": 1.4096
+     },
+     "tileP99": {
+      "min": 1.3657,
+      "median": 1.3963,
+      "max": 1.442
+     }
+    },
+    "1.25": {
+     "pixel": {
+      "min": 1.2283,
+      "median": 1.31755,
+      "max": 1.337
+     },
+     "tile": {
+      "min": 1.277,
+      "median": 1.35975,
+      "max": 1.405
+     },
+     "tileP99": {
+      "min": 1.3947,
+      "median": 1.4174,
+      "max": 1.426
+     }
+    }
+   }
+  }
+ },
+ "runs": {
+  "x4-1": {
+   "order": 1,
+   "samples": 4,
+   "query": "",
+   "relativeTo1_5": {
+    "1.25": {
+     "pixel": {
+      "min": 0.7797,
+      "median": 0.81945,
+      "max": 0.8273
+     },
+     "tile": {
+      "min": 1.1855,
+      "median": 1.237,
+      "max": 1.2839
+     },
+     "tileP99": {
+      "min": 1.1455,
+      "median": 1.1665,
+      "max": 1.1914
+     }
+    }
+   },
+   "sequences": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.5412,
+     "tile": 0.0649,
+     "tileP99": 0.7329,
+     "tripPixel": 0.272,
+     "tripTile": 0.0075
+    },
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.4477,
+     "tile": 0.0816,
+     "tileP99": 0.8629,
+     "tripPixel": 0.117,
+     "tripTile": 0.006
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.4347,
+     "tile": 0.0465,
+     "tileP99": 0.6568,
+     "tripPixel": 0.2361,
+     "tripTile": 0.0061
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.3543,
+     "tile": 0.0597,
+     "tileP99": 0.7825,
+     "tripPixel": 0.1025,
+     "tripTile": 0.005
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.6747,
+     "tile": 0.0914,
+     "tileP99": 1.0639,
+     "tripPixel": 0.3186,
+     "tripTile": 0.0088
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.5582,
+     "tile": 0.112,
+     "tileP99": 1.2409,
+     "tripPixel": 0.1306,
+     "tripTile": 0.007
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.5543,
+     "tile": 0.0708,
+     "tileP99": 1.0004,
+     "tripPixel": 0.272,
+     "tripTile": 0.0072
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.4567,
+     "tile": 0.0884,
+     "tileP99": 1.1671,
+     "tripPixel": 0.1123,
+     "tripTile": 0.0058
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.5692,
+     "tile": 0.0825,
+     "tileP99": 1.036,
+     "tripPixel": 0.2775,
+     "tripTile": 0.0078
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.4438,
+     "tile": 0.0978,
+     "tileP99": 1.1867,
+     "tripPixel": 0.1182,
+     "tripTile": 0.0063
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.52,
+     "tile": 0.0742,
+     "tileP99": 0.9627,
+     "tripPixel": 0.2596,
+     "tripTile": 0.0073
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.4058,
+     "tile": 0.088,
+     "tileP99": 1.1066,
+     "tripPixel": 0.1112,
+     "tripTile": 0.0059
+    }
+   ]
+  },
+  "x2-1": {
+   "order": 2,
+   "samples": 2,
+   "query": "",
+   "relativeTo1_5": {
+    "1.25": {
+     "pixel": {
+      "min": 0.7759,
+      "median": 0.8126,
+      "max": 0.8352
+     },
+     "tile": {
+      "min": 1.1733,
+      "median": 1.23895,
+      "max": 1.265
+     },
+     "tileP99": {
+      "min": 1.1403,
+      "median": 1.1854,
+      "max": 1.1986
+     }
+    }
+   },
+   "sequences": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.6739,
+     "tile": 0.0842,
+     "tileP99": 1.0146,
+     "tripPixel": 0.3309,
+     "tripTile": 0.0086
+    },
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.5499,
+     "tile": 0.1042,
+     "tileP99": 1.2035,
+     "tripPixel": 0.1359,
+     "tripTile": 0.0068
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.5524,
+     "tile": 0.0634,
+     "tileP99": 0.9249,
+     "tripPixel": 0.2907,
+     "tripTile": 0.0071
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.447,
+     "tile": 0.0802,
+     "tileP99": 1.1086,
+     "tripPixel": 0.1202,
+     "tripTile": 0.0057
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.8744,
+     "tile": 0.1223,
+     "tileP99": 1.4628,
+     "tripPixel": 0.4102,
+     "tripTile": 0.0105
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.7303,
+     "tile": 0.1517,
+     "tileP99": 1.7329,
+     "tripPixel": 0.1594,
+     "tripTile": 0.0082
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.737,
+     "tile": 0.0998,
+     "tileP99": 1.4426,
+     "tripPixel": 0.3615,
+     "tripTile": 0.0088
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.6106,
+     "tile": 0.1242,
+     "tileP99": 1.6643,
+     "tripPixel": 0.1394,
+     "tripTile": 0.0069
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.7453,
+     "tile": 0.1112,
+     "tileP99": 1.4149,
+     "tripPixel": 0.366,
+     "tripTile": 0.0093
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.5891,
+     "tile": 0.1335,
+     "tileP99": 1.6828,
+     "tripPixel": 0.1483,
+     "tripTile": 0.0075
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.6939,
+     "tile": 0.1033,
+     "tileP99": 1.3787,
+     "tripPixel": 0.3491,
+     "tripTile": 0.0088
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.5384,
+     "tile": 0.1212,
+     "tileP99": 1.5721,
+     "tripPixel": 0.1391,
+     "tripTile": 0.0071
+    }
+   ]
+  },
+  "x2-2": {
+   "order": 3,
+   "samples": 2,
+   "query": "",
+   "relativeTo1_5": {
+    "1.25": {
+     "pixel": {
+      "min": 0.7757,
+      "median": 0.8121,
+      "max": 0.8275
+     },
+     "tile": {
+      "min": 1.1741,
+      "median": 1.23275,
+      "max": 1.2603
+     },
+     "tileP99": {
+      "min": 1.1396,
+      "median": 1.1729,
+      "max": 1.1936
+     }
+    }
+   },
+   "sequences": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.6733,
+     "tile": 0.0841,
+     "tileP99": 1.0116,
+     "tripPixel": 0.3307,
+     "tripTile": 0.0086
+    },
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.5499,
+     "tile": 0.1042,
+     "tileP99": 1.2031,
+     "tripPixel": 0.1359,
+     "tripTile": 0.0068
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.5522,
+     "tile": 0.0634,
+     "tileP99": 0.9255,
+     "tripPixel": 0.2907,
+     "tripTile": 0.0071
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.4459,
+     "tile": 0.0799,
+     "tileP99": 1.1047,
+     "tripPixel": 0.12,
+     "tripTile": 0.0057
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.8783,
+     "tile": 0.1229,
+     "tileP99": 1.4692,
+     "tripPixel": 0.4114,
+     "tripTile": 0.0105
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.7268,
+     "tile": 0.1508,
+     "tileP99": 1.7171,
+     "tripPixel": 0.159,
+     "tripTile": 0.0082
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.7365,
+     "tile": 0.0998,
+     "tileP99": 1.4435,
+     "tripPixel": 0.3614,
+     "tripTile": 0.0088
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.6083,
+     "tile": 0.1236,
+     "tileP99": 1.6586,
+     "tripPixel": 0.139,
+     "tripTile": 0.0069
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.7444,
+     "tile": 0.111,
+     "tileP99": 1.4112,
+     "tripPixel": 0.3657,
+     "tripTile": 0.0093
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.582,
+     "tile": 0.132,
+     "tileP99": 1.6611,
+     "tripPixel": 0.1474,
+     "tripTile": 0.0075
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.6945,
+     "tile": 0.1034,
+     "tileP99": 1.3795,
+     "tripPixel": 0.3492,
+     "tripTile": 0.0088
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.5387,
+     "tile": 0.1214,
+     "tileP99": 1.5721,
+     "tripPixel": 0.1392,
+     "tripTile": 0.0071
+    }
+   ]
+  },
+  "x4-2": {
+   "order": 4,
+   "samples": 4,
+   "query": "",
+   "relativeTo1_5": {
+    "1.25": {
+     "pixel": {
+      "min": 0.7789,
+      "median": 0.8186,
+      "max": 0.8289
+     },
+     "tile": {
+      "min": 1.185,
+      "median": 1.2347000000000001,
+      "max": 1.2916
+     },
+     "tileP99": {
+      "min": 1.1439,
+      "median": 1.16365,
+      "max": 1.1946
+     }
+    }
+   },
+   "sequences": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.5409,
+     "tile": 0.0648,
+     "tileP99": 0.7312,
+     "tripPixel": 0.2719,
+     "tripTile": 0.0075
+    },
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.4475,
+     "tile": 0.0816,
+     "tileP99": 0.8609,
+     "tripPixel": 0.1169,
+     "tripTile": 0.006
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.4336,
+     "tile": 0.0463,
+     "tileP99": 0.6558,
+     "tripPixel": 0.2357,
+     "tripTile": 0.0061
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.3544,
+     "tile": 0.0598,
+     "tileP99": 0.7834,
+     "tripPixel": 0.1025,
+     "tripTile": 0.005
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.6738,
+     "tile": 0.0913,
+     "tileP99": 1.0629,
+     "tripPixel": 0.3183,
+     "tripTile": 0.0088
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.5585,
+     "tile": 0.1121,
+     "tileP99": 1.2398,
+     "tripPixel": 0.1307,
+     "tripTile": 0.007
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.557,
+     "tile": 0.0712,
+     "tileP99": 1.0057,
+     "tripPixel": 0.2729,
+     "tripTile": 0.0072
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.4567,
+     "tile": 0.0884,
+     "tileP99": 1.1675,
+     "tripPixel": 0.1123,
+     "tripTile": 0.0058
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.5664,
+     "tile": 0.0827,
+     "tileP99": 1.0397,
+     "tripPixel": 0.2765,
+     "tripTile": 0.0078
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.4444,
+     "tile": 0.098,
+     "tileP99": 1.1893,
+     "tripPixel": 0.1183,
+     "tripTile": 0.0063
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.5215,
+     "tile": 0.0744,
+     "tileP99": 0.9661,
+     "tripPixel": 0.2603,
+     "tripTile": 0.0073
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.4062,
+     "tile": 0.0882,
+     "tileP99": 1.1082,
+     "tripPixel": 0.1113,
+     "tripTile": 0.0059
+    }
+   ]
+  },
+  "x4-off": {
+   "order": 5,
+   "samples": 4,
+   "query": "&temporal=off",
+   "relativeTo1_5": {
+    "1.25": {
+     "pixel": {
+      "min": 0.7588,
+      "median": 0.78695,
+      "max": 0.8228
+     },
+     "tile": {
+      "min": 1.1884,
+      "median": 1.25575,
+      "max": 1.295
+     },
+     "tileP99": {
+      "min": 1.1701,
+      "median": 1.19985,
+      "max": 1.2615
+     }
+    }
+   },
+   "sequences": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.8658,
+     "tile": 0.1022,
+     "tileP99": 1.1917,
+     "tripPixel": 0.3704,
+     "tripTile": 0.0098
+    },
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.687,
+     "tile": 0.1274,
+     "tileP99": 1.4205,
+     "tripPixel": 0.1485,
+     "tripTile": 0.0075
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.7041,
+     "tile": 0.0751,
+     "tileP99": 1.0931,
+     "tripPixel": 0.3232,
+     "tripTile": 0.008
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.5495,
+     "tile": 0.0959,
+     "tileP99": 1.3201,
+     "tripPixel": 0.1302,
+     "tripTile": 0.0063
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 1.0929,
+     "tile": 0.1408,
+     "tileP99": 1.614,
+     "tripPixel": 0.4414,
+     "tripTile": 0.0116
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.8992,
+     "tile": 0.1781,
+     "tileP99": 2.036,
+     "tripPixel": 0.1689,
+     "tripTile": 0.0087
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.9066,
+     "tile": 0.1095,
+     "tileP99": 1.5197,
+     "tripPixel": 0.3813,
+     "tripTile": 0.0096
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.7443,
+     "tile": 0.1418,
+     "tileP99": 1.9088,
+     "tripPixel": 0.146,
+     "tripTile": 0.0073
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 0.936,
+     "tile": 0.1327,
+     "tileP99": 1.6463,
+     "tripPixel": 0.3931,
+     "tripTile": 0.0104
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.7102,
+     "tile": 0.1577,
+     "tileP99": 1.9263,
+     "tripPixel": 0.1488,
+     "tripTile": 0.0077
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.8664,
+     "tile": 0.1193,
+     "tileP99": 1.5351,
+     "tripPixel": 0.3714,
+     "tripTile": 0.0098
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.6578,
+     "tile": 0.1422,
+     "tileP99": 1.8,
+     "tripPixel": 0.1417,
+     "tripTile": 0.0073
+    }
+   ]
+  },
+  "x2-off": {
+   "order": 6,
+   "samples": 2,
+   "query": "&temporal=off",
+   "relativeTo1_5": {
+    "1.25": {
+     "pixel": {
+      "min": 0.7763,
+      "median": 0.7839499999999999,
+      "max": 0.8472
+     },
+     "tile": {
+      "min": 1.2286,
+      "median": 1.2737,
+      "max": 1.3359
+     },
+     "tileP99": {
+      "min": 1.2259,
+      "median": 1.2473,
+      "max": 1.3189
+     }
+    }
+   },
+   "sequences": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 1.1093,
+     "tile": 0.1285,
+     "tileP99": 1.5657,
+     "tripPixel": 0.4764,
+     "tripTile": 0.0116
+    },
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.8744,
+     "tile": 0.1624,
+     "tileP99": 1.9197,
+     "tripPixel": 0.1805,
+     "tripTile": 0.0087
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 0.9223,
+     "tile": 0.0991,
+     "tileP99": 1.4618,
+     "tripPixel": 0.4222,
+     "tripTile": 0.0096
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.716,
+     "tile": 0.1272,
+     "tileP99": 1.8126,
+     "tripPixel": 0.1595,
+     "tripTile": 0.0073
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 1.4471,
+     "tile": 0.1776,
+     "tileP99": 2.0384,
+     "tripPixel": 0.6063,
+     "tripTile": 0.0143
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 1.226,
+     "tile": 0.2332,
+     "tileP99": 2.6885,
+     "tripPixel": 0.2174,
+     "tripTile": 0.0106
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 1.2231,
+     "tile": 0.1438,
+     "tileP99": 1.9904,
+     "tripPixel": 0.5381,
+     "tripTile": 0.012
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 1.0358,
+     "tile": 0.1921,
+     "tileP99": 2.6066,
+     "tripPixel": 0.1916,
+     "tripTile": 0.009
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.5,
+     "pixel": 1.2522,
+     "tile": 0.1677,
+     "tileP99": 2.08,
+     "tripPixel": 0.5536,
+     "tripTile": 0.0128
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "ratio": 1.25,
+     "pixel": 0.9741,
+     "tile": 0.2081,
+     "tileP99": 2.6096,
+     "tripPixel": 0.196,
+     "tripTile": 0.0094
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.5,
+     "pixel": 1.169,
+     "tile": 0.1557,
+     "tileP99": 2.0168,
+     "tripPixel": 0.5299,
+     "tripTile": 0.0122
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "ratio": 1.25,
+     "pixel": 0.9115,
+     "tile": 0.1913,
+     "tileP99": 2.4723,
+     "tripPixel": 0.188,
+     "tripTile": 0.009
+    }
+   ]
+  }
+ }
+}
