@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 
 import numpy as np
@@ -32,6 +33,11 @@ def new_heavy_keys(row):
             seen.add(key)
             real[item["phase"]] = real.get(item["phase"], 0) + 1
     return raw, real
+
+
+def label(row):
+    """A condition name, with cached loads (SUI_WARM) told apart from their cold load."""
+    return row["condition"] + ("-warm" if row["warm"] else "")
 
 
 def timeline(row):
@@ -133,8 +139,9 @@ def timeline(row):
     prefetched = {p["program"] for p in prefetches}
     later = [c for c in row["programQueries"] if c["start"] > (prefetches[-1]["end"] if prefetches else -1)]
     assert not prefetched & {c["subjectProgram"] for c in later}, "prefetched program queried again"
-    return {"round": row["round"], "condition": row["condition"], "batch": row["batch"], "visibility": row["visibility"],
-            "stepLabels": [{"label": s["label"], "ms": s["ms"], "drawMs": s["drawMs"], "drainMs": s["drainMs"],
+    return {"round": row["round"], "condition": row["condition"], "warm": row["warm"], "budget": row["budget"],
+            "batch": row["batch"], "visibility": row["visibility"],
+            "stepLabels": [{"label": s["label"], "ms": s["ms"], "yielded": s.get("yielded"), "drawMs": s["drawMs"], "drainMs": s["drainMs"],
                             "newKeys": s["newKeys"], "newHeavyKeys": s["newHeavyKeys"]} for s in row["steps"]],
             "warmupGroups": row["groups"],
             "newHeavyKeysByPhase": raw_keys, "newHeavyPipelinesByPhase": real_keys,
@@ -160,24 +167,27 @@ def timeline(row):
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 6, "visibility schema required"
+    assert report["schema"] == 7, "warm/budget schema required"
     assert report["script"] == digest("scripts/diagnose_compile_batches.mjs"), "script changed"
     assert report["source"] == digest("src/components/3d/SaunaScene.tsx"), "scene changed"
     for file, expected in report["inputs"].items():
         assert digest(file) == expected, f"input changed: {file}"
     sizes, repeat = report["sizes"], report["repeat"]
     assert len(sizes) == len(set(sizes)) and "0" in sizes and repeat >= 2
-    expected = [(r, b) for r in range(repeat) for b in (sizes if r % 2 == 0 else sizes[::-1])]
+    passes = [False, True] if report["warm"] else [False]
+    expected = [(r, b, w) for r in range(repeat) for b in (sizes if r % 2 == 0 else sizes[::-1]) for w in passes]
     rows = report["rows"]
-    assert [(r["round"], r["condition"]) for r in rows] == expected, "incomplete or reordered run"
+    assert [(r["round"], r["condition"], r["warm"]) for r in rows] == expected, "incomplete or reordered run"
     for row in rows:
         if row["condition"].startswith("v"):
-            assert row["visibility"] == int(row["condition"][1:]) > 0 and row["batch"] == 0
+            visibility, budget = re.fullmatch(r"v(\d+)(?:b(\d+))?", row["condition"]).groups()
+            assert row["visibility"] == int(visibility) > 0 and row["batch"] == 0
+            assert row["budget"] == int(budget or 0)
             assert not (row["prefetch"] or row["all"] or row["incremental"] or row["fence"])
         else:
             assert row["prefetch"] == row["condition"].startswith("p") and row["batch"] == int(row["condition"].lstrip("pfia"))
             assert row["all"] == ("a" in row["condition"]) and row["incremental"] == ("i" in row["condition"])
-            assert row["visibility"] == 0 and not row["groups"]
+            assert row["visibility"] == 0 and row["budget"] == 0 and not row["groups"]
         # Every submitted draw state is logged once, with the hook's own heaviness and a valid key.
         keys = [k["key"] for k in row["newKeys"]]
         assert keys and len(keys) == len(set(keys)), "duplicate new-key log"
@@ -185,7 +195,11 @@ def summarize(path):
         assert all(a["at"] <= b["at"] for a, b in zip(row["newKeys"], row["newKeys"][1:])), "reordered new keys"
         assert {k["phase"] for k in row["newKeys"]} <= {e["phase"] for e in row["events"]} | {"stage-water", "stage-totonou"}
         assert row["fence"] == ("f" in row["condition"]) and not row["keyMismatches"], "tracked key differs from queried key"
-    assert len({r["nonce"] for r in rows}) == len(rows), "reused shader cache identity"
+    # Only a cached load reuses its cold load's shader identity.
+    nonces = {}
+    for row in rows:
+        nonces.setdefault(row["nonce"], []).append((row["round"], row["condition"], row["warm"]))
+    assert all(ids == [(ids[0][0], ids[0][1], w) for w in passes] for ids in nonces.values()), "reused shader cache identity"
     images = {}
     timelines = []
     for row in rows:
@@ -202,6 +216,9 @@ def summarize(path):
             warmed = [g["key"] for group in row["groups"] for g in group["groups"]]
             assert len(warmed) == len(set(warmed)), "group warmed twice"
             assert sum(s["newHeavyKeys"] for s in steps) == sum(1 for k in row["newKeys"] if k["heavy"] and k["step"] is not None)
+            # Without a budget every step yields; the last step of each warmup always yields.
+            assert all(isinstance(s["yielded"], bool) for s in steps)
+            assert row["budget"] or all(s["yielded"] for s in steps)
         elif row["batch"]:
             assert steps and not steps[-1]["pending"], "unfinished warmup"
             assert all(0 <= s["newPipelines"] <= row["batch"] and s["ms"] >= 0 for s in steps)
@@ -220,14 +237,17 @@ def summarize(path):
             assert digest(stage["image"]) == stage["sha256"], "image changed"
             image = np.asarray(Image.open(stage["image"]).convert("RGB"), dtype=np.int16)
             assert image.shape == (1200, 1800, 3), "unexpected dimensions"
-            images[row["round"], row["condition"], stage["stage"]] = image
+            images[row["round"], label(row), stage["stage"]] = image
     timings = {}
-    for condition in sizes:
-        selected = [r for r in rows if r["condition"] == condition]
+    for condition in [c + suffix for c in sizes for suffix in (["", "-warm"] if report["warm"] else [""])]:
+        selected = [r for r in rows if label(r) == condition]
         timings[condition] = {
             "loadMs": [float(r["data"]["loadMs"]) for r in selected],
             "longestTimerGapMs": [max(r["gaps"], default=0) for r in selected],
             "steps": [len(r["steps"]) for r in selected],
+            "yields": [sum(1 for s in r["steps"] if s.get("yielded")) for r in selected],
+            "warmupPhaseMs": [sum(t["ms"] for t in r_t["phases"] if t["phase"] in ("visibility-warmup", "garden-warmup"))
+                              for r_t in [t for t in timelines if label(t) == condition]],
             "maxStepMs": [max((s["ms"] for s in r["steps"]), default=0) for r in selected],
             "interceptedPipelineKeys": [r["pipelines"] for r in selected],
             "firstStepMs": [r["steps"][0]["ms"] if r["steps"] else 0 for r in selected],
@@ -243,9 +263,9 @@ def summarize(path):
             "prefetchedPrograms": [len(r["prefetches"]) for r in selected],
             "prefetchMaxGetUniformsMs": [max((p["ms"] for p in r["prefetches"]), default=0) for r in selected],
             "prefetchSumGetUniformsMs": [sum(p["ms"] for p in r["prefetches"]) for r in selected],
-            "firstGardenDrawMs": [t["firstGardenDrawMs"] for t in timelines if t["condition"] == condition],
-            "newHeavyPipelinesByPhase": [t["newHeavyPipelinesByPhase"] for t in timelines if t["condition"] == condition],
-            "newHeavyKeysByPhase": [t["newHeavyKeysByPhase"] for t in timelines if t["condition"] == condition],
+            "firstGardenDrawMs": [t["firstGardenDrawMs"] for t in timelines if label(t) == condition],
+            "newHeavyPipelinesByPhase": [t["newHeavyPipelinesByPhase"] for t in timelines if label(t) == condition],
+            "newHeavyKeysByPhase": [t["newHeavyKeysByPhase"] for t in timelines if label(t) == condition],
         }
     def compare(reference_round):
         comparisons = []

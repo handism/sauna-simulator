@@ -11,6 +11,9 @@
 // (material.visible), draws every pass once, then shows N heavy program/state groups per step,
 // the water's mirror and the main pass in separate steps. The garden's new groups follow the same
 // way before its first draw. Every condition logs where each new draw state is first submitted.
+// A "b<ms>" suffix on a v condition (v1b50) yields to the browser only once the steps since the
+// last yield took that long; cold steps still yield each time, cached ones run back to back.
+// SUI_WARM=1 loads every condition twice with the same shader identity: cold, then cached.
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
 import { createHash } from 'node:crypto';
@@ -22,8 +25,18 @@ import { join, resolve } from 'node:path';
 const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
 const sizes = batches.split(',');
 const parse = (condition) => {
-  const visibility = Number(condition.match(/^v(\d+)$/)?.[1] ?? 0);
-  if (visibility) return { prefetch: false, fence: false, incremental: false, all: false, batch: 0, visibility };
+  const [, v, b] = condition.match(/^v(\d+)(?:b(\d+))?$/) ?? [];
+  const visibility = Number(v ?? 0);
+  if (visibility)
+    return {
+      prefetch: false,
+      fence: false,
+      incremental: false,
+      all: false,
+      batch: 0,
+      visibility,
+      budget: Number(b ?? 0),
+    };
   const [, p, f, i, a, n] = condition.match(/^(p?)(f?)(i?)(a?)(\d+)$/) ?? [];
   return {
     prefetch: p === 'p',
@@ -32,18 +45,20 @@ const parse = (condition) => {
     all: a === 'a',
     batch: Number(n),
     visibility,
+    budget: 0,
   };
 };
 const repeat = Number(repetitions);
+const warm = process.env.SUI_WARM === '1';
 if (
   !out ||
   !['cft', 'webkit'].includes(engine) ||
   new Set(sizes).size !== sizes.length ||
-  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|v[1-9]\d*)$/.test(c)) ||
+  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
-  throw new Error('usage: <out.json> [cft|webkit] [0,1,p0,p1,a1,ia1,fia1,v1] [repeat]');
+  throw new Error('usage: [SUI_WARM=1] <out.json> [cft|webkit] [0,1,p0,p1,a1,ia1,fia1,v1,v1b50] [repeat]');
 const root = resolve('.');
 const scratch = mkdtempSync(join(tmpdir(), 'sui-compile-batches-'));
 for (const file of ['package.json', 'vite.config.ts', 'index.html']) cpSync(join(root, file), join(scratch, file));
@@ -241,14 +256,20 @@ writeFileSync(
             shadowMask?.end();
             return true;
           };
+          let slice = performance.now();
           const step = async (name: string, pass: () => boolean) => {
             if (disposed || failed) return;
             probe.begin();
             // A pass that drew nothing (the mirror out of view) does not wait for the GPU.
             if (!pass()) return;
             await probe.end(gl, name);
+            // Without a budget every step yields; with one, quick (cached) steps run back to back.
+            const yielded = !probe.budget || performance.now() - slice >= probe.budget;
+            probe.steps.at(-1).yielded = yielded;
+            if (!yielded) return;
             await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
             await new Promise<void>((resolve) => setTimeout(resolve, 20));
+            slice = performance.now();
           };
           probe.recording = true;
           show([]);
@@ -300,10 +321,11 @@ server.stderr.on('data', (b) => {
   serverLog += b;
 });
 
-function hook({ batch, prefetch, fence, incremental, all, visibility, nonce }) {
+function hook({ batch, prefetch, fence, incremental, all, visibility, budget, nonce }) {
   const probe = (window.__suiBatches = {
     batch,
     visibility,
+    budget,
     recording: false,
     warming: false,
     groups: [],
@@ -739,104 +761,110 @@ try {
   version = browser.version();
   for (let round = 0; round < repeat; round++)
     for (const condition of round % 2 ? [...sizes].reverse() : sizes) {
-      const { batch, prefetch, fence, incremental, all, visibility } = parse(condition);
-      const context = await browser.newContext({
-        viewport: { width: 1200, height: 800 },
-        deviceScaleFactor: 1.5,
-        reducedMotion: 'reduce',
-      });
       const nonce = `sui${Date.now()}${condition}r${round}`;
-      await context.addInitScript(hook, { batch, prefetch, fence, incremental, all, visibility, nonce });
-      await context.addInitScript(() => {
-        localStorage.setItem('sui-quality', 'standard');
-        localStorage.setItem('sui-guide-dismissed', 'yes');
-        localStorage.setItem('sui-lighting-mode', 'day');
-      });
-      const page = await context.newPage();
-      const errors = [];
-      page.on('pageerror', (e) => errors.push(String(e)));
-      page.on('console', (m) => {
-        if (m.type() === 'error') errors.push(m.text());
-      });
-      await page.goto(`${url}?view=3d&resolution=fixed&frameRate=full`);
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
-      await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 60000 });
-      await page.waitForTimeout(500);
-      await page.evaluate(() => window.__suiBatches.stop());
-      const row = await page.evaluate(() => ({
-        data: { ...document.querySelector('.sauna-3d-canvas').dataset },
-        steps: window.__suiBatches.steps,
-        gaps: window.__suiBatches.gaps,
-        events: window.__suiBatches.events,
-        intervals: window.__suiBatches.intervals,
-        slowCalls: window.__suiBatches.slowCalls,
-        programs: window.__suiBatches.programs,
-        programQueries: window.__suiBatches.programQueries,
-        prefetches: window.__suiBatches.prefetches,
-        pipelines: window.__suiBatches.seen.size,
-        keyMismatches: window.__suiBatches.keyMismatches,
-        groups: window.__suiBatches.groups,
-      }));
-      row.condition = condition;
-      row.batch = batch;
-      row.prefetch = prefetch;
-      row.fence = fence;
-      row.incremental = incremental;
-      row.all = all;
-      row.visibility = visibility;
-      row.round = round;
-      row.nonce = nonce;
-      row.errors = errors;
-      row.stages = [];
-      for (const [stage, button] of [
-        ['sauna', null],
-        ['water', '水風呂へ'],
-        ['totonou', '外気浴へ'],
-      ]) {
-        if (button) {
-          // Labels new draw states only; the phase events ended with the measurement.
-          await page.evaluate((phase) => {
-            window.__suiBatches.phase = phase;
-          }, `stage-${stage}`);
-          await page.getByRole('button', { name: button, exact: true }).click();
-          await page.locator(`.sauna-3d-canvas[data-stage="${stage}"]`).waitFor();
-        }
-        await page.waitForTimeout(2000);
-        const image = await page.locator('.sauna-3d-canvas canvas').screenshot({
-          style:
-            '.app-stage-container, .scene-mode-controls, .app-toolbar { visibility: hidden !important; transition: none !important; }',
+      // The cached load reuses the cold load's shader identity in the same browser process.
+      for (const cached of warm ? [false, true] : [false]) {
+        const { batch, prefetch, fence, incremental, all, visibility, budget } = parse(condition);
+        const context = await browser.newContext({
+          viewport: { width: 1200, height: 800 },
+          deviceScaleFactor: 1.5,
+          reducedMotion: 'reduce',
         });
-        const shots = resolve(out, '..', 'compile-batches-images');
-        mkdirSync(shots, { recursive: true });
-        const path = join(shots, `${engine}-${round}-${condition}-${stage}.png`);
-        writeFileSync(path, image);
-        row.stages.push({ stage, image: path, sha256: createHash('sha256').update(image).digest('hex') });
+        await context.addInitScript(hook, { batch, prefetch, fence, incremental, all, visibility, budget, nonce });
+        await context.addInitScript(() => {
+          localStorage.setItem('sui-quality', 'standard');
+          localStorage.setItem('sui-guide-dismissed', 'yes');
+          localStorage.setItem('sui-lighting-mode', 'day');
+        });
+        const page = await context.newPage();
+        const errors = [];
+        page.on('pageerror', (e) => errors.push(String(e)));
+        page.on('console', (m) => {
+          if (m.type() === 'error') errors.push(m.text());
+        });
+        await page.goto(`${url}?view=3d&resolution=fixed&frameRate=full`);
+        await page.getByRole('button', { name: '音なしで入室する' }).click();
+        await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 60000 });
+        await page.waitForTimeout(500);
+        await page.evaluate(() => window.__suiBatches.stop());
+        const row = await page.evaluate(() => ({
+          data: { ...document.querySelector('.sauna-3d-canvas').dataset },
+          steps: window.__suiBatches.steps,
+          gaps: window.__suiBatches.gaps,
+          events: window.__suiBatches.events,
+          intervals: window.__suiBatches.intervals,
+          slowCalls: window.__suiBatches.slowCalls,
+          programs: window.__suiBatches.programs,
+          programQueries: window.__suiBatches.programQueries,
+          prefetches: window.__suiBatches.prefetches,
+          pipelines: window.__suiBatches.seen.size,
+          keyMismatches: window.__suiBatches.keyMismatches,
+          groups: window.__suiBatches.groups,
+        }));
+        row.condition = condition;
+        row.batch = batch;
+        row.prefetch = prefetch;
+        row.fence = fence;
+        row.incremental = incremental;
+        row.all = all;
+        row.visibility = visibility;
+        row.budget = budget;
+        row.warm = cached;
+        row.round = round;
+        row.nonce = nonce;
+        row.errors = errors;
+        row.stages = [];
+        for (const [stage, button] of [
+          ['sauna', null],
+          ['water', '水風呂へ'],
+          ['totonou', '外気浴へ'],
+        ]) {
+          if (button) {
+            // Labels new draw states only; the phase events ended with the measurement.
+            await page.evaluate((phase) => {
+              window.__suiBatches.phase = phase;
+            }, `stage-${stage}`);
+            await page.getByRole('button', { name: button, exact: true }).click();
+            await page.locator(`.sauna-3d-canvas[data-stage="${stage}"]`).waitFor();
+          }
+          await page.waitForTimeout(2000);
+          const image = await page.locator('.sauna-3d-canvas canvas').screenshot({
+            style:
+              '.app-stage-container, .scene-mode-controls, .app-toolbar { visibility: hidden !important; transition: none !important; }',
+          });
+          const shots = resolve(out, '..', 'compile-batches-images');
+          mkdirSync(shots, { recursive: true });
+          const path = join(shots, `${engine}-${round}-${condition}${cached ? '-warm' : ''}-${stage}.png`);
+          writeFileSync(path, image);
+          row.stages.push({ stage, image: path, sha256: createHash('sha256').update(image).digest('hex') });
+        }
+        row.newKeys = await page.evaluate(() => window.__suiBatches.newKeys);
+        rows.push(row);
+        console.log(
+          JSON.stringify({
+            condition,
+            warm: cached,
+            prefetched: row.prefetches.length,
+            round,
+            loadMs: row.data.loadMs,
+            longestGap: Math.max(0, ...row.gaps),
+            steps: row.steps.length,
+            pipelines: row.pipelines,
+            stepSum: Math.round(row.steps.reduce((sum, s) => sum + s.ms, 0)),
+            maxStep: Math.round(Math.max(0, ...row.steps.map((s) => s.ms))),
+            heavyKeysByPhase: Object.entries(
+              row.newKeys
+                .filter((k) => k.heavy)
+                .reduce((counts, k) => ({ ...counts, [k.phase]: (counts[k.phase] ?? 0) + 1 }), {}),
+            ),
+            keyMismatches: row.keyMismatches.length,
+            errors,
+          }),
+        );
+        if (errors.length || row.keyMismatches.length || row.steps.at(-1)?.pending || (visibility && !row.steps.length))
+          throw new Error('incomplete/errored diagnostic');
+        await context.close();
       }
-      row.newKeys = await page.evaluate(() => window.__suiBatches.newKeys);
-      rows.push(row);
-      console.log(
-        JSON.stringify({
-          condition,
-          prefetched: row.prefetches.length,
-          round,
-          loadMs: row.data.loadMs,
-          longestGap: Math.max(0, ...row.gaps),
-          steps: row.steps.length,
-          pipelines: row.pipelines,
-          stepSum: Math.round(row.steps.reduce((sum, s) => sum + s.ms, 0)),
-          maxStep: Math.round(Math.max(0, ...row.steps.map((s) => s.ms))),
-          heavyKeysByPhase: Object.entries(
-            row.newKeys
-              .filter((k) => k.heavy)
-              .reduce((counts, k) => ({ ...counts, [k.phase]: (counts[k.phase] ?? 0) + 1 }), {}),
-          ),
-          keyMismatches: row.keyMismatches.length,
-          errors,
-        }),
-      );
-      if (errors.length || row.keyMismatches.length || row.steps.at(-1)?.pending || (visibility && !row.steps.length))
-        throw new Error('incomplete/errored diagnostic');
-      await context.close();
     }
 } finally {
   await browser?.close();
@@ -847,7 +875,8 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 6,
+        schema: 7,
+        warm,
         engine,
         version,
         revision,
@@ -858,7 +887,7 @@ try {
         source: hash(source),
         script: scriptHash,
         temporarySource: hash(readFileSync(scenePath)),
-        note: 'Fresh zero-valued output uniform per run; no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only unless an a-condition; i-conditions skip already admitted states. v-conditions hook no draw (material.visible steps); newKeys logs where each draw state was first submitted, stage changes included. Instrumented, not product timings.',
+        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only unless an a-condition; i-conditions skip already admitted states. v-conditions hook no draw (material.visible steps; b<ms> yields only after that much step time); newKeys logs where each draw state was first submitted, stage changes included. Instrumented, not product timings.',
         rows,
       },
       null,
