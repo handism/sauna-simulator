@@ -1,0 +1,76 @@
+{
+  "inputSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+  "outputSha256": "e3b17d0a6387e20f545728ccbf3c7e3f0fd8a934381ffe7ecaf71da6e908058f",
+  "scriptSha256": "0c510f848898cf6f64011da3faa724962befb3dd8a95d6f24204ac612e5d1b8a",
+  "inputBytes": 5979340,
+  "outputBytes": 5983996,
+  "decodedBeforeBytes": 16181952,
+  "decodedAfterBytes": 15248960,
+  "rows": [
+    {
+      "mesh": "Fine canopy leaves web leaves",
+      "originalVertices": 78616,
+      "originalIndexBytes": 471696,
+      "batches": [
+        {
+          "vertices": 65535,
+          "indexCount": 98301
+        },
+        {
+          "vertices": 13083,
+          "indexCount": 19623
+        }
+      ],
+      "addedVertices": 2
+    },
+    {
+      "mesh": "Fine canopy leaves web leaves",
+      "originalVertices": 76648,
+      "originalIndexBytes": 459888,
+      "batches": [
+        {
+          "vertices": 65535,
+          "indexCount": 98301
+        },
+        {
+          "vertices": 11115,
+          "indexCount": 16671
+        }
+      ],
+      "addedVertices": 2
+    },
+    {
+      "mesh": "Fine canopy leaves web leaves",
+      "originalVertices": 77912,
+      "originalIndexBytes": 467472,
+      "batches": [
+        {
+          "vertices": 65535,
+          "indexCount": 98301
+        },
+        {
+          "vertices": 12379,
+          "indexCount": 18567
+        }
+      ],
+      "addedVertices": 2
+    },
+    {
+      "mesh": "Fine canopy leaves web leaves",
+      "originalVertices": 77864,
+      "originalIndexBytes": 467184,
+      "batches": [
+        {
+          "vertices": 65535,
+          "indexCount": 98301
+        },
+        {
+          "vertices": 12331,
+          "indexCount": 18495
+        }
+      ],
+      "addedVertices": 2
+    }
+  ],
+  "note": "Triangle order and decoded vertex bytes preserved; split bounds recomputed. Driver memory, visual equality and GPU time require browser checks."
+}
