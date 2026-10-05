@@ -44,11 +44,51 @@ const inputs = Object.fromEntries(
         .digest('hex'),
     ]),
 );
+// Mark only the temporary source; every insertion must still match exactly once.
+const mark = (phase) => `(window as any).__suiBatches.mark('${phase}');`;
+let instrumented = source;
+for (const [anchor, phase] of [
+  ['        const get = createModelFetch(abort.signal);', 'fetch-body'],
+  ['        const probes = createProbeTextures(irradiance, reflection);', 'prepare-probes'],
+  ['        const gltf = await new GLTFLoader()', 'parse-body'],
+  ['        prepare(gltf.scene);', 'prepare-body'],
+  ['        for (let compiled: QualityMode | null', 'compile-body'],
+  ['        setViewRef.current = setView;', 'first-view'],
+  ['        const firstFrame = draw();', 'first-full-draw'],
+  ['        onReady();', 'body-ready'],
+  ["            const garden = await get('sauna-garden.glb')", 'fetch-garden'],
+  ['            const { scene: woodland } = await new GLTFLoader()', 'parse-garden'],
+  ['            gardenScenes.push(woodland);', 'prepare-garden'],
+  ['            await output.compile(woodland, camera, scene);', 'compile-garden'],
+  ['            scene.add(woodland);', 'add-garden'],
+  ["            setGarden('ready');", 'garden-ready'],
+]) {
+  if (instrumented.split(anchor).length !== 2) throw new Error(`phase anchor changed: ${phase}`);
+  instrumented = instrumented.replace(anchor, `${mark(phase)}\n${anchor}`);
+}
+// The ready attribute precedes its first draw. Record that draw separately too.
+instrumented = instrumented.replace(
+  '        const draw = () => {',
+  `
+        let gardenDrawn = false;
+        const draw = () => {
+          const firstGarden = gardenAdded === 1 && !gardenDrawn;
+          if (firstGarden) (window as any).__suiBatches.mark('first-garden-draw');`,
+);
+instrumented = instrumented.replace(
+  '          return stats;',
+  `
+          if (firstGarden) {
+            gardenDrawn = true;
+            (window as any).__suiBatches.mark('garden-drawn');
+          }
+          return stats;`,
+);
 const anchor = '        setViewRef.current = setView;\n        setView(stageRef.current);';
 if (source.split(anchor).length !== 2) throw new Error('warmup insertion anchor changed');
 writeFileSync(
   scenePath,
-  source
+  instrumented
     .replace(
       'mirrorState[2] = gardenAdded;',
       'mirrorState[2] = (window as any).__suiBatches?.active ? performance.now() : gardenAdded;',
@@ -65,6 +105,7 @@ writeFileSync(
           camera.fov = view.fov;
           camera.updateProjectionMatrix();
           lighting.update(targetTime(), 0, true);
+          probe.mark('batch-warmup');
           for (let step = 0; step < 150; step++) {
             if (disposed || failed) { probe.active = false; return; }
             probe.begin();
@@ -77,6 +118,7 @@ writeFileSync(
           probe.active = false;
           lighting.refreshShadows();
           output.resetTemporal();
+          probe.mark('first-view');
         }
 ${anchor}`,
     ),
@@ -104,7 +146,23 @@ function hook({ batch, nonce }) {
     seen: new Set(),
     admitted: 0,
     pending: false,
+    phase: 'before-entry',
+    events: [],
+    intervals: [],
+    slowCalls: [],
   });
+  probe.mark = (phase) => {
+    probe.phase = phase;
+    probe.events.push({ at: performance.now(), phase });
+  };
+  probe.mark('before-entry');
+  document.addEventListener(
+    'click',
+    (event) => {
+      if (event.target.closest?.('button')?.textContent.includes('音なしで入室')) probe.mark('entry-click');
+    },
+    true,
+  );
   const sources = new WeakMap(),
     shaders = new WeakMap(),
     heavy = new WeakMap(),
@@ -208,17 +266,92 @@ function hook({ batch, nonce }) {
   probe.end = (gl) => {
     // The output pass leaves the canvas bound. Readback drains preceding draws, unlike finish()
     // on the tested ANGLE/Metal backend; this bounds the queue before the next frame.
+    const drawEnd = performance.now();
     gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
-    probe.steps.push({ ms: performance.now() - started, newPipelines: probe.admitted, pending: probe.pending });
+    probe.steps.push({
+      start: started,
+      drawMs: drawEnd - started,
+      drainMs: performance.now() - drawEnd,
+      end: performance.now(),
+      ms: performance.now() - started,
+      newPipelines: probe.admitted,
+      pending: probe.pending,
+    });
     return probe.pending;
   };
+  // Measure driver synchronization separately from JavaScript work and browser scheduling.
+  // Wrapped after the draw hooks so timings also include state queries and draw suppression.
+  for (const name of [
+    'getParameter',
+    'getProgramParameter',
+    'getShaderParameter',
+    'getProgramInfoLog',
+    'getShaderInfoLog',
+    'getActiveUniform',
+    'getActiveAttrib',
+    'getExtension',
+    'getError',
+    'texImage2D',
+    'texImage3D',
+    'bufferData',
+    'renderbufferStorageMultisample',
+    'blitFramebuffer',
+    'getUniformLocation',
+    'getAttribLocation',
+    'getFramebufferAttachmentParameter',
+    'getRenderbufferParameter',
+    'checkFramebufferStatus',
+    'readPixels',
+    'finish',
+    'drawElements',
+    'drawArrays',
+    'drawElementsInstanced',
+    'drawArraysInstanced',
+  ]) {
+    const call = p[name];
+    p[name] = function (...args) {
+      const start = performance.now();
+      const phase = probe.phase;
+      try {
+        return call.apply(this, args);
+      } finally {
+        const end = performance.now();
+        if (end - start > 100) probe.slowCalls.push({ name, start, end, ms: end - start, phase });
+      }
+    };
+  }
   probe.gaps = [];
-  let last = performance.now();
-  setInterval(() => {
+  const start = performance.now();
+  let timerLast = start,
+    rafLast = start;
+  const interval = (kind, previous, now) => {
+    if (now - previous > 100) {
+      probe.intervals.push({ kind, start: previous, end: now, ms: now - previous, phase: probe.phase });
+      if (kind === 'timer') probe.gaps.push(now - previous);
+    }
+  };
+  const timer = setInterval(() => {
     const now = performance.now();
-    if (now - last > 100) probe.gaps.push(now - last);
-    last = now;
+    interval('timer', timerLast, now);
+    timerLast = now;
   }, 10);
+  let raf;
+  const frame = () => {
+    const now = performance.now();
+    interval('raf', rafLast, now);
+    rafLast = now;
+    raf = requestAnimationFrame(frame);
+  };
+  raf = requestAnimationFrame(frame);
+  probe.stop = () => {
+    // Stop before snapshots/stage captures; they cannot contaminate the loading window.
+    const now = performance.now();
+    interval('timer', timerLast, now);
+    interval('raf', rafLast, now);
+    clearInterval(timer);
+    cancelAnimationFrame(raf);
+    probe.mark('measurement-end');
+  };
 }
 
 const rows = [];
@@ -259,10 +392,14 @@ try {
       await page.getByRole('button', { name: '音なしで入室する' }).click();
       await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 60000 });
       await page.waitForTimeout(500);
+      await page.evaluate(() => window.__suiBatches.stop());
       const row = await page.evaluate(() => ({
         data: { ...document.querySelector('.sauna-3d-canvas').dataset },
         steps: window.__suiBatches.steps,
         gaps: window.__suiBatches.gaps,
+        events: window.__suiBatches.events,
+        intervals: window.__suiBatches.intervals,
+        slowCalls: window.__suiBatches.slowCalls,
         pipelines: window.__suiBatches.seen.size,
       }));
       row.batch = batch;
@@ -314,6 +451,7 @@ try {
     out,
     JSON.stringify(
       {
+        schema: 2,
         engine,
         version,
         revision,

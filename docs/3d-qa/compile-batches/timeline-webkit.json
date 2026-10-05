@@ -1,0 +1,5085 @@
+{
+  "schema": 2,
+  "engine": "webkit",
+  "version": "26.6",
+  "revision": "a3ab1b2db198ed3c77f44bb4f38a993a06b7a228",
+  "inputs": {
+    "public/models/CREDITS.md": "c2ea788205936aba0fc2009bc20d83053531e89216a521986f98addbbd57cdb4",
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+    "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+    "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+    "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+    "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+    "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+    "src/App.tsx": "30ddc4d1bd220b92f02baf192d42a08e69678ffef2fabb23bfaedcd5d5d32c1b",
+    "src/components/3d/CLAUDE.md": "53d7e5ec4956937d95c637c0305bf860b7624691940198a30e4e9f1ff9a33149",
+    "src/components/3d/SaunaScene.test.tsx": "4784b937bc463cc895eb62cb71b16c7ab759f4ce597a26c1a481356a0ccf8033",
+    "src/components/3d/SaunaScene.tsx": "c691130cf071c394660da07307e2c4e8633bc2531170aec6264860463e719cf0",
+    "src/components/3d/agx.test.ts": "8780f2c3f0ed088f4d10b86e4c62ecd1291657df89667e3ee98ae191f5ee7aa7",
+    "src/components/3d/agx.ts": "e61f358b008dbe6cd1a4606545fe66ea87e18fe21b572d462990fa48ee411dbc",
+    "src/components/3d/caustics.test.ts": "2c13c16139e45fe69a58d7895f2f420611bf0e1f4034431fa130cdd84ffa4308",
+    "src/components/3d/caustics.ts": "97a63fe23a116b258d43141bba0a4df8d188f386500d2dd8c394fe4d82b8c62f",
+    "src/components/3d/depthPrepass.test.ts": "4c7af6b71a6da42c0a8202828fdce101920a1fc7f103e8a6028899262f3427c7",
+    "src/components/3d/depthPrepass.ts": "519cff11b7ac8a5c149cfe88a5e0e9004770ada603d8873232e9fcc50bee4c76",
+    "src/components/3d/dynamicResolution.test.ts": "8caf048e9bc54eae84d3d23d593a6807f160c69db44d9a5e372d70b46555c576",
+    "src/components/3d/dynamicResolution.ts": "358b4bd82e57ba85a02bb6fc67a26829f8a9bf72d2a77e5da7c64d8c72f57a89",
+    "src/components/3d/foliage.test.ts": "95214e59bfc9cf55fcfa228fa8f05e9c725ce08472939776ccb2ab26a822834e",
+    "src/components/3d/foliage.ts": "d900a695228c8788d37904f5ad54b9770bd4f33e8cf225f312739872ab35b1fe",
+    "src/components/3d/frameMetrics.test.ts": "23e9f51b43e7ffdc2bbd0e2515c7b0dc3dcb417a5626f619803eebaa7e52672a",
+    "src/components/3d/frameMetrics.ts": "7c6dfe830edca2e16ebd7594ef337c1fea1ecc06418b2997b4c4cad44c0037d7",
+    "src/components/3d/frameRate.test.ts": "25da8673d70cfbcb25884e7f7ff31c919483a67028a8a5377fd56e7d0ed04ad5",
+    "src/components/3d/frameRate.ts": "9d1913989f063e90b0550de6f6343dd5cfeebe822462d58e9e1e70ab9be771d3",
+    "src/components/3d/glass.test.ts": "66d3ba120c78a563605e65cb8872279c416741263e2451598eaab9d5017ac326",
+    "src/components/3d/glass.ts": "0f25307535afc84c232bab02ff58ed54cb4ba7ab6245a887f57957dd3284fe7d",
+    "src/components/3d/glossyLights.test.ts": "5d115fa8ddea526b4ca8e22d296368e95c92bcb2c47cae58c2a37158f130f7e0",
+    "src/components/3d/glossyLights.ts": "ed2def38dc5738b66875bcf87f22127fec7d2f1f3fd45cb0e8899d6217e4e6b4",
+    "src/components/3d/hdrOutput.test.ts": "7d8d1525cd1e5b10829fc73966a24035966faf5ed606c58b1fc1ea4b0da6fef8",
+    "src/components/3d/hdrOutput.ts": "23e7de0702bb2221d2cb1750a07975dbcd4fef221c6913dd1c527dde4c4f3b93",
+    "src/components/3d/imageRamp.test.ts": "01adff6b84743286f130b88fdffe7acc41a8bf08381291725a780647debe9cb9",
+    "src/components/3d/imageRamp.ts": "199bcf80e5ef50f32e8643bb2f6faead7fa68dd07fee5dc59c7cc7e19ac31a67",
+    "src/components/3d/interiorLights.test.ts": "0fb524e625932783f778596376b33989ed93cbcea291828db9a05572bcf23c21",
+    "src/components/3d/interiorLights.ts": "9aecde3c881e1c3f7379903c0e973cecfa698a2cb7d66e86595788131398a2f6",
+    "src/components/3d/irradiance.test.ts": "e4a18af490077419730c87b85efbfabeea1dfbf7a8c498ca46d742599f0b5e03",
+    "src/components/3d/irradiance.ts": "62291f44da9d647c45565f971ed01880fafb03860957cbf130e35113345ede48",
+    "src/components/3d/leafCluster.test.ts": "a724fe1f37204399ad040e39747e338dfc0cb6d13e6e41ce27937fc94d7c43cc",
+    "src/components/3d/leafCluster.ts": "31581aff8bd4648a4afcaaf934471189e98ef6279568f156f908a50180dd1c44",
+    "src/components/3d/lighting.test.ts": "1ccfcfff1b2914d58c754cdf5a72bbcb81841c2b63e9f8114cca65b4e4af2f5c",
+    "src/components/3d/lighting.ts": "43801bb0664cc82a5c9a5ec21826b3931982cbca6bfb3847d57698b672623f56",
+    "src/components/3d/lookControls.test.ts": "c393f11214417668c4493b01a616b6f17286572d7c7870d29107e3b61ae44d9b",
+    "src/components/3d/lookControls.ts": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+    "src/components/3d/modelMaterials.test.ts": "71f15381d130e07d80202dd2bd0fca0a40082389e0d6eea18b10a7147f14e2b0",
+    "src/components/3d/modelMaterials.ts": "09eac5e56fe11a5012ad39f1d49ac286843929897b12be1234d8ab7d02c46686",
+    "src/components/3d/noiseColor.test.ts": "7357fb3452ff12d7569c03727b06ee21b4996b9fd195faa658001b2cf58e5ab6",
+    "src/components/3d/noiseColor.ts": "c6bb54719bff5dd7bdcf222f31b7a6a5273016c91556416d20b6e747ff7f9dec",
+    "src/components/3d/planarReflection.test.ts": "33c23c09c3b887d10309dd6a56d3198b1f588cbccdd838f46b5b9becef78c6c2",
+    "src/components/3d/planarReflection.ts": "276d7f8af63c73dbda384048013fa5b5f2d80a08a1e1d101de75a739deffd839",
+    "src/components/3d/quality.ts": "74fd9de704f252220831238197ad50c998fd110e8f02d91dd740a81676b292fd",
+    "src/components/3d/reflection.test.ts": "baf808025fb752790297f745b1fc31ddbde90143d3b880cf7b1bd0bdeec2e128",
+    "src/components/3d/reflection.ts": "a65f2592dda0bf63081d17732fdfe1cd9ddd98164938cb17340bb2232bf81dc1",
+    "src/components/3d/refraction.test.ts": "0c0ea7e75dd86a52e37ec20c1a4c4881af2fbdf04f477f3260a02eab9d04c92e",
+    "src/components/3d/refraction.ts": "e2eb276ba24d908b47537af53f1092dbaf388dd528edecb0659fa4f34b31e3de",
+    "src/components/3d/sceneAssets.ts": "5fa93faa482c1bd611337547dbb998d83302e78cbf2b6af106db858e1e48defc",
+    "src/components/3d/shadowMask.test.ts": "99785297c98b5c456ed4d79da7500a9759f6070908a70ccd7f4abd9144387183",
+    "src/components/3d/shadowMask.ts": "9e218cc6bbfe555c8f15403d2b0bae94fe8f6d5171b59cf43e483849a151d781",
+    "src/components/3d/sky.json": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d",
+    "src/components/3d/sky.test.ts": "983f70836ac9897a2a17850b56412bdc0bbd2e11835e45595aa3adcb04da5cf8",
+    "src/components/3d/sky.ts": "5f914681bd67cbd17930b8ad19f7906039613b2aed41baeeb546147fc438a108",
+    "src/components/3d/softShadows.test.ts": "c97516a7b770ef6d39cc5e73469df838dbce655f5a198fcf7169fd28931e8aa7",
+    "src/components/3d/softShadows.ts": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+    "src/components/3d/steam.test.ts": "0b34f7c8d6a4e18c101f962b3f435bada9cddc2a016af21c8851f840ea4767d4",
+    "src/components/3d/steam.ts": "299ff59d9f1b9cb454b34fed24a0d1914a7f9d920b3f1378618272861af93a0f",
+    "src/components/3d/temporalAA.test.ts": "b0d60bc5c5c439581ced7d260e6631f25a26f91fbe741d6666679fd44b1434c3",
+    "src/components/3d/temporalAA.ts": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+    "src/components/3d/waterBottom.test.ts": "8e000934cbb3504e8708a6bf76d7e392f08cb15f3f4912b8bb4e280d985c6031",
+    "src/components/3d/waterBottom.ts": "b4a6bce0c8a64d16b96cd63100ae98af20c8d4d1c25e615defd15ac20dd5136b",
+    "src/components/3d/waterEffects.test.ts": "c8dd8bbae528de9c45988775732b4a847aed1b9387f85e8876edbd09c2b51b3c",
+    "src/components/3d/waterEffects.ts": "81ec8d295bb03b997d464380133e9d99a285e57325e220bcbeea653c2ef3b4bc",
+    "src/components/ActionIcon.tsx": "dbc6a941ac1e585574b083559fd8dbd7c6d2b9e1b5df0d8c4be6fa9e460c8c30",
+    "src/components/CLAUDE.md": "230084b498d035b205de7232532d057c903f27e35363446710f323ba315032d2",
+    "src/components/ControlButtons.tsx": "5224984ba7b9a8887221fadd50ebd9047ce985e52ac1b22e7e1871d7b7382174",
+    "src/components/CoolingBath.test.tsx": "523283eddfdabf46411f823a3f057d29f0a578786ef2a2f0fe7208c01139ff9c",
+    "src/components/CoolingBath.tsx": "79a92ada91239eb1dec78e350c18bb374c34bd2594740ca4a0928a519ad0695d",
+    "src/components/FirstVisitGuide.tsx": "f8452da57ddb772c70a285d1a9d647d2c507be0e1bbd4c2d1c72eecf2815fd4c",
+    "src/components/HeartRateRow.tsx": "a752226f0b50575ef5a7f22be2f84397c0ef21cfca4deb840e5abb07fc5fd1b2",
+    "src/components/SaunaRoom.test.tsx": "a92d875a84d00de6bd3c2ba31c695ecb2954439cf6d3286c2ee3eaa5d23abe28",
+    "src/components/SaunaRoom.tsx": "aa43c2142a24011340987b7fdb5ed8ef15f8afcf23e6820df6a5a344b610d5b1",
+    "src/components/SceneMode.test.tsx": "b370d6d24b03a88299438c5a69019947307b6529fbbe88215bede878fe9aba5b",
+    "src/components/SceneMode.tsx": "7d889f861a1ad31c79287be8ad6d7307fa5355052f0d12084d503e612d18332a",
+    "src/components/ScoreHistory.tsx": "8a143b9fbe167d55b279165acb91140e138a188ebefad9786a1de9df8409fd91",
+    "src/components/SoundControl.tsx": "461aead66b4e80eced7ef710ac8261e91050aa46ad58816fec394dbbcea73460",
+    "src/components/StageDock.tsx": "a5d9e63926d53c2fe2232e38e85d5d9111fbbb3c9d8271d66c9b7e45b7b7909f",
+    "src/components/StageStep.tsx": "57f9c8475481b41314278ca356c01c4654329e19c674f92586602faf45158177",
+    "src/components/StayTimer.tsx": "363075c30ea3ee9d90566556c2f953718a1a9ac1fd091836485bccca7e5110a0",
+    "src/components/TotonouSpace.test.tsx": "2a86c79a5d812de10855d43350c5053ac31d61bc0a2796b26973d9b45cbc33cf",
+    "src/components/TotonouSpace.tsx": "e2d00328ca5e8191015e9454233e276465047d0acf3f5aabf376e71f1c3995c1",
+    "src/context/SaunaContext.test.tsx": "6a837bc27abb35a5893f55c74a24c16f22bfddeeed8cf9b6d75bed44dc0a5a0f",
+    "src/context/SaunaContext.tsx": "6af7ba57390729b1db7bdd78db12d3a49b2b7c95ef43878264f543b35f18c8b7",
+    "src/hooks/audioWorker.test.ts": "5b17aec44f3aa83cffb128fa6c92b807f4128c33990a642abbe41dd8890dfe21",
+    "src/hooks/audioWorker.ts": "3f32cf782e44d4a57e29145d2c225a18d38c49a4d460237152a92bcb6ba70364",
+    "src/hooks/noiseWorkerClient.ts": "b29e47ae1a4a783a6c092171f1dbd54c3d7389180671520f306f6ae50f7139ad",
+    "src/hooks/spatialAudio.test.ts": "8054a52bac4e39a4aea5fe5d37dbb3861e64719cad462389694c439f319ff6b3",
+    "src/hooks/spatialAudio.ts": "01f402fc74f624f72319da070f93f442e627f0facb7b2267076f29bbee6c0b45",
+    "src/hooks/useAudioEngine.bench.test.ts": "615cfd1f3866253f1655519cc8137c144b09248d31ffd74175abaf13d18155af",
+    "src/hooks/useAudioEngine.test.ts": "6afeb139bf79cc48ffad1521868b0386c13ff0b03fca4483d3e5644f055d34cc",
+    "src/hooks/useAudioEngine.ts": "0a2a00e4f2089f51a2cd763198e37cb53342eb953eba55a0da9311efcf9462fe",
+    "src/hooks/useDismissibleDetails.ts": "500a5744af10ebcac03be06cc6704b45d48170da7d00b7f2a30238666d5320b1",
+    "src/hooks/useFullscreen.ts": "5655b65b2368d685a2c84f89fea24208860e63e35cbc3933f315f53b5ceb4e49",
+    "src/hooks/useKeyboardShortcut.test.tsx": "99ce619df8e55c60a9e5cb4b68b781b8e92dff6c16adfcf9d4f69ecb2fd8e71c",
+    "src/hooks/useKeyboardShortcut.ts": "cb425de95e113936e2d465b75d7917259e71607f50e02182336e57ebdafc7e02",
+    "src/hooks/useSaunaSession.ts": "57d62e4c170fd2913056a02b2c43bf299731857528a63d23ee2e5500a69cc587",
+    "src/hooks/useSecondTicker.test.ts": "0aa971b4661a0d85c5ef1602bc9de94f6fbd39509ec1d50101a459e5db30f2b4",
+    "src/hooks/useSecondTicker.ts": "f8025f6d0eea34af6789a27fadf9f8f674332482fe72e9da94498c2a53f33084",
+    "src/index.css": "5d42aadb20468ac68a03b4250ff8ad5f87ac2449b86d471ee7cfd9c6117cf1fb",
+    "src/main.tsx": "1d140ae9171833a16ea61473f0377b24217a2b7306b20765afb614e067df2fb5",
+    "src/tests/App.test.tsx": "3b97929c25fa1afef59c0829ff120d65ffa402c4184bcbfa829463e4d2f1cfbb",
+    "src/utils/preferences.test.ts": "1a721a46f2539cb350e2190f624dd819e7c9a2e70e790a23458f3c56fa32c98c",
+    "src/utils/preferences.ts": "97cfa8ea91bc2810b37ce465a748eba7728cb2eba2f73aede474df958e94275d",
+    "src/utils/saunaUtils.test.ts": "b74932183e3cc6c7e895905fabbd6382b6f38e872ec444cbeaf79ed5d9ec6814",
+    "src/utils/saunaUtils.ts": "9f52cb6e24bbae603a2844f91adc60054043ad1ba1b3b0753bd106ebf02dc93e",
+    "src/utils/scoreColor.ts": "5b8a19f70aff2445f57876073a102d3377d37852fa611b79caa1614221491237",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  "repeat": 2,
+  "sizes": [
+    0,
+    1,
+    3
+  ],
+  "scratch": "/var/folders/z3/fwnx8wdx2td2l2lc_cpwqzy40000gn/T/sui-compile-batches-zeQgTm",
+  "source": "c691130cf071c394660da07307e2c4e8633bc2531170aec6264860463e719cf0",
+  "script": "7d60912d4fefdd416f2449796de2b80ef80c247bee6e9ba0b0fd95fc47b6ed4b",
+  "temporarySource": "18ebe9d32b06e08cd8e0fc9ce51832484b4cb38ea6ac43e9eaf390d762967368",
+  "note": "Fresh zero-valued output uniform per run; no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only; instrumented, not product timings.",
+  "rows": [
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "stage": "sauna",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "9997",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "33",
+        "geometries": "119",
+        "gardenMs": "10394"
+      },
+      "steps": [],
+      "gaps": [
+        177,
+        8782,
+        581
+      ],
+      "events": [
+        {
+          "at": 32,
+          "phase": "before-entry"
+        },
+        {
+          "at": 205,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1546,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1558,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1576,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1624,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1723,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2775,
+          "phase": "first-view"
+        },
+        {
+          "at": 11538,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 11543,
+          "phase": "body-ready"
+        },
+        {
+          "at": 11543,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 11573,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 11588,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 11619,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 11939,
+          "phase": "add-garden"
+        },
+        {
+          "at": 11939,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 11949,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 12182,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 13030,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 32,
+          "end": 141,
+          "ms": 109,
+          "phase": "before-entry"
+        },
+        {
+          "kind": "raf",
+          "start": 1598,
+          "end": 1775,
+          "ms": 177,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1598,
+          "end": 1775,
+          "ms": 177,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 2775,
+          "end": 11557,
+          "ms": 8782,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "raf",
+          "start": 2759,
+          "end": 11557,
+          "ms": 8798,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "timer",
+          "start": 11939,
+          "end": 12520,
+          "ms": 581,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 11949,
+          "end": 12520,
+          "ms": 571,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2924,
+          "end": 3052,
+          "ms": 128,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3054,
+          "end": 3182,
+          "ms": 128,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3184,
+          "end": 3513,
+          "ms": 329,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3514,
+          "end": 3697,
+          "ms": 183,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3698,
+          "end": 4051,
+          "ms": 353,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4052,
+          "end": 4274,
+          "ms": 222,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4282,
+          "end": 4487,
+          "ms": 205,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4487,
+          "end": 4681,
+          "ms": 194,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4692,
+          "end": 5052,
+          "ms": 360,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5063,
+          "end": 5420,
+          "ms": 357,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5426,
+          "end": 5753,
+          "ms": 327,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5754,
+          "end": 6074,
+          "ms": 320,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6074,
+          "end": 6444,
+          "ms": 370,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6445,
+          "end": 6789,
+          "ms": 344,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6911,
+          "end": 8663,
+          "ms": 1752,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 8683,
+          "end": 9019,
+          "ms": 336,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9020,
+          "end": 9329,
+          "ms": 309,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9330,
+          "end": 9702,
+          "ms": 372,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9703,
+          "end": 11210,
+          "ms": 1507,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11291,
+          "end": 11404,
+          "ms": 113,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 12053,
+          "end": 12177,
+          "ms": 124,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 0,
+      "batch": 0,
+      "round": 0,
+      "nonce": "sui1791221763991b0r0",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-0-sauna.png",
+          "sha256": "c8ddc48d6266b110f6122cdf4f2372e03a74bc281e837a65434081e8d7ade086"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-0-water.png",
+          "sha256": "a4b4fd58f2600e0cd716e3d083cf0e8a72be796c2ad550937c757881f5c81303"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-0-totonou.png",
+          "sha256": "a4b39a7b4b99b3b90f0269c91249c05109296baac791b3e12bd63b682f6c3f4c"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "11291",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "11676"
+      },
+      "steps": [
+        {
+          "start": 2654,
+          "drawMs": 1289,
+          "drainMs": 28,
+          "end": 3971,
+          "ms": 1317,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 3993,
+          "drawMs": 20,
+          "drainMs": 10,
+          "end": 4023,
+          "ms": 30,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4044,
+          "drawMs": 210,
+          "drainMs": 10,
+          "end": 4264,
+          "ms": 220,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4285,
+          "drawMs": 368,
+          "drainMs": 10,
+          "end": 4663,
+          "ms": 378,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4684,
+          "drawMs": 232,
+          "drainMs": 10,
+          "end": 4926,
+          "ms": 242,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4947,
+          "drawMs": 215,
+          "drainMs": 10,
+          "end": 5172,
+          "ms": 225,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5193,
+          "drawMs": 201,
+          "drainMs": 10,
+          "end": 5404,
+          "ms": 211,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5425,
+          "drawMs": 355,
+          "drainMs": 11,
+          "end": 5791,
+          "ms": 366,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5812,
+          "drawMs": 373,
+          "drainMs": 11,
+          "end": 6196,
+          "ms": 384,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6217,
+          "drawMs": 357,
+          "drainMs": 11,
+          "end": 6585,
+          "ms": 368,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6606,
+          "drawMs": 317,
+          "drainMs": 11,
+          "end": 6934,
+          "ms": 328,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6954,
+          "drawMs": 372,
+          "drainMs": 11,
+          "end": 7337,
+          "ms": 383,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7358,
+          "drawMs": 348,
+          "drainMs": 11,
+          "end": 7717,
+          "ms": 359,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7738,
+          "drawMs": 290,
+          "drainMs": 13,
+          "end": 8041,
+          "ms": 303,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8062,
+          "drawMs": 154,
+          "drainMs": 13,
+          "end": 8229,
+          "ms": 167,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8250,
+          "drawMs": 285,
+          "drainMs": 14,
+          "end": 8549,
+          "ms": 299,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8570,
+          "drawMs": 180,
+          "drainMs": 15,
+          "end": 8765,
+          "ms": 195,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8786,
+          "drawMs": 165,
+          "drainMs": 20,
+          "end": 8971,
+          "ms": 185,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8991,
+          "drawMs": 157,
+          "drainMs": 21,
+          "end": 9169,
+          "ms": 178,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9189,
+          "drawMs": 287,
+          "drainMs": 15,
+          "end": 9491,
+          "ms": 302,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9512,
+          "drawMs": 298,
+          "drainMs": 24,
+          "end": 9834,
+          "ms": 322,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9856,
+          "drawMs": 348,
+          "drainMs": 20,
+          "end": 10224,
+          "ms": 368,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10245,
+          "drawMs": 313,
+          "drainMs": 23,
+          "end": 10581,
+          "ms": 336,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10602,
+          "drawMs": 364,
+          "drainMs": 21,
+          "end": 10987,
+          "ms": 385,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11008,
+          "drawMs": 341,
+          "drainMs": 22,
+          "end": 11371,
+          "ms": 363,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11392,
+          "drawMs": 287,
+          "drainMs": 24,
+          "end": 11703,
+          "ms": 311,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11723,
+          "drawMs": 263,
+          "drainMs": 24,
+          "end": 12010,
+          "ms": 287,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12031,
+          "drawMs": 307,
+          "drainMs": 21,
+          "end": 12359,
+          "ms": 328,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12380,
+          "drawMs": 15,
+          "drainMs": 297,
+          "end": 12692,
+          "ms": 312,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        167,
+        1329,
+        228,
+        389,
+        251,
+        234,
+        220,
+        376,
+        393,
+        379,
+        335,
+        389,
+        365,
+        309,
+        174,
+        307,
+        202,
+        192,
+        186,
+        308,
+        332,
+        377,
+        345,
+        393,
+        372,
+        319,
+        295,
+        336,
+        320,
+        598
+      ],
+      "events": [
+        {
+          "at": 5,
+          "phase": "before-entry"
+        },
+        {
+          "at": 106,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1431,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1448,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1466,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1512,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1607,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2653,
+          "phase": "first-view"
+        },
+        {
+          "at": 2654,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 12714,
+          "phase": "first-view"
+        },
+        {
+          "at": 12720,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 12723,
+          "phase": "body-ready"
+        },
+        {
+          "at": 12723,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 12740,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 12755,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 12784,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 13107,
+          "phase": "add-garden"
+        },
+        {
+          "at": 13107,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 13112,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 13351,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 14210,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 1486,
+          "end": 1653,
+          "ms": 167,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1486,
+          "end": 1653,
+          "ms": 167,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 2643,
+          "end": 3972,
+          "ms": 1329,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 2636,
+          "end": 3972,
+          "ms": 1336,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4036,
+          "end": 4264,
+          "ms": 228,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4037,
+          "end": 4264,
+          "ms": 227,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4275,
+          "end": 4664,
+          "ms": 389,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4270,
+          "end": 4664,
+          "ms": 394,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4675,
+          "end": 4926,
+          "ms": 251,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4670,
+          "end": 4926,
+          "ms": 256,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4939,
+          "end": 5173,
+          "ms": 234,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4937,
+          "end": 5173,
+          "ms": 236,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5184,
+          "end": 5404,
+          "ms": 220,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5187,
+          "end": 5405,
+          "ms": 218,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5415,
+          "end": 5791,
+          "ms": 376,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5421,
+          "end": 5791,
+          "ms": 370,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5803,
+          "end": 6196,
+          "ms": 393,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5804,
+          "end": 6196,
+          "ms": 392,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6207,
+          "end": 6586,
+          "ms": 379,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6205,
+          "end": 6586,
+          "ms": 381,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6599,
+          "end": 6934,
+          "ms": 335,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6605,
+          "end": 6934,
+          "ms": 329,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6948,
+          "end": 7337,
+          "ms": 389,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6938,
+          "end": 7338,
+          "ms": 400,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7352,
+          "end": 7717,
+          "ms": 365,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7355,
+          "end": 7718,
+          "ms": 363,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7732,
+          "end": 8041,
+          "ms": 309,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7722,
+          "end": 8041,
+          "ms": 319,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8055,
+          "end": 8229,
+          "ms": 174,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8055,
+          "end": 8229,
+          "ms": 174,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8243,
+          "end": 8550,
+          "ms": 307,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8239,
+          "end": 8550,
+          "ms": 311,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8563,
+          "end": 8765,
+          "ms": 202,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8555,
+          "end": 8765,
+          "ms": 210,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8779,
+          "end": 8971,
+          "ms": 192,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8772,
+          "end": 8971,
+          "ms": 199,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8983,
+          "end": 9169,
+          "ms": 186,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8989,
+          "end": 9169,
+          "ms": 180,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9173,
+          "end": 9491,
+          "ms": 318,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9184,
+          "end": 9492,
+          "ms": 308,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9503,
+          "end": 9835,
+          "ms": 332,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9506,
+          "end": 9835,
+          "ms": 329,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9847,
+          "end": 10224,
+          "ms": 377,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9841,
+          "end": 10224,
+          "ms": 383,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10236,
+          "end": 10581,
+          "ms": 345,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10240,
+          "end": 10581,
+          "ms": 341,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10595,
+          "end": 10988,
+          "ms": 393,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10590,
+          "end": 10988,
+          "ms": 398,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10999,
+          "end": 11371,
+          "ms": 372,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11007,
+          "end": 11371,
+          "ms": 364,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11384,
+          "end": 11703,
+          "ms": 319,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11390,
+          "end": 11703,
+          "ms": 313,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11715,
+          "end": 12010,
+          "ms": 295,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11707,
+          "end": 12010,
+          "ms": 303,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12023,
+          "end": 12359,
+          "ms": 336,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12024,
+          "end": 12359,
+          "ms": 335,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12372,
+          "end": 12692,
+          "ms": 320,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12374,
+          "end": 12692,
+          "ms": 318,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 13108,
+          "end": 13706,
+          "ms": 598,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 13112,
+          "end": 13735,
+          "ms": 623,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2774,
+          "end": 2898,
+          "ms": 124,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2900,
+          "end": 3026,
+          "ms": 126,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3028,
+          "end": 3355,
+          "ms": 327,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3698,
+          "end": 3805,
+          "ms": 107,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3841,
+          "end": 3942,
+          "ms": 101,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4046,
+          "end": 4239,
+          "ms": 193,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4046,
+          "end": 4239,
+          "ms": 193,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4287,
+          "end": 4638,
+          "ms": 351,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4287,
+          "end": 4639,
+          "ms": 352,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4686,
+          "end": 4902,
+          "ms": 216,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4686,
+          "end": 4902,
+          "ms": 216,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4950,
+          "end": 5151,
+          "ms": 201,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4950,
+          "end": 5151,
+          "ms": 201,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5199,
+          "end": 5383,
+          "ms": 184,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5199,
+          "end": 5383,
+          "ms": 184,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5431,
+          "end": 5769,
+          "ms": 338,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5431,
+          "end": 5769,
+          "ms": 338,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5818,
+          "end": 6176,
+          "ms": 358,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5818,
+          "end": 6176,
+          "ms": 358,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6223,
+          "end": 6564,
+          "ms": 341,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6223,
+          "end": 6564,
+          "ms": 341,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6612,
+          "end": 6914,
+          "ms": 302,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6612,
+          "end": 6914,
+          "ms": 302,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6960,
+          "end": 7316,
+          "ms": 356,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6960,
+          "end": 7317,
+          "ms": 357,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7364,
+          "end": 7699,
+          "ms": 335,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7364,
+          "end": 7699,
+          "ms": 335,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7744,
+          "end": 8019,
+          "ms": 275,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7744,
+          "end": 8019,
+          "ms": 275,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8069,
+          "end": 8208,
+          "ms": 139,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8069,
+          "end": 8208,
+          "ms": 139,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8256,
+          "end": 8529,
+          "ms": 273,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8256,
+          "end": 8529,
+          "ms": 273,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8578,
+          "end": 8743,
+          "ms": 165,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8578,
+          "end": 8743,
+          "ms": 165,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8795,
+          "end": 8945,
+          "ms": 150,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8795,
+          "end": 8945,
+          "ms": 150,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9003,
+          "end": 9145,
+          "ms": 142,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9003,
+          "end": 9145,
+          "ms": 142,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9202,
+          "end": 9473,
+          "ms": 271,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9202,
+          "end": 9473,
+          "ms": 271,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9524,
+          "end": 9807,
+          "ms": 283,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9524,
+          "end": 9808,
+          "ms": 284,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9870,
+          "end": 10201,
+          "ms": 331,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9870,
+          "end": 10201,
+          "ms": 331,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10258,
+          "end": 10557,
+          "ms": 299,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10258,
+          "end": 10557,
+          "ms": 299,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10617,
+          "end": 10965,
+          "ms": 348,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10617,
+          "end": 10965,
+          "ms": 348,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11022,
+          "end": 11348,
+          "ms": 326,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11022,
+          "end": 11348,
+          "ms": 326,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11406,
+          "end": 11678,
+          "ms": 272,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11406,
+          "end": 11678,
+          "ms": 272,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11737,
+          "end": 11986,
+          "ms": 249,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11737,
+          "end": 11986,
+          "ms": 249,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12046,
+          "end": 12338,
+          "ms": 292,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12046,
+          "end": 12338,
+          "ms": 292,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 12395,
+          "end": 12692,
+          "ms": 297,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 13216,
+          "end": 13347,
+          "ms": 131,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 29,
+      "batch": 1,
+      "round": 0,
+      "nonce": "sui1791221786742b1r0",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-1-sauna.png",
+          "sha256": "c8ddc48d6266b110f6122cdf4f2372e03a74bc281e837a65434081e8d7ade086"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-1-water.png",
+          "sha256": "a4b4fd58f2600e0cd716e3d083cf0e8a72be796c2ad550937c757881f5c81303"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-1-totonou.png",
+          "sha256": "a4b39a7b4b99b3b90f0269c91249c05109296baac791b3e12bd63b682f6c3f4c"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "10510",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "10901"
+      },
+      "steps": [
+        {
+          "start": 2935,
+          "drawMs": 1887,
+          "drainMs": 29,
+          "end": 4851,
+          "ms": 1916,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4872,
+          "drawMs": 19,
+          "drainMs": 11,
+          "end": 4902,
+          "ms": 30,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4923,
+          "drawMs": 643,
+          "drainMs": 11,
+          "end": 5577,
+          "ms": 654,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 5598,
+          "drawMs": 1043,
+          "drainMs": 12,
+          "end": 6653,
+          "ms": 1055,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 6674,
+          "drawMs": 1018,
+          "drainMs": 11,
+          "end": 7703,
+          "ms": 1029,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 7724,
+          "drawMs": 705,
+          "drainMs": 13,
+          "end": 8442,
+          "ms": 718,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 8464,
+          "drawMs": 487,
+          "drainMs": 20,
+          "end": 8971,
+          "ms": 507,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 8992,
+          "drawMs": 906,
+          "drainMs": 23,
+          "end": 9921,
+          "ms": 929,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 9942,
+          "drawMs": 988,
+          "drainMs": 23,
+          "end": 10953,
+          "ms": 1011,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 10974,
+          "drawMs": 838,
+          "drainMs": 20,
+          "end": 11832,
+          "ms": 858,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 11853,
+          "drawMs": 15,
+          "drainMs": 301,
+          "end": 12169,
+          "ms": 316,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        171,
+        1921,
+        664,
+        1064,
+        1038,
+        726,
+        519,
+        936,
+        1019,
+        868,
+        324,
+        650
+      ],
+      "events": [
+        {
+          "at": 4,
+          "phase": "before-entry"
+        },
+        {
+          "at": 352,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1692,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1727,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1745,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1790,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1887,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2935,
+          "phase": "first-view"
+        },
+        {
+          "at": 2935,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 12191,
+          "phase": "first-view"
+        },
+        {
+          "at": 12198,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 12201,
+          "phase": "body-ready"
+        },
+        {
+          "at": 12201,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 12217,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 12231,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 12261,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 12592,
+          "phase": "add-garden"
+        },
+        {
+          "at": 12592,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 12603,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 12898,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 13751,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 4,
+          "end": 298,
+          "ms": 294,
+          "phase": "before-entry"
+        },
+        {
+          "kind": "raf",
+          "start": 1764,
+          "end": 1935,
+          "ms": 171,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1764,
+          "end": 1935,
+          "ms": 171,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 2930,
+          "end": 4851,
+          "ms": 1921,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 2931,
+          "end": 4851,
+          "ms": 1920,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4913,
+          "end": 5577,
+          "ms": 664,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4916,
+          "end": 5578,
+          "ms": 662,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5589,
+          "end": 6653,
+          "ms": 1064,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5583,
+          "end": 6653,
+          "ms": 1070,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6665,
+          "end": 7703,
+          "ms": 1038,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6666,
+          "end": 7703,
+          "ms": 1037,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7717,
+          "end": 8443,
+          "ms": 726,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7717,
+          "end": 8443,
+          "ms": 726,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8453,
+          "end": 8972,
+          "ms": 519,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8451,
+          "end": 8972,
+          "ms": 521,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8985,
+          "end": 9921,
+          "ms": 936,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8984,
+          "end": 9921,
+          "ms": 937,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9934,
+          "end": 10953,
+          "ms": 1019,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9935,
+          "end": 10953,
+          "ms": 1018,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10965,
+          "end": 11833,
+          "ms": 868,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10969,
+          "end": 11833,
+          "ms": 864,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11845,
+          "end": 12169,
+          "ms": 324,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11852,
+          "end": 12169,
+          "ms": 317,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12592,
+          "end": 13242,
+          "ms": 650,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 12603,
+          "end": 13248,
+          "ms": 645,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 3078,
+          "end": 3204,
+          "ms": 126,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3205,
+          "end": 3333,
+          "ms": 128,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3335,
+          "end": 3665,
+          "ms": 330,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3666,
+          "end": 3848,
+          "ms": 182,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3666,
+          "end": 3848,
+          "ms": 182,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3849,
+          "end": 4211,
+          "ms": 362,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3849,
+          "end": 4211,
+          "ms": 362,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4572,
+          "end": 4683,
+          "ms": 111,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4720,
+          "end": 4822,
+          "ms": 102,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4926,
+          "end": 5156,
+          "ms": 230,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4926,
+          "end": 5156,
+          "ms": 230,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5158,
+          "end": 5367,
+          "ms": 209,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5158,
+          "end": 5367,
+          "ms": 209,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5369,
+          "end": 5555,
+          "ms": 186,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5369,
+          "end": 5555,
+          "ms": 186,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5605,
+          "end": 5944,
+          "ms": 339,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5605,
+          "end": 5944,
+          "ms": 339,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5945,
+          "end": 6299,
+          "ms": 354,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5945,
+          "end": 6299,
+          "ms": 354,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6300,
+          "end": 6632,
+          "ms": 332,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6300,
+          "end": 6632,
+          "ms": 332,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6681,
+          "end": 6988,
+          "ms": 307,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6681,
+          "end": 6988,
+          "ms": 307,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6988,
+          "end": 7341,
+          "ms": 353,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6988,
+          "end": 7342,
+          "ms": 354,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7343,
+          "end": 7683,
+          "ms": 340,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7343,
+          "end": 7683,
+          "ms": 340,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7731,
+          "end": 8001,
+          "ms": 270,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7731,
+          "end": 8001,
+          "ms": 270,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8001,
+          "end": 8146,
+          "ms": 145,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8001,
+          "end": 8146,
+          "ms": 145,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8147,
+          "end": 8421,
+          "ms": 274,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8147,
+          "end": 8421,
+          "ms": 274,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8472,
+          "end": 8644,
+          "ms": 172,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8472,
+          "end": 8645,
+          "ms": 173,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8646,
+          "end": 8801,
+          "ms": 155,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8646,
+          "end": 8801,
+          "ms": 155,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8804,
+          "end": 8948,
+          "ms": 144,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8804,
+          "end": 8948,
+          "ms": 144,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9006,
+          "end": 9277,
+          "ms": 271,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9006,
+          "end": 9277,
+          "ms": 271,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9277,
+          "end": 9568,
+          "ms": 291,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9277,
+          "end": 9568,
+          "ms": 291,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9569,
+          "end": 9895,
+          "ms": 326,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9569,
+          "end": 9896,
+          "ms": 327,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9957,
+          "end": 10256,
+          "ms": 299,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9957,
+          "end": 10256,
+          "ms": 299,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10257,
+          "end": 10604,
+          "ms": 347,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10257,
+          "end": 10604,
+          "ms": 347,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10605,
+          "end": 10928,
+          "ms": 323,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10605,
+          "end": 10928,
+          "ms": 323,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10990,
+          "end": 11260,
+          "ms": 270,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10990,
+          "end": 11261,
+          "ms": 271,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11261,
+          "end": 11512,
+          "ms": 251,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11261,
+          "end": 11512,
+          "ms": 251,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11512,
+          "end": 11811,
+          "ms": 299,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11512,
+          "end": 11811,
+          "ms": 299,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 11868,
+          "end": 12169,
+          "ms": 301,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 12766,
+          "end": 12893,
+          "ms": 127,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 31,
+      "batch": 3,
+      "round": 0,
+      "nonce": "sui1791221810551b3r0",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-3-sauna.png",
+          "sha256": "c8ddc48d6266b110f6122cdf4f2372e03a74bc281e837a65434081e8d7ade086"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-3-water.png",
+          "sha256": "a4b4fd58f2600e0cd716e3d083cf0e8a72be796c2ad550937c757881f5c81303"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-0-3-totonou.png",
+          "sha256": "a4b39a7b4b99b3b90f0269c91249c05109296baac791b3e12bd63b682f6c3f4c"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "10657",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "11043"
+      },
+      "steps": [
+        {
+          "start": 2668,
+          "drawMs": 1865,
+          "drainMs": 27,
+          "end": 4560,
+          "ms": 1892,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4582,
+          "drawMs": 16,
+          "drainMs": 10,
+          "end": 4608,
+          "ms": 26,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4629,
+          "drawMs": 663,
+          "drainMs": 10,
+          "end": 5302,
+          "ms": 673,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 5323,
+          "drawMs": 1072,
+          "drainMs": 16,
+          "end": 6411,
+          "ms": 1088,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 6432,
+          "drawMs": 1051,
+          "drainMs": 11,
+          "end": 7494,
+          "ms": 1062,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 7515,
+          "drawMs": 712,
+          "drainMs": 14,
+          "end": 8241,
+          "ms": 726,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 8262,
+          "drawMs": 487,
+          "drainMs": 20,
+          "end": 8769,
+          "ms": 507,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 8790,
+          "drawMs": 912,
+          "drainMs": 23,
+          "end": 9725,
+          "ms": 935,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 9746,
+          "drawMs": 1050,
+          "drainMs": 23,
+          "end": 10819,
+          "ms": 1073,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 10839,
+          "drawMs": 867,
+          "drainMs": 19,
+          "end": 11725,
+          "ms": 886,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 11746,
+          "drawMs": 16,
+          "drainMs": 286,
+          "end": 12048,
+          "ms": 302,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        175,
+        1897,
+        682,
+        1096,
+        1072,
+        734,
+        514,
+        942,
+        1083,
+        895,
+        310,
+        604
+      ],
+      "events": [
+        {
+          "at": 4,
+          "phase": "before-entry"
+        },
+        {
+          "at": 99,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1424,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1437,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1469,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1518,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1615,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2667,
+          "phase": "first-view"
+        },
+        {
+          "at": 2668,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 12070,
+          "phase": "first-view"
+        },
+        {
+          "at": 12078,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 12081,
+          "phase": "body-ready"
+        },
+        {
+          "at": 12082,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 12094,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 12109,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 12138,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 12467,
+          "phase": "add-garden"
+        },
+        {
+          "at": 12467,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 12475,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 12719,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 13580,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 1503,
+          "end": 1667,
+          "ms": 164,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1492,
+          "end": 1667,
+          "ms": 175,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 2664,
+          "end": 4561,
+          "ms": 1897,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 2652,
+          "end": 4561,
+          "ms": 1909,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4620,
+          "end": 5302,
+          "ms": 682,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4620,
+          "end": 5302,
+          "ms": 682,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5315,
+          "end": 6411,
+          "ms": 1096,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5320,
+          "end": 6411,
+          "ms": 1091,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6423,
+          "end": 7495,
+          "ms": 1072,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6420,
+          "end": 7495,
+          "ms": 1075,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7507,
+          "end": 8241,
+          "ms": 734,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7504,
+          "end": 8242,
+          "ms": 738,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8255,
+          "end": 8769,
+          "ms": 514,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8255,
+          "end": 8769,
+          "ms": 514,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8783,
+          "end": 9725,
+          "ms": 942,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8788,
+          "end": 9725,
+          "ms": 937,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9736,
+          "end": 10819,
+          "ms": 1083,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9739,
+          "end": 10819,
+          "ms": 1080,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10831,
+          "end": 11726,
+          "ms": 895,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10839,
+          "end": 11726,
+          "ms": 887,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11739,
+          "end": 12049,
+          "ms": 310,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11740,
+          "end": 12049,
+          "ms": 309,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12467,
+          "end": 13071,
+          "ms": 604,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 12475,
+          "end": 13076,
+          "ms": 601,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2793,
+          "end": 2924,
+          "ms": 131,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2925,
+          "end": 3057,
+          "ms": 132,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3059,
+          "end": 3399,
+          "ms": 340,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3400,
+          "end": 3584,
+          "ms": 184,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3400,
+          "end": 3584,
+          "ms": 184,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3585,
+          "end": 3934,
+          "ms": 349,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3585,
+          "end": 3934,
+          "ms": 349,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4285,
+          "end": 4396,
+          "ms": 111,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4431,
+          "end": 4533,
+          "ms": 102,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4632,
+          "end": 4864,
+          "ms": 232,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4632,
+          "end": 4864,
+          "ms": 232,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4865,
+          "end": 5078,
+          "ms": 213,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4865,
+          "end": 5078,
+          "ms": 213,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5081,
+          "end": 5279,
+          "ms": 198,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5081,
+          "end": 5279,
+          "ms": 198,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5329,
+          "end": 5685,
+          "ms": 356,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5329,
+          "end": 5685,
+          "ms": 356,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5686,
+          "end": 6053,
+          "ms": 367,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5686,
+          "end": 6053,
+          "ms": 367,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6054,
+          "end": 6384,
+          "ms": 330,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6054,
+          "end": 6384,
+          "ms": 330,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6439,
+          "end": 6754,
+          "ms": 315,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6439,
+          "end": 6754,
+          "ms": 315,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6754,
+          "end": 7129,
+          "ms": 375,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6754,
+          "end": 7129,
+          "ms": 375,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7131,
+          "end": 7474,
+          "ms": 343,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7131,
+          "end": 7475,
+          "ms": 344,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7523,
+          "end": 7795,
+          "ms": 272,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7523,
+          "end": 7795,
+          "ms": 272,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7795,
+          "end": 7936,
+          "ms": 141,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7795,
+          "end": 7936,
+          "ms": 141,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7936,
+          "end": 8220,
+          "ms": 284,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7936,
+          "end": 8220,
+          "ms": 284,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8270,
+          "end": 8440,
+          "ms": 170,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8270,
+          "end": 8440,
+          "ms": 170,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8442,
+          "end": 8596,
+          "ms": 154,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8442,
+          "end": 8596,
+          "ms": 154,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8600,
+          "end": 8746,
+          "ms": 146,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8600,
+          "end": 8746,
+          "ms": 146,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8803,
+          "end": 9075,
+          "ms": 272,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8803,
+          "end": 9075,
+          "ms": 272,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9076,
+          "end": 9363,
+          "ms": 287,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9076,
+          "end": 9363,
+          "ms": 287,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9364,
+          "end": 9699,
+          "ms": 335,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9364,
+          "end": 9699,
+          "ms": 335,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9762,
+          "end": 10084,
+          "ms": 322,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9762,
+          "end": 10084,
+          "ms": 322,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10085,
+          "end": 10454,
+          "ms": 369,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10085,
+          "end": 10454,
+          "ms": 369,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10455,
+          "end": 10795,
+          "ms": 340,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10455,
+          "end": 10795,
+          "ms": 340,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10856,
+          "end": 11141,
+          "ms": 285,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10856,
+          "end": 11141,
+          "ms": 285,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11141,
+          "end": 11402,
+          "ms": 261,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11141,
+          "end": 11402,
+          "ms": 261,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11403,
+          "end": 11706,
+          "ms": 303,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11403,
+          "end": 11706,
+          "ms": 303,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 11762,
+          "end": 12048,
+          "ms": 286,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 12580,
+          "end": 12715,
+          "ms": 135,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 31,
+      "batch": 3,
+      "round": 1,
+      "nonce": "sui1791221833836b3r1",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-3-sauna.png",
+          "sha256": "c8ddc48d6266b110f6122cdf4f2372e03a74bc281e837a65434081e8d7ade086"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-3-water.png",
+          "sha256": "a4b4fd58f2600e0cd716e3d083cf0e8a72be796c2ad550937c757881f5c81303"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-3-totonou.png",
+          "sha256": "a4b39a7b4b99b3b90f0269c91249c05109296baac791b3e12bd63b682f6c3f4c"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "11486",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "11864"
+      },
+      "steps": [
+        {
+          "start": 2887,
+          "drawMs": 1325,
+          "drainMs": 29,
+          "end": 4241,
+          "ms": 1354,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4262,
+          "drawMs": 18,
+          "drainMs": 11,
+          "end": 4291,
+          "ms": 29,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4311,
+          "drawMs": 200,
+          "drainMs": 11,
+          "end": 4522,
+          "ms": 211,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4543,
+          "drawMs": 369,
+          "drainMs": 11,
+          "end": 4923,
+          "ms": 380,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4944,
+          "drawMs": 241,
+          "drainMs": 8,
+          "end": 5193,
+          "ms": 249,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5214,
+          "drawMs": 226,
+          "drainMs": 10,
+          "end": 5450,
+          "ms": 236,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5471,
+          "drawMs": 211,
+          "drainMs": 11,
+          "end": 5693,
+          "ms": 222,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5714,
+          "drawMs": 352,
+          "drainMs": 10,
+          "end": 6076,
+          "ms": 362,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6097,
+          "drawMs": 387,
+          "drainMs": 11,
+          "end": 6495,
+          "ms": 398,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6516,
+          "drawMs": 373,
+          "drainMs": 11,
+          "end": 6900,
+          "ms": 384,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6920,
+          "drawMs": 336,
+          "drainMs": 11,
+          "end": 7267,
+          "ms": 347,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7287,
+          "drawMs": 374,
+          "drainMs": 13,
+          "end": 7674,
+          "ms": 387,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7694,
+          "drawMs": 362,
+          "drainMs": 11,
+          "end": 8067,
+          "ms": 373,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8088,
+          "drawMs": 301,
+          "drainMs": 13,
+          "end": 8402,
+          "ms": 314,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8423,
+          "drawMs": 163,
+          "drainMs": 13,
+          "end": 8599,
+          "ms": 176,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8620,
+          "drawMs": 309,
+          "drainMs": 13,
+          "end": 8942,
+          "ms": 322,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8963,
+          "drawMs": 181,
+          "drainMs": 15,
+          "end": 9159,
+          "ms": 196,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9180,
+          "drawMs": 173,
+          "drainMs": 21,
+          "end": 9374,
+          "ms": 194,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9395,
+          "drawMs": 167,
+          "drainMs": 18,
+          "end": 9580,
+          "ms": 185,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9602,
+          "drawMs": 290,
+          "drainMs": 19,
+          "end": 9911,
+          "ms": 309,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9932,
+          "drawMs": 309,
+          "drainMs": 17,
+          "end": 10258,
+          "ms": 326,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10280,
+          "drawMs": 344,
+          "drainMs": 21,
+          "end": 10645,
+          "ms": 365,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10666,
+          "drawMs": 319,
+          "drainMs": 23,
+          "end": 11008,
+          "ms": 342,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11029,
+          "drawMs": 388,
+          "drainMs": 23,
+          "end": 11440,
+          "ms": 411,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11461,
+          "drawMs": 340,
+          "drainMs": 24,
+          "end": 11825,
+          "ms": 364,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11847,
+          "drawMs": 282,
+          "drainMs": 24,
+          "end": 12153,
+          "ms": 306,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12173,
+          "drawMs": 263,
+          "drainMs": 18,
+          "end": 12454,
+          "ms": 281,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12475,
+          "drawMs": 304,
+          "drainMs": 20,
+          "end": 12799,
+          "ms": 324,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12820,
+          "drawMs": 15,
+          "drainMs": 289,
+          "end": 13124,
+          "ms": 304,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        166,
+        1360,
+        220,
+        389,
+        259,
+        245,
+        230,
+        371,
+        405,
+        394,
+        353,
+        396,
+        381,
+        324,
+        185,
+        333,
+        205,
+        204,
+        195,
+        318,
+        333,
+        375,
+        350,
+        418,
+        372,
+        315,
+        289,
+        333,
+        315,
+        585
+      ],
+      "events": [
+        {
+          "at": 4,
+          "phase": "before-entry"
+        },
+        {
+          "at": 336,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1670,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1680,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1701,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1746,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1840,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2887,
+          "phase": "first-view"
+        },
+        {
+          "at": 2887,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 13146,
+          "phase": "first-view"
+        },
+        {
+          "at": 13153,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 13156,
+          "phase": "body-ready"
+        },
+        {
+          "at": 13156,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 13169,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 13184,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 13213,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 13534,
+          "phase": "add-garden"
+        },
+        {
+          "at": 13534,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 13539,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 13781,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 14623,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 4,
+          "end": 282,
+          "ms": 278,
+          "phase": "before-entry"
+        },
+        {
+          "kind": "timer",
+          "start": 1720,
+          "end": 1886,
+          "ms": 166,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 1720,
+          "end": 1886,
+          "ms": 166,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 2882,
+          "end": 4242,
+          "ms": 1360,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 2883,
+          "end": 4242,
+          "ms": 1359,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4302,
+          "end": 4522,
+          "ms": 220,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4300,
+          "end": 4522,
+          "ms": 222,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4534,
+          "end": 4923,
+          "ms": 389,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4534,
+          "end": 4923,
+          "ms": 389,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4934,
+          "end": 5193,
+          "ms": 259,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4934,
+          "end": 5193,
+          "ms": 259,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5206,
+          "end": 5451,
+          "ms": 245,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5201,
+          "end": 5451,
+          "ms": 250,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5463,
+          "end": 5693,
+          "ms": 230,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5468,
+          "end": 5693,
+          "ms": 225,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5706,
+          "end": 6077,
+          "ms": 371,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5701,
+          "end": 6077,
+          "ms": 376,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6090,
+          "end": 6495,
+          "ms": 405,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6085,
+          "end": 6495,
+          "ms": 410,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6506,
+          "end": 6900,
+          "ms": 394,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6500,
+          "end": 6900,
+          "ms": 400,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6914,
+          "end": 7267,
+          "ms": 353,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6918,
+          "end": 7267,
+          "ms": 349,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7278,
+          "end": 7674,
+          "ms": 396,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7284,
+          "end": 7674,
+          "ms": 390,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7686,
+          "end": 8067,
+          "ms": 381,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7685,
+          "end": 8068,
+          "ms": 383,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8078,
+          "end": 8402,
+          "ms": 324,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8085,
+          "end": 8402,
+          "ms": 317,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8414,
+          "end": 8599,
+          "ms": 185,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8419,
+          "end": 8599,
+          "ms": 180,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8610,
+          "end": 8943,
+          "ms": 333,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8619,
+          "end": 8943,
+          "ms": 324,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8954,
+          "end": 9159,
+          "ms": 205,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8952,
+          "end": 9159,
+          "ms": 207,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9170,
+          "end": 9374,
+          "ms": 204,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9169,
+          "end": 9374,
+          "ms": 205,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9386,
+          "end": 9581,
+          "ms": 195,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9386,
+          "end": 9581,
+          "ms": 195,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9594,
+          "end": 9912,
+          "ms": 318,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9586,
+          "end": 9912,
+          "ms": 326,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9926,
+          "end": 10259,
+          "ms": 333,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9920,
+          "end": 10259,
+          "ms": 339,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10270,
+          "end": 10645,
+          "ms": 375,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10269,
+          "end": 10645,
+          "ms": 376,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10658,
+          "end": 11008,
+          "ms": 350,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10653,
+          "end": 11008,
+          "ms": 355,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11022,
+          "end": 11440,
+          "ms": 418,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11020,
+          "end": 11440,
+          "ms": 420,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11454,
+          "end": 11826,
+          "ms": 372,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11454,
+          "end": 11826,
+          "ms": 372,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11838,
+          "end": 12153,
+          "ms": 315,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11837,
+          "end": 12153,
+          "ms": 316,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12166,
+          "end": 12455,
+          "ms": 289,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12170,
+          "end": 12455,
+          "ms": 285,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12466,
+          "end": 12799,
+          "ms": 333,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12471,
+          "end": 12799,
+          "ms": 328,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12810,
+          "end": 13125,
+          "ms": 315,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12804,
+          "end": 13125,
+          "ms": 321,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 13534,
+          "end": 14119,
+          "ms": 585,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 13539,
+          "end": 14148,
+          "ms": 609,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 3022,
+          "end": 3146,
+          "ms": 124,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3147,
+          "end": 3279,
+          "ms": 132,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3281,
+          "end": 3615,
+          "ms": 334,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3966,
+          "end": 4077,
+          "ms": 111,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4313,
+          "end": 4495,
+          "ms": 182,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4313,
+          "end": 4495,
+          "ms": 182,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4545,
+          "end": 4898,
+          "ms": 353,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4545,
+          "end": 4898,
+          "ms": 353,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4946,
+          "end": 5171,
+          "ms": 225,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4946,
+          "end": 5171,
+          "ms": 225,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5217,
+          "end": 5426,
+          "ms": 209,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5217,
+          "end": 5426,
+          "ms": 209,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5477,
+          "end": 5671,
+          "ms": 194,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5477,
+          "end": 5671,
+          "ms": 194,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5719,
+          "end": 6055,
+          "ms": 336,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5719,
+          "end": 6055,
+          "ms": 336,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6103,
+          "end": 6475,
+          "ms": 372,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6103,
+          "end": 6475,
+          "ms": 372,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6522,
+          "end": 6873,
+          "ms": 351,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6522,
+          "end": 6874,
+          "ms": 352,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6927,
+          "end": 7247,
+          "ms": 320,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6927,
+          "end": 7247,
+          "ms": 320,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7294,
+          "end": 7652,
+          "ms": 358,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7294,
+          "end": 7652,
+          "ms": 358,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7702,
+          "end": 8046,
+          "ms": 344,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7702,
+          "end": 8046,
+          "ms": 344,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8095,
+          "end": 8379,
+          "ms": 284,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8095,
+          "end": 8379,
+          "ms": 284,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8430,
+          "end": 8577,
+          "ms": 147,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8430,
+          "end": 8578,
+          "ms": 148,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8628,
+          "end": 8921,
+          "ms": 293,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8628,
+          "end": 8921,
+          "ms": 293,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8970,
+          "end": 9138,
+          "ms": 168,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8970,
+          "end": 9138,
+          "ms": 168,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9188,
+          "end": 9345,
+          "ms": 157,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9188,
+          "end": 9346,
+          "ms": 158,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9408,
+          "end": 9559,
+          "ms": 151,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9408,
+          "end": 9559,
+          "ms": 151,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9613,
+          "end": 9889,
+          "ms": 276,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9613,
+          "end": 9889,
+          "ms": 276,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9947,
+          "end": 10238,
+          "ms": 291,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9947,
+          "end": 10238,
+          "ms": 291,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10293,
+          "end": 10622,
+          "ms": 329,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10293,
+          "end": 10622,
+          "ms": 329,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10679,
+          "end": 10983,
+          "ms": 304,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10679,
+          "end": 10983,
+          "ms": 304,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11044,
+          "end": 11414,
+          "ms": 370,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11044,
+          "end": 11414,
+          "ms": 370,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11475,
+          "end": 11800,
+          "ms": 325,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11475,
+          "end": 11800,
+          "ms": 325,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11861,
+          "end": 12128,
+          "ms": 267,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11861,
+          "end": 12128,
+          "ms": 267,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12188,
+          "end": 12436,
+          "ms": 248,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12188,
+          "end": 12436,
+          "ms": 248,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12490,
+          "end": 12779,
+          "ms": 289,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12490,
+          "end": 12779,
+          "ms": 289,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 12835,
+          "end": 13124,
+          "ms": 289,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 13645,
+          "end": 13777,
+          "ms": 132,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 29,
+      "batch": 1,
+      "round": 1,
+      "nonce": "sui1791221856927b1r1",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-1-sauna.png",
+          "sha256": "c8ddc48d6266b110f6122cdf4f2372e03a74bc281e837a65434081e8d7ade086"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-1-water.png",
+          "sha256": "a4b4fd58f2600e0cd716e3d083cf0e8a72be796c2ad550937c757881f5c81303"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-1-totonou.png",
+          "sha256": "a4b39a7b4b99b3b90f0269c91249c05109296baac791b3e12bd63b682f6c3f4c"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "stage": "sauna",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "10006",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "33",
+        "geometries": "119",
+        "gardenMs": "10442"
+      },
+      "steps": [],
+      "gaps": [
+        168,
+        8782,
+        589
+      ],
+      "events": [
+        {
+          "at": 4,
+          "phase": "before-entry"
+        },
+        {
+          "at": 96,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1424,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1437,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1472,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1521,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1616,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2663,
+          "phase": "first-view"
+        },
+        {
+          "at": 11424,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 11429,
+          "phase": "body-ready"
+        },
+        {
+          "at": 11430,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 11463,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 11479,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 11508,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 11865,
+          "phase": "add-garden"
+        },
+        {
+          "at": 11865,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 11865,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 12104,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 12958,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "timer",
+          "start": 1495,
+          "end": 1663,
+          "ms": 168,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 1496,
+          "end": 1663,
+          "ms": 167,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 2661,
+          "end": 11443,
+          "ms": 8782,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "raf",
+          "start": 2661,
+          "end": 11443,
+          "ms": 8782,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "timer",
+          "start": 11865,
+          "end": 12454,
+          "ms": 589,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 11865,
+          "end": 12479,
+          "ms": 614,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2788,
+          "end": 2909,
+          "ms": 121,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2911,
+          "end": 3036,
+          "ms": 125,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3038,
+          "end": 3380,
+          "ms": 342,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3381,
+          "end": 3567,
+          "ms": 186,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3568,
+          "end": 3929,
+          "ms": 361,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3930,
+          "end": 4161,
+          "ms": 231,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4169,
+          "end": 4372,
+          "ms": 203,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4373,
+          "end": 4565,
+          "ms": 192,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4576,
+          "end": 4925,
+          "ms": 349,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4937,
+          "end": 5314,
+          "ms": 377,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5320,
+          "end": 5651,
+          "ms": 331,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5652,
+          "end": 5958,
+          "ms": 306,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5959,
+          "end": 6318,
+          "ms": 359,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6319,
+          "end": 6650,
+          "ms": 331,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6765,
+          "end": 8562,
+          "ms": 1797,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 8582,
+          "end": 8941,
+          "ms": 359,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 8942,
+          "end": 9262,
+          "ms": 320,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9263,
+          "end": 9617,
+          "ms": 354,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9619,
+          "end": 11100,
+          "ms": 1481,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11178,
+          "end": 11285,
+          "ms": 107,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11321,
+          "end": 11424,
+          "ms": 103,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11968,
+          "end": 12099,
+          "ms": 131,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 0,
+      "batch": 0,
+      "round": 1,
+      "nonce": "sui1791221881064b0r1",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-0-sauna.png",
+          "sha256": "c8ddc48d6266b110f6122cdf4f2372e03a74bc281e837a65434081e8d7ade086"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-0-water.png",
+          "sha256": "a4b4fd58f2600e0cd716e3d083cf0e8a72be796c2ad550937c757881f5c81303"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/webkit-1-0-totonou.png",
+          "sha256": "a4b39a7b4b99b3b90f0269c91249c05109296baac791b3e12bd63b682f6c3f4c"
+        }
+      ]
+    }
+  ]
+}

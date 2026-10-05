@@ -1,0 +1,5107 @@
+{
+  "schema": 2,
+  "engine": "cft",
+  "version": "153.0.8010.12",
+  "revision": "a3ab1b2db198ed3c77f44bb4f38a993a06b7a228",
+  "inputs": {
+    "public/models/CREDITS.md": "c2ea788205936aba0fc2009bc20d83053531e89216a521986f98addbbd57cdb4",
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+    "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+    "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+    "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+    "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+    "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+    "src/App.tsx": "30ddc4d1bd220b92f02baf192d42a08e69678ffef2fabb23bfaedcd5d5d32c1b",
+    "src/components/3d/CLAUDE.md": "53d7e5ec4956937d95c637c0305bf860b7624691940198a30e4e9f1ff9a33149",
+    "src/components/3d/SaunaScene.test.tsx": "4784b937bc463cc895eb62cb71b16c7ab759f4ce597a26c1a481356a0ccf8033",
+    "src/components/3d/SaunaScene.tsx": "c691130cf071c394660da07307e2c4e8633bc2531170aec6264860463e719cf0",
+    "src/components/3d/agx.test.ts": "8780f2c3f0ed088f4d10b86e4c62ecd1291657df89667e3ee98ae191f5ee7aa7",
+    "src/components/3d/agx.ts": "e61f358b008dbe6cd1a4606545fe66ea87e18fe21b572d462990fa48ee411dbc",
+    "src/components/3d/caustics.test.ts": "2c13c16139e45fe69a58d7895f2f420611bf0e1f4034431fa130cdd84ffa4308",
+    "src/components/3d/caustics.ts": "97a63fe23a116b258d43141bba0a4df8d188f386500d2dd8c394fe4d82b8c62f",
+    "src/components/3d/depthPrepass.test.ts": "4c7af6b71a6da42c0a8202828fdce101920a1fc7f103e8a6028899262f3427c7",
+    "src/components/3d/depthPrepass.ts": "519cff11b7ac8a5c149cfe88a5e0e9004770ada603d8873232e9fcc50bee4c76",
+    "src/components/3d/dynamicResolution.test.ts": "8caf048e9bc54eae84d3d23d593a6807f160c69db44d9a5e372d70b46555c576",
+    "src/components/3d/dynamicResolution.ts": "358b4bd82e57ba85a02bb6fc67a26829f8a9bf72d2a77e5da7c64d8c72f57a89",
+    "src/components/3d/foliage.test.ts": "95214e59bfc9cf55fcfa228fa8f05e9c725ce08472939776ccb2ab26a822834e",
+    "src/components/3d/foliage.ts": "d900a695228c8788d37904f5ad54b9770bd4f33e8cf225f312739872ab35b1fe",
+    "src/components/3d/frameMetrics.test.ts": "23e9f51b43e7ffdc2bbd0e2515c7b0dc3dcb417a5626f619803eebaa7e52672a",
+    "src/components/3d/frameMetrics.ts": "7c6dfe830edca2e16ebd7594ef337c1fea1ecc06418b2997b4c4cad44c0037d7",
+    "src/components/3d/frameRate.test.ts": "25da8673d70cfbcb25884e7f7ff31c919483a67028a8a5377fd56e7d0ed04ad5",
+    "src/components/3d/frameRate.ts": "9d1913989f063e90b0550de6f6343dd5cfeebe822462d58e9e1e70ab9be771d3",
+    "src/components/3d/glass.test.ts": "66d3ba120c78a563605e65cb8872279c416741263e2451598eaab9d5017ac326",
+    "src/components/3d/glass.ts": "0f25307535afc84c232bab02ff58ed54cb4ba7ab6245a887f57957dd3284fe7d",
+    "src/components/3d/glossyLights.test.ts": "5d115fa8ddea526b4ca8e22d296368e95c92bcb2c47cae58c2a37158f130f7e0",
+    "src/components/3d/glossyLights.ts": "ed2def38dc5738b66875bcf87f22127fec7d2f1f3fd45cb0e8899d6217e4e6b4",
+    "src/components/3d/hdrOutput.test.ts": "7d8d1525cd1e5b10829fc73966a24035966faf5ed606c58b1fc1ea4b0da6fef8",
+    "src/components/3d/hdrOutput.ts": "23e7de0702bb2221d2cb1750a07975dbcd4fef221c6913dd1c527dde4c4f3b93",
+    "src/components/3d/imageRamp.test.ts": "01adff6b84743286f130b88fdffe7acc41a8bf08381291725a780647debe9cb9",
+    "src/components/3d/imageRamp.ts": "199bcf80e5ef50f32e8643bb2f6faead7fa68dd07fee5dc59c7cc7e19ac31a67",
+    "src/components/3d/interiorLights.test.ts": "0fb524e625932783f778596376b33989ed93cbcea291828db9a05572bcf23c21",
+    "src/components/3d/interiorLights.ts": "9aecde3c881e1c3f7379903c0e973cecfa698a2cb7d66e86595788131398a2f6",
+    "src/components/3d/irradiance.test.ts": "e4a18af490077419730c87b85efbfabeea1dfbf7a8c498ca46d742599f0b5e03",
+    "src/components/3d/irradiance.ts": "62291f44da9d647c45565f971ed01880fafb03860957cbf130e35113345ede48",
+    "src/components/3d/leafCluster.test.ts": "a724fe1f37204399ad040e39747e338dfc0cb6d13e6e41ce27937fc94d7c43cc",
+    "src/components/3d/leafCluster.ts": "31581aff8bd4648a4afcaaf934471189e98ef6279568f156f908a50180dd1c44",
+    "src/components/3d/lighting.test.ts": "1ccfcfff1b2914d58c754cdf5a72bbcb81841c2b63e9f8114cca65b4e4af2f5c",
+    "src/components/3d/lighting.ts": "43801bb0664cc82a5c9a5ec21826b3931982cbca6bfb3847d57698b672623f56",
+    "src/components/3d/lookControls.test.ts": "c393f11214417668c4493b01a616b6f17286572d7c7870d29107e3b61ae44d9b",
+    "src/components/3d/lookControls.ts": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+    "src/components/3d/modelMaterials.test.ts": "71f15381d130e07d80202dd2bd0fca0a40082389e0d6eea18b10a7147f14e2b0",
+    "src/components/3d/modelMaterials.ts": "09eac5e56fe11a5012ad39f1d49ac286843929897b12be1234d8ab7d02c46686",
+    "src/components/3d/noiseColor.test.ts": "7357fb3452ff12d7569c03727b06ee21b4996b9fd195faa658001b2cf58e5ab6",
+    "src/components/3d/noiseColor.ts": "c6bb54719bff5dd7bdcf222f31b7a6a5273016c91556416d20b6e747ff7f9dec",
+    "src/components/3d/planarReflection.test.ts": "33c23c09c3b887d10309dd6a56d3198b1f588cbccdd838f46b5b9becef78c6c2",
+    "src/components/3d/planarReflection.ts": "276d7f8af63c73dbda384048013fa5b5f2d80a08a1e1d101de75a739deffd839",
+    "src/components/3d/quality.ts": "74fd9de704f252220831238197ad50c998fd110e8f02d91dd740a81676b292fd",
+    "src/components/3d/reflection.test.ts": "baf808025fb752790297f745b1fc31ddbde90143d3b880cf7b1bd0bdeec2e128",
+    "src/components/3d/reflection.ts": "a65f2592dda0bf63081d17732fdfe1cd9ddd98164938cb17340bb2232bf81dc1",
+    "src/components/3d/refraction.test.ts": "0c0ea7e75dd86a52e37ec20c1a4c4881af2fbdf04f477f3260a02eab9d04c92e",
+    "src/components/3d/refraction.ts": "e2eb276ba24d908b47537af53f1092dbaf388dd528edecb0659fa4f34b31e3de",
+    "src/components/3d/sceneAssets.ts": "5fa93faa482c1bd611337547dbb998d83302e78cbf2b6af106db858e1e48defc",
+    "src/components/3d/shadowMask.test.ts": "99785297c98b5c456ed4d79da7500a9759f6070908a70ccd7f4abd9144387183",
+    "src/components/3d/shadowMask.ts": "9e218cc6bbfe555c8f15403d2b0bae94fe8f6d5171b59cf43e483849a151d781",
+    "src/components/3d/sky.json": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d",
+    "src/components/3d/sky.test.ts": "983f70836ac9897a2a17850b56412bdc0bbd2e11835e45595aa3adcb04da5cf8",
+    "src/components/3d/sky.ts": "5f914681bd67cbd17930b8ad19f7906039613b2aed41baeeb546147fc438a108",
+    "src/components/3d/softShadows.test.ts": "c97516a7b770ef6d39cc5e73469df838dbce655f5a198fcf7169fd28931e8aa7",
+    "src/components/3d/softShadows.ts": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+    "src/components/3d/steam.test.ts": "0b34f7c8d6a4e18c101f962b3f435bada9cddc2a016af21c8851f840ea4767d4",
+    "src/components/3d/steam.ts": "299ff59d9f1b9cb454b34fed24a0d1914a7f9d920b3f1378618272861af93a0f",
+    "src/components/3d/temporalAA.test.ts": "b0d60bc5c5c439581ced7d260e6631f25a26f91fbe741d6666679fd44b1434c3",
+    "src/components/3d/temporalAA.ts": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+    "src/components/3d/waterBottom.test.ts": "8e000934cbb3504e8708a6bf76d7e392f08cb15f3f4912b8bb4e280d985c6031",
+    "src/components/3d/waterBottom.ts": "b4a6bce0c8a64d16b96cd63100ae98af20c8d4d1c25e615defd15ac20dd5136b",
+    "src/components/3d/waterEffects.test.ts": "c8dd8bbae528de9c45988775732b4a847aed1b9387f85e8876edbd09c2b51b3c",
+    "src/components/3d/waterEffects.ts": "81ec8d295bb03b997d464380133e9d99a285e57325e220bcbeea653c2ef3b4bc",
+    "src/components/ActionIcon.tsx": "dbc6a941ac1e585574b083559fd8dbd7c6d2b9e1b5df0d8c4be6fa9e460c8c30",
+    "src/components/CLAUDE.md": "230084b498d035b205de7232532d057c903f27e35363446710f323ba315032d2",
+    "src/components/ControlButtons.tsx": "5224984ba7b9a8887221fadd50ebd9047ce985e52ac1b22e7e1871d7b7382174",
+    "src/components/CoolingBath.test.tsx": "523283eddfdabf46411f823a3f057d29f0a578786ef2a2f0fe7208c01139ff9c",
+    "src/components/CoolingBath.tsx": "79a92ada91239eb1dec78e350c18bb374c34bd2594740ca4a0928a519ad0695d",
+    "src/components/FirstVisitGuide.tsx": "f8452da57ddb772c70a285d1a9d647d2c507be0e1bbd4c2d1c72eecf2815fd4c",
+    "src/components/HeartRateRow.tsx": "a752226f0b50575ef5a7f22be2f84397c0ef21cfca4deb840e5abb07fc5fd1b2",
+    "src/components/SaunaRoom.test.tsx": "a92d875a84d00de6bd3c2ba31c695ecb2954439cf6d3286c2ee3eaa5d23abe28",
+    "src/components/SaunaRoom.tsx": "aa43c2142a24011340987b7fdb5ed8ef15f8afcf23e6820df6a5a344b610d5b1",
+    "src/components/SceneMode.test.tsx": "b370d6d24b03a88299438c5a69019947307b6529fbbe88215bede878fe9aba5b",
+    "src/components/SceneMode.tsx": "7d889f861a1ad31c79287be8ad6d7307fa5355052f0d12084d503e612d18332a",
+    "src/components/ScoreHistory.tsx": "8a143b9fbe167d55b279165acb91140e138a188ebefad9786a1de9df8409fd91",
+    "src/components/SoundControl.tsx": "461aead66b4e80eced7ef710ac8261e91050aa46ad58816fec394dbbcea73460",
+    "src/components/StageDock.tsx": "a5d9e63926d53c2fe2232e38e85d5d9111fbbb3c9d8271d66c9b7e45b7b7909f",
+    "src/components/StageStep.tsx": "57f9c8475481b41314278ca356c01c4654329e19c674f92586602faf45158177",
+    "src/components/StayTimer.tsx": "363075c30ea3ee9d90566556c2f953718a1a9ac1fd091836485bccca7e5110a0",
+    "src/components/TotonouSpace.test.tsx": "2a86c79a5d812de10855d43350c5053ac31d61bc0a2796b26973d9b45cbc33cf",
+    "src/components/TotonouSpace.tsx": "e2d00328ca5e8191015e9454233e276465047d0acf3f5aabf376e71f1c3995c1",
+    "src/context/SaunaContext.test.tsx": "6a837bc27abb35a5893f55c74a24c16f22bfddeeed8cf9b6d75bed44dc0a5a0f",
+    "src/context/SaunaContext.tsx": "6af7ba57390729b1db7bdd78db12d3a49b2b7c95ef43878264f543b35f18c8b7",
+    "src/hooks/audioWorker.test.ts": "5b17aec44f3aa83cffb128fa6c92b807f4128c33990a642abbe41dd8890dfe21",
+    "src/hooks/audioWorker.ts": "3f32cf782e44d4a57e29145d2c225a18d38c49a4d460237152a92bcb6ba70364",
+    "src/hooks/noiseWorkerClient.ts": "b29e47ae1a4a783a6c092171f1dbd54c3d7389180671520f306f6ae50f7139ad",
+    "src/hooks/spatialAudio.test.ts": "8054a52bac4e39a4aea5fe5d37dbb3861e64719cad462389694c439f319ff6b3",
+    "src/hooks/spatialAudio.ts": "01f402fc74f624f72319da070f93f442e627f0facb7b2267076f29bbee6c0b45",
+    "src/hooks/useAudioEngine.bench.test.ts": "615cfd1f3866253f1655519cc8137c144b09248d31ffd74175abaf13d18155af",
+    "src/hooks/useAudioEngine.test.ts": "6afeb139bf79cc48ffad1521868b0386c13ff0b03fca4483d3e5644f055d34cc",
+    "src/hooks/useAudioEngine.ts": "0a2a00e4f2089f51a2cd763198e37cb53342eb953eba55a0da9311efcf9462fe",
+    "src/hooks/useDismissibleDetails.ts": "500a5744af10ebcac03be06cc6704b45d48170da7d00b7f2a30238666d5320b1",
+    "src/hooks/useFullscreen.ts": "5655b65b2368d685a2c84f89fea24208860e63e35cbc3933f315f53b5ceb4e49",
+    "src/hooks/useKeyboardShortcut.test.tsx": "99ce619df8e55c60a9e5cb4b68b781b8e92dff6c16adfcf9d4f69ecb2fd8e71c",
+    "src/hooks/useKeyboardShortcut.ts": "cb425de95e113936e2d465b75d7917259e71607f50e02182336e57ebdafc7e02",
+    "src/hooks/useSaunaSession.ts": "57d62e4c170fd2913056a02b2c43bf299731857528a63d23ee2e5500a69cc587",
+    "src/hooks/useSecondTicker.test.ts": "0aa971b4661a0d85c5ef1602bc9de94f6fbd39509ec1d50101a459e5db30f2b4",
+    "src/hooks/useSecondTicker.ts": "f8025f6d0eea34af6789a27fadf9f8f674332482fe72e9da94498c2a53f33084",
+    "src/index.css": "5d42aadb20468ac68a03b4250ff8ad5f87ac2449b86d471ee7cfd9c6117cf1fb",
+    "src/main.tsx": "1d140ae9171833a16ea61473f0377b24217a2b7306b20765afb614e067df2fb5",
+    "src/tests/App.test.tsx": "3b97929c25fa1afef59c0829ff120d65ffa402c4184bcbfa829463e4d2f1cfbb",
+    "src/utils/preferences.test.ts": "1a721a46f2539cb350e2190f624dd819e7c9a2e70e790a23458f3c56fa32c98c",
+    "src/utils/preferences.ts": "97cfa8ea91bc2810b37ce465a748eba7728cb2eba2f73aede474df958e94275d",
+    "src/utils/saunaUtils.test.ts": "b74932183e3cc6c7e895905fabbd6382b6f38e872ec444cbeaf79ed5d9ec6814",
+    "src/utils/saunaUtils.ts": "9f52cb6e24bbae603a2844f91adc60054043ad1ba1b3b0753bd106ebf02dc93e",
+    "src/utils/scoreColor.ts": "5b8a19f70aff2445f57876073a102d3377d37852fa611b79caa1614221491237",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  "repeat": 2,
+  "sizes": [
+    0,
+    1,
+    3
+  ],
+  "scratch": "/var/folders/z3/fwnx8wdx2td2l2lc_cpwqzy40000gn/T/sui-compile-batches-cmD36H",
+  "source": "c691130cf071c394660da07307e2c4e8633bc2531170aec6264860463e719cf0",
+  "script": "7d60912d4fefdd416f2449796de2b80ef80c247bee6e9ba0b0fd95fc47b6ed4b",
+  "temporarySource": "18ebe9d32b06e08cd8e0fc9ce51832484b4cb38ea6ac43e9eaf390d762967368",
+  "note": "Fresh zero-valued output uniform per run; no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only; instrumented, not product timings.",
+  "rows": [
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "stage": "sauna",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "9920",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "33",
+        "geometries": "119",
+        "gardenMs": "10312"
+      },
+      "steps": [],
+      "gaps": [
+        225.8999999910593,
+        190.1000000089407,
+        8684.70000000298,
+        239.6000000089407
+      ],
+      "events": [
+        {
+          "at": 7.299999997019768,
+          "phase": "before-entry"
+        },
+        {
+          "at": 101.20000000298023,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1448.7000000029802,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1461.2000000029802,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1474.2000000029802,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1500.4000000059605,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1606.5999999940395,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2689.2000000029802,
+          "phase": "first-view"
+        },
+        {
+          "at": 11364.40000000596,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 11368.79999999702,
+          "phase": "body-ready"
+        },
+        {
+          "at": 11368.90000000596,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 11390.5,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 11402.90000000596,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 11444.09999999404,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 11759.79999999702,
+          "phase": "add-garden"
+        },
+        {
+          "at": 11760,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 11763,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 11994.90000000596,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 12503.29999999702,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 96.09999999403954,
+          "end": 321.79999999701977,
+          "ms": 225.70000000298023,
+          "phase": "entry-click"
+        },
+        {
+          "kind": "timer",
+          "start": 98.70000000298023,
+          "end": 324.59999999403954,
+          "ms": 225.8999999910593,
+          "phase": "entry-click"
+        },
+        {
+          "kind": "raf",
+          "start": 1491.0999999940395,
+          "end": 1681.0999999940395,
+          "ms": 190,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1491.0999999940395,
+          "end": 1681.2000000029802,
+          "ms": 190.1000000089407,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 2679.2999999970198,
+          "end": 11369.20000000298,
+          "ms": 8689.90000000596,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "timer",
+          "start": 2689.2000000029802,
+          "end": 11373.90000000596,
+          "ms": 8684.70000000298,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "raf",
+          "start": 11762.90000000596,
+          "end": 11995.90000000596,
+          "ms": 233,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "timer",
+          "start": 11759.79999999702,
+          "end": 11999.40000000596,
+          "ms": 239.6000000089407,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 12029.70000000298,
+          "end": 12330.5,
+          "ms": 300.79999999701977,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2831.5999999940395,
+          "end": 2968.7999999970198,
+          "ms": 137.20000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2969.7999999970198,
+          "end": 3104.5,
+          "ms": 134.70000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3105.9000000059605,
+          "end": 3464,
+          "ms": 358.09999999403954,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3465.2000000029802,
+          "end": 3658.4000000059605,
+          "ms": 193.20000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3659.2999999970198,
+          "end": 4010.9000000059605,
+          "ms": 351.6000000089407,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4012.0999999940395,
+          "end": 4230.9000000059605,
+          "ms": 218.80000001192093,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4233.70000000298,
+          "end": 4575.79999999702,
+          "ms": 342.09999999403954,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4576.5999999940395,
+          "end": 4784.0999999940395,
+          "ms": 207.5,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4789.5,
+          "end": 5167.79999999702,
+          "ms": 378.29999999701977,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5168.5999999940395,
+          "end": 5363.79999999702,
+          "ms": 195.20000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5370.9000000059605,
+          "end": 5713.70000000298,
+          "ms": 342.79999999701977,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5714.29999999702,
+          "end": 6028.79999999702,
+          "ms": 314.5,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6029.79999999702,
+          "end": 6382.9000000059605,
+          "ms": 353.1000000089407,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6383.79999999702,
+          "end": 6709.4000000059605,
+          "ms": 325.6000000089407,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6827.4000000059605,
+          "end": 8568.40000000596,
+          "ms": 1741,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 8589.40000000596,
+          "end": 8930.40000000596,
+          "ms": 341,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 8931.20000000298,
+          "end": 9234.90000000596,
+          "ms": 303.70000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9235.90000000596,
+          "end": 9591.09999999404,
+          "ms": 355.19999998807907,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9592.20000000298,
+          "end": 11041.70000000298,
+          "ms": 1449.5,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11123.70000000298,
+          "end": 11231.29999999702,
+          "ms": 107.59999999403954,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11865.29999999702,
+          "end": 11990.5,
+          "ms": 125.20000000298023,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 0,
+      "batch": 0,
+      "round": 0,
+      "nonce": "sui1791221595268b0r0",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-0-sauna.png",
+          "sha256": "9ea90034fa8a89d5babf1094e91b4ef23fd27a49b250f88eef8af3e36b03f851"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-0-water.png",
+          "sha256": "90f0ffd6a0680990f1d6d6b7e16820c318d3531ae59af0c4f71630a8f1429311"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-0-totonou.png",
+          "sha256": "73056e3d813cc6dbb19b107b3d8d3876fce9ab9bb4a6bb5f235bf3c030b69b43"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "12355",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "12746"
+      },
+      "steps": [
+        {
+          "start": 2722.9000000059605,
+          "drawMs": 1304.7999999970198,
+          "drainMs": 20,
+          "end": 4047.7000000029802,
+          "ms": 1324.7999999970198,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4068.9000000059605,
+          "drawMs": 54.5,
+          "drainMs": 10.5,
+          "end": 4133.9000000059605,
+          "ms": 65,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4155.70000000298,
+          "drawMs": 234.59999999403954,
+          "drainMs": 10.299999997019768,
+          "end": 4400.5999999940395,
+          "ms": 244.8999999910593,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4421.79999999702,
+          "drawMs": 394.1000000089407,
+          "drainMs": 10.199999988079071,
+          "end": 4826.0999999940395,
+          "ms": 404.29999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4846.29999999702,
+          "drawMs": 275.90000000596046,
+          "drainMs": 9.899999991059303,
+          "end": 5132.0999999940395,
+          "ms": 285.79999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5153.79999999702,
+          "drawMs": 248,
+          "drainMs": 10.600000008940697,
+          "end": 5412.4000000059605,
+          "ms": 258.6000000089407,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5433.29999999702,
+          "drawMs": 400.29999999701977,
+          "drainMs": 11.300000011920929,
+          "end": 5844.9000000059605,
+          "ms": 411.6000000089407,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5865.5999999940395,
+          "drawMs": 431,
+          "drainMs": 11.400000005960464,
+          "end": 6308,
+          "ms": 442.40000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6328.70000000298,
+          "drawMs": 249.09999999403954,
+          "drainMs": 11.299999997019768,
+          "end": 6589.0999999940395,
+          "ms": 260.3999999910593,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6610.4000000059605,
+          "drawMs": 371.79999999701977,
+          "drainMs": 11.299999997019768,
+          "end": 6993.5,
+          "ms": 383.09999999403954,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7013.70000000298,
+          "drawMs": 351.29999999701977,
+          "drainMs": 11,
+          "end": 7376,
+          "ms": 362.29999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7396.9000000059605,
+          "drawMs": 409.8999999910593,
+          "drainMs": 11.100000008940697,
+          "end": 7817.9000000059605,
+          "ms": 421,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7838.29999999702,
+          "drawMs": 399.70000000298023,
+          "drainMs": 11.200000002980232,
+          "end": 8249.20000000298,
+          "ms": 410.90000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8270.09999999404,
+          "drawMs": 316.80000001192093,
+          "drainMs": 13.199999988079071,
+          "end": 8600.09999999404,
+          "ms": 330,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8621.20000000298,
+          "drawMs": 190.3999999910593,
+          "drainMs": 12.300000011920929,
+          "end": 8823.90000000596,
+          "ms": 202.70000000298023,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8845.59999999404,
+          "drawMs": 323.90000000596046,
+          "drainMs": 12.900000005960464,
+          "end": 9182.40000000596,
+          "ms": 336.80000001192093,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9203.40000000596,
+          "drawMs": 217.59999999403954,
+          "drainMs": 15,
+          "end": 9436,
+          "ms": 232.59999999403954,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9457.70000000298,
+          "drawMs": 202.29999999701977,
+          "drainMs": 20.700000002980232,
+          "end": 9680.70000000298,
+          "ms": 223,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9701.40000000596,
+          "drawMs": 326.79999999701977,
+          "drainMs": 21.299999997019768,
+          "end": 10049.5,
+          "ms": 348.09999999403954,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10070.40000000596,
+          "drawMs": 333.5,
+          "drainMs": 22.599999994039536,
+          "end": 10426.5,
+          "ms": 356.09999999403954,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10447.20000000298,
+          "drawMs": 194,
+          "drainMs": 22.799999997019768,
+          "end": 10664,
+          "ms": 216.79999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10684.59999999404,
+          "drawMs": 380.5,
+          "drainMs": 20.600000008940697,
+          "end": 11085.70000000298,
+          "ms": 401.1000000089407,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11107,
+          "drawMs": 363.20000000298023,
+          "drainMs": 19.099999994039536,
+          "end": 11489.29999999702,
+          "ms": 382.29999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11509.70000000298,
+          "drawMs": 401.79999999701977,
+          "drainMs": 17.599999994039536,
+          "end": 11929.09999999404,
+          "ms": 419.3999999910593,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11949.90000000596,
+          "drawMs": 370.29999999701977,
+          "drainMs": 22.5,
+          "end": 12342.70000000298,
+          "ms": 392.79999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12363.5,
+          "drawMs": 329.70000000298023,
+          "drainMs": 23.299999997019768,
+          "end": 12716.5,
+          "ms": 353,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12738.09999999404,
+          "drawMs": 294.90000000596046,
+          "drainMs": 21.299999997019768,
+          "end": 13054.29999999702,
+          "ms": 316.20000000298023,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 13075.79999999702,
+          "drawMs": 335.20000000298023,
+          "drainMs": 25.799999997019768,
+          "end": 13436.79999999702,
+          "ms": 361,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 13457.90000000596,
+          "drawMs": 52,
+          "drainMs": 284.3999999910593,
+          "end": 13794.29999999702,
+          "ms": 336.3999999910593,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        198.20000000298023,
+        1330.5,
+        253.40000000596046,
+        409.29999999701977,
+        293.70000000298023,
+        266,
+        416.59999999403954,
+        450.5,
+        261.70000000298023,
+        385.80000001192093,
+        368.09999999403954,
+        430.6000000089407,
+        411.1000000089407,
+        332.90000000596046,
+        206,
+        344,
+        239,
+        233.30000001192093,
+        352.70000000298023,
+        358.90000000596046,
+        226.3999999910593,
+        407.5,
+        392.5,
+        421.09999999403954,
+        395.30000001192093,
+        358.70000000298023,
+        326.3999999910593,
+        369.3999999910593,
+        336.59999999403954,
+        236
+      ],
+      "events": [
+        {
+          "at": 5.799999997019768,
+          "phase": "before-entry"
+        },
+        {
+          "at": 101.59999999403954,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1470.4000000059605,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1484.5,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1501.0999999940395,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1525.7999999970198,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1639.2999999970198,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2722.5,
+          "phase": "first-view"
+        },
+        {
+          "at": 2722.9000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 13815.20000000298,
+          "phase": "first-view"
+        },
+        {
+          "at": 13822.29999999702,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 13824.90000000596,
+          "phase": "body-ready"
+        },
+        {
+          "at": 13824.90000000596,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 13847.40000000596,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 13859.90000000596,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 13899.90000000596,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 14216.5,
+          "phase": "add-garden"
+        },
+        {
+          "at": 14216.5,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 14230.09999999404,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 14463,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 14969.79999999702,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 1517.0999999940395,
+          "end": 1715.0999999940395,
+          "ms": 198,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1517.0999999940395,
+          "end": 1715.2999999970198,
+          "ms": 198.20000000298023,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 2713.2999999970198,
+          "end": 4047.9000000059605,
+          "ms": 1334.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 2717.9000000059605,
+          "end": 4048.4000000059605,
+          "ms": 1330.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4147.0999999940395,
+          "end": 4400.9000000059605,
+          "ms": 253.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4147.5999999940395,
+          "end": 4401,
+          "ms": 253.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4413.70000000298,
+          "end": 4826.29999999702,
+          "ms": 412.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4417.29999999702,
+          "end": 4826.5999999940395,
+          "ms": 409.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4846.20000000298,
+          "end": 5132.20000000298,
+          "ms": 286,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4838.5999999940395,
+          "end": 5132.29999999702,
+          "ms": 293.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5146.29999999702,
+          "end": 5412.5999999940395,
+          "ms": 266.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5146.9000000059605,
+          "end": 5412.9000000059605,
+          "ms": 266,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5429.79999999702,
+          "end": 5844.9000000059605,
+          "ms": 415.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5428.5,
+          "end": 5845.0999999940395,
+          "ms": 416.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5863.29999999702,
+          "end": 6308,
+          "ms": 444.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5858,
+          "end": 6308.5,
+          "ms": 450.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6313.5999999940395,
+          "end": 6589.20000000298,
+          "ms": 275.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6327.5999999940395,
+          "end": 6589.29999999702,
+          "ms": 261.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6597,
+          "end": 6993.5,
+          "ms": 396.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6608.0999999940395,
+          "end": 6993.9000000059605,
+          "ms": 385.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7013.70000000298,
+          "end": 7376,
+          "ms": 362.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7008,
+          "end": 7376.0999999940395,
+          "ms": 368.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7396.79999999702,
+          "end": 7818,
+          "ms": 421.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7387.5999999940395,
+          "end": 7818.20000000298,
+          "ms": 430.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7830.29999999702,
+          "end": 8249.29999999702,
+          "ms": 419,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7838.29999999702,
+          "end": 8249.40000000596,
+          "ms": 411.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8263.09999999404,
+          "end": 8600.20000000298,
+          "ms": 337.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8267.79999999702,
+          "end": 8600.70000000298,
+          "ms": 332.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8613.40000000596,
+          "end": 8824,
+          "ms": 210.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8618,
+          "end": 8824,
+          "ms": 206,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8829.79999999702,
+          "end": 9182.40000000596,
+          "ms": 352.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8838.79999999702,
+          "end": 9182.79999999702,
+          "ms": 344,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9196.79999999702,
+          "end": 9436.20000000298,
+          "ms": 239.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9197.29999999702,
+          "end": 9436.29999999702,
+          "ms": 239,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9446.5,
+          "end": 9680.70000000298,
+          "ms": 234.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9447.59999999404,
+          "end": 9680.90000000596,
+          "ms": 233.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9696.90000000596,
+          "end": 10049.59999999404,
+          "ms": 352.69999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9697,
+          "end": 10049.70000000298,
+          "ms": 352.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10063.59999999404,
+          "end": 10426.5,
+          "ms": 362.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10068.09999999404,
+          "end": 10427,
+          "ms": 358.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10446,
+          "end": 10664,
+          "ms": 218,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10437.70000000298,
+          "end": 10664.09999999404,
+          "ms": 226.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10680.09999999404,
+          "end": 11085.79999999702,
+          "ms": 405.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10678.79999999702,
+          "end": 11086.29999999702,
+          "ms": 407.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11096.90000000596,
+          "end": 11489.40000000596,
+          "ms": 392.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11097,
+          "end": 11489.5,
+          "ms": 392.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11496.5,
+          "end": 11929.20000000298,
+          "ms": 432.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11508.5,
+          "end": 11929.59999999404,
+          "ms": 421.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11946.40000000596,
+          "end": 12342.79999999702,
+          "ms": 396.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11947.59999999404,
+          "end": 12342.90000000596,
+          "ms": 395.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12363.5,
+          "end": 12716.59999999404,
+          "ms": 353.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12358.29999999702,
+          "end": 12717,
+          "ms": 358.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12730.09999999404,
+          "end": 13054.40000000596,
+          "ms": 324.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12728.20000000298,
+          "end": 13054.59999999404,
+          "ms": 326.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 13063.40000000596,
+          "end": 13436.90000000596,
+          "ms": 373.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 13067.90000000596,
+          "end": 13437.29999999702,
+          "ms": 369.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 13446.70000000298,
+          "end": 13794.5,
+          "ms": 347.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 13457.90000000596,
+          "end": 13794.5,
+          "ms": 336.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 14227.90000000596,
+          "end": 14463.90000000596,
+          "ms": 236,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 14230,
+          "end": 14464,
+          "ms": 234,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 14496.70000000298,
+          "end": 14799.20000000298,
+          "ms": 302.5,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2843.9000000059605,
+          "end": 2965.9000000059605,
+          "ms": 122,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2966.9000000059605,
+          "end": 3093.2000000029802,
+          "ms": 126.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3095.9000000059605,
+          "end": 3425.2999999970198,
+          "ms": 329.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3787.0999999940395,
+          "end": 3891.5,
+          "ms": 104.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4157.79999999702,
+          "end": 4340.70000000298,
+          "ms": 182.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4157.79999999702,
+          "end": 4341.0999999940395,
+          "ms": 183.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4424.9000000059605,
+          "end": 4765.70000000298,
+          "ms": 340.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4424.9000000059605,
+          "end": 4766.0999999940395,
+          "ms": 341.19999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4850.9000000059605,
+          "end": 5075.4000000059605,
+          "ms": 224.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4850.9000000059605,
+          "end": 5075.79999999702,
+          "ms": 224.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5162,
+          "end": 5360.5999999940395,
+          "ms": 198.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5162,
+          "end": 5361,
+          "ms": 199,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5442.70000000298,
+          "end": 5790.0999999940395,
+          "ms": 347.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5442.70000000298,
+          "end": 5790.4000000059605,
+          "ms": 347.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5875.4000000059605,
+          "end": 6254.4000000059605,
+          "ms": 379,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5875.4000000059605,
+          "end": 6254.9000000059605,
+          "ms": 379.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6347.5,
+          "end": 6543.79999999702,
+          "ms": 196.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6347.5,
+          "end": 6544.20000000298,
+          "ms": 196.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6629,
+          "end": 6952.29999999702,
+          "ms": 323.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6629,
+          "end": 6952.70000000298,
+          "ms": 323.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7032.5,
+          "end": 7334.29999999702,
+          "ms": 301.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7032.5,
+          "end": 7334.5999999940395,
+          "ms": 302.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7416.5999999940395,
+          "end": 7772.20000000298,
+          "ms": 355.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7416.5999999940395,
+          "end": 7772.70000000298,
+          "ms": 356.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7859.4000000059605,
+          "end": 8206.20000000298,
+          "ms": 346.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7859.4000000059605,
+          "end": 8206.59999999404,
+          "ms": 347.19999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8290.5,
+          "end": 8557.09999999404,
+          "ms": 266.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8290.5,
+          "end": 8557.59999999404,
+          "ms": 267.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8643.40000000596,
+          "end": 8782,
+          "ms": 138.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8643.40000000596,
+          "end": 8782.40000000596,
+          "ms": 139,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8868.20000000298,
+          "end": 9141.29999999702,
+          "ms": 273.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8868.20000000298,
+          "end": 9141.59999999404,
+          "ms": 273.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9228.20000000298,
+          "end": 9393.29999999702,
+          "ms": 165.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9228.20000000298,
+          "end": 9393.70000000298,
+          "ms": 165.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9487,
+          "end": 9637.59999999404,
+          "ms": 150.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9487,
+          "end": 9637.90000000596,
+          "ms": 150.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9732,
+          "end": 10005.20000000298,
+          "ms": 273.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9732,
+          "end": 10005.79999999702,
+          "ms": 273.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10102.79999999702,
+          "end": 10383.09999999404,
+          "ms": 280.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10102.79999999702,
+          "end": 10383.59999999404,
+          "ms": 280.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10490.20000000298,
+          "end": 10633,
+          "ms": 142.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10490.20000000298,
+          "end": 10633.40000000596,
+          "ms": 143.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10729,
+          "end": 11057.59999999404,
+          "ms": 328.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10729,
+          "end": 11058,
+          "ms": 329,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11154.20000000298,
+          "end": 11463.79999999702,
+          "ms": 309.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11154.20000000298,
+          "end": 11464.20000000298,
+          "ms": 310,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11557.40000000596,
+          "end": 11907,
+          "ms": 349.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11557.40000000596,
+          "end": 11907.29999999702,
+          "ms": 349.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11998.90000000596,
+          "end": 12317.09999999404,
+          "ms": 318.19999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11998.90000000596,
+          "end": 12317.5,
+          "ms": 318.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12414.79999999702,
+          "end": 12691.59999999404,
+          "ms": 276.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12414.79999999702,
+          "end": 12692,
+          "ms": 277.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12788,
+          "end": 13032.09999999404,
+          "ms": 244.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12788,
+          "end": 13032.40000000596,
+          "ms": 244.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 13127.20000000298,
+          "end": 13410.5,
+          "ms": 283.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 13127.20000000298,
+          "end": 13410.79999999702,
+          "ms": 283.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 13509.90000000596,
+          "end": 13794.29999999702,
+          "ms": 284.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 14331.5,
+          "end": 14458.79999999702,
+          "ms": 127.29999999701977,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 29,
+      "batch": 1,
+      "round": 0,
+      "nonce": "sui1791221618240b1r0",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-1-sauna.png",
+          "sha256": "9ea90034fa8a89d5babf1094e91b4ef23fd27a49b250f88eef8af3e36b03f851"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-1-water.png",
+          "sha256": "90f0ffd6a0680990f1d6d6b7e16820c318d3531ae59af0c4f71630a8f1429311"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-1-totonou.png",
+          "sha256": "73056e3d813cc6dbb19b107b3d8d3876fce9ab9bb4a6bb5f235bf3c030b69b43"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "10971",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "11356"
+      },
+      "steps": [
+        {
+          "start": 2690.1000000089407,
+          "drawMs": 1928.2000000029802,
+          "drainMs": 21.599999994039536,
+          "end": 4639.9000000059605,
+          "ms": 1949.7999999970198,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4660.800000011921,
+          "drawMs": 55.19999998807907,
+          "drainMs": 10.100000008940697,
+          "end": 4726.100000008941,
+          "ms": 65.29999999701977,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4747.600000008941,
+          "drawMs": 831.2999999970198,
+          "drainMs": 11,
+          "end": 5589.9000000059605,
+          "ms": 842.2999999970198,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 5610.800000011921,
+          "drawMs": 943.2999999970198,
+          "drainMs": 11.200000002980232,
+          "end": 6565.300000011921,
+          "ms": 954.5,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 6586.70000000298,
+          "drawMs": 1052.6000000089407,
+          "drainMs": 10.899999991059303,
+          "end": 7650.20000000298,
+          "ms": 1063.5,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 7671.20000000298,
+          "drawMs": 732.2000000029802,
+          "drainMs": 14,
+          "end": 8417.40000000596,
+          "ms": 746.2000000029802,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 8438.90000000596,
+          "drawMs": 641.9000000059605,
+          "drainMs": 19.69999998807907,
+          "end": 9100.5,
+          "ms": 661.5999999940395,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 9121.90000000596,
+          "drawMs": 835.7999999970198,
+          "drainMs": 22.700000002980232,
+          "end": 9980.40000000596,
+          "ms": 858.5,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 10001.70000000298,
+          "drawMs": 1048.7999999970198,
+          "drainMs": 31.30000001192093,
+          "end": 11081.800000011921,
+          "ms": 1080.1000000089407,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 11102.60000000894,
+          "drawMs": 889.7999999970198,
+          "drainMs": 19.099999994039536,
+          "end": 12011.5,
+          "ms": 908.8999999910593,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 12032.800000011921,
+          "drawMs": 51.8999999910593,
+          "drainMs": 293.40000000596046,
+          "end": 12378.10000000894,
+          "ms": 345.29999999701977,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        197.5,
+        1952.2000000029802,
+        851.5,
+        957.4000000059605,
+        1072.800000011921,
+        750,
+        662.0999999940395,
+        862.4000000059605,
+        1083.9000000059605,
+        914.1000000089407,
+        349,
+        239.90000000596046
+      ],
+      "events": [
+        {
+          "at": 6.5,
+          "phase": "before-entry"
+        },
+        {
+          "at": 85.80000001192093,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1439.7000000029802,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1456.1000000089407,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1474.300000011921,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1499.6000000089407,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1612.7000000029802,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2689.7000000029802,
+          "phase": "first-view"
+        },
+        {
+          "at": 2690.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 12399.40000000596,
+          "phase": "first-view"
+        },
+        {
+          "at": 12407.300000011921,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 12410.60000000894,
+          "phase": "body-ready"
+        },
+        {
+          "at": 12410.70000000298,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 12425.60000000894,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 12437.90000000596,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 12478.40000000596,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 12795.300000011921,
+          "phase": "add-garden"
+        },
+        {
+          "at": 12795.40000000596,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 12797.90000000596,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 13032.90000000596,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 13541.40000000596,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 1490.800000011921,
+          "end": 1688.300000011921,
+          "ms": 197.5,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1490.800000011921,
+          "end": 1688.300000011921,
+          "ms": 197.5,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 2681.7000000029802,
+          "end": 4640,
+          "ms": 1958.2999999970198,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 2688.5,
+          "end": 4640.70000000298,
+          "ms": 1952.2000000029802,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4731.800000011921,
+          "end": 5590.100000008941,
+          "ms": 858.2999999970198,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4738.70000000298,
+          "end": 5590.20000000298,
+          "ms": 851.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5598.600000008941,
+          "end": 6565.5,
+          "ms": 966.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5608.4000000059605,
+          "end": 6565.800000011921,
+          "ms": 957.4000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6581.9000000059605,
+          "end": 7650.4000000059605,
+          "ms": 1068.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6578,
+          "end": 7650.800000011921,
+          "ms": 1072.800000011921,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7664.300000011921,
+          "end": 8417.60000000894,
+          "ms": 753.2999999970198,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7667.9000000059605,
+          "end": 8417.90000000596,
+          "ms": 750,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8431.70000000298,
+          "end": 9100.60000000894,
+          "ms": 668.9000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8438.90000000596,
+          "end": 9101,
+          "ms": 662.0999999940395,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9114.800000011921,
+          "end": 9980.60000000894,
+          "ms": 865.7999999970198,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9118.5,
+          "end": 9980.90000000596,
+          "ms": 862.4000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9998.40000000596,
+          "end": 11081.90000000596,
+          "ms": 1083.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9998.40000000596,
+          "end": 11082.300000011921,
+          "ms": 1083.9000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11097.60000000894,
+          "end": 12011.70000000298,
+          "ms": 914.0999999940395,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11098,
+          "end": 12012.10000000894,
+          "ms": 914.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12031.60000000894,
+          "end": 12378.20000000298,
+          "ms": 346.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12029.40000000596,
+          "end": 12378.40000000596,
+          "ms": 349,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12797.800000011921,
+          "end": 13033.90000000596,
+          "ms": 236.09999999403954,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "timer",
+          "start": 12797.70000000298,
+          "end": 13037.60000000894,
+          "ms": 239.90000000596046,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 13064.60000000894,
+          "end": 13370.40000000596,
+          "ms": 305.79999999701977,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2816.6000000089407,
+          "end": 2947.300000011921,
+          "ms": 130.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2948.4000000059605,
+          "end": 3077.300000011921,
+          "ms": 128.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3080.2000000029802,
+          "end": 3418,
+          "ms": 337.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3419.800000011921,
+          "end": 3618.9000000059605,
+          "ms": 199.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3419.800000011921,
+          "end": 3619.300000011921,
+          "ms": 199.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3621.4000000059605,
+          "end": 3991.300000011921,
+          "ms": 369.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3621.4000000059605,
+          "end": 3991.7000000029802,
+          "ms": 370.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4380.9000000059605,
+          "end": 4483.9000000059605,
+          "ms": 103,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4752.300000011921,
+          "end": 4979.800000011921,
+          "ms": 227.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4752.300000011921,
+          "end": 4980.100000008941,
+          "ms": 227.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4984.300000011921,
+          "end": 5327.70000000298,
+          "ms": 343.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4984.300000011921,
+          "end": 5328.20000000298,
+          "ms": 343.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5328.300000011921,
+          "end": 5534.5,
+          "ms": 206.19999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5328.300000011921,
+          "end": 5534.9000000059605,
+          "ms": 206.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5619.9000000059605,
+          "end": 5994.5,
+          "ms": 374.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5619.9000000059605,
+          "end": 5994.800000011921,
+          "ms": 374.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6004.300000011921,
+          "end": 6192.9000000059605,
+          "ms": 188.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6004.300000011921,
+          "end": 6193.4000000059605,
+          "ms": 189.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6193.5,
+          "end": 6522,
+          "ms": 328.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6193.5,
+          "end": 6522.4000000059605,
+          "ms": 328.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6606.4000000059605,
+          "end": 6913.5,
+          "ms": 307.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6606.4000000059605,
+          "end": 6913.9000000059605,
+          "ms": 307.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6914,
+          "end": 7266,
+          "ms": 352,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6914,
+          "end": 7266.300000011921,
+          "ms": 352.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7267.5,
+          "end": 7609.20000000298,
+          "ms": 341.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7267.5,
+          "end": 7609.9000000059605,
+          "ms": 342.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7693.20000000298,
+          "end": 7954.70000000298,
+          "ms": 261.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7693.20000000298,
+          "end": 7955.100000008941,
+          "ms": 261.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7955.20000000298,
+          "end": 8097.600000008941,
+          "ms": 142.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7955.20000000298,
+          "end": 8097.9000000059605,
+          "ms": 142.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8098.9000000059605,
+          "end": 8374.70000000298,
+          "ms": 275.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8098.9000000059605,
+          "end": 8375,
+          "ms": 276.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8462.800000011921,
+          "end": 8630.5,
+          "ms": 167.69999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8462.800000011921,
+          "end": 8630.800000011921,
+          "ms": 168,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8636,
+          "end": 8908.40000000596,
+          "ms": 272.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8636,
+          "end": 8908.800000011921,
+          "ms": 272.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8909,
+          "end": 9060.60000000894,
+          "ms": 151.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8909,
+          "end": 9061,
+          "ms": 152,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9152.10000000894,
+          "end": 9448.70000000298,
+          "ms": 296.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9152.10000000894,
+          "end": 9449,
+          "ms": 296.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9464.10000000894,
+          "end": 9615.300000011921,
+          "ms": 151.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9464.10000000894,
+          "end": 9615.70000000298,
+          "ms": 151.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9615.70000000298,
+          "end": 9951.300000011921,
+          "ms": 335.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9615.70000000298,
+          "end": 9951.60000000894,
+          "ms": 335.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10047.800000011921,
+          "end": 10354,
+          "ms": 306.19999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10047.800000011921,
+          "end": 10354.300000011921,
+          "ms": 306.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10355.90000000596,
+          "end": 10712.800000011921,
+          "ms": 356.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10355.90000000596,
+          "end": 10713.40000000596,
+          "ms": 357.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10714.90000000596,
+          "end": 11047.60000000894,
+          "ms": 332.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10714.90000000596,
+          "end": 11048,
+          "ms": 333.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11153.5,
+          "end": 11426.300000011921,
+          "ms": 272.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11153.5,
+          "end": 11426.800000011921,
+          "ms": 273.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11427,
+          "end": 11690.800000011921,
+          "ms": 263.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11426.90000000596,
+          "end": 11692.40000000596,
+          "ms": 265.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11692.5,
+          "end": 11991.800000011921,
+          "ms": 299.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11692.5,
+          "end": 11992.10000000894,
+          "ms": 299.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 12084.70000000298,
+          "end": 12378.10000000894,
+          "ms": 293.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 12901.5,
+          "end": 13028.10000000894,
+          "ms": 126.6000000089407,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 31,
+      "batch": 3,
+      "round": 0,
+      "nonce": "sui1791221643616b3r0",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-3-sauna.png",
+          "sha256": "9ea90034fa8a89d5babf1094e91b4ef23fd27a49b250f88eef8af3e36b03f851"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-3-water.png",
+          "sha256": "90f0ffd6a0680990f1d6d6b7e16820c318d3531ae59af0c4f71630a8f1429311"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-0-3-totonou.png",
+          "sha256": "73056e3d813cc6dbb19b107b3d8d3876fce9ab9bb4a6bb5f235bf3c030b69b43"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "11674",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "12066"
+      },
+      "steps": [
+        {
+          "start": 2686.7000000029802,
+          "drawMs": 2135.5999999940395,
+          "drainMs": 21.900000005960464,
+          "end": 4844.20000000298,
+          "ms": 2157.5,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4865.5999999940395,
+          "drawMs": 53.70000000298023,
+          "drainMs": 8.099999994039536,
+          "end": 4927.399999991059,
+          "ms": 61.79999999701977,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 4948,
+          "drawMs": 914,
+          "drainMs": 12.5,
+          "end": 5874.5,
+          "ms": 926.5,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 5896.5,
+          "drawMs": 1042.2000000029802,
+          "drainMs": 11.099999994039536,
+          "end": 6949.79999999702,
+          "ms": 1053.2999999970198,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 6970.899999991059,
+          "drawMs": 1190.9000000059605,
+          "drainMs": 19.099999994039536,
+          "end": 8180.899999991059,
+          "ms": 1210,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 8202.29999999702,
+          "drawMs": 822.5,
+          "drainMs": 14.599999994039536,
+          "end": 9039.39999999106,
+          "ms": 837.0999999940395,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 9060.79999999702,
+          "drawMs": 701.9000000059605,
+          "drainMs": 19.19999998807907,
+          "end": 9781.89999999106,
+          "ms": 721.0999999940395,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 9803,
+          "drawMs": 854.5,
+          "drainMs": 21.399999991059303,
+          "end": 10678.89999999106,
+          "ms": 875.8999999910593,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 10700.20000000298,
+          "drawMs": 1065.0999999940395,
+          "drainMs": 29.5,
+          "end": 11794.79999999702,
+          "ms": 1094.5999999940395,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 11816.39999999106,
+          "drawMs": 875.3000000119209,
+          "drainMs": 22.799999997019768,
+          "end": 12714.5,
+          "ms": 898.1000000089407,
+          "newPipelines": 3,
+          "pending": true
+        },
+        {
+          "start": 12736,
+          "drawMs": 43,
+          "drainMs": 290.59999999403954,
+          "end": 13069.59999999404,
+          "ms": 333.59999999403954,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        201.40000000596046,
+        2159.0999999940395,
+        927.2000000029802,
+        1063.300000011921,
+        1214.699999988079,
+        842.1999999880791,
+        725.2000000029802,
+        881.9000000059605,
+        1097.5999999940395,
+        908.4000000059605,
+        342.8999999910593,
+        251.8999999910593
+      ],
+      "events": [
+        {
+          "at": 4.899999991059303,
+          "phase": "before-entry"
+        },
+        {
+          "at": 89.59999999403954,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1428,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1444.3999999910593,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1456.0999999940395,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1480.8999999910593,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1600.2000000029802,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2686.2000000029802,
+          "phase": "first-view"
+        },
+        {
+          "at": 2686.7000000029802,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 13090.79999999702,
+          "phase": "first-view"
+        },
+        {
+          "at": 13098.09999999404,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 13101.29999999702,
+          "phase": "body-ready"
+        },
+        {
+          "at": 13101.39999999106,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 13121.5,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 13134.20000000298,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 13175.5,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 13494,
+          "phase": "add-garden"
+        },
+        {
+          "at": 13494.09999999404,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 13501.79999999702,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 13744.09999999404,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 14252.09999999404,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 1471.8999999910593,
+          "end": 1678.5,
+          "ms": 206.6000000089407,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1477.3999999910593,
+          "end": 1678.7999999970198,
+          "ms": 201.40000000596046,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 2669.2000000029802,
+          "end": 4844.5,
+          "ms": 2175.2999999970198,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 2686.2000000029802,
+          "end": 4845.29999999702,
+          "ms": 2159.0999999940395,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4935.70000000298,
+          "end": 5874.70000000298,
+          "ms": 939,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4948,
+          "end": 5875.20000000298,
+          "ms": 927.2000000029802,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5886.29999999702,
+          "end": 6950.0999999940395,
+          "ms": 1063.7999999970198,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5886.899999991059,
+          "end": 6950.20000000298,
+          "ms": 1063.300000011921,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6969.5999999940395,
+          "end": 8181,
+          "ms": 1211.4000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6966.70000000298,
+          "end": 8181.399999991059,
+          "ms": 1214.699999988079,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8185.20000000298,
+          "end": 9039.59999999404,
+          "ms": 854.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8197.70000000298,
+          "end": 9039.89999999106,
+          "ms": 842.1999999880791,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9052.59999999404,
+          "end": 9782,
+          "ms": 729.4000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9057.29999999702,
+          "end": 9782.5,
+          "ms": 725.2000000029802,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9803,
+          "end": 10679,
+          "ms": 876,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9797.39999999106,
+          "end": 10679.29999999702,
+          "ms": 881.9000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10686.20000000298,
+          "end": 11795,
+          "ms": 1108.7999999970198,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10697.79999999702,
+          "end": 11795.39999999106,
+          "ms": 1097.5999999940395,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11801.70000000298,
+          "end": 12714.70000000298,
+          "ms": 913,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11806.29999999702,
+          "end": 12714.70000000298,
+          "ms": 908.4000000059605,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12735.89999999106,
+          "end": 13069.70000000298,
+          "ms": 333.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12727,
+          "end": 13069.89999999106,
+          "ms": 342.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 13501.70000000298,
+          "end": 13745.09999999404,
+          "ms": 243.3999999910593,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "timer",
+          "start": 13496.70000000298,
+          "end": 13748.59999999404,
+          "ms": 251.8999999910593,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 13768.5,
+          "end": 14096.09999999404,
+          "ms": 327.59999999403954,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2693,
+          "end": 2813.5999999940395,
+          "ms": 120.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2871.8999999910593,
+          "end": 3022.0999999940395,
+          "ms": 150.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3023.7999999970198,
+          "end": 3165.5999999940395,
+          "ms": 141.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3169.7000000029802,
+          "end": 3546.2999999970198,
+          "ms": 376.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3547.7000000029802,
+          "end": 3755.2999999970198,
+          "ms": 207.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3547.7000000029802,
+          "end": 3755.5999999940395,
+          "ms": 207.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 3757.5999999940395,
+          "end": 4153.5,
+          "ms": 395.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 3757.5999999940395,
+          "end": 4156.0999999940395,
+          "ms": 398.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4560.899999991059,
+          "end": 4679.899999991059,
+          "ms": 119,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4718.29999999702,
+          "end": 4821.899999991059,
+          "ms": 103.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4952.29999999702,
+          "end": 5198.5,
+          "ms": 246.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4952.29999999702,
+          "end": 5198.79999999702,
+          "ms": 246.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5202.5,
+          "end": 5589.5,
+          "ms": 387,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5202.5,
+          "end": 5589.899999991059,
+          "ms": 387.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5590.0999999940395,
+          "end": 5819,
+          "ms": 228.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5590.0999999940395,
+          "end": 5819.29999999702,
+          "ms": 229.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5905.399999991059,
+          "end": 6314.29999999702,
+          "ms": 408.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5905.399999991059,
+          "end": 6314.79999999702,
+          "ms": 409.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6324.899999991059,
+          "end": 6532.79999999702,
+          "ms": 207.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6324.899999991059,
+          "end": 6533.20000000298,
+          "ms": 208.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6533.399999991059,
+          "end": 6904.5,
+          "ms": 371.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6533.399999991059,
+          "end": 6904.899999991059,
+          "ms": 371.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6989,
+          "end": 7339.5,
+          "ms": 350.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6989,
+          "end": 7340,
+          "ms": 351,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7340.20000000298,
+          "end": 7753.70000000298,
+          "ms": 413.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7340.20000000298,
+          "end": 7754.0999999940395,
+          "ms": 413.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7755.29999999702,
+          "end": 8133.5999999940395,
+          "ms": 378.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7755.29999999702,
+          "end": 8134,
+          "ms": 378.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8222.5,
+          "end": 8527.29999999702,
+          "ms": 304.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8222.5,
+          "end": 8527.70000000298,
+          "ms": 305.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8527.89999999106,
+          "end": 8682,
+          "ms": 154.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8527.89999999106,
+          "end": 8682.20000000298,
+          "ms": 154.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8683.20000000298,
+          "end": 8998,
+          "ms": 314.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8683.20000000298,
+          "end": 8998.5,
+          "ms": 315.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9084.79999999702,
+          "end": 9271.70000000298,
+          "ms": 186.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9084.79999999702,
+          "end": 9272.29999999702,
+          "ms": 187.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9278,
+          "end": 9580.89999999106,
+          "ms": 302.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9278,
+          "end": 9581.29999999702,
+          "ms": 303.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9581.39999999106,
+          "end": 9743.29999999702,
+          "ms": 161.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9581.39999999106,
+          "end": 9743.59999999404,
+          "ms": 162.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9835.70000000298,
+          "end": 10139,
+          "ms": 303.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9835.59999999404,
+          "end": 10139.29999999702,
+          "ms": 303.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10153.89999999106,
+          "end": 10304.79999999702,
+          "ms": 150.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10153.89999999106,
+          "end": 10305.29999999702,
+          "ms": 151.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10305.39999999106,
+          "end": 10649,
+          "ms": 343.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10305.29999999702,
+          "end": 10649.5,
+          "ms": 344.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10750.39999999106,
+          "end": 11067.70000000298,
+          "ms": 317.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10750.39999999106,
+          "end": 11068.09999999404,
+          "ms": 317.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11069.79999999702,
+          "end": 11439.70000000298,
+          "ms": 369.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11069.79999999702,
+          "end": 11440.09999999404,
+          "ms": 370.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11441.59999999404,
+          "end": 11762.20000000298,
+          "ms": 320.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11441.59999999404,
+          "end": 11762.5,
+          "ms": 320.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11867.5,
+          "end": 12146.29999999702,
+          "ms": 278.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11867.5,
+          "end": 12146.59999999404,
+          "ms": 279.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12146.79999999702,
+          "end": 12406.09999999404,
+          "ms": 259.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12146.79999999702,
+          "end": 12407.39999999106,
+          "ms": 260.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12407.39999999106,
+          "end": 12691.09999999404,
+          "ms": 283.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12407.39999999106,
+          "end": 12691.39999999106,
+          "ms": 284,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 12779,
+          "end": 13069.59999999404,
+          "ms": 290.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 13605.70000000298,
+          "end": 13739.5,
+          "ms": 133.79999999701977,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 31,
+      "batch": 3,
+      "round": 1,
+      "nonce": "sui1791221667497b3r1",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-3-sauna.png",
+          "sha256": "9ea90034fa8a89d5babf1094e91b4ef23fd27a49b250f88eef8af3e36b03f851"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-3-water.png",
+          "sha256": "90f0ffd6a0680990f1d6d6b7e16820c318d3531ae59af0c4f71630a8f1429311"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-3-totonou.png",
+          "sha256": "73056e3d813cc6dbb19b107b3d8d3876fce9ab9bb4a6bb5f235bf3c030b69b43"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "stage": "sauna",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "12310",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "34",
+        "geometries": "120",
+        "gardenMs": "12694"
+      },
+      "steps": [
+        {
+          "start": 2707,
+          "drawMs": 1319.8999999910593,
+          "drainMs": 19.900000005960464,
+          "end": 4046.7999999970198,
+          "ms": 1339.7999999970198,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4067.0999999940395,
+          "drawMs": 53.29999999701977,
+          "drainMs": 10.799999997019768,
+          "end": 4131.29999999702,
+          "ms": 64.20000000298023,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4152.0999999940395,
+          "drawMs": 237.5,
+          "drainMs": 10.900000005960464,
+          "end": 4400.5,
+          "ms": 248.40000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4421.29999999702,
+          "drawMs": 394.5,
+          "drainMs": 11,
+          "end": 4826.79999999702,
+          "ms": 405.5,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 4847.79999999702,
+          "drawMs": 265,
+          "drainMs": 10.700000002980232,
+          "end": 5123.5,
+          "ms": 275.70000000298023,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5144.5,
+          "drawMs": 386.29999999701977,
+          "drainMs": 11.099999994039536,
+          "end": 5541.899999991059,
+          "ms": 397.3999999910593,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5563.5999999940395,
+          "drawMs": 263.59999999403954,
+          "drainMs": 11.300000011920929,
+          "end": 5838.5,
+          "ms": 274.90000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 5859.5,
+          "drawMs": 415.79999999701977,
+          "drainMs": 10,
+          "end": 6285.29999999702,
+          "ms": 425.79999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6306,
+          "drawMs": 235.8999999910593,
+          "drainMs": 9.900000005960464,
+          "end": 6551.79999999702,
+          "ms": 245.79999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6573.0999999940395,
+          "drawMs": 371.59999999403954,
+          "drainMs": 9.800000011920929,
+          "end": 6954.5,
+          "ms": 381.40000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 6975.899999991059,
+          "drawMs": 356.1000000089407,
+          "drainMs": 11.399999991059303,
+          "end": 7343.399999991059,
+          "ms": 367.5,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7365.5,
+          "drawMs": 413.79999999701977,
+          "drainMs": 11.299999997019768,
+          "end": 7790.5999999940395,
+          "ms": 425.09999999403954,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 7811.699999988079,
+          "drawMs": 377.30000001192093,
+          "drainMs": 11,
+          "end": 8200,
+          "ms": 388.30000001192093,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8221.5,
+          "drawMs": 309.69999998807907,
+          "drainMs": 12.800000011920929,
+          "end": 8544,
+          "ms": 322.5,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8566,
+          "drawMs": 188,
+          "drainMs": 13.5,
+          "end": 8767.5,
+          "ms": 201.5,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 8787.699999988079,
+          "drawMs": 324.1000000089407,
+          "drainMs": 13.799999997019768,
+          "end": 9125.59999999404,
+          "ms": 337.90000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9147.29999999702,
+          "drawMs": 216.20000000298023,
+          "drainMs": 15.199999988079071,
+          "end": 9378.699999988079,
+          "ms": 231.3999999910593,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9399.5,
+          "drawMs": 324,
+          "drainMs": 16.099999994039536,
+          "end": 9739.59999999404,
+          "ms": 340.09999999403954,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 9760.79999999702,
+          "drawMs": 210.59999999403954,
+          "drainMs": 20.200000002980232,
+          "end": 9991.59999999404,
+          "ms": 230.79999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10012.699999988079,
+          "drawMs": 332.6000000089407,
+          "drainMs": 22.299999997019768,
+          "end": 10367.59999999404,
+          "ms": 354.90000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10387.89999999106,
+          "drawMs": 192.90000000596046,
+          "drainMs": 23.200000002980232,
+          "end": 10604,
+          "ms": 216.1000000089407,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 10625.39999999106,
+          "drawMs": 383.90000000596046,
+          "drainMs": 19,
+          "end": 11028.29999999702,
+          "ms": 402.90000000596046,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11049.09999999404,
+          "drawMs": 356.29999999701977,
+          "drainMs": 20.700000002980232,
+          "end": 11426.09999999404,
+          "ms": 377,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11447,
+          "drawMs": 409.5,
+          "drainMs": 20.69999998807907,
+          "end": 11877.199999988079,
+          "ms": 430.19999998807907,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 11898.199999988079,
+          "drawMs": 384.90000000596046,
+          "drainMs": 23.700000002980232,
+          "end": 12306.79999999702,
+          "ms": 408.6000000089407,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12327.09999999404,
+          "drawMs": 316.5,
+          "drainMs": 15.799999997019768,
+          "end": 12659.39999999106,
+          "ms": 332.29999999701977,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 12680,
+          "drawMs": 300.79999999701977,
+          "drainMs": 24.799999997019768,
+          "end": 13005.59999999404,
+          "ms": 325.59999999403954,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 13027.39999999106,
+          "drawMs": 329.40000000596046,
+          "drainMs": 21.299999997019768,
+          "end": 13378.09999999404,
+          "ms": 350.70000000298023,
+          "newPipelines": 1,
+          "pending": true
+        },
+        {
+          "start": 13398.59999999404,
+          "drawMs": 50.29999999701977,
+          "drainMs": 282.90000000596046,
+          "end": 13731.79999999702,
+          "ms": 333.20000000298023,
+          "newPipelines": 1,
+          "pending": false
+        }
+      ],
+      "gaps": [
+        200.30000001192093,
+        1341,
+        253.20000000298023,
+        410.1000000089407,
+        277.09999999403954,
+        404.79999999701977,
+        281.8999999910593,
+        429.69999998807907,
+        255.20000000298023,
+        387.6000000089407,
+        376.29999999701977,
+        434.6000000089407,
+        393,
+        327.69999998807907,
+        210.69999998807907,
+        338.30000001192093,
+        242.40000000596046,
+        344,
+        235.6000000089407,
+        361,
+        217.09999999403954,
+        412.09999999403954,
+        378.40000000596046,
+        430.69999998807907,
+        410.09999999403954,
+        332.79999999701977,
+        329.1000000089407,
+        360.79999999701977,
+        334.6000000089407,
+        254.29999999701977
+      ],
+      "events": [
+        {
+          "at": 4.799999997019768,
+          "phase": "before-entry"
+        },
+        {
+          "at": 92,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1453.7999999970198,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1468.699999988079,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1484.699999988079,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1508.199999988079,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1622.3999999910593,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2706.5999999940395,
+          "phase": "first-view"
+        },
+        {
+          "at": 2707,
+          "phase": "batch-warmup"
+        },
+        {
+          "at": 13752.89999999106,
+          "phase": "first-view"
+        },
+        {
+          "at": 13760.39999999106,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 13763,
+          "phase": "body-ready"
+        },
+        {
+          "at": 13763.09999999404,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 13779.79999999702,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 13792,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 13831.59999999404,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 14147,
+          "phase": "add-garden"
+        },
+        {
+          "at": 14147,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 14154.5,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 14397.09999999404,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 14909,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 1500.199999988079,
+          "end": 1700.0999999940395,
+          "ms": 199.90000000596046,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1500.199999988079,
+          "end": 1700.5,
+          "ms": 200.30000001192093,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 2704.3999999910593,
+          "end": 4047,
+          "ms": 1342.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 2706.5999999940395,
+          "end": 4047.5999999940395,
+          "ms": 1341,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4138.0999999940395,
+          "end": 4400.699999988079,
+          "ms": 262.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4147.5999999940395,
+          "end": 4400.79999999702,
+          "ms": 253.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4421.199999988079,
+          "end": 4826.79999999702,
+          "ms": 405.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4417.199999988079,
+          "end": 4827.29999999702,
+          "ms": 410.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 4838.199999988079,
+          "end": 5123.5,
+          "ms": 285.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 4846.5999999940395,
+          "end": 5123.699999988079,
+          "ms": 277.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5137.29999999702,
+          "end": 5542.0999999940395,
+          "ms": 404.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5137.5999999940395,
+          "end": 5542.399999991059,
+          "ms": 404.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5554.5,
+          "end": 5838.699999988079,
+          "ms": 284.19999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5556.79999999702,
+          "end": 5838.699999988079,
+          "ms": 281.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 5854.899999991059,
+          "end": 6285.29999999702,
+          "ms": 430.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 5856,
+          "end": 6285.699999988079,
+          "ms": 429.69999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6304.79999999702,
+          "end": 6551.79999999702,
+          "ms": 247,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6296.699999988079,
+          "end": 6551.899999991059,
+          "ms": 255.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6570.79999999702,
+          "end": 6954.5999999940395,
+          "ms": 383.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6567.399999991059,
+          "end": 6955,
+          "ms": 387.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 6971.399999991059,
+          "end": 7343.399999991059,
+          "ms": 372,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 6967.399999991059,
+          "end": 7343.699999988079,
+          "ms": 376.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7354.699999988079,
+          "end": 7790.699999988079,
+          "ms": 436,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7356.399999991059,
+          "end": 7791,
+          "ms": 434.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 7803.699999988079,
+          "end": 8200.09999999404,
+          "ms": 396.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 7807.199999988079,
+          "end": 8200.199999988079,
+          "ms": 393,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8221.39999999106,
+          "end": 8544.09999999404,
+          "ms": 322.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8217,
+          "end": 8544.699999988079,
+          "ms": 327.69999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8554.699999988079,
+          "end": 8767.59999999404,
+          "ms": 212.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8557,
+          "end": 8767.699999988079,
+          "ms": 210.69999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 8771.29999999702,
+          "end": 9125.699999988079,
+          "ms": 354.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 8787.699999988079,
+          "end": 9126,
+          "ms": 338.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9138,
+          "end": 9378.89999999106,
+          "ms": 240.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9136.59999999404,
+          "end": 9379,
+          "ms": 242.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9388,
+          "end": 9739.699999988079,
+          "ms": 351.69999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9396.09999999404,
+          "end": 9740.09999999404,
+          "ms": 344,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 9754,
+          "end": 9991.79999999702,
+          "ms": 237.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 9756.199999988079,
+          "end": 9991.79999999702,
+          "ms": 235.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10003.699999988079,
+          "end": 10367.699999988079,
+          "ms": 364,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10007.09999999404,
+          "end": 10368.09999999404,
+          "ms": 361,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10387.89999999106,
+          "end": 10604.09999999404,
+          "ms": 216.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10387,
+          "end": 10604.09999999404,
+          "ms": 217.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 10620.79999999702,
+          "end": 11028.5,
+          "ms": 407.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 10616.79999999702,
+          "end": 11028.89999999106,
+          "ms": 412.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11037.79999999702,
+          "end": 11426.199999988079,
+          "ms": 388.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11047.89999999106,
+          "end": 11426.29999999702,
+          "ms": 378.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11437.89999999106,
+          "end": 11877.39999999106,
+          "ms": 439.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11447,
+          "end": 11877.699999988079,
+          "ms": 430.69999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 11887.89999999106,
+          "end": 12306.89999999106,
+          "ms": 419,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 11897,
+          "end": 12307.09999999404,
+          "ms": 410.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12320.199999988079,
+          "end": 12659.59999999404,
+          "ms": 339.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12327.09999999404,
+          "end": 12659.89999999106,
+          "ms": 332.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 12670.5,
+          "end": 13005.59999999404,
+          "ms": 335.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 12676.699999988079,
+          "end": 13005.79999999702,
+          "ms": 329.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 13020.5,
+          "end": 13378.09999999404,
+          "ms": 357.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 13017.5,
+          "end": 13378.29999999702,
+          "ms": 360.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 13387.39999999106,
+          "end": 13731.89999999106,
+          "ms": 344.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "timer",
+          "start": 13397.39999999106,
+          "end": 13732,
+          "ms": 334.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "kind": "raf",
+          "start": 14154.39999999106,
+          "end": 14398,
+          "ms": 243.6000000089407,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "timer",
+          "start": 14147.09999999404,
+          "end": 14401.39999999106,
+          "ms": 254.29999999701977,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 14420.699999988079,
+          "end": 14732.5,
+          "ms": 311.80000001192093,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2830.5,
+          "end": 2954,
+          "ms": 123.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2955.199999988079,
+          "end": 3082.7999999970198,
+          "ms": 127.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3085.7999999970198,
+          "end": 3416.2999999970198,
+          "ms": 330.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3780.2999999970198,
+          "end": 3890.2999999970198,
+          "ms": 110,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4154.199999988079,
+          "end": 4337,
+          "ms": 182.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4154.199999988079,
+          "end": 4337.29999999702,
+          "ms": 183.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4424.79999999702,
+          "end": 4768.399999991059,
+          "ms": 343.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4424.79999999702,
+          "end": 4768.699999988079,
+          "ms": 343.8999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 4852.199999988079,
+          "end": 5068,
+          "ms": 215.80000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 4852.199999988079,
+          "end": 5068.29999999702,
+          "ms": 216.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5152.699999988079,
+          "end": 5489.29999999702,
+          "ms": 336.6000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5152.699999988079,
+          "end": 5489.699999988079,
+          "ms": 337,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5572.79999999702,
+          "end": 5779.5,
+          "ms": 206.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5572.79999999702,
+          "end": 5779.899999991059,
+          "ms": 207.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 5869.29999999702,
+          "end": 6235,
+          "ms": 365.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 5869.29999999702,
+          "end": 6235.399999991059,
+          "ms": 366.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6324.29999999702,
+          "end": 6511.699999988079,
+          "ms": 187.3999999910593,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6324.29999999702,
+          "end": 6512.0999999940395,
+          "ms": 187.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6591.79999999702,
+          "end": 6913,
+          "ms": 321.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6591.79999999702,
+          "end": 6913.399999991059,
+          "ms": 321.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 6995.699999988079,
+          "end": 7300.199999988079,
+          "ms": 304.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 6995.699999988079,
+          "end": 7300.5999999940395,
+          "ms": 304.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7384.29999999702,
+          "end": 7746.29999999702,
+          "ms": 362,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7384.29999999702,
+          "end": 7747.5,
+          "ms": 363.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 7832.29999999702,
+          "end": 8158.29999999702,
+          "ms": 326,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 7832.29999999702,
+          "end": 8158.79999999702,
+          "ms": 326.5,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8241.59999999404,
+          "end": 8502.5,
+          "ms": 260.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8241.59999999404,
+          "end": 8502.89999999106,
+          "ms": 261.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8588.699999988079,
+          "end": 8725.39999999106,
+          "ms": 136.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8588.699999988079,
+          "end": 8725.79999999702,
+          "ms": 137.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 8810.29999999702,
+          "end": 9084,
+          "ms": 273.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 8810.29999999702,
+          "end": 9084.5,
+          "ms": 274.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9171.59999999404,
+          "end": 9336.39999999106,
+          "ms": 164.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9171.59999999404,
+          "end": 9336.699999988079,
+          "ms": 165.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9428,
+          "end": 9700.29999999702,
+          "ms": 272.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9428,
+          "end": 9700.79999999702,
+          "ms": 272.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 9791.5,
+          "end": 9947.699999988079,
+          "ms": 156.19999998807907,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 9791.5,
+          "end": 9948.09999999404,
+          "ms": 156.59999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10043.29999999702,
+          "end": 10324.29999999702,
+          "ms": 281,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10043.29999999702,
+          "end": 10324.59999999404,
+          "ms": 281.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10431.199999988079,
+          "end": 10573.09999999404,
+          "ms": 141.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10431.199999988079,
+          "end": 10573.5,
+          "ms": 142.30000001192093,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 10668.89999999106,
+          "end": 11001.699999988079,
+          "ms": 332.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 10668.89999999106,
+          "end": 11002,
+          "ms": 333.1000000089407,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11095.39999999106,
+          "end": 11399.39999999106,
+          "ms": 304,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11095.39999999106,
+          "end": 11399.79999999702,
+          "ms": 304.40000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11496.39999999106,
+          "end": 11850.59999999404,
+          "ms": 354.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11496.39999999106,
+          "end": 11851.699999988079,
+          "ms": 355.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 11947.39999999106,
+          "end": 12279.699999988079,
+          "ms": 332.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 11947.39999999106,
+          "end": 12280.199999988079,
+          "ms": 332.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12376.59999999404,
+          "end": 12642.39999999106,
+          "ms": 265.79999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12376.59999999404,
+          "end": 12642.699999988079,
+          "ms": 266.09999999403954,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 12731,
+          "end": 12980,
+          "ms": 249,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 12731,
+          "end": 12980.29999999702,
+          "ms": 249.29999999701977,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getRenderbufferParameter",
+          "start": 13078.79999999702,
+          "end": 13356,
+          "ms": 277.20000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "drawElements",
+          "start": 13078.79999999702,
+          "end": 13356.5,
+          "ms": 277.70000000298023,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "readPixels",
+          "start": 13448.89999999106,
+          "end": 13731.79999999702,
+          "ms": 282.90000000596046,
+          "phase": "batch-warmup"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 14259.29999999702,
+          "end": 14392.5,
+          "ms": 133.20000000298023,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 29,
+      "batch": 1,
+      "round": 1,
+      "nonce": "sui1791221692340b1r1",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-1-sauna.png",
+          "sha256": "9ea90034fa8a89d5babf1094e91b4ef23fd27a49b250f88eef8af3e36b03f851"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-1-water.png",
+          "sha256": "90f0ffd6a0680990f1d6d6b7e16820c318d3531ae59af0c4f71630a8f1429311"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-1-totonou.png",
+          "sha256": "73056e3d813cc6dbb19b107b3d8d3876fce9ab9bb4a6bb5f235bf3c030b69b43"
+        }
+      ]
+    },
+    {
+      "data": {
+        "resolution": "fixed",
+        "frameRate": "full",
+        "temporal": "on",
+        "quality": "standard",
+        "pixelRatio": "1.5",
+        "irradianceProbes": "4916",
+        "refractionMaterials": "4",
+        "refractionTriangles": "8350",
+        "causticMaterials": "2",
+        "glassMeshes": "2",
+        "irradianceMaterials": "87",
+        "reflectionMaterials": "87",
+        "waterBottomMaterials": "4",
+        "foliageMaterials": "26",
+        "noiseColorMaterials": "5",
+        "imageRampMaterials": "44",
+        "leafClusterMaterials": "5",
+        "sideImageMeshes": "32",
+        "prepassMeshes": "87",
+        "shadowMaskMeshes": "87",
+        "sideImageTriangles": "136272",
+        "stage": "sauna",
+        "sideImagesShown": "20",
+        "mirrorCalls": "78",
+        "mirrorTriangles": "556840",
+        "mirrorSize": "900x600",
+        "drawCalls": "138",
+        "triangles": "732438",
+        "loadMs": "9901",
+        "garden": "ready",
+        "lighting": "day",
+        "timeOfDay": "0.000",
+        "textures": "33",
+        "geometries": "119",
+        "gardenMs": "10290"
+      },
+      "steps": [],
+      "gaps": [
+        195,
+        8651.40000000596,
+        241.69999998807907
+      ],
+      "events": [
+        {
+          "at": 5.0999999940395355,
+          "phase": "before-entry"
+        },
+        {
+          "at": 91.8999999910593,
+          "phase": "entry-click"
+        },
+        {
+          "at": 1452.0999999940395,
+          "phase": "fetch-body"
+        },
+        {
+          "at": 1467.8999999910593,
+          "phase": "prepare-probes"
+        },
+        {
+          "at": 1489.0999999940395,
+          "phase": "parse-body"
+        },
+        {
+          "at": 1513.5,
+          "phase": "prepare-body"
+        },
+        {
+          "at": 1626.2999999970198,
+          "phase": "compile-body"
+        },
+        {
+          "at": 2706.2999999970198,
+          "phase": "first-view"
+        },
+        {
+          "at": 11347.59999999404,
+          "phase": "first-full-draw"
+        },
+        {
+          "at": 11352.39999999106,
+          "phase": "body-ready"
+        },
+        {
+          "at": 11352.39999999106,
+          "phase": "fetch-garden"
+        },
+        {
+          "at": 11374.39999999106,
+          "phase": "parse-garden"
+        },
+        {
+          "at": 11386.5,
+          "phase": "prepare-garden"
+        },
+        {
+          "at": 11426.39999999106,
+          "phase": "compile-garden"
+        },
+        {
+          "at": 11741.79999999702,
+          "phase": "add-garden"
+        },
+        {
+          "at": 11741.89999999106,
+          "phase": "garden-ready"
+        },
+        {
+          "at": 11755.29999999702,
+          "phase": "first-garden-draw"
+        },
+        {
+          "at": 11984,
+          "phase": "garden-drawn"
+        },
+        {
+          "at": 12493.29999999702,
+          "phase": "measurement-end"
+        }
+      ],
+      "intervals": [
+        {
+          "kind": "raf",
+          "start": 1504.8999999910593,
+          "end": 1701.7999999970198,
+          "ms": 196.90000000596046,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "timer",
+          "start": 1507.0999999940395,
+          "end": 1702.0999999940395,
+          "ms": 195,
+          "phase": "compile-body"
+        },
+        {
+          "kind": "raf",
+          "start": 2705.0999999940395,
+          "end": 11352.79999999702,
+          "ms": 8647.70000000298,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "timer",
+          "start": 2706.2999999970198,
+          "end": 11357.70000000298,
+          "ms": 8651.40000000596,
+          "phase": "fetch-garden"
+        },
+        {
+          "kind": "raf",
+          "start": 11755.29999999702,
+          "end": 11985,
+          "ms": 229.70000000298023,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "timer",
+          "start": 11746.70000000298,
+          "end": 11988.39999999106,
+          "ms": 241.69999998807907,
+          "phase": "garden-drawn"
+        },
+        {
+          "kind": "raf",
+          "start": 12005.29999999702,
+          "end": 12315.79999999702,
+          "ms": 310.5,
+          "phase": "garden-drawn"
+        }
+      ],
+      "slowCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "start": 2827.3999999910593,
+          "end": 2956.7000000029802,
+          "ms": 129.30000001192093,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 2957.7999999970198,
+          "end": 3089.8999999910593,
+          "ms": 132.09999999403954,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3091.2999999970198,
+          "end": 3441.0999999940395,
+          "ms": 349.79999999701977,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3442.3999999910593,
+          "end": 3633.8999999910593,
+          "ms": 191.5,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3634.8999999910593,
+          "end": 3984.5999999940395,
+          "ms": 349.70000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 3985.7999999970198,
+          "end": 4209.70000000298,
+          "ms": 223.90000000596046,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4212.29999999702,
+          "end": 4555.70000000298,
+          "ms": 343.40000000596046,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4556.399999991059,
+          "end": 4756.399999991059,
+          "ms": 200,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 4761.899999991059,
+          "end": 5117.29999999702,
+          "ms": 355.40000000596046,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5118,
+          "end": 5302.70000000298,
+          "ms": 184.70000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5309,
+          "end": 5648.5999999940395,
+          "ms": 339.59999999403954,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5649.399999991059,
+          "end": 5972,
+          "ms": 322.6000000089407,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 5972.70000000298,
+          "end": 6342.29999999702,
+          "ms": 369.59999999403954,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6343.20000000298,
+          "end": 6689.70000000298,
+          "ms": 346.5,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 6810.70000000298,
+          "end": 8583.29999999702,
+          "ms": 1772.5999999940395,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 8604,
+          "end": 8936.09999999404,
+          "ms": 332.09999999403954,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 8936.79999999702,
+          "end": 9233.5,
+          "ms": 296.70000000298023,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9234.20000000298,
+          "end": 9586.59999999404,
+          "ms": 352.3999999910593,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 9587.5,
+          "end": 11028,
+          "ms": 1440.5,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11106.20000000298,
+          "end": 11212.59999999404,
+          "ms": 106.3999999910593,
+          "phase": "first-view"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "start": 11855.59999999404,
+          "end": 11979.20000000298,
+          "ms": 123.6000000089407,
+          "phase": "first-garden-draw"
+        }
+      ],
+      "pipelines": 0,
+      "batch": 0,
+      "round": 1,
+      "nonce": "sui1791221717739b0r1",
+      "errors": [],
+      "stages": [
+        {
+          "stage": "sauna",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-0-sauna.png",
+          "sha256": "9ea90034fa8a89d5babf1094e91b4ef23fd27a49b250f88eef8af3e36b03f851"
+        },
+        {
+          "stage": "water",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-0-water.png",
+          "sha256": "90f0ffd6a0680990f1d6d6b7e16820c318d3531ae59af0c4f71630a8f1429311"
+        },
+        {
+          "stage": "totonou",
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/cft-1-0-totonou.png",
+          "sha256": "73056e3d813cc6dbb19b107b3d8d3876fce9ab9bb4a6bb5f235bf3c030b69b43"
+        }
+      ]
+    }
+  ]
+}
