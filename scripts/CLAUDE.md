@@ -1,5 +1,7 @@
 # GLB書き出し・シーン定義（scripts）
 
+- `diagnose_compile_batches.mjs <out.json> [cft|webkit] [0,1,3] [繰り返し]` は一時ビルドだけで初回の本描画・鏡像の重い描画状態を分割し、読み戻しでGPUの完了を待ってからブラウザへ処理を返す。製品コード・配信物・Metalキャッシュは変更しない。各回の出力に初期値0の新しいuniformを加えるため製品そのものの初回時間ではない。4194番ポートを使用し、計測は同時実行しない。`summarize_compile_batches.py <report.json>... --out <summary.json>` はソース・入力・PNGハッシュ、交互順序、全条件と準備の完了を照合する（繰り返し2回以上）。記録は `docs/3d-qa/compile-batches/`。1個ずつでも最初の準備に約1秒以上かかり、ステップ外の停止も残るため採用保留。
+
 ## 目次（ファイルは平置き）
 
 診断スクリプトは同じディレクトリの補助モジュールを `sys.path`／`with_name()` で読み、`parents[1]` をリポジトリ直下とみなす。QA記録（`docs/3d-qa/*/validation.json` など）は実行時の `script_sha256` を残すため、サブフォルダへの移動や改名はしない。

@@ -1,0 +1,445 @@
+{
+  "note": "Timer gaps cover page initialization through garden-ready + 500ms, including time before entry. Instrumented fresh shaders; not product load times or FPS. Image comparisons use first baseline of each engine.",
+  "runs": [
+    {
+      "engine": "cft",
+      "version": "153.0.8010.12",
+      "report": "docs/3d-qa/compile-batches/cft.json",
+      "reportSha256": "11a2cae224fe7317aa4897f360386a2c7393e45428d26c5138c0d69c2b90db7c",
+      "timings": {
+        "0": {
+          "loadMs": [
+            9857.0,
+            9812.0
+          ],
+          "longestTimerGapMs": [
+            8602.20000000298,
+            8579.59999999404
+          ],
+          "steps": [
+            0,
+            0
+          ],
+          "maxStepMs": [
+            0,
+            0
+          ],
+          "interceptedPipelineKeys": [
+            0,
+            0
+          ]
+        },
+        "1": {
+          "loadMs": [
+            12297.0,
+            12251.0
+          ],
+          "longestTimerGapMs": [
+            1365.5,
+            9654.89999999106
+          ],
+          "steps": [
+            29,
+            29
+          ],
+          "maxStepMs": [
+            1364.2999999970198,
+            1315.7000000029802
+          ],
+          "interceptedPipelineKeys": [
+            29,
+            29
+          ]
+        },
+        "3": {
+          "loadMs": [
+            10823.0,
+            10811.0
+          ],
+          "longestTimerGapMs": [
+            1839,
+            1884.699999988079
+          ],
+          "steps": [
+            11,
+            11
+          ],
+          "maxStepMs": [
+            1837.7000000029802,
+            1883.6000000089407
+          ],
+          "interceptedPipelineKeys": [
+            31,
+            31
+          ]
+        }
+      },
+      "images": [
+        {
+          "round": 0,
+          "batch": 0,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 0,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 0,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 1,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 1,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 1,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 3,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 3,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 3,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 3,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 3,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 3,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 1,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 1,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 1,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 0,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 0,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 0,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "version": "26.6",
+      "report": "docs/3d-qa/compile-batches/webkit.json",
+      "reportSha256": "02c3c9e66977f54d2e311133df5d620d0686b2cffc3dfc1117c1572ed191e518",
+      "timings": {
+        "0": {
+          "loadMs": [
+            9914.0,
+            10141.0
+          ],
+          "longestTimerGapMs": [
+            8698,
+            8904
+          ],
+          "steps": [
+            0,
+            0
+          ],
+          "maxStepMs": [
+            0,
+            0
+          ],
+          "interceptedPipelineKeys": [
+            0,
+            0
+          ]
+        },
+        "1": {
+          "loadMs": [
+            12110.0,
+            11543.0
+          ],
+          "longestTimerGapMs": [
+            1571,
+            1379
+          ],
+          "steps": [
+            29,
+            29
+          ],
+          "maxStepMs": [
+            1563,
+            1368
+          ],
+          "interceptedPipelineKeys": [
+            29,
+            29
+          ]
+        },
+        "3": {
+          "loadMs": [
+            11233.0,
+            10584.0
+          ],
+          "longestTimerGapMs": [
+            2118,
+            1906
+          ],
+          "steps": [
+            11,
+            11
+          ],
+          "maxStepMs": [
+            2105,
+            1896
+          ],
+          "interceptedPipelineKeys": [
+            31,
+            31
+          ]
+        }
+      },
+      "images": [
+        {
+          "round": 0,
+          "batch": 0,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 0,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 0,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 1,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 1,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 1,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 3,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 3,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "batch": 3,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 3,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 3,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 3,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 1,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 1,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 1,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 0,
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 0,
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "batch": 0,
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        }
+      ]
+    }
+  ]
+}
