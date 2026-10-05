@@ -1,12 +1,16 @@
 // A temporary build, never a product switch: draw at most N new heavy Metal pipelines per
 // frame, then read back the canvas to drain the GPU queue before yielding to the browser.
-// node scripts/diagnose_compile_batches.mjs <out.json> [cft|webkit] [conditions: 0,1,p0,p1,a1,ia1,fia1] [repeat]
+// node scripts/diagnose_compile_batches.mjs <out.json> [cft|webkit] [conditions: 0,1,p0,p1,a1,ia1,fia1,v1] [repeat]
 // A "p" prefix first waits for each compiled program asynchronously and fetches its link info
 // (three's onFirstUse) one program per frame, before any draw. "p0" then draws normally.
 // An "a" prefix splits new draw states of every program, not only heavy materials.
 // An "f" prefix waits for each step with a polled fence instead of a blocking 1-pixel readback.
 // An "i" prefix submits only the first draw of each newly admitted state per step; states admitted
 // earlier are suppressed instead of redrawn (the previous split redrew every admitted draw).
+// A "v" condition hooks no draw: through three's own API it hides the heavy materials
+// (material.visible), draws every pass once, then shows N heavy program/state groups per step,
+// the water's mirror and the main pass in separate steps. The garden's new groups follow the same
+// way before its first draw. Every condition logs where each new draw state is first submitted.
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
 import { createHash } from 'node:crypto';
@@ -18,19 +22,28 @@ import { join, resolve } from 'node:path';
 const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
 const sizes = batches.split(',');
 const parse = (condition) => {
+  const visibility = Number(condition.match(/^v(\d+)$/)?.[1] ?? 0);
+  if (visibility) return { prefetch: false, fence: false, incremental: false, all: false, batch: 0, visibility };
   const [, p, f, i, a, n] = condition.match(/^(p?)(f?)(i?)(a?)(\d+)$/) ?? [];
-  return { prefetch: p === 'p', fence: f === 'f', incremental: i === 'i', all: a === 'a', batch: Number(n) };
+  return {
+    prefetch: p === 'p',
+    fence: f === 'f',
+    incremental: i === 'i',
+    all: a === 'a',
+    batch: Number(n),
+    visibility,
+  };
 };
 const repeat = Number(repetitions);
 if (
   !out ||
   !['cft', 'webkit'].includes(engine) ||
   new Set(sizes).size !== sizes.length ||
-  !sizes.every((c) => /^p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)$/.test(c)) ||
+  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|v[1-9]\d*)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
-  throw new Error('usage: <out.json> [cft|webkit] [0,1,p0,p1,a1,ia1,fia1] [repeat]');
+  throw new Error('usage: <out.json> [cft|webkit] [0,1,p0,p1,a1,ia1,fia1,v1] [repeat]');
 const root = resolve('.');
 const scratch = mkdtempSync(join(tmpdir(), 'sui-compile-batches-'));
 for (const file of ['package.json', 'vite.config.ts', 'index.html']) cpSync(join(root, file), join(scratch, file));
@@ -95,6 +108,28 @@ instrumented = instrumented.replace(
           }
           return stats;`,
 );
+// The garden's warmup runs before the loop's first draw of it; the loop draws nothing meanwhile.
+for (const [target, insertion] of [
+  [
+    '            scene.add(woodland);\n',
+    `            if ((window as any).__suiBatches?.visibility) {
+              (window as any).__suiBatches.warming = true;
+              (window as any).__suiBatches.mark('garden-warmup');
+              await warmup(woodland, 'garden');
+              (window as any).__suiBatches.warming = false;
+              if (disposed || failed) return;
+            }
+`,
+  ],
+  [
+    '        renderer.setAnimationLoop((now) => {\n',
+    `          if ((window as any).__suiBatches?.warming) return;
+`,
+  ],
+]) {
+  if (instrumented.split(target).length !== 2) throw new Error(`warmup anchor changed: ${target}`);
+  instrumented = instrumented.replace(target, `${target}${insertion}`);
+}
 const anchor = '        setViewRef.current = setView;\n        setView(stageRef.current);';
 if (source.split(anchor).length !== 2) throw new Error('warmup insertion anchor changed');
 writeFileSync(
@@ -152,6 +187,101 @@ writeFileSync(
           output.resetTemporal();
           probe.mark('first-view');
         }
+        // No WebGL hook is needed from here: programs, their source lengths and the materials come
+        // from three, and only material.visible chooses what each step draws.
+        const warmed = new Set<string>();
+        let mirrorShown = true;
+        const warmup = async (root: THREE.Object3D, label: string) => {
+          const gl = renderer.getContext();
+          // The materials and the shadow mask's (about 73,000 characters, ~0.13 s a pipeline).
+          const heavy = (program: any) =>
+            (gl.getShaderSource(program.vertexShader)?.length ?? 0) +
+              (gl.getShaderSource(program.fragmentShader)?.length ?? 0) >
+            60000;
+          // A Metal pipeline per program and the material state of the draw (blend, writes).
+          const groups = new Map<string, THREE.Material[]>();
+          root.traverse((child) => {
+            const material = (child as THREE.Mesh).material;
+            for (const each of Array.isArray(material) ? material : material ? [material] : []) {
+              const program = (renderer.properties.get(each) as any).currentProgram;
+              if (!program || !each.visible || !heavy(program)) continue;
+              const key = [
+                program.id,
+                each.transparent,
+                each.blending,
+                each.blendSrc,
+                each.blendDst,
+                each.blendEquation,
+                each.premultipliedAlpha,
+                each.depthWrite,
+                each.colorWrite,
+                each.alphaToCoverage,
+              ].join();
+              if (warmed.has(key)) continue;
+              const list = groups.get(key) ?? [];
+              if (!list.includes(each)) list.push(each);
+              groups.set(key, list);
+            }
+          });
+          const split = [...groups.values()].flat();
+          const show = (shown: THREE.Material[]) => {
+            for (const each of split) each.visible = shown.includes(each);
+          };
+          const mirrorPass = () => {
+            if (!mirror || !mirrorShown) return false;
+            mirrorShown = mirror.render(scene, camera, waterEffects.surface, [performance.now()]).rendered;
+            return mirrorShown;
+          };
+          const mainPass = () => {
+            if (masked()) {
+              renderer.getDrawingBufferSize(drawingSize);
+              shadowMask!.render(scene, camera, drawingSize.x, drawingSize.y);
+            }
+            output.render(scene, camera);
+            shadowMask?.end();
+            return true;
+          };
+          const step = async (name: string, pass: () => boolean) => {
+            if (disposed || failed) return;
+            probe.begin();
+            // A pass that drew nothing (the mirror out of view) does not wait for the GPU.
+            if (!pass()) return;
+            await probe.end(gl, name);
+            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+            await new Promise<void>((resolve) => setTimeout(resolve, 20));
+          };
+          probe.recording = true;
+          show([]);
+          sideImages.update(camera);
+          await step(label + ':mirror:rest', mirrorPass);
+          await step(label + ':main:rest', mainPass);
+          const entries = [...groups.entries()];
+          for (let i = 0; i < entries.length; i += probe.visibility) {
+            const chunk = entries.slice(i, i + probe.visibility);
+            show(chunk.flatMap(([, materials]) => materials));
+            const names = chunk.map(([key]) => key.split(',')[0]).join('+');
+            await step(label + ':mirror:' + names, mirrorPass);
+            await step(label + ':main:' + names, mainPass);
+            for (const [key] of chunk) warmed.add(key);
+          }
+          for (const each of split) each.visible = true;
+          probe.recording = false;
+          probe.groups.push({ label, groups: entries.map(([key, materials]) => ({ key, materials: materials.map((m) => m.name) })) });
+        };
+        if (probe?.visibility) {
+          const view = definition.views[stageRef.current];
+          camera.position.fromArray(view.position);
+          camera.lookAt(new THREE.Vector3().fromArray(view.target));
+          camera.fov = view.fov;
+          camera.updateProjectionMatrix();
+          lighting.update(targetTime(), 0, true);
+          probe.mark('visibility-warmup');
+          await warmup(scene, 'body');
+          if (disposed || failed) return;
+          lighting.refreshShadows();
+          output.resetTemporal();
+          probe.mark('first-view');
+        }
 ${anchor}`,
     ),
 );
@@ -170,9 +300,16 @@ server.stderr.on('data', (b) => {
   serverLog += b;
 });
 
-function hook({ batch, prefetch, fence, incremental, all, nonce }) {
+function hook({ batch, prefetch, fence, incremental, all, visibility, nonce }) {
   const probe = (window.__suiBatches = {
     batch,
+    visibility,
+    recording: false,
+    warming: false,
+    groups: [],
+    newKeys: [],
+    stepNewKeys: 0,
+    stepNewHeavyKeys: 0,
     prefetch,
     fence,
     incremental,
@@ -233,6 +370,7 @@ function hook({ batch, prefetch, fence, incremental, all, nonce }) {
     started = 0,
     drawSequence = 0,
     stepDraws = [];
+  const drawnKeys = new Set();
   const at = (gl) => {
     if (!state.has(gl))
       state.set(gl, {
@@ -409,21 +547,40 @@ function hook({ batch, prefetch, fence, incremental, all, nonce }) {
     const draw = p[name];
     p[name] = function (...args) {
       if (!allow(this)) return;
+      const stepping = probe.active || probe.recording;
       const entry = {
         sequence: ++drawSequence,
         program: describe(at(this).program),
         name,
         start: performance.now(),
         phase: probe.phase,
-        step: probe.active ? probe.steps.length : null,
+        step: stepping ? probe.steps.length : null,
       };
+      // Where each draw state is first submitted (tracked in JS, as the gate's key; no query).
+      const key = trackedKey(this, at(this).program);
+      if (!drawnKeys.has(key)) {
+        drawnKeys.add(key);
+        const isHeavy = heavy.get(at(this).program) === true;
+        probe.newKeys.push({
+          at: entry.start,
+          phase: probe.phase,
+          step: entry.step,
+          program: entry.program,
+          heavy: isHeavy,
+          key,
+        });
+        if (stepping) {
+          probe.stepNewKeys++;
+          if (isHeavy) probe.stepNewHeavyKeys++;
+        }
+      }
       // Only actual submitted draws enter this history; suppressed calls do not.
       // No new GL queries here: correlation must not introduce another driver barrier.
       const result = draw.apply(this, args);
       entry.end = performance.now();
       probe.recentDraws.push(entry);
       if (probe.recentDraws.length > 8) probe.recentDraws.shift();
-      if (probe.active) stepDraws.push(entry);
+      if (stepping) stepDraws.push(entry);
       return result;
     };
   }
@@ -432,9 +589,11 @@ function hook({ batch, prefetch, fence, incremental, all, nonce }) {
     probe.admitted = 0;
     probe.pending = false;
     probe.skipped = 0;
+    probe.stepNewKeys = 0;
+    probe.stepNewHeavyKeys = 0;
     stepDraws = [];
   };
-  probe.end = async (gl) => {
+  probe.end = async (gl, label = null) => {
     const drawEnd = performance.now();
     let polls = null;
     if (probe.fence) {
@@ -452,6 +611,9 @@ function hook({ batch, prefetch, fence, incremental, all, nonce }) {
     // on the tested ANGLE/Metal backend; this bounds the queue before the next frame.
     else gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
     probe.steps.push({
+      label,
+      newKeys: probe.stepNewKeys,
+      newHeavyKeys: probe.stepNewHeavyKeys,
       polls,
       start: started,
       drawMs: drawEnd - started,
@@ -577,14 +739,14 @@ try {
   version = browser.version();
   for (let round = 0; round < repeat; round++)
     for (const condition of round % 2 ? [...sizes].reverse() : sizes) {
-      const { batch, prefetch, fence, incremental, all } = parse(condition);
+      const { batch, prefetch, fence, incremental, all, visibility } = parse(condition);
       const context = await browser.newContext({
         viewport: { width: 1200, height: 800 },
         deviceScaleFactor: 1.5,
         reducedMotion: 'reduce',
       });
       const nonce = `sui${Date.now()}${condition}r${round}`;
-      await context.addInitScript(hook, { batch, prefetch, fence, incremental, all, nonce });
+      await context.addInitScript(hook, { batch, prefetch, fence, incremental, all, visibility, nonce });
       await context.addInitScript(() => {
         localStorage.setItem('sui-quality', 'standard');
         localStorage.setItem('sui-guide-dismissed', 'yes');
@@ -613,6 +775,7 @@ try {
         prefetches: window.__suiBatches.prefetches,
         pipelines: window.__suiBatches.seen.size,
         keyMismatches: window.__suiBatches.keyMismatches,
+        groups: window.__suiBatches.groups,
       }));
       row.condition = condition;
       row.batch = batch;
@@ -620,6 +783,7 @@ try {
       row.fence = fence;
       row.incremental = incremental;
       row.all = all;
+      row.visibility = visibility;
       row.round = round;
       row.nonce = nonce;
       row.errors = errors;
@@ -630,6 +794,10 @@ try {
         ['totonou', '外気浴へ'],
       ]) {
         if (button) {
+          // Labels new draw states only; the phase events ended with the measurement.
+          await page.evaluate((phase) => {
+            window.__suiBatches.phase = phase;
+          }, `stage-${stage}`);
           await page.getByRole('button', { name: button, exact: true }).click();
           await page.locator(`.sauna-3d-canvas[data-stage="${stage}"]`).waitFor();
         }
@@ -644,6 +812,7 @@ try {
         writeFileSync(path, image);
         row.stages.push({ stage, image: path, sha256: createHash('sha256').update(image).digest('hex') });
       }
+      row.newKeys = await page.evaluate(() => window.__suiBatches.newKeys);
       rows.push(row);
       console.log(
         JSON.stringify({
@@ -655,11 +824,17 @@ try {
           steps: row.steps.length,
           pipelines: row.pipelines,
           stepSum: Math.round(row.steps.reduce((sum, s) => sum + s.ms, 0)),
+          maxStep: Math.round(Math.max(0, ...row.steps.map((s) => s.ms))),
+          heavyKeysByPhase: Object.entries(
+            row.newKeys
+              .filter((k) => k.heavy)
+              .reduce((counts, k) => ({ ...counts, [k.phase]: (counts[k.phase] ?? 0) + 1 }), {}),
+          ),
           keyMismatches: row.keyMismatches.length,
           errors,
         }),
       );
-      if (errors.length || row.keyMismatches.length || row.steps.at(-1)?.pending)
+      if (errors.length || row.keyMismatches.length || row.steps.at(-1)?.pending || (visibility && !row.steps.length))
         throw new Error('incomplete/errored diagnostic');
       await context.close();
     }
@@ -672,7 +847,7 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 5,
+        schema: 6,
         engine,
         version,
         revision,
@@ -683,7 +858,7 @@ try {
         source: hash(source),
         script: scriptHash,
         temporarySource: hash(readFileSync(scenePath)),
-        note: 'Fresh zero-valued output uniform per run; no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only unless an a-condition; i-conditions skip already admitted states. Instrumented, not product timings.',
+        note: 'Fresh zero-valued output uniform per run; no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only unless an a-condition; i-conditions skip already admitted states. v-conditions hook no draw (material.visible steps); newKeys logs where each draw state was first submitted, stage changes included. Instrumented, not product timings.',
         rows,
       },
       null,

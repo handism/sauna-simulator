@@ -14,6 +14,26 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def normalized(key):
+    """The draw-state key without the blend factors when blending is off (they cost no pipeline)."""
+    program, formats, blend, src, dst, depth, color, coverage = json.loads(key)
+    return json.dumps([program, formats, blend, src if blend else None, dst if blend else None, depth, color, coverage])
+
+
+def new_heavy_keys(row):
+    """Heavy draw states by the phase that first submitted them: raw, and blend factors ignored."""
+    raw, seen, real = {}, set(), {}
+    for item in row["newKeys"]:
+        if not item["heavy"]:
+            continue
+        raw[item["phase"]] = raw.get(item["phase"], 0) + 1
+        key = normalized(item["key"])
+        if key not in seen:
+            seen.add(key)
+            real[item["phase"]] = real.get(item["phase"], 0) + 1
+    return raw, real
+
+
 def timeline(row):
     events = row["events"]
     assert events[0]["phase"] == "before-entry" and events[-1]["phase"] == "measurement-end"
@@ -29,7 +49,15 @@ def timeline(row):
         cursor = phases.index(phase, cursor) + 1
     assert ("batch-warmup" in phases) == bool(row["batch"])
     assert ("prefetch" in phases) == row["prefetch"]
-    optional = (["batch-warmup"] if row["batch"] else []) + (["prefetch"] if row["prefetch"] else [])
+    visible = bool(row["visibility"])
+    assert ("visibility-warmup" in phases) == visible and ("garden-warmup" in phases) == visible
+    if visible:
+        # The warmup sits between the first-view mark and its repeat before the real first view.
+        warm = phases.index("visibility-warmup")
+        assert phases.index("compile-body") < warm < phases.index("first-view", warm) < phases.index("first-full-draw")
+        assert phases.index("add-garden") < phases.index("garden-warmup") < phases.index("garden-ready")
+    optional = ((["batch-warmup"] if row["batch"] else []) + (["prefetch"] if row["prefetch"] else [])
+                + (["visibility-warmup", "garden-warmup"] if visible else []))
     assert set(phases) == set(required + ["before-entry", "measurement-end"] + optional), "unknown phases"
     if row["prefetch"]:
         assert phases.index("prefetch") < phases.index("first-view", phases.index("prefetch"))
@@ -44,7 +72,8 @@ def timeline(row):
     for index, step in enumerate(row["steps"]):
         for draw in step["draws"]:
             validate_draw(draw)
-            assert draw["step"] == index and draw["phase"] == "batch-warmup"
+            assert draw["step"] == index
+            assert draw["phase"] in (["visibility-warmup", "garden-warmup"] if visible else ["batch-warmup"])
             assert step["start"] <= draw["start"] <= draw["end"] <= step["end"]
         assert all(a["sequence"] < b["sequence"] for a, b in zip(step["draws"], step["draws"][1:]))
     assert all(a["end"] <= b["start"] for a, b in zip(row["programQueries"], row["programQueries"][1:])), "overlapping program queries"
@@ -89,6 +118,8 @@ def timeline(row):
                                                      for step in row["steps"]),
                           "prefetchOverlapMs": sum(max(0, min(sample["end"], item["end"]) - max(sample["start"], item["start"]))
                                                    for item in prefetches)})
+    spans_by_phase = {span["phase"]: span for span in spans}
+    raw_keys, real_keys = new_heavy_keys(row)
     longest = {kind: max((s for s in intervals if s["kind"] == kind), key=lambda s: s["ms"], default=None)
                for kind in ["timer", "raf"]}
     first_queries = [c for c in row["programQueries"] if row["steps"] and row["steps"][0]["start"] <= c["start"] <= row["steps"][0]["end"]]
@@ -102,7 +133,12 @@ def timeline(row):
     prefetched = {p["program"] for p in prefetches}
     later = [c for c in row["programQueries"] if c["start"] > (prefetches[-1]["end"] if prefetches else -1)]
     assert not prefetched & {c["subjectProgram"] for c in later}, "prefetched program queried again"
-    return {"round": row["round"], "condition": row["condition"], "batch": row["batch"], "prefetch": row["prefetch"], "incremental": row["incremental"], "fence": row["fence"], "all": row["all"], "phases": spans,
+    return {"round": row["round"], "condition": row["condition"], "batch": row["batch"], "visibility": row["visibility"],
+            "stepLabels": [{"label": s["label"], "ms": s["ms"], "drawMs": s["drawMs"], "drainMs": s["drainMs"],
+                            "newKeys": s["newKeys"], "newHeavyKeys": s["newHeavyKeys"]} for s in row["steps"]],
+            "warmupGroups": row["groups"],
+            "newHeavyKeysByPhase": raw_keys, "newHeavyPipelinesByPhase": real_keys,
+            "firstGardenDrawMs": spans_by_phase["first-garden-draw"]["ms"], "prefetch": row["prefetch"], "incremental": row["incremental"], "fence": row["fence"], "all": row["all"], "phases": spans,
             "prefetches": prefetches,
             "prefetchedHeavyPrograms": sorted(p for p in prefetched if programs[p]["chars"] > 160000),
             "prefetchMaxGetUniformsMs": max((p["ms"] for p in prefetches), default=0),
@@ -124,7 +160,7 @@ def timeline(row):
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 5, "incremental schema required"
+    assert report["schema"] == 6, "visibility schema required"
     assert report["script"] == digest("scripts/diagnose_compile_batches.mjs"), "script changed"
     assert report["source"] == digest("src/components/3d/SaunaScene.tsx"), "scene changed"
     for file, expected in report["inputs"].items():
@@ -135,8 +171,19 @@ def summarize(path):
     rows = report["rows"]
     assert [(r["round"], r["condition"]) for r in rows] == expected, "incomplete or reordered run"
     for row in rows:
-        assert row["prefetch"] == row["condition"].startswith("p") and row["batch"] == int(row["condition"].lstrip("pfia"))
-        assert row["all"] == ("a" in row["condition"]) and row["incremental"] == ("i" in row["condition"])
+        if row["condition"].startswith("v"):
+            assert row["visibility"] == int(row["condition"][1:]) > 0 and row["batch"] == 0
+            assert not (row["prefetch"] or row["all"] or row["incremental"] or row["fence"])
+        else:
+            assert row["prefetch"] == row["condition"].startswith("p") and row["batch"] == int(row["condition"].lstrip("pfia"))
+            assert row["all"] == ("a" in row["condition"]) and row["incremental"] == ("i" in row["condition"])
+            assert row["visibility"] == 0 and not row["groups"]
+        # Every submitted draw state is logged once, with the hook's own heaviness and a valid key.
+        keys = [k["key"] for k in row["newKeys"]]
+        assert keys and len(keys) == len(set(keys)), "duplicate new-key log"
+        assert all(normalized(k) for k in keys)
+        assert all(a["at"] <= b["at"] for a, b in zip(row["newKeys"], row["newKeys"][1:])), "reordered new keys"
+        assert {k["phase"] for k in row["newKeys"]} <= {e["phase"] for e in row["events"]} | {"stage-water", "stage-totonou"}
         assert row["fence"] == ("f" in row["condition"]) and not row["keyMismatches"], "tracked key differs from queried key"
     assert len({r["nonce"] for r in rows}) == len(rows), "reused shader cache identity"
     images = {}
@@ -146,7 +193,16 @@ def summarize(path):
         assert not row["errors"], "browser errors"
         assert row["data"]["garden"] == "ready" and float(row["data"]["loadMs"]) > 0
         steps = row["steps"]
-        if row["batch"]:
+        if row["visibility"]:
+            # No draw is gated: the steps only choose visible materials; mirror steps that drew
+            # nothing are not waited for, so they are absent.
+            assert steps and row["pipelines"] == 0 and all(s["newPipelines"] == 0 and s["polls"] is None for s in steps)
+            assert all(s["label"].split(":")[0] in ("body", "garden") and s["skippedDraws"] == 0 for s in steps)
+            assert [g["label"] for g in row["groups"]] == ["body", "garden"]
+            warmed = [g["key"] for group in row["groups"] for g in group["groups"]]
+            assert len(warmed) == len(set(warmed)), "group warmed twice"
+            assert sum(s["newHeavyKeys"] for s in steps) == sum(1 for k in row["newKeys"] if k["heavy"] and k["step"] is not None)
+        elif row["batch"]:
             assert steps and not steps[-1]["pending"], "unfinished warmup"
             assert all(0 <= s["newPipelines"] <= row["batch"] and s["ms"] >= 0 for s in steps)
             assert sum(s["newPipelines"] for s in steps) == row["pipelines"]
@@ -187,6 +243,9 @@ def summarize(path):
             "prefetchedPrograms": [len(r["prefetches"]) for r in selected],
             "prefetchMaxGetUniformsMs": [max((p["ms"] for p in r["prefetches"]), default=0) for r in selected],
             "prefetchSumGetUniformsMs": [sum(p["ms"] for p in r["prefetches"]) for r in selected],
+            "firstGardenDrawMs": [t["firstGardenDrawMs"] for t in timelines if t["condition"] == condition],
+            "newHeavyPipelinesByPhase": [t["newHeavyPipelinesByPhase"] for t in timelines if t["condition"] == condition],
+            "newHeavyKeysByPhase": [t["newHeavyKeysByPhase"] for t in timelines if t["condition"] == condition],
         }
     def compare(reference_round):
         comparisons = []
