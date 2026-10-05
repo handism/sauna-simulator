@@ -1,9 +1,12 @@
 // A temporary build, never a product switch: draw at most N new heavy Metal pipelines per
 // frame, then read back the canvas to drain the GPU queue before yielding to the browser.
-// node scripts/diagnose_compile_batches.mjs <out.json> [cft|webkit] [conditions: 0,1,p0,p1,a1] [repeat]
+// node scripts/diagnose_compile_batches.mjs <out.json> [cft|webkit] [conditions: 0,1,p0,p1,a1,ia1,fia1] [repeat]
 // A "p" prefix first waits for each compiled program asynchronously and fetches its link info
 // (three's onFirstUse) one program per frame, before any draw. "p0" then draws normally.
 // An "a" prefix splits new draw states of every program, not only heavy materials.
+// An "f" prefix waits for each step with a polled fence instead of a blocking 1-pixel readback.
+// An "i" prefix submits only the first draw of each newly admitted state per step; states admitted
+// earlier are suppressed instead of redrawn (the previous split redrew every admitted draw).
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
 import { createHash } from 'node:crypto';
@@ -15,19 +18,19 @@ import { join, resolve } from 'node:path';
 const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
 const sizes = batches.split(',');
 const parse = (condition) => {
-  const [, p, a, n] = condition.match(/^(p?)(a?)(\d+)$/) ?? [];
-  return { prefetch: p === 'p', all: a === 'a', batch: Number(n) };
+  const [, p, f, i, a, n] = condition.match(/^(p?)(f?)(i?)(a?)(\d+)$/) ?? [];
+  return { prefetch: p === 'p', fence: f === 'f', incremental: i === 'i', all: a === 'a', batch: Number(n) };
 };
 const repeat = Number(repetitions);
 if (
   !out ||
   !['cft', 'webkit'].includes(engine) ||
   new Set(sizes).size !== sizes.length ||
-  !sizes.every((c) => /^p?(a[1-9]\d*|\d+)$/.test(c)) ||
+  !sizes.every((c) => /^p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
-  throw new Error('usage: <out.json> [cft|webkit] [0,1,p0,p1,a1] [repeat]');
+  throw new Error('usage: <out.json> [cft|webkit] [0,1,p0,p1,a1,ia1,fia1] [repeat]');
 const root = resolve('.');
 const scratch = mkdtempSync(join(tmpdir(), 'sui-compile-batches-'));
 for (const file of ['package.json', 'vite.config.ts', 'index.html']) cpSync(join(root, file), join(scratch, file));
@@ -139,7 +142,7 @@ writeFileSync(
             if (disposed || failed) { probe.active = false; return; }
             probe.begin();
             draw();
-            const pending = probe.end(renderer.getContext());
+            const pending = await probe.end(renderer.getContext());
             await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
             await new Promise<void>((resolve) => setTimeout(resolve, 20));
             if (!pending) break;
@@ -167,11 +170,15 @@ server.stderr.on('data', (b) => {
   serverLog += b;
 });
 
-function hook({ batch, prefetch, all, nonce }) {
+function hook({ batch, prefetch, fence, incremental, all, nonce }) {
   const probe = (window.__suiBatches = {
     batch,
     prefetch,
+    fence,
+    incremental,
     all,
+    skipped: 0,
+    keyMismatches: [],
     prefetches: [],
     active: batch > 0,
     steps: [],
@@ -227,9 +234,25 @@ function hook({ batch, prefetch, all, nonce }) {
     drawSequence = 0,
     stepDraws = [];
   const at = (gl) => {
-    if (!state.has(gl)) state.set(gl, { program: null });
+    if (!state.has(gl))
+      state.set(gl, {
+        program: null,
+        draw: null,
+        read: null,
+        renderbuffer: null,
+        blend: false,
+        src: gl.ONE,
+        dst: gl.ZERO,
+        depthMask: true,
+        colorMask: [true, true, true, true],
+        coverage: false,
+      });
     return state.get(gl);
   };
+  // Track the state the pipeline key needs in JavaScript. Querying it per draw costs a synchronous
+  // round trip for every suppressed draw (~0.1s per step with ~500 draws), unlike a product warmup.
+  const attachments = new WeakMap(),
+    storage = new WeakMap();
   const p = WebGL2RenderingContext.prototype;
   const source = p.shaderSource;
   p.shaderSource = function (shader, text) {
@@ -243,23 +266,84 @@ function hook({ batch, prefetch, all, nonce }) {
     sources.set(shader, text);
     return source.call(this, shader, text);
   };
-  const attach = p.attachShader;
+  const attachShader = p.attachShader;
   p.attachShader = function (program, shader) {
     shaders.set(program, [...(shaders.get(program) ?? []), shader]);
-    return attach.call(this, program, shader);
+    return attachShader.call(this, program, shader);
   };
   const use = p.useProgram;
   p.useProgram = function (program) {
     at(this).program = program;
     return use.call(this, program);
   };
-  const allow = (gl) => {
-    const program = at(gl).program;
-    if (!program) return true;
-    describe(program);
-    if (!probe.active || !(probe.all || heavy.get(program))) return true;
-    // Query the bound framebuffer's formats/samples rather than its object identity: identical
-    // targets share Metal pipelines. The synchronous queries are part of this diagnostic's cost.
+  const wrap = (name, after) => {
+    const call = p[name];
+    p[name] = function (...args) {
+      const result = call.apply(this, args);
+      after(this, at(this), ...args);
+      return result;
+    };
+  };
+  wrap('bindFramebuffer', (gl, s, target, fb) => {
+    if (target !== gl.READ_FRAMEBUFFER) s.draw = fb;
+    if (target !== gl.DRAW_FRAMEBUFFER) s.read = fb;
+  });
+  const attach = (gl, s, target, attachment, value) => {
+    const fb = target === gl.READ_FRAMEBUFFER ? s.read : s.draw;
+    if (!fb) return;
+    if (!attachments.has(fb)) attachments.set(fb, new Map());
+    const map = attachments.get(fb);
+    for (const point of attachment === gl.DEPTH_STENCIL_ATTACHMENT
+      ? [gl.DEPTH_ATTACHMENT, gl.STENCIL_ATTACHMENT]
+      : [attachment])
+      map.set(point, value);
+  };
+  wrap('framebufferTexture2D', (gl, s, target, attachment, _textarget, texture) =>
+    attach(gl, s, target, attachment, texture ? gl.TEXTURE : gl.NONE),
+  );
+  wrap('framebufferTextureLayer', (gl, s, target, attachment, texture) =>
+    attach(gl, s, target, attachment, texture ? gl.TEXTURE : gl.NONE),
+  );
+  wrap('framebufferRenderbuffer', (gl, s, target, attachment, _rbtarget, renderbuffer) =>
+    attach(gl, s, target, attachment, renderbuffer ?? gl.NONE),
+  );
+  wrap('bindRenderbuffer', (_gl, s, _target, renderbuffer) => {
+    s.renderbuffer = renderbuffer;
+  });
+  wrap('renderbufferStorage', (_gl, s, _target, format) => {
+    if (s.renderbuffer) storage.set(s.renderbuffer, [format, 0]);
+  });
+  wrap('renderbufferStorageMultisample', (_gl, s, _target, samples, format) => {
+    if (s.renderbuffer) storage.set(s.renderbuffer, [format, samples]);
+  });
+  for (const [name, value] of [
+    ['enable', true],
+    ['disable', false],
+  ])
+    wrap(name, (gl, s, cap) => {
+      if (cap === gl.BLEND) s.blend = value;
+      if (cap === gl.SAMPLE_ALPHA_TO_COVERAGE) s.coverage = value;
+    });
+  wrap('blendFunc', (_gl, s, src, dst) => Object.assign(s, { src, dst }));
+  wrap('blendFuncSeparate', (_gl, s, src, dst) => Object.assign(s, { src, dst }));
+  wrap('depthMask', (_gl, s, flag) => {
+    s.depthMask = !!flag;
+  });
+  wrap('colorMask', (_gl, s, ...mask) => {
+    s.colorMask = mask.map(Boolean);
+  });
+  const trackedKey = (gl, program) => {
+    const s = at(gl);
+    const formats = [];
+    if (s.draw)
+      for (const attachment of [gl.COLOR_ATTACHMENT0, gl.DEPTH_ATTACHMENT]) {
+        const value = attachments.get(s.draw)?.get(attachment) ?? gl.NONE;
+        formats.push(typeof value === 'number' ? value : (storage.get(value) ?? [gl.NONE, 0]));
+      }
+    return JSON.stringify([ids.get(program), formats, s.blend, s.src, s.dst, s.depthMask, s.colorMask, s.coverage]);
+  };
+  // The former per-draw key. Queried only to verify each newly admitted key (a few dozen per run).
+  const queriedKey = (gl, program) => {
     const fb = gl.getParameter(gl.DRAW_FRAMEBUFFER_BINDING);
     const formats = [];
     if (fb)
@@ -296,11 +380,27 @@ function hook({ batch, prefetch, all, nonce }) {
       gl.getParameter(gl.COLOR_WRITEMASK),
       gl.isEnabled(gl.SAMPLE_ALPHA_TO_COVERAGE),
     ]);
-    if (probe.seen.has(key)) return true;
+    return key;
+  };
+  const allow = (gl) => {
+    const program = at(gl).program;
+    if (!program) return true;
+    describe(program);
+    if (!probe.active || !(probe.all || heavy.get(program))) return true;
+    // Formats/samples rather than framebuffer identity: identical targets share Metal pipelines.
+    const key = trackedKey(gl, program);
+    if (probe.seen.has(key)) {
+      if (!probe.incremental) return true;
+      // Its pipeline already exists (admitted earlier, or earlier in this step): skip the redraw.
+      probe.skipped++;
+      return false;
+    }
     if (probe.admitted >= batch) {
       probe.pending = true;
       return false;
     }
+    const queried = queriedKey(gl, program);
+    if (queried !== key) probe.keyMismatches.push({ tracked: key, queried });
     probe.seen.add(key);
     probe.admitted++;
     return true;
@@ -331,14 +431,28 @@ function hook({ batch, prefetch, all, nonce }) {
     started = performance.now();
     probe.admitted = 0;
     probe.pending = false;
+    probe.skipped = 0;
     stepDraws = [];
   };
-  probe.end = (gl) => {
+  probe.end = async (gl) => {
+    const drawEnd = performance.now();
+    let polls = null;
+    if (probe.fence) {
+      // Non-blocking: poll a fence once per frame instead of stalling the main thread on readback.
+      const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      gl.flush();
+      polls = 0;
+      while (gl.getSyncParameter(sync, gl.SYNC_STATUS) !== gl.SIGNALED && polls < 1200) {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        polls++;
+      }
+      gl.deleteSync(sync);
+    }
     // The output pass leaves the canvas bound. Readback drains preceding draws, unlike finish()
     // on the tested ANGLE/Metal backend; this bounds the queue before the next frame.
-    const drawEnd = performance.now();
-    gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+    else gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
     probe.steps.push({
+      polls,
       start: started,
       drawMs: drawEnd - started,
       drainMs: performance.now() - drawEnd,
@@ -346,6 +460,7 @@ function hook({ batch, prefetch, all, nonce }) {
       ms: performance.now() - started,
       draws: stepDraws,
       newPipelines: probe.admitted,
+      skippedDraws: probe.skipped,
       pending: probe.pending,
     });
     return probe.pending;
@@ -373,6 +488,8 @@ function hook({ batch, prefetch, all, nonce }) {
     'getRenderbufferParameter',
     'checkFramebufferStatus',
     'readPixels',
+    'getSyncParameter',
+    'fenceSync',
     'finish',
     'drawElements',
     'drawArrays',
@@ -460,14 +577,14 @@ try {
   version = browser.version();
   for (let round = 0; round < repeat; round++)
     for (const condition of round % 2 ? [...sizes].reverse() : sizes) {
-      const { batch, prefetch, all } = parse(condition);
+      const { batch, prefetch, fence, incremental, all } = parse(condition);
       const context = await browser.newContext({
         viewport: { width: 1200, height: 800 },
         deviceScaleFactor: 1.5,
         reducedMotion: 'reduce',
       });
       const nonce = `sui${Date.now()}${condition}r${round}`;
-      await context.addInitScript(hook, { batch, prefetch, all, nonce });
+      await context.addInitScript(hook, { batch, prefetch, fence, incremental, all, nonce });
       await context.addInitScript(() => {
         localStorage.setItem('sui-quality', 'standard');
         localStorage.setItem('sui-guide-dismissed', 'yes');
@@ -495,10 +612,13 @@ try {
         programQueries: window.__suiBatches.programQueries,
         prefetches: window.__suiBatches.prefetches,
         pipelines: window.__suiBatches.seen.size,
+        keyMismatches: window.__suiBatches.keyMismatches,
       }));
       row.condition = condition;
       row.batch = batch;
       row.prefetch = prefetch;
+      row.fence = fence;
+      row.incremental = incremental;
       row.all = all;
       row.round = round;
       row.nonce = nonce;
@@ -534,10 +654,13 @@ try {
           longestGap: Math.max(0, ...row.gaps),
           steps: row.steps.length,
           pipelines: row.pipelines,
+          stepSum: Math.round(row.steps.reduce((sum, s) => sum + s.ms, 0)),
+          keyMismatches: row.keyMismatches.length,
           errors,
         }),
       );
-      if (errors.length || row.steps.at(-1)?.pending) throw new Error('incomplete/errored diagnostic');
+      if (errors.length || row.keyMismatches.length || row.steps.at(-1)?.pending)
+        throw new Error('incomplete/errored diagnostic');
       await context.close();
     }
 } finally {
@@ -549,7 +672,7 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 4,
+        schema: 5,
         engine,
         version,
         revision,
@@ -560,7 +683,7 @@ try {
         source: hash(source),
         script: scriptHash,
         temporarySource: hash(readFileSync(scenePath)),
-        note: 'Fresh zero-valued output uniform per run; no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only; instrumented, not product timings.',
+        note: 'Fresh zero-valued output uniform per run; no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only unless an a-condition; i-conditions skip already admitted states. Instrumented, not product timings.',
         rows,
       },
       null,

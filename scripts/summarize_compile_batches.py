@@ -102,7 +102,7 @@ def timeline(row):
     prefetched = {p["program"] for p in prefetches}
     later = [c for c in row["programQueries"] if c["start"] > (prefetches[-1]["end"] if prefetches else -1)]
     assert not prefetched & {c["subjectProgram"] for c in later}, "prefetched program queried again"
-    return {"round": row["round"], "condition": row["condition"], "batch": row["batch"], "prefetch": row["prefetch"], "all": row["all"], "phases": spans,
+    return {"round": row["round"], "condition": row["condition"], "batch": row["batch"], "prefetch": row["prefetch"], "incremental": row["incremental"], "fence": row["fence"], "all": row["all"], "phases": spans,
             "prefetches": prefetches,
             "prefetchedHeavyPrograms": sorted(p for p in prefetched if programs[p]["chars"] > 160000),
             "prefetchMaxGetUniformsMs": max((p["ms"] for p in prefetches), default=0),
@@ -124,7 +124,7 @@ def timeline(row):
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 4, "prefetch schema required"
+    assert report["schema"] == 5, "incremental schema required"
     assert report["script"] == digest("scripts/diagnose_compile_batches.mjs"), "script changed"
     assert report["source"] == digest("src/components/3d/SaunaScene.tsx"), "scene changed"
     for file, expected in report["inputs"].items():
@@ -135,8 +135,9 @@ def summarize(path):
     rows = report["rows"]
     assert [(r["round"], r["condition"]) for r in rows] == expected, "incomplete or reordered run"
     for row in rows:
-        assert row["prefetch"] == row["condition"].startswith("p") and row["batch"] == int(row["condition"].lstrip("pa"))
-        assert row["all"] == ("a" in row["condition"])
+        assert row["prefetch"] == row["condition"].startswith("p") and row["batch"] == int(row["condition"].lstrip("pfia"))
+        assert row["all"] == ("a" in row["condition"]) and row["incremental"] == ("i" in row["condition"])
+        assert row["fence"] == ("f" in row["condition"]) and not row["keyMismatches"], "tracked key differs from queried key"
     assert len({r["nonce"] for r in rows}) == len(rows), "reused shader cache identity"
     images = {}
     timelines = []
@@ -149,6 +150,13 @@ def summarize(path):
             assert steps and not steps[-1]["pending"], "unfinished warmup"
             assert all(0 <= s["newPipelines"] <= row["batch"] and s["ms"] >= 0 for s in steps)
             assert sum(s["newPipelines"] for s in steps) == row["pipelines"]
+            assert all(s["skippedDraws"] >= 0 for s in steps)
+            # Fence steps poll once per frame; readback steps never poll.
+            assert all((s["polls"] is not None) == row["fence"] and (s["polls"] is None or 0 <= s["polls"] < 1200) for s in steps)
+            assert row["incremental"] or not any(s["skippedDraws"] for s in steps), "skipped without i"
+            if row["incremental"] and row["all"]:
+                # Every program is gated: only the first draw of each new state is submitted.
+                assert all(len(s["draws"]) == s["newPipelines"] for s in steps), "redrew an admitted state"
         else:
             assert not steps and row["pipelines"] == 0
         assert [s["stage"] for s in row["stages"]] == ["sauna", "water", "totonou"]
@@ -168,6 +176,14 @@ def summarize(path):
             "interceptedPipelineKeys": [r["pipelines"] for r in selected],
             "firstStepMs": [r["steps"][0]["ms"] if r["steps"] else 0 for r in selected],
             "stepSumMs": [sum(s["ms"] for s in r["steps"]) for r in selected],
+            "laterStepMedianMs": [float(np.median([s["ms"] for s in r["steps"][1:]])) if len(r["steps"]) > 1 else 0 for r in selected],
+            "laterStepP90Ms": [float(np.percentile([s["ms"] for s in r["steps"][1:]], 90)) if len(r["steps"]) > 1 else 0 for r in selected],
+            "longestTimerGapAfterFirstStepMs": [max((s["ms"] for s in r["intervals"] if s["kind"] == "timer" and r["steps"] and s["start"] >= r["steps"][0]["end"]), default=0) for r in selected],
+            "maxStepDrawMs": [max((s["drawMs"] for s in r["steps"]), default=0) for r in selected],
+            "maxStepWaitMs": [max((s["drainMs"] for s in r["steps"]), default=0) for r in selected],
+            "drainMedianMs": [float(np.median([s["drainMs"] for s in r["steps"]])) if r["steps"] else 0 for r in selected],
+            "submittedDraws": [sum(len(s["draws"]) for s in r["steps"]) for r in selected],
+            "skippedDraws": [sum(s["skippedDraws"] for s in r["steps"]) for r in selected],
             "prefetchedPrograms": [len(r["prefetches"]) for r in selected],
             "prefetchMaxGetUniformsMs": [max((p["ms"] for p in r["prefetches"]), default=0) for r in selected],
             "prefetchSumGetUniformsMs": [sum(p["ms"] for p in r["prefetches"]) for r in selected],
