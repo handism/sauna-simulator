@@ -5,10 +5,9 @@ import { createHash } from 'node:crypto';
 import { MeshoptDecoder } from 'meshoptimizer/decoder';
 import { MeshoptEncoder } from 'meshoptimizer/encoder';
 await Promise.all([MeshoptDecoder.ready, MeshoptEncoder.ready]);
-const [output] = process.argv.slice(2);
-assert(output, 'Usage: node scripts/diagnose_glb_attributes.mjs report.json');
+const [output, path = 'public/models/sauna.glb'] = process.argv.slice(2);
+assert(output, 'Usage: node scripts/diagnose_glb_attributes.mjs report.json [input.glb]');
 const hash = (data) => createHash('sha256').update(data).digest('hex');
-const path = 'public/models/sauna.glb';
 const source = readFileSync(path);
 assert.equal(source.readUInt32LE(0), 0x46546c67);
 assert.equal(source.readUInt32LE(8), source.length);
@@ -24,13 +23,15 @@ for (const mesh of model.meshes) {
       seen.add(id);
       const accessor = model.accessors[id];
       assert(!accessor.sparse && !accessor.byteOffset);
-      assert([5123, 5126].includes(accessor.componentType));
-      const bytes = accessor.componentType === 5126 ? 4 : 2;
+      const Typed = { 5120: Int8Array, 5123: Uint16Array, 5126: Float32Array }[accessor.componentType];
+      assert(Typed);
+      const bytes = Typed.BYTES_PER_ELEMENT;
       const width = { VEC2: 2, VEC3: 3, VEC4: 4 }[accessor.type];
       assert(width);
       const view = model.bufferViews[accessor.bufferView];
       const ext = view.extensions.KHR_meshopt_compression;
-      assert.equal(ext.byteStride, width * bytes);
+      assert(ext.byteStride >= width * bytes && ext.byteStride % bytes === 0);
+      const stride = ext.byteStride / bytes;
       assert.equal(ext.count, accessor.count);
       const decoded = new Uint8Array(view.byteLength);
       MeshoptDecoder.decodeGltfBuffer(
@@ -41,8 +42,17 @@ for (const mesh of model.meshes) {
         ext.mode,
         ext.filter,
       );
-      const raw = bytes === 4 ? new Float32Array(decoded.buffer) : new Uint16Array(decoded.buffer);
-      const values = Float32Array.from(raw, (v) => (accessor.normalized ? v / 65535 : v));
+      const raw = new Typed(decoded.buffer);
+      const values = new Float32Array(accessor.count * width);
+      for (let i = 0; i < accessor.count; i++)
+        for (let c = 0; c < width; c++) {
+          const v = raw[i * stride + c];
+          values[i * width + c] = accessor.normalized
+            ? accessor.componentType === 5120
+              ? Math.max(v / 127, -1)
+              : v / 65535
+            : v;
+        }
       assert.equal(values.length, accessor.count * width);
       const min = Array(width).fill(Infinity);
       const max = Array(width).fill(-Infinity);
@@ -63,7 +73,7 @@ for (const mesh of model.meshes) {
         min,
         max,
       };
-      if (semantic === 'NORMAL') {
+      if (semantic === 'NORMAL' && accessor.componentType === 5126) {
         assert.equal(accessor.componentType, 5126);
         assert.equal(width, 3);
         const padded = new Float32Array(accessor.count * 4);

@@ -20,12 +20,628 @@
       "name": "OCTAHEDRAL",
       "bits": 8,
       "tolerance": 1.5
+    },
+    "bodyNormals": {
+      "name": "OCTAHEDRAL",
+      "bits": 8,
+      "tolerance": 1.5,
+      "afterExponential": true
     }
   },
   "inputBytes": 29442072,
   "inputSha256": "e6b4b0757389a20873e0cee09d9927dfda0a4c5da0750fbd66f43fd8dd973d3d",
   "files": {
     "sauna.glb": {
+      "outputBytes": 2393152,
+      "outputSha256": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+      "nodes": 66,
+      "triangles": 107816,
+      "verification": {
+        "compressedViews": 309,
+        "exactViews": 100,
+        "filteredViews": 209,
+        "imageViews": 6,
+        "bits": {
+          "POSITION": {
+            "14": 38,
+            "15": 2,
+            "16": 5,
+            "17": 12,
+            "18": 14,
+            "20": 1,
+            "21": 1
+          },
+          "NORMAL": {
+            "8": 2,
+            "10": 71
+          },
+          "TEXCOORD_0": {
+            "8": 1,
+            "12": 1,
+            "13": 12,
+            "14": 35,
+            "15": 8,
+            "16": 1
+          },
+          "TEXCOORD_1": {
+            "14": 4,
+            "16": 1
+          }
+        },
+        "maxError": {
+          "POSITION": 9.961624975405074e-05,
+          "NORMAL": 0.09449311055734992,
+          "TEXCOORD_0": 0.0001220703125,
+          "TEXCOORD_1": 0.00012195110321044922
+        },
+        "bodyNormals": {
+          "name": "OCTAHEDRAL",
+          "bits": 8,
+          "tolerance": 1.5,
+          "rows": [
+            {
+              "accessor": 1,
+              "count": 13489,
+              "maxAngleDegrees": 0.6365935759640523,
+              "beforeBytes": 37967,
+              "afterBytes": 11529
+            },
+            {
+              "accessor": 7,
+              "count": 22988,
+              "maxAngleDegrees": 1.1789567584473613,
+              "beforeBytes": 89258,
+              "afterBytes": 31764
+            },
+            {
+              "accessor": 13,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 18,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 23,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 28,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 33,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 38,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 42,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 47,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 52,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 56,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 60,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 64,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 69,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 73,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 78,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 82,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 86,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 91,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 95,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 99,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 104,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 108,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 112,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 116,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 121,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 126,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 130,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 134,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 138,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 142,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 146,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 150,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 155,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 159,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 164,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 168,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 172,
+              "count": 24921,
+              "maxAngleDegrees": 1.0102194981071786,
+              "beforeBytes": 73329,
+              "afterBytes": 25653
+            },
+            {
+              "accessor": 177,
+              "count": 5778,
+              "maxAngleDegrees": 0.25031328153215354,
+              "beforeBytes": 14253,
+              "afterBytes": 4122
+            },
+            {
+              "accessor": 182,
+              "count": 271,
+              "maxAngleDegrees": 0.6652372160008317,
+              "beforeBytes": 1039,
+              "afterBytes": 349
+            },
+            {
+              "accessor": 186,
+              "count": 12839,
+              "maxAngleDegrees": 0.8030137850348932,
+              "beforeBytes": 36126,
+              "afterBytes": 10836
+            },
+            {
+              "accessor": 192,
+              "count": 1022,
+              "maxAngleDegrees": 0.5522577286980167,
+              "beforeBytes": 3122,
+              "afterBytes": 1029
+            },
+            {
+              "accessor": 197,
+              "count": 244,
+              "maxAngleDegrees": 0.41413609330012313,
+              "beforeBytes": 1054,
+              "afterBytes": 436
+            },
+            {
+              "accessor": 202,
+              "count": 141,
+              "maxAngleDegrees": 0.05638652824499495,
+              "beforeBytes": 452,
+              "afterBytes": 175
+            },
+            {
+              "accessor": 206,
+              "count": 5700,
+              "maxAngleDegrees": 1.0181916424827633,
+              "beforeBytes": 28626,
+              "afterBytes": 11448
+            },
+            {
+              "accessor": 210,
+              "count": 2054,
+              "maxAngleDegrees": 0.6365935759640523,
+              "beforeBytes": 2172,
+              "afterBytes": 772
+            },
+            {
+              "accessor": 214,
+              "count": 288,
+              "maxAngleDegrees": 0.3316905581668425,
+              "beforeBytes": 835,
+              "afterBytes": 286
+            },
+            {
+              "accessor": 219,
+              "count": 15094,
+              "maxAngleDegrees": 0.41244900532232015,
+              "beforeBytes": 42980,
+              "afterBytes": 12858
+            },
+            {
+              "accessor": 223,
+              "count": 1870,
+              "maxAngleDegrees": 0.8984164156910349,
+              "beforeBytes": 7924,
+              "afterBytes": 3158
+            },
+            {
+              "accessor": 228,
+              "count": 761,
+              "maxAngleDegrees": 0.4246907596015953,
+              "beforeBytes": 2375,
+              "afterBytes": 881
+            },
+            {
+              "accessor": 233,
+              "count": 24,
+              "maxAngleDegrees": 0,
+              "beforeBytes": 127,
+              "afterBytes": 71
+            },
+            {
+              "accessor": 237,
+              "count": 18330,
+              "maxAngleDegrees": 1.2163294997798866,
+              "beforeBytes": 87295,
+              "afterBytes": 26709
+            },
+            {
+              "accessor": 241,
+              "count": 5682,
+              "maxAngleDegrees": 0.8205920079544993,
+              "beforeBytes": 13837,
+              "afterBytes": 6406
+            },
+            {
+              "accessor": 244,
+              "count": 1039,
+              "maxAngleDegrees": 1.1360730396011403,
+              "beforeBytes": 4376,
+              "afterBytes": 1680
+            },
+            {
+              "accessor": 247,
+              "count": 256,
+              "maxAngleDegrees": 0.8123026770336336,
+              "beforeBytes": 1075,
+              "afterBytes": 538
+            },
+            {
+              "accessor": 250,
+              "count": 376,
+              "maxAngleDegrees": 0.4131354427080581,
+              "beforeBytes": 1027,
+              "afterBytes": 409
+            },
+            {
+              "accessor": 253,
+              "count": 948,
+              "maxAngleDegrees": 0.7123345435527771,
+              "beforeBytes": 1624,
+              "afterBytes": 747
+            },
+            {
+              "accessor": 256,
+              "count": 948,
+              "maxAngleDegrees": 0.7637911135103772,
+              "beforeBytes": 1612,
+              "afterBytes": 740
+            },
+            {
+              "accessor": 258,
+              "count": 1064,
+              "maxAngleDegrees": 0.7637911135103772,
+              "beforeBytes": 1886,
+              "afterBytes": 831
+            },
+            {
+              "accessor": 261,
+              "count": 880,
+              "maxAngleDegrees": 0.7637911135103772,
+              "beforeBytes": 1550,
+              "afterBytes": 694
+            },
+            {
+              "accessor": 264,
+              "count": 1396,
+              "maxAngleDegrees": 1.0295021961951567,
+              "beforeBytes": 6606,
+              "afterBytes": 2772
+            },
+            {
+              "accessor": 269,
+              "count": 4862,
+              "maxAngleDegrees": 1.008489122886408,
+              "beforeBytes": 17491,
+              "afterBytes": 9768
+            },
+            {
+              "accessor": 272,
+              "count": 433,
+              "maxAngleDegrees": 0.9111455349197036,
+              "beforeBytes": 1802,
+              "afterBytes": 839
+            },
+            {
+              "accessor": 276,
+              "count": 1434,
+              "maxAngleDegrees": 0.8851148381654219,
+              "beforeBytes": 6943,
+              "afterBytes": 2895
+            },
+            {
+              "accessor": 281,
+              "count": 282,
+              "maxAngleDegrees": 0.847226169767229,
+              "beforeBytes": 639,
+              "afterBytes": 284
+            },
+            {
+              "accessor": 284,
+              "count": 351,
+              "maxAngleDegrees": 0.9252471547193354,
+              "beforeBytes": 800,
+              "afterBytes": 353
+            },
+            {
+              "accessor": 287,
+              "count": 333,
+              "maxAngleDegrees": 1.0382299010632121,
+              "beforeBytes": 768,
+              "afterBytes": 335
+            },
+            {
+              "accessor": 290,
+              "count": 324,
+              "maxAngleDegrees": 0.9642253548237064,
+              "beforeBytes": 754,
+              "afterBytes": 323
+            },
+            {
+              "accessor": 293,
+              "count": 282,
+              "maxAngleDegrees": 1.0851692609216905,
+              "beforeBytes": 642,
+              "afterBytes": 290
+            },
+            {
+              "accessor": 296,
+              "count": 1050,
+              "maxAngleDegrees": 0.9926634058923262,
+              "beforeBytes": 4326,
+              "afterBytes": 2040
+            },
+            {
+              "accessor": 299,
+              "count": 2376,
+              "maxAngleDegrees": 0.7775527074060659,
+              "beforeBytes": 8723,
+              "afterBytes": 4787
+            },
+            {
+              "accessor": 303,
+              "count": 717,
+              "maxAngleDegrees": 1.015814314164338,
+              "beforeBytes": 2880,
+              "afterBytes": 1377
+            },
+            {
+              "accessor": 306,
+              "count": 402,
+              "maxAngleDegrees": 0.6591544569005096,
+              "beforeBytes": 2141,
+              "afterBytes": 831
+            }
+          ]
+        }
+      }
+    },
+    "sauna-garden.glb": {
+      "outputBytes": 5979340,
+      "outputSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "nodes": 7,
+      "triangles": 445504,
+      "verification": {
+        "compressedViews": 53,
+        "exactViews": 16,
+        "filteredViews": 37,
+        "imageViews": 0,
+        "bits": {
+          "POSITION": {
+            "18": 3,
+            "19": 7,
+            "20": 6
+          },
+          "TEXCOORD_0": {
+            "8": 5
+          }
+        },
+        "maxError": {
+          "POSITION": 9.123927337132629e-05,
+          "OCT_NORMAL": 1.159396564562088,
+          "TEXCOORD_0": 0
+        },
+        "octNormals": 16
+      }
+    }
+  },
+  "gardenReexport": {
+    "note": "2026-10-04: only sauna-garden.glb was replaced. Blender re-exported SUI_Retreat_v11.blend (sha256 edf3c35b\u2026, the recorded input) to a scratch directory with the current scripts, whose compression stores the garden's normals as 8-bit octahedral int8 (KHR_mesh_quantization). That export's sauna.glb differs from the served one (Thermometer numerals gains TEXCOORD_1, image bytes differ) and was not adopted; sauna.glb and its entry in files are unchanged from the 2026-09-27 recompression.",
+    "inputBytes": 29458904,
+    "inputSha256": "13b026bac08af930058c244b94e68f1755601d994d5adc375b10c33f3bd72b98",
+    "previousGarden": {
+      "outputBytes": 7117228,
+      "outputSha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5"
+    }
+  },
+  "bodyNormalAdoption": {
+    "date": "2026-10-05",
+    "previousBody": {
       "outputBytes": 2725640,
       "outputSha256": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
       "nodes": 66,
@@ -70,42 +686,7 @@
         }
       }
     },
-    "sauna-garden.glb": {
-      "outputBytes": 5979340,
-      "outputSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
-      "nodes": 7,
-      "triangles": 445504,
-      "verification": {
-        "compressedViews": 53,
-        "exactViews": 16,
-        "filteredViews": 37,
-        "imageViews": 0,
-        "bits": {
-          "POSITION": {
-            "18": 3,
-            "19": 7,
-            "20": 6
-          },
-          "TEXCOORD_0": {
-            "8": 5
-          }
-        },
-        "maxError": {
-          "POSITION": 9.123927337132629e-05,
-          "OCT_NORMAL": 1.159396564562088,
-          "TEXCOORD_0": 0
-        },
-        "octNormals": 16
-      }
-    }
-  },
-  "gardenReexport": {
-    "note": "2026-10-04: only sauna-garden.glb was replaced. Blender re-exported SUI_Retreat_v11.blend (sha256 edf3c35b\u2026, the recorded input) to a scratch directory with the current scripts, whose compression stores the garden's normals as 8-bit octahedral int8 (KHR_mesh_quantization). That export's sauna.glb differs from the served one (Thermometer numerals gains TEXCOORD_1, image bytes differ) and was not adopted; sauna.glb and its entry in files are unchanged from the 2026-09-27 recompression.",
-    "inputBytes": 29458904,
-    "inputSha256": "13b026bac08af930058c244b94e68f1755601d994d5adc375b10c33f3bd72b98",
-    "previousGarden": {
-      "outputBytes": 7117228,
-      "outputSha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5"
-    }
+    "report": "../3d-qa/body-attributes/adoption.json",
+    "note": "Postprocess the previously deployed body, no Blender re-export. Reviewed candidate SHA-256 is identical. Existing verification bits/errors describe the preceding exponential stage; bodyNormals describes the final normal layout."
   }
 }

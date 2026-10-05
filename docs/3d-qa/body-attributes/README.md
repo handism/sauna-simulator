@@ -1,6 +1,8 @@
 # 本体の頂点属性（2026-10-05、調査）
 
-配信中の本体GLBの固有アクセサを全復号し、有限値・型・要素数を検査した。製品コードと配信物は変更していない。
+各節は実施時点の記録。現在は末尾の「圧縮パイプラインへの統合・採用」のとおり、本体8bit法線を配信済み。
+
+調査開始時の本体GLBの固有アクセサを全復号し、有限値・型・要素数を検査した。製品コードと配信物は変更していない。
 
 | 属性 | 復号バイト | 圧縮バイト |
 | --- | ---: | ---: |
@@ -182,3 +184,33 @@ python3 scripts/summarize_body_normals_look.py /tmp/sauna-body-look-high /tmp/sa
 **判断：今回の静止画・分割・メモリ・制御した見回しの検証範囲では、採用を妨げる画質劣化は認められない。圧縮パイプラインへ統合する候補とする。** 配信GLB・製品コードは今回も変更していない。次はパイプラインから同じ候補を生成できることの確認と、採用後の通常ブラウザ回帰。波が動く実時間の見回し、速い回転、他ブラウザ・実機、GPU時間は今回の検証に含まない。
 
 検証：型検査、43ファイル291単体テスト、Lint、整形、本番ビルド、撮影16件（計1200枚）、標準・高精細の集計、画素比が不一致の記録の拒否、集計の重複計算を省略する前後で標準画質の全結果が一致、差分チェック。通常ブラウザ回帰一式は製品・配信物を変更していないため再実行していない。
+
+
+## 圧縮パイプラインへの統合・採用（2026-10-05）
+
+本体の8bit法線を採用した。`compress_web_glb.mjs` は本体を従来のEXPONENTIALで圧縮した後、共通の `body_normal_oct.mjs` で法線だけを8bit octへ変換する。診断用候補生成も同じ処理を使う。元のfloat32法線から直接oct化すると前回の画像レビューと入力が変わるため、順序を保持した。`--lossless` は本体・庭とも法線を整数化しない。
+
+今回はBlenderを再書き出しせず、圧縮済み本体だけを移行した。パイプラインの出力・共通処理の候補・前回レビュー済み候補が全バイト一致した。本体2,725,640→2,393,152バイト（−332,488、−12.2%）。庭・位置・UV・色・画像・三角形・ノード・材質は維持される。[採用時の入力・出力・法線検査](adoption.json)、[配信物の圧縮記録](../../3d-export/compression-report.json)。既存のEXPONENTIALのbits/maxErrorは整数化前の検査、bodyNormalsはその後の検査を示す。ドライバーの実メモリやGPU時間の削減を主張する値ではない。
+
+過去の比較を再実行する場合は、調査開始時の本体を取得して、候補生成の第3引数へ渡す。既に8bit化された配信物の二重量子化は拒否する。
+
+```sh
+git show 1900da1:public/models/sauna.glb > /tmp/sauna-body-before-integration.glb
+node scripts/make_body_normal_candidate.mjs /tmp/sauna-body-oct8.glb /tmp/sauna-body-oct8.json /tmp/sauna-body-before-integration.glb
+node scripts/compress_web_glb.mjs /tmp/sauna-body-before-integration.glb /tmp/sauna-body-pipeline.glb /tmp/sauna-body-pipeline.json --body-normals-only
+cmp /tmp/sauna-body-oct8.glb /tmp/sauna-body-pipeline.glb
+cmp /tmp/sauna-body-pipeline.glb public/models/sauna.glb
+bun run test scripts/body_normal_pipeline.test.ts
+```
+
+CLI回帰は未圧縮の小さなGLBから既定の8bit化・他属性の復号一致・形状と非一様スケール保持・再実行一致・losslessの完全復号・圧縮済み本体の移行・二重変換と不正オプションの拒否を検査する。Blender再書き出しの入力は以前から画像などに差があるため、その出力全体の同一性は今回の確認対象ではない。
+
+採用後の `diagnose_glb_attributes.mjs` は正規化int8・ストライド4も復号できる。現在の配信物の属性一覧は出せるが、既に8bitの法線には再量子化の見積もりを付けない。調査当時の法線比較と分割回帰は保存したfloat32本体を第2引数へ渡す。
+
+```sh
+node scripts/diagnose_glb_attributes.mjs /tmp/sauna-body-current-attributes.json
+node scripts/diagnose_glb_attributes.mjs /tmp/sauna-body-before-attributes.json /tmp/sauna-body-before-integration.glb
+bun scripts/diagnose_body_normal_slice.mjs /tmp/sauna-body-before-slice.json /tmp/sauna-body-before-integration.glb
+```
+
+採用後の検証：型検査、44ファイル292単体テスト、Lint、整形、本番ビルド、通常ブラウザ回帰38件成功（Chrome/macOS、10.3分）、差分チェック。通常回帰はGPUバッファ推定の周回と再生成、実コンテキスト喪失、実時間30秒のモデル／チャンク期限と2D復帰、タッチ操作、リサイズ、音源ノード数を含む。初回のサンドボックス内プレビューはlisten EPERMで失敗し、許可された環境で再実行した。前回の画像レビュー済み候補と配信出力が全バイト一致したため、画像比較の再撮影は行っていない。GPU時間・実機・実聴の確認ではない。

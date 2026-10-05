@@ -8,16 +8,22 @@ import { MeshoptEncoder } from 'meshoptimizer/encoder';
 import { sliceUnderwater } from '../src/components/3d/refraction.ts';
 
 await Promise.all([MeshoptDecoder.ready, MeshoptEncoder.ready]);
-const [output] = process.argv.slice(2);
-assert(output, 'Usage: bun scripts/diagnose_body_normal_slice.mjs report.json');
+const [output, path = 'public/models/sauna.glb'] = process.argv.slice(2);
+assert(output, 'Usage: bun scripts/diagnose_body_normal_slice.mjs report.json [float-normal-input.glb]');
 const hash = (data) => createHash('sha256').update(data).digest('hex');
-const path = 'public/models/sauna.glb';
 const source = readFileSync(path);
 assert.equal(source.readUInt32LE(0), 0x46546c67);
 assert.equal(source.readUInt32LE(8), source.length);
 const length = source.readUInt32LE(12);
 const model = JSON.parse(source.subarray(20, 20 + length));
 const binary = source.subarray(28 + length);
+for (const mesh of model.meshes)
+  for (const primitive of mesh.primitives)
+    assert.equal(
+      model.accessors[primitive.attributes.NORMAL].componentType,
+      5126,
+      'Comparison needs the historical float32 body as the second argument; the deployed body is already oct8',
+    );
 const definitionPath = 'public/models/sauna.scene.json';
 const definition = readFileSync(definitionPath);
 const level = JSON.parse(definition).water.center[1];

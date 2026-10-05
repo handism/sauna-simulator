@@ -5,14 +5,15 @@
 // indices, colors and images stay byte-exact. `--lossless` skips the filters.
 // `--garden path` moves the GARDEN nodes into a second GLB that the browser loads after the
 // scene is ready (SaunaScene.tsx): they are most of the bytes and none of the architecture.
-// Its normals become 8-bit octahedral (KHR_mesh_quantization: normalized int8, stride 4), which
-// keeps a third of their GPU memory; only GPU code reads them (refraction.ts rebuilds attributes
-// as typed arrays, but nothing of the garden reaches the water).
+// Both body (after exponential filtering) and garden normals become 8-bit octahedral (KHR_mesh_quantization: normalized int8, stride 4), which
+// reduces normal buffer bytes. Body underwater splitting preserves normalized int8;
+// world-space error, visuals and buffer allocation were separately reviewed in body-attributes/.
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { MeshoptEncoder } from 'meshoptimizer/encoder';
 import { MeshoptDecoder } from 'meshoptimizer/decoder';
+import { quantizeBodyNormals } from './body_normal_oct.mjs';
 
 const EXTENSION = 'KHR_meshopt_compression';
 const VERSION = 1;
@@ -42,15 +43,25 @@ const GARDEN = [
 
 const args = process.argv.slice(2);
 const lossless = args.includes('--lossless');
+// Migrate a previously compressed body without re-exporting/filtering other data.
+const bodyNormalsOnly = args.includes('--body-normals-only');
 const gardenFlag = args.indexOf('--garden');
 const gardenPath = gardenFlag < 0 ? undefined : args[gardenFlag + 1];
 const positional = args.filter(
-  (arg, i) => arg !== '--lossless' && (gardenFlag < 0 || (i !== gardenFlag && i !== gardenFlag + 1)),
+  (arg, i) =>
+    arg !== '--lossless' &&
+    arg !== '--body-normals-only' &&
+    (gardenFlag < 0 || (i !== gardenFlag && i !== gardenFlag + 1)),
 );
 const [input, output, reportPath] = positional;
 assert(
-  input && output && reportPath && positional.length === 3 && (gardenFlag < 0 || gardenPath),
-  'Usage: node scripts/compress_web_glb.mjs input.glb output.glb report.json [--garden garden.glb] [--lossless]',
+  input &&
+    output &&
+    reportPath &&
+    positional.length === 3 &&
+    (gardenFlag < 0 || gardenPath) &&
+    !(bodyNormalsOnly && (lossless || gardenPath)),
+  'Usage: node scripts/compress_web_glb.mjs input.glb output.glb report.json [--garden garden.glb] [--lossless] [--body-normals-only]',
 );
 await Promise.all([MeshoptEncoder.ready, MeshoptDecoder.ready]);
 const source = readFileSync(input);
@@ -59,6 +70,30 @@ assert.equal(source.readUInt32LE(4), 2);
 assert.equal(source.readUInt32LE(8), source.length);
 const jsonLength = source.readUInt32LE(12);
 const model = JSON.parse(source.subarray(20, 20 + jsonLength));
+if (bodyNormalsOnly) {
+  const { result, rows } = await quantizeBodyNormals(source);
+  writeFileSync(output, result);
+  writeFileSync(
+    reportPath,
+    JSON.stringify(
+      {
+        codec: 'meshoptimizer 1.1.1',
+        extension: EXTENSION,
+        version: VERSION,
+        inputBytes: source.length,
+        inputSha256: createHash('sha256').update(source).digest('hex'),
+        outputBytes: result.length,
+        outputSha256: createHash('sha256').update(result).digest('hex'),
+        bodyNormals: { name: 'OCTAHEDRAL', bits: 8, tolerance: OCT_TOLERANCE, rows },
+        note: 'Compressed body migration: only normals/layout changed; all other payloads are byte-exact.',
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+  console.log(`${output}: ${result.length} bytes (body normals only)`);
+  process.exit(0);
+}
 assert.equal(model.buffers.length, 1);
 for (const name of ['EXT_meshopt_compression', EXTENSION])
   assert(!model.extensionsUsed?.includes(name), 'Input is already compressed');
@@ -377,7 +412,13 @@ if (gardenPath) {
 }
 const files = {};
 for (const [path, part] of outputs) {
-  const { result, verification } = compress(part.model, part.binary, path === gardenPath);
+  let { result, verification } = compress(part.model, part.binary, path === gardenPath);
+  if (!lossless && path !== gardenPath) {
+    // Match the reviewed candidate: first filter to float32, then quantize those values.
+    const oct = await quantizeBodyNormals(result);
+    result = oct.result;
+    verification.bodyNormals = { name: 'OCTAHEDRAL', bits: 8, tolerance: OCT_TOLERANCE, rows: oct.rows };
+  }
   writeFileSync(path, result);
   files[path.split('/').pop()] = {
     outputBytes: result.length,
@@ -403,6 +444,7 @@ writeFileSync(
             name: 'EXPONENTIAL',
             mode: EXP_MODE,
             tolerance: TOLERANCE,
+            bodyNormals: { name: 'OCTAHEDRAL', bits: 8, tolerance: OCT_TOLERANCE, afterExponential: true },
             gardenNormals: gardenPath && { name: 'OCTAHEDRAL', bits: 8, tolerance: OCT_TOLERANCE },
           },
       inputBytes: source.length,
