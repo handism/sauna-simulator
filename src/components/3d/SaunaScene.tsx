@@ -344,8 +344,10 @@ export default function SaunaScene({
         };
         // Every material's programs, compiled together off the main thread where the browser can:
         // drawn first, each waited for the driver in turn (about 0.5 s on load). Again if the
-        // quality changed meanwhile. Chrome finished them in about 0.3 s, but took 4-30 s while
-        // another page drew WebGL, so the first draw waits for the rest after a second.
+        // quality changed meanwhile. Chrome finished them in about 0.4 s, about 0.9 s while
+        // another page drew WebGL, and not for 19 s before this page drew while DevTools
+        // screencast such a page (a Playwright trace), so the first draw waits for the rest
+        // after a second (docs/3d-qa/load-compile/).
         for (let compiled: QualityMode | null = null; compiled !== applied;) {
           compiled = applied;
           await output.compile(scene, camera, scene, 1000);
