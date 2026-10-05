@@ -1,6 +1,9 @@
 // A temporary build, never a product switch: draw at most N new heavy Metal pipelines per
 // frame, then read back the canvas to drain the GPU queue before yielding to the browser.
-// node scripts/diagnose_compile_batches.mjs <out.json> [cft|webkit] [batch: 0,1,3] [repeat]
+// node scripts/diagnose_compile_batches.mjs <out.json> [cft|webkit] [conditions: 0,1,p0,p1,a1] [repeat]
+// A "p" prefix first waits for each compiled program asynchronously and fetches its link info
+// (three's onFirstUse) one program per frame, before any draw. "p0" then draws normally.
+// An "a" prefix splits new draw states of every program, not only heavy materials.
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
 import { createHash } from 'node:crypto';
@@ -9,17 +12,22 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSyn
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
-const [out, engine = 'cft', batches = '0,1,3', repetitions = '2'] = process.argv.slice(2);
-const sizes = batches.split(',').map(Number);
+const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
+const sizes = batches.split(',');
+const parse = (condition) => {
+  const [, p, a, n] = condition.match(/^(p?)(a?)(\d+)$/) ?? [];
+  return { prefetch: p === 'p', all: a === 'a', batch: Number(n) };
+};
 const repeat = Number(repetitions);
 if (
   !out ||
   !['cft', 'webkit'].includes(engine) ||
-  !sizes.every((n) => Number.isInteger(n) && n >= 0) ||
+  new Set(sizes).size !== sizes.length ||
+  !sizes.every((c) => /^p?(a[1-9]\d*|\d+)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
-  throw new Error('usage: <out.json> [cft|webkit] [0,1,3] [repeat]');
+  throw new Error('usage: <out.json> [cft|webkit] [0,1,p0,p1,a1] [repeat]');
 const root = resolve('.');
 const scratch = mkdtempSync(join(tmpdir(), 'sui-compile-batches-'));
 for (const file of ['package.json', 'vite.config.ts', 'index.html']) cpSync(join(root, file), join(scratch, file));
@@ -98,6 +106,27 @@ writeFileSync(
       `
         // Diagnostic only. Partial images are hidden until the final full draw.
         const probe = (window as any).__suiBatches;
+        if (probe?.prefetch) {
+          // Programs created by compile(); passes first created by a draw are not in this list.
+          probe.mark('prefetch');
+          for (const program of [...(renderer.info.programs ?? [])] as any[]) {
+            if (disposed || failed) return;
+            const begin = performance.now();
+            let frames = 0;
+            // Non-blocking COMPLETION_STATUS poll; does not prove the Metal pipeline exists.
+            while (!program.isReady() && frames < 600) {
+              await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+              frames++;
+            }
+            const readyAt = performance.now();
+            program.getUniforms();
+            const end = performance.now();
+            probe.prefetches.push({ program: probe.describe(program.program), start: begin, readyAt, end, frames, ms: end - readyAt });
+            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+            await new Promise<void>((resolve) => setTimeout(resolve, 20));
+          }
+          if (!probe.batch) probe.mark('first-view');
+        }
         if (probe?.batch) {
           const view = definition.views[stageRef.current];
           camera.position.fromArray(view.position);
@@ -106,7 +135,7 @@ writeFileSync(
           camera.updateProjectionMatrix();
           lighting.update(targetTime(), 0, true);
           probe.mark('batch-warmup');
-          for (let step = 0; step < 150; step++) {
+          for (let step = 0; step < 400; step++) {
             if (disposed || failed) { probe.active = false; return; }
             probe.begin();
             draw();
@@ -138,9 +167,12 @@ server.stderr.on('data', (b) => {
   serverLog += b;
 });
 
-function hook({ batch, nonce }) {
+function hook({ batch, prefetch, all, nonce }) {
   const probe = (window.__suiBatches = {
     batch,
+    prefetch,
+    all,
+    prefetches: [],
     active: batch > 0,
     steps: [],
     seen: new Set(),
@@ -188,6 +220,7 @@ function hook({ batch, nonce }) {
     }
     return ids.get(program);
   };
+  probe.describe = describe;
   const state = new WeakMap();
   let next = 0,
     started = 0,
@@ -224,7 +257,7 @@ function hook({ batch, nonce }) {
     const program = at(gl).program;
     if (!program) return true;
     describe(program);
-    if (!probe.active || !heavy.get(program)) return true;
+    if (!probe.active || !(probe.all || heavy.get(program))) return true;
     // Query the bound framebuffer's formats/samples rather than its object identity: identical
     // targets share Metal pipelines. The synchronous queries are part of this diagnostic's cost.
     const fb = gl.getParameter(gl.DRAW_FRAMEBUFFER_BINDING);
@@ -426,14 +459,15 @@ try {
   browser = await (engine === 'cft' ? chromium : webkit).launch(engine === 'cft' ? { channel: 'chromium' } : {});
   version = browser.version();
   for (let round = 0; round < repeat; round++)
-    for (const batch of round % 2 ? [...sizes].reverse() : sizes) {
+    for (const condition of round % 2 ? [...sizes].reverse() : sizes) {
+      const { batch, prefetch, all } = parse(condition);
       const context = await browser.newContext({
         viewport: { width: 1200, height: 800 },
         deviceScaleFactor: 1.5,
         reducedMotion: 'reduce',
       });
-      const nonce = `sui${Date.now()}b${batch}r${round}`;
-      await context.addInitScript(hook, { batch, nonce });
+      const nonce = `sui${Date.now()}${condition}r${round}`;
+      await context.addInitScript(hook, { batch, prefetch, all, nonce });
       await context.addInitScript(() => {
         localStorage.setItem('sui-quality', 'standard');
         localStorage.setItem('sui-guide-dismissed', 'yes');
@@ -459,9 +493,13 @@ try {
         slowCalls: window.__suiBatches.slowCalls,
         programs: window.__suiBatches.programs,
         programQueries: window.__suiBatches.programQueries,
+        prefetches: window.__suiBatches.prefetches,
         pipelines: window.__suiBatches.seen.size,
       }));
+      row.condition = condition;
       row.batch = batch;
+      row.prefetch = prefetch;
+      row.all = all;
       row.round = round;
       row.nonce = nonce;
       row.errors = errors;
@@ -482,14 +520,15 @@ try {
         });
         const shots = resolve(out, '..', 'compile-batches-images');
         mkdirSync(shots, { recursive: true });
-        const path = join(shots, `${engine}-${round}-${batch}-${stage}.png`);
+        const path = join(shots, `${engine}-${round}-${condition}-${stage}.png`);
         writeFileSync(path, image);
         row.stages.push({ stage, image: path, sha256: createHash('sha256').update(image).digest('hex') });
       }
       rows.push(row);
       console.log(
         JSON.stringify({
-          batch,
+          condition,
+          prefetched: row.prefetches.length,
           round,
           loadMs: row.data.loadMs,
           longestGap: Math.max(0, ...row.gaps),
@@ -510,7 +549,7 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 3,
+        schema: 4,
         engine,
         version,
         revision,
