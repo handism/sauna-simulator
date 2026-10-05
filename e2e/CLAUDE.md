@@ -35,3 +35,4 @@
 - `body-normals-look.visual.ts` は本体の8bit法線候補を `QA_BODY_MODEL` で差し替え、結露の近接・水風呂の既定視点×昼夕夜で、1 CSS pxずつ12ステップ往復する25枚のPNGを撮る（計150枚）。アプリのrAFを撮影中に保留して1回ずつ進め、TAAの履歴が撮影待ちの間に進むのを防ぐ。動作抑制で波は止め、固定解像度・TAA有効。`CAPTURE_QUALITY`・`CAPTURE_DPR` を受け付ける。現行→候補→候補→現行の記録を `scripts/summarize_body_normals_look.py` で条件照合・ΔE・フレーム間の誤差変化・連続画像にする。実時間の動画・FPS・波と見回しの同時変化の検証ではない。記録とコマンドは `docs/3d-qa/body-attributes/README.md`。
 
 - `garden-indices.gpu.ts` は `QA_GARDEN_MODEL=<候補GLB>` の庭応答だけを差し替え、標準・DPR1・固定解像度の3ステージ×昼夕夜を現行→候補→候補→現行で比較する。既定 `GARDEN_INDEX_REPEAT=4` で描画のあるrAFを4回実行し、描画間隔の平均÷4を費用の診断値にする。PNG・割り当てバッファ推定・呼び出し数・三角形数・入力ハッシュを保存する。`summarize_garden_indices.py` が成功件数と条件一致を検査する。全周・実時間の見回し・実機・ドライバーの実確保量の検証ではない。
+- `garden-surround.visual.ts` は `QA_GARDEN_MODEL` の庭分割候補を全周の静止画でABBA比較する。標準・DPR1・固定解像度・動作抑制で3ステージ×昼夕夜×8方向×3俯仰の216視点を各版2回撮り、各撮影前に70フレーム待つ。DOM演出とフォーカス枠は除く。`summarize_garden_surround.py` は成功件数・視点順・候補／入力／PNGハッシュ・撮影条件を検査し、候補差と再撮影差を分ける。記録は `docs/3d-qa/index-width/`。連続見回しの検証・性能計測ではない。
