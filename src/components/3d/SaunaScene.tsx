@@ -27,6 +27,8 @@ import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } f
 import { createShadowMask } from './shadowMask';
 import { createDynamicResolution } from './dynamicResolution';
 import { createFrameRate } from './frameRate';
+import { startSceneWarmup } from './sceneWarmup';
+import { WarmupInterrupted } from './warmupScheduler';
 
 export interface SceneProps {
   audio: AudioEngine;
@@ -43,6 +45,7 @@ export interface SceneProps {
 }
 
 const STEAM_LAYER = 1;
+const STAGES: AmbientEnv[] = ['sauna', 'water', 'totonou'];
 
 const STAGE_LABELS: Record<AmbientEnv, string> = { sauna: 'サウナ', water: '水風呂', totonou: '外気浴' };
 
@@ -164,7 +167,20 @@ export default function SaunaScene({
     setData('frameRate', frameRate ? 'auto' : 'full');
     // ?temporal=off draws each frame on its own (temporalAA.ts), for comparisons.
     const temporal = query.get('temporal') !== 'off';
+    // ?warmup=split spreads the first draws of the heavy programs over frames, drawing only into
+    // internal targets meanwhile (sceneWarmup.ts). A trial, not yet the default; it needs the HDR
+    // target, as a direct draw into the canvas would show partial images.
+    const warmupMode = query.get('warmup') === 'split' && output.hdr ? 'split' : 'off';
+    setData('warmup', warmupMode);
+    // While warming the render loop, views and sizes wait; a quality or view chosen meanwhile
+    // starts the warmup over for it (`settings` counts those).
+    let warming = false;
+    let settings = 0;
+    let resizePending = false;
+    let viewPending = false;
+    let restoreWarmup = () => {};
     const applyQuality = () => {
+      settings++;
       applied = qualityRef.current;
       const preset = QUALITY[applied];
       const largest = Math.min(window.devicePixelRatio, preset.pixelRatio);
@@ -199,6 +215,11 @@ export default function SaunaScene({
     };
     applyQuality();
     const resize = () => {
+      // A new size clears the canvas, which keeps the last full image while warming.
+      if (warming) {
+        resizePending = true;
+        return;
+      }
       const { width, height } = element.getBoundingClientRect();
       renderer.setSize(width, height);
       camera.aspect = width / Math.max(1, height);
@@ -326,13 +347,16 @@ export default function SaunaScene({
           shadowMask?.end();
           return stats;
         };
-        const setView = (next: AmbientEnv) => {
+        const placeCamera = (next: AmbientEnv) => {
           const view = definition.views[next];
           camera.position.fromArray(view.position);
           camera.lookAt(new THREE.Vector3().fromArray(view.target));
-          updateAudio();
           camera.fov = view.fov;
           camera.updateProjectionMatrix();
+        };
+        const setView = (next: AmbientEnv) => {
+          placeCamera(next);
+          updateAudio();
           steam.stop();
           look.cancel();
           output.resetTemporal();
@@ -348,12 +372,121 @@ export default function SaunaScene({
         // another page drew WebGL, and not for 19 s before this page drew while DevTools
         // screencast such a page (a Playwright trace), so the first draw waits for the rest
         // after a second (docs/3d-qa/load-compile/).
-        for (let compiled: QualityMode | null = null; compiled !== applied;) {
-          compiled = applied;
-          await output.compile(scene, camera, scene, 1000);
-          if (disposed || failed) return;
+        // Prepares the heavy programs under `root` from every stage's view, the entry's first, into
+        // internal targets only. The audio, the metrics and the canvas see none of it (no setView()).
+        // The lighting holds still meanwhile and the camera returns to where it was.
+        let mirrorWarmups = 0;
+        const warm = async (root: THREE.Object3D, part: 'body' | 'garden', deadline: number) => {
+          const generation = settings;
+          const entry = stageRef.current;
+          const saved = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), fov: camera.fov };
+          look.cancel();
+          lighting.update(targetTime(), 0, true);
+          warming = true;
+          setData('warming', part);
+          const run = startSceneWarmup(
+            {
+              renderer,
+              root,
+              views: [entry, ...STAGES.filter((each) => each !== entry)],
+              pose: (next) => {
+                placeCamera(next);
+                sideImages.update(camera);
+                scene.updateMatrixWorld();
+              },
+              passOptions: () => ({
+                mainLayers: camera.layers,
+                mirrorEnabled: mirror !== null && QUALITY[applied].mirror > 0,
+                shadowMaskEnabled: masked(),
+                waterLevel: definition.water.center[1],
+              }),
+              draw: (pass) => {
+                if (pass === 'mirror') {
+                  // A state of its own each time: the mirror keeps no image from the warmup.
+                  const drawn = mirror!.render(scene, camera, waterEffects.surface, [--mirrorWarmups]).rendered;
+                  mirror!.drain();
+                  return drawn;
+                }
+                try {
+                  if (masked()) {
+                    renderer.getDrawingBufferSize(drawingSize);
+                    shadowMask!.render(scene, camera, drawingSize.x, drawingSize.y);
+                  }
+                  output.warm(scene, camera);
+                } finally {
+                  shadowMask?.end();
+                }
+                output.drain();
+                return true;
+              },
+            },
+            {
+              signal: abort.signal,
+              deadline,
+              isCurrent: () => settings === generation,
+              restore: () => {
+                camera.position.copy(saved.position);
+                camera.quaternion.copy(saved.quaternion);
+                camera.fov = saved.fov;
+                camera.updateProjectionMatrix();
+                // A shadow drawn meanwhile may have missed the hidden materials.
+                lighting.refreshShadows();
+                warming = false;
+                setData('warming', 'none');
+              },
+            },
+          );
+          restoreWarmup = run.restore;
+          try {
+            return await run.finished;
+          } finally {
+            restoreWarmup = () => {};
+          }
+        };
+        // What waited for the warmup, before the next full draw.
+        const settle = () => {
+          if (resizePending) {
+            resizePending = false;
+            resize();
+          }
+          output.resetTemporal();
+          if (viewPending) {
+            viewPending = false;
+            setView(stageRef.current);
+          }
+        };
+        let warmupRestarts = 0;
+        for (;;) {
+          for (let compiled: QualityMode | null = null; compiled !== applied;) {
+            compiled = applied;
+            await output.compile(scene, camera, scene, 1000);
+            if (disposed || failed) return;
+          }
+          if (warmupMode !== 'split') break;
+          const began = performance.now();
+          try {
+            const result = await warm(scene, 'body', start + 30000);
+            setData('warmupSteps', String(result.steps));
+            setData('warmupUndrawn', String(result.undrawn));
+            setData('warmupMs', String(Math.round(performance.now() - began)));
+            break;
+          } catch (error) {
+            if (disposed || failed) return;
+            // Missing program information: the first draw waits for the driver, as without.
+            if (!(error instanceof WarmupInterrupted)) {
+              setData('warmup', 'fallback');
+              break;
+            }
+            if (error.reason !== 'superseded') return fail();
+            setData('warmupRestarts', String(++warmupRestarts));
+          }
         }
-        setViewRef.current = setView;
+        if (warmupMode === 'split') settle();
+        setViewRef.current = (next) => {
+          if (!warming) return setView(next);
+          viewPending = true;
+          settings++;
+        };
         setView(stageRef.current);
         steam.points.position.fromArray(definition.stove);
         const firstFrame = draw();
@@ -385,10 +518,33 @@ export default function SaunaScene({
             if (prepare(woodland)) throw Error('Garden under water');
             count('prepassMeshes', prepass.add(woodland));
             count('shadowMaskMeshes', shadowMask?.add(woodland) ?? 0);
-            // Compile for the pass it is drawn in, off the render loop where the browser can.
-            await output.compile(woodland, camera, scene);
-            if (disposed || failed) return;
-            scene.add(woodland);
+            // Not extended by a warmup started over; the body keeps drawing past it.
+            const gardenDeadline = performance.now() + 30000;
+            for (;;) {
+              // Compile for the pass it is drawn in, off the render loop where the browser can.
+              await output.compile(woodland, camera, scene);
+              if (disposed || failed) return;
+              scene.add(woodland);
+              if (warmupMode !== 'split') break;
+              try {
+                const result = await warm(woodland, 'garden', gardenDeadline);
+                setData('gardenWarmupSteps', String(result.steps));
+                setData('gardenWarmupUndrawn', String(result.undrawn));
+                break;
+              } catch (error) {
+                if (disposed || failed) return;
+                if (!(error instanceof WarmupInterrupted)) {
+                  setData('warmup', 'fallback');
+                  break;
+                }
+                // The full image of the body alone, then the garden again for the latest settings.
+                scene.remove(woodland);
+                settle();
+                if (error.reason !== 'superseded') throw error;
+                setData('warmupRestarts', String(++warmupRestarts));
+              }
+            }
+            if (warmupMode === 'split') settle();
             gardenAdded = 1;
             lighting.refreshShadows();
             metrics.reset();
@@ -402,7 +558,7 @@ export default function SaunaScene({
         const seenPosition = new THREE.Vector3();
         const seenQuaternion = new THREE.Quaternion();
         renderer.setAnimationLoop((now) => {
-          if (document.hidden) {
+          if (document.hidden || warming) {
             metrics.pause();
             return;
           }
@@ -438,6 +594,8 @@ export default function SaunaScene({
     }
     void load();
     return () => {
+      // CPU state only, before any GL resource goes.
+      restoreWarmup();
       audio.setSpatialPose(null);
       disposed = true;
       applyQualityRef.current = null;

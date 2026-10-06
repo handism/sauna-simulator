@@ -22,6 +22,9 @@
 // passes that can never draw a group: the mirror for objects below the water or off its layers
 // (or with the mirror off), the main pass for mirror-only objects. Groups are re-collected per view.
 // SUI_HOLD=1 captures the compositor before/during offscreen garden warmup (not timing data).
+// Once SaunaScene.tsx has the product's warmup (sceneWarmup.ts), the prototype conditions above
+// no longer patch it: only "0" (its default) and "w" (the product's ?warmup=split) run, with the
+// same phase marks and draw-state log (schema 11), and SUI_HOLD is not available.
 // SUI_QUALITY=low|standard|high and SUI_LIGHTING=day|evening|night choose the saved settings.
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
@@ -34,6 +37,20 @@ import { basename, join, resolve } from 'node:path';
 const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
 const sizes = batches.split(',');
 const parse = (condition) => {
+  if (condition === 'w')
+    return {
+      prefetch: false,
+      fence: false,
+      incremental: false,
+      all: false,
+      batch: 0,
+      visibility: 0,
+      budget: 0,
+      offscreen: false,
+      multi: false,
+      selective: false,
+      product: true,
+    };
   const [, o, m, s, v, b] = condition.match(/^(o?)(m?)(s?)v(\d+)(?:b(\d+))?$/) ?? [];
   const visibility = Number(v ?? 0);
   if (visibility)
@@ -48,6 +65,7 @@ const parse = (condition) => {
       offscreen: o === 'o',
       multi: m === 'm',
       selective: s === 's',
+      product: false,
     };
   const [, p, f, i, a, n] = condition.match(/^(p?)(f?)(i?)(a?)(\d+)$/) ?? [];
   return {
@@ -61,6 +79,7 @@ const parse = (condition) => {
     offscreen: false,
     multi: false,
     selective: false,
+    product: false,
   };
 };
 const repeat = Number(repetitions);
@@ -76,7 +95,7 @@ if (
   !['low', 'standard', 'high'].includes(quality) ||
   !['day', 'evening', 'night'].includes(lighting) ||
   new Set(sizes).size !== sizes.length ||
-  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|o?(ms?)?v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
+  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|o?(ms?)?v[1-9]\d*(b[1-9]\d*)?|w)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
@@ -91,6 +110,9 @@ symlinkSync(join(root, 'public'), join(scratch, 'public'));
 symlinkSync(join(root, 'node_modules'), join(scratch, 'node_modules'));
 const scenePath = join(scratch, 'src/components/3d/SaunaScene.tsx');
 const source = readFileSync(scenePath, 'utf8');
+const product = source.includes('startSceneWarmup');
+if (product ? hold || !sizes.every((c) => c === '0' || c === 'w') : sizes.includes('w'))
+  throw new Error(product ? 'the product scene runs only 0,w without SUI_HOLD' : 'w needs the product warmup');
 const scriptHash = createHash('sha256')
   .update(readFileSync(new URL(import.meta.url)))
   .digest('hex');
@@ -111,10 +133,11 @@ const inputs = Object.fromEntries(
 const outputPath = join(scratch, 'src/components/3d/hdrOutput.ts');
 let temporaryOutput = readFileSync(outputPath, 'utf8');
 const outputAnchor = '    hdr: true,\n';
-if (temporaryOutput.split(outputAnchor).length !== 2) throw new Error('HDR warmup anchor changed');
-temporaryOutput = temporaryOutput.replace(
-  outputAnchor,
-  `${outputAnchor}
+if (!product && temporaryOutput.split(outputAnchor).length !== 2) throw new Error('HDR warmup anchor changed');
+if (!product)
+  temporaryOutput = temporaryOutput.replace(
+    outputAnchor,
+    `${outputAnchor}
     warm(scene: THREE.Scene, camera: THREE.Camera) {
       const previous = renderer.getRenderTarget();
       renderer.getDrawingBufferSize(size);
@@ -128,25 +151,43 @@ temporaryOutput = temporaryOutput.replace(
       renderer.readRenderTargetPixels(target, 0, 0, 1, 1, new Uint16Array(4));
     },
 `,
-);
+  );
 writeFileSync(outputPath, temporaryOutput);
 // Mark only the temporary source; every insertion must still match exactly once.
 const mark = (phase) => `(window as any).__suiBatches.mark('${phase}');`;
 let instrumented = source;
+// The product's warmup marks the prototype's phase names, which the summary leaves out of the
+// deferred states.
 for (const [anchor, phase] of [
   ['        const get = createModelFetch(abort.signal);', 'fetch-body'],
   ['        const probes = createProbeTextures(irradiance, reflection);', 'prepare-probes'],
   ['        const gltf = await new GLTFLoader()', 'parse-body'],
   ['        prepare(gltf.scene);', 'prepare-body'],
-  ['        for (let compiled: QualityMode | null', 'compile-body'],
-  ['        setViewRef.current = setView;', 'first-view'],
+  ...(product
+    ? [
+        ['          for (let compiled: QualityMode | null', 'compile-body'],
+        ["            const result = await warm(scene, 'body', start + 30000);", 'visibility-warmup'],
+        ['        setViewRef.current = (next) => {', 'first-view'],
+      ]
+    : [
+        ['        for (let compiled: QualityMode | null', 'compile-body'],
+        ['        setViewRef.current = setView;', 'first-view'],
+      ]),
   ['        const firstFrame = draw();', 'first-full-draw'],
   ['        onReady();', 'body-ready'],
   ["            const garden = await get('sauna-garden.glb')", 'fetch-garden'],
   ['            const { scene: woodland } = await new GLTFLoader()', 'parse-garden'],
   ['            gardenScenes.push(woodland);', 'prepare-garden'],
-  ['            await output.compile(woodland, camera, scene);', 'compile-garden'],
-  ['            scene.add(woodland);', 'add-garden'],
+  ...(product
+    ? [
+        ['              await output.compile(woodland, camera, scene);', 'compile-garden'],
+        ['              scene.add(woodland);', 'add-garden'],
+        ["                const result = await warm(woodland, 'garden', gardenDeadline);", 'garden-warmup'],
+      ]
+    : [
+        ['            await output.compile(woodland, camera, scene);', 'compile-garden'],
+        ['            scene.add(woodland);', 'add-garden'],
+      ]),
   ["            setGarden('ready');", 'garden-ready'],
 ]) {
   if (instrumented.split(anchor).length !== 2) throw new Error(`phase anchor changed: ${phase}`);
@@ -170,11 +211,26 @@ instrumented = instrumented.replace(
           }
           return stats;`,
 );
-// The garden's warmup runs before the loop's first draw of it; the loop draws nothing meanwhile.
-for (const [target, insertion] of [
-  [
-    '            scene.add(woodland);\n',
-    `            if ((window as any).__suiBatches?.visibility) {
+if (product) {
+  // Draws into the canvas while the product warms count as partial images.
+  for (const [anchor, value] of [
+    ['          warming = true;\n', 'true'],
+    ['                warming = false;\n', 'false'],
+  ]) {
+    if (instrumented.split(anchor).length !== 2) throw new Error(`warming anchor changed: ${value}`);
+    instrumented = instrumented.replace(anchor, `${anchor}(window as any).__suiBatches.warming = ${value};\n`);
+  }
+  instrumented = instrumented.replace(
+    '    const output = createHdrOutput(renderer);',
+    "    const output = createHdrOutput(renderer);\n    setData('hdr', String(output.hdr));",
+  );
+  writeFileSync(scenePath, instrumented);
+} else {
+  // The garden's warmup runs before the loop's first draw of it; the loop draws nothing meanwhile.
+  for (const [target, insertion] of [
+    [
+      '            scene.add(woodland);\n',
+      `            if ((window as any).__suiBatches?.visibility) {
               (window as any).__suiBatches.warming = true;
               (window as any).__suiBatches.mark('garden-warmup');
               await warmup(woodland, 'garden');
@@ -184,65 +240,68 @@ for (const [target, insertion] of [
               if (disposed || failed) return;
             }
 `,
-  ],
-  [
-    '        renderer.setAnimationLoop((now) => {\n',
-    `          if ((window as any).__suiBatches?.warming) return;
+    ],
+    [
+      '        renderer.setAnimationLoop((now) => {\n',
+      `          if ((window as any).__suiBatches?.warming) return;
 `,
-  ],
-]) {
-  if (instrumented.split(target).length !== 2) throw new Error(`warmup anchor changed: ${target}`);
-  instrumented = instrumented.replace(target, `${target}${insertion}`);
-}
-// Pause BEFORE adding the garden, and sample the last complete frame. The normal loop never
-// draws with material visibility changed; offscreen warmup must keep this compositor image.
-const gardenAnchor = '            scene.add(woodland);\n';
-instrumented = instrumented.replace(
-  gardenAnchor,
-  `
+    ],
+  ]) {
+    if (instrumented.split(target).length !== 2) throw new Error(`warmup anchor changed: ${target}`);
+    instrumented = instrumented.replace(target, `${target}${insertion}`);
+  }
+  // Pause BEFORE adding the garden, and sample the last complete frame. The normal loop never
+  // draws with material visibility changed; offscreen warmup must keep this compositor image.
+  const gardenAnchor = '            scene.add(woodland);\n';
+  instrumented = instrumented.replace(
+    gardenAnchor,
+    `
             if ((window as any).__suiBatches?.visibility) {
               (window as any).__suiBatches.warming = true;
               if ((window as any).__suiBatches.offscreen && (window as any).__suiBatches.hold)
                 await (window as any).__suiBatches.capture('garden:before');
             }
 ${gardenAnchor}`,
-);
-// The s condition tests the layers each pass renders.
-for (const [line, names] of [
-  ["import { createDepthPrepass } from './depthPrepass';", 'createDepthPrepass, PREPASS_LAYER'],
-  ["import { createShadowMask } from './shadowMask';", 'createShadowMask, SHADOW_MASK_LAYER'],
-]) {
-  if (instrumented.split(line).length !== 2) throw new Error(`import changed: ${line}`);
-  instrumented = instrumented.replace(line, line.replace(names.split(',')[0], names));
-}
-const mirrorImport =
-  "import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';";
-if (instrumented.split(mirrorImport).length !== 2) throw new Error('mirror import changed');
-instrumented = instrumented.replace(
-  mirrorImport,
-  mirrorImport.replace('createMirrorUniforms,', 'createMirrorUniforms, MIRROR_LAYER,'),
-);
-instrumented = instrumented.replace(
-  '    element.appendChild(renderer.domElement);',
-  "    element.style.visibility = 'hidden';\n    element.appendChild(renderer.domElement);",
-);
-instrumented = instrumented.replace('        onReady();', "        element.style.visibility = '';\n        onReady();");
-instrumented = instrumented.replace(
-  '    const output = createHdrOutput(renderer);',
-  "    const output = createHdrOutput(renderer);\n    setData('hdr', String(output.hdr));",
-);
-const anchor = '        setViewRef.current = setView;\n        setView(stageRef.current);';
-if (source.split(anchor).length !== 2) throw new Error('warmup insertion anchor changed');
-writeFileSync(
-  scenePath,
-  instrumented
-    .replace(
-      'mirrorState[2] = gardenAdded;',
-      'mirrorState[2] = (window as any).__suiBatches?.active ? performance.now() : gardenAdded;',
-    )
-    .replace(
-      anchor,
-      `
+  );
+  // The s condition tests the layers each pass renders.
+  for (const [line, names] of [
+    ["import { createDepthPrepass } from './depthPrepass';", 'createDepthPrepass, PREPASS_LAYER'],
+    ["import { createShadowMask } from './shadowMask';", 'createShadowMask, SHADOW_MASK_LAYER'],
+  ]) {
+    if (instrumented.split(line).length !== 2) throw new Error(`import changed: ${line}`);
+    instrumented = instrumented.replace(line, line.replace(names.split(',')[0], names));
+  }
+  const mirrorImport =
+    "import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';";
+  if (instrumented.split(mirrorImport).length !== 2) throw new Error('mirror import changed');
+  instrumented = instrumented.replace(
+    mirrorImport,
+    mirrorImport.replace('createMirrorUniforms,', 'createMirrorUniforms, MIRROR_LAYER,'),
+  );
+  instrumented = instrumented.replace(
+    '    element.appendChild(renderer.domElement);',
+    "    element.style.visibility = 'hidden';\n    element.appendChild(renderer.domElement);",
+  );
+  instrumented = instrumented.replace(
+    '        onReady();',
+    "        element.style.visibility = '';\n        onReady();",
+  );
+  instrumented = instrumented.replace(
+    '    const output = createHdrOutput(renderer);',
+    "    const output = createHdrOutput(renderer);\n    setData('hdr', String(output.hdr));",
+  );
+  const anchor = '        setViewRef.current = setView;\n        setView(stageRef.current);';
+  if (source.split(anchor).length !== 2) throw new Error('warmup insertion anchor changed');
+  writeFileSync(
+    scenePath,
+    instrumented
+      .replace(
+        'mirrorState[2] = gardenAdded;',
+        'mirrorState[2] = (window as any).__suiBatches?.active ? performance.now() : gardenAdded;',
+      )
+      .replace(
+        anchor,
+        `
         // Diagnostic only. Partial images are hidden until the final full draw.
         const probe = (window as any).__suiBatches;
         if (probe?.prefetch) {
@@ -534,8 +593,9 @@ writeFileSync(
           probe.mark('first-view');
         }
 ${anchor}`,
-    ),
-);
+      ),
+  );
+}
 execFileSync('bun', ['run', 'build'], { cwd: scratch, stdio: 'inherit' });
 const port = 4194;
 const url = `http://127.0.0.1:${port}/sauna-simulator/`;
@@ -1029,7 +1089,7 @@ try {
       const nonce = `sui${Date.now()}${condition}r${round}`;
       // The cached load reuses the cold load's shader identity in the same browser process.
       for (const cached of warm ? [false, true] : [false]) {
-        const { batch, prefetch, fence, incremental, all, visibility, budget, offscreen, multi, selective } =
+        const { batch, prefetch, fence, incremental, all, visibility, budget, offscreen, multi, selective, product } =
           parse(condition);
         const context = await browser.newContext({
           viewport: { width: 1200, height: 800 },
@@ -1079,7 +1139,7 @@ try {
         page.on('console', (m) => {
           if (m.type() === 'error') errors.push(m.text());
         });
-        await page.goto(`${url}?view=2d&resolution=fixed&frameRate=full`);
+        await page.goto(`${url}?view=2d&resolution=fixed&frameRate=full${product ? '&warmup=split' : ''}`);
         await page.getByRole('button', { name: '音なしで入室する' }).click();
         if (entry !== 'sauna') {
           await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
@@ -1126,6 +1186,7 @@ try {
         row.offscreen = offscreen;
         row.multi = multi;
         row.selective = selective;
+        row.product = product;
         row.samples = samples;
         row.entry = entry;
         row.warm = cached;
@@ -1193,7 +1254,7 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 10,
+        schema: 11,
         entry,
         quality,
         lighting,
@@ -1210,7 +1271,7 @@ try {
         script: scriptHash,
         temporarySource: hash(readFileSync(scenePath)),
         temporaryOutput: hash(readFileSync(outputPath)),
-        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion; 3D enabled from entry stage after entering in 2D. v-conditions choose material.visible, o additionally draws the HDR target without TAA/presentation; m steps the groups from all three stage views (entry first) and counts a group warmed per pass only once three drew one of its materials there; s re-collects groups per view from visible objects and only needs the passes that can draw them. newKeys includes stage changes. SUI_HOLD adds compositor screenshots and waits: its intervals/load times are not performance comparisons. Instrumented, not product timings.',
+        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion; 3D enabled from entry stage after entering in 2D. v-conditions choose material.visible, o additionally draws the HDR target without TAA/presentation; m steps the groups from all three stage views (entry first) and counts a group warmed per pass only once three drew one of its materials there; s re-collects groups per view from visible objects and only needs the passes that can draw them; w is the product warmup (?warmup=split, unpatched but for phase marks), whose steps are not logged. newKeys includes stage changes. SUI_HOLD adds compositor screenshots and waits: its intervals/load times are not performance comparisons. Instrumented, not product timings.',
         rows,
       },
       null,

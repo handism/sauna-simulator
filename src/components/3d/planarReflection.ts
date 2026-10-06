@@ -130,6 +130,7 @@ export function createPlanarReflection(
   const worldPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -level);
   const corners = [new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4()];
   const size = new THREE.Vector2();
+  const pixel = new Uint16Array(4);
   const stats: RenderStats & { rendered: boolean } = { calls: 0, triangles: 0, rendered: false };
   let scale = 0;
   // What the kept image was drawn for; empty when there is none.
@@ -239,6 +240,10 @@ export function createPlanarReflection(
       renderer.setRenderTarget(previous);
       surface.visible = visible;
       return stats;
+    },
+    /** Waits for the last mirror pass (sceneWarmup.ts). */
+    drain() {
+      if (stats.rendered) renderer.readRenderTargetPixels(target, 0, 0, 1, 1, pixel);
     },
     get size() {
       return scale > 0 ? `${target.width}x${target.height}` : '0x0';

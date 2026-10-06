@@ -103,7 +103,11 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       render(scene: THREE.Scene, camera: THREE.Camera) {
         return drawScene(scene, camera);
       },
-      // Needs the half-float target.
+      // Needs the half-float target: drawing into the canvas would show partial images.
+      warm(_scene: THREE.Scene, _camera: THREE.Camera): RenderStats {
+        throw new Error('Warmup needs the HDR target');
+      },
+      drain() {},
       setTemporal(_on: boolean) {},
       resetTemporal() {},
       compile: compileLinked,
@@ -129,6 +133,7 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
   quad.frustumCulled = false;
   const screen = new THREE.Camera();
   const size = new THREE.Vector2();
+  const pixel = new Uint16Array(4);
   const temporal = createTemporalAA(renderer);
   let temporalOn = false;
   return {
@@ -145,6 +150,25 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       renderer.setRenderTarget(null);
       renderer.render(quad, screen);
       return stats;
+    },
+    /**
+     * Draws the scene pass into the HDR target only, as `render` does but without the history or
+     * the canvas: the canvas keeps the last full image (sceneWarmup.ts).
+     */
+    warm(scene: THREE.Scene, camera: THREE.Camera) {
+      const previous = renderer.getRenderTarget();
+      renderer.getDrawingBufferSize(size);
+      if (target.width !== size.x || target.height !== size.y) target.setSize(size.x, size.y);
+      try {
+        renderer.setRenderTarget(target);
+        return drawScene(scene, camera);
+      } finally {
+        renderer.setRenderTarget(previous);
+      }
+    },
+    /** Waits for the draws so far: a one-pixel read finishes the queue, and with it new pipelines. */
+    drain() {
+      renderer.readRenderTargetPixels(target, 0, 0, 1, 1, pixel);
     },
     /** Blends with the previous frames (temporalAA.ts) or not; off releases the histories. */
     setTemporal(on: boolean) {

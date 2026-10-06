@@ -72,7 +72,8 @@ def timeline(row):
         cursor = phases.index(phase, cursor) + 1
     assert ("batch-warmup" in phases) == bool(row["batch"])
     assert ("prefetch" in phases) == row["prefetch"]
-    visible = bool(row["visibility"])
+    # The product's warmup (condition w) marks the same phases but logs no steps.
+    visible = bool(row["visibility"]) or row["product"]
     assert ("visibility-warmup" in phases) == visible and ("garden-warmup" in phases) == visible
     if visible:
         # The warmup sits between the first-view mark and its repeat before the real first view.
@@ -193,7 +194,7 @@ def timeline(row):
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 10, "quality/lighting/selective schema required"
+    assert report["schema"] == 11, "schema with the product warmup required"
     assert report["entry"] in ("sauna", "water", "totonou")
     assert report["quality"] in ("low", "standard", "high") and report["lighting"] in ("day", "evening", "night")
     assert isinstance(report["hold"], bool)
@@ -217,12 +218,19 @@ def summarize(path):
         assert row["selective"] == row["condition"].lstrip("o").startswith("ms")
         assert row["data"]["quality"] == report["quality"]
         assert float(row["data"]["timeOfDay"]) == {"day": 0, "evening": 1, "night": 2}[report["lighting"]]
-        if row["condition"].lstrip("oms").startswith("v"):
+        if row["product"]:
+            assert row["condition"] == "w" and row["visibility"] == row["batch"] == row["budget"] == 0
+            assert not (row["prefetch"] or row["all"] or row["incremental"] or row["fence"] or row["groups"])
+            data = row["data"]
+            assert data["warmup"] == "split" and "warmupRestarts" not in data, "product warmup did not run once"
+            assert int(data["warmupSteps"]) > 0 and int(data["gardenWarmupSteps"]) > 0
+        elif row["condition"].lstrip("oms").startswith("v"):
             visibility, budget = re.fullmatch(r"o?(?:ms?)?v(\d+)(?:b(\d+))?", row["condition"]).groups()
             assert row["visibility"] == int(visibility) > 0 and row["batch"] == 0
             assert row["budget"] == int(budget or 0)
             assert not (row["prefetch"] or row["all"] or row["incremental"] or row["fence"])
         else:
+            assert row["data"].get("warmup", "off") == "off"
             assert row["prefetch"] == row["condition"].startswith("p") and row["batch"] == int(row["condition"].lstrip("pfia"))
             assert row["all"] == ("a" in row["condition"]) and row["incremental"] == ("i" in row["condition"])
             assert row["visibility"] == 0 and row["budget"] == 0 and not row["groups"]
@@ -250,7 +258,7 @@ def summarize(path):
         assert not row["errors"], "browser errors"
         assert row["data"]["garden"] == "ready" and float(row["data"]["loadMs"]) > 0
         assert row["data"]["stage"] == report["entry"]
-        if row["offscreen"]:
+        if row["offscreen"] or row["product"]:
             assert row["data"]["hdr"] == "true", "offscreen run without HDR"
             assert not row["presentationWrites"], "partial warmup wrote to canvas"
         samples = row["samples"]
@@ -357,6 +365,10 @@ def summarize(path):
             "newHeavyKeysByPhase": [t["newHeavyKeysByPhase"] for t in timelines if label(t) == condition],
             "deferredHeavyStates": [len(t["deferredHeavyStates"]) for t in timelines if label(t) == condition],
             "deferredWarmupClassStates": [len(t["deferredWarmupClassStates"]) for t in timelines if label(t) == condition],
+            # The product's own counts (condition w): steps that drew, and groups no view drew.
+            **({key: [int(r["data"][key]) for r in selected]
+                for key in ["warmupSteps", "warmupUndrawn", "warmupMs", "gardenWarmupSteps", "gardenWarmupUndrawn"]}
+               if condition.startswith("w") else {}),
         }
     def compare(reference_round):
         comparisons = []
