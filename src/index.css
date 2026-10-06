@@ -10,8 +10,6 @@
   --wood-deep: #cfb296;
   --on-wood: #26221c;
   --water: #bbcfd0;
-  --water-light: #d0e1e1;
-  --on-water: #192829;
   --moss: #c5d5bb;
   --stone: #18201b;
   --line: #ffffff24;
@@ -40,9 +38,9 @@
   --text-shadow-soft: 0 2px 8px #0009;
   --text-shadow-heading: 0 2px 12px #000, 0 1px 4px #000;
   --text-shadow-status: 0 1px 5px #000;
-  /* 外気浴の呼吸ガイド。円は吸う（苔）と吐く（木）で色味を変え、文字の下には暗色の面を敷く */
+  /* 外気浴の呼吸ガイド。円は吸う（苔）と吐く（木）で色味を変え、文字はぼかした影で読ませる */
   --breath-bg: #14211d6b;
-  --breath-label-bg: #14211de6;
+  --text-shadow-breath: 0 0 12px #000c, 0 1px 3px #000;
   --breath-inhale-border: #c4d4bb80;
   --breath-inhale-bg: #24332b99;
   --breath-inhale-glow: #b3c3a918;
@@ -59,6 +57,8 @@
   --radius-md: 14px;
   --radius-sm: 4px;
   --radius-pill: 999px;
+  /* チェックボックス・スライダー・スクロールバーなどのネイティブ部品を暗い配色で描く */
+  color-scheme: dark;
 }
 
 * {
@@ -201,6 +201,7 @@ body {
 }
 /* 木の色は各場面の主操作（Space キーと同じ操作。入室・終了画面では唯一の進む操作）に付ける */
 .primary-btn.sauna-loyly-btn,
+.primary-btn.cooling-next-btn,
 .primary-btn.totonou-next-btn,
 .primary-btn.app-btn-primary,
 .primary-btn.session-end-btn {
@@ -210,9 +211,6 @@ body {
 }
 .primary-btn.cooling-next-btn {
   width: 100%;
-  background-color: var(--water);
-  border-color: var(--water);
-  color: var(--on-water);
 }
 
 /* Top-right icon controls (fullscreen, UI, sound, display settings) laid out as one row. */
@@ -266,13 +264,11 @@ body {
     background-color: var(--tint-hover);
   }
   .primary-btn.sauna-loyly-btn:hover,
+  .primary-btn.cooling-next-btn:hover,
   .primary-btn.totonou-next-btn:hover,
   .primary-btn.app-btn-primary:hover,
   .primary-btn.session-end-btn:hover {
     background-color: var(--wood-light);
-  }
-  .primary-btn.cooling-next-btn:hover {
-    background-color: var(--water-light);
   }
   .icon-btn:hover {
     background: var(--control-hover);
@@ -995,7 +991,8 @@ h2:focus {
   inset: 0;
   background: rgba(255, 255, 255, 0.05);
   pointer-events: none;
-  z-index: 15;
+  /* 景色と見出しだけを曇らせ、数値を読むパネル（.stage-dock の 12）より下に置く */
+  z-index: 11;
   opacity: 0;
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
@@ -1121,7 +1118,7 @@ h2:focus {
   z-index: 1;
   opacity: 0.65;
   pointer-events: none;
-  background: radial-gradient(circle at center, rgba(16, 24, 21, 0.8) 0%, rgba(4, 8, 7, 1) 100%);
+  background: radial-gradient(circle at center, rgba(16, 24, 21, 0.15) 0%, rgba(4, 8, 7, 0.75) 100%);
   transition: opacity 2s ease;
 }
 .aurora-blob {
@@ -1186,16 +1183,14 @@ h2:focus {
     opacity 0.5s ease;
   z-index: 10;
 }
-/* 景色の上でも読めるよう、文字の下に暗色の面を敷く。枠は円だけに引き、二重の囲みにしない */
+/* 押せる部品に見えないよう文字の下に面は敷かず、ぼかした影と円の暗い地で読ませる */
 .breathing-label {
   font-size: 1.4rem;
   font-weight: 500;
   letter-spacing: 3px;
   z-index: 10;
   color: var(--ink-strong);
-  background: var(--breath-label-bg);
-  border-radius: var(--radius-pill);
-  padding: 14px 18px;
+  text-shadow: var(--text-shadow-breath);
 }
 [data-breath] .aurora-container {
   transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1219,13 +1214,29 @@ h2:focus {
   box-shadow: none;
 }
 
-/* 振り返りかスコアを開くとパネルが呼吸ガイドに重なり、半透明のガラス越しに文字が透けるため、ガイドを退かせる */
-.scene-container:has(.rest-dock [open]) .breathing-circle-premium {
-  opacity: 0;
+/* 振り返りかスコアを開くとパネルが伸びて呼吸ガイドに重なるため、ガイドを見出しの下へ小さく退かせ、
+   パネルはその下までに収める（はみ出す分はパネル内でスクロールし、主操作は下端に固定される）。
+   コンパクト表示では振り返りが隠れるため、ガイドは元の位置のままにする */
+.scene-container:has(.rest-dock:not([data-compact='true']) [open]) {
+  --breath-docked-top: 222px;
+  --breath-docked-size: 84px;
 }
-/* コンパクト表示では振り返りが隠れるため、ガイドは出したままにする（上の規則と同じ詳細度なので後に置く） */
-.scene-container:has(.rest-dock[data-compact='true']) .breathing-circle-premium {
-  opacity: 1;
+.scene-container:has(.rest-dock:not([data-compact='true']) [open]) .breathing-circle-premium {
+  position: absolute;
+  top: calc(var(--breath-docked-top) + env(safe-area-inset-top, 0px));
+  width: var(--breath-docked-size);
+  height: var(--breath-docked-size);
+  margin: 0;
+}
+.scene-container:has(.rest-dock:not([data-compact='true']) [open]) .breathing-label {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+.scene-container:has(.rest-dock:not([data-compact='true']) [open]) .rest-dock {
+  max-height: calc(
+    100dvh - var(--breath-docked-top) - var(--breath-docked-size) - 64px - env(safe-area-inset-top, 0px) -
+      env(safe-area-inset-bottom, 0px)
+  );
 }
 
 .rest-details {
@@ -1504,8 +1515,7 @@ h2:focus {
     gap: 20px 24px;
   }
   .breathing-label {
-    font-size: 1rem;
-    padding: 12px 16px;
+    font-size: 1.1rem;
   }
 }
 @media (max-height: 620px) {
@@ -1537,8 +1547,21 @@ h2:focus {
   .stay-timer-track {
     margin: 6px 0 4px;
   }
+  /* 低い画面では案内を1段にまとめ、景色とメーターを隠す高さを抑える */
   .first-visit-guide {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 0 0 12px;
     font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  .first-visit-guide p {
+    flex: 1;
+  }
+  .first-visit-guide .text-control {
+    flex-shrink: 0;
+    padding: 0 12px;
   }
   .app-start-screen {
     justify-content: flex-start;
@@ -1555,12 +1578,16 @@ h2:focus {
     height: 130px;
     margin-bottom: 46px;
   }
+  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) {
+    --breath-docked-top: 140px;
+    --breath-docked-size: 72px;
+  }
   .breathing-label {
     font-size: 1rem;
-    padding: 10px 12px;
   }
 }
-@media (max-height: 480px) and (min-width: 600px) {
+/* 横に余裕のある低い画面では、見出し・呼吸ガイドを左、パネルを右に分けて中央の景色（サウナストーブなど）を空ける */
+@media (max-height: 480px) and (min-width: 600px), (max-height: 620px) and (min-width: 960px) {
   .stage-heading {
     left: 24px;
     right: auto;
@@ -1574,13 +1601,26 @@ h2:focus {
   }
   .breathing-circle-premium {
     position: absolute;
-    left: calc(19% - 50px);
-    top: 155px;
+    /* 見出し（左24px・幅38%）の中心にそろえ、吸うときの拡大でも見出しに触れない高さに置く */
+    left: calc(24px + 19% - 55px);
+    top: 165px;
     width: 110px;
     height: 110px;
   }
   .breathing-label {
     letter-spacing: 2px;
+  }
+  /* パネルは右にあり呼吸ガイドと重ならないため、振り返りを開いても元の位置と大きさのまま */
+  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) {
+    --breath-docked-top: 165px;
+    --breath-docked-size: 110px;
+  }
+  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) .breathing-label {
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) .rest-dock {
+    max-height: calc(100dvh - 110px);
   }
 }
 @media (max-width: 360px) {
