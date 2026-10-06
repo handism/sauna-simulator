@@ -24,12 +24,10 @@ export default function StageDock({ className = '', children }: { className?: st
       data-compact={compact}
       data-overflow={overflow}
     >
-      {/* パネル上端の取っ手。押すと詳細をたたむ／ひらく */}
+      {/* パネル上端の取っ手。押すと詳細をたたむ／ひらく。切り替えられると分かるよう、短い文字を添える */}
       <button
         type="button"
         className="dock-handle"
-        aria-label={compact ? '詳しく表示' : 'コンパクト表示'}
-        title={compact ? '詳しく表示' : 'コンパクト表示'}
         aria-expanded={!compact}
         aria-controls={id}
         onClick={() => {
@@ -52,6 +50,7 @@ export default function StageDock({ className = '', children }: { className?: st
         >
           <path d={compact ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'} />
         </svg>
+        <span className="dock-handle-label">{compact ? '詳しく表示' : 'コンパクト表示'}</span>
       </button>
       <div ref={contentRef} id={id}>
         {children}

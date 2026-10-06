@@ -8,7 +8,7 @@ export default function FirstVisitGuide() {
   if (dismissed) return null;
   return (
     <aside className="first-visit-guide">
-      <p>ロウリュで石に水をかけ、蒸気を楽しめます。好きなタイミングで水風呂へ。</p>
+      <p>ロウリュで石に水をかけ、蒸気を楽しめます。水風呂へはいつでも。</p>
       <button
         className="text-control"
         onClick={() => {

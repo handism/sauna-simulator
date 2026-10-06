@@ -202,9 +202,14 @@ function App() {
                     </div>
                     <div>
                       <dt>滞在時間</dt>
+                      {/* 1分未満は「0分」を付けず秒だけにする */}
                       <dd>
-                        {Math.floor(sessionSummary.seconds / 60)}
-                        <span> 分 </span>
+                        {sessionSummary.seconds >= 60 && (
+                          <>
+                            {Math.floor(sessionSummary.seconds / 60)}
+                            <span> 分 </span>
+                          </>
+                        )}
                         {sessionSummary.seconds % 60}
                         <span> 秒</span>
                       </dd>
@@ -218,9 +223,15 @@ function App() {
                     </details>
                   )}
                 </div>
-                <button className="primary-btn session-end-btn" onClick={dismissSummary}>
-                  トップに戻る <ActionIcon name="arrow" />
-                </button>
+                {/* トップに戻るのが主操作。続けて入りたい人は入室画面を経ずに、今の音の設定のまま入り直せる */}
+                <div className="session-end-actions">
+                  <button className="primary-btn session-end-btn" onClick={dismissSummary}>
+                    トップに戻る <ActionIcon name="arrow" />
+                  </button>
+                  <button className="primary-btn session-reenter-btn" onClick={() => handleStart(!isMuted)}>
+                    <ActionIcon name="repeat" /> もう一度入室する
+                  </button>
+                </div>
               </section>
             )}
 

@@ -95,15 +95,17 @@ describe('SaunaRoom', () => {
   });
 
   it('shows the elapsed time against the suggested stay', () => {
-    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
-    expect(screen.getByText('0:00')).toBeInTheDocument();
-    expect(screen.getByText('体験の目安 0:50')).toBeInTheDocument();
+    const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    const value = container.querySelector('.stay-timer-value');
+    // The suggestion sits next to the reading; screen readers hear what the second figure means.
+    expect(value).toHaveTextContent('0:00 / 体験の目安 0:50');
+    expect(screen.queryByText('目安に届きました')).not.toBeInTheDocument();
 
     act(() => {
       vi.advanceTimersByTime(50_000);
     });
-    expect(screen.getByText('0:50')).toBeInTheDocument();
-    expect(screen.getByText('目安に届きました。出るのはいつでも。')).toBeInTheDocument();
+    expect(value).toHaveTextContent('0:50 / 体験の目安 0:50');
+    expect(screen.getByText('目安に届きました')).toBeInTheDocument();
   });
 
   it('pours Löyly with the Space key', () => {

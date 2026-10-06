@@ -22,7 +22,7 @@ for (const viewport of [
     await page.screenshot({ path: info.outputPath('welcome.png') });
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeFocused();
-    await expect(page.getByText('体験の目安 0:50')).toBeVisible();
+    await expect(page.locator('.stay-timer-value')).toContainText('/ 体験の目安 0:50');
     await expect(page.getByText('心拍数', { exact: true })).toBeHidden();
     await page.getByText('からだの様子を見る').click();
     await expect(page.getByText('心拍数', { exact: true })).toBeVisible();

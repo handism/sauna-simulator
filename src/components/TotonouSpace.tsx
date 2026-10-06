@@ -19,8 +19,8 @@ export interface TotonouSpaceProps {
 
 const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, onFinish }: TotonouSpaceProps) => {
   const [isInhaling, setIsInhaling] = useState<boolean>(true);
-  const [showFeedback, setShowFeedback] = useState<boolean>(false);
-  // メーターはスコアを初めて開いたときに上がり始める（閉じたまま演出が終わらないように）
+  // メーターはスコアを初めて開いたときに上がり始める（閉じたまま演出が終わらないように）。
+  // 言葉のフィードバックは数値を待たずに開いた時点で出す
   const [isRevealed, setIsRevealed] = useState<boolean>(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -49,7 +49,6 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
     if (!isRevealed) return;
     let animationFrameId: number;
     let currentLevel = 0;
-    let feedbackShown = false;
 
     // FPS非依存のイージングのために前回時刻を記録
     let lastTime = performance.now();
@@ -77,12 +76,6 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
       if (totonouBarRef.current) {
         totonouBarRef.current.style.width = `${currentLevel}%`;
         totonouBarRef.current.style.background = scoreColor(Math.round(currentLevel));
-      }
-
-      // フィードバック表示は一度だけ setState を呼ぶ
-      if (!feedbackShown && currentLevel >= maxTotonou * 0.95) {
-        feedbackShown = true;
-        setShowFeedback(true);
       }
 
       if (currentLevel < maxTotonou) {
@@ -114,6 +107,10 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
 
       {/* 呼吸サークル (プレミアム仕様、吸う/吐くに合わせて伸縮しグローが強まる) */}
       <div className="breathing-circle-premium">
+        {/* 1回の吸う／吐く（4秒）で縁を一周する。切り替えのたびに作り直して最初から描く */}
+        <svg className="breathing-ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle key={isInhaling ? 'inhale' : 'exhale'} cx="50" cy="50" r="49" pathLength={100} />
+        </svg>
         <div className="breathing-label">{isInhaling ? '吸って…' : '吐いて…'}</div>
       </div>
 
@@ -141,6 +138,9 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
           <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
           <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
           <div className="totonou-info-panel">
+            {/* 数値より先に言葉で伝える。開いた時点で読み上げるため、ライブリージョンは常に置いておく */}
+            <div aria-live="polite">{isRevealed && <p className="totonou-feedback">{feedback}</p>}</div>
+
             <div className="totonou-info-row">
               <span className="reading-label">ととのい度</span>
               <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
@@ -156,9 +156,6 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
                 style={{ width: '0%', background: scoreColor(0) }}
               />
             </div>
-
-            {/* フィードバックコメント。表示時に読み上げるため、ライブリージョンは常に置いておく */}
-            <div aria-live="polite">{showFeedback && <p className="totonou-feedback">{feedback}</p>}</div>
 
             {/* これまでのセットの推移（2セット目以降） */}
             {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}

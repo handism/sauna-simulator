@@ -8,6 +8,8 @@
   --wood: #ddc2a3;
   --wood-light: #ecd8be;
   --wood-deep: #cfb296;
+  /* ロウリュ直後に数値を灯す光 */
+  --wood-glow: #ddc2a399;
   --on-wood: #26221c;
   --water: #bbcfd0;
   --moss: #c5d5bb;
@@ -199,7 +201,7 @@ body {
     box-shadow 0.3s ease,
     opacity 0.5s ease;
 }
-/* 木の色は各場面の主操作（Space キーと同じ操作。入室・終了画面では唯一の進む操作）に付ける */
+/* 木の色は各場面の主操作（Space キーと同じ操作。入室画面は音ありの入室、終了画面はトップに戻る）に付ける */
 .primary-btn.sauna-loyly-btn,
 .primary-btn.cooling-next-btn,
 .primary-btn.totonou-next-btn,
@@ -251,6 +253,17 @@ body {
 }
 .ui-hidden .ui-toggle-btn {
   border-color: var(--wood);
+}
+/* 文字を添えたアイコンボタンは丸から横長の札にする（UIを隠している間の「UI表示」） */
+.icon-btn:has(.icon-btn-label) {
+  width: auto;
+  gap: 6px;
+  padding: 0 16px 0 12px;
+  border-radius: var(--radius-pill);
+}
+.icon-btn-label {
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 /* Hover lift only where a pointer can hover; touch gets a press instead of a sticky lift. */
@@ -609,6 +622,16 @@ h2:focus {
 .session-summary-history {
   margin-top: 20px;
 }
+/* 主操作（トップに戻る）を先に、入り直しは控えめな面で並べる。狭い画面では縦に積む */
+.session-end-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.session-end-actions .primary-btn {
+  min-width: 220px;
+}
 .session-summary-history > summary {
   justify-content: center;
 }
@@ -694,13 +717,19 @@ h2:focus {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  width: 96px;
+  min-width: 96px;
   height: 44px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 0.75rem;
   margin: -18px auto -8px;
   border: 0;
   background: transparent;
   color: var(--ink-muted);
   cursor: pointer;
+}
+.dock-handle-label {
+  color: var(--ink-faint);
 }
 .dock-handle-bar {
   width: 36px;
@@ -710,7 +739,8 @@ h2:focus {
   transition: background-color 0.3s ease;
 }
 @media (hover: hover) {
-  .dock-handle:hover {
+  .dock-handle:hover,
+  .dock-handle:hover .dock-handle-label {
     color: var(--ink-strong);
   }
   .dock-handle:hover .dock-handle-bar {
@@ -817,8 +847,7 @@ h2:focus {
 .stage-dock[data-compact='true'] .cooling-heart,
 .stage-dock[data-compact='true'] .stage-details,
 .stage-dock[data-compact='true'] .first-visit-guide,
-.stage-dock[data-compact='true'] .stay-timer-track,
-.stage-dock[data-compact='true'] .stay-timer-target {
+.stage-dock[data-compact='true'] .stay-timer-track {
   display: none;
 }
 .stage-dock[data-compact='true'] .stay-timer {
@@ -827,16 +856,26 @@ h2:focus {
   margin: 0 0 12px;
 }
 
+/* 初回案内は説明するロウリュボタンの真上に1段で置き、メーターを押し下げない */
 .first-visit-guide {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   background: var(--tint-faint);
   border-left: 2px solid var(--wood);
-  padding: 8px 12px 0;
+  padding: 0 0 0 12px;
   margin-bottom: 12px;
   font-size: 0.8rem;
-  line-height: 1.7;
+  line-height: 1.6;
   color: var(--ink-muted);
 }
+.first-visit-guide p {
+  flex: 1;
+  padding: 6px 0;
+}
 .first-visit-guide .text-control {
+  flex-shrink: 0;
+  padding: 0 12px;
   color: var(--wood-light);
 }
 
@@ -869,7 +908,7 @@ h2:focus {
 }
 .stay-timer-track {
   height: 3px;
-  margin: 8px 0 6px;
+  margin: 8px 0 2px;
   background: var(--line);
   border-radius: var(--radius-pill);
   overflow: hidden;
@@ -882,12 +921,18 @@ h2:focus {
 .cooling-panel .stay-timer-bar {
   background: var(--water);
 }
-.stay-timer-target {
-  font-size: 0.75rem;
+.stay-timer-goal {
+  font-size: 0.8rem;
+  font-weight: 400;
   color: var(--ink-faint);
 }
-.stay-timer[data-reached='true'] .stay-timer-target {
+.stay-timer-reached {
+  margin-left: 10px;
+  font-size: 0.75rem;
   color: var(--moss);
+}
+.stay-timer[data-reached='true'] .stay-timer-bar {
+  background: var(--moss);
 }
 .cooling-panel .stay-timer {
   margin-top: 0;
@@ -936,6 +981,25 @@ h2:focus {
   white-space: nowrap;
   pointer-events: none;
   animation: meter-delta-rise 1.6s ease-out forwards;
+}
+/* ロウリュ直後、上がった数値を木の色で一瞬灯す */
+.meter-flash {
+  display: inline-block;
+  animation: meter-flash 2.4s ease-out;
+}
+@keyframes meter-flash {
+  0% {
+    color: var(--ink-strong);
+  }
+  10%,
+  40% {
+    color: var(--wood-light);
+    text-shadow: 0 0 14px var(--wood-glow);
+  }
+  100% {
+    color: var(--ink-strong);
+    text-shadow: none;
+  }
 }
 /* コンパクト表示ではメーターが隠れるため、同じ上昇幅をパネル右上に一瞬だけ出す */
 .loyly-compact-delta {
@@ -1010,7 +1074,7 @@ h2:focus {
   15% {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.26);
     opacity: 0.9;
   }
   45% {
@@ -1028,27 +1092,37 @@ h2:focus {
 }
 
 /* Screen-space effects are replaced by world-space effects when 3D is ready. */
+/* ロウリュの蒸気。--steam-x / --steam-y は背景画像の中心からのずれ（画像の辺に対する割合）で、
+   正方形の背景を cover で敷くと画像の1辺は画面の長辺になるため、長辺を掛けて画面座標にする。
+   ひとつの要素に濃さの違う塊を重ね、立ちのぼる湯気の量感を出す */
 .sauna-steam-particle {
+  --steam-size: 220px;
+  --steam-side: max(100vw, 100dvh);
   position: absolute;
-  bottom: -5%;
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, #ffffff35 0%, transparent 70%);
+  left: max(-60px, calc(50% + var(--steam-x) * var(--steam-side) - var(--steam-size) / 2));
+  top: calc(50% + var(--steam-y) * var(--steam-side) - var(--steam-size) / 2);
+  width: var(--steam-size);
+  height: var(--steam-size);
+  background:
+    radial-gradient(circle at 50% 60%, #ffffff5c 0%, transparent 45%),
+    radial-gradient(circle at 32% 40%, #ffffff3d 0%, transparent 40%),
+    radial-gradient(circle at 68% 35%, #ffffff33 0%, transparent 42%);
   border-radius: 50%;
+  filter: blur(6px);
   animation: steam-rise 4s ease-out forwards;
   pointer-events: none;
   z-index: 5;
 }
 @keyframes steam-rise {
   0% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(0.8);
     opacity: 0;
   }
-  20% {
-    opacity: 0.8;
+  15% {
+    opacity: 1;
   }
   100% {
-    transform: translateY(-50vh) scale(3);
+    transform: translateY(-45vh) scale(3);
     opacity: 0;
   }
 }
@@ -1166,6 +1240,7 @@ h2:focus {
 
 /* Breathing guide. TotonouSpace flips data-breath between inhale and exhale every 4 seconds. */
 .breathing-circle-premium {
+  position: relative;
   width: clamp(150px, 23vh, 230px);
   height: clamp(150px, 23vh, 230px);
   margin-bottom: 56px;
@@ -1182,6 +1257,35 @@ h2:focus {
     border-color 4s ease,
     opacity 0.5s ease;
   z-index: 10;
+}
+/* 吸う／吐くの残り時間。縁を4秒（TotonouSpace の切り替え周期）で一周し、吸うは苔・吐くは木の色 */
+.breathing-ring {
+  position: absolute;
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+.breathing-ring circle {
+  fill: none;
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: breath-ring 4s linear forwards;
+}
+[data-breath='inhale'] .breathing-ring circle {
+  stroke: var(--moss);
+}
+[data-breath='exhale'] .breathing-ring circle {
+  stroke: var(--wood);
+}
+@keyframes breath-ring {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 /* 押せる部品に見えないよう文字の下に面は敷かず、ぼかした影と円の暗い地で読ませる */
 .breathing-label {
@@ -1282,7 +1386,7 @@ h2:focus {
   justify-content: space-between;
 }
 .totonou-progress-val {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--ink-strong);
 }
 .totonou-progress-bg {
@@ -1295,8 +1399,8 @@ h2:focus {
   height: 100%;
 }
 .totonou-feedback {
-  font-size: 0.9rem;
-  color: var(--ink);
+  font-size: 1rem;
+  color: var(--ink-strong);
   line-height: 1.7;
 }
 
@@ -1545,23 +1649,11 @@ h2:focus {
     margin-top: 8px;
   }
   .stay-timer-track {
-    margin: 6px 0 4px;
+    margin: 6px 0 2px;
   }
-  /* 低い画面では案内を1段にまとめ、景色とメーターを隠す高さを抑える */
   .first-visit-guide {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 0 0 12px;
     font-size: 0.75rem;
     line-height: 1.5;
-  }
-  .first-visit-guide p {
-    flex: 1;
-  }
-  .first-visit-guide .text-control {
-    flex-shrink: 0;
-    padding: 0 12px;
   }
   .app-start-screen {
     justify-content: flex-start;

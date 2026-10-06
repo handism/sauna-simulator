@@ -1,6 +1,6 @@
 import FirstVisitGuide from './FirstVisitGuide';
 import StageDock from './StageDock';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type CSSProperties } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
@@ -13,7 +13,8 @@ import StageStep from './StageStep';
 
 interface Steam {
   id: number;
-  left: string;
+  /** 背景画像の幅に対する横位置（0〜1）。ストーブの上に少しばらつかせる */
+  x: number;
 }
 
 /** 直近のロウリュで上がった温度・湿度。メーター横に一瞬だけ表示する */
@@ -47,6 +48,9 @@ const SAUNA_CONFIG = {
   HR_BASE_INCREASE: 0.02,
   MAX_HEART_RATE: 155,
   STEAM_PARTICLE_DURATION_MS: 4000,
+  /** 2D背景（sauna_bg.webp）でのサウナストーンの位置。画像の幅・高さに対する割合 */
+  STOVE_X: 0.25,
+  STOVE_Y: 0.55,
 };
 
 const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) => {
@@ -105,7 +109,7 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
     // サウナストーンからの蒸気パーティクル
     const newSteam: Steam = {
       id: steamIdRef.current++,
-      left: Math.random() * 60 + 20 + '%',
+      x: SAUNA_CONFIG.STOVE_X + (Math.random() - 0.5) * 0.12,
     };
     setSteams((prev) => [...prev, newSteam]);
     const particleTimeouts = steamParticleTimeoutsRef.current;
@@ -164,7 +168,6 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
         <p>湯気と木の香りを、ゆっくりと。</p>
       </header>
       <StageDock className="sauna-room-panel">
-        <FirstVisitGuide />
         {/* メインデジタルメーター */}
         <div className="sauna-meters-grid">
           <div className="sauna-meter-box">
@@ -175,7 +178,9 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
                   +{loylyDelta.temperature.toFixed(1)}
                 </span>
               )}
-              {temperature.toFixed(1)}°C
+              <span key={`value-${loylyDelta?.id ?? 'idle'}`} className={loylyDelta ? 'meter-flash' : undefined}>
+                {temperature.toFixed(1)}°C
+              </span>
             </div>
           </div>
           <div className="sauna-meter-box">
@@ -186,7 +191,9 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
                   +{loylyDelta.humidity}
                 </span>
               )}
-              {Math.round(humidity)}%
+              <span key={`value-${loylyDelta?.id ?? 'idle'}`} className={loylyDelta ? 'meter-flash' : undefined}>
+                {Math.round(humidity)}%
+              </span>
             </div>
           </div>
         </div>
@@ -212,6 +219,8 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
 
           <p className="detail-note">数値は体験内のシミュレーションです。</p>
         </details>
+        {/* 案内は説明するロウリュボタンの真上に置く（メーターを押し下げない） */}
+        <FirstVisitGuide />
         <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
             <ActionIcon name="steam" /> ロウリュ{' '}
@@ -225,9 +234,19 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
         </div>
       </StageDock>
 
-      {/* サウナストーンからの上昇蒸気パーティクル */}
+      {/* サウナストーンからの上昇蒸気パーティクル。背景は正方形の画像を cover で敷くため、
+          画像上の位置を画面の長辺に合わせて換算する（index.css の .sauna-steam-particle） */}
       {steams.map((steam) => (
-        <div key={steam.id} className="sauna-steam-particle" style={{ left: steam.left }} />
+        <div
+          key={steam.id}
+          className="sauna-steam-particle"
+          style={
+            {
+              '--steam-x': steam.x - 0.5,
+              '--steam-y': SAUNA_CONFIG.STOVE_Y - 0.5,
+            } as CSSProperties
+          }
+        />
       ))}
     </div>
   );

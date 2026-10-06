@@ -6,10 +6,20 @@ interface IconButtonProps {
   pressed: boolean;
   onClick: () => void;
   className?: string;
+  /** アイコンの横に文字でも出す（名前と同じ文字にする） */
+  showLabel?: boolean;
   children: ReactNode;
 }
 
-function IconButton({ label, shortcut, pressed, onClick, className = 'icon-btn', children }: IconButtonProps) {
+function IconButton({
+  label,
+  shortcut,
+  pressed,
+  onClick,
+  className = 'icon-btn',
+  showLabel = false,
+  children,
+}: IconButtonProps) {
   return (
     <button
       type="button"
@@ -32,6 +42,11 @@ function IconButton({ label, shortcut, pressed, onClick, className = 'icon-btn',
       >
         {children}
       </svg>
+      {showLabel && (
+        <span className="icon-btn-label" aria-hidden="true">
+          {label}
+        </span>
+      )}
     </button>
   );
 }
@@ -44,6 +59,8 @@ export function UiToggleButton({ isUiHidden, onToggle }: { isUiHidden: boolean; 
       pressed={isUiHidden}
       onClick={onToggle}
       className="icon-btn ui-toggle-btn"
+      // 隠している間は戻し方を文字でも示す（目のアイコンだけでは意味が取りにくい）
+      showLabel={isUiHidden}
     >
       {isUiHidden ? (
         <>
