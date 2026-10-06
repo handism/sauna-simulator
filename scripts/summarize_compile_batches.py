@@ -1,4 +1,4 @@
-"""Validate compile-batch diagnostics and compare final renderer images (not UI)."""
+"""Validate compile-batch diagnostics and compare canvas-locator captures."""
 
 import argparse
 import hashlib
@@ -33,6 +33,22 @@ def new_heavy_keys(row):
             seen.add(key)
             real[item["phase"]] = real.get(item["phase"], 0) + 1
     return raw, real
+
+
+def deferred_heavy_states(row):
+    """New heavy states outside warmup, excluding inert blend-factor differences."""
+    seen, deferred = set(), []
+    programs = {p["id"]: p for p in row["programs"]}
+    for item in row["newKeys"]:
+        if not item["heavy"]:
+            continue
+        key = normalized(item["key"])
+        if key in seen:
+            continue
+        seen.add(key)
+        if item["phase"] not in ("visibility-warmup", "garden-warmup", "batch-warmup"):
+            deferred.append({"phase": item["phase"], "program": programs[item["program"]], "key": json.loads(key)})
+    return deferred
 
 
 def label(row):
@@ -140,6 +156,7 @@ def timeline(row):
     later = [c for c in row["programQueries"] if c["start"] > (prefetches[-1]["end"] if prefetches else -1)]
     assert not prefetched & {c["subjectProgram"] for c in later}, "prefetched program queried again"
     return {"round": row["round"], "condition": row["condition"], "warm": row["warm"], "budget": row["budget"],
+            "deferredHeavyStates": deferred_heavy_states(row),
             "batch": row["batch"], "visibility": row["visibility"],
             "stepLabels": [{"label": s["label"], "ms": s["ms"], "yielded": s.get("yielded"), "drawMs": s["drawMs"], "drainMs": s["drainMs"],
                             "newKeys": s["newKeys"], "newHeavyKeys": s["newHeavyKeys"]} for s in row["steps"]],
@@ -167,9 +184,14 @@ def timeline(row):
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 7, "warm/budget schema required"
+    assert report["schema"] == 8, "entry/offscreen schema required"
+    assert report["entry"] in ("sauna", "water", "totonou")
+    assert isinstance(report["hold"], bool)
     assert report["script"] == digest("scripts/diagnose_compile_batches.mjs"), "script changed"
     assert report["source"] == digest("src/components/3d/SaunaScene.tsx"), "scene changed"
+    scratch = Path(report["scratch"]) / "src/components/3d"
+    assert digest(scratch / "SaunaScene.tsx") == report["temporarySource"], "temporary scene changed"
+    assert digest(scratch / "hdrOutput.ts") == report["temporaryOutput"], "temporary output changed"
     for file, expected in report["inputs"].items():
         assert digest(file) == expected, f"input changed: {file}"
     sizes, repeat = report["sizes"], report["repeat"]
@@ -179,8 +201,10 @@ def summarize(path):
     rows = report["rows"]
     assert [(r["round"], r["condition"], r["warm"]) for r in rows] == expected, "incomplete or reordered run"
     for row in rows:
-        if row["condition"].startswith("v"):
-            visibility, budget = re.fullmatch(r"v(\d+)(?:b(\d+))?", row["condition"]).groups()
+        assert row["entry"] == report["entry"]
+        assert row["offscreen"] == row["condition"].startswith("o")
+        if row["condition"].lstrip("o").startswith("v"):
+            visibility, budget = re.fullmatch(r"o?v(\d+)(?:b(\d+))?", row["condition"]).groups()
             assert row["visibility"] == int(visibility) > 0 and row["batch"] == 0
             assert row["budget"] == int(budget or 0)
             assert not (row["prefetch"] or row["all"] or row["incremental"] or row["fence"])
@@ -192,8 +216,12 @@ def summarize(path):
         keys = [k["key"] for k in row["newKeys"]]
         assert keys and len(keys) == len(set(keys)), "duplicate new-key log"
         assert all(normalized(k) for k in keys)
+        programs = {p["id"]: p for p in row["programs"]}
+        assert all(k["program"] in programs and json.loads(k["key"])[0] == k["program"]
+                   and k["heavy"] == (programs[k["program"]]["chars"] > 160000)
+                   for k in row["newKeys"]), "invalid new-key program"
         assert all(a["at"] <= b["at"] for a, b in zip(row["newKeys"], row["newKeys"][1:])), "reordered new keys"
-        assert {k["phase"] for k in row["newKeys"]} <= {e["phase"] for e in row["events"]} | {"stage-water", "stage-totonou"}
+        assert {k["phase"] for k in row["newKeys"]} <= {e["phase"] for e in row["events"]} | {"stage-sauna", "stage-water", "stage-totonou"}
         assert row["fence"] == ("f" in row["condition"]) and not row["keyMismatches"], "tracked key differs from queried key"
     # Only a cached load reuses its cold load's shader identity.
     nonces = {}
@@ -202,10 +230,31 @@ def summarize(path):
     assert all(ids == [(ids[0][0], ids[0][1], w) for w in passes] for ids in nonces.values()), "reused shader cache identity"
     images = {}
     timelines = []
+    retained = []
     for row in rows:
         timelines.append(timeline(row))
         assert not row["errors"], "browser errors"
         assert row["data"]["garden"] == "ready" and float(row["data"]["loadMs"]) > 0
+        assert row["data"]["stage"] == report["entry"]
+        if row["offscreen"]:
+            assert row["data"]["hdr"] == "true", "offscreen run without HDR"
+            assert not row["presentationWrites"], "partial warmup wrote to canvas"
+        samples = row["samples"]
+        if report["hold"] and row["offscreen"]:
+            assert len(samples) >= 3 and samples[0]["label"] == "garden:before" and samples[-1]["label"] == "garden:restored", "missing retained-image samples"
+            assert [s["label"] for s in samples[1:-1]] == [s["label"] for s in row["steps"] if s["label"].startswith("garden:") and s["yielded"]], "missing yielded-step capture"
+            reference = None
+            for sample in samples:
+                assert digest(sample["image"]) == sample["sha256"], "retained image changed"
+                image = np.asarray(Image.open(sample["image"]).convert("RGB"), dtype=np.int16)
+                assert image.shape == (1200, 1800, 3)
+                if reference is None:
+                    reference = image
+                delta = np.abs(image - reference)
+                retained.append({"round": row["round"], "condition": row["condition"], "warm": row["warm"], "label": sample["label"],
+                                 "changedPixels": int(np.any(delta, axis=2).sum()), "maxChannelDelta": int(delta.max())})
+        else:
+            assert not samples, "unexpected retained-image capture"
         steps = row["steps"]
         if row["visibility"]:
             # No draw is gated: the steps only choose visible materials; mirror steps that drew
@@ -216,7 +265,7 @@ def summarize(path):
             warmed = [g["key"] for group in row["groups"] for g in group["groups"]]
             assert len(warmed) == len(set(warmed)), "group warmed twice"
             assert sum(s["newHeavyKeys"] for s in steps) == sum(1 for k in row["newKeys"] if k["heavy"] and k["step"] is not None)
-            # Without a budget every step yields; the last step of each warmup always yields.
+            # Without a budget every step yields.
             assert all(isinstance(s["yielded"], bool) for s in steps)
             assert row["budget"] or all(s["yielded"] for s in steps)
         elif row["batch"]:
@@ -232,7 +281,9 @@ def summarize(path):
                 assert all(len(s["draws"]) == s["newPipelines"] for s in steps), "redrew an admitted state"
         else:
             assert not steps and row["pipelines"] == 0
-        assert [s["stage"] for s in row["stages"]] == ["sauna", "water", "totonou"]
+        stages = ["sauna", "water", "totonou"]
+        start = stages.index(report["entry"])
+        assert [s["stage"] for s in row["stages"]] == stages[start:] + stages[:start]
         for stage in row["stages"]:
             assert digest(stage["image"]) == stage["sha256"], "image changed"
             image = np.asarray(Image.open(stage["image"]).convert("RGB"), dtype=np.int16)
@@ -276,6 +327,7 @@ def summarize(path):
                                 "maxChannelDelta": int(delta.max()), "meanChannelDelta": float(delta.mean())})
         return comparisons
     return {"engine": report["engine"], "version": report["version"], "report": str(path),
+            "entry": report["entry"], "hold": report["hold"], "timingComparisonValid": not report["hold"], "retainedImages": retained,
             "reportSha256": digest(path), "timings": timings, "images": compare(0), "imagesVsLastBaseline": compare(repeat - 1), "timelines": timelines}
 
 
@@ -284,6 +336,6 @@ if __name__ == "__main__":
     parser.add_argument("reports", nargs="+")
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
-    result = {"note": "Timer gaps cover page initialization through garden-ready + 500ms, including time before entry; phase attribution uses interval overlaps, not callback labels. Nested slow WebGL calls overlap and must not be summed. Instrumented fresh shaders; not product load times or FPS. Image comparisons use both the first and final baseline of each engine.",
+    result = {"note": "Loading windows begin just before selecting 3D from the entry stage and end at garden-ready + 500ms. SUI_HOLD runs contain deliberate compositor waits/screenshots: timingComparisonValid is false, so their load times/intervals are not performance comparisons. Phase attribution uses overlaps; nested slow calls must not be summed. Fresh instrumented shaders; not product load times or FPS. Images compare both the first/final baseline of each engine and entry; retainedImages compares the paused compositor image across garden warmup.",
               "runs": [summarize(path) for path in args.reports]}
     Path(args.out).write_text(json.dumps(result, indent=2) + "\n")

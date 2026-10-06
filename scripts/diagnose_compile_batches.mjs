@@ -14,6 +14,9 @@
 // A "b<ms>" suffix on a v condition (v1b50) yields to the browser only once the steps since the
 // last yield took that long; cold steps still yield each time, cached ones run back to back.
 // SUI_WARM=1 loads every condition twice with the same shader identity: cold, then cached.
+// SUI_ENTRY=sauna|water|totonou enables 3D from that stage after entering in 2D.
+// An "o" prefix on v (ov1b50) warms the HDR target without presenting partial images.
+// SUI_HOLD=1 captures the compositor before/during offscreen garden warmup (not timing data).
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
 import { createHash } from 'node:crypto';
@@ -25,7 +28,7 @@ import { join, resolve } from 'node:path';
 const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
 const sizes = batches.split(',');
 const parse = (condition) => {
-  const [, v, b] = condition.match(/^v(\d+)(?:b(\d+))?$/) ?? [];
+  const [, o, v, b] = condition.match(/^(o?)v(\d+)(?:b(\d+))?$/) ?? [];
   const visibility = Number(v ?? 0);
   if (visibility)
     return {
@@ -36,6 +39,7 @@ const parse = (condition) => {
       batch: 0,
       visibility,
       budget: Number(b ?? 0),
+      offscreen: o === 'o',
     };
   const [, p, f, i, a, n] = condition.match(/^(p?)(f?)(i?)(a?)(\d+)$/) ?? [];
   return {
@@ -46,19 +50,23 @@ const parse = (condition) => {
     batch: Number(n),
     visibility,
     budget: 0,
+    offscreen: false,
   };
 };
 const repeat = Number(repetitions);
 const warm = process.env.SUI_WARM === '1';
+const entry = process.env.SUI_ENTRY ?? 'sauna';
+const hold = process.env.SUI_HOLD === '1';
 if (
   !out ||
   !['cft', 'webkit'].includes(engine) ||
+  !['sauna', 'water', 'totonou'].includes(entry) ||
   new Set(sizes).size !== sizes.length ||
-  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
+  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|o?v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
-  throw new Error('usage: [SUI_WARM=1] <out.json> [cft|webkit] [0,1,p0,p1,a1,ia1,fia1,v1,v1b50] [repeat]');
+  throw new Error('usage: [SUI_WARM=1 SUI_ENTRY=sauna SUI_HOLD=1] <out.json> [cft|webkit] [0,v1b50,ov1b50] [repeat]');
 const root = resolve('.');
 const scratch = mkdtempSync(join(tmpdir(), 'sui-compile-batches-'));
 for (const file of ['package.json', 'vite.config.ts', 'index.html']) cpSync(join(root, file), join(scratch, file));
@@ -83,6 +91,29 @@ const inputs = Object.fromEntries(
         .digest('hex'),
     ]),
 );
+// Only the temporary HDR module changes. The scene pass uses the exact same target/formats.
+const outputPath = join(scratch, 'src/components/3d/hdrOutput.ts');
+let temporaryOutput = readFileSync(outputPath, 'utf8');
+const outputAnchor = '    hdr: true,\n';
+if (temporaryOutput.split(outputAnchor).length !== 2) throw new Error('HDR warmup anchor changed');
+temporaryOutput = temporaryOutput.replace(
+  outputAnchor,
+  `${outputAnchor}
+    warm(scene: THREE.Scene, camera: THREE.Camera) {
+      const previous = renderer.getRenderTarget();
+      renderer.getDrawingBufferSize(size);
+      if (target.width !== size.x || target.height !== size.y) target.setSize(size.x, size.y);
+      try {
+        renderer.setRenderTarget(target);
+        return drawScene(scene, camera);
+      } finally { renderer.setRenderTarget(previous); }
+    },
+    drainWarm() {
+      renderer.readRenderTargetPixels(target, 0, 0, 1, 1, new Uint16Array(4));
+    },
+`,
+);
+writeFileSync(outputPath, temporaryOutput);
 // Mark only the temporary source; every insertion must still match exactly once.
 const mark = (phase) => `(window as any).__suiBatches.mark('${phase}');`;
 let instrumented = source;
@@ -131,6 +162,8 @@ for (const [target, insertion] of [
               (window as any).__suiBatches.warming = true;
               (window as any).__suiBatches.mark('garden-warmup');
               await warmup(woodland, 'garden');
+              if ((window as any).__suiBatches.offscreen && (window as any).__suiBatches.hold)
+                await (window as any).__suiBatches.capture('garden:restored');
               (window as any).__suiBatches.warming = false;
               if (disposed || failed) return;
             }
@@ -145,6 +178,28 @@ for (const [target, insertion] of [
   if (instrumented.split(target).length !== 2) throw new Error(`warmup anchor changed: ${target}`);
   instrumented = instrumented.replace(target, `${target}${insertion}`);
 }
+// Pause BEFORE adding the garden, and sample the last complete frame. The normal loop never
+// draws with material visibility changed; offscreen warmup must keep this compositor image.
+const gardenAnchor = '            scene.add(woodland);\n';
+instrumented = instrumented.replace(
+  gardenAnchor,
+  `
+            if ((window as any).__suiBatches?.visibility) {
+              (window as any).__suiBatches.warming = true;
+              if ((window as any).__suiBatches.offscreen && (window as any).__suiBatches.hold)
+                await (window as any).__suiBatches.capture('garden:before');
+            }
+${gardenAnchor}`,
+);
+instrumented = instrumented.replace(
+  '    element.appendChild(renderer.domElement);',
+  "    element.style.visibility = 'hidden';\n    element.appendChild(renderer.domElement);",
+);
+instrumented = instrumented.replace('        onReady();', "        element.style.visibility = '';\n        onReady();");
+instrumented = instrumented.replace(
+  '    const output = createHdrOutput(renderer);',
+  "    const output = createHdrOutput(renderer);\n    setData('hdr', String(output.hdr));",
+);
 const anchor = '        setViewRef.current = setView;\n        setView(stageRef.current);';
 if (source.split(anchor).length !== 2) throw new Error('warmup insertion anchor changed');
 writeFileSync(
@@ -208,6 +263,7 @@ writeFileSync(
         let mirrorShown = true;
         const warmup = async (root: THREE.Object3D, label: string) => {
           const gl = renderer.getContext();
+          if (probe.offscreen && !output.hdr) throw new Error('offscreen warmup requires HDR');
           // The materials and the shadow mask's (about 73,000 characters, ~0.13 s a pipeline).
           const heavy = (program: any) =>
             (gl.getShaderSource(program.vertexShader)?.length ?? 0) +
@@ -252,7 +308,8 @@ writeFileSync(
               renderer.getDrawingBufferSize(drawingSize);
               shadowMask!.render(scene, camera, drawingSize.x, drawingSize.y);
             }
-            output.render(scene, camera);
+            if (probe.offscreen) (output as any).warm(scene, camera);
+            else output.render(scene, camera);
             shadowMask?.end();
             return true;
           };
@@ -262,13 +319,14 @@ writeFileSync(
             probe.begin();
             // A pass that drew nothing (the mirror out of view) does not wait for the GPU.
             if (!pass()) return;
-            await probe.end(gl, name);
+            await probe.end(gl, name, probe.offscreen ? () => (output as any).drainWarm() : null);
             // Without a budget every step yields; with one, quick (cached) steps run back to back.
             const yielded = !probe.budget || performance.now() - slice >= probe.budget;
             probe.steps.at(-1).yielded = yielded;
             if (!yielded) return;
             await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
             await new Promise<void>((resolve) => setTimeout(resolve, 20));
+            if (probe.offscreen && probe.hold && label === 'garden') await probe.capture(name);
             slice = performance.now();
           };
           probe.recording = true;
@@ -321,11 +379,13 @@ server.stderr.on('data', (b) => {
   serverLog += b;
 });
 
-function hook({ batch, prefetch, fence, incremental, all, visibility, budget, nonce }) {
+function hook({ batch, prefetch, fence, incremental, all, visibility, budget, offscreen, hold, nonce }) {
   const probe = (window.__suiBatches = {
     batch,
     visibility,
     budget,
+    offscreen,
+    hold,
     recording: false,
     warming: false,
     groups: [],
@@ -351,12 +411,20 @@ function hook({ batch, prefetch, fence, incremental, all, visibility, budget, no
     programs: [],
     programQueries: [],
     recentDraws: [],
+    presentationWrites: [],
   });
   probe.mark = (phase) => {
     probe.phase = phase;
     probe.events.push({ at: performance.now(), phase });
   };
   probe.mark('before-entry');
+  probe.capture = async (label) => {
+    // Explicitly yield across compositor frames before sampling; screenshot costs are excluded
+    // from performance conclusions in SUI_HOLD runs, not silently subtracted from intervals.
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await window.__suiCapture(label);
+  };
   document.addEventListener(
     'click',
     (event) => {
@@ -577,7 +645,9 @@ function hook({ batch, prefetch, fence, incremental, all, visibility, budget, no
         start: performance.now(),
         phase: probe.phase,
         step: stepping ? probe.steps.length : null,
+        canvas: at(this).draw === null,
       };
+      if (probe.warming && entry.canvas) probe.presentationWrites.push({ phase: probe.phase, at: entry.start });
       // Where each draw state is first submitted (tracked in JS, as the gate's key; no query).
       const key = trackedKey(this, at(this).program);
       if (!drawnKeys.has(key)) {
@@ -615,7 +685,7 @@ function hook({ batch, prefetch, fence, incremental, all, visibility, budget, no
     probe.stepNewHeavyKeys = 0;
     stepDraws = [];
   };
-  probe.end = async (gl, label = null) => {
+  probe.end = async (gl, label = null, drain = null) => {
     const drawEnd = performance.now();
     let polls = null;
     if (probe.fence) {
@@ -631,6 +701,7 @@ function hook({ batch, prefetch, fence, incremental, all, visibility, budget, no
     }
     // The output pass leaves the canvas bound. Readback drains preceding draws, unlike finish()
     // on the tested ANGLE/Metal backend; this bounds the queue before the next frame.
+    else if (drain) drain();
     else gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
     probe.steps.push({
       label,
@@ -734,6 +805,13 @@ function hook({ batch, prefetch, fence, incremental, all, visibility, budget, no
     raf = requestAnimationFrame(frame);
   };
   raf = requestAnimationFrame(frame);
+  probe.startWindow = () => {
+    probe.events = [];
+    probe.intervals = [];
+    probe.gaps = [];
+    timerLast = rafLast = performance.now();
+    probe.mark('before-entry');
+  };
   probe.stop = () => {
     // Stop before snapshots/stage captures; they cannot contaminate the loading window.
     const now = performance.now();
@@ -764,13 +842,24 @@ try {
       const nonce = `sui${Date.now()}${condition}r${round}`;
       // The cached load reuses the cold load's shader identity in the same browser process.
       for (const cached of warm ? [false, true] : [false]) {
-        const { batch, prefetch, fence, incremental, all, visibility, budget } = parse(condition);
+        const { batch, prefetch, fence, incremental, all, visibility, budget, offscreen } = parse(condition);
         const context = await browser.newContext({
           viewport: { width: 1200, height: 800 },
           deviceScaleFactor: 1.5,
           reducedMotion: 'reduce',
         });
-        await context.addInitScript(hook, { batch, prefetch, fence, incremental, all, visibility, budget, nonce });
+        await context.addInitScript(hook, {
+          batch,
+          prefetch,
+          fence,
+          incremental,
+          all,
+          visibility,
+          budget,
+          offscreen,
+          hold,
+          nonce,
+        });
         await context.addInitScript(() => {
           localStorage.setItem('sui-quality', 'standard');
           localStorage.setItem('sui-guide-dismissed', 'yes');
@@ -778,12 +867,42 @@ try {
         });
         const page = await context.newPage();
         const errors = [];
+        const samples = [];
+        const shots = resolve(out, '..', 'compile-batches-images');
+        mkdirSync(shots, { recursive: true });
+        const captureStyle =
+          '.app-stage-container, .scene-mode-controls, .app-toolbar { visibility: hidden !important; transition: none !important; }';
+        await page.exposeFunction('__suiCapture', async (label) => {
+          const image = await page.locator('.sauna-3d-canvas canvas').screenshot({ style: captureStyle });
+          const path = join(
+            shots,
+            `${engine}-${entry}-${round}-${condition}${cached ? '-warm' : ''}-hold-${samples.length}.png`,
+          );
+          writeFileSync(path, image);
+          samples.push({ label, image: path, sha256: createHash('sha256').update(image).digest('hex') });
+        });
         page.on('pageerror', (e) => errors.push(String(e)));
         page.on('console', (m) => {
           if (m.type() === 'error') errors.push(m.text());
         });
-        await page.goto(`${url}?view=3d&resolution=fixed&frameRate=full`);
+        await page.goto(`${url}?view=2d&resolution=fixed&frameRate=full`);
         await page.getByRole('button', { name: '音なしで入室する' }).click();
+        if (entry !== 'sauna') {
+          await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+          await page.getByRole('button', { name: '外気浴へ', exact: true }).waitFor();
+          if (entry === 'totonou') {
+            await page.getByRole('button', { name: '外気浴へ', exact: true }).click();
+            await page.getByRole('button', { name: 'もう一度サウナへ', exact: true }).waitFor();
+          }
+        }
+        await page.locator('.display-settings > summary').click();
+        await page.evaluate(() => {
+          window.__suiBatches.startWindow();
+          window.__suiBatches.mark('entry-click');
+        });
+        await page.getByRole('button', { name: '3Dを試す', exact: true }).click();
+        // Close settings before the retained-image samples; screenshot styles only hide DOM.
+        await page.keyboard.press('Escape');
         await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 60000 });
         await page.waitForTimeout(500);
         await page.evaluate(() => window.__suiBatches.stop());
@@ -800,6 +919,7 @@ try {
           pipelines: window.__suiBatches.seen.size,
           keyMismatches: window.__suiBatches.keyMismatches,
           groups: window.__suiBatches.groups,
+          presentationWrites: window.__suiBatches.presentationWrites,
         }));
         row.condition = condition;
         row.batch = batch;
@@ -809,16 +929,19 @@ try {
         row.all = all;
         row.visibility = visibility;
         row.budget = budget;
+        row.offscreen = offscreen;
+        row.samples = samples;
+        row.entry = entry;
         row.warm = cached;
         row.round = round;
         row.nonce = nonce;
         row.errors = errors;
         row.stages = [];
-        for (const [stage, button] of [
-          ['sauna', null],
-          ['water', '水風呂へ'],
-          ['totonou', '外気浴へ'],
-        ]) {
+        const stages = ['sauna', 'water', 'totonou'];
+        const buttons = { sauna: 'もう一度サウナへ', water: '水風呂へ', totonou: '外気浴へ' };
+        const order = [...stages.slice(stages.indexOf(entry)), ...stages.slice(0, stages.indexOf(entry))];
+        for (const [index, stage] of order.entries()) {
+          const button = index ? buttons[stage] : null;
           if (button) {
             // Labels new draw states only; the phase events ended with the measurement.
             await page.evaluate((phase) => {
@@ -828,13 +951,8 @@ try {
             await page.locator(`.sauna-3d-canvas[data-stage="${stage}"]`).waitFor();
           }
           await page.waitForTimeout(2000);
-          const image = await page.locator('.sauna-3d-canvas canvas').screenshot({
-            style:
-              '.app-stage-container, .scene-mode-controls, .app-toolbar { visibility: hidden !important; transition: none !important; }',
-          });
-          const shots = resolve(out, '..', 'compile-batches-images');
-          mkdirSync(shots, { recursive: true });
-          const path = join(shots, `${engine}-${round}-${condition}${cached ? '-warm' : ''}-${stage}.png`);
+          const image = await page.locator('.sauna-3d-canvas canvas').screenshot({ style: captureStyle });
+          const path = join(shots, `${engine}-${entry}-${round}-${condition}${cached ? '-warm' : ''}-${stage}.png`);
           writeFileSync(path, image);
           row.stages.push({ stage, image: path, sha256: createHash('sha256').update(image).digest('hex') });
         }
@@ -843,6 +961,7 @@ try {
         console.log(
           JSON.stringify({
             condition,
+            entry,
             warm: cached,
             prefetched: row.prefetches.length,
             round,
@@ -875,7 +994,9 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 7,
+        schema: 8,
+        entry,
+        hold,
         warm,
         engine,
         version,
@@ -887,7 +1008,8 @@ try {
         source: hash(source),
         script: scriptHash,
         temporarySource: hash(readFileSync(scenePath)),
-        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion. Heavy draws only unless an a-condition; i-conditions skip already admitted states. v-conditions hook no draw (material.visible steps; b<ms> yields only after that much step time); newKeys logs where each draw state was first submitted, stage changes included. Instrumented, not product timings.',
+        temporaryOutput: hash(readFileSync(outputPath)),
+        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion; 3D enabled from entry stage after entering in 2D. v-conditions choose material.visible, o additionally draws the HDR target without TAA/presentation. newKeys includes stage changes. SUI_HOLD adds compositor screenshots and waits: its intervals/load times are not performance comparisons. Instrumented, not product timings.',
         rows,
       },
       null,
