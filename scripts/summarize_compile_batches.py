@@ -161,6 +161,11 @@ def timeline(row):
             "stepLabels": [{"label": s["label"], "ms": s["ms"], "yielded": s.get("yielded"), "drawMs": s["drawMs"], "drainMs": s["drainMs"],
                             "newKeys": s["newKeys"], "newHeavyKeys": s["newHeavyKeys"]} for s in row["steps"]],
             "warmupGroups": row["groups"],
+            "warmupViews": [{"label": g["label"], "view": g["view"], "groups": len(g["groups"]),
+                             "drawnMain": sum(1 for x in g["groups"] if x["drawn"] and "main" in x["drawn"]),
+                             "drawnMirror": sum(1 for x in g["groups"] if x["drawn"] and "mirror" in x["drawn"]),
+                             "steps": sum(1 for st in row["steps"] if row["multi"] and st["label"].split(":")[:2] == [g["label"], g["view"]])}
+                            for g in row["groups"]],
             "newHeavyKeysByPhase": raw_keys, "newHeavyPipelinesByPhase": real_keys,
             "firstGardenDrawMs": spans_by_phase["first-garden-draw"]["ms"], "prefetch": row["prefetch"], "incremental": row["incremental"], "fence": row["fence"], "all": row["all"], "phases": spans,
             "prefetches": prefetches,
@@ -184,7 +189,7 @@ def timeline(row):
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 8, "entry/offscreen schema required"
+    assert report["schema"] == 9, "entry/offscreen/multi-view schema required"
     assert report["entry"] in ("sauna", "water", "totonou")
     assert isinstance(report["hold"], bool)
     assert report["script"] == digest("scripts/diagnose_compile_batches.mjs"), "script changed"
@@ -203,8 +208,9 @@ def summarize(path):
     for row in rows:
         assert row["entry"] == report["entry"]
         assert row["offscreen"] == row["condition"].startswith("o")
-        if row["condition"].lstrip("o").startswith("v"):
-            visibility, budget = re.fullmatch(r"o?v(\d+)(?:b(\d+))?", row["condition"]).groups()
+        assert row["multi"] == row["condition"].lstrip("o").startswith("m")
+        if row["condition"].lstrip("om").startswith("v"):
+            visibility, budget = re.fullmatch(r"o?m?v(\d+)(?:b(\d+))?", row["condition"]).groups()
             assert row["visibility"] == int(visibility) > 0 and row["batch"] == 0
             assert row["budget"] == int(budget or 0)
             assert not (row["prefetch"] or row["all"] or row["incremental"] or row["fence"])
@@ -261,9 +267,23 @@ def summarize(path):
             # nothing are not waited for, so they are absent.
             assert steps and row["pipelines"] == 0 and all(s["newPipelines"] == 0 and s["polls"] is None for s in steps)
             assert all(s["label"].split(":")[0] in ("body", "garden") and s["skippedDraws"] == 0 for s in steps)
-            assert [g["label"] for g in row["groups"]] == ["body", "garden"]
-            warmed = [g["key"] for group in row["groups"] for g in group["groups"]]
-            assert len(warmed) == len(set(warmed)), "group warmed twice"
+            stages = ["sauna", "water", "totonou"]
+            views = ([report["entry"]] + [s for s in stages if s != report["entry"]]) if row["multi"] else [report["entry"]]
+            assert [(g["label"], g["view"]) for g in row["groups"]] == [(l, v) for l in ("body", "garden") for v in views]
+            if row["multi"]:
+                # A group returns in a later view only while a pass has not drawn it yet.
+                done = set()
+                for group in row["groups"]:
+                    for g in group["groups"]:
+                        assert g["key"] not in done, "fully drawn group stepped again"
+                        assert set(g["drawn"]) <= {"main", "mirror"}
+                        if set(g["drawn"]) == {"main", "mirror"}:
+                            done.add(g["key"])
+                assert all(s["label"].split(":")[1] in stages for s in steps)
+            else:
+                warmed = [g["key"] for group in row["groups"] for g in group["groups"]]
+                assert len(warmed) == len(set(warmed)), "group warmed twice"
+                assert all(g["drawn"] is None for group in row["groups"] for g in group["groups"])
             assert sum(s["newHeavyKeys"] for s in steps) == sum(1 for k in row["newKeys"] if k["heavy"] and k["step"] is not None)
             # Without a budget every step yields.
             assert all(isinstance(s["yielded"], bool) for s in steps)
@@ -336,6 +356,10 @@ if __name__ == "__main__":
     parser.add_argument("reports", nargs="+")
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
+    # Each capture belongs to one report; a shared path means a later run overwrote it.
+    paths = [item["image"] for path in args.reports for row in json.loads(Path(path).read_text())["rows"]
+             for item in row["stages"] + row["samples"]]
+    assert len(paths) == len(set(paths)), "capture shared between runs"
     result = {"note": "Loading windows begin just before selecting 3D from the entry stage and end at garden-ready + 500ms. SUI_HOLD runs contain deliberate compositor waits/screenshots: timingComparisonValid is false, so their load times/intervals are not performance comparisons. Phase attribution uses overlaps; nested slow calls must not be summed. Fresh instrumented shaders; not product load times or FPS. Images compare both the first/final baseline of each engine and entry; retainedImages compares the paused compositor image across garden warmup.",
               "runs": [summarize(path) for path in args.reports]}
     Path(args.out).write_text(json.dumps(result, indent=2) + "\n")

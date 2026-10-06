@@ -16,6 +16,8 @@
 // SUI_WARM=1 loads every condition twice with the same shader identity: cold, then cached.
 // SUI_ENTRY=sauna|water|totonou enables 3D from that stage after entering in 2D.
 // An "o" prefix on v (ov1b50) warms the HDR target without presenting partial images.
+// An "m" after it (omv1b50) repeats the steps from every stage view, entry first, for the groups
+// three has not yet drawn in that pass (mirror/main), then restores the camera.
 // SUI_HOLD=1 captures the compositor before/during offscreen garden warmup (not timing data).
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
@@ -23,12 +25,12 @@ import { createHash } from 'node:crypto';
 import { execFileSync, spawn } from 'node:child_process';
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 
 const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
 const sizes = batches.split(',');
 const parse = (condition) => {
-  const [, o, v, b] = condition.match(/^(o?)v(\d+)(?:b(\d+))?$/) ?? [];
+  const [, o, m, v, b] = condition.match(/^(o?)(m?)v(\d+)(?:b(\d+))?$/) ?? [];
   const visibility = Number(v ?? 0);
   if (visibility)
     return {
@@ -40,6 +42,7 @@ const parse = (condition) => {
       visibility,
       budget: Number(b ?? 0),
       offscreen: o === 'o',
+      multi: m === 'm',
     };
   const [, p, f, i, a, n] = condition.match(/^(p?)(f?)(i?)(a?)(\d+)$/) ?? [];
   return {
@@ -51,6 +54,7 @@ const parse = (condition) => {
     visibility,
     budget: 0,
     offscreen: false,
+    multi: false,
   };
 };
 const repeat = Number(repetitions);
@@ -62,11 +66,13 @@ if (
   !['cft', 'webkit'].includes(engine) ||
   !['sauna', 'water', 'totonou'].includes(entry) ||
   new Set(sizes).size !== sizes.length ||
-  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|o?v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
+  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|o?m?v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
-  throw new Error('usage: [SUI_WARM=1 SUI_ENTRY=sauna SUI_HOLD=1] <out.json> [cft|webkit] [0,v1b50,ov1b50] [repeat]');
+  throw new Error(
+    'usage: [SUI_WARM=1 SUI_ENTRY=sauna SUI_HOLD=1] <out.json> [cft|webkit] [0,v1b50,ov1b50,omv1b50] [repeat]',
+  );
 const root = resolve('.');
 const scratch = mkdtempSync(join(tmpdir(), 'sui-compile-batches-'));
 for (const file of ['package.json', 'vite.config.ts', 'index.html']) cpSync(join(root, file), join(scratch, file));
@@ -259,11 +265,18 @@ writeFileSync(
         }
         // No WebGL hook is needed from here: programs, their source lengths and the materials come
         // from three, and only material.visible chooses what each step draws.
+        // Without m: a group counts as warmed once stepped. With m: per pass, only once three
+        // reported drawing one of its materials there (onBeforeRender, which shows the material
+        // actually drawn: never an override, a depth copy or a frustum-culled mesh).
         const warmed = new Set<string>();
         let mirrorShown = true;
         const warmup = async (root: THREE.Object3D, label: string) => {
           const gl = renderer.getContext();
           if (probe.offscreen && !output.hdr) throw new Error('offscreen warmup requires HDR');
+          const stages = ['sauna', 'water', 'totonou'] as const;
+          const current = stageRef.current;
+          const views = probe.multi ? [current, ...stages.filter((s) => s !== current)] : [current];
+          const saved = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), fov: camera.fov };
           // The materials and the shadow mask's (about 73,000 characters, ~0.13 s a pipeline).
           const heavy = (program: any) =>
             (gl.getShaderSource(program.vertexShader)?.length ?? 0) +
@@ -288,7 +301,8 @@ writeFileSync(
                 each.colorWrite,
                 each.alphaToCoverage,
               ].join();
-              if (warmed.has(key)) continue;
+              if (!probe.multi && warmed.has(key)) continue;
+              if (probe.multi && warmed.has('main|' + key) && warmed.has('mirror|' + key)) continue;
               const list = groups.get(key) ?? [];
               if (!list.includes(each)) list.push(each);
               groups.set(key, list);
@@ -298,19 +312,42 @@ writeFileSync(
           const show = (shown: THREE.Material[]) => {
             for (const each of split) each.visible = shown.includes(each);
           };
+          const keyOf = new Map<THREE.Material, string>();
+          for (const [key, materials] of groups) for (const each of materials) keyOf.set(each, key);
+          let pass: 'main' | 'mirror' | null = null;
+          const hooked: [THREE.Object3D, boolean, THREE.Object3D['onBeforeRender']][] = [];
+          if (probe.multi)
+            root.traverse((child) => {
+              const material = (child as THREE.Mesh).material;
+              if (!(Array.isArray(material) ? material : [material]).some((m) => m && keyOf.has(m))) return;
+              const own = Object.prototype.hasOwnProperty.call(child, 'onBeforeRender');
+              const original = child.onBeforeRender;
+              hooked.push([child, own, original]);
+              child.onBeforeRender = function (this: THREE.Object3D, ...args: any[]) {
+                const key = keyOf.get(args[4]);
+                if (pass && key) warmed.add(pass + '|' + key);
+                return (original as any).apply(this, args);
+              };
+            });
           const mirrorPass = () => {
             if (!mirror || !mirrorShown) return false;
-            mirrorShown = mirror.render(scene, camera, waterEffects.surface, [performance.now()]).rendered;
+            pass = 'mirror';
+            try {
+              mirrorShown = mirror.render(scene, camera, waterEffects.surface, [performance.now()]).rendered;
+            } finally { pass = null; }
             return mirrorShown;
           };
           const mainPass = () => {
-            if (masked()) {
-              renderer.getDrawingBufferSize(drawingSize);
-              shadowMask!.render(scene, camera, drawingSize.x, drawingSize.y);
-            }
-            if (probe.offscreen) (output as any).warm(scene, camera);
-            else output.render(scene, camera);
-            shadowMask?.end();
+            pass = 'main';
+            try {
+              if (masked()) {
+                renderer.getDrawingBufferSize(drawingSize);
+                shadowMask!.render(scene, camera, drawingSize.x, drawingSize.y);
+              }
+              if (probe.offscreen) (output as any).warm(scene, camera);
+              else output.render(scene, camera);
+              shadowMask?.end();
+            } finally { pass = null; }
             return true;
           };
           let slice = performance.now();
@@ -330,22 +367,54 @@ writeFileSync(
             slice = performance.now();
           };
           probe.recording = true;
-          show([]);
-          sideImages.update(camera);
-          await step(label + ':mirror:rest', mirrorPass);
-          await step(label + ':main:rest', mainPass);
-          const entries = [...groups.entries()];
-          for (let i = 0; i < entries.length; i += probe.visibility) {
-            const chunk = entries.slice(i, i + probe.visibility);
-            show(chunk.flatMap(([, materials]) => materials));
-            const names = chunk.map(([key]) => key.split(',')[0]).join('+');
-            await step(label + ':mirror:' + names, mirrorPass);
-            await step(label + ':main:' + names, mainPass);
-            for (const [key] of chunk) warmed.add(key);
+          try {
+            for (const stage of views) {
+              // The preparation's camera reaches neither the audio nor the canvas (no setView()).
+              const view = definition.views[stage];
+              camera.position.fromArray(view.position);
+              camera.lookAt(new THREE.Vector3().fromArray(view.target));
+              camera.fov = view.fov;
+              camera.updateProjectionMatrix();
+              const prefix = probe.multi ? label + ':' + stage : label;
+              mirrorShown = true;
+              show([]);
+              sideImages.update(camera);
+              await step(prefix + ':mirror:rest', mirrorPass);
+              await step(prefix + ':main:rest', mainPass);
+              const entries = [...groups.entries()].filter(
+                ([key]) => !probe.multi || !warmed.has('main|' + key) || !warmed.has('mirror|' + key),
+              );
+              for (let i = 0; i < entries.length; i += probe.visibility) {
+                const chunk = entries.slice(i, i + probe.visibility);
+                show(chunk.flatMap(([, materials]) => materials));
+                const names = chunk.map(([key]) => key.split(',')[0]).join('+');
+                await step(prefix + ':mirror:' + names, mirrorPass);
+                await step(prefix + ':main:' + names, mainPass);
+                if (!probe.multi) for (const [key] of chunk) warmed.add(key);
+              }
+              probe.groups.push({
+                label,
+                view: stage,
+                groups: entries.map(([key, materials]) => ({
+                  key,
+                  materials: materials.map((m) => m.name),
+                  // Passes that drew the group by the end of this view (m only).
+                  drawn: probe.multi ? ['main', 'mirror'].filter((p) => warmed.has(p + '|' + key)) : null,
+                })),
+              });
+              if (disposed || failed) break;
+            }
+          } finally {
+            for (const each of split) each.visible = true;
+            for (const [child, own, original] of hooked)
+              if (own) child.onBeforeRender = original;
+              else delete (child as any).onBeforeRender;
+            camera.position.copy(saved.position);
+            camera.quaternion.copy(saved.quaternion);
+            camera.fov = saved.fov;
+            camera.updateProjectionMatrix();
+            probe.recording = false;
           }
-          for (const each of split) each.visible = true;
-          probe.recording = false;
-          probe.groups.push({ label, groups: entries.map(([key, materials]) => ({ key, materials: materials.map((m) => m.name) })) });
         };
         if (probe?.visibility) {
           const view = definition.views[stageRef.current];
@@ -379,9 +448,10 @@ server.stderr.on('data', (b) => {
   serverLog += b;
 });
 
-function hook({ batch, prefetch, fence, incremental, all, visibility, budget, offscreen, hold, nonce }) {
+function hook({ batch, prefetch, fence, incremental, all, visibility, budget, offscreen, multi, hold, nonce }) {
   const probe = (window.__suiBatches = {
     batch,
+    multi,
     visibility,
     budget,
     offscreen,
@@ -842,7 +912,7 @@ try {
       const nonce = `sui${Date.now()}${condition}r${round}`;
       // The cached load reuses the cold load's shader identity in the same browser process.
       for (const cached of warm ? [false, true] : [false]) {
-        const { batch, prefetch, fence, incremental, all, visibility, budget, offscreen } = parse(condition);
+        const { batch, prefetch, fence, incremental, all, visibility, budget, offscreen, multi } = parse(condition);
         const context = await browser.newContext({
           viewport: { width: 1200, height: 800 },
           deviceScaleFactor: 1.5,
@@ -857,6 +927,7 @@ try {
           visibility,
           budget,
           offscreen,
+          multi,
           hold,
           nonce,
         });
@@ -868,7 +939,8 @@ try {
         const page = await context.newPage();
         const errors = [];
         const samples = [];
-        const shots = resolve(out, '..', 'compile-batches-images');
+        // One folder per report: runs with the same engine/entry/condition must not overwrite.
+        const shots = resolve(out, '..', 'compile-batches-images', basename(out).replace(/\.json(\.local)?$/, ''));
         mkdirSync(shots, { recursive: true });
         const captureStyle =
           '.app-stage-container, .scene-mode-controls, .app-toolbar { visibility: hidden !important; transition: none !important; }';
@@ -930,6 +1002,7 @@ try {
         row.visibility = visibility;
         row.budget = budget;
         row.offscreen = offscreen;
+        row.multi = multi;
         row.samples = samples;
         row.entry = entry;
         row.warm = cached;
@@ -994,7 +1067,7 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 8,
+        schema: 9,
         entry,
         hold,
         warm,
@@ -1009,7 +1082,7 @@ try {
         script: scriptHash,
         temporarySource: hash(readFileSync(scenePath)),
         temporaryOutput: hash(readFileSync(outputPath)),
-        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion; 3D enabled from entry stage after entering in 2D. v-conditions choose material.visible, o additionally draws the HDR target without TAA/presentation. newKeys includes stage changes. SUI_HOLD adds compositor screenshots and waits: its intervals/load times are not performance comparisons. Instrumented, not product timings.',
+        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion; 3D enabled from entry stage after entering in 2D. v-conditions choose material.visible, o additionally draws the HDR target without TAA/presentation; m steps the groups from all three stage views (entry first) and counts a group warmed per pass only once three drew one of its materials there. newKeys includes stage changes. SUI_HOLD adds compositor screenshots and waits: its intervals/load times are not performance comparisons. Instrumented, not product timings.',
         rows,
       },
       null,
