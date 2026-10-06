@@ -22,7 +22,7 @@ for (const viewport of [
     await page.screenshot({ path: info.outputPath('welcome.png') });
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeFocused();
-    await expect(page.locator('.stay-timer-value')).toContainText('/ 体験の目安 0:50');
+    await expect(page.locator('.stay-timer-value')).toContainText('· 目安 50秒');
     await expect(page.getByText('心拍数', { exact: true })).toBeHidden();
     await page.getByText('からだの様子を見る').click();
     await expect(page.getByText('心拍数', { exact: true })).toBeVisible();
@@ -80,4 +80,37 @@ test('ending the 3D session releases the scene and allows a fresh visit', async 
   await page.getByRole('button', { name: '音なしで入室する' }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
   await expect(page.locator('.sauna-3d-canvas')).toHaveCount(0);
+});
+
+for (const stage of ['sauna', 'water']) {
+  test(`finish an unfinished set from ${stage} settings`, async ({ page }) => {
+    await page.goto('?view=2d');
+    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
+    if (stage === 'water') {
+      await page.getByRole('button', { name: '水風呂へ' }).click();
+      await expect(page.getByRole('heading', { name: '水風呂' })).toBeVisible();
+    }
+    await openSceneSettings(page);
+    await page.getByRole('button', { name: '体験を終える', exact: true }).click();
+    await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeFocused();
+    await expect(page.locator('.session-summary')).toContainText('0 セット');
+    await expect(page.getByText('体験内のスコアを見る')).toHaveCount(0);
+  });
+}
+
+test('reduced motion keeps breathing text and shows the score immediately', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('?view=2d');
+  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.getByRole('button', { name: 'ロウリュ' }).click();
+  await page.getByRole('button', { name: '水風呂へ' }).click();
+  await page.getByRole('button', { name: '外気浴へ' }).click();
+  await expect(page.locator('.breathing-label')).toBeVisible();
+  await expect(page.locator('.breathing-ring')).toBeHidden();
+  await expect(page.locator('.breathing-circle-premium')).toHaveCSS('transform', 'none');
+  await page.getByText('体験内のスコアを見る').click();
+  await expect(page.locator('.totonou-progress-val')).not.toHaveText('0%');
+  const score = await page.locator('.totonou-progress-val').innerText();
+  await expect(page.locator('.totonou-progress-bar')).toHaveAttribute('style', new RegExp(`width: ${score}`));
 });

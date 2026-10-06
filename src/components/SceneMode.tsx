@@ -167,10 +167,14 @@ export default function SceneMode({
   keepBreathing = false,
   onKeepBreathingChange,
   settingsExtra,
+  onFinish,
+  isTransitioning = false,
 }: {
   /** Receives the mode, its switch and the settings menu, which the caller places in its toolbar. */
   children?: (enabled: boolean, toggle: () => void, settings: ReactNode) => ReactNode;
   keepBreathing?: boolean;
+  onFinish?: () => void;
+  isTransitioning?: boolean;
   /** Placed at the top of the settings menu (the fullscreen switch). */
   settingsExtra?: ReactNode;
   onKeepBreathingChange?: (value: boolean) => void;
@@ -244,6 +248,11 @@ export default function SceneMode({
               </a>
               {stage === 'start' && <span>入室すると3Dで体験できます</span>}
             </>
+          )}
+          {onFinish && (
+            <button type="button" className="settings-finish" disabled={isTransitioning} onClick={onFinish}>
+              体験を終える
+            </button>
           )}
         </div>
       </details>

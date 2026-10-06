@@ -98,13 +98,13 @@ describe('SaunaRoom', () => {
     const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
     const value = container.querySelector('.stay-timer-value');
     // The suggestion sits next to the reading; screen readers hear what the second figure means.
-    expect(value).toHaveTextContent('0:00 / 体験の目安 0:50');
+    expect(value).toHaveTextContent('0:00 · 目安 50秒');
     expect(screen.queryByText('目安に届きました')).not.toBeInTheDocument();
 
     act(() => {
       vi.advanceTimersByTime(50_000);
     });
-    expect(value).toHaveTextContent('0:50 / 体験の目安 0:50');
+    expect(value).toHaveTextContent('0:50 · 目安 50秒');
     expect(screen.getByText('目安に届きました')).toBeInTheDocument();
   });
 

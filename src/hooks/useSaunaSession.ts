@@ -108,7 +108,7 @@ export function useSaunaSession() {
   }, [changeStage]);
 
   const finishSession = useCallback(() => {
-    if (stage !== 'totonou' || !changeStage('start')) return;
+    if (stage === 'start' || !changeStage('start')) return;
     audio.stopAmbient();
     setSessionSummary({
       scores: scoreHistory,

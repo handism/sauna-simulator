@@ -284,6 +284,25 @@ describe('ending a session', () => {
   });
   afterEach(() => vi.useRealTimers());
 
+  it.each(['sauna', 'water'])('ends from %s without scoring an unfinished set', (stage) => {
+    const { result } = renderHook(() => useSaunaContext(), { wrapper });
+    act(() => result.current.handleStart(false));
+    act(() => vi.advanceTimersByTime(1000));
+    if (stage === 'water') {
+      act(() => result.current.completeSauna({ heartRate: 100, saunaTime: 30, loylyCount: 1 }));
+      act(() => vi.advanceTimersByTime(1000));
+    }
+    act(() => {
+      result.current.finishSession();
+      result.current.finishSession();
+    });
+    expect(mockAudioEngine.stopAmbient).toHaveBeenCalledTimes(1);
+    expect(result.current.sessionSummary?.scores).toEqual([]);
+    act(() => vi.advanceTimersByTime(1000));
+    expect(result.current.stage).toBe('start');
+    expect(result.current.sessionSummary?.seconds).toBe(stage === 'water' ? 2 : 1);
+  });
+
   it('fades audio once, freezes the full-session summary, and resets on a new visit', () => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
     const advance = (action: () => void) => {

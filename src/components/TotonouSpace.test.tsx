@@ -72,10 +72,36 @@ describe('calculateTotonouScore', () => {
 describe('TotonouSpace Component', () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({
+        matches: false,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })),
+    );
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+    vi.useRealTimers();
+  });
+
+  it('reveals the final score immediately when reduced motion is requested', () => {
+    vi.mocked(window.matchMedia).mockReturnValue({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    } as unknown as MediaQueryList);
+    const raf = vi.spyOn(window, 'requestAnimationFrame');
+    const { container } = render(
+      <TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={() => {}} />,
+    );
+    fireEvent.click(screen.getByText('体験内のスコアを見る'));
+    expect(container.querySelector('.totonou-progress-val')).toHaveTextContent('100%');
+    expect(container.querySelector('.totonou-progress-bar')).toHaveStyle({ width: '100%' });
+    expect(raf).not.toHaveBeenCalled();
   });
 
   it('should render correctly and display initial breathing text', () => {

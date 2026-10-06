@@ -47,7 +47,20 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
   // ステージごとにマウントし直されるため、表示中に maxTotonou は変わらない
   useEffect(() => {
     if (!isRevealed) return;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let animationFrameId: number;
+    const showFinalScore = () => {
+      cancelAnimationFrame(animationFrameId);
+      if (totonouTextRef.current) totonouTextRef.current.textContent = `${maxTotonou}%`;
+      if (totonouBarRef.current) {
+        totonouBarRef.current.style.width = `${maxTotonou}%`;
+        totonouBarRef.current.style.background = scoreColor(maxTotonou);
+      }
+    };
+    const handleMotionChange = () => {
+      if (motion.matches) showFinalScore();
+    };
+    motion.addEventListener('change', handleMotionChange);
     let currentLevel = 0;
 
     // FPS非依存のイージングのために前回時刻を記録
@@ -83,9 +96,13 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
       }
     };
 
-    animationFrameId = requestAnimationFrame(animate);
+    if (motion.matches) showFinalScore();
+    else animationFrameId = requestAnimationFrame(animate);
 
-    return () => cancelAnimationFrame(animationFrameId);
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      motion.removeEventListener('change', handleMotionChange);
+    };
   }, [maxTotonou, isRevealed]);
 
   return (

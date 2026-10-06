@@ -20,12 +20,12 @@ const StayTimer = ({ seconds, targetSeconds }: StayTimerProps) => {
         <span className="dashboard-value stay-timer-value">
           {formatMinutesSeconds(seconds)}
           <span className="stay-timer-goal">
-            {' / '}
-            <span className="visually-hidden">体験の目安 </span>
-            {formatMinutesSeconds(targetSeconds)}
+            {' · 目安 '}
+            {targetSeconds}秒
           </span>
         </span>
       </div>
+      <p className="stay-timer-note">好きなタイミングで次へ</p>
       <div className="stay-timer-track" aria-hidden="true">
         <div className="stay-timer-bar" style={{ width: `${Math.min(seconds / targetSeconds, 1) * 100}%` }} />
       </div>

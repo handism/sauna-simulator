@@ -20,15 +20,15 @@ interface BackgroundConfig {
 
 const BACKGROUNDS: Record<AmbientEnv, BackgroundConfig> = {
   sauna: {
-    gradient: 'rgba(0,0,0,0.45), rgba(0,0,0,0.75)',
+    gradient: 'rgba(0,0,0,0.22), rgba(0,0,0,0.40)',
     image: 'sauna_bg.webp',
   },
   water: {
-    gradient: 'rgba(0,0,0,0.25), rgba(0,0,0,0.65)',
+    gradient: 'rgba(0,0,0,0.15), rgba(0,0,0,0.35)',
     image: 'water_bg.webp',
   },
   totonou: {
-    gradient: 'rgba(0,0,0,0.55), rgba(0,0,0,0.85)',
+    gradient: 'rgba(0,0,0,0.20), rgba(0,0,0,0.35)',
     image: 'totonou_bg.webp',
   },
 };
@@ -99,6 +99,8 @@ function App() {
         opacity={opacity}
         loylyEvents={loylyEvents}
         keepBreathing={keepBreathing}
+        onFinish={stage !== 'start' ? finishSession : undefined}
+        isTransitioning={pendingStage !== null}
         settingsExtra={
           fullscreen.isSupported && (
             <FullscreenMenuButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
@@ -140,7 +142,7 @@ function App() {
                   サウナ <ActionIcon name="arrow" /> 水風呂 <ActionIcon name="arrow" /> 外気浴
                 </p>
                 {/* 景色は入室前に決めるため、入室ボタンより先に置く */}
-                <div className="entry-scene-choice" role="group" aria-label="景色">
+                <div className="entry-scene-choice" role="group" aria-label="景色" aria-describedby="entry-scene-note">
                   <button className="segment-btn" aria-pressed={!is3d} onClick={() => is3d && toggle3d()}>
                     2Dの景色
                   </button>
@@ -148,6 +150,10 @@ function App() {
                     3Dで見渡す
                   </button>
                 </div>
+
+                <p id="entry-scene-note" className="entry-scene-note" aria-live="polite">
+                  {is3d ? 'ドラッグ・スワイプで見回せる空間' : '静かな一枚絵を楽しむ景色'}
+                </p>
 
                 <div className="app-btn-group">
                   <button
@@ -194,7 +200,7 @@ function App() {
                 <div className="glass-panel session-summary">
                   <dl className="session-summary-stats">
                     <div>
-                      <dt>過ごしたセット</dt>
+                      <dt>完了したセット</dt>
                       <dd>
                         {sessionSummary.scores.length}
                         <span> セット</span>

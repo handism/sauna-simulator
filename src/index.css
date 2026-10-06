@@ -547,7 +547,7 @@ h2:focus {
 /* 2D／3Dの景色の2択。入室前に決めるため入室ボタンの上に置く。押した側が選ばれた状態になる */
 .entry-scene-choice {
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   padding: 3px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-pill);
@@ -1192,7 +1192,7 @@ h2:focus {
   z-index: 1;
   opacity: 0.65;
   pointer-events: none;
-  background: radial-gradient(circle at center, rgba(16, 24, 21, 0.15) 0%, rgba(4, 8, 7, 0.75) 100%);
+  background: radial-gradient(circle at center, rgba(16, 24, 21, 0.15) 0%, rgba(4, 8, 7, 0.25) 100%);
   transition: opacity 2s ease;
 }
 .aurora-blob {
@@ -1549,8 +1549,7 @@ h2:focus {
     transform: none;
   }
   /* Looping and drifting decoration stops; the readouts keep showing the same state. The heart
-     and glow pulses are inline styles, hence !important. The breathing circle stays: it is a
-     slow guide, not decoration. */
+     and glow pulses are inline styles, hence !important. Breathing retains its text guide. */
   .aurora-blob,
   .heart-rate-icon,
   .cooling-glow {
@@ -1722,5 +1721,41 @@ h2:focus {
   .rest-dock .dock-actions .primary-btn {
     min-height: 44px;
     padding: 10px 12px;
+  }
+}
+
+/* 景色の説明は選択肢の直下に置く。 */
+.entry-scene-note {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  margin: 8px 0 16px;
+  text-shadow: var(--text-shadow-heading);
+}
+.stay-timer-note {
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+  margin: 6px 0;
+}
+.settings-panel .settings-finish {
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-breath] .breathing-circle-premium {
+    transform: none;
+    transition: none;
+    box-shadow: none;
+    background: transparent;
+    border-color: transparent;
+  }
+  .breathing-ring {
+    display: none;
+  }
+  [data-breath] .aurora-container {
+    opacity: 0.6;
+    transition: none;
+  }
+  .totonou-progress-bar {
+    transition: none;
   }
 }
