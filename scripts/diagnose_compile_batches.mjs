@@ -18,7 +18,11 @@
 // An "o" prefix on v (ov1b50) warms the HDR target without presenting partial images.
 // An "m" after it (omv1b50) repeats the steps from every stage view, entry first, for the groups
 // three has not yet drawn in that pass (mirror/main), then restores the camera.
+// An "s" after m (omsv1b50) leaves out groups whose objects are all hidden in that view, and
+// passes that can never draw a group: the mirror for objects below the water or off its layers
+// (or with the mirror off), the main pass for mirror-only objects. Groups are re-collected per view.
 // SUI_HOLD=1 captures the compositor before/during offscreen garden warmup (not timing data).
+// SUI_QUALITY=low|standard|high and SUI_LIGHTING=day|evening|night choose the saved settings.
 // Does not clear any caches. A fresh zero-valued uniform isolates each run's programs.
 import { chromium, webkit } from 'playwright';
 import { createHash } from 'node:crypto';
@@ -30,7 +34,7 @@ import { basename, join, resolve } from 'node:path';
 const [out, engine = 'cft', batches = '0,1,p0,p1', repetitions = '2'] = process.argv.slice(2);
 const sizes = batches.split(',');
 const parse = (condition) => {
-  const [, o, m, v, b] = condition.match(/^(o?)(m?)v(\d+)(?:b(\d+))?$/) ?? [];
+  const [, o, m, s, v, b] = condition.match(/^(o?)(m?)(s?)v(\d+)(?:b(\d+))?$/) ?? [];
   const visibility = Number(v ?? 0);
   if (visibility)
     return {
@@ -43,6 +47,7 @@ const parse = (condition) => {
       budget: Number(b ?? 0),
       offscreen: o === 'o',
       multi: m === 'm',
+      selective: s === 's',
     };
   const [, p, f, i, a, n] = condition.match(/^(p?)(f?)(i?)(a?)(\d+)$/) ?? [];
   return {
@@ -55,23 +60,28 @@ const parse = (condition) => {
     budget: 0,
     offscreen: false,
     multi: false,
+    selective: false,
   };
 };
 const repeat = Number(repetitions);
 const warm = process.env.SUI_WARM === '1';
 const entry = process.env.SUI_ENTRY ?? 'sauna';
 const hold = process.env.SUI_HOLD === '1';
+const quality = process.env.SUI_QUALITY ?? 'standard';
+const lighting = process.env.SUI_LIGHTING ?? 'day';
 if (
   !out ||
   !['cft', 'webkit'].includes(engine) ||
   !['sauna', 'water', 'totonou'].includes(entry) ||
+  !['low', 'standard', 'high'].includes(quality) ||
+  !['day', 'evening', 'night'].includes(lighting) ||
   new Set(sizes).size !== sizes.length ||
-  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|o?m?v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
+  !sizes.every((c) => /^(p?(f?i?a[1-9]\d*|f?i?[1-9]\d*|0)|o?(ms?)?v[1-9]\d*(b[1-9]\d*)?)$/.test(c)) ||
   !Number.isInteger(repeat) ||
   repeat < 1
 )
   throw new Error(
-    'usage: [SUI_WARM=1 SUI_ENTRY=sauna SUI_HOLD=1] <out.json> [cft|webkit] [0,v1b50,ov1b50,omv1b50] [repeat]',
+    'usage: [SUI_WARM=1 SUI_ENTRY=sauna SUI_HOLD=1 SUI_QUALITY=standard SUI_LIGHTING=day] <out.json> [cft|webkit] [0,v1b50,ov1b50,omv1b50,omsv1b50] [repeat]',
   );
 const root = resolve('.');
 const scratch = mkdtempSync(join(tmpdir(), 'sui-compile-batches-'));
@@ -197,6 +207,21 @@ instrumented = instrumented.replace(
             }
 ${gardenAnchor}`,
 );
+// The s condition tests the layers each pass renders.
+for (const [line, names] of [
+  ["import { createDepthPrepass } from './depthPrepass';", 'createDepthPrepass, PREPASS_LAYER'],
+  ["import { createShadowMask } from './shadowMask';", 'createShadowMask, SHADOW_MASK_LAYER'],
+]) {
+  if (instrumented.split(line).length !== 2) throw new Error(`import changed: ${line}`);
+  instrumented = instrumented.replace(line, line.replace(names.split(',')[0], names));
+}
+const mirrorImport =
+  "import { createMirrorUniforms, createPlanarReflection, type PlanarReflection } from './planarReflection';";
+if (instrumented.split(mirrorImport).length !== 2) throw new Error('mirror import changed');
+instrumented = instrumented.replace(
+  mirrorImport,
+  mirrorImport.replace('createMirrorUniforms,', 'createMirrorUniforms, MIRROR_LAYER,'),
+);
 instrumented = instrumented.replace(
   '    element.appendChild(renderer.domElement);',
   "    element.style.visibility = 'hidden';\n    element.appendChild(renderer.domElement);",
@@ -269,6 +294,8 @@ writeFileSync(
         // reported drawing one of its materials there (onBeforeRender, which shows the material
         // actually drawn: never an override, a depth copy or a frustum-culled mesh).
         const warmed = new Set<string>();
+        // s: the passes that can ever draw each group, from the objects seen so far.
+        const needs = new Map<string, Set<string>>();
         let mirrorShown = true;
         const warmup = async (root: THREE.Object3D, label: string) => {
           const gl = renderer.getContext();
@@ -282,44 +309,110 @@ writeFileSync(
             (gl.getShaderSource(program.vertexShader)?.length ?? 0) +
               (gl.getShaderSource(program.fragmentShader)?.length ?? 0) >
             60000;
-          // A Metal pipeline per program and the material state of the draw (blend, writes).
-          const groups = new Map<string, THREE.Material[]>();
-          root.traverse((child) => {
+          const materialsOf = (child: THREE.Object3D) => {
             const material = (child as THREE.Mesh).material;
-            for (const each of Array.isArray(material) ? material : material ? [material] : []) {
+            return Array.isArray(material) ? material : material ? [material] : [];
+          };
+          // A Metal pipeline per program and the material state of the draw (blend, writes).
+          const keyOf = new Map<THREE.Material, string>();
+          root.traverse((child) => {
+            for (const each of materialsOf(child)) {
               const program = (renderer.properties.get(each) as any).currentProgram;
               if (!program || !each.visible || !heavy(program)) continue;
-              const key = [
-                program.id,
-                each.transparent,
-                each.blending,
-                each.blendSrc,
-                each.blendDst,
-                each.blendEquation,
-                each.premultipliedAlpha,
-                each.depthWrite,
-                each.colorWrite,
-                each.alphaToCoverage,
-              ].join();
-              if (!probe.multi && warmed.has(key)) continue;
-              if (probe.multi && warmed.has('main|' + key) && warmed.has('mirror|' + key)) continue;
-              const list = groups.get(key) ?? [];
-              if (!list.includes(each)) list.push(each);
-              groups.set(key, list);
+              keyOf.set(
+                each,
+                [
+                  program.id,
+                  each.transparent,
+                  each.blending,
+                  each.blendSrc,
+                  each.blendDst,
+                  each.blendEquation,
+                  each.premultipliedAlpha,
+                  each.depthWrite,
+                  each.colorWrite,
+                  each.alphaToCoverage,
+                ].join(),
+              );
             }
           });
-          const split = [...groups.values()].flat();
+          // The layers each pass renders: the main pass its depth copies (drawScene), then the
+          // camera's; the mirror its camera's (layer 0 and the mirror layer). With the shadow mask
+          // on, both also render its depth copies and its own copies (shadowMask.render). The
+          // mirror's near plane is the water surface (obliqueClip): objects whose bounding sphere
+          // lies below are always culled there.
+          const mainLayers = new THREE.Layers();
+          mainLayers.mask = camera.layers.mask;
+          mainLayers.enable(PREPASS_LAYER);
+          const mirrorLayers = new THREE.Layers();
+          mirrorLayers.enable(MIRROR_LAYER);
+          if (masked())
+            for (const layers of [mainLayers, mirrorLayers]) {
+              layers.enable(PREPASS_LAYER);
+              layers.enable(SHADOW_MASK_LAYER);
+            }
+          const mirrorOn = !!mirror && mirror.size !== '0x0';
+          const level = definition.water.center[1];
+          const sphere = new THREE.Sphere();
+          const passesOf = (child: THREE.Object3D) => {
+            const passes = [];
+            if (child.layers.test(mainLayers)) passes.push('main');
+            if (mirrorOn && child.layers.test(mirrorLayers)) {
+              const bounded = (child as any).isInstancedMesh || (child as any).isBatchedMesh ? child : (child as any).geometry;
+              if (child.frustumCulled && bounded) {
+                if (bounded.boundingSphere === null) bounded.computeBoundingSphere();
+                sphere.copy(bounded.boundingSphere).applyMatrix4(child.matrixWorld);
+              }
+              if (!child.frustumCulled || !bounded || sphere.center.y + sphere.radius > level) passes.push('mirror');
+            }
+            return passes;
+          };
+          const done = (key: string) =>
+            !probe.multi
+              ? warmed.has(key)
+              : probe.selective
+                ? // A group no pass can draw is never done (the summary rejects it).
+                  !!needs.get(key)?.size && [...needs.get(key)!].every((p) => warmed.has(p + '|' + key))
+                : warmed.has('main|' + key) && warmed.has('mirror|' + key);
+          // Without s, once before the first view, from every object; with s, per view, from the
+          // objects visible there (side images change with the view).
+          const collect = () => {
+            const groups = new Map<string, THREE.Material[]>();
+            const visit = (child: THREE.Object3D) => {
+              const passes = probe.selective ? passesOf(child) : null;
+              for (const each of materialsOf(child)) {
+                const key = keyOf.get(each);
+                if (!key) continue;
+                if (passes) {
+                  const set = needs.get(key) ?? new Set<string>();
+                  for (const pass of passes) set.add(pass);
+                  needs.set(key, set);
+                }
+              }
+              for (const each of materialsOf(child)) {
+                const key = keyOf.get(each);
+                if (!key || done(key)) continue;
+                const list = groups.get(key) ?? [];
+                if (!list.includes(each)) list.push(each);
+                groups.set(key, list);
+              }
+            };
+            if (probe.selective) root.traverseVisible(visit);
+            else root.traverse(visit);
+            return groups;
+          };
+          let groups = collect();
+          // Hidden per step: without s the first collection's materials, with s every candidate.
+          const split = probe.selective ? [...keyOf.keys()] : [...groups.values()].flat();
           const show = (shown: THREE.Material[]) => {
             for (const each of split) each.visible = shown.includes(each);
           };
-          const keyOf = new Map<THREE.Material, string>();
-          for (const [key, materials] of groups) for (const each of materials) keyOf.set(each, key);
           let pass: 'main' | 'mirror' | null = null;
           const hooked: [THREE.Object3D, boolean, THREE.Object3D['onBeforeRender']][] = [];
           if (probe.multi)
             root.traverse((child) => {
-              const material = (child as THREE.Mesh).material;
-              if (!(Array.isArray(material) ? material : [material]).some((m) => m && keyOf.has(m))) return;
+              if (!materialsOf(child).some((m) => keyOf.has(m) && (probe.selective || groups.has(keyOf.get(m)!))))
+                return;
               const own = Object.prototype.hasOwnProperty.call(child, 'onBeforeRender');
               const original = child.onBeforeRender;
               hooked.push([child, own, original]);
@@ -379,17 +472,24 @@ writeFileSync(
               mirrorShown = true;
               show([]);
               sideImages.update(camera);
+              if (probe.selective) groups = collect();
               await step(prefix + ':mirror:rest', mirrorPass);
               await step(prefix + ':main:rest', mainPass);
+              // s: groups no pass renders (the shadow mask's copies with the mask off) are only
+              // recorded; the product draws them only after a settings change.
+              const unreachable = probe.selective ? [...groups.keys()].filter((key) => !needs.get(key)?.size) : [];
               const entries = [...groups.entries()].filter(
-                ([key]) => !probe.multi || !warmed.has('main|' + key) || !warmed.has('mirror|' + key),
+                ([key]) => (!probe.multi || !done(key)) && !unreachable.includes(key),
               );
+              // s: a pass is stepped only when a group of the chunk still needs it there.
+              const wants = (chunk: typeof entries, p: string) =>
+                !probe.selective || chunk.some(([key]) => needs.get(key)?.has(p) && !warmed.has(p + '|' + key));
               for (let i = 0; i < entries.length; i += probe.visibility) {
                 const chunk = entries.slice(i, i + probe.visibility);
                 show(chunk.flatMap(([, materials]) => materials));
                 const names = chunk.map(([key]) => key.split(',')[0]).join('+');
-                await step(prefix + ':mirror:' + names, mirrorPass);
-                await step(prefix + ':main:' + names, mainPass);
+                if (wants(chunk, 'mirror')) await step(prefix + ':mirror:' + names, mirrorPass);
+                if (wants(chunk, 'main')) await step(prefix + ':main:' + names, mainPass);
                 if (!probe.multi) for (const [key] of chunk) warmed.add(key);
               }
               probe.groups.push({
@@ -400,7 +500,10 @@ writeFileSync(
                   materials: materials.map((m) => m.name),
                   // Passes that drew the group by the end of this view (m only).
                   drawn: probe.multi ? ['main', 'mirror'].filter((p) => warmed.has(p + '|' + key)) : null,
+                  // Passes that can draw it, from the objects visible so far (s only).
+                  needs: probe.selective ? [...(needs.get(key) ?? [])].sort() : null,
                 })),
+                unreachable: unreachable.map((key) => ({ key, materials: groups.get(key)!.map((m) => m.name) })),
               });
               if (disposed || failed) break;
             }
@@ -448,10 +551,24 @@ server.stderr.on('data', (b) => {
   serverLog += b;
 });
 
-function hook({ batch, prefetch, fence, incremental, all, visibility, budget, offscreen, multi, hold, nonce }) {
+function hook({
+  batch,
+  prefetch,
+  fence,
+  incremental,
+  all,
+  visibility,
+  budget,
+  offscreen,
+  multi,
+  selective,
+  hold,
+  nonce,
+}) {
   const probe = (window.__suiBatches = {
     batch,
     multi,
+    selective,
     visibility,
     budget,
     offscreen,
@@ -912,7 +1029,8 @@ try {
       const nonce = `sui${Date.now()}${condition}r${round}`;
       // The cached load reuses the cold load's shader identity in the same browser process.
       for (const cached of warm ? [false, true] : [false]) {
-        const { batch, prefetch, fence, incremental, all, visibility, budget, offscreen, multi } = parse(condition);
+        const { batch, prefetch, fence, incremental, all, visibility, budget, offscreen, multi, selective } =
+          parse(condition);
         const context = await browser.newContext({
           viewport: { width: 1200, height: 800 },
           deviceScaleFactor: 1.5,
@@ -928,14 +1046,18 @@ try {
           budget,
           offscreen,
           multi,
+          selective,
           hold,
           nonce,
         });
-        await context.addInitScript(() => {
-          localStorage.setItem('sui-quality', 'standard');
-          localStorage.setItem('sui-guide-dismissed', 'yes');
-          localStorage.setItem('sui-lighting-mode', 'day');
-        });
+        await context.addInitScript(
+          ([quality, lighting]) => {
+            localStorage.setItem('sui-quality', quality);
+            localStorage.setItem('sui-guide-dismissed', 'yes');
+            localStorage.setItem('sui-lighting-mode', lighting);
+          },
+          [quality, lighting],
+        );
         const page = await context.newPage();
         const errors = [];
         const samples = [];
@@ -948,7 +1070,7 @@ try {
           const image = await page.locator('.sauna-3d-canvas canvas').screenshot({ style: captureStyle });
           const path = join(
             shots,
-            `${engine}-${entry}-${round}-${condition}${cached ? '-warm' : ''}-hold-${samples.length}.png`,
+            `${engine}-${quality}-${lighting}-${entry}-${round}-${condition}${cached ? '-warm' : ''}-hold-${samples.length}.png`,
           );
           writeFileSync(path, image);
           samples.push({ label, image: path, sha256: createHash('sha256').update(image).digest('hex') });
@@ -1003,6 +1125,7 @@ try {
         row.budget = budget;
         row.offscreen = offscreen;
         row.multi = multi;
+        row.selective = selective;
         row.samples = samples;
         row.entry = entry;
         row.warm = cached;
@@ -1025,7 +1148,10 @@ try {
           }
           await page.waitForTimeout(2000);
           const image = await page.locator('.sauna-3d-canvas canvas').screenshot({ style: captureStyle });
-          const path = join(shots, `${engine}-${entry}-${round}-${condition}${cached ? '-warm' : ''}-${stage}.png`);
+          const path = join(
+            shots,
+            `${engine}-${quality}-${lighting}-${entry}-${round}-${condition}${cached ? '-warm' : ''}-${stage}.png`,
+          );
           writeFileSync(path, image);
           row.stages.push({ stage, image: path, sha256: createHash('sha256').update(image).digest('hex') });
         }
@@ -1067,8 +1193,10 @@ try {
     out,
     JSON.stringify(
       {
-        schema: 9,
+        schema: 10,
         entry,
+        quality,
+        lighting,
         hold,
         warm,
         engine,
@@ -1082,7 +1210,7 @@ try {
         script: scriptHash,
         temporarySource: hash(readFileSync(scenePath)),
         temporaryOutput: hash(readFileSync(outputPath)),
-        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion; 3D enabled from entry stage after entering in 2D. v-conditions choose material.visible, o additionally draws the HDR target without TAA/presentation; m steps the groups from all three stage views (entry first) and counts a group warmed per pass only once three drew one of its materials there. newKeys includes stage changes. SUI_HOLD adds compositor screenshots and waits: its intervals/load times are not performance comparisons. Instrumented, not product timings.',
+        note: 'Fresh zero-valued output uniform per run (with warm, shared by its cold and cached load in one browser); no cache deletion. Standard, 1200x800 DPR1.5, reduced motion; 3D enabled from entry stage after entering in 2D. v-conditions choose material.visible, o additionally draws the HDR target without TAA/presentation; m steps the groups from all three stage views (entry first) and counts a group warmed per pass only once three drew one of its materials there; s re-collects groups per view from visible objects and only needs the passes that can draw them. newKeys includes stage changes. SUI_HOLD adds compositor screenshots and waits: its intervals/load times are not performance comparisons. Instrumented, not product timings.',
         rows,
       },
       null,

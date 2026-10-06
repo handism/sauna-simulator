@@ -35,12 +35,13 @@ def new_heavy_keys(row):
     return raw, real
 
 
-def deferred_heavy_states(row):
-    """New heavy states outside warmup, excluding inert blend-factor differences."""
+def deferred_heavy_states(row, chars=None):
+    """New heavy states outside warmup, excluding inert blend-factor differences. With `chars`,
+    every program longer than that counts (the warmup's 60,000 also takes in the shadow mask)."""
     seen, deferred = set(), []
     programs = {p["id"]: p for p in row["programs"]}
     for item in row["newKeys"]:
-        if not item["heavy"]:
+        if not (item["heavy"] if chars is None else programs[item["program"]]["chars"] > chars):
             continue
         key = normalized(item["key"])
         if key in seen:
@@ -157,10 +158,13 @@ def timeline(row):
     assert not prefetched & {c["subjectProgram"] for c in later}, "prefetched program queried again"
     return {"round": row["round"], "condition": row["condition"], "warm": row["warm"], "budget": row["budget"],
             "deferredHeavyStates": deferred_heavy_states(row),
+            # The warmup's own threshold: the materials and the shadow mask (~73,000 characters).
+            "deferredWarmupClassStates": deferred_heavy_states(row, 60000),
             "batch": row["batch"], "visibility": row["visibility"],
             "stepLabels": [{"label": s["label"], "ms": s["ms"], "yielded": s.get("yielded"), "drawMs": s["drawMs"], "drainMs": s["drainMs"],
                             "newKeys": s["newKeys"], "newHeavyKeys": s["newHeavyKeys"]} for s in row["steps"]],
             "warmupGroups": row["groups"],
+            "unreachableGroups": sorted({u["key"] for g in row["groups"] for u in g["unreachable"]}),
             "warmupViews": [{"label": g["label"], "view": g["view"], "groups": len(g["groups"]),
                              "drawnMain": sum(1 for x in g["groups"] if x["drawn"] and "main" in x["drawn"]),
                              "drawnMirror": sum(1 for x in g["groups"] if x["drawn"] and "mirror" in x["drawn"]),
@@ -189,8 +193,9 @@ def timeline(row):
 
 def summarize(path):
     report = json.loads(Path(path).read_text())
-    assert report["schema"] == 9, "entry/offscreen/multi-view schema required"
+    assert report["schema"] == 10, "quality/lighting/selective schema required"
     assert report["entry"] in ("sauna", "water", "totonou")
+    assert report["quality"] in ("low", "standard", "high") and report["lighting"] in ("day", "evening", "night")
     assert isinstance(report["hold"], bool)
     assert report["script"] == digest("scripts/diagnose_compile_batches.mjs"), "script changed"
     assert report["source"] == digest("src/components/3d/SaunaScene.tsx"), "scene changed"
@@ -209,8 +214,11 @@ def summarize(path):
         assert row["entry"] == report["entry"]
         assert row["offscreen"] == row["condition"].startswith("o")
         assert row["multi"] == row["condition"].lstrip("o").startswith("m")
-        if row["condition"].lstrip("om").startswith("v"):
-            visibility, budget = re.fullmatch(r"o?m?v(\d+)(?:b(\d+))?", row["condition"]).groups()
+        assert row["selective"] == row["condition"].lstrip("o").startswith("ms")
+        assert row["data"]["quality"] == report["quality"]
+        assert float(row["data"]["timeOfDay"]) == {"day": 0, "evening": 1, "night": 2}[report["lighting"]]
+        if row["condition"].lstrip("oms").startswith("v"):
+            visibility, budget = re.fullmatch(r"o?(?:ms?)?v(\d+)(?:b(\d+))?", row["condition"]).groups()
             assert row["visibility"] == int(visibility) > 0 and row["batch"] == 0
             assert row["budget"] == int(budget or 0)
             assert not (row["prefetch"] or row["all"] or row["incremental"] or row["fence"])
@@ -270,20 +278,30 @@ def summarize(path):
             stages = ["sauna", "water", "totonou"]
             views = ([report["entry"]] + [s for s in stages if s != report["entry"]]) if row["multi"] else [report["entry"]]
             assert [(g["label"], g["view"]) for g in row["groups"]] == [(l, v) for l in ("body", "garden") for v in views]
+            # Only s records groups that no pass renders, and it never steps them.
+            assert all(row["selective"] or not g["unreachable"] for g in row["groups"])
+            assert all(not {u["key"] for u in g["unreachable"]} & {x["key"] for x in g["groups"]} for g in row["groups"])
             if row["multi"]:
-                # A group returns in a later view only while a pass has not drawn it yet.
-                done = set()
+                # A group returns in a later view only while a pass has not drawn it yet. With s,
+                # only the passes that can draw it count (recorded per view, never shrinking).
+                done, needs = set(), {}
                 for group in row["groups"]:
                     for g in group["groups"]:
                         assert g["key"] not in done, "fully drawn group stepped again"
                         assert set(g["drawn"]) <= {"main", "mirror"}
-                        if set(g["drawn"]) == {"main", "mirror"}:
+                        if row["selective"]:
+                            assert g["needs"] and set(g["needs"]) <= {"main", "mirror"}
+                            assert set(needs.get(g["key"], [])) <= set(g["needs"]), "needs shrank"
+                            needs[g["key"]] = g["needs"]
+                        else:
+                            assert g["needs"] is None
+                        if set(g["drawn"]) >= set(g["needs"] or ["main", "mirror"]):
                             done.add(g["key"])
                 assert all(s["label"].split(":")[1] in stages for s in steps)
             else:
                 warmed = [g["key"] for group in row["groups"] for g in group["groups"]]
                 assert len(warmed) == len(set(warmed)), "group warmed twice"
-                assert all(g["drawn"] is None for group in row["groups"] for g in group["groups"])
+                assert all(g["drawn"] is None and g["needs"] is None for group in row["groups"] for g in group["groups"])
             assert sum(s["newHeavyKeys"] for s in steps) == sum(1 for k in row["newKeys"] if k["heavy"] and k["step"] is not None)
             # Without a budget every step yields.
             assert all(isinstance(s["yielded"], bool) for s in steps)
@@ -337,6 +355,8 @@ def summarize(path):
             "firstGardenDrawMs": [t["firstGardenDrawMs"] for t in timelines if label(t) == condition],
             "newHeavyPipelinesByPhase": [t["newHeavyPipelinesByPhase"] for t in timelines if label(t) == condition],
             "newHeavyKeysByPhase": [t["newHeavyKeysByPhase"] for t in timelines if label(t) == condition],
+            "deferredHeavyStates": [len(t["deferredHeavyStates"]) for t in timelines if label(t) == condition],
+            "deferredWarmupClassStates": [len(t["deferredWarmupClassStates"]) for t in timelines if label(t) == condition],
         }
     def compare(reference_round):
         comparisons = []
@@ -347,7 +367,7 @@ def summarize(path):
                                 "maxChannelDelta": int(delta.max()), "meanChannelDelta": float(delta.mean())})
         return comparisons
     return {"engine": report["engine"], "version": report["version"], "report": str(path),
-            "entry": report["entry"], "hold": report["hold"], "timingComparisonValid": not report["hold"], "retainedImages": retained,
+            "entry": report["entry"], "quality": report["quality"], "lighting": report["lighting"], "hold": report["hold"], "timingComparisonValid": not report["hold"], "retainedImages": retained,
             "reportSha256": digest(path), "timings": timings, "images": compare(0), "imagesVsLastBaseline": compare(repeat - 1), "timelines": timelines}
 
 
@@ -355,6 +375,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("reports", nargs="+")
     parser.add_argument("--out", required=True)
+    parser.add_argument("--brief", action="store_true",
+                        help="per load only the verdicts (deferred states, steps, gaps, unreachable groups), not the timelines")
     args = parser.parse_args()
     # Each capture belongs to one report; a shared path means a later run overwrote it.
     paths = [item["image"] for path in args.reports for row in json.loads(Path(path).read_text())["rows"]
@@ -362,4 +384,12 @@ if __name__ == "__main__":
     assert len(paths) == len(set(paths)), "capture shared between runs"
     result = {"note": "Loading windows begin just before selecting 3D from the entry stage and end at garden-ready + 500ms. SUI_HOLD runs contain deliberate compositor waits/screenshots: timingComparisonValid is false, so their load times/intervals are not performance comparisons. Phase attribution uses overlaps; nested slow calls must not be summed. Fresh instrumented shaders; not product load times or FPS. Images compare both the first/final baseline of each engine and entry; retainedImages compares the paused compositor image across garden warmup.",
               "runs": [summarize(path) for path in args.reports]}
+    if args.brief:
+        kept = ["round", "condition", "warm", "deferredHeavyStates", "deferredWarmupClassStates", "unreachableGroups",
+                "warmupViews", "newHeavyPipelinesByPhase", "longestIntervals", "outsideWarmupIntervalsOverHalfSecond"]
+        for run in result["runs"]:
+            run["timelines"] = [{key: t[key] for key in kept} for t in run["timelines"]]
+            for t in run["timelines"]:
+                for key in ["deferredHeavyStates", "deferredWarmupClassStates"]:
+                    t[key] = [{"phase": d["phase"], "program": d["program"]["name"], "key": d["key"]} for d in t[key]]
     Path(args.out).write_text(json.dumps(result, indent=2) + "\n")
