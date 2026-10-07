@@ -1,0 +1,4349 @@
+{
+  "note": "Loading windows begin just before selecting 3D from the entry stage and end at garden-ready + 500ms. SUI_HOLD runs contain deliberate compositor waits/screenshots: timingComparisonValid is false, so their load times/intervals are not performance comparisons. Phase attribution uses overlaps; nested slow calls must not be summed. Fresh instrumented shaders; not product load times or FPS. Images compare both the first/final baseline of each engine and entry; retainedImages compares the paused compositor image across garden warmup.",
+  "runs": [
+    {
+      "engine": "cft",
+      "version": "153.0.8010.12",
+      "report": "docs/3d-qa/compile-batches/product-repeat-cft-standard-night-sauna.json.local",
+      "entry": "sauna",
+      "quality": "standard",
+      "lighting": "night",
+      "hold": false,
+      "timingComparisonValid": true,
+      "retainedImages": [],
+      "reportSha256": "e2b38938718e1f7ccbd96adbc0e85407caa92c416dbf25148cb9eabf6defc2e7",
+      "timings": {
+        "0": {
+          "loadMs": [
+            10076.0,
+            10724.0
+          ],
+          "longestTimerGapMs": [
+            8808.09999999404,
+            9475.5
+          ],
+          "steps": [
+            0,
+            0
+          ],
+          "yields": [
+            0,
+            0
+          ],
+          "warmupPhaseMs": [
+            0,
+            0
+          ],
+          "maxStepMs": [
+            0,
+            0
+          ],
+          "interceptedPipelineKeys": [
+            0,
+            0
+          ],
+          "firstStepMs": [
+            0,
+            0
+          ],
+          "stepSumMs": [
+            0,
+            0
+          ],
+          "laterStepMedianMs": [
+            0,
+            0
+          ],
+          "laterStepP90Ms": [
+            0,
+            0
+          ],
+          "longestTimerGapAfterFirstStepMs": [
+            0,
+            0
+          ],
+          "maxStepDrawMs": [
+            0,
+            0
+          ],
+          "maxStepWaitMs": [
+            0,
+            0
+          ],
+          "drainMedianMs": [
+            0,
+            0
+          ],
+          "submittedDraws": [
+            0,
+            0
+          ],
+          "skippedDraws": [
+            0,
+            0
+          ],
+          "prefetchedPrograms": [
+            0,
+            0
+          ],
+          "prefetchMaxGetUniformsMs": [
+            0,
+            0
+          ],
+          "prefetchSumGetUniformsMs": [
+            0,
+            0
+          ],
+          "firstGardenDrawMs": [
+            246.59999999403954,
+            247.19999998807907
+          ],
+          "newHeavyPipelinesByPhase": [
+            {
+              "first-view": 28,
+              "first-garden-draw": 2
+            },
+            {
+              "first-view": 28,
+              "first-garden-draw": 2
+            }
+          ],
+          "newHeavyKeysByPhase": [
+            {
+              "first-view": 28,
+              "first-full-draw": 12,
+              "first-garden-draw": 10,
+              "garden-drawn": 1
+            },
+            {
+              "first-view": 28,
+              "first-full-draw": 12,
+              "first-garden-draw": 10,
+              "garden-drawn": 1
+            }
+          ],
+          "deferredHeavyStates": [
+            30,
+            30
+          ],
+          "deferredWarmupClassStates": [
+            33,
+            33
+          ]
+        },
+        "w": {
+          "loadMs": [
+            10864.0,
+            11141.0
+          ],
+          "longestTimerGapMs": [
+            374.7000000178814,
+            402.59999999403954
+          ],
+          "steps": [
+            0,
+            0
+          ],
+          "yields": [
+            0,
+            0
+          ],
+          "warmupPhaseMs": [
+            10193.40000000596,
+            10460.09999999404
+          ],
+          "maxStepMs": [
+            0,
+            0
+          ],
+          "interceptedPipelineKeys": [
+            0,
+            0
+          ],
+          "firstStepMs": [
+            0,
+            0
+          ],
+          "stepSumMs": [
+            0,
+            0
+          ],
+          "laterStepMedianMs": [
+            0,
+            0
+          ],
+          "laterStepP90Ms": [
+            0,
+            0
+          ],
+          "longestTimerGapAfterFirstStepMs": [
+            0,
+            0
+          ],
+          "maxStepDrawMs": [
+            0,
+            0
+          ],
+          "maxStepWaitMs": [
+            0,
+            0
+          ],
+          "drainMedianMs": [
+            0,
+            0
+          ],
+          "submittedDraws": [
+            0,
+            0
+          ],
+          "skippedDraws": [
+            0,
+            0
+          ],
+          "prefetchedPrograms": [
+            0,
+            0
+          ],
+          "prefetchMaxGetUniformsMs": [
+            0,
+            0
+          ],
+          "prefetchSumGetUniformsMs": [
+            0,
+            0
+          ],
+          "firstGardenDrawMs": [
+            91.40000000596046,
+            88.5
+          ],
+          "newHeavyPipelinesByPhase": [
+            {
+              "visibility-warmup": 28,
+              "garden-warmup": 2
+            },
+            {
+              "visibility-warmup": 28,
+              "garden-warmup": 2
+            }
+          ],
+          "newHeavyKeysByPhase": [
+            {
+              "visibility-warmup": 28,
+              "first-view": 12,
+              "first-full-draw": 8,
+              "garden-warmup": 2,
+              "first-garden-draw": 1,
+              "garden-drawn": 1
+            },
+            {
+              "visibility-warmup": 28,
+              "first-view": 12,
+              "first-full-draw": 8,
+              "garden-warmup": 2,
+              "first-garden-draw": 1,
+              "garden-drawn": 1
+            }
+          ],
+          "deferredHeavyStates": [
+            0,
+            0
+          ],
+          "deferredWarmupClassStates": [
+            0,
+            0
+          ],
+          "warmupSteps": [
+            37,
+            37
+          ],
+          "warmupUndrawn": [
+            0,
+            0
+          ],
+          "warmupMs": [
+            9337,
+            9625
+          ],
+          "gardenWarmupSteps": [
+            15,
+            15
+          ],
+          "gardenWarmupUndrawn": [
+            0,
+            0
+          ]
+        }
+      },
+      "images": [
+        {
+          "round": 0,
+          "condition": "0",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "0",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "0",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "w",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "w",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "w",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "w",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "w",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "w",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "0",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "0",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "0",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        }
+      ],
+      "imagesVsLastBaseline": [
+        {
+          "round": 0,
+          "condition": "0",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "0",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "0",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "w",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "w",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 0,
+          "condition": "w",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "w",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "w",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "w",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "0",
+          "stage": "sauna",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "0",
+          "stage": "water",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        },
+        {
+          "round": 1,
+          "condition": "0",
+          "stage": "totonou",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "meanChannelDelta": 0.0
+        }
+      ],
+      "timelines": [
+        {
+          "round": 0,
+          "condition": "0",
+          "warm": false,
+          "deferredHeavyStates": [
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                18,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                21,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                24,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                27,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            }
+          ],
+          "deferredWarmupClassStates": [
+            {
+              "phase": "first-view",
+              "program": "shadow mask",
+              "key": [
+                5,
+                [
+                  5890,
+                  [
+                    33190,
+                    0
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "shadow mask",
+              "key": [
+                8,
+                [
+                  5890,
+                  [
+                    33190,
+                    0
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                18,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                21,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                24,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                27,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "shadow mask",
+              "key": [
+                41,
+                [
+                  5890,
+                  [
+                    33190,
+                    0
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            }
+          ],
+          "unreachableGroups": [],
+          "warmupViews": [],
+          "newHeavyPipelinesByPhase": {
+            "first-view": 28,
+            "first-garden-draw": 2
+          },
+          "longestIntervals": {
+            "timer": {
+              "kind": "timer",
+              "start": 2784.2000000178814,
+              "end": 11592.300000011921,
+              "ms": 8808.09999999404,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "first-view",
+                  "ms": 8797.199999988079
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 4.800000011920929
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.09999999403953552
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 6.0
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            },
+            "raf": {
+              "kind": "raf",
+              "start": 2777.4000000059605,
+              "end": 11586.800000011921,
+              "ms": 8809.40000000596,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "compile-body",
+                  "ms": 6.800000011920929
+                },
+                {
+                  "phase": "first-view",
+                  "ms": 8797.199999988079
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 4.800000011920929
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.09999999403953552
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 0.5
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            }
+          },
+          "outsideWarmupIntervalsOverHalfSecond": [
+            {
+              "kind": "raf",
+              "start": 2777.4000000059605,
+              "end": 11586.800000011921,
+              "ms": 8809.40000000596,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "compile-body",
+                  "ms": 6.800000011920929
+                },
+                {
+                  "phase": "first-view",
+                  "ms": 8797.199999988079
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 4.800000011920929
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.09999999403953552
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 0.5
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            },
+            {
+              "kind": "timer",
+              "start": 2784.2000000178814,
+              "end": 11592.300000011921,
+              "ms": 8808.09999999404,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "first-view",
+                  "ms": 8797.199999988079
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 4.800000011920929
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.09999999403953552
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 6.0
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            }
+          ]
+        },
+        {
+          "round": 0,
+          "condition": "w",
+          "warm": false,
+          "deferredHeavyStates": [],
+          "deferredWarmupClassStates": [],
+          "unreachableGroups": [],
+          "warmupViews": [],
+          "newHeavyPipelinesByPhase": {
+            "visibility-warmup": 28,
+            "garden-warmup": 2
+          },
+          "longestIntervals": {
+            "timer": {
+              "kind": "timer",
+              "start": 6057.299999982119,
+              "end": 6432,
+              "ms": 374.7000000178814,
+              "phase": "visibility-warmup",
+              "overlaps": [
+                {
+                  "phase": "visibility-warmup",
+                  "ms": 374.7000000178814
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            },
+            "raf": {
+              "kind": "raf",
+              "start": 3744.7999999821186,
+              "end": 4131.5999999940395,
+              "ms": 386.80000001192093,
+              "phase": "visibility-warmup",
+              "overlaps": [
+                {
+                  "phase": "visibility-warmup",
+                  "ms": 386.80000001192093
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            }
+          },
+          "outsideWarmupIntervalsOverHalfSecond": []
+        },
+        {
+          "round": 1,
+          "condition": "w",
+          "warm": false,
+          "deferredHeavyStates": [],
+          "deferredWarmupClassStates": [],
+          "unreachableGroups": [],
+          "warmupViews": [],
+          "newHeavyPipelinesByPhase": {
+            "visibility-warmup": 28,
+            "garden-warmup": 2
+          },
+          "longestIntervals": {
+            "timer": {
+              "kind": "timer",
+              "start": 6196.700000017881,
+              "end": 6599.300000011921,
+              "ms": 402.59999999403954,
+              "phase": "visibility-warmup",
+              "overlaps": [
+                {
+                  "phase": "visibility-warmup",
+                  "ms": 402.59999999403954
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            },
+            "raf": {
+              "kind": "raf",
+              "start": 6194.9000000059605,
+              "end": 6599.200000017881,
+              "ms": 404.30000001192093,
+              "phase": "visibility-warmup",
+              "overlaps": [
+                {
+                  "phase": "visibility-warmup",
+                  "ms": 404.30000001192093
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            }
+          },
+          "outsideWarmupIntervalsOverHalfSecond": []
+        },
+        {
+          "round": 1,
+          "condition": "0",
+          "warm": false,
+          "deferredHeavyStates": [
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                18,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                21,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                24,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                27,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            }
+          ],
+          "deferredWarmupClassStates": [
+            {
+              "phase": "first-view",
+              "program": "shadow mask",
+              "key": [
+                5,
+                [
+                  5890,
+                  [
+                    33190,
+                    0
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "shadow mask",
+              "key": [
+                8,
+                [
+                  5890,
+                  [
+                    33190,
+                    0
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                9,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "2700K concealed LED",
+              "key": [
+                10,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                15,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V9 | layered living moss",
+              "key": [
+                16,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                6,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | outdoor ash / grain & wear",
+              "key": [
+                3,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                14,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V11 | cedar end grain",
+              "key": [
+                11,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                18,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                21,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                24,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                27,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                false,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V2 | mineral charcoal stone",
+              "key": [
+                20,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "Blackened bronze",
+              "key": [
+                23,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
+              "key": [
+                26,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-view",
+              "program": "V10 | submerged light / Teal glazed pool tile",
+              "key": [
+                29,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                true,
+                770,
+                771,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "shadow mask",
+              "key": [
+                41,
+                [
+                  5890,
+                  [
+                    33190,
+                    0
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                false
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    2
+                  ],
+                  [
+                    33190,
+                    2
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            },
+            {
+              "phase": "first-garden-draw",
+              "program": "V6 woodland leaf 0 card",
+              "key": [
+                39,
+                [
+                  [
+                    34842,
+                    4
+                  ],
+                  [
+                    33190,
+                    4
+                  ]
+                ],
+                false,
+                null,
+                null,
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                true
+              ]
+            }
+          ],
+          "unreachableGroups": [],
+          "warmupViews": [],
+          "newHeavyPipelinesByPhase": {
+            "first-view": 28,
+            "first-garden-draw": 2
+          },
+          "longestIntervals": {
+            "timer": {
+              "kind": "timer",
+              "start": 2709.5999999940395,
+              "end": 12185.09999999404,
+              "ms": 9475.5,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "first-view",
+                  "ms": 9462.59999999404
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 5.5
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.10000002384185791
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 7.299999982118607
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            },
+            "raf": {
+              "kind": "raf",
+              "start": 2703.9000000059605,
+              "end": 12178.800000011921,
+              "ms": 9474.90000000596,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "compile-body",
+                  "ms": 5.699999988079071
+                },
+                {
+                  "phase": "first-view",
+                  "ms": 9462.59999999404
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 5.5
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.10000002384185791
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 1.0
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            }
+          },
+          "outsideWarmupIntervalsOverHalfSecond": [
+            {
+              "kind": "raf",
+              "start": 2703.9000000059605,
+              "end": 12178.800000011921,
+              "ms": 9474.90000000596,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "compile-body",
+                  "ms": 5.699999988079071
+                },
+                {
+                  "phase": "first-view",
+                  "ms": 9462.59999999404
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 5.5
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.10000002384185791
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 1.0
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            },
+            {
+              "kind": "timer",
+              "start": 2709.5999999940395,
+              "end": 12185.09999999404,
+              "ms": 9475.5,
+              "phase": "fetch-garden",
+              "overlaps": [
+                {
+                  "phase": "first-view",
+                  "ms": 9462.59999999404
+                },
+                {
+                  "phase": "first-full-draw",
+                  "ms": 5.5
+                },
+                {
+                  "phase": "body-ready",
+                  "ms": 0.10000002384185791
+                },
+                {
+                  "phase": "fetch-garden",
+                  "ms": 7.299999982118607
+                }
+              ],
+              "warmupStepOverlapMs": 0,
+              "prefetchOverlapMs": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

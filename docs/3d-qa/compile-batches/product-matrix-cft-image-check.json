@@ -1,0 +1,1466 @@
+{
+  "note": "Exact decoded RGB image match to any normal capture with the same quality, lighting, and stage, across three entry stages plus a standard/night/sauna ABBA repeat. PNG hashes were checked against source reports. Per-run deltas are in the corresponding summaries. Six original standard/night candidates still lack an exact normal-image match (at most two changed pixels); their cause is unresolved. This does not validate full surround or motion.",
+  "reports": 28,
+  "candidateCaptures": 168,
+  "unmatchedCaptures": 6,
+  "checks": [
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-w-sauna.png",
+      "rgbSha256": "29a471267c349999875bd927f9eca42ffa72fe1217cc567d0c9df41898fceac8",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-w-water.png",
+      "rgbSha256": "c7ea82bcb1b951e1596bcd3fb6661fc71b7205d706bc3d1a7fe606dd57b557fe",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-w-totonou.png",
+      "rgbSha256": "ae1206f551315f2a26a33f985c4c8cf5fd0fefc4057d26ad4aac50f3f2181e5e",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-1-w-sauna.png",
+      "rgbSha256": "d23f2ccf6ff70f7489d367a8e640bc2cec23fd62b243813a45b0a847281bc9b5",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-1-w-water.png",
+      "rgbSha256": "c7ea82bcb1b951e1596bcd3fb6661fc71b7205d706bc3d1a7fe606dd57b557fe",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-1-w-totonou.png",
+      "rgbSha256": "a9ed5f09c1e37f4674cb50377069f5e863244a6f8bdd1fdf931bb8579b743791",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-day-totonou/cft-high-day-totonou-0-w-totonou.png",
+      "rgbSha256": "ae1206f551315f2a26a33f985c4c8cf5fd0fefc4057d26ad4aac50f3f2181e5e",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-day-totonou/cft-high-day-totonou-0-w-sauna.png",
+      "rgbSha256": "29a471267c349999875bd927f9eca42ffa72fe1217cc567d0c9df41898fceac8",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-day-totonou/cft-high-day-totonou-0-w-water.png",
+      "rgbSha256": "c7ea82bcb1b951e1596bcd3fb6661fc71b7205d706bc3d1a7fe606dd57b557fe",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-day-totonou/cft-high-day-totonou-1-w-totonou.png",
+      "rgbSha256": "ae1206f551315f2a26a33f985c4c8cf5fd0fefc4057d26ad4aac50f3f2181e5e",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-day-totonou/cft-high-day-totonou-1-w-sauna.png",
+      "rgbSha256": "29a471267c349999875bd927f9eca42ffa72fe1217cc567d0c9df41898fceac8",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-day-totonou/cft-high-day-totonou-1-w-water.png",
+      "rgbSha256": "c7ea82bcb1b951e1596bcd3fb6661fc71b7205d706bc3d1a7fe606dd57b557fe",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-w-water.png",
+      "rgbSha256": "c7ea82bcb1b951e1596bcd3fb6661fc71b7205d706bc3d1a7fe606dd57b557fe",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-w-totonou.png",
+      "rgbSha256": "ae1206f551315f2a26a33f985c4c8cf5fd0fefc4057d26ad4aac50f3f2181e5e",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-w-sauna.png",
+      "rgbSha256": "29a471267c349999875bd927f9eca42ffa72fe1217cc567d0c9df41898fceac8",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-1-w-water.png",
+      "rgbSha256": "c7ea82bcb1b951e1596bcd3fb6661fc71b7205d706bc3d1a7fe606dd57b557fe",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-sauna/cft-high-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-1-w-totonou.png",
+      "rgbSha256": "ae1206f551315f2a26a33f985c4c8cf5fd0fefc4057d26ad4aac50f3f2181e5e",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-1-w-sauna.png",
+      "rgbSha256": "29a471267c349999875bd927f9eca42ffa72fe1217cc567d0c9df41898fceac8",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-day-water/cft-high-day-water-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-w-sauna.png",
+      "rgbSha256": "fe59ccaaad3e214bd8e21650c87bb6878097e349ad8009af825443b556b519ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-w-water.png",
+      "rgbSha256": "5e00a92fc949348da5f894204bb84d1576746379239dd05b66cd650eb9ce5409",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-w-totonou.png",
+      "rgbSha256": "71857fc9c850f5dd839dd7accb2657a924d293dc880b7b1cb9ca1c7e5383fcd6",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-w-sauna.png",
+      "rgbSha256": "31783c6eae69e983789658b5d504e8281488d4b6b907b3ab8baf7bc4fe0ac8a0",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-w-water.png",
+      "rgbSha256": "5e00a92fc949348da5f894204bb84d1576746379239dd05b66cd650eb9ce5409",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-w-totonou.png",
+      "rgbSha256": "3d4bf867803a52a16868356a9edac64c660eda59719481072778cd2d059ef870",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-totonou/cft-high-evening-totonou-0-w-totonou.png",
+      "rgbSha256": "71857fc9c850f5dd839dd7accb2657a924d293dc880b7b1cb9ca1c7e5383fcd6",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-totonou/cft-high-evening-totonou-0-w-sauna.png",
+      "rgbSha256": "fe59ccaaad3e214bd8e21650c87bb6878097e349ad8009af825443b556b519ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-totonou/cft-high-evening-totonou-0-w-water.png",
+      "rgbSha256": "5e00a92fc949348da5f894204bb84d1576746379239dd05b66cd650eb9ce5409",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-totonou/cft-high-evening-totonou-1-w-totonou.png",
+      "rgbSha256": "3d4bf867803a52a16868356a9edac64c660eda59719481072778cd2d059ef870",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-totonou/cft-high-evening-totonou-1-w-sauna.png",
+      "rgbSha256": "31783c6eae69e983789658b5d504e8281488d4b6b907b3ab8baf7bc4fe0ac8a0",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-totonou/cft-high-evening-totonou-1-w-water.png",
+      "rgbSha256": "5e00a92fc949348da5f894204bb84d1576746379239dd05b66cd650eb9ce5409",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-water/cft-high-evening-water-0-w-water.png",
+      "rgbSha256": "5e00a92fc949348da5f894204bb84d1576746379239dd05b66cd650eb9ce5409",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-water/cft-high-evening-water-0-w-totonou.png",
+      "rgbSha256": "71857fc9c850f5dd839dd7accb2657a924d293dc880b7b1cb9ca1c7e5383fcd6",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-water/cft-high-evening-water-0-w-sauna.png",
+      "rgbSha256": "fe59ccaaad3e214bd8e21650c87bb6878097e349ad8009af825443b556b519ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-water/cft-high-evening-water-1-w-water.png",
+      "rgbSha256": "5e00a92fc949348da5f894204bb84d1576746379239dd05b66cd650eb9ce5409",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-water/cft-high-evening-water-1-w-totonou.png",
+      "rgbSha256": "3d4bf867803a52a16868356a9edac64c660eda59719481072778cd2d059ef870",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-evening-water/cft-high-evening-water-1-w-sauna.png",
+      "rgbSha256": "31783c6eae69e983789658b5d504e8281488d4b6b907b3ab8baf7bc4fe0ac8a0",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-evening-sauna/cft-high-evening-sauna-1-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-w-sauna.png",
+      "rgbSha256": "574e657eadfe927affef6f7b25b8cdab4ef634a85a2cb54d4106f85cddaa94d0",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-1-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-w-water.png",
+      "rgbSha256": "f0750d5e66ffd8c49cf30828e0a96f5522ab0d479e6253c5bde5d0b92f907c00",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-w-totonou.png",
+      "rgbSha256": "8eccf4422c7684030e76bcb9a14b9818f0aebeb457e218dded3eee8150954e7b",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-1-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-1-w-sauna.png",
+      "rgbSha256": "979c02c13065453c689cfd95d3866ee9571d4a28990e3cb4bf49f34b087580fd",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-1-w-water.png",
+      "rgbSha256": "f0750d5e66ffd8c49cf30828e0a96f5522ab0d479e6253c5bde5d0b92f907c00",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-1-w-totonou.png",
+      "rgbSha256": "35a2bc853969a682836d00399203155f8b017c7fae2bd07d6739be11523e2702",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-night-totonou/cft-high-night-totonou-0-w-totonou.png",
+      "rgbSha256": "8eccf4422c7684030e76bcb9a14b9818f0aebeb457e218dded3eee8150954e7b",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-1-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-night-totonou/cft-high-night-totonou-0-w-sauna.png",
+      "rgbSha256": "574e657eadfe927affef6f7b25b8cdab4ef634a85a2cb54d4106f85cddaa94d0",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-1-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-night-totonou/cft-high-night-totonou-0-w-water.png",
+      "rgbSha256": "f0750d5e66ffd8c49cf30828e0a96f5522ab0d479e6253c5bde5d0b92f907c00",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-night-totonou/cft-high-night-totonou-1-w-totonou.png",
+      "rgbSha256": "35a2bc853969a682836d00399203155f8b017c7fae2bd07d6739be11523e2702",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-night-totonou/cft-high-night-totonou-1-w-sauna.png",
+      "rgbSha256": "979c02c13065453c689cfd95d3866ee9571d4a28990e3cb4bf49f34b087580fd",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-night-totonou/cft-high-night-totonou-1-w-water.png",
+      "rgbSha256": "f0750d5e66ffd8c49cf30828e0a96f5522ab0d479e6253c5bde5d0b92f907c00",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-night-water/cft-high-night-water-0-w-water.png",
+      "rgbSha256": "f0750d5e66ffd8c49cf30828e0a96f5522ab0d479e6253c5bde5d0b92f907c00",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-night-water/cft-high-night-water-0-w-totonou.png",
+      "rgbSha256": "35a2bc853969a682836d00399203155f8b017c7fae2bd07d6739be11523e2702",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-night-water/cft-high-night-water-0-w-sauna.png",
+      "rgbSha256": "979c02c13065453c689cfd95d3866ee9571d4a28990e3cb4bf49f34b087580fd",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-high-night-water/cft-high-night-water-1-w-water.png",
+      "rgbSha256": "f0750d5e66ffd8c49cf30828e0a96f5522ab0d479e6253c5bde5d0b92f907c00",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-high-night-water/cft-high-night-water-1-w-totonou.png",
+      "rgbSha256": "35a2bc853969a682836d00399203155f8b017c7fae2bd07d6739be11523e2702",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "high",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-high-night-water/cft-high-night-water-1-w-sauna.png",
+      "rgbSha256": "979c02c13065453c689cfd95d3866ee9571d4a28990e3cb4bf49f34b087580fd",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-high-night-sauna/cft-high-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-w-sauna.png",
+      "rgbSha256": "d3a0eb5f64d314404096ebc364388d763356b9bb374d7388d3bc92535a29500f",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-w-water.png",
+      "rgbSha256": "dde1fc435320be26b5362bd176c0145ea62423895f60ff93e2ceca17df5130bc",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-w-totonou.png",
+      "rgbSha256": "d978ed7d88b46808e529b5b1e70c07022935e320cf1762b07f089745b6346cac",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-1-w-sauna.png",
+      "rgbSha256": "d3a0eb5f64d314404096ebc364388d763356b9bb374d7388d3bc92535a29500f",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-1-w-water.png",
+      "rgbSha256": "dde1fc435320be26b5362bd176c0145ea62423895f60ff93e2ceca17df5130bc",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-1-w-totonou.png",
+      "rgbSha256": "d978ed7d88b46808e529b5b1e70c07022935e320cf1762b07f089745b6346cac",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-day-totonou/cft-low-day-totonou-0-w-totonou.png",
+      "rgbSha256": "d978ed7d88b46808e529b5b1e70c07022935e320cf1762b07f089745b6346cac",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-day-totonou/cft-low-day-totonou-0-w-sauna.png",
+      "rgbSha256": "d3a0eb5f64d314404096ebc364388d763356b9bb374d7388d3bc92535a29500f",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-day-totonou/cft-low-day-totonou-0-w-water.png",
+      "rgbSha256": "dde1fc435320be26b5362bd176c0145ea62423895f60ff93e2ceca17df5130bc",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-day-totonou/cft-low-day-totonou-1-w-totonou.png",
+      "rgbSha256": "d978ed7d88b46808e529b5b1e70c07022935e320cf1762b07f089745b6346cac",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-day-totonou/cft-low-day-totonou-1-w-sauna.png",
+      "rgbSha256": "d3a0eb5f64d314404096ebc364388d763356b9bb374d7388d3bc92535a29500f",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-day-totonou/cft-low-day-totonou-1-w-water.png",
+      "rgbSha256": "dde1fc435320be26b5362bd176c0145ea62423895f60ff93e2ceca17df5130bc",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-day-water/cft-low-day-water-0-w-water.png",
+      "rgbSha256": "dde1fc435320be26b5362bd176c0145ea62423895f60ff93e2ceca17df5130bc",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-day-water/cft-low-day-water-0-w-totonou.png",
+      "rgbSha256": "d978ed7d88b46808e529b5b1e70c07022935e320cf1762b07f089745b6346cac",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-day-water/cft-low-day-water-0-w-sauna.png",
+      "rgbSha256": "d3a0eb5f64d314404096ebc364388d763356b9bb374d7388d3bc92535a29500f",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-day-water/cft-low-day-water-1-w-water.png",
+      "rgbSha256": "dde1fc435320be26b5362bd176c0145ea62423895f60ff93e2ceca17df5130bc",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-day-water/cft-low-day-water-1-w-totonou.png",
+      "rgbSha256": "d978ed7d88b46808e529b5b1e70c07022935e320cf1762b07f089745b6346cac",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-day-water/cft-low-day-water-1-w-sauna.png",
+      "rgbSha256": "d3a0eb5f64d314404096ebc364388d763356b9bb374d7388d3bc92535a29500f",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-day-sauna/cft-low-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-w-sauna.png",
+      "rgbSha256": "00d5ce1557a215f5e3f4f62e55a66d202126c64095ea8b6882ad9d63ebe6b8a9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-w-water.png",
+      "rgbSha256": "5f52f00b8656568a02c4db459fc1dd60d7135beef20e382661423a1fc1e1c6ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-w-totonou.png",
+      "rgbSha256": "0b84b5cc7d62283255a8f29dc5b03a1d36ff2dea4e69562a60a6aefe8a79d50d",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-1-w-sauna.png",
+      "rgbSha256": "00d5ce1557a215f5e3f4f62e55a66d202126c64095ea8b6882ad9d63ebe6b8a9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-1-w-water.png",
+      "rgbSha256": "5f52f00b8656568a02c4db459fc1dd60d7135beef20e382661423a1fc1e1c6ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-1-w-totonou.png",
+      "rgbSha256": "0b84b5cc7d62283255a8f29dc5b03a1d36ff2dea4e69562a60a6aefe8a79d50d",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-totonou/cft-low-evening-totonou-0-w-totonou.png",
+      "rgbSha256": "0b84b5cc7d62283255a8f29dc5b03a1d36ff2dea4e69562a60a6aefe8a79d50d",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-totonou/cft-low-evening-totonou-0-w-sauna.png",
+      "rgbSha256": "00d5ce1557a215f5e3f4f62e55a66d202126c64095ea8b6882ad9d63ebe6b8a9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-totonou/cft-low-evening-totonou-0-w-water.png",
+      "rgbSha256": "5f52f00b8656568a02c4db459fc1dd60d7135beef20e382661423a1fc1e1c6ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-totonou/cft-low-evening-totonou-1-w-totonou.png",
+      "rgbSha256": "0b84b5cc7d62283255a8f29dc5b03a1d36ff2dea4e69562a60a6aefe8a79d50d",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-totonou/cft-low-evening-totonou-1-w-sauna.png",
+      "rgbSha256": "00d5ce1557a215f5e3f4f62e55a66d202126c64095ea8b6882ad9d63ebe6b8a9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-totonou/cft-low-evening-totonou-1-w-water.png",
+      "rgbSha256": "5f52f00b8656568a02c4db459fc1dd60d7135beef20e382661423a1fc1e1c6ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-water/cft-low-evening-water-0-w-water.png",
+      "rgbSha256": "5f52f00b8656568a02c4db459fc1dd60d7135beef20e382661423a1fc1e1c6ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-water/cft-low-evening-water-0-w-totonou.png",
+      "rgbSha256": "0b84b5cc7d62283255a8f29dc5b03a1d36ff2dea4e69562a60a6aefe8a79d50d",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-water/cft-low-evening-water-0-w-sauna.png",
+      "rgbSha256": "00d5ce1557a215f5e3f4f62e55a66d202126c64095ea8b6882ad9d63ebe6b8a9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-water/cft-low-evening-water-1-w-water.png",
+      "rgbSha256": "5f52f00b8656568a02c4db459fc1dd60d7135beef20e382661423a1fc1e1c6ba",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-water/cft-low-evening-water-1-w-totonou.png",
+      "rgbSha256": "0b84b5cc7d62283255a8f29dc5b03a1d36ff2dea4e69562a60a6aefe8a79d50d",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-evening-water/cft-low-evening-water-1-w-sauna.png",
+      "rgbSha256": "00d5ce1557a215f5e3f4f62e55a66d202126c64095ea8b6882ad9d63ebe6b8a9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-evening-sauna/cft-low-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-w-sauna.png",
+      "rgbSha256": "1bd09bff9d5cc52a7365e16de7f39c5980345a26a45d3c04eac22687c1f409e9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-w-water.png",
+      "rgbSha256": "1805bbea93f1bef2f5c5e6f5e318b6f10bcd85ce109403d25e2862929e73c446",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-w-totonou.png",
+      "rgbSha256": "eed289d7b300f8800e6d93857690b0ce345b5dd936519ff47e9bf1a24ea9b442",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-1-w-sauna.png",
+      "rgbSha256": "1bd09bff9d5cc52a7365e16de7f39c5980345a26a45d3c04eac22687c1f409e9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-1-w-water.png",
+      "rgbSha256": "1805bbea93f1bef2f5c5e6f5e318b6f10bcd85ce109403d25e2862929e73c446",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-1-w-totonou.png",
+      "rgbSha256": "eed289d7b300f8800e6d93857690b0ce345b5dd936519ff47e9bf1a24ea9b442",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-night-totonou/cft-low-night-totonou-0-w-totonou.png",
+      "rgbSha256": "eed289d7b300f8800e6d93857690b0ce345b5dd936519ff47e9bf1a24ea9b442",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-night-totonou/cft-low-night-totonou-0-w-sauna.png",
+      "rgbSha256": "1bd09bff9d5cc52a7365e16de7f39c5980345a26a45d3c04eac22687c1f409e9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-night-totonou/cft-low-night-totonou-0-w-water.png",
+      "rgbSha256": "1805bbea93f1bef2f5c5e6f5e318b6f10bcd85ce109403d25e2862929e73c446",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-night-totonou/cft-low-night-totonou-1-w-totonou.png",
+      "rgbSha256": "eed289d7b300f8800e6d93857690b0ce345b5dd936519ff47e9bf1a24ea9b442",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-night-totonou/cft-low-night-totonou-1-w-sauna.png",
+      "rgbSha256": "1bd09bff9d5cc52a7365e16de7f39c5980345a26a45d3c04eac22687c1f409e9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-night-totonou/cft-low-night-totonou-1-w-water.png",
+      "rgbSha256": "1805bbea93f1bef2f5c5e6f5e318b6f10bcd85ce109403d25e2862929e73c446",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-night-water/cft-low-night-water-0-w-water.png",
+      "rgbSha256": "1805bbea93f1bef2f5c5e6f5e318b6f10bcd85ce109403d25e2862929e73c446",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-night-water/cft-low-night-water-0-w-totonou.png",
+      "rgbSha256": "eed289d7b300f8800e6d93857690b0ce345b5dd936519ff47e9bf1a24ea9b442",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-night-water/cft-low-night-water-0-w-sauna.png",
+      "rgbSha256": "1bd09bff9d5cc52a7365e16de7f39c5980345a26a45d3c04eac22687c1f409e9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-low-night-water/cft-low-night-water-1-w-water.png",
+      "rgbSha256": "1805bbea93f1bef2f5c5e6f5e318b6f10bcd85ce109403d25e2862929e73c446",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-low-night-water/cft-low-night-water-1-w-totonou.png",
+      "rgbSha256": "eed289d7b300f8800e6d93857690b0ce345b5dd936519ff47e9bf1a24ea9b442",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "low",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-low-night-water/cft-low-night-water-1-w-sauna.png",
+      "rgbSha256": "1bd09bff9d5cc52a7365e16de7f39c5980345a26a45d3c04eac22687c1f409e9",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-low-night-sauna/cft-low-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-w-sauna.png",
+      "rgbSha256": "3f0d730aa8a31be996f7d0a734a688404a698805b47f1f3018d1a7b4021fc337",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-1-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-w-water.png",
+      "rgbSha256": "8f313a394a8b377ba00b4723978bcd0a78e21574043247a829364c87cf394987",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-w-totonou.png",
+      "rgbSha256": "626ceafb756cd9ed8e575306a19e7804dd32661c9c5871733eebfdf5e51213ea",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-1-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-1-w-sauna.png",
+      "rgbSha256": "10892e3d4176e0b030060ac30a5812fc88c3c2171bed738a17582f15538dc773",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-1-w-water.png",
+      "rgbSha256": "8f313a394a8b377ba00b4723978bcd0a78e21574043247a829364c87cf394987",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-1-w-totonou.png",
+      "rgbSha256": "851b85f7586ef033387b1747b27eeba1bd60bddf1de7a2c993081bcd04adb405",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-0-w-totonou.png",
+      "rgbSha256": "626ceafb756cd9ed8e575306a19e7804dd32661c9c5871733eebfdf5e51213ea",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-1-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-0-w-sauna.png",
+      "rgbSha256": "3f0d730aa8a31be996f7d0a734a688404a698805b47f1f3018d1a7b4021fc337",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-1-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-0-w-water.png",
+      "rgbSha256": "8f313a394a8b377ba00b4723978bcd0a78e21574043247a829364c87cf394987",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-1-w-totonou.png",
+      "rgbSha256": "851b85f7586ef033387b1747b27eeba1bd60bddf1de7a2c993081bcd04adb405",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-1-w-sauna.png",
+      "rgbSha256": "10892e3d4176e0b030060ac30a5812fc88c3c2171bed738a17582f15538dc773",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-totonou/cft-standard-day-totonou-1-w-water.png",
+      "rgbSha256": "8f313a394a8b377ba00b4723978bcd0a78e21574043247a829364c87cf394987",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-water/cft-standard-day-water-0-w-water.png",
+      "rgbSha256": "8f313a394a8b377ba00b4723978bcd0a78e21574043247a829364c87cf394987",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-water/cft-standard-day-water-0-w-totonou.png",
+      "rgbSha256": "851b85f7586ef033387b1747b27eeba1bd60bddf1de7a2c993081bcd04adb405",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-water/cft-standard-day-water-0-w-sauna.png",
+      "rgbSha256": "10892e3d4176e0b030060ac30a5812fc88c3c2171bed738a17582f15538dc773",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-water/cft-standard-day-water-1-w-water.png",
+      "rgbSha256": "8f313a394a8b377ba00b4723978bcd0a78e21574043247a829364c87cf394987",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-water/cft-standard-day-water-1-w-totonou.png",
+      "rgbSha256": "851b85f7586ef033387b1747b27eeba1bd60bddf1de7a2c993081bcd04adb405",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "day",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-day-water/cft-standard-day-water-1-w-sauna.png",
+      "rgbSha256": "10892e3d4176e0b030060ac30a5812fc88c3c2171bed738a17582f15538dc773",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-day-sauna/cft-standard-day-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-w-sauna.png",
+      "rgbSha256": "1a038346cc8f25d78dfae17cb923aa0e4eb471064ccfab048f3bf8fe09e185ff",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-w-water.png",
+      "rgbSha256": "56accd769984f24a0ef531ff30a17c22f3ca641cdc87b33f56390f596d032461",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-w-totonou.png",
+      "rgbSha256": "20ef87a3dc5f4148ede150f96da6a2a5dc4926271057543ea90e570d917930aa",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-1-w-sauna.png",
+      "rgbSha256": "f0977319a45a8f1f7e006ca73b019f875c5cad7eaf38d41c4166a686d514277e",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-1-w-water.png",
+      "rgbSha256": "56accd769984f24a0ef531ff30a17c22f3ca641cdc87b33f56390f596d032461",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-1-w-totonou.png",
+      "rgbSha256": "ec0eb34481d188ca1400c3c382fc3e9fec39bc6a31a08b6b444ffd507b87058a",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-0-w-totonou.png",
+      "rgbSha256": "ec0eb34481d188ca1400c3c382fc3e9fec39bc6a31a08b6b444ffd507b87058a",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-0-w-sauna.png",
+      "rgbSha256": "f0977319a45a8f1f7e006ca73b019f875c5cad7eaf38d41c4166a686d514277e",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-0-w-water.png",
+      "rgbSha256": "56accd769984f24a0ef531ff30a17c22f3ca641cdc87b33f56390f596d032461",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-1-w-totonou.png",
+      "rgbSha256": "20ef87a3dc5f4148ede150f96da6a2a5dc4926271057543ea90e570d917930aa",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-1-w-sauna.png",
+      "rgbSha256": "1a038346cc8f25d78dfae17cb923aa0e4eb471064ccfab048f3bf8fe09e185ff",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-totonou/cft-standard-evening-totonou-1-w-water.png",
+      "rgbSha256": "56accd769984f24a0ef531ff30a17c22f3ca641cdc87b33f56390f596d032461",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-water/cft-standard-evening-water-0-w-water.png",
+      "rgbSha256": "56accd769984f24a0ef531ff30a17c22f3ca641cdc87b33f56390f596d032461",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-water/cft-standard-evening-water-0-w-totonou.png",
+      "rgbSha256": "20ef87a3dc5f4148ede150f96da6a2a5dc4926271057543ea90e570d917930aa",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-water/cft-standard-evening-water-0-w-sauna.png",
+      "rgbSha256": "1a038346cc8f25d78dfae17cb923aa0e4eb471064ccfab048f3bf8fe09e185ff",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-water/cft-standard-evening-water-1-w-water.png",
+      "rgbSha256": "56accd769984f24a0ef531ff30a17c22f3ca641cdc87b33f56390f596d032461",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-water/cft-standard-evening-water-1-w-totonou.png",
+      "rgbSha256": "20ef87a3dc5f4148ede150f96da6a2a5dc4926271057543ea90e570d917930aa",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "evening",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-evening-water/cft-standard-evening-water-1-w-sauna.png",
+      "rgbSha256": "1a038346cc8f25d78dfae17cb923aa0e4eb471064ccfab048f3bf8fe09e185ff",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-evening-sauna/cft-standard-evening-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-w-sauna.png",
+      "rgbSha256": "49b0fe6f87752982d8c30a75d9c6960522df1d21ed5ed9147b43d56087e6fd78",
+      "matchingNormalImage": null
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-w-totonou.png",
+      "rgbSha256": "791684b70fc164dad004cac50d06d12e7b59da8192b23e43099dfe118c1c0ebe",
+      "matchingNormalImage": null
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-1-w-sauna.png",
+      "rgbSha256": "1d34f4dae2401c8686abecc099b3db0d1e129f713321f20932b622428312158a",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-1-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-1-w-totonou.png",
+      "rgbSha256": "b81c969ea51af675ae679a35e072cfb44416ced00984e93152a032ce358f8c78",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-totonou/cft-standard-night-totonou-0-w-totonou.png",
+      "rgbSha256": "b81c969ea51af675ae679a35e072cfb44416ced00984e93152a032ce358f8c78",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-totonou/cft-standard-night-totonou-0-w-sauna.png",
+      "rgbSha256": "1d34f4dae2401c8686abecc099b3db0d1e129f713321f20932b622428312158a",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-totonou/cft-standard-night-totonou-0-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-totonou/cft-standard-night-totonou-1-w-totonou.png",
+      "rgbSha256": "b81c969ea51af675ae679a35e072cfb44416ced00984e93152a032ce358f8c78",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-totonou/cft-standard-night-totonou-1-w-sauna.png",
+      "rgbSha256": "1d34f4dae2401c8686abecc099b3db0d1e129f713321f20932b622428312158a",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-totonou/cft-standard-night-totonou-1-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-0-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-0-w-totonou.png",
+      "rgbSha256": "791684b70fc164dad004cac50d06d12e7b59da8192b23e43099dfe118c1c0ebe",
+      "matchingNormalImage": null
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-0-w-sauna.png",
+      "rgbSha256": "49b0fe6f87752982d8c30a75d9c6960522df1d21ed5ed9147b43d56087e6fd78",
+      "matchingNormalImage": null
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-1-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-1-w-totonou.png",
+      "rgbSha256": "791684b70fc164dad004cac50d06d12e7b59da8192b23e43099dfe118c1c0ebe",
+      "matchingNormalImage": null
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-1-w-sauna.png",
+      "rgbSha256": "49b0fe6f87752982d8c30a75d9c6960522df1d21ed5ed9147b43d56087e6fd78",
+      "matchingNormalImage": null
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-repeat-cft-standard-night-sauna/cft-standard-night-sauna-0-w-sauna.png",
+      "rgbSha256": "1d34f4dae2401c8686abecc099b3db0d1e129f713321f20932b622428312158a",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-repeat-cft-standard-night-sauna/cft-standard-night-sauna-0-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-repeat-cft-standard-night-sauna/cft-standard-night-sauna-0-w-totonou.png",
+      "rgbSha256": "b81c969ea51af675ae679a35e072cfb44416ced00984e93152a032ce358f8c78",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "sauna",
+      "image": "compile-batches-images/product-repeat-cft-standard-night-sauna/cft-standard-night-sauna-1-w-sauna.png",
+      "rgbSha256": "1d34f4dae2401c8686abecc099b3db0d1e129f713321f20932b622428312158a",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "water",
+      "image": "compile-batches-images/product-repeat-cft-standard-night-sauna/cft-standard-night-sauna-1-w-water.png",
+      "rgbSha256": "3f95a19fd3fbc21a4787b0c05066718d3507c63874ba9ca6061cafe6b05be4c2",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-water.png"
+    },
+    {
+      "quality": "standard",
+      "lighting": "night",
+      "stage": "totonou",
+      "image": "compile-batches-images/product-repeat-cft-standard-night-sauna/cft-standard-night-sauna-1-w-totonou.png",
+      "rgbSha256": "b81c969ea51af675ae679a35e072cfb44416ced00984e93152a032ce358f8c78",
+      "matchingNormalImage": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou.png"
+    }
+  ],
+  "sourceReports": [
+    {
+      "report": "product-matrix-cft-high-day-sauna.json.local",
+      "sha256": "fd641888621eaea26b97f4096c6e0f8e1b1e043f708603fa0d49dc7c67d1e551"
+    },
+    {
+      "report": "product-matrix-cft-high-day-totonou.json.local",
+      "sha256": "f69a7a2b3d85ea589d186bdc329baaf1c4963ec3cd7db55a3327f1b1d0dd72e0"
+    },
+    {
+      "report": "product-matrix-cft-high-day-water.json.local",
+      "sha256": "d5204033341be56d9ae6a8e50bb2435b63fdd110cb585d13be2a82e579f663d8"
+    },
+    {
+      "report": "product-matrix-cft-high-evening-sauna.json.local",
+      "sha256": "599b90d07a8e0730894e6830afd9a9bc70a89eac1f9a4de5fb81dbb1d49ca71a"
+    },
+    {
+      "report": "product-matrix-cft-high-evening-totonou.json.local",
+      "sha256": "04ea6a7361f4dd1c050558ff2979fb8fd9edf7235f57a0afbbe9598dd0061656"
+    },
+    {
+      "report": "product-matrix-cft-high-evening-water.json.local",
+      "sha256": "27941c15a194f009de7ab9c1f91a4051d5fa95d19a96daae9d80d2c0755be458"
+    },
+    {
+      "report": "product-matrix-cft-high-night-sauna.json.local",
+      "sha256": "2e22e513a74ac7d8b9c08656a5db601891243081983451a33fbdbe6ce1fa7f79"
+    },
+    {
+      "report": "product-matrix-cft-high-night-totonou.json.local",
+      "sha256": "791416ee7df6c16853e9ae5dec052584f5e742b8e4da8feffe271e8bf61ab36e"
+    },
+    {
+      "report": "product-matrix-cft-high-night-water.json.local",
+      "sha256": "17994b62087bca4ff76bb31ec3ceee03648d2592430f223610d4f5b73af59707"
+    },
+    {
+      "report": "product-matrix-cft-low-day-sauna.json.local",
+      "sha256": "73dd919f626b1ee6cab7529d6edfb6d4ed3539c67cf9ec8befd7814703e4014c"
+    },
+    {
+      "report": "product-matrix-cft-low-day-totonou.json.local",
+      "sha256": "ef37723902a08c9d48d50b85d6ed3c24c637e888492e49f067bf149eaaad59e4"
+    },
+    {
+      "report": "product-matrix-cft-low-day-water.json.local",
+      "sha256": "6f6a32c836a99a0e85c4e408d487df52863d6077d73b9997cb1d76ebaf912aa3"
+    },
+    {
+      "report": "product-matrix-cft-low-evening-sauna.json.local",
+      "sha256": "ce4d213533c931d44352dbc362b96f82a7c318502b52e1342aeab5ca94c5a6a7"
+    },
+    {
+      "report": "product-matrix-cft-low-evening-totonou.json.local",
+      "sha256": "c2698262d094fb5df9b8eb5aa4342530503ac7c2cf88d09e9c632ccb21462b00"
+    },
+    {
+      "report": "product-matrix-cft-low-evening-water.json.local",
+      "sha256": "a41ebd0727d447d60a1fb9757b20c4693b0831b4b7ea0ee9148a77f896239440"
+    },
+    {
+      "report": "product-matrix-cft-low-night-sauna.json.local",
+      "sha256": "ebc22cde7cd6f4517b52f36eff67a22ad24b8527d2a75fa9da12b60237aba459"
+    },
+    {
+      "report": "product-matrix-cft-low-night-totonou.json.local",
+      "sha256": "3f9f65d32b05d3d74cd2371ab2c597d4c51022476aff2254c3d515cd6d34d9e4"
+    },
+    {
+      "report": "product-matrix-cft-low-night-water.json.local",
+      "sha256": "443cb305f21b5000fa6eed899251ea16b2f7b940a1b96638c64f8ab5755a089c"
+    },
+    {
+      "report": "product-matrix-cft-standard-day-sauna.json.local",
+      "sha256": "67490a7554bb712b2a0d346b838435181c400633b714c64492ea4a731eb9439b"
+    },
+    {
+      "report": "product-matrix-cft-standard-day-totonou.json.local",
+      "sha256": "f6d17c5fc3c6d60e2a1aa2c3647dceb607e0b507abec328eb85c8b9fa9210087"
+    },
+    {
+      "report": "product-matrix-cft-standard-day-water.json.local",
+      "sha256": "1faa2da07d7be5a1e3ccd42a802279bdbc65212c90aba66b867aa42f176db66f"
+    },
+    {
+      "report": "product-matrix-cft-standard-evening-sauna.json.local",
+      "sha256": "8b3b1b05ec8ec8fa1ffb08bed453efa850d69b1ef4cd6caee2dda88e4c62910e"
+    },
+    {
+      "report": "product-matrix-cft-standard-evening-totonou.json.local",
+      "sha256": "a7fbeb2b694b1841d25a03e871eb1ac5e033cf401ef969ca5fc8f97ea7c5916f"
+    },
+    {
+      "report": "product-matrix-cft-standard-evening-water.json.local",
+      "sha256": "c7aa4aabf004c7211fd38b15980ca782e92d40f8592c4abe67ea63af09dfe733"
+    },
+    {
+      "report": "product-matrix-cft-standard-night-sauna.json.local",
+      "sha256": "cd446384c833af1a48268df097f636cb03cf385cd9891da950411eea46d6b68e"
+    },
+    {
+      "report": "product-matrix-cft-standard-night-totonou.json.local",
+      "sha256": "e0b7e1959667237c6d66548c4a5e1ca0962cc867ae4e3a726922d1d65f81913f"
+    },
+    {
+      "report": "product-matrix-cft-standard-night-water.json.local",
+      "sha256": "6cd16f317b5ffbcb5b96c6f80c60d949694359e6a4d6f53cdfb5d8e9f1df470c"
+    },
+    {
+      "report": "product-repeat-cft-standard-night-sauna.json.local",
+      "sha256": "e2b38938718e1f7ccbd96adbc0e85407caa92c416dbf25148cb9eabf6defc2e7"
+    }
+  ]
+}

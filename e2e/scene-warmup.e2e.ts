@@ -30,6 +30,60 @@ async function ready(page: Page) {
   await expect(scene(page)).toHaveAttribute('data-warming', 'none');
 }
 
+for (const part of ['body', 'garden'] as const) {
+  test(`the latest lighting chosen while the ${part} warms survives readiness and a stage change`, async ({
+    page,
+    browser,
+  }, info) => {
+    const errors: string[] = [];
+    const requests: string[] = [];
+    page.on('request', (request) => {
+      if (/\/sauna(?:-garden)?\.glb$/.test(request.url())) requests.push(request.url());
+    });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.addInitScript(() => localStorage.setItem('sui-lighting-mode', 'day'));
+    await enter(page, errors);
+    await expect(scene(page)).toHaveAttribute('data-warming', part, { timeout: 30_000 });
+    const originalCanvas = await scene(page).locator('canvas').elementHandle();
+    const choices = part === 'body' ? ['night', 'evening'] : ['evening', 'night'];
+    for (const lighting of choices) {
+      await chooseSceneSetting(page, '3Dの時間帯', lighting);
+      // Both selections must land during this warmup, not just after it finishes.
+      await expect(scene(page)).toHaveAttribute('data-warming', part);
+    }
+    await ready(page);
+    const latest = choices.at(-1)!;
+    const expectedTime = latest === 'night' ? '2.000' : '1.000';
+    await expect(scene(page)).toHaveAttribute('data-lighting', latest);
+    await expect(scene(page)).toHaveAttribute('data-time-of-day', expectedTime);
+    await expect(scene(page)).toHaveAttribute('data-warmup', 'split');
+    await expect(scene(page)).toHaveAttribute('data-warmup-undrawn', '0');
+    await expect(scene(page)).toHaveAttribute('data-garden-warmup-undrawn', '0');
+    await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+    await expect(scene(page)).toHaveAttribute('data-stage', 'water');
+    await expect(scene(page)).toHaveAttribute('data-lighting', latest);
+    await expect(scene(page)).toHaveAttribute('data-time-of-day', expectedTime);
+    expect(
+      await originalCanvas!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas')),
+    ).toBe(true);
+    expect(requests.filter((url) => url.endsWith('/sauna.glb'))).toHaveLength(1);
+    expect(requests.filter((url) => url.endsWith('/sauna-garden.glb'))).toHaveLength(1);
+    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    expect(errors).toEqual([]);
+    await info.attach('warmup-lighting', {
+      contentType: 'application/json',
+      body: JSON.stringify({
+        part,
+        choices,
+        browser: browser.version(),
+        requests,
+        errors,
+        metrics: await scene(page).evaluate((element) => ({ ...(element as HTMLElement).dataset })),
+      }),
+    });
+  });
+}
+
 test('a quality chosen while the body warms starts it over for that quality', async ({ page }) => {
   const errors: string[] = [];
   await enter(page, errors);
