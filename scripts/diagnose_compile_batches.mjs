@@ -86,6 +86,8 @@ const repeat = Number(repetitions);
 const warm = process.env.SUI_WARM === '1';
 const entry = process.env.SUI_ENTRY ?? 'sauna';
 const hold = process.env.SUI_HOLD === '1';
+// Keep the historical 2-second capture, then sample twice after 70 additional full-rate frames.
+const captureStability = process.env.SUI_CAPTURE_STABILITY === '1';
 const quality = process.env.SUI_QUALITY ?? 'standard';
 const lighting = process.env.SUI_LIGHTING ?? 'day';
 if (
@@ -1215,6 +1217,27 @@ try {
           );
           writeFileSync(path, image);
           row.stages.push({ stage, image: path, sha256: createHash('sha256').update(image).digest('hex') });
+          if (captureStability) {
+            const captures = [];
+            for (const frames of [70, 140]) {
+              await page.evaluate(
+                () =>
+                  new Promise((resolve) => {
+                    let remaining = 70;
+                    const step = () => {
+                      if (--remaining === 0) resolve();
+                      else requestAnimationFrame(step);
+                    };
+                    requestAnimationFrame(step);
+                  }),
+              );
+              const settled = await page.locator('.sauna-3d-canvas canvas').screenshot({ style: captureStyle });
+              const settledPath = path.replace(/\.png$/, `-frames${frames}.png`);
+              writeFileSync(settledPath, settled);
+              captures.push({ frames, image: settledPath, sha256: createHash('sha256').update(settled).digest('hex') });
+            }
+            row.stages.at(-1).stability = captures;
+          }
         }
         row.newKeys = await page.evaluate(() => window.__suiBatches.newKeys);
         rows.push(row);
@@ -1259,6 +1282,7 @@ try {
         quality,
         lighting,
         hold,
+        captureStability,
         warm,
         engine,
         version,

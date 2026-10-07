@@ -4,6 +4,8 @@
 
 ## 目次（ファイルは平置き）
 
+- 初期化後の画像差を追跡するときは `SUI_CAPTURE_STABILITY=1` を `diagnose_compile_batches.mjs` に渡す。従来の2秒待ちの撮影を残し、全速描画でさらに70／140 rAF後のPNG・ハッシュを保存する。`summarize_compile_batches.py` は追加撮影の順・寸法・ハッシュ・共有なしを検査し、同一読み込み内の変化と140フレーム後の方式間の差を分ける。`compare_compile_unmatched.py <旧image-check.json> <新summary.json> --out <json>` は未一致の旧画像を新しい通常画像と比較する（元レポート・PNG・RGBハッシュ、画質・時間帯・ステージ・ブラウザ版・製品入力の一致を要求）。画素座標とRGBの両端を残すが、描画原因や採用の可否は判定しない。検査は `python3 -m unittest discover -s scripts -p test_compile_capture_stability.py`。
+
 診断スクリプトは同じディレクトリの補助モジュールを `sys.path`／`with_name()` で読み、`parents[1]` をリポジトリ直下とみなす。QA記録（`docs/3d-qa/*/validation.json` など）は実行時の `script_sha256` を残すため、サブフォルダへの移動や改名はしない。
 
 | 分類 | ファイル |
@@ -77,3 +79,4 @@
 - `diagnose_parallel_compile.mjs <アプリのURL> <out.json> [繰り返し]`（Node、配信中のビルドを `bun run preview -- --port <番号>` で別に起動しておく。4175は検証ブラウザ用なので避ける）は、別のcontextのページA（なし／3D／重いWebGL、トレースなし・`snapshots`・`screenshots`）がある間にページBで3Dを読み込み、初期化スクリプトで各プログラムのリンクから `COMPLETION_STATUS_KHR`（または同期の `getProgramInfoLog`）までの時刻と `data-load-ms` を記録する。小さなプログラム40個の対照も測る。記録は `docs/3d-qa/load-compile/`。
 - `diagnose_other_browsers.mjs <アプリのURL> <out.json> [画像の出力先] [ブラウザ]`（Node、配信中のビルドを別ポートで起動しておく）は、`chromium`（インストール済みChrome）・`cft`（`bunx playwright install chromium` のChrome for Testing）・`webkit`・`firefox` で3画質ずつ、新しいブラウザで2回（初回・2回目）入室し、準備完了または2Dへのフォールバック、WebGLの機能、各ステージの `data-*`、5msを超えるWebGL呼び出し（100ms超は材質名・定義も）、10msのタイマーの100ms超の間隔、エラー、画像を記録する。`SUI_COLD=1` はcft・webkitの起動前にそのブラウザ専用のMetalのシェーダーキャッシュ（`getconf DARWIN_USER_CACHE_DIR` の下）を消して初回を再現する（普段のChromeのキャッシュは消さない）。`SUI_QUALITIES=standard` で画質を絞る。`diagnose_metal_pipeline.mjs <out.json> [cft,webkit]` は同じくキャッシュを消して、合成の重いシェーダーで完了の通知と最初の描画の時間、描画先ごとのコンパイルのやり直しを測る。記録は `docs/3d-qa/other-browsers/`。
 - `diagnose_shader_cost.mjs`（Node、配信中のビルドを別ポートで起動しておく）は初回のシェーダーコンパイルの内訳を調べる。`attribute <アプリのURL> <out.json> [cft|webkit] [画質]` は入室して全ステージを通し、20msを超えるWebGL呼び出し（束縛中のプログラム・描画先）と、描画した状態の組み合わせ（プログラム・描画先の形式×標本数・ブレンド・深度書き込み・alpha-to-coverage・色マスク、Metalのパイプラインの単位）を初出の時刻とともに記録する（`SUI_COLD=1` で専用のMetalキャッシュを消す）。ChromeのWebGLの `finish()` は待たないので、遅い呼び出しは待たされた場所でパイプラインを作った描画ではない。`capture <アプリのURL> <sources.json> [画質]` は全プログラムのソースを保存し（約5MB、Git管理外）、`measure <sources.json> <out.json> [cft|webkit] [条件]` は空のページで1プログラム（最長か `SUI_PROGRAM` を名前に含むもの）を、影・スポット光・面光源を外した条件とともに、名前の新しいuniformを足して毎回キャッシュを外し、リンク完了と最初の描画（800×600・RGBA16F・4倍MSAA）の時間を測る。記録は `docs/3d-qa/shader-cost/`。
+- `summarize_warmup_surround.py <report.json> <summary.json>` は `warmup-surround.visual.ts` の通常／分割ABBA全周864枚を検査・集計する。成功4件・順序・同一入力／ブラウザ・設定・PNGハッシュ／寸法・共有パスなし・分割完了を要求し、方式間2組と各方式の再撮影差を分ける。記録は `docs/3d-qa/warmup-surround/`。

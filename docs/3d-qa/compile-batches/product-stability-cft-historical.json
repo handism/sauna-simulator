@@ -1,0 +1,591 @@
+{
+  "note": "Historical unmatched images compared to new +140-frame normal captures. RGB endpoints are normal -> historical split. Matching images do not identify the rendering cause.",
+  "imageCheckSha256": "f45fe9588f87fadd6691d71575047c814888403599de23921c21600c1618f2ad",
+  "summarySha256": "f803c96cd5e69d5a1dfdd4fa17e1101a761f82346118c2020d57d92c41e0c625",
+  "scriptSha256": "c7c23d5a57e16c2ffa679f3e1a2d28b580bc19f49228ae8d00993a00783aaf5a",
+  "captures": [
+    {
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-w-sauna.png",
+      "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+      "rgbSha256": "49b0fe6f87752982d8c30a75d9c6960522df1d21ed5ed9147b43d56087e6fd78",
+      "normalComparisons": [
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna-frames140.png",
+          "sha256": "618f84786a9082dc78fdba12bdbb382925bc327c98754f123a58806d86d4d160",
+          "changedPixels": 2,
+          "maxChannelDelta": 16,
+          "pixels": [
+            {
+              "x": 792,
+              "y": 745,
+              "before": [
+                102,
+                110,
+                109
+              ],
+              "after": [
+                113,
+                122,
+                122
+              ]
+            },
+            {
+              "x": 772,
+              "y": 761,
+              "before": [
+                98,
+                97,
+                95
+              ],
+              "after": [
+                109,
+                111,
+                111
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-1-0-sauna-frames140.png",
+          "sha256": "618f84786a9082dc78fdba12bdbb382925bc327c98754f123a58806d86d4d160",
+          "changedPixels": 2,
+          "maxChannelDelta": 16,
+          "pixels": [
+            {
+              "x": 792,
+              "y": 745,
+              "before": [
+                102,
+                110,
+                109
+              ],
+              "after": [
+                113,
+                122,
+                122
+              ]
+            },
+            {
+              "x": 772,
+              "y": 761,
+              "before": [
+                98,
+                97,
+                95
+              ],
+              "after": [
+                109,
+                111,
+                111
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-0-0-sauna-frames140.png",
+          "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-1-0-sauna-frames140.png",
+          "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        }
+      ]
+    },
+    {
+      "image": "compile-batches-images/product-matrix-cft-standard-night-sauna/cft-standard-night-sauna-0-w-totonou.png",
+      "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+      "rgbSha256": "791684b70fc164dad004cac50d06d12e7b59da8192b23e43099dfe118c1c0ebe",
+      "normalComparisons": [
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou-frames140.png",
+          "sha256": "05341d7b3646c05d1dfb2297dd5719866046b436ba9a25d6acc39d0a2e7ca4ad",
+          "changedPixels": 2,
+          "maxChannelDelta": 4,
+          "pixels": [
+            {
+              "x": 184,
+              "y": 1022,
+              "before": [
+                33,
+                26,
+                20
+              ],
+              "after": [
+                32,
+                27,
+                21
+              ]
+            },
+            {
+              "x": 129,
+              "y": 1032,
+              "before": [
+                30,
+                23,
+                16
+              ],
+              "after": [
+                26,
+                22,
+                16
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-1-0-totonou-frames140.png",
+          "sha256": "05341d7b3646c05d1dfb2297dd5719866046b436ba9a25d6acc39d0a2e7ca4ad",
+          "changedPixels": 2,
+          "maxChannelDelta": 4,
+          "pixels": [
+            {
+              "x": 184,
+              "y": 1022,
+              "before": [
+                33,
+                26,
+                20
+              ],
+              "after": [
+                32,
+                27,
+                21
+              ]
+            },
+            {
+              "x": 129,
+              "y": 1032,
+              "before": [
+                30,
+                23,
+                16
+              ],
+              "after": [
+                26,
+                22,
+                16
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-0-0-totonou-frames140.png",
+          "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-1-0-totonou-frames140.png",
+          "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        }
+      ]
+    },
+    {
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-0-w-totonou.png",
+      "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+      "rgbSha256": "791684b70fc164dad004cac50d06d12e7b59da8192b23e43099dfe118c1c0ebe",
+      "normalComparisons": [
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou-frames140.png",
+          "sha256": "05341d7b3646c05d1dfb2297dd5719866046b436ba9a25d6acc39d0a2e7ca4ad",
+          "changedPixels": 2,
+          "maxChannelDelta": 4,
+          "pixels": [
+            {
+              "x": 184,
+              "y": 1022,
+              "before": [
+                33,
+                26,
+                20
+              ],
+              "after": [
+                32,
+                27,
+                21
+              ]
+            },
+            {
+              "x": 129,
+              "y": 1032,
+              "before": [
+                30,
+                23,
+                16
+              ],
+              "after": [
+                26,
+                22,
+                16
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-1-0-totonou-frames140.png",
+          "sha256": "05341d7b3646c05d1dfb2297dd5719866046b436ba9a25d6acc39d0a2e7ca4ad",
+          "changedPixels": 2,
+          "maxChannelDelta": 4,
+          "pixels": [
+            {
+              "x": 184,
+              "y": 1022,
+              "before": [
+                33,
+                26,
+                20
+              ],
+              "after": [
+                32,
+                27,
+                21
+              ]
+            },
+            {
+              "x": 129,
+              "y": 1032,
+              "before": [
+                30,
+                23,
+                16
+              ],
+              "after": [
+                26,
+                22,
+                16
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-0-0-totonou-frames140.png",
+          "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-1-0-totonou-frames140.png",
+          "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        }
+      ]
+    },
+    {
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-0-w-sauna.png",
+      "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+      "rgbSha256": "49b0fe6f87752982d8c30a75d9c6960522df1d21ed5ed9147b43d56087e6fd78",
+      "normalComparisons": [
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna-frames140.png",
+          "sha256": "618f84786a9082dc78fdba12bdbb382925bc327c98754f123a58806d86d4d160",
+          "changedPixels": 2,
+          "maxChannelDelta": 16,
+          "pixels": [
+            {
+              "x": 792,
+              "y": 745,
+              "before": [
+                102,
+                110,
+                109
+              ],
+              "after": [
+                113,
+                122,
+                122
+              ]
+            },
+            {
+              "x": 772,
+              "y": 761,
+              "before": [
+                98,
+                97,
+                95
+              ],
+              "after": [
+                109,
+                111,
+                111
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-1-0-sauna-frames140.png",
+          "sha256": "618f84786a9082dc78fdba12bdbb382925bc327c98754f123a58806d86d4d160",
+          "changedPixels": 2,
+          "maxChannelDelta": 16,
+          "pixels": [
+            {
+              "x": 792,
+              "y": 745,
+              "before": [
+                102,
+                110,
+                109
+              ],
+              "after": [
+                113,
+                122,
+                122
+              ]
+            },
+            {
+              "x": 772,
+              "y": 761,
+              "before": [
+                98,
+                97,
+                95
+              ],
+              "after": [
+                109,
+                111,
+                111
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-0-0-sauna-frames140.png",
+          "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-1-0-sauna-frames140.png",
+          "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        }
+      ]
+    },
+    {
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-1-w-totonou.png",
+      "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+      "rgbSha256": "791684b70fc164dad004cac50d06d12e7b59da8192b23e43099dfe118c1c0ebe",
+      "normalComparisons": [
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-0-0-totonou-frames140.png",
+          "sha256": "05341d7b3646c05d1dfb2297dd5719866046b436ba9a25d6acc39d0a2e7ca4ad",
+          "changedPixels": 2,
+          "maxChannelDelta": 4,
+          "pixels": [
+            {
+              "x": 184,
+              "y": 1022,
+              "before": [
+                33,
+                26,
+                20
+              ],
+              "after": [
+                32,
+                27,
+                21
+              ]
+            },
+            {
+              "x": 129,
+              "y": 1032,
+              "before": [
+                30,
+                23,
+                16
+              ],
+              "after": [
+                26,
+                22,
+                16
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-1-0-totonou-frames140.png",
+          "sha256": "05341d7b3646c05d1dfb2297dd5719866046b436ba9a25d6acc39d0a2e7ca4ad",
+          "changedPixels": 2,
+          "maxChannelDelta": 4,
+          "pixels": [
+            {
+              "x": 184,
+              "y": 1022,
+              "before": [
+                33,
+                26,
+                20
+              ],
+              "after": [
+                32,
+                27,
+                21
+              ]
+            },
+            {
+              "x": 129,
+              "y": 1032,
+              "before": [
+                30,
+                23,
+                16
+              ],
+              "after": [
+                26,
+                22,
+                16
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-0-0-totonou-frames140.png",
+          "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-1-0-totonou-frames140.png",
+          "sha256": "7f6cdccce82dc5ee7d64b0a5a65b68bfaccbaa4c742df990b0e13a23df955695",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        }
+      ]
+    },
+    {
+      "image": "compile-batches-images/product-matrix-cft-standard-night-water/cft-standard-night-water-1-w-sauna.png",
+      "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+      "rgbSha256": "49b0fe6f87752982d8c30a75d9c6960522df1d21ed5ed9147b43d56087e6fd78",
+      "normalComparisons": [
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-0-0-sauna-frames140.png",
+          "sha256": "618f84786a9082dc78fdba12bdbb382925bc327c98754f123a58806d86d4d160",
+          "changedPixels": 2,
+          "maxChannelDelta": 16,
+          "pixels": [
+            {
+              "x": 792,
+              "y": 745,
+              "before": [
+                102,
+                110,
+                109
+              ],
+              "after": [
+                113,
+                122,
+                122
+              ]
+            },
+            {
+              "x": 772,
+              "y": 761,
+              "before": [
+                98,
+                97,
+                95
+              ],
+              "after": [
+                109,
+                111,
+                111
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-sauna/cft-standard-night-sauna-1-0-sauna-frames140.png",
+          "sha256": "618f84786a9082dc78fdba12bdbb382925bc327c98754f123a58806d86d4d160",
+          "changedPixels": 2,
+          "maxChannelDelta": 16,
+          "pixels": [
+            {
+              "x": 792,
+              "y": 745,
+              "before": [
+                102,
+                110,
+                109
+              ],
+              "after": [
+                113,
+                122,
+                122
+              ]
+            },
+            {
+              "x": 772,
+              "y": 761,
+              "before": [
+                98,
+                97,
+                95
+              ],
+              "after": [
+                109,
+                111,
+                111
+              ]
+            }
+          ],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-0-0-sauna-frames140.png",
+          "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        },
+        {
+          "image": "/Users/mac/git/sauna-simulator/docs/3d-qa/compile-batches/compile-batches-images/product-stability-cft-standard-night-water/cft-standard-night-water-1-0-sauna-frames140.png",
+          "sha256": "a374ce6017fba370ae61db33837167b83f2eb9d19a515f11f271aa1a42757a6b",
+          "changedPixels": 0,
+          "maxChannelDelta": 0,
+          "pixels": [],
+          "pixelsTruncated": false
+        }
+      ]
+    }
+  ],
+  "stillUnmatched": 0
+}

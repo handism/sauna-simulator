@@ -526,3 +526,47 @@ python3 scripts/summarize_compile_batches.py \
 ```
 
 検証：計112読み込み・336撮影、型検査、48ファイル315単体テスト、Lint、整形、本番ビルド、差分チェック。製品変更なしのため通常ブラウザ回帰一式は再実行していない。
+
+
+## 標準・夜の画像安定性の追試（2026-10-07）
+
+前回未一致だった6枚の追跡。固定の2秒待ちが不足している可能性を確認するため、同じ読み込みの各ステージを従来どおり撮影し、さらに70 rAF後と140 rAF後にも撮影する `SUI_CAPTURE_STABILITY=1` を追加した。URLは既存の `frameRate=full`・固定解像度、動作抑制あり。製品コード・配信モデル・温めの既定は変更していない。
+
+```sh
+for entry in sauna water; do
+  SUI_CAPTURE_STABILITY=1 SUI_QUALITY=standard SUI_LIGHTING=night SUI_ENTRY="$entry" \
+    node scripts/diagnose_compile_batches.mjs \
+    "docs/3d-qa/compile-batches/product-stability-cft-standard-night-$entry.json.local" cft 0,w 2
+done
+python3 scripts/summarize_compile_batches.py \
+  docs/3d-qa/compile-batches/product-stability-cft-standard-night-*.json.local --brief \
+  --out docs/3d-qa/compile-batches/product-stability-cft-summary.json
+python3 scripts/compare_compile_unmatched.py \
+  docs/3d-qa/compile-batches/product-matrix-cft-image-check.json \
+  docs/3d-qa/compile-batches/product-stability-cft-summary.json \
+  --out docs/3d-qa/compile-batches/product-stability-cft-historical.json
+```
+
+同一読み込み内の2秒→70フレームと70→140フレームの差、140フレーム後の最初／最後の通常方式との差を別々に集計する。旧6枚との比較は、元レポート・画像のハッシュと製品入力・ブラウザ版の一致を検査する。画像待ちを加えた追試であり、今回は読み込み時間や停止時間の新しい比較結果としては使用しない。サウナ開始の追試中には型検査なども実行した。
+
+### 結果と判断
+
+CfT 153.0.8010.12、標準・夜・1200×800・DPR1.5。サウナ／水風呂開始を各ABBAで8読み込み・72枚撮影。[集計](product-stability-cft-summary.json)、[旧6枚との照合](product-stability-cft-historical.json)。
+
+- 全24ステージで、2秒→70フレーム→140フレームの画像は全画素一致。今回の差は待ち続けても変わらず、待ち不足とする根拠は得られなかった。ただし旧撮影にはフレーム数の記録がなく、その時点のTAA状態を遡って断定するものではない。
+- サウナ開始は通常／分割・往復とも全画素一致。水風呂開始は分割のサウナ／外気浴に各2画素差（RGB最大16／4）が残る。通常の2回は互いに一致し、分割の2回も互いに一致する。
+- **旧6枚はすべて今回の水風呂開始の通常方式2回と全画素一致し、通常方式で再現できなかった画像は0枚になった。** 同じ標準・夜・ステージ・ブラウザ版・製品入力の条件で、通常方式にも両方の画像状態がある。これは入口を横断した再現の確認であり、各ABBA内の方式差が常に0という意味ではない。
+- 分割4回の後回し状態は両基準で0、描かれなかった本体／庭グループ0、準備中のcanvas描画0、ページ・コンソールエラー／追跡不一致0。製品の採用判断は変更しない。
+
+差の箇所を拡大して確認した。サウナは床タイルの目地付近、外気浴は岩とデッキの境界付近の各2画素。通常→旧分割のRGBは以下（左上原点、1800×1200）。新しい水風呂開始の通常画像は表の旧分割側に一致する。
+
+| ステージ | 座標 | サウナ開始の通常 | 旧分割 |
+| --- | --- | --- | --- |
+| サウナ | (792,745) | (102,110,109) | (113,122,122) |
+| サウナ | (772,761) | (98,97,95) | (109,111,111) |
+| 外気浴 | (184,1022) | (33,26,20) | (32,27,21) |
+| 外気浴 | (129,1032) | (30,23,16) | (26,22,16) |
+
+通常方式でも再現したため、この6枚を分割方式だけの破損とする根拠はない。一方、どの描画処理が2状態を作るかは未確定。深度競合や描画順などを原因と断定しない。次は全周のABBA撮影で方式差と同一方式の再撮影差を分ける。自動時間帯・連続見回し・WebKitの製品27条件・非HDR・実機・実聴は残る。
+
+検証：上記ブラウザ8読み込み、入力／一時ビルド／PNGハッシュ・撮影順・寸法・追加撮影の共有なし、旧28レポートのハッシュと対象6枚のPNG／RGBハッシュ照合。診断の単体テスト4件（RGB符号・列挙上限・欠落／順序／共有／破損／寸法・異なる製品入力／旧記録の変更の拒否）、型検査、48ファイル315単体テスト、Lint、整形、本番ビルド、差分チェックが成功。初回のプレビューはlisten EPERMで開始できず、許可環境で実行し直した。製品変更がないため通常ブラウザ回帰全体は再実行していない。

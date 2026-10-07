@@ -15,6 +15,30 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def pixel_delta(before, after):
+    assert before.shape == after.shape, "capture dimensions changed"
+    delta = np.abs(after.astype(np.int16) - before.astype(np.int16))
+    ys, xs = np.where(np.any(delta, axis=2))
+    return {"changedPixels": len(xs), "maxChannelDelta": int(delta.max()),
+            "pixels": [{"x": int(x), "y": int(y), "before": before[y, x].tolist(),
+                        "after": after[y, x].tolist()} for y, x in zip(ys[:32], xs[:32])],
+            "pixelsTruncated": len(xs) > 32}
+
+
+def stability_images(stage):
+    samples = stage.get("stability", [])
+    assert [s["frames"] for s in samples] == [70, 140], "missing or reordered stability captures"
+    captures = [stage, *samples]
+    assert len({s["image"] for s in captures}) == 3, "shared stability capture"
+    images = []
+    for sample in captures:
+        assert digest(sample["image"]) == sample["sha256"], "stability image changed"
+        image = np.asarray(Image.open(sample["image"]).convert("RGB"))
+        assert image.shape == (1200, 1800, 3), "unexpected stability dimensions"
+        images.append(image)
+    return images
+
+
 def normalized(key):
     """The draw-state key without the blend factors when blending is off (they cost no pipeline)."""
     program, formats, blend, src, dst, depth, color, coverage = json.loads(key)
@@ -251,6 +275,8 @@ def summarize(path):
         nonces.setdefault(row["nonce"], []).append((row["round"], row["condition"], row["warm"]))
     assert all(ids == [(ids[0][0], ids[0][1], w) for w in passes] for ids in nonces.values()), "reused shader cache identity"
     images = {}
+    stability = []
+    settled_images = {}
     timelines = []
     retained = []
     for row in rows:
@@ -335,6 +361,15 @@ def summarize(path):
             image = np.asarray(Image.open(stage["image"]).convert("RGB"), dtype=np.int16)
             assert image.shape == (1200, 1800, 3), "unexpected dimensions"
             images[row["round"], label(row), stage["stage"]] = image
+            if report.get("captureStability", False):
+                initial, first, final = stability_images(stage)
+                settled_images[row["round"], label(row), stage["stage"]] = final
+                stability.append({"round": row["round"], "condition": label(row), "stage": stage["stage"],
+                                  "captures": [{"image": s["image"], "sha256": s["sha256"], "additionalFrames": s.get("frames", 0)}
+                                               for s in [stage, *stage["stability"]]],
+                                  "initialTo70": pixel_delta(initial, first), "frames70To140": pixel_delta(first, final)})
+            else:
+                assert not stage.get("stability"), "undeclared stability captures"
     timings = {}
     for condition in [c + suffix for c in sizes for suffix in (["", "-warm"] if report["warm"] else [""])]:
         selected = [r for r in rows if label(r) == condition]
@@ -380,7 +415,12 @@ def summarize(path):
         return comparisons
     return {"engine": report["engine"], "version": report["version"], "report": str(path),
             "entry": report["entry"], "quality": report["quality"], "lighting": report["lighting"], "hold": report["hold"], "timingComparisonValid": not report["hold"], "retainedImages": retained,
-            "reportSha256": digest(path), "timings": timings, "images": compare(0), "imagesVsLastBaseline": compare(repeat - 1), "timelines": timelines}
+            "reportSha256": digest(path), "timings": timings, "images": compare(0), "imagesVsLastBaseline": compare(repeat - 1),
+            "captureStability": stability,
+            "settledComparisons": [{"round": r, "condition": c, "stage": s, "baselineRound": baseline,
+                                    **pixel_delta(settled_images[baseline, "0", s], im)}
+                                   for (r, c, s), im in settled_images.items() for baseline in (0, repeat - 1)],
+            "timelines": timelines}
 
 
 if __name__ == "__main__":
@@ -392,7 +432,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # Each capture belongs to one report; a shared path means a later run overwrote it.
     paths = [item["image"] for path in args.reports for row in json.loads(Path(path).read_text())["rows"]
-             for item in row["stages"] + row["samples"]]
+             for item in row["stages"] + row["samples"] + [s for stage in row["stages"] for s in stage.get("stability", [])]]
     assert len(paths) == len(set(paths)), "capture shared between runs"
     result = {"note": "Loading windows begin just before selecting 3D from the entry stage and end at garden-ready + 500ms. SUI_HOLD runs contain deliberate compositor waits/screenshots: timingComparisonValid is false, so their load times/intervals are not performance comparisons. Phase attribution uses overlaps; nested slow calls must not be summed. Fresh instrumented shaders; not product load times or FPS. Images compare both the first/final baseline of each engine and entry; retainedImages compares the paused compositor image across garden warmup.",
               "runs": [summarize(path) for path in args.reports]}
