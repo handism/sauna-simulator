@@ -317,3 +317,130 @@ for (const action of ['complete', 'cancel'] as const) {
     });
   });
 }
+
+// The body compile has a 1-second wait cap. Pause the browser clock so UI
+// settings can be changed deterministically before that cap, without changing
+// product timers. Native fetch, parse and shader compilation still execute.
+for (const action of ['complete', 'cancel'] as const) {
+  test(`non-HDR body compile ${action} preserves latest settings`, async ({ page, browser }, info) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'error') errors.push(message.text());
+    });
+    await configureNoHdr(page, 'standard');
+    await page.clock.install({ time: new Date('2026-10-08T00:00:00Z') });
+    await page.addInitScript(() => {
+      const state = { hold: true, queries: 0, firstQueryMs: -1 };
+      Object.assign(window, { __noHdrBodyCompile: state });
+      const original = WebGL2RenderingContext.prototype.getProgramParameter;
+      WebGL2RenderingContext.prototype.getProgramParameter = function (program, parameter) {
+        const host = document.querySelector<HTMLElement>('.sauna-3d-canvas');
+        if (parameter === 0x91b1 && state.hold && host && !host.hasAttribute('data-load-ms')) {
+          if (state.queries++ === 0) state.firstQueryMs = performance.now();
+          return false;
+        }
+        return original.call(this, program, parameter);
+      };
+    });
+    let bodyRequests = 0;
+    let gardenRequests = 0;
+    page.on('request', (request) => {
+      if (request.url().endsWith('/sauna.glb')) bodyRequests++;
+      if (request.url().endsWith('/sauna-garden.glb')) gardenRequests++;
+    });
+    await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
+    await page.clock.pauseAt(new Date('2026-10-08T01:00:00Z'));
+    // dispatchEvent avoids the pointer stability rAF wait while the clock is paused.
+    await page.getByRole('button', { name: '音なしで入室する' }).dispatchEvent('click');
+    const scene = page.locator('.sauna-3d-canvas');
+    await expect
+      .poll(
+        async () => {
+          await page.clock.runFor(50);
+          return page.evaluate(() => (window as any).__noHdrBodyCompile.queries);
+        },
+        { timeout: 30_000, intervals: [50] },
+      )
+      .toBeGreaterThan(0);
+    const original = await scene.locator('canvas').elementHandle();
+    expect(
+      await original!.evaluate((canvas: HTMLCanvasElement) =>
+        canvas.getContext('webgl2')!.getExtension('EXT_color_buffer_float'),
+      ),
+    ).toBeNull();
+    await page.locator('.display-settings > summary').dispatchEvent('click');
+    const samples = [];
+    for (const [label, value] of [
+      ['3Dの画質', 'low'],
+      ['3Dの画質', 'high'],
+      ['3Dの時間帯', 'evening'],
+      ['3Dの時間帯', 'night'],
+    ] as const) {
+      await page.getByLabel(label).selectOption(value);
+      await page.clock.runFor(50);
+      await expect(page.getByLabel(label)).toHaveValue(value);
+      if (label === '3Dの画質') await expect(scene).toHaveAttribute('data-quality', value);
+      await expect(scene).not.toHaveAttribute('data-load-ms');
+      await expect(page.getByRole('status')).toContainText('読み込み中');
+      expect(gardenRequests).toBe(0);
+      samples.push(await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })));
+    }
+    const held = await page.evaluate(() => ({ ...(window as any).__noHdrBodyCompile, nowMs: performance.now() }));
+    expect(held.hold).toBe(true);
+    expect(held.queries).toBeGreaterThan(0);
+    expect(held.nowMs - held.firstQueryMs).toBeGreaterThanOrEqual(200);
+    expect(held.nowMs - held.firstQueryMs).toBeLessThan(1000);
+    if (action === 'cancel') {
+      await page.getByRole('button', { name: '2Dに切り替え', exact: true }).dispatchEvent('click');
+      await expect(scene).toHaveCount(0);
+      expect(
+        await original!.evaluate((canvas: HTMLCanvasElement) => canvas.getContext('webgl2')!.isContextLost()),
+      ).toBe(true);
+    }
+    await page.locator('.display-settings > summary').dispatchEvent('click');
+    await page.evaluate(() => {
+      (window as any).__noHdrBodyCompile.hold = false;
+    });
+    await page.clock.resume();
+    if (action === 'cancel') {
+      // Advance through a real stage transition after releasing the old compile.
+      await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+      await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
+      await expect(scene).toHaveCount(0);
+      expect(gardenRequests).toBe(0);
+      await switchSceneMode(page, '3Dを試す');
+    }
+    await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
+    await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
+    await expect(scene).toHaveAttribute('data-quality', 'high');
+    await expect(scene).toHaveAttribute('data-time-of-day', '2.000');
+    await expect(scene).toHaveAttribute('data-warmup', 'off');
+    await expect(scene).toHaveAttribute('data-temporal', 'off');
+    if (action === 'complete') await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+    await expect(scene).toHaveAttribute('data-stage', 'water');
+    await expect(scene).toHaveAttribute('data-time-of-day', '2.000');
+    await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
+    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
+      action === 'complete',
+    );
+    expect(bodyRequests).toBe(action === 'cancel' ? 2 : 1);
+    expect(gardenRequests).toBe(1);
+    expect(errors).toEqual([]);
+    await info.attach('no-hdr-body-compile', {
+      contentType: 'application/json',
+      body: JSON.stringify({
+        action,
+        browser: browser.version(),
+        held,
+        samples,
+        bodyRequests,
+        gardenRequests,
+        errors,
+        testSha256: createHash('sha256').update(readFileSync('e2e/scene-no-hdr.e2e.ts')).digest('hex'),
+        final: await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })),
+      }),
+    });
+  });
+}
