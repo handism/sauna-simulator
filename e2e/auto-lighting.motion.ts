@@ -11,6 +11,9 @@ type MotionClock = {
 };
 type MotionWindow = Window & { motionClock: MotionClock };
 
+const warmup = process.env.MOTION_WARMUP ?? 'normal';
+if (!['normal', 'split'].includes(warmup)) throw Error('Invalid MOTION_WARMUP');
+
 // Skip only the initial 12/27 minute hold. Once recording the transition, Date.now,
 // rAF, timers and water animation all advance at their real rate. Video encoding
 // adds overhead; neither the encoded frame rate nor this test is an FPS verdict.
@@ -23,6 +26,11 @@ for (const { stage, minute, from } of [
       [
         'src/components/3d/SaunaScene.tsx',
         'src/components/3d/lighting.ts',
+        'src/components/3d/sceneWarmup.ts',
+        'src/components/3d/warmupPasses.ts',
+        'src/components/3d/warmupPrograms.ts',
+        'src/components/3d/warmupScheduler.ts',
+        'src/components/3d/hdrOutput.ts',
         'src/components/3d/softShadows.ts',
         'src/components/3d/planarReflection.ts',
         'src/hooks/useSaunaSession.ts',
@@ -54,10 +62,15 @@ for (const { stage, minute, from } of [
         true,
       );
     });
-    await page.goto('?view=3d');
+    await page.goto(`?view=3d&frameRate=full${warmup === 'split' ? '&warmup=split' : ''}`);
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
+    if (warmup === 'split') {
+      await expect(scene).toHaveAttribute('data-warmup', 'split');
+      await expect(scene).toHaveAttribute('data-warmup-undrawn', '0');
+      await expect(scene).toHaveAttribute('data-garden-warmup-undrawn', '0');
+    }
     await chooseSceneSetting(page, '3Dの画質', 'standard');
     // Settle at the starting light with the product's normal smoothing.
     await chooseSceneSetting(page, '3Dの時間帯', from === 0 ? 'day' : 'evening');
@@ -129,6 +142,7 @@ for (const { stage, minute, from } of [
           browser: browser.version(),
           viewport: page.viewportSize(),
           quality: 'standard',
+          warmup,
           hashes,
           stage,
           minute,
@@ -152,6 +166,11 @@ for (const { stage, minute, from } of [
       expect(sample.data.stage).toBe(stage);
       expect(sample.data.lighting).toBe('auto');
       expect(sample.data.garden).toBe('ready');
+      if (warmup === 'split') {
+        expect(sample.data.warmup).toBe('split');
+        expect(sample.data.warmupUndrawn).toBe('0');
+        expect(sample.data.gardenWarmupUndrawn).toBe('0');
+      }
       expect(Math.abs(sample.time - target)).toBeLessThan(0.025);
       expect(Math.abs(sample.wallMs - recordingStart.wallMs - sample.seconds * 1000)).toBeLessThan(250);
       if (index) {
