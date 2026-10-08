@@ -140,6 +140,7 @@ for (const { stage, minute, from } of [
       body: JSON.stringify(
         {
           browser: browser.version(),
+          browserName: browser.browserType().name(),
           viewport: page.viewportSize(),
           quality: 'standard',
           warmup,

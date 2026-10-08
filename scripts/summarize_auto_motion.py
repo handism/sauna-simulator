@@ -25,6 +25,7 @@ def main():
     parser.add_argument('report', type=Path)
     parser.add_argument('output', type=Path)
     parser.add_argument('--warmup', choices=['normal', 'split'], default='normal')
+    parser.add_argument('--browser', choices=['chromium', 'webkit'])
     args = parser.parse_args()
     raw = args.report.read_text()
     report = json.loads(raw[raw.index('\n{') + 1:] if not raw.startswith('{') else raw)
@@ -40,6 +41,8 @@ def main():
         if len(data) != 1 or len(video) != 1:
             raise SystemExit('Missing or duplicate recording')
         run = json.loads(base64.b64decode(data[0]['body']))
+        if args.browser and run.get('browserName') != args.browser:
+            raise SystemExit('Unexpected browser engine')
         if run.get('warmup', 'normal') != args.warmup:
             raise SystemExit('Unexpected warmup mode')
         if args.warmup == 'split' and any(
@@ -56,8 +59,8 @@ def main():
         runs.append((run, Path(video[0]['path'])))
     if sorted((r['stage'], r['minute']) for r, _ in runs) != [('totonou', 27), ('water', 12)]:
         raise SystemExit('Missing or duplicate condition')
-    for key in ['hashes', 'browser', 'viewport', 'quality']:
-        if runs[0][0][key] != runs[1][0][key]:
+    for key in ['hashes', 'browser', 'browserName', 'viewport', 'quality']:
+        if runs[0][0].get(key) != runs[1][0].get(key):
             raise SystemExit(f'Mismatched {key}')
     args.output.mkdir(parents=True, exist_ok=True)
     summary = dict(warmup=args.warmup, reportSha256=sha(args.report), startedAt=report['stats']['startTime'],
@@ -99,6 +102,7 @@ def main():
         start = 0 if run['minute'] == 12 else 1
         summary['runs'].append(dict(
             stage=run['stage'], minute=run['minute'], browser=run['browser'], quality=run['quality'],
+            browserName=run.get('browserName'),
             viewport=run['viewport'], hashes=run['hashes'], samples=len(samples),
             observedSeconds=samples[-1]['seconds'], timeRange=[samples[0]['time'], samples[-1]['time']],
             maxTargetDifference=max(abs(s['time'] - start - min(1, s['seconds'] / 180)) for s in samples),
