@@ -30,7 +30,7 @@ describe('SaunaRoom', () => {
     render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
 
     // Temperature: 90°C, Humidity: 15%
-    expect(screen.getByText('90.0°C')).toBeInTheDocument();
+    expect(screen.getByText('90°C')).toBeInTheDocument();
     expect(screen.getByText('15%')).toBeInTheDocument();
     // Heart rate initial: 75
     expect(screen.getByText(/75/)).toBeInTheDocument();
@@ -40,11 +40,11 @@ describe('SaunaRoom', () => {
     render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
 
     act(() => {
-      vi.advanceTimersByTime(10000);
+      vi.advanceTimersByTime(20000);
     });
 
-    // Total 10 seconds: temp drop 0.05 * 10 = 0.5. 90 - 0.5 = 89.5
-    expect(screen.getByText('89.5°C')).toBeInTheDocument();
+    // Total 20 seconds: temp drop 0.05 * 20 = 1. Readings are shown as whole degrees.
+    expect(screen.getByText('89°C')).toBeInTheDocument();
 
     // Hum drops 0.4 per second. 15 -> 14.6 -> ... -> 12
     expect(screen.getByText('12%')).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe('SaunaRoom', () => {
     expect(mockAudioEngine.playLoyly).toHaveBeenCalledTimes(1);
     expect(onLoyly).toHaveBeenCalledTimes(1);
     // Temperature +3, Humidity +25
-    expect(screen.getByText('93.0°C')).toBeInTheDocument();
+    expect(screen.getByText('93°C')).toBeInTheDocument();
     expect(screen.getByText('40%')).toBeInTheDocument();
   });
 
@@ -77,7 +77,7 @@ describe('SaunaRoom', () => {
     act(() => {
       fireEvent.click(loylyBtn);
     });
-    expect(screen.getByText('+3.0')).toBeInTheDocument();
+    expect(screen.getByText('+3')).toBeInTheDocument();
     expect(screen.getByText('+25')).toBeInTheDocument();
 
     // 40% -> 65% -> 90% (max): the third pour can only show what is left.
@@ -91,7 +91,26 @@ describe('SaunaRoom', () => {
     act(() => {
       fireEvent.click(loylyBtn);
     });
-    expect(screen.queryByText(/^\+\d+$/)).not.toBeInTheDocument();
+    // Only the temperature still rises; the humidity has nothing left to show.
+    expect(screen.getAllByText(/^\+\d+$/)).toHaveLength(1);
+    expect(screen.queryByText('+25')).not.toBeInTheDocument();
+  });
+
+  it('closes the first-visit guide for good after the first Löyly', () => {
+    localStorage.removeItem('sui-guide-dismissed');
+    const { unmount } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    expect(screen.getByText('ロウリュで石に水をかけ、蒸気を楽しめます。')).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /^ロウリュ$/ }));
+    });
+    expect(screen.queryByText('ロウリュで石に水をかけ、蒸気を楽しめます。')).not.toBeInTheDocument();
+    expect(localStorage.getItem('sui-guide-dismissed')).toBe('yes');
+
+    unmount();
+    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
+    expect(screen.queryByText('ロウリュで石に水をかけ、蒸気を楽しめます。')).not.toBeInTheDocument();
+    localStorage.removeItem('sui-guide-dismissed');
   });
 
   it('shows the elapsed time against the suggested stay', () => {
@@ -118,7 +137,7 @@ describe('SaunaRoom', () => {
 
     expect(mockAudioEngine.playLoyly).toHaveBeenCalledTimes(1);
     expect(onLoyly).toHaveBeenCalledTimes(1);
-    expect(screen.getByText('93.0°C')).toBeInTheDocument();
+    expect(screen.getByText('93°C')).toBeInTheDocument();
     expect(mockOnNext).not.toHaveBeenCalled();
   });
 
@@ -206,6 +225,6 @@ describe('SaunaRoom', () => {
     expect(screen.getByText('3段階中1番目')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /ロウリュ/ }));
-    expect(screen.getByText('温度 +3.0 · 湿度 +25')).toBeInTheDocument();
+    expect(screen.getByText('温度 +3 · 湿度 +25')).toBeInTheDocument();
   });
 });

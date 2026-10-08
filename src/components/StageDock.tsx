@@ -1,8 +1,21 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { readPreference, writePreference } from '../utils/preferences';
 
+// スマホ幅や低い横長の画面では、パネルが景色の半分近くを覆うため、保存がなければコンパクトから始める
+const SMALL_SCREEN_QUERY = '(max-width: 600px), (max-height: 480px)';
+
+function defaultDock(): 'full' | 'compact' {
+  try {
+    return window.matchMedia(SMALL_SCREEN_QUERY).matches ? 'compact' : 'full';
+  } catch {
+    return 'full';
+  }
+}
+
 export default function StageDock({ className = '', children }: { className?: string; children: ReactNode }) {
-  const [compact, setCompact] = useState(() => readPreference('sui-dock', ['full', 'compact'], 'full') === 'compact');
+  const [compact, setCompact] = useState(
+    () => readPreference('sui-dock', ['full', 'compact'], defaultDock()) === 'compact',
+  );
   const id = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);

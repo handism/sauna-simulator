@@ -23,6 +23,11 @@ for (const viewport of [
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeFocused();
     await expect(page.locator('.stay-timer-value')).toContainText('· 目安 50秒');
+    // Phones and low landscape screens start compact; open the details to reach the readings.
+    if (viewport.width <= 600 || viewport.height <= 480) {
+      await expect(page.locator('.stage-dock')).toHaveAttribute('data-compact', 'true');
+      await page.getByRole('button', { name: '詳しく表示' }).click();
+    }
     await expect(page.getByText('心拍数', { exact: true })).toBeHidden();
     await page.getByText('からだの様子を見る').click();
     await expect(page.getByText('心拍数', { exact: true })).toBeVisible();

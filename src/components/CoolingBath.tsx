@@ -96,7 +96,7 @@ const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext }: CoolingBathPro
           <div className="cooling-info-panel">
             <div className="stage-info-row">
               <span className="reading-label">水温</span>
-              <span className="dashboard-value">{COOLING_CONFIG.WATER_TEMP.toFixed(1)}°C</span>
+              <span className="dashboard-value">{COOLING_CONFIG.WATER_TEMP}°C</span>
             </div>
           </div>
           <p className="detail-note">数値は体験内のシミュレーションです。</p>

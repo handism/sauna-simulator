@@ -1,4 +1,5 @@
 import FirstVisitGuide from './FirstVisitGuide';
+import { readPreference, writePreference } from '../utils/preferences';
 import StageDock from './StageDock';
 import { useState, useEffect, useRef, type CSSProperties } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
@@ -19,7 +20,7 @@ interface Steam {
   floor?: number;
 }
 
-/** 直近のロウリュで上がった温度・湿度。メーター横に一瞬だけ表示する */
+/** 直近のロウリュで上がった温度・湿度（表示する整数値の差）。メーター横に一瞬だけ表示する */
 interface LoylyDelta {
   id: number;
   temperature: number;
@@ -33,6 +34,9 @@ export interface SaunaRoomProps {
   onLoyly?: () => void;
   onNext: (result: SaunaResult) => void;
 }
+
+/** 初回案内を閉じたか（「わかりました」か初回のロウリュで閉じる） */
+const GUIDE_DISMISSED_KEY = 'sui-guide-dismissed';
 
 const SAUNA_CONFIG = {
   INITIAL_TEMP: 90,
@@ -69,6 +73,11 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
   // ロウリュごとに増やし、曇り演出の要素を作り直してアニメーションを最初から再生する
   const [steamBurst, setSteamBurst] = useState<number>(0);
   const [loylyDelta, setLoylyDelta] = useState<LoylyDelta | null>(null);
+  const [showGuide, setShowGuide] = useState(() => readPreference(GUIDE_DISMISSED_KEY, ['yes', 'no'], 'no') !== 'yes');
+  const dismissGuide = () => {
+    setShowGuide(false);
+    writePreference(GUIDE_DISMISSED_KEY, 'yes');
+  };
 
   const rootRef = useRef<HTMLDivElement>(null);
   const loylyCountRef = useRef<number>(0);
@@ -88,12 +97,16 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
 
   // ロウリュ実行
   const handleLoyly = () => {
+    // 一度ロウリュすれば案内の役目は済んでいるので、パネルを占め続けないよう閉じる
+    if (showGuide) dismissGuide();
     audio.playLoyly();
     onLoyly?.();
     // 上限で頭打ちになった分は表示しない（直前の表示値からの差分）
     setLoylyDelta({
       id: steamBurst,
-      temperature: Math.min(temperature + SAUNA_CONFIG.LOYLY_TEMP_INC, SAUNA_CONFIG.MAX_TEMP) - temperature,
+      temperature:
+        Math.round(Math.min(temperature + SAUNA_CONFIG.LOYLY_TEMP_INC, SAUNA_CONFIG.MAX_TEMP)) -
+        Math.round(temperature),
       humidity:
         Math.round(Math.min(humidity + SAUNA_CONFIG.LOYLY_HUMIDITY_INC, SAUNA_CONFIG.MAX_HUMIDITY)) -
         Math.round(humidity),
@@ -180,11 +193,11 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
             <div className="dashboard-value sauna-meter-value">
               {loylyDelta && loylyDelta.temperature > 0 && (
                 <span key={loylyDelta.id} className="meter-delta" aria-hidden="true">
-                  +{loylyDelta.temperature.toFixed(1)}
+                  +{loylyDelta.temperature}
                 </span>
               )}
               <span key={`value-${loylyDelta?.id ?? 'idle'}`} className={loylyDelta ? 'meter-flash' : undefined}>
-                {temperature.toFixed(1)}°C
+                {Math.round(temperature)}°C
               </span>
             </div>
           </div>
@@ -206,7 +219,7 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
         {/* コンパクト表示ではメーターを隠すため、ロウリュの上昇幅だけを1行で出す */}
         {loylyDelta && (loylyDelta.temperature > 0 || loylyDelta.humidity > 0) && (
           <p key={loylyDelta.id} className="loyly-compact-delta" aria-hidden="true">
-            温度 +{loylyDelta.temperature.toFixed(1)} · 湿度 +{loylyDelta.humidity}
+            温度 +{loylyDelta.temperature} · 湿度 +{loylyDelta.humidity}
           </p>
         )}
 
@@ -216,7 +229,7 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
           <div className="sauna-info-panel">
             <div className="stage-info-row">
               <span className="reading-label">体感温度</span>
-              <span className="dashboard-value">{heatIndex.toFixed(1)}°C</span>
+              <span className="dashboard-value">{Math.round(heatIndex)}°C</span>
             </div>
 
             <HeartRateRow heartRate={heartRate} />
@@ -225,7 +238,7 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
           <p className="detail-note">数値は体験内のシミュレーションです。</p>
         </details>
         {/* 案内は説明するロウリュボタンの真上に置く（メーターを押し下げない） */}
-        <FirstVisitGuide />
+        {showGuide && <FirstVisitGuide onDismiss={dismissGuide} />}
         <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
             <ActionIcon name="steam" /> ロウリュ{' '}

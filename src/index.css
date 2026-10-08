@@ -17,6 +17,8 @@
   --line: #ffffff24;
   --line-strong: #ffffff40;
   --line-control: #ffffff4d;
+  /* パネルの外で明るい景色に重なる副ボタンの枠 */
+  --line-control-bare: #ffffff80;
   --focus: #f1d9b7;
   /* 暗い面に重ねる白の薄塗り。案内の地・キー表示・設定のボタン・押せる面のhover */
   --tint-faint: #ffffff09;
@@ -41,13 +43,12 @@
   --text-shadow-heading: 0 2px 12px #000, 0 1px 4px #000;
   --text-shadow-status: 0 1px 5px #000;
   /* 外気浴の呼吸ガイド。円は吸う（苔）と吐く（木）で色味を変え、文字はぼかした影で読ませる */
-  --breath-bg: #14211d6b;
+  /* 円の内側は塗りつぶさず、文字の周りだけをぼかして暗くする（景色を円盤で塞がない） */
+  --breath-bg: radial-gradient(closest-side, #0e181459, #0e181400 75%);
   --text-shadow-breath: 0 0 12px #000c, 0 1px 3px #000;
   --breath-inhale-border: #c4d4bb80;
-  --breath-inhale-bg: #24332b99;
   --breath-inhale-glow: #b3c3a918;
   --breath-exhale-border: #cfbda966;
-  --breath-exhale-bg: #18251faa;
   /* 3D表示中のパネル・見出しの下の暗幕・状態表示のボタン */
   --glass-bg-3d: #101714f0;
   --scrim-top: #101915b3;
@@ -125,13 +126,22 @@ body {
 }
 /* 縦長の画面ではサウナの背景（正方形を cover）を右へずらし、左寄りのストーブを画面に入れる。
    ずらし幅はストーブ（画像の幅の25%）が画面の左から20%に来る量で、画像の端が見えない範囲に収める。
-   横長では余白がないため0になる。ロウリュの蒸気（.sauna-steam-particle）も同じ量だけずらす */
+   横長では余白がないため0になる。ロウリュの蒸気（.sauna-steam-particle）も同じ量だけずらす。
+   横長では上下に余る分の18%だけ画像を上へずらし、壁の温度計を見出し（ステージ名）より上へ逃がす。
+   縦長では上下の余りがないため0になる */
 .app-container {
   --bg-side: max(100vw, 100dvh);
   --sauna-bg-shift: clamp(0px, var(--bg-side) * 0.25 - 20vw, (var(--bg-side) - 100vw) / 2);
+  --sauna-bg-lift: calc((var(--bg-side) - 100dvh) * 0.18);
+}
+/* 低い横長の画面は見出しを左に分けるため温度計と重ならない。上へずらすとストーブが見出しに近づくので戻す */
+@media (max-height: 480px) {
+  .app-container {
+    --sauna-bg-lift: 0px;
+  }
 }
 .app-bg-layer[data-image='sauna_bg.webp'] {
-  background-position: calc(50% + var(--sauna-bg-shift)) center;
+  background-position: calc(50% + var(--sauna-bg-shift)) calc(50% - var(--sauna-bg-lift));
 }
 
 /* The UI receives input only on controls; uncovered scenery remains draggable. */
@@ -298,6 +308,12 @@ body {
 .app-toolbar:has(details[open]) .icon-btn::after,
 .ui-hidden .app-toolbar .icon-btn::after {
   content: none;
+}
+/* スマホ幅では3つの名前が接して段階表示とも詰まるため出さない（aria-label は残る） */
+@media (max-width: 480px) {
+  .app-toolbar[data-labeled='true'] .icon-btn::after {
+    content: none;
+  }
 }
 
 /* Hover lift only where a pointer can hover; touch gets a press instead of a sticky lift. */
@@ -581,15 +597,20 @@ h2:focus {
 /* 2D／3Dの景色の2択。入室前に決めるため入室ボタンの上に置く。押した側が選ばれた状態になる */
 .entry-scene-choice {
   display: flex;
-  margin-bottom: 0;
+  margin-bottom: 24px;
   padding: 3px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-pill);
   background: var(--control-bg);
 }
 .segment-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
   min-height: 44px;
-  padding: 8px 18px;
+  padding: 6px 20px;
   border: 0;
   border-radius: var(--radius-pill);
   background: transparent;
@@ -600,6 +621,12 @@ h2:focus {
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
+}
+/* 選択肢の中に添える一言の説明。選択中かどうかは文字色ではなく面で示すため、両方同じ控えめな色 */
+.segment-note {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--ink-soft);
 }
 /* 木の色は主操作に取っておくため、選択中は明るい薄塗りで示す */
 .segment-btn[aria-pressed='true'] {
@@ -665,6 +692,11 @@ h2:focus {
 }
 .session-end-actions .primary-btn {
   min-width: 220px;
+}
+/* パネルの外に直接置く副ボタンは、明るい景色に重なっても輪郭が消えないよう枠を強める */
+.primary-btn.session-reenter-btn,
+.primary-btn.app-btn-secondary {
+  border-color: var(--line-control-bare);
 }
 .session-summary-history > summary {
   justify-content: center;
@@ -870,7 +902,8 @@ h2:focus {
   border-top: 1px solid var(--glass-border);
 }
 
-/* コンパクト表示では時間・主操作・表示復帰だけを残す */
+/* コンパクト表示では時間・主操作・表示復帰だけを残す。初回案内はロウリュの説明なので残す
+   （スマホは既定でコンパクトから始まるため。最初のロウリュで閉じる） */
 .stage-dock[data-compact='true'] {
   padding: 12px 18px 16px;
 }
@@ -880,7 +913,6 @@ h2:focus {
 .stage-dock[data-compact='true'] .sauna-meters-grid,
 .stage-dock[data-compact='true'] .cooling-heart,
 .stage-dock[data-compact='true'] .stage-details,
-.stage-dock[data-compact='true'] .first-visit-guide,
 .stage-dock[data-compact='true'] .stay-timer-track {
   display: none;
 }
@@ -1134,7 +1166,7 @@ h2:focus {
   --steam-side: max(100vw, 100dvh);
   position: absolute;
   left: max(-60px, calc(50% + var(--sauna-bg-shift, 0px) + var(--steam-x) * var(--steam-side) - var(--steam-size) / 2));
-  top: calc(50% + var(--steam-y) * var(--steam-side) - var(--steam-size) / 2);
+  top: calc(50% - var(--sauna-bg-lift, 0px) + var(--steam-y) * var(--steam-side) - var(--steam-size) / 2);
   width: var(--steam-size);
   height: var(--steam-size);
   background:
@@ -1296,7 +1328,6 @@ h2:focus {
   transition:
     transform 4s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 4s cubic-bezier(0.4, 0, 0.2, 1),
-    background 4s ease,
     border-color 4s ease,
     opacity 0.5s ease;
   z-index: 10;
@@ -1330,7 +1361,7 @@ h2:focus {
     stroke-dashoffset: 0;
   }
 }
-/* 押せる部品に見えないよう文字の下に面は敷かず、ぼかした影と円の暗い地で読ませる */
+/* 押せる部品に見えないよう文字の下に面は敷かず、ぼかした影と円の中心だけの淡い暗がりで読ませる */
 .breathing-label {
   font-size: 1.4rem;
   font-weight: 500;
@@ -1351,13 +1382,11 @@ h2:focus {
 [data-breath='inhale'] .breathing-circle-premium {
   transform: scale(1.15);
   border-color: var(--breath-inhale-border);
-  background: var(--breath-inhale-bg);
   box-shadow: 0 0 32px var(--breath-inhale-glow);
 }
 [data-breath='exhale'] .breathing-circle-premium {
   transform: scale(0.92);
   border-color: var(--breath-exhale-border);
-  background: var(--breath-exhale-bg);
   box-shadow: none;
 }
 
@@ -1780,13 +1809,6 @@ h2:focus {
   }
 }
 
-/* 景色の説明は選択肢の直下に置く。 */
-.entry-scene-note {
-  color: var(--ink-soft);
-  font-size: 0.8rem;
-  margin: 8px 0 16px;
-  text-shadow: var(--text-shadow-heading);
-}
 .stay-timer-note {
   color: var(--ink-soft);
   font-size: 0.75rem;

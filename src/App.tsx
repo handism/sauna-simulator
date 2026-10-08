@@ -134,7 +134,6 @@ function App() {
 
             {stage === 'start' && !sessionSummary && (
               <div className="app-start-screen" style={{ opacity }} inert={pendingStage !== null}>
-                <p className="welcome-eyebrow">湯気と水と風のあいだで</p>
                 <h1 className="app-main-title" tabIndex={-1}>
                   ブラウザサウナ
                 </h1>
@@ -143,19 +142,17 @@ function App() {
                 <p className="journey-guide" aria-label="体験の流れ">
                   サウナ <ActionIcon name="arrow" /> 水風呂 <ActionIcon name="arrow" /> 外気浴
                 </p>
-                {/* 景色は入室前に決めるため、入室ボタンより先に置く */}
-                <div className="entry-scene-choice" role="group" aria-label="景色" aria-describedby="entry-scene-note">
+                {/* 景色は入室前に決めるため、入室ボタンより先に置く。説明は各選択肢の中に小さく添える */}
+                <div className="entry-scene-choice" role="group" aria-label="景色">
                   <button className="segment-btn" aria-pressed={!is3d} onClick={() => is3d && toggle3d()}>
                     2Dの景色
+                    <span className="segment-note">静かな一枚絵</span>
                   </button>
                   <button className="segment-btn" aria-pressed={is3d} onClick={() => !is3d && toggle3d()}>
                     3Dで見渡す
+                    <span className="segment-note">ぐるりと見回せる</span>
                   </button>
                 </div>
-
-                <p id="entry-scene-note" className="entry-scene-note" aria-live="polite">
-                  {is3d ? 'ドラッグ・スワイプで見回せる空間' : '静かな一枚絵を楽しむ景色'}
-                </p>
 
                 <div className="app-btn-group">
                   <button
