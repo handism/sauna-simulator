@@ -87,6 +87,9 @@ body {
   height: 100dvh;
   width: 100vw;
   -webkit-font-smoothing: antialiased;
+  /* 和文を文節で折り返し、行頭に「も。」のような1〜2文字だけを残さない（非対応ブラウザは従来の折り返し） */
+  word-break: auto-phrase;
+  text-wrap: pretty;
 }
 
 #root {
@@ -119,6 +122,16 @@ body {
   background-size: cover;
   background-position: center;
   z-index: 0;
+}
+/* 縦長の画面ではサウナの背景（正方形を cover）を右へずらし、左寄りのストーブを画面に入れる。
+   ずらし幅はストーブ（画像の幅の25%）が画面の左から20%に来る量で、画像の端が見えない範囲に収める。
+   横長では余白がないため0になる。ロウリュの蒸気（.sauna-steam-particle）も同じ量だけずらす */
+.app-container {
+  --bg-side: max(100vw, 100dvh);
+  --sauna-bg-shift: clamp(0px, var(--bg-side) * 0.25 - 20vw, (var(--bg-side) - 100vw) / 2);
+}
+.app-bg-layer[data-image='sauna_bg.webp'] {
+  background-position: calc(50% + var(--sauna-bg-shift)) center;
 }
 
 /* The UI receives input only on controls; uncovered scenery remains draggable. */
@@ -264,6 +277,27 @@ body {
 .icon-btn-label {
   font-size: 0.85rem;
   white-space: nowrap;
+}
+/* 最初のサウナの間だけ、丸いアイコンの下に名前を出す（App の data-labeled）。
+   名前は aria-label と同じ文字を使い、メニューを開いている間とUIを隠している間は出さない */
+.app-toolbar[data-labeled='true'] .icon-btn {
+  position: relative;
+}
+.app-toolbar[data-labeled='true'] .icon-btn::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  white-space: nowrap;
+  color: var(--ink-soft);
+  text-shadow: var(--text-shadow-status);
+  pointer-events: none;
+}
+.app-toolbar:has(details[open]) .icon-btn::after,
+.ui-hidden .app-toolbar .icon-btn::after {
+  content: none;
 }
 
 /* Hover lift only where a pointer can hover; touch gets a press instead of a sticky lift. */
@@ -1099,7 +1133,7 @@ h2:focus {
   --steam-size: 220px;
   --steam-side: max(100vw, 100dvh);
   position: absolute;
-  left: max(-60px, calc(50% + var(--steam-x) * var(--steam-side) - var(--steam-size) / 2));
+  left: max(-60px, calc(50% + var(--sauna-bg-shift, 0px) + var(--steam-x) * var(--steam-side) - var(--steam-size) / 2));
   top: calc(50% + var(--steam-y) * var(--steam-side) - var(--steam-size) / 2);
   width: var(--steam-size);
   height: var(--steam-size);
@@ -1112,6 +1146,15 @@ h2:focus {
   animation: steam-rise 4s ease-out forwards;
   pointer-events: none;
   z-index: 5;
+}
+/* 縦長の画面では、ストーブが下部の操作パネルに隠れる。パネルの上端から立ちのぼらせる（--steam-floor） */
+@media (orientation: portrait) {
+  .sauna-steam-particle {
+    top: min(
+      calc(50% + var(--steam-y) * var(--steam-side) - var(--steam-size) / 2),
+      calc(var(--steam-floor, 100dvh) - var(--steam-size) * 0.7)
+    );
+  }
 }
 @keyframes steam-rise {
   0% {
@@ -1344,7 +1387,7 @@ h2:focus {
 }
 
 .rest-details {
-  margin-top: 0;
+  margin: 0;
   border-top: none;
 }
 .rest-dock .score-details {
@@ -1368,7 +1411,7 @@ h2:focus {
 .score-details {
   border-top: 1px solid var(--line);
 }
-.score-details > summary {
+.score-details:not(.stage-details) > summary {
   min-height: 44px;
   padding: 12px 0;
   font-size: 0.8rem;
@@ -1385,9 +1428,22 @@ h2:focus {
   align-items: baseline;
   justify-content: space-between;
 }
-.totonou-progress-val {
-  font-size: 1.2rem;
+.totonou-score {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.totonou-tier {
+  font-size: 1.1rem;
   color: var(--ink-strong);
+  letter-spacing: 0.08em;
+}
+.totonou-progress-val {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+.totonou-info-panel + .totonou-note {
+  margin-top: 0;
 }
 .totonou-progress-bg {
   height: 4px;

@@ -11,6 +11,10 @@ export const TOTONOU_TIERS = {
   GOOD: 70,
 } as const;
 
+// ととのい度の段階名。数値より先に読ませ、短い滞在でも減点に見せない
+export const totonouTierLabel = (score: number): string =>
+  score >= TOTONOU_TIERS.EXCELLENT ? '深い余韻' : score >= TOTONOU_TIERS.GOOD ? '心地よい余韻' : 'ひと息';
+
 // ととのい度が満点になる滞在時間（秒）。滞在時間表示の目安にも使う
 export const STAY_TARGET_SECONDS = {
   SAUNA: 50,

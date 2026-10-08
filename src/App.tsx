@@ -86,6 +86,7 @@ function App() {
           <div
             key={stage}
             className="app-bg-layer"
+            data-image={background.image}
             style={{
               backgroundImage: `linear-gradient(${background.gradient}), url(${import.meta.env.BASE_URL}${background.image})`,
             }}
@@ -113,8 +114,9 @@ function App() {
       >
         {(is3d, toggle3d, settings) => (
           <div className="app-main-ui-container" ref={contentRef}>
-            {/* 右上の操作はすべてここに並べる。入室前は表示設定だけ。全画面は表示設定の中 */}
-            <div className="app-toolbar">
+            {/* 右上の操作はすべてここに並べる。入室前は表示設定だけ。全画面は表示設定の中。
+                最初のサウナの間だけ、アイコンの下に名前を添える（アイコンだけでは意味が取りにくい） */}
+            <div className="app-toolbar" data-labeled={stage === 'sauna' && scoreHistory.length === 0}>
               {stage !== 'start' && (
                 <>
                   <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />

@@ -1,6 +1,6 @@
 import StageDock from './StageDock';
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { calculateTotonouScore, formatMinutesSeconds } from '../utils/saunaUtils';
+import { calculateTotonouScore, formatMinutesSeconds, totonouTierLabel } from '../utils/saunaUtils';
 import { scoreColor } from '../utils/scoreColor';
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { ActionIcon } from './ActionIcon';
@@ -153,15 +153,18 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
             同じ name で片方だけ開き、パネルが伸びて操作ボタンが画面外に出ないようにする */}
         <details className="stage-details score-details" name="rest-review">
           <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
-          <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
           <div className="totonou-info-panel">
             {/* 数値より先に言葉で伝える。開いた時点で読み上げるため、ライブリージョンは常に置いておく */}
             <div aria-live="polite">{isRevealed && <p className="totonou-feedback">{feedback}</p>}</div>
 
+            {/* 段階名を主役にし、数値は横に控えめに添える（短い滞在の低い数値を減点に見せない） */}
             <div className="totonou-info-row">
               <span className="reading-label">ととのい度</span>
-              <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
-                0%
+              <span className="totonou-score">
+                <span className="totonou-tier">{totonouTierLabel(maxTotonou)}</span>
+                <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
+                  0%
+                </span>
               </span>
             </div>
 
@@ -177,6 +180,8 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
             {/* これまでのセットの推移（2セット目以降） */}
             {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
           </div>
+          {/* 注記は読み終えた後の補足として末尾に置く */}
+          <p className="detail-note totonou-note">ととのい度は体験内の遊びの指標です。</p>
         </details>
         <div className="dock-actions">
           <button className="primary-btn totonou-next-btn" onClick={onNext} aria-keyshortcuts="Space">

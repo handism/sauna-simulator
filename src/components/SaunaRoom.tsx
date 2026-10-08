@@ -15,6 +15,8 @@ interface Steam {
   id: number;
   /** 背景画像の幅に対する横位置（0〜1）。ストーブの上に少しばらつかせる */
   x: number;
+  /** 操作パネルの上端（画面座標px）。縦長の画面でストーブがパネルに隠れるとき、蒸気をパネルの上から上げる */
+  floor?: number;
 }
 
 /** 直近のロウリュで上がった温度・湿度。メーター横に一瞬だけ表示する */
@@ -107,9 +109,12 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
     setSteamBurst((prev) => prev + 1);
 
     // サウナストーンからの蒸気パーティクル
+    const root = rootRef.current;
+    const dock = root?.querySelector('.stage-dock');
     const newSteam: Steam = {
       id: steamIdRef.current++,
       x: SAUNA_CONFIG.STOVE_X + (Math.random() - 0.5) * 0.12,
+      floor: root && dock ? dock.getBoundingClientRect().top - root.getBoundingClientRect().top : undefined,
     };
     setSteams((prev) => [...prev, newSteam]);
     const particleTimeouts = steamParticleTimeoutsRef.current;
@@ -244,6 +249,7 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
             {
               '--steam-x': steam.x - 0.5,
               '--steam-y': SAUNA_CONFIG.STOVE_Y - 0.5,
+              ...(steam.floor !== undefined && { '--steam-floor': `${steam.floor}px` }),
             } as CSSProperties
           }
         />
