@@ -597,7 +597,7 @@ for (const action of ['complete', 'cancel', 'timeout', 'context-loss'] as const)
 
 // Gate real Meshopt output in the browser response only. The shipped bundle and
 // decoded geometry remain unchanged; garden request arms the gate after body ready.
-for (const action of ['complete', 'cancel'] as const) {
+for (const action of ['complete', 'cancel', 'context-loss'] as const) {
   test(`non-HDR garden parse ${action} preserves latest settings`, async ({ page, browser }, info) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
@@ -692,7 +692,17 @@ for (const action of ['complete', 'cancel'] as const) {
     expect(held.pending).toBeGreaterThan(0);
     expect(held.released).toBe(0);
     if (action !== 'complete') {
-      await switchSceneMode(page, '2Dに切り替え');
+      if (action === 'cancel') await switchSceneMode(page, '2Dに切り替え');
+      else {
+        expect(
+          await original!.evaluate((canvas: HTMLCanvasElement) => {
+            const extension = canvas.getContext('webgl2')!.getExtension('WEBGL_lose_context');
+            extension?.loseContext();
+            return !!extension;
+          }),
+        ).toBe(true);
+        await expect(page.getByRole('status')).toContainText('2Dで続けています', { timeout: 5_000 });
+      }
       await expect(scene).toHaveCount(0);
       expect(
         await original!.evaluate((canvas: HTMLCanvasElement) => canvas.getContext('webgl2')!.isContextLost()),
@@ -707,6 +717,7 @@ for (const action of ['complete', 'cancel'] as const) {
       await expect(scene).toHaveCount(0);
       await expect.poll(() => page.evaluate(() => (window as any).__noHdrGardenParse.released)).toBe(held.pending);
       expect(gardenRequests).toBe(1);
+      if (action === 'context-loss') await switchSceneMode(page, '2Dに切り替え');
       await switchSceneMode(page, '3Dを試す');
     }
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });

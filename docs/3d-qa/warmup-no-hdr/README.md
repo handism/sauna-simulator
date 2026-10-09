@@ -122,3 +122,16 @@ bun run test:browser e2e/scene-no-hdr.e2e.ts --reporter=json > /private/tmp/saun
 ```
 
 [入力ハッシュ付き結果](garden-parse-validation.json)。Chrome 154.0.8037.98・1280×800・DPR1・固定解像度・動作抑制。非HDR関連16件成功、再試行・skipなし。追加2件では各53件の実展開結果を保留し、ページ／コンソールエラーなし。型検査、48ファイル316単体テスト、Lint、整形、本番ビルド、差分チェック成功。初回プレビュー起動制限後、許可環境で実行。製品・配信物の変更なし、通常ブラウザ回帰全体は未実行。
+
+
+## 庭parse待ち中のコンテキスト喪失（2026-10-09）
+
+庭parseの既存テストへ `context-loss` を追加。Meshoptの実展開結果53件をGLTFLoaderへ返す前に保留し、本体完了・庭読み込み中の間に画質を標準→軽量→高精細、時間帯を昼→夕→夜へ変更する。実 `WEBGL_lose_context` で喪失させ、5秒以内の2D復帰を確認する。時計・製品コード・配信物は変更しない。
+
+旧コンテキスト喪失後に全保留結果を返しても3Dが復活しないこと、2Dで水風呂へ移動できることを検査。明示的な2D→3D再試行後、高精細・夜・水風呂・ミュート、warmup/TAA off・描画ありを保持。本体／庭は各2取得。解析中の全境界、資源解放量、実機互換性・性能・実聴の証明ではない。
+
+```sh
+bun run test:browser e2e/scene-no-hdr.e2e.ts --reporter=json > /private/tmp/sauna-garden-parse-context.json
+```
+
+[入力ハッシュ付き結果](garden-parse-context-validation.json)。Chrome 154.0.8037.98・1280×800・DPR1・固定解像度・動作抑制。非HDR関連17件成功、再試行・skipなし、庭parse関連3件のページ／コンソールエラーなし。型検査、48ファイル316単体テスト、Lint、整形、本番ビルド、差分チェック成功。初回プレビュー起動制限後、許可環境で再実行。通常ブラウザ回帰全体は未実行。
