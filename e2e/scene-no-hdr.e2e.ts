@@ -321,7 +321,7 @@ for (const action of ['complete', 'cancel'] as const) {
 // The body compile has a 1-second wait cap. Pause the browser clock so UI
 // settings can be changed deterministically before that cap, without changing
 // product timers. Native fetch, parse and shader compilation still execute.
-for (const action of ['complete', 'cancel'] as const) {
+for (const action of ['complete', 'cancel', 'timeout'] as const) {
   test(`non-HDR body compile ${action} preserves latest settings`, async ({ page, browser }, info) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
@@ -399,9 +399,12 @@ for (const action of ['complete', 'cancel'] as const) {
       ).toBe(true);
     }
     await page.locator('.display-settings > summary').dispatchEvent('click');
-    await page.evaluate(() => {
-      (window as any).__noHdrBodyCompile.hold = false;
-    });
+    if (action !== 'timeout') {
+      await page.evaluate(() => {
+        (window as any).__noHdrBodyCompile.hold = false;
+      });
+    }
+    const resumedAt = performance.now();
     await page.clock.resume();
     if (action === 'cancel') {
       // Advance through a real stage transition after releasing the old compile.
@@ -412,18 +415,30 @@ for (const action of ['complete', 'cancel'] as const) {
       await switchSceneMode(page, '3Dを試す');
     }
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
+    const readyAfterResumeMs = performance.now() - resumedAt;
+    const atReady = await page.evaluate(() => ({ ...(window as any).__noHdrBodyCompile, nowMs: performance.now() }));
+    if (action === 'timeout') {
+      // The completion signal stays false until readiness. Only the product's
+      // bounded wait can advance this path; real timers run after resume.
+      expect(atReady.hold).toBe(true);
+      expect(atReady.queries).toBeGreaterThan(held.queries);
+      expect(atReady.nowMs - atReady.firstQueryMs).toBeGreaterThanOrEqual(1000);
+      await page.evaluate(() => {
+        (window as any).__noHdrBodyCompile.hold = false;
+      });
+    }
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
     await expect(scene).toHaveAttribute('data-quality', 'high');
     await expect(scene).toHaveAttribute('data-time-of-day', '2.000');
     await expect(scene).toHaveAttribute('data-warmup', 'off');
     await expect(scene).toHaveAttribute('data-temporal', 'off');
-    if (action === 'complete') await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+    if (action !== 'cancel') await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
     await expect(scene).toHaveAttribute('data-stage', 'water');
     await expect(scene).toHaveAttribute('data-time-of-day', '2.000');
     await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
     await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
     expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
-      action === 'complete',
+      action !== 'cancel',
     );
     expect(bodyRequests).toBe(action === 'cancel' ? 2 : 1);
     expect(gardenRequests).toBe(1);
@@ -434,6 +449,8 @@ for (const action of ['complete', 'cancel'] as const) {
         action,
         browser: browser.version(),
         held,
+        atReady,
+        readyAfterResumeMs,
         samples,
         bodyRequests,
         gardenRequests,
