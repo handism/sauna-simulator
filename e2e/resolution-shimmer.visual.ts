@@ -61,7 +61,7 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
       for (const ratio of RATIOS) {
         await holdRatio(page, scene, ratio, QUALITY);
         // The panels would take the drag.
-        await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+        await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
         await frame();
         const box = (await canvas.boundingBox())!;
         // Centred on the drag, so a fast one stays on the canvas.
@@ -78,7 +78,7 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
         // Back to the default view.
         await page.mouse.move(x, y);
         await page.mouse.up();
-        await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+        await page.getByRole('button', { name: '操作を表示', exact: true }).click();
         await expect(scene).toHaveAttribute('data-pixel-ratio', ratio);
       }
     }

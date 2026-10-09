@@ -89,7 +89,7 @@ for (const { stage, minute, from } of [
       return { performanceMs: clock.started, wallMs: clock.realNow(), offsetMs: clock.offset };
     }, minute);
     await chooseSceneSetting(page, '3Dの時間帯', 'auto');
-    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     const canvas = await scene.locator('canvas').elementHandle();
     expect(canvas).not.toBeNull();
     expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(false);
@@ -181,7 +181,7 @@ for (const { stage, minute, from } of [
     }
     expect(samples.at(-1)!.time).toBe(from + 1);
     expect(await canvas!.evaluate((element) => element.isConnected)).toBe(true);
-    await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+    await page.getByRole('button', { name: '操作を表示', exact: true }).click();
     await switchSceneMode(page, '2Dに切り替え');
     await expect(scene).toHaveCount(0);
     expect(errors).toEqual([]);

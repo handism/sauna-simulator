@@ -150,7 +150,7 @@ test('finishing fades and stops every ambient source before a fresh session', as
   await page.getByRole('button', { name: '水風呂へ' }).click();
   await page.getByRole('button', { name: '外気浴へ' }).click();
   await expect.poll(async () => (await nodes(page)).playing).toBe(4);
-  await page.getByRole('button', { name: '今日はここまで' }).click();
+  await page.getByRole('button', { name: '体験を終える' }).click();
   await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeVisible();
   await expect.poll(async () => (await nodes(page)).playing).toBe(0);
   await page.getByRole('button', { name: 'トップに戻る' }).click();

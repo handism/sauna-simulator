@@ -66,7 +66,7 @@ test('water renderer captures exclude the animated DOM glow and nearly repeat ac
       await chooseSceneSetting(page, '3Dの画質', 'standard');
       await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
       await expect(scene).toHaveAttribute('data-stage', 'water');
-      await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+      await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
       await page.waitForTimeout(1200);
       // Pin two phases of the real glow keyframes without changing WebGL time.
       await page.addStyleTag({

@@ -42,7 +42,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   await expect(aurora).toBeHidden();
   const canvas = scene.locator('canvas');
   const original = await canvas.elementHandle();
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
   await page.waitForTimeout(1200);
   for (const lighting of ['day', 'evening', 'night']) {
     await chooseSceneSetting(page, '3Dの時間帯', lighting);
@@ -61,7 +61,7 @@ test('3D lighting replaces the aurora only while the scene is ready', async ({ p
   expect(await original!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
     true,
   );
-  await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+  await page.getByRole('button', { name: '操作を表示', exact: true }).click();
   await switchSceneMode(page, '2Dに切り替え');
   await expect(aurora).toBeVisible();
   await switchSceneMode(page, '3Dを試す');

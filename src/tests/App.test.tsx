@@ -176,22 +176,22 @@ describe('App Component', () => {
     );
 
     // Initial state (UI should not be hidden)
-    const container = screen.getByLabelText('UI非表示').closest('.app-container');
+    const container = screen.getByLabelText('景色だけ見る').closest('.app-container');
     expect(container).not.toHaveClass('ui-hidden');
 
     // Toggle UI (hide)
-    const toggleButton = screen.getByLabelText('UI非表示');
+    const toggleButton = screen.getByLabelText('景色だけ見る');
     fireEvent.click(toggleButton);
 
     expect(container).toHaveClass('ui-hidden');
-    expect(screen.getByLabelText('UI表示')).toBeInTheDocument();
+    expect(screen.getByLabelText('操作を表示')).toBeInTheDocument();
 
     // Toggle UI (show again)
-    const showButton = screen.getByLabelText('UI表示');
+    const showButton = screen.getByLabelText('操作を表示');
     fireEvent.click(showButton);
 
     expect(container).not.toHaveClass('ui-hidden');
-    expect(screen.getByLabelText('UI非表示')).toBeInTheDocument();
+    expect(screen.getByLabelText('景色だけ見る')).toBeInTheDocument();
   });
 
   const enterSauna = async () => {
@@ -207,7 +207,7 @@ describe('App Component', () => {
     expect(mockAudioEngine.setMuted).not.toHaveBeenCalled();
 
     await enterSauna();
-    const container = screen.getByLabelText('UI非表示').closest('.app-container');
+    const container = screen.getByLabelText('景色だけ見る').closest('.app-container');
 
     fireEvent.keyDown(document.body, { key: 'm' });
     expect(mockAudioEngine.setMuted).toHaveBeenLastCalledWith(false);

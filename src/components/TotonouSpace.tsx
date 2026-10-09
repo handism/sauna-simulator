@@ -192,7 +192,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
           </button>
           {onFinish && (
             <button className="primary-btn finish-btn" onClick={onFinish}>
-              今日はここまで <ActionIcon name="check" />
+              体験を終える <ActionIcon name="check" />
             </button>
           )}
         </div>

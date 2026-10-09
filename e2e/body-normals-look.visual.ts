@@ -79,7 +79,7 @@ for (const view of ['condensation', 'water'] as const) {
       await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
       await expect(scene).toHaveAttribute('data-stage', 'water');
     }
-    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     await page.waitForTimeout(1500);
     const samples = [];
     for (const lighting of ['day', 'evening', 'night']) {

@@ -309,10 +309,13 @@ body {
 .ui-hidden .app-toolbar .icon-btn::after {
   content: none;
 }
-/* スマホ幅では3つの名前が接して段階表示とも詰まるため出さない（aria-label は残る） */
+/* 初回の短い案内はスマホでも残し、名前の幅に合わせてアイコン間を空ける。 */
 @media (max-width: 480px) {
-  .app-toolbar[data-labeled='true'] .icon-btn::after {
-    content: none;
+  .app-toolbar[data-labeled='true']:not(:has(details[open])) {
+    gap: 28px;
+  }
+  .app-container:has(.app-toolbar[data-labeled='true']) .stage-heading {
+    top: calc(96px + env(safe-area-inset-top, 0px));
   }
 }
 
@@ -1067,16 +1070,17 @@ h2:focus {
     text-shadow: none;
   }
 }
-/* コンパクト表示ではメーターが隠れるため、同じ上昇幅をパネル右上に一瞬だけ出す */
-.loyly-compact-delta {
+/* 通知は主操作の直上に専用の高さを確保し、開閉の取っ手と重ねない。 */
+.loyly-feedback {
   display: none;
 }
-.stage-dock[data-compact='true'] .loyly-compact-delta {
+.stage-dock[data-compact='true'] .loyly-feedback {
   display: block;
-  position: absolute;
-  top: 12px;
-  right: 18px;
-  font-size: 0.75rem;
+  min-height: 26px;
+}
+.loyly-compact-delta {
+  margin: 0;
+  font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
   color: var(--wood);
   pointer-events: none;
@@ -1814,10 +1818,6 @@ h2:focus {
   font-size: 0.75rem;
   margin: 6px 0;
 }
-.settings-panel .settings-finish {
-  border-top: 1px solid var(--line);
-  margin-top: 8px;
-}
 @media (prefers-reduced-motion: reduce) {
   [data-breath] .breathing-circle-premium {
     transform: none;
@@ -1835,5 +1835,53 @@ h2:focus {
   }
   .totonou-progress-bar {
     transition: none;
+  }
+}
+
+/* 終了は主操作より控えめにしつつ、コンパクト表示でも常にアクセスできる。 */
+.dock-finish {
+  display: block;
+  min-height: 44px;
+  margin: 4px auto -8px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.settings-more.stage-details {
+  margin: 0;
+}
+.settings-more-content {
+  display: grid;
+  gap: 12px;
+}
+/* 縦長の低い画面では、詳細項目を開く前からパネルがリングに重なる。 */
+@media (max-height: 620px) and (max-width: 599px) {
+  .scene-container:has(.rest-dock[data-compact='false']) {
+    --breath-docked-top: 140px;
+    --breath-docked-size: 72px;
+  }
+  .scene-container:has(.rest-dock[data-compact='false']) .breathing-circle-premium {
+    position: absolute;
+    top: calc(var(--breath-docked-top) + env(safe-area-inset-top, 0px));
+    width: var(--breath-docked-size);
+    height: var(--breath-docked-size);
+    margin: 0;
+  }
+  .scene-container:has(.rest-dock[data-compact='false']) .breathing-label {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .scene-container:has(.rest-dock[data-compact='false']) .rest-dock {
+    max-height: calc(
+      100dvh - var(--breath-docked-top) - var(--breath-docked-size) - 64px - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px)
+    );
   }
 }

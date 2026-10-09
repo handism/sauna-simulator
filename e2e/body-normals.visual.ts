@@ -36,7 +36,7 @@ test('capture condensation normals at close range', async ({ page, browser }, in
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
   await chooseSceneSetting(page, '3Dの画質', quality);
   await expect(scene).toHaveAttribute('data-quality', quality);
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
   await page.waitForTimeout(1200);
   const samples = [];
   for (const lighting of ['day', 'evening', 'night']) {

@@ -19,6 +19,7 @@ export interface CoolingBathProps {
   initialHeartRate: number;
   /** 何セット目か（見出しに表示） */
   setNumber?: number;
+  onFinish?: () => void;
   onNext: (result: WaterResult) => void;
 }
 
@@ -30,7 +31,7 @@ const COOLING_CONFIG = {
   RIPPLE_INTERVAL_MS: 1500,
 };
 
-const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext }: CoolingBathProps) => {
+const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext, onFinish }: CoolingBathProps) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [heartRate, setHeartRate] = useState<number>(initialHeartRate);
 
@@ -85,7 +86,7 @@ const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext }: CoolingBathPro
         </h2>
         <p>水の音に耳を澄ませて。</p>
       </header>
-      <StageDock className="cooling-panel">
+      <StageDock onFinish={onFinish} className="cooling-panel">
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.WATER} />
         {/* 水風呂は心拍が落ち着いていく場面なので、心拍は開かずに見えるところに置く */}
         <div className="cooling-heart">

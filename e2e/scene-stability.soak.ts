@@ -55,7 +55,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
       'data-temporal',
       (await page.getByLabel('3Dの画質').inputValue()) === 'low' ? 'off' : 'on',
     );
-    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     const box = (await scene.locator('canvas').boundingBox())!;
     const x = box.x + box.width / 2;
     const y = box.y + box.height / 2;
@@ -74,7 +74,7 @@ test('five minutes of effects, stages, quality and mode changes remain usable', 
           requestAnimationFrame(tick);
         }),
     );
-    await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+    await page.getByRole('button', { name: '操作を表示', exact: true }).click();
     const waitStarted = Date.now();
     await expect(scene).toHaveAttribute('data-frame-mean-ms', /\d+/, { timeout: timingPolicy.sampleTimeoutMs });
     const data = await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset }));

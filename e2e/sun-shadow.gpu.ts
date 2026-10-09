@@ -122,7 +122,7 @@ for (const mode of modes) {
         await expect(scene).toHaveAttribute('data-stage', stage);
         await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
-        await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+        await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
         await page.waitForTimeout(1500);
         const file = renders ? `cycles-${renders[index]}` : `stage-${stage}.png`;
         await scene.locator('canvas').screenshot({ path: info.outputPath(file), style: rendererCaptureStyle });
@@ -196,7 +196,7 @@ for (const mode of modes) {
             await page.mouse.up();
           }
         }
-        await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+        await page.getByRole('button', { name: '操作を表示', exact: true }).click();
         if (next) await page.getByRole('button', { name: next, exact: true }).click();
       }
       expect(await page.evaluate(() => (window as unknown as { sunPatches: number }).sunPatches)).toBeGreaterThan(0);

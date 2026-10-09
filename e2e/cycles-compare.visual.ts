@@ -60,7 +60,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
     ] as const;
     for (const [stage, next] of stages) {
       await expect(scene).toHaveAttribute('data-stage', stage);
-      await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+      await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
       await page.waitForTimeout(1200);
       for (const lighting of ['day', 'evening', 'night']) {
         await chooseSceneSetting(page, '3Dの時間帯', lighting);
@@ -87,7 +87,7 @@ test('capture the Cycles review cameras in the browser scene', async ({ page, br
           metrics: await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })),
         });
       }
-      await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+      await page.getByRole('button', { name: '操作を表示', exact: true }).click();
       await page.getByRole('button', { name: next, exact: true }).click();
     }
     await page.unroute('**/sauna.scene.json');

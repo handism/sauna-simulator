@@ -70,7 +70,7 @@ for (const quality of ['standard', 'high']) {
         await chooseSceneSetting(page, '3Dの時間帯', 'day');
         await advance();
         await page.emulateMedia({ reducedMotion: 'no-preference' });
-        await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+        await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
         for (const direction of ['evening', 'day']) {
           await chooseSceneSetting(page, '3Dの時間帯', direction);
           const seen = new Set<boolean>();
@@ -94,7 +94,7 @@ for (const quality of ['standard', 'high']) {
           }
           expect([...seen].sort()).toEqual([false, true]);
         }
-        await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+        await page.getByRole('button', { name: '操作を表示', exact: true }).click();
         if (next) await page.getByRole('button', { name: next, exact: true }).click();
       }
       expect(errors).toEqual([]);

@@ -34,9 +34,9 @@ for (const viewport of [
     await page.getByText('からだの様子を見る').click();
     await page.getByRole('button', { name: 'ロウリュ' }).click();
     await expect(page.locator('.sauna-steam-particle')).toHaveCount(1);
-    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     await expect(page.getByRole('button', { name: '水風呂へ' })).toBeHidden();
-    await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+    await page.getByRole('button', { name: '操作を表示', exact: true }).click();
     await page.screenshot({ path: info.outputPath('sauna.png') });
     const next = page.getByRole('button', { name: '水風呂へ' });
     await expect(next).toBeInViewport({ ratio: 1 });
@@ -54,7 +54,7 @@ for (const viewport of [
     // 振り返りとスコアは片方だけ開くため、スコアを開いた時点で振り返りは閉じている
     await expect(page.locator('.rest-summary')).toBeHidden();
     await page.getByText('体験内のスコアを見る').click();
-    const finish = page.getByRole('button', { name: '今日はここまで' });
+    const finish = page.getByRole('button', { name: '体験を終える' });
     await expect(finish).toBeInViewport({ ratio: 1 });
     await finish.click();
     await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeFocused();
@@ -77,7 +77,7 @@ test('ending the 3D session releases the scene and allows a fresh visit', async 
   await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
   await page.getByRole('button', { name: '水風呂へ' }).click();
   await page.getByRole('button', { name: '外気浴へ' }).click();
-  await page.getByRole('button', { name: '今日はここまで' }).click();
+  await page.getByRole('button', { name: '体験を終える' }).click();
   await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeVisible();
   await expect(page.locator('.sauna-3d-canvas')).toHaveCount(0);
   await page.getByRole('button', { name: 'トップに戻る' }).click();
@@ -88,7 +88,7 @@ test('ending the 3D session releases the scene and allows a fresh visit', async 
 });
 
 for (const stage of ['sauna', 'water']) {
-  test(`finish an unfinished set from ${stage} settings`, async ({ page }) => {
+  test(`finish an unfinished set from ${stage} dock`, async ({ page }) => {
     await page.goto('?view=2d');
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
@@ -96,7 +96,7 @@ for (const stage of ['sauna', 'water']) {
       await page.getByRole('button', { name: '水風呂へ' }).click();
       await expect(page.getByRole('heading', { name: '水風呂' })).toBeVisible();
     }
-    await openSceneSettings(page);
+    await expect(page.getByRole('button', { name: '体験を終える', exact: true })).toBeInViewport({ ratio: 1 });
     await page.getByRole('button', { name: '体験を終える', exact: true }).click();
     await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeFocused();
     await expect(page.locator('.session-summary')).toContainText('0 セット');

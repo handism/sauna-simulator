@@ -40,7 +40,7 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
   await expect(scene).toHaveAttribute('data-quality', QUALITY);
   await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(scene).toHaveAttribute('data-stage', 'water');
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
   await page.waitForTimeout(1200);
   const press = async (key: string, count: number) => {
     await scene.focus();

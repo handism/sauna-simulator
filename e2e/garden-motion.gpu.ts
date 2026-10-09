@@ -147,7 +147,7 @@ for (const [index, variant] of ['original', 'candidate', 'candidate', 'original'
       ['totonou', null],
     ] as const) {
       await expect(scene).toHaveAttribute('data-stage', stage);
-      await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+      await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
       for (const lighting of ['day', 'evening', 'night']) {
         await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
@@ -169,7 +169,7 @@ for (const [index, variant] of ['original', 'candidate', 'candidate', 'original'
           metrics: await scene.evaluate((el) => ({ ...(el as HTMLElement).dataset })),
         });
       }
-      await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+      await page.getByRole('button', { name: '操作を表示', exact: true }).click();
       if (next) await page.getByRole('button', { name: next, exact: true }).click();
     }
     expect(served.requests).toBe(1);

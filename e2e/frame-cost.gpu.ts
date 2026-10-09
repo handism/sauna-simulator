@@ -41,7 +41,7 @@ async function eachView(page: Page, measure: (stage: string, lighting: string) =
   const scene = page.locator('.sauna-3d-canvas');
   for (const [stage, next] of STAGES) {
     await expect(scene).toHaveAttribute('data-stage', stage);
-    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     for (const lighting of ['day', 'evening', 'night']) {
       await chooseSceneSetting(page, '3Dの時間帯', lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
@@ -49,7 +49,7 @@ async function eachView(page: Page, measure: (stage: string, lighting: string) =
       await page.waitForTimeout(2500);
       await measure(stage, lighting);
     }
-    await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+    await page.getByRole('button', { name: '操作を表示', exact: true }).click();
     if (next) await page.getByRole('button', { name: next, exact: true }).click();
   }
 }

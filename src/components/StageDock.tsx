@@ -12,7 +12,15 @@ function defaultDock(): 'full' | 'compact' {
   }
 }
 
-export default function StageDock({ className = '', children }: { className?: string; children: ReactNode }) {
+export default function StageDock({
+  className = '',
+  children,
+  onFinish,
+}: {
+  className?: string;
+  children: ReactNode;
+  onFinish?: () => void;
+}) {
   const [compact, setCompact] = useState(
     () => readPreference('sui-dock', ['full', 'compact'], defaultDock()) === 'compact',
   );
@@ -67,6 +75,11 @@ export default function StageDock({ className = '', children }: { className?: st
       </button>
       <div ref={contentRef} id={id}>
         {children}
+        {onFinish && (
+          <button type="button" className="dock-finish" onClick={onFinish}>
+            体験を終える
+          </button>
+        )}
       </div>
     </div>
   );

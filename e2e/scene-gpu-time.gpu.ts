@@ -44,7 +44,7 @@ test('measure the GPU time of the sauna and plunge views', async ({ page, browse
         await page.getByRole('button', { name: next, exact: true }).click();
         continue;
       }
-      await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+      await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
       for (const lighting of ['day', 'evening', 'night']) {
         await chooseSceneSetting(page, '3Dの時間帯', lighting);
         await expect(scene).toHaveAttribute('data-lighting', lighting);
@@ -73,7 +73,7 @@ test('measure the GPU time of the sauna and plunge views', async ({ page, browse
           metrics: await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })),
         });
       }
-      await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+      await page.getByRole('button', { name: '操作を表示', exact: true }).click();
       await page.getByRole('button', { name: next, exact: true }).click();
     }
     await page.unroute('**/sauna.scene.json');

@@ -100,8 +100,6 @@ function App() {
         opacity={opacity}
         loylyEvents={loylyEvents}
         keepBreathing={keepBreathing}
-        onFinish={stage !== 'start' ? finishSession : undefined}
-        isTransitioning={pendingStage !== null}
         settingsExtra={
           fullscreen.isSupported && (
             <FullscreenMenuButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
@@ -249,6 +247,7 @@ function App() {
                     setNumber={scoreHistory.length + 1}
                     onLoyly={() => loylyEvents.dispatchEvent(new Event('loyly'))}
                     onNext={completeSauna}
+                    onFinish={finishSession}
                   />
                 )}
                 {stage === 'water' && (
@@ -256,6 +255,7 @@ function App() {
                     initialHeartRate={heartRate}
                     setNumber={scoreHistory.length + 1}
                     onNext={completeWater}
+                    onFinish={finishSession}
                   />
                 )}
                 {stage === 'totonou' && (

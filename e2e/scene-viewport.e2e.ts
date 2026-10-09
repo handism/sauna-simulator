@@ -17,7 +17,7 @@ test('narrow controls, keyboard look and resize preserve the loaded scene', asyn
   await chooseSceneSetting(page, '3Dの時間帯', 'day');
   await expect(scene).toHaveAttribute('data-lighting', 'day');
 
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
   await scene.focus();
   // Reduced motion leaves the idle scene static, so a changed canvas image
   // demonstrates keyboard look actually changes the rendered view.
@@ -25,7 +25,7 @@ test('narrow controls, keyboard look and resize preserve the loaded scene', asyn
   await page.keyboard.press('ArrowRight');
   await page.keyboard.press('ArrowRight');
   await expect.poll(async () => (await canvas.screenshot()).equals(before)).toBe(false);
-  await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+  await page.getByRole('button', { name: '操作を表示', exact: true }).click();
 
   for (const [button, stage] of [
     ['水風呂へ', 'water'],

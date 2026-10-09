@@ -54,7 +54,7 @@ function IconButton({
 export function UiToggleButton({ isUiHidden, onToggle }: { isUiHidden: boolean; onToggle: () => void }) {
   return (
     <IconButton
-      label={isUiHidden ? 'UI表示' : 'UI非表示'}
+      label={isUiHidden ? '操作を表示' : '景色だけ見る'}
       shortcut="U"
       pressed={isUiHidden}
       onClick={onToggle}

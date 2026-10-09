@@ -51,7 +51,7 @@ test('automatic lighting follows the time since entering, across stages and a 3D
   ] as const;
   for (const [stage, next] of stages) {
     await expect(scene).toHaveAttribute('data-stage', stage);
-    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     await page.waitForTimeout(1200);
     for (const minute of minutes) {
       await setMinutes(minute);
@@ -76,7 +76,7 @@ test('automatic lighting follows the time since entering, across stages and a 3D
       }
       await press('ArrowLeft', 80);
     }
-    await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+    await page.getByRole('button', { name: '操作を表示', exact: true }).click();
     if (next) {
       // The stage change keeps the time of day: it depends on the clock only.
       await setMinutes(10);

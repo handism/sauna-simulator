@@ -49,7 +49,7 @@ test('a still view draws every other frame, a turn and the steam every frame', a
   expect(still.drawn / still.ticks).toBeLessThan(0.65);
 
   // The stage's panels cover the middle of the scene.
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
   const box = (await scene.boundingBox())!;
   const turn = await count(page, 2000, async () => {
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
@@ -62,7 +62,7 @@ test('a still view draws every other frame, a turn and the steam every frame', a
   });
   expect(turn.drawn / turn.ticks).toBeGreaterThan(0.85);
 
-  await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+  await page.getByRole('button', { name: '操作を表示', exact: true }).click();
   await page.waitForTimeout(1500);
   const steam = await count(page, 2000, async () => {
     await page.getByRole('button', { name: 'ロウリュ' }).click();

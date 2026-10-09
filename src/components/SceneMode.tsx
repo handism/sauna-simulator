@@ -167,15 +167,11 @@ export default function SceneMode({
   keepBreathing = false,
   onKeepBreathingChange,
   settingsExtra,
-  onFinish,
-  isTransitioning = false,
 }: {
   /** Receives the mode, its switch and the settings menu, which the caller places in its toolbar. */
   children?: (enabled: boolean, toggle: () => void, settings: ReactNode) => ReactNode;
   keepBreathing?: boolean;
-  onFinish?: () => void;
-  isTransitioning?: boolean;
-  /** Placed at the top of the settings menu (the fullscreen switch). */
+  /** Additional controls in the settings disclosure (the fullscreen switch). */
   settingsExtra?: ReactNode;
   onKeepBreathingChange?: (value: boolean) => void;
   audio: AudioEngine;
@@ -212,17 +208,6 @@ export default function SceneMode({
           <ActionIcon name="settings" />
         </summary>
         <div className="settings-panel">
-          {settingsExtra}
-          {onKeepBreathingChange && (
-            <label className="settings-checkbox">
-              <input
-                type="checkbox"
-                checked={keepBreathing}
-                onChange={(event) => onKeepBreathingChange(event.target.checked)}
-              />
-              UIを隠しても呼吸ガイドを残す
-            </label>
-          )}
           <p className="settings-heading">景色を選ぶ</p>
           <button type="button" onClick={toggle} aria-pressed={enabled}>
             {enabled ? '2Dに切り替え' : '3Dを試す'}
@@ -243,17 +228,30 @@ export default function SceneMode({
                 options={QUALITY_OPTIONS}
                 onChange={setQuality}
               />
-              <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
-                素材クレジット
-              </a>
               {stage === 'start' && <span>入室すると3Dで体験できます</span>}
             </>
           )}
-          {onFinish && (
-            <button type="button" className="settings-finish" disabled={isTransitioning} onClick={onFinish}>
-              体験を終える
-            </button>
-          )}
+          <details className="settings-more stage-details">
+            <summary>その他</summary>
+            <div className="settings-more-content">
+              {settingsExtra}
+              {onKeepBreathingChange && (
+                <label className="settings-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={keepBreathing}
+                    onChange={(event) => onKeepBreathingChange(event.target.checked)}
+                  />
+                  UIを隠しても呼吸ガイドを残す
+                </label>
+              )}
+              {enabled && (
+                <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
+                  素材クレジット
+                </a>
+              )}
+            </div>
+          </details>
         </div>
       </details>
     </div>

@@ -12,7 +12,7 @@ test('touch look survives a second finger and cancellation; controls remain tapp
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   const original = await canvas.elementHandle();
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).tap();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).tap();
   // Finish UI fades before comparing the static, reduced-motion scene.
   const picture = () => canvas.screenshot({ animations: 'disabled' });
   // A turn blends with the frames before it until the view has been still for STILL_FRAMES
@@ -62,7 +62,7 @@ test('touch look survives a second finger and cancellation; controls remain tapp
   await expect.poll(async () => (await picture()).equals(cancelled)).toBe(false);
   await input.detach();
 
-  await page.getByRole('button', { name: 'UI表示', exact: true }).tap();
+  await page.getByRole('button', { name: '操作を表示', exact: true }).tap();
   for (const [button, stage] of [
     ['水風呂へ', 'water'],
     ['外気浴へ', 'totonou'],

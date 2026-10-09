@@ -39,7 +39,7 @@ test('capture 60 fps frames of the frayed patches in the plunge', async ({ page,
   await chooseSceneSetting(page, '3Dの画質', 'standard');
   await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
   await expect(scene).toHaveAttribute('data-stage', 'water');
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
   const advance = (ms: number) =>
     page.evaluate(async (step) => {
       (window as unknown as { bumpMotion: { now: number } }).bumpMotion.now += step;

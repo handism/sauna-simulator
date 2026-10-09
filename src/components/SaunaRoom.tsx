@@ -32,6 +32,7 @@ export interface SaunaRoomProps {
   /** 何セット目か（見出しに表示） */
   setNumber?: number;
   onLoyly?: () => void;
+  onFinish?: () => void;
   onNext: (result: SaunaResult) => void;
 }
 
@@ -59,7 +60,7 @@ const SAUNA_CONFIG = {
   STOVE_Y: 0.55,
 };
 
-const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) => {
+const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly, onFinish }: SaunaRoomProps) => {
   const [saunaState, setSaunaState] = useState<{
     temperature: number;
     humidity: number;
@@ -185,7 +186,7 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
         </h2>
         <p>湯気と木の香りを、ゆっくりと。</p>
       </header>
-      <StageDock className="sauna-room-panel">
+      <StageDock onFinish={onFinish} className="sauna-room-panel">
         {/* メインデジタルメーター */}
         <div className="sauna-meters-grid">
           <div className="sauna-meter-box">
@@ -216,13 +217,6 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
           </div>
         </div>
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.SAUNA} />
-        {/* コンパクト表示ではメーターを隠すため、ロウリュの上昇幅だけを1行で出す */}
-        {loylyDelta && (loylyDelta.temperature > 0 || loylyDelta.humidity > 0) && (
-          <p key={loylyDelta.id} className="loyly-compact-delta" aria-hidden="true">
-            温度 +{loylyDelta.temperature} · 湿度 +{loylyDelta.humidity}
-          </p>
-        )}
-
         {/* 体感温度 & 心拍数情報 */}
         <details className="stage-details">
           <summary>からだの様子を見る</summary>
@@ -239,6 +233,15 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly }: SaunaRoomProps) =>
         </details>
         {/* 案内は説明するロウリュボタンの真上に置く（メーターを押し下げない） */}
         {showGuide && <FirstVisitGuide onDismiss={dismissGuide} />}
+        {!showGuide && (
+          <div className="loyly-feedback" aria-hidden="true">
+            {loylyDelta && (loylyDelta.temperature > 0 || loylyDelta.humidity > 0) && (
+              <p key={loylyDelta.id} className="loyly-compact-delta">
+                温度 +{loylyDelta.temperature} · 湿度 +{loylyDelta.humidity}
+              </p>
+            )}
+          </div>
+        )}
         <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
             <ActionIcon name="steam" /> ロウリュ{' '}

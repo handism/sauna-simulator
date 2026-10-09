@@ -31,7 +31,7 @@ test('capture all seated views for manual geometry and lighting review', async (
   ] as const;
   for (const [stage, next] of stages) {
     await expect(scene).toHaveAttribute('data-stage', stage);
-    await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     // Wait for the UI/scene opacity transitions, not just the stage attribute.
     await page.waitForTimeout(1200);
     for (const lighting of ['day', 'evening', 'night']) {
@@ -63,7 +63,7 @@ test('capture all seated views for manual geometry and lighting review', async (
     expect(await original!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
       true,
     );
-    await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+    await page.getByRole('button', { name: '操作を表示', exact: true }).click();
     await page.getByRole('button', { name: next, exact: true }).click();
   }
   await expect(scene).toHaveAttribute('data-stage', 'sauna');

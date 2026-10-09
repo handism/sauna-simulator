@@ -50,7 +50,7 @@ async function enter(page: Page, query: string) {
 // The default view held still, then dragged right 1 px per frame for 12 frames.
 async function capture(page: Page, scene: Locator) {
   const canvas = scene.locator('canvas');
-  await page.getByRole('button', { name: 'UI非表示', exact: true }).click();
+  await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
   await page.waitForTimeout(1_500);
   const still = await canvas.screenshot({ style: rendererCaptureStyle });
   const box = (await canvas.boundingBox())!;
@@ -63,7 +63,7 @@ async function capture(page: Page, scene: Locator) {
   }
   const turning = await canvas.screenshot({ style: rendererCaptureStyle });
   await page.mouse.up();
-  await page.getByRole('button', { name: 'UI表示', exact: true }).click();
+  await page.getByRole('button', { name: '操作を表示', exact: true }).click();
   return { still, turning };
 }
 
