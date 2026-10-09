@@ -464,7 +464,7 @@ for (const action of ['complete', 'cancel', 'timeout'] as const) {
 
 // Hold decoded images before GLTFLoader can resolve body parseAsync. Native image
 // decoding still runs; only its completion is delayed, without changing product code.
-for (const action of ['complete', 'cancel', 'timeout'] as const) {
+for (const action of ['complete', 'cancel', 'timeout', 'context-loss'] as const) {
   test(`non-HDR body parse ${action} preserves latest settings`, async ({ page, browser }, info) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
@@ -532,7 +532,20 @@ for (const action of ['complete', 'cancel', 'timeout'] as const) {
     expect(held.released).toBe(0);
     if (action !== 'complete') {
       if (action === 'cancel') await switchSceneMode(page, '2Dに切り替え');
-      else await expect(page.getByRole('status')).toContainText('2Dで続けています', { timeout: 35_000 });
+      else {
+        if (action === 'context-loss') {
+          expect(
+            await original!.evaluate((canvas: HTMLCanvasElement) => {
+              const extension = canvas.getContext('webgl2')!.getExtension('WEBGL_lose_context');
+              extension?.loseContext();
+              return !!extension;
+            }),
+          ).toBe(true);
+        }
+        await expect(page.getByRole('status')).toContainText('2Dで続けています', {
+          timeout: action === 'context-loss' ? 5_000 : 35_000,
+        });
+      }
       await expect(scene).toHaveCount(0);
       expect(
         await original!.evaluate((canvas: HTMLCanvasElement) => canvas.getContext('webgl2')!.isContextLost()),
@@ -547,7 +560,7 @@ for (const action of ['complete', 'cancel', 'timeout'] as const) {
       await expect(scene).toHaveCount(0);
       await expect.poll(() => page.evaluate(() => (window as any).__noHdrParse.released)).toBe(held.pending);
       expect(gardenRequests).toBe(0);
-      if (action === 'timeout') await switchSceneMode(page, '2Dに切り替え');
+      if (action !== 'cancel') await switchSceneMode(page, '2Dに切り替え');
       await switchSceneMode(page, '3Dを試す');
     }
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
