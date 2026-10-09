@@ -1,0 +1,19 @@
+{
+  "reportSha256": "053744c8c858f9bb9b97b0bf0e605b68f4ca62446ba67faf6c0c72ec6cabcdc4",
+  "scriptSha256": "d0a3a30c06962961542bf7dafc24e67f09f7cb553b9e2b86452fa9ead8a51fbd",
+  "summarySha256": "6cf886abfec960908e83a88ef11d97ae4a287722c8f7ececa3fe0a56f831fff9",
+  "qualityMismatchRejections": {
+    "attachment": "Unexpected quality",
+    "singleSample": "Unexpected quality"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": 316,
+    "unitTestFiles": 48,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diff": "passed"
+  },
+  "productChanged": false
+}

@@ -13,6 +13,8 @@ type MotionWindow = Window & { motionClock: MotionClock };
 
 const warmup = process.env.MOTION_WARMUP ?? 'normal';
 if (!['normal', 'split'].includes(warmup)) throw Error('Invalid MOTION_WARMUP');
+const quality = process.env.MOTION_QUALITY ?? 'standard';
+if (quality !== 'standard' && quality !== 'high') throw Error('Invalid MOTION_QUALITY');
 
 // Skip only the initial 12/27 minute hold. Once recording the transition, Date.now,
 // rAF, timers and water animation all advance at their real rate. Video encoding
@@ -62,6 +64,8 @@ for (const { stage, minute, from } of [
         true,
       );
     });
+    // Select before entry so body and garden warmup also use the requested quality.
+    await page.addInitScript((value) => localStorage.setItem('sui-quality', value), quality);
     await page.goto(`?view=3d&frameRate=full${warmup === 'split' ? '&warmup=split' : ''}`);
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
@@ -71,7 +75,7 @@ for (const { stage, minute, from } of [
       await expect(scene).toHaveAttribute('data-warmup-undrawn', '0');
       await expect(scene).toHaveAttribute('data-garden-warmup-undrawn', '0');
     }
-    await chooseSceneSetting(page, '3Dの画質', 'standard');
+    await expect(scene).toHaveAttribute('data-quality', quality);
     // Settle at the starting light with the product's normal smoothing.
     await chooseSceneSetting(page, '3Dの時間帯', from === 0 ? 'day' : 'evening');
     await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
@@ -142,7 +146,7 @@ for (const { stage, minute, from } of [
           browser: browser.version(),
           browserName: browser.browserType().name(),
           viewport: page.viewportSize(),
-          quality: 'standard',
+          quality,
           warmup,
           hashes,
           stage,
@@ -165,6 +169,7 @@ for (const { stage, minute, from } of [
       const sample = samples[index];
       const target = from + Math.min(1, sample.seconds / 180);
       expect(sample.data.stage).toBe(stage);
+      expect(sample.data.quality).toBe(quality);
       expect(sample.data.lighting).toBe('auto');
       expect(sample.data.garden).toBe('ready');
       if (warmup === 'split') {

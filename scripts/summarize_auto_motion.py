@@ -26,6 +26,7 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('--warmup', choices=['normal', 'split'], default='normal')
     parser.add_argument('--browser', choices=['chromium', 'webkit'])
+    parser.add_argument('--quality', choices=['standard', 'high'], default='standard')
     args = parser.parse_args()
     raw = args.report.read_text()
     report = json.loads(raw[raw.index('\n{') + 1:] if not raw.startswith('{') else raw)
@@ -45,6 +46,10 @@ def main():
             raise SystemExit('Unexpected browser engine')
         if run.get('warmup', 'normal') != args.warmup:
             raise SystemExit('Unexpected warmup mode')
+        if run.get('quality') != args.quality or any(
+            sample['data'].get('quality') != args.quality for sample in run['samples']
+        ):
+            raise SystemExit('Unexpected quality')
         if args.warmup == 'split' and any(
             sample['data'].get(key) != value
             for sample in run['samples']
