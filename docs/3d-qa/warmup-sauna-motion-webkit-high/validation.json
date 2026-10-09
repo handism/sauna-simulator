@@ -1,0 +1,15 @@
+{
+  "reportSha256": "f4359ebc96d195668e11a1ec774415d128e55b5093b5513c5b27c8003d3d8561",
+  "scriptSha256": "a4d04070c1802313f5a7ecc244a37a01767a3df7779f7b26d1fde4bceea0f462",
+  "summarySha256": "b244cfb83863a091bc64bf44a79e6efa85c50ac3263804f6bd58f64ae5fb6962",
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": 316,
+    "unitTestFiles": 48,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diff": "passed"
+  },
+  "productChanged": false
+}
