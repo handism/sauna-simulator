@@ -464,7 +464,7 @@ for (const action of ['complete', 'cancel', 'timeout'] as const) {
 
 // Hold decoded images before GLTFLoader can resolve body parseAsync. Native image
 // decoding still runs; only its completion is delayed, without changing product code.
-for (const action of ['complete', 'cancel'] as const) {
+for (const action of ['complete', 'cancel', 'timeout'] as const) {
   test(`non-HDR body parse ${action} preserves latest settings`, async ({ page, browser }, info) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
@@ -530,8 +530,9 @@ for (const action of ['complete', 'cancel'] as const) {
     expect(held.hold).toBe(true);
     expect(held.pending).toBeGreaterThan(0);
     expect(held.released).toBe(0);
-    if (action === 'cancel') {
-      await switchSceneMode(page, '2Dに切り替え');
+    if (action !== 'complete') {
+      if (action === 'cancel') await switchSceneMode(page, '2Dに切り替え');
+      else await expect(page.getByRole('status')).toContainText('2Dで続けています', { timeout: 35_000 });
       await expect(scene).toHaveCount(0);
       expect(
         await original!.evaluate((canvas: HTMLCanvasElement) => canvas.getContext('webgl2')!.isContextLost()),
@@ -540,12 +541,13 @@ for (const action of ['complete', 'cancel'] as const) {
     await page.evaluate(() => {
       (window as any).__noHdrParse.release();
     });
-    if (action === 'cancel') {
+    if (action !== 'complete') {
       await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
       await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
       await expect(scene).toHaveCount(0);
       await expect.poll(() => page.evaluate(() => (window as any).__noHdrParse.released)).toBe(held.pending);
       expect(gardenRequests).toBe(0);
+      if (action === 'timeout') await switchSceneMode(page, '2Dに切り替え');
       await switchSceneMode(page, '3Dを試す');
     }
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
@@ -561,7 +563,7 @@ for (const action of ['complete', 'cancel'] as const) {
     expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
       action === 'complete',
     );
-    expect(bodyRequests).toBe(action === 'cancel' ? 2 : 1);
+    expect(bodyRequests).toBe(action === 'complete' ? 1 : 2);
     expect(gardenRequests).toBe(1);
     expect(errors).toEqual([]);
     await info.attach('no-hdr-parse', {
