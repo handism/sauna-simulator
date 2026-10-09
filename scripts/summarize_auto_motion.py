@@ -27,6 +27,7 @@ def main():
     parser.add_argument('--warmup', choices=['normal', 'split'], default='normal')
     parser.add_argument('--browser', choices=['chromium', 'webkit'])
     parser.add_argument('--quality', choices=['standard', 'high'], default='standard')
+    parser.add_argument('--scope', choices=['outdoor', 'sauna'], default='outdoor')
     args = parser.parse_args()
     raw = args.report.read_text()
     report = json.loads(raw[raw.index('\n{') + 1:] if not raw.startswith('{') else raw)
@@ -42,6 +43,8 @@ def main():
         if len(data) != 1 or len(video) != 1:
             raise SystemExit('Missing or duplicate recording')
         run = json.loads(base64.b64decode(data[0]['body']))
+        if run.get('scope', 'outdoor') != args.scope:
+            raise SystemExit('Unexpected motion scope')
         if args.browser and run.get('browserName') != args.browser:
             raise SystemExit('Unexpected browser engine')
         if run.get('warmup', 'normal') != args.warmup:
@@ -62,13 +65,14 @@ def main():
             if sha(path) != digest:
                 raise SystemExit(f'Input changed since recording: {path}')
         runs.append((run, Path(video[0]['path'])))
-    if sorted((r['stage'], r['minute']) for r, _ in runs) != [('totonou', 27), ('water', 12)]:
+    expected = [('sauna', 12), ('sauna', 27)] if args.scope == 'sauna' else [('totonou', 27), ('water', 12)]
+    if sorted((r['stage'], r['minute']) for r, _ in runs) != expected:
         raise SystemExit('Missing or duplicate condition')
     for key in ['hashes', 'browser', 'browserName', 'viewport', 'quality']:
         if runs[0][0].get(key) != runs[1][0].get(key):
             raise SystemExit(f'Mismatched {key}')
     args.output.mkdir(parents=True, exist_ok=True)
-    summary = dict(warmup=args.warmup, reportSha256=sha(args.report), startedAt=report['stats']['startTime'],
+    summary = dict(scope=args.scope, warmup=args.warmup, reportSha256=sha(args.report), startedAt=report['stats']['startTime'],
                    testDurationSeconds=report['stats']['duration'] / 1000,
                    limits='Video encoding is overhead. Extracted frames are a partial review, not continuous perceptual or FPS approval.',
                    runs=[])

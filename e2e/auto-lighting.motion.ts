@@ -16,13 +16,23 @@ if (!['normal', 'split'].includes(warmup)) throw Error('Invalid MOTION_WARMUP');
 const quality = process.env.MOTION_QUALITY ?? 'standard';
 if (quality !== 'standard' && quality !== 'high') throw Error('Invalid MOTION_QUALITY');
 
+const scope = process.env.MOTION_SCOPE ?? 'outdoor';
+if (scope !== 'outdoor' && scope !== 'sauna') throw Error('Invalid MOTION_SCOPE');
+const conditions =
+  scope === 'sauna'
+    ? ([
+        { stage: 'sauna', minute: 12, from: 0 },
+        { stage: 'sauna', minute: 27, from: 1 },
+      ] as const)
+    : ([
+        { stage: 'water', minute: 12, from: 0 },
+        { stage: 'totonou', minute: 27, from: 1 },
+      ] as const);
+
 // Skip only the initial 12/27 minute hold. Once recording the transition, Date.now,
 // rAF, timers and water animation all advance at their real rate. Video encoding
 // adds overhead; neither the encoded frame rate nor this test is an FPS verdict.
-for (const { stage, minute, from } of [
-  { stage: 'water', minute: 12, from: 0 },
-  { stage: 'totonou', minute: 27, from: 1 },
-] as const) {
+for (const { stage, minute, from } of conditions) {
   test(`real-time automatic ${minute}-${minute + 3} minute transition in ${stage}`, async ({ page, browser }, info) => {
     const hashes = Object.fromEntries(
       [
@@ -78,12 +88,15 @@ for (const { stage, minute, from } of [
     await expect(scene).toHaveAttribute('data-quality', quality);
     // Settle at the starting light with the product's normal smoothing.
     await chooseSceneSetting(page, '3Dの時間帯', from === 0 ? 'day' : 'evening');
-    await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
-    await expect(scene).toHaveAttribute('data-stage', 'water');
+    if (stage !== 'sauna') {
+      await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+      await expect(scene).toHaveAttribute('data-stage', 'water');
+    }
     if (stage === 'totonou') {
       await page.getByRole('button', { name: '外気浴へ', exact: true }).click();
       await expect(scene).toHaveAttribute('data-stage', stage);
     }
+    await expect(scene).toHaveAttribute('data-stage', stage);
     await expect(scene).toHaveAttribute('data-time-of-day', from.toFixed(3), { timeout: 20_000 });
     const recordingStart = await page.evaluate((startMinute) => {
       const clock = (window as unknown as MotionWindow).motionClock;
@@ -148,6 +161,7 @@ for (const { stage, minute, from } of [
           viewport: page.viewportSize(),
           quality,
           warmup,
+          scope,
           hashes,
           stage,
           minute,

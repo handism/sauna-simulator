@@ -1,0 +1,19 @@
+{
+  "reportSha256": "53a1d1bd8e872aad4e87d48e098d7d4ab34ce0cd074e4e38a58a642d7001e726",
+  "scriptSha256": "a4d04070c1802313f5a7ecc244a37a01767a3df7779f7b26d1fde4bceea0f462",
+  "summarySha256": "c82bbad6c3eabbc9c699226eef709c418d77dfa95edc79e321812e3182e3d459",
+  "scopeMismatchRejections": {
+    "wrongScope": "Unexpected motion scope",
+    "mixedScope": "Unexpected motion scope"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": 316,
+    "unitTestFiles": 48,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diff": "passed"
+  },
+  "productChanged": false
+}
