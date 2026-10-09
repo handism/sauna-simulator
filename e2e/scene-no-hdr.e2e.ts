@@ -461,3 +461,121 @@ for (const action of ['complete', 'cancel', 'timeout'] as const) {
     });
   });
 }
+
+// Hold decoded images before GLTFLoader can resolve body parseAsync. Native image
+// decoding still runs; only its completion is delayed, without changing product code.
+for (const action of ['complete', 'cancel'] as const) {
+  test(`non-HDR body parse ${action} preserves latest settings`, async ({ page, browser }, info) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'error') errors.push(message.text());
+    });
+    await configureNoHdr(page, 'standard');
+    await page.addInitScript(() => {
+      const state = { hold: true, pending: 0, released: 0, release: () => {} };
+      Object.assign(window, { __noHdrParse: state });
+      let release!: () => void;
+      const gate = new Promise<void>((resolve) => {
+        release = resolve;
+      });
+      state.release = () => {
+        state.hold = false;
+        release();
+      };
+      const original = window.createImageBitmap.bind(window);
+      window.createImageBitmap = (async (...args: Parameters<typeof createImageBitmap>) => {
+        const bitmap = await original(...args);
+        if (state.hold) {
+          state.pending++;
+          await gate;
+          state.released++;
+        }
+        return bitmap;
+      }) as typeof createImageBitmap;
+    });
+    let bodyRequests = 0;
+    let gardenRequests = 0;
+    page.on('request', (request) => {
+      if (request.url().endsWith('/sauna.glb')) bodyRequests++;
+      if (request.url().endsWith('/sauna-garden.glb')) gardenRequests++;
+    });
+    await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
+    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    const scene = page.locator('.sauna-3d-canvas');
+    await expect
+      .poll(() => page.evaluate(() => (window as any).__noHdrParse.pending), { timeout: 30_000 })
+      .toBeGreaterThan(0);
+    const original = await scene.locator('canvas').elementHandle();
+    expect(
+      await original!.evaluate((canvas: HTMLCanvasElement) =>
+        canvas.getContext('webgl2')!.getExtension('EXT_color_buffer_float'),
+      ),
+    ).toBeNull();
+    for (const [label, value] of [
+      ['3Dの画質', 'low'],
+      ['3Dの画質', 'high'],
+      ['3Dの時間帯', 'evening'],
+      ['3Dの時間帯', 'night'],
+    ] as const) {
+      await chooseSceneSetting(page, label, value);
+      await expect(scene).not.toHaveAttribute('data-load-ms');
+      expect(gardenRequests).toBe(0);
+    }
+    await expect(page.getByRole('status')).toContainText('読み込み中');
+    const held = await page.evaluate(() => {
+      const { hold, pending, released } = (window as any).__noHdrParse;
+      return { hold, pending, released };
+    });
+    expect(held.hold).toBe(true);
+    expect(held.pending).toBeGreaterThan(0);
+    expect(held.released).toBe(0);
+    if (action === 'cancel') {
+      await switchSceneMode(page, '2Dに切り替え');
+      await expect(scene).toHaveCount(0);
+      expect(
+        await original!.evaluate((canvas: HTMLCanvasElement) => canvas.getContext('webgl2')!.isContextLost()),
+      ).toBe(true);
+    }
+    await page.evaluate(() => {
+      (window as any).__noHdrParse.release();
+    });
+    if (action === 'cancel') {
+      await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+      await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
+      await expect(scene).toHaveCount(0);
+      await expect.poll(() => page.evaluate(() => (window as any).__noHdrParse.released)).toBe(held.pending);
+      expect(gardenRequests).toBe(0);
+      await switchSceneMode(page, '3Dを試す');
+    }
+    await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
+    await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
+    await expect(scene).toHaveAttribute('data-quality', 'high');
+    await expect(scene).toHaveAttribute('data-time-of-day', '2.000');
+    if (action === 'complete') await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+    await expect(scene).toHaveAttribute('data-stage', 'water');
+    await expect(scene).toHaveAttribute('data-warmup', 'off');
+    await expect(scene).toHaveAttribute('data-temporal', 'off');
+    await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
+    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
+      action === 'complete',
+    );
+    expect(bodyRequests).toBe(action === 'cancel' ? 2 : 1);
+    expect(gardenRequests).toBe(1);
+    expect(errors).toEqual([]);
+    await info.attach('no-hdr-parse', {
+      contentType: 'application/json',
+      body: JSON.stringify({
+        action,
+        browser: browser.version(),
+        held,
+        bodyRequests,
+        gardenRequests,
+        errors,
+        testSha256: createHash('sha256').update(readFileSync('e2e/scene-no-hdr.e2e.ts')).digest('hex'),
+        final: await scene.evaluate((element) => ({ ...(element as HTMLElement).dataset })),
+      }),
+    });
+  });
+}
