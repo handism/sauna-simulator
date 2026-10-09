@@ -1,0 +1,19 @@
+{
+  "reportSha256": "a35cf35651512522df34bef299d914839b16a68e5d2abf301efa4a52c11649c0",
+  "scriptSha256": "d0a3a30c06962961542bf7dafc24e67f09f7cb553b9e2b86452fa9ead8a51fbd",
+  "summarySha256": "e32c8a16a79b586fdcbac3b66e4eee932214d449d61f10cec88d78807f79e4a0",
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": 316,
+    "unitTestFiles": 48,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diff": "passed"
+  },
+  "productChanged": false,
+  "review": {
+    "extractedFrames": 24,
+    "continuousFlicker": "unverified"
+  }
+}
