@@ -1,0 +1,150 @@
+{
+ "schema": 3,
+ "scriptSha256": "3828d0e2649054c51be21baf0eff8e63985dc810b40c18c52cc5d11b64a08237",
+ "summarySha256": "53d21ad50eb7f5f15472102ac225f722c96b0ef0c5d1357d70a8d70dc6cf799b",
+ "size": [
+  320,
+  200
+ ],
+ "limits": "Lossy encoded frames, spatially reduced to 320x200; page/video clock alignment is approximate. Differences include waves, foliage, TAA, exposure and codec refresh. No perceptual flicker verdict, mirror attribution, FPS or individual-step bound.",
+ "runs": {
+  "water-12": {
+   "frames": 5026,
+   "videoSha256": "d835b94f6a2a7a6319f210e770f4bc66b5540c87912b518fdddb27cef8e2600b",
+   "samplesSha256": "97c0f2526b64ab572cc72e8919f05a82ecf58eaa974b2bdc7a29bada01f75691",
+   "unchangedFrames": 91,
+   "segments": {
+    "ramp": {
+     "seconds": 24.0,
+     "meanLumaStartEnd": [
+      127.7,
+      93.32
+     ],
+     "diffP50": 0.457,
+     "diffP99": 1.228,
+     "diffMax": 1.813,
+     "diffMaxAtSeconds": 178.7,
+     "diffMaxVideoSeconds": 182.92,
+     "keyframeDiffMax": 2.42,
+     "keyframeDiffMaxAtSeconds": 6.02,
+     "keyframeDiffMaxVideoSeconds": 10.24,
+     "highPassTriples": 576,
+     "highPassMean": 0.3459,
+     "highPassBlockMax": 3.422
+    },
+    "hold": {
+     "seconds": 13.0,
+     "meanLumaStartEnd": [
+      92.8,
+      91.96
+     ],
+     "diffP50": 0.519,
+     "diffP99": 1.412,
+     "diffMax": 2.505,
+     "diffMaxAtSeconds": 191.7,
+     "diffMaxVideoSeconds": 195.92,
+     "keyframeDiffMax": 2.486,
+     "keyframeDiffMaxAtSeconds": 185.22,
+     "keyframeDiffMaxVideoSeconds": 189.44,
+     "highPassTriples": 313,
+     "highPassMean": 0.3806,
+     "highPassBlockMax": 2.773
+    },
+    "moving": {
+     "seconds": 150.0,
+     "meanLumaStartEnd": [
+      126.28,
+      97.98
+     ],
+     "diffP50": 0.912,
+     "diffP99": 12.952,
+     "diffMax": 14.831,
+     "diffMaxAtSeconds": 132.1,
+     "diffMaxVideoSeconds": 136.32,
+     "keyframeDiffMax": 13.575,
+     "keyframeDiffMaxAtSeconds": 133.98,
+     "keyframeDiffMaxVideoSeconds": 138.2,
+     "highPassTriples": 3543,
+     "highPassMean": 2.4861,
+     "highPassBlockMax": 3.243
+    }
+   },
+   "rampBlocksOverTwiceHold": 0,
+   "mirrorBandPowerRatio": null,
+   "mirrorBandWindowCount": 0,
+   "endpointChangeDividedBy500": {
+    "p99": 0.161,
+    "max": 0.184
+   }
+  },
+  "totonou-27": {
+   "frames": 5062,
+   "videoSha256": "1f7a0187294de0a85eadfc9fea5ceabfd3cbfe0155ae3117302aeba7f1f65448",
+   "samplesSha256": "5cb531b613501e2f9fd82a7119ddb12c0ab130e8af5be287f925eb6e1cbf9ab4",
+   "unchangedFrames": 1165,
+   "segments": {
+    "ramp": {
+     "seconds": 24.0,
+     "meanLumaStartEnd": [
+      89.57,
+      52.75
+     ],
+     "diffP50": 0.021,
+     "diffP99": 0.532,
+     "diffMax": 0.746,
+     "diffMaxAtSeconds": 4.71,
+     "diffMaxVideoSeconds": 10.52,
+     "keyframeDiffMax": 2.214,
+     "keyframeDiffMaxAtSeconds": 4.43,
+     "keyframeDiffMaxVideoSeconds": 10.24,
+     "highPassTriples": 153,
+     "highPassMean": 0.1145,
+     "highPassBlockMax": 0.248
+    },
+    "hold": {
+     "seconds": 13.0,
+     "meanLumaStartEnd": [
+      51.73,
+      51.23
+     ],
+     "diffP50": 0.004,
+     "diffP99": 0.337,
+     "diffMax": 0.554,
+     "diffMaxAtSeconds": 189.03,
+     "diffMaxVideoSeconds": 194.84,
+     "keyframeDiffMax": 1.697,
+     "keyframeDiffMaxAtSeconds": 183.63,
+     "keyframeDiffMaxVideoSeconds": 189.44,
+     "highPassTriples": 16,
+     "highPassMean": 0.0871,
+     "highPassBlockMax": 0.285
+    },
+    "moving": {
+     "seconds": 150.0,
+     "meanLumaStartEnd": [
+      87.94,
+      57.53
+     ],
+     "diffP50": 0.181,
+     "diffP99": 10.348,
+     "diffMax": 11.524,
+     "diffMaxAtSeconds": 64.35,
+     "diffMaxVideoSeconds": 70.16,
+     "keyframeDiffMax": 10.453,
+     "keyframeDiffMaxAtSeconds": 65.87,
+     "keyframeDiffMaxVideoSeconds": 71.68,
+     "highPassTriples": 3225,
+     "highPassMean": 2.1484,
+     "highPassBlockMax": 3.022
+    }
+   },
+   "rampBlocksOverTwiceHold": 0,
+   "mirrorBandPowerRatio": null,
+   "mirrorBandWindowCount": 0,
+   "endpointChangeDividedBy500": {
+    "p99": 0.203,
+    "max": 0.234
+   }
+  }
+ }
+}
