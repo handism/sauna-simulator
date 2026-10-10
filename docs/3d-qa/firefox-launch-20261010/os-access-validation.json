@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-10T08:33:32.497Z",
+  "scope": "Firefox launch only; no product page",
+  "osVersion": "27.0.1",
+  "playwright": "1.63.0",
+  "launches": [
+    {
+      "execution": "workspace sandbox",
+      "pid": 98232,
+      "checkedAt": "2026-10-10T08:32:06.828Z",
+      "pageCreated": false,
+      "profileFolderError": true,
+      "logSha256": "e689247e8b9f446a633480abb2a093a7b95fe8fb8ee6e89de4e36a1e9073fe48"
+    },
+    {
+      "execution": "approved outside sandbox",
+      "pid": 98436,
+      "checkedAt": "2026-10-10T08:32:52.060Z",
+      "pageCreated": false,
+      "profileFolderError": true,
+      "logSha256": "d4e57970e2d7baeb98231f8551ba7f2988d2b80d933426210e5e2d73413a6601"
+    }
+  ],
+  "inputSha256": "f68b6b8e40f8a98152d0e4a9c30e4586df4bbcf48b816ee9efc03104d53af973",
+  "query": "process == \"sandboxd\" OR (process == \"tccd\" AND (eventMessage CONTAINS[c] \"firefox\" OR eventMessage CONTAINS[c] \"Nightly\"))",
+  "events": [
+    {
+      "timestamp": "2026-10-10 17:32:08.480159+0900",
+      "activityIdentifier": 18036721,
+      "message": "REQUEST_MSG: msgID=78759.33, msg={\n\tservice=\"kTCCServiceSystemPolicyAppDataDetailed\"\n\tTCCD_MSG_SPI_VERSION=2 (0x2)\n\tfunction=\"TCCAccessRequest\"\n\tTCCD_MSG_REQUEST_TYPE_KEY=0 (0x0)\n\tTCC_MSG_REQUEST_AUTHORIZATION_SUBJECT_CREDENTIAL_DICTIONARY_KEY={\n\t\tTCCD_MSG_CREDENTIAL_AUTHENTICATOR_TYPE_KEY=1 (0x1)\n\t\tTCCD_MSG_CREDENTIAL_AUTHENTICATOR_AUDIT_TOKEN_KEY={pid:98232, auid:501, euid:501}\n\t}\n\tTCCD_MSG_MESSAGE_OPTION_REQUEST_USAGE_STRING_POLICY_KEY=2 (0x2)\n\tTCCD_MSG_MESSAGE_OPTION_REQUEST_PROMPT_POLICY_KEY=0 (0x0)\n\tTCCD_MSG_ID=\"78759.33\"\n\tTCC_MSG_REQUEST_AUTHORIZATION_INDIRECT_OBJECT_CREDENTIAL_DICTIONARY_KEY={\n\t\tfine_grained_object_identifier=\"org.mozilla.firefox\"\n\t\tfine_grained_object_identifier_type=0 (0x0)\n\t}\n}"
+    },
+    {
+      "timestamp": "2026-10-10 17:32:08.480545+0900",
+      "activityIdentifier": 18036721,
+      "message": "Created Error: Error Domain=kTCCErrorDomain Code=9 \"server error: kTCCServiceSystemPolicyAppDataDetailed access requires indirect object have an associated app bundle\" UserInfo={NSDescription=server error: kTCCServiceSystemPolicyAppDataDetailed access requires indirect object have an associated app bundle}"
+    },
+    {
+      "timestamp": "2026-10-10 17:32:08.480566+0900",
+      "activityIdentifier": 17914495,
+      "message": "TCC denied kTCCServiceSystemPolicyAppDataDetailed for org.mozilla.firefox"
+    }
+  ],
+  "limitations": [
+    "PID-correlated TCC evidence is from the sandboxed launch only.",
+    "The outside-sandbox launch also failed, but the collected query did not return a PID-correlated TCC denial for pid 98436.",
+    "No permission, browser configuration, dependencies or product files changed.",
+    "TCC rejection observed; exclusive causal proof for both launch failures is not established."
+  ]
+}
