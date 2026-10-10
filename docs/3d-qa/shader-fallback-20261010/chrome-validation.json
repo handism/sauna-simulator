@@ -1,0 +1,35 @@
+{
+  "sourceSHA256": "c8e9aa1959895bc867f3fb21c759f2fadd40c2569a431df3f39d1ee29695ed51",
+  "fullReportSha256": "430e5f2f8b8bea1a40d48de1b38821c81ab75e0085749752f136d088d66b281e",
+  "fullStats": {
+    "startTime": "2026-10-10T04:04:15.040Z",
+    "duration": 937205.292,
+    "expected": 70,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during initial off rendering preserves 2D and retry",
+      "durationMs": 4441
+    },
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during later off rendering preserves 2D and retry",
+      "durationMs": 5304
+    },
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during initial split rendering preserves 2D and retry",
+      "durationMs": 4858
+    },
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during later split rendering preserves 2D and retry",
+      "durationMs": 5724
+    }
+  ],
+  "limits": "Four injected real fragment shader fault/retry cases from the final 70-test default Chrome run."
+}

@@ -12,12 +12,14 @@ frame of the encoder's keyframes are reported separately: VP8 refreshes the whol
 """
 import argparse
 import hashlib
+import io
 import json
 from pathlib import Path
 import subprocess
+import tempfile
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 FPS = 25
 WIDTH, HEIGHT = 320, 200
@@ -33,13 +35,24 @@ def sha(path):
 
 def decode(video):
     """Every frame's Rec. 709 luma at WIDTH×HEIGHT (float32, 0–255)."""
-    raw = subprocess.run(
-        ['ffmpeg', '-v', 'error', '-i', str(video), '-vf', f'scale={WIDTH}:{HEIGHT}:flags=area',
-         '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'],
-        check=True, capture_output=True,
-    ).stdout
-    frames = np.frombuffer(raw, np.uint8).reshape(-1, HEIGHT, WIDTH, 3).astype(np.float32)
-    return frames @ LUMA
+    # Keep RGB intermediates off the heap: high-quality recordings contain ~5000 frames.
+    with tempfile.TemporaryFile() as raw:
+        subprocess.run(
+            ['ffmpeg', '-v', 'error', '-i', str(video), '-vf', f'scale={WIDTH}:{HEIGHT}:flags=area',
+             '-fps_mode', 'passthrough', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'],
+            check=True, stdout=raw,
+        )
+        size = raw.tell()
+        stride = HEIGHT * WIDTH * 3
+        if size == 0 or size % stride:
+            raise ValueError('Incomplete decoded RGB frames')
+        count = size // stride
+        frames = np.empty((count, HEIGHT, WIDTH), np.float32)
+        raw.seek(0)
+        for i in range(count):
+            rgb = np.frombuffer(raw.read(stride), np.uint8).reshape(HEIGHT, WIDTH, 3)
+            frames[i] = rgb.astype(np.float32) @ LUMA
+    return frames
 
 
 def keyframe_times(video):
@@ -119,15 +132,32 @@ def analyze(run, folder):
     if sha(video) != run['video']['sha256']:
         raise SystemExit(f'{video} does not match summary.json')
     samples = json.loads((folder / f"{run['stage']}-{run['minute']}-samples.json").read_text())
+    for key in ('stage', 'minute', 'browser', 'quality', 'hashes'):
+        if samples.get(key) != run.get(key):
+            raise ValueError(f'Sample/summary mismatch: {key}')
+    if samples['errors'] or len(samples['samples']) != run['samples']:
+        raise ValueError('Failed or incomplete samples')
+    probe = json.loads(subprocess.run(
+        ['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries',
+         'frame=best_effort_timestamp_time', '-of', 'json', str(video)],
+        check=True, capture_output=True, text=True).stdout)
+    times = np.array([float(f['best_effort_timestamp_time']) for f in probe['frames']])
+    if len(times) < 2 or not np.allclose(np.diff(times), 1 / FPS, atol=0.0011):
+        raise ValueError('Expected complete constant-25-fps recording')
     frames = decode(video)
     count = len(frames)
-    observed = np.arange(count) / FPS - samples['recordingStart']['performanceMs'] / 1000
+    if count != len(times):
+        raise ValueError('Decoded frame count differs from timestamp count')
+    # Video and page performance clocks have no shared marker. This alignment is approximate.
+    observed = times - samples['recordingStart']['performanceMs'] / 1000
     diffs = frame_diffs(frames)
     changed = np.r_[True, diffs[1:] >= DUPLICATE]
     key = near_keyframes(count, keyframe_times(video))
     ramp, hold = segments(observed, samples['sweeps'])
     lower = frames[:, HEIGHT // 2:].mean(axis=(1, 2))
-    result = {'frames': count, 'unchangedFrames': int((~changed).sum()), 'segments': {}}
+    result = {'frames': count, 'videoSha256': sha(video),
+              'samplesSha256': sha(folder / f"{run['stage']}-{run['minute']}-samples.json"),
+              'unchangedFrames': int((~changed).sum()), 'segments': {}}
     maps = []
     for label, mask in (('ramp', ramp), ('hold', hold)):
         plain = np.flatnonzero(mask & ~key)
@@ -142,7 +172,10 @@ def analyze(run, folder):
             'diffP99': pct(diffs[plain], 99),
             'diffMax': round(float(diffs[plain].max()), 3),
             'diffMaxAtSeconds': round(float(observed[plain[diffs[plain].argmax()]]), 2),
+            'diffMaxVideoSeconds': float(times[plain[diffs[plain].argmax()]]),
             'keyframeDiffMax': round(float(diffs[at_key].max()), 3) if len(at_key) else None,
+            'keyframeDiffMaxAtSeconds': round(float(observed[at_key[diffs[at_key].argmax()]]), 2) if len(at_key) else None,
+            'keyframeDiffMaxVideoSeconds': float(times[at_key[diffs[at_key].argmax()]]) if len(at_key) else None,
             'highPassTriples': triples,
             'highPassMean': round(float(hp.mean()), 4),
             'highPassBlockMax': round(float(blocks.max()), 3),
@@ -152,10 +185,9 @@ def analyze(run, folder):
     runs = np.split(np.flatnonzero(ramp), np.flatnonzero(np.diff(np.flatnonzero(ramp)) > 1) + 1)
     signal = np.concatenate([lower[r][: len(r) // (20 * FPS) * 20 * FPS] for r in runs])
     result['mirrorBandPowerRatio'] = round(band_ratio(signal), 3)
-    # The mirror's step, bounded by the whole change of each pixel over the ramp split into the 500
-    # steps of one scene (1 s averages at both ends cancel the waves). The spectrum above only sees
-    # steps well above the waves' noise; this bounds them directly.
-    result['perPixelChangePerMirrorStep'] = per_step_change(frames, np.flatnonzero(ramp))
+    # Endpoint averages cannot bound single updates: intermediate changes can cancel.
+    # Endpoint average / 500 is a descriptive heuristic, not a bound on individual updates.
+    result['endpointChangeDividedBy500'] = per_step_change(frames, np.flatnonzero(ramp))
     return result, maps, frames[np.flatnonzero(ramp)[len(np.flatnonzero(ramp)) // 2]]
 
 
@@ -164,11 +196,33 @@ def main():
     parser.add_argument('folder', type=Path)
     args = parser.parse_args()
     summary = json.loads((args.folder / 'summary.json').read_text())
-    out = {'summarySha256': sha(args.folder / 'summary.json'), 'size': [WIDTH, HEIGHT], 'runs': {}}
+    out = {'schema': 2, 'scriptSha256': sha(__file__),
+           'summarySha256': sha(args.folder / 'summary.json'), 'size': [WIDTH, HEIGHT],
+           'limits': 'Lossy encoded frames, spatially reduced to 320x200; page/video clock alignment is approximate. '
+                     'Differences include waves, foliage, TAA, exposure and codec refresh. '
+                     'No perceptual flicker verdict, mirror attribution, FPS or individual-step bound.',
+           'runs': {}}
     rows = []
     for run in summary['runs']:
         name = f"{run['stage']}-{run['minute']}"
         result, maps, still = analyze(run, args.folder)
+        # Three consecutive native-video frames around each ranked event, at half resolution.
+        sheet = Image.new('RGB', (640 * 3, 424 * 2))
+        for row, key in enumerate(('diffMaxVideoSeconds', 'keyframeDiffMaxVideoSeconds')):
+            center = result['segments']['ramp'][key]
+            if center is None:
+                continue
+            for column, delta in enumerate((-1 / FPS, 0, 1 / FPS)):
+                second = center + delta
+                raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', str(second),
+                    '-i', str(args.folder / run['video']['file']), '-frames:v', '1',
+                    '-vf', 'scale=640:400', '-f', 'image2pipe', '-vcodec', 'png', '-'],
+                    check=True, capture_output=True).stdout
+                with Image.open(io.BytesIO(raw)) as image:
+                    sheet.paste(image.convert('RGB'), (column * 640, row * 424 + 24))
+                ImageDraw.Draw(sheet).text((column * 640 + 8, row * 424 + 5),
+                    f'{key}: video {second:.3f}s', fill='white')
+        sheet.save(args.folder / f'{name}-frame-events.jpg', quality=94)
         out['runs'][name] = result
         scale = lambda m: np.clip(m / 2 * 255, 0, 255)
         rows.append(np.concatenate([still, scale(maps[0]), scale(maps[1])], axis=1))

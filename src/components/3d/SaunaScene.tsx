@@ -30,6 +30,8 @@ import { createFrameRate } from './frameRate';
 import { startSceneWarmup } from './sceneWarmup';
 import { WarmupInterrupted } from './warmupScheduler';
 
+class ShaderCompilationError extends Error {}
+
 export interface SceneProps {
   audio: AudioEngine;
   quality: QualityMode;
@@ -102,6 +104,11 @@ export default function SaunaScene({
       onError();
       return;
     }
+    // A failed linked program cannot produce a complete scene. three otherwise logs and
+    // continues drawing; let the owner stop the scene and preserve the 2D session instead.
+    renderer.debug.onShaderError = () => {
+      throw new ShaderCompilationError('WebGL shader linking failed');
+    };
     let disposed = false;
     let failed = false;
     let ready = false;
@@ -204,11 +211,16 @@ export default function SaunaScene({
       const request = ++qualityRequest;
       if (!ready) return applyQuality();
       const preset = QUALITY[qualityRef.current];
-      const compiled = lighting.withQuality(preset.shadowSize, preset.duskLights, () =>
-        output.compile(scene, camera, scene),
-      );
+      let compiled: Promise<void>;
+      try {
+        compiled = lighting.withQuality(preset.shadowSize, preset.duskLights, () =>
+          output.compile(scene, camera, scene),
+        );
+      } catch {
+        return fail();
+      }
       void compiled
-        .catch(() => {})
+        .catch(() => fail())
         .then(() => {
           if (request === qualityRequest && !disposed && !failed) applyQuality();
         });
@@ -364,7 +376,11 @@ export default function SaunaScene({
           metrics.reset();
           setData('stage', next);
           lighting.update(targetTime(), 0, true);
-          recordRenderInfo(draw());
+          try {
+            recordRenderInfo(draw());
+          } catch {
+            fail();
+          }
         };
         // Every material's programs, compiled together off the main thread where the browser can:
         // drawn first, each waited for the driver in turn (about 0.5 s on load). Again if the
@@ -472,6 +488,7 @@ export default function SaunaScene({
             break;
           } catch (error) {
             if (disposed || failed) return;
+            if (error instanceof ShaderCompilationError) throw error;
             // Missing program information: the first draw waits for the driver, as without.
             if (!(error instanceof WarmupInterrupted)) {
               setData('warmup', 'fallback');
@@ -488,6 +505,7 @@ export default function SaunaScene({
           settings++;
         };
         setView(stageRef.current);
+        if (disposed || failed) return;
         steam.points.position.fromArray(definition.stove);
         const firstFrame = draw();
         ready = true;
@@ -533,6 +551,7 @@ export default function SaunaScene({
                 break;
               } catch (error) {
                 if (disposed || failed) return;
+                if (error instanceof ShaderCompilationError) throw error;
                 if (!(error instanceof WarmupInterrupted)) {
                   setData('warmup', 'fallback');
                   break;
@@ -550,7 +569,8 @@ export default function SaunaScene({
             metrics.reset();
             setData('gardenMs', String(Math.round(performance.now() - start)));
             setGarden('ready');
-          } catch {
+          } catch (error) {
+            if (error instanceof ShaderCompilationError) return fail();
             if (!disposed && !failed) setGarden('failed');
           }
         })();
@@ -558,6 +578,7 @@ export default function SaunaScene({
         const seenPosition = new THREE.Vector3();
         const seenQuaternion = new THREE.Quaternion();
         renderer.setAnimationLoop((now) => {
+          if (disposed || failed) return;
           if (document.hidden || warming) {
             metrics.pause();
             return;
@@ -584,7 +605,11 @@ export default function SaunaScene({
           setData('timeOfDay', lighting.time.toFixed(3));
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);
           waterEffects.update(now / 1000, reducedMotion.matches);
-          recordRenderInfo(draw());
+          try {
+            recordRenderInfo(draw());
+          } catch {
+            return fail();
+          }
           setData('textures', String(renderer.info.memory.textures));
           setData('geometries', String(renderer.info.memory.geometries));
         });

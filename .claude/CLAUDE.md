@@ -51,9 +51,9 @@
 
 - `?view=3d` または「表示設定」内の「3Dを試す」で有効化。時間帯・画質・素材クレジットも同じメニューにまとめる。メニューは Escape・外側のポインタ操作・ステージ変更で閉じる。`?view=2d` は保存済みの選択を上書きする。選択は `sui-view-mode` に保存し、未選択時は2D。
 - `SceneMode` は表示設定・ロード状態を管理し、セッションを作り直さない。render propで同じモード状態・切替操作と表示設定メニューを渡し、入室画面の2D／3Dの切り替えと `.app-toolbar` で使う（render propなしでは自分でメニューを描画する）。選択だけでは3Dを取得せず、入室後に読み込む。サウナ・水風呂・外気浴の3ステージに対応し、ステージ変更時はモデルと描画ループを保持して視点だけを更新する。
-- Three.js 0.186.0を直接ラップした `src/components/3d/SaunaScene.tsx` は `React.lazy` で遅延ロードする。3D専用チャンクは通常の2D利用時に取得しない。庭の木々は別GLB（`public/models/sauna-garden.glb`）で、本体で準備完了にした後に読み込む。失敗しても3Dは続ける。
+- Three.js 0.186.0を直接ラップした `src/components/3d/SaunaScene.tsx` は `React.lazy` で遅延ロードする。3D専用チャンクは通常の2D利用時に取得しない。庭の木々は別GLB（`public/models/sauna-garden.glb`）で、本体で準備完了にした後に読み込む。通信・解析に失敗しても3Dは続ける。材質のシェーダーリンク失敗は不完全な描画を続けず2Dへ戻る。
 - `App` が所有する `EventTarget` に `SaunaRoom.onLoyly` から押下を通知。音は従来の `audio.playLoyly()` で一度だけ再生。3Dはロード完了後の通知だけを消費し、過去の通知は保存しない。
-- 見回しはPointer Events／矢印キー。3DはUI外で入力を受け、UI復帰・モード切り替えは常に残す。モデル失敗・30秒タイムアウト・WebGLコンテキスト喪失時は3Dを解放し2D表示を継続。
+- 見回しはPointer Events／矢印キー。3DはUI外で入力を受け、UI復帰・モード切り替えは常に残す。モデル失敗・30秒タイムアウト・WebGLコンテキスト喪失・シェーダーリンク失敗時は3Dを解放し2D表示を継続。
 - Blender元データは `blender/` に置くがGit管理外。元blendは加工済みで、上書き保存するスクリプトがある（実行前に複製する。各加工と加工前の版は `scripts/CLAUDE.md`）。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`、書き出しレポート（配信しない）は `docs/3d-export/`。QA記録 `docs/3d-qa/` はREADME・JSONのみGit管理し、画像（jpg/png）はローカルに置く（履歴の肥大を避けるため）。入力を保存しない。再実行方法・未完了事項は `docs/3d-sauna-progress.md`。
 - `bunx tsc -b` / `bun run test` / `bun run lint` / `bun run format:check` / `bun run build` を検証する。ESLintはTS/TSXも対象（react-hooks・react-refreshルールを含む）。既存テストの段階的移行のため `no-explicit-any` は無効。
 - 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual` / `:network`）は `e2e/CLAUDE.md`。3D表示の失敗・読み込み期限・外気浴背景の契約は `src/components/CLAUDE.md`。

@@ -18,6 +18,7 @@ vi.mock('three', async (importOriginal) => {
     WebGLRenderer: class {
       domElement = document.createElement('canvas');
       shadowMap = {};
+      debug = { onShaderError: null as null | (() => void) };
       info = { render: { triangles: 0, calls: 0 }, memory: { textures: 0, geometries: 0 } };
       // No half-float color buffers: materials tone map themselves.
       extensions = { has: () => false };
@@ -75,7 +76,7 @@ function model() {
   scene.add(new THREE.Mesh(geometry, material));
   return { scene, disposals: [geometry, texture, material].map((resource) => vi.spyOn(resource, 'dispose')) };
 }
-function mountScene(props: Partial<Pick<SceneProps, 'lightingMode' | 'enteredAt' | 'quality'>> = {}) {
+function mountScene(props: Partial<Pick<SceneProps, 'lightingMode' | 'enteredAt' | 'quality' | 'stage'>> = {}) {
   const audio = { setSpatialPose: vi.fn() } as unknown as AudioEngine;
   const onReady = vi.fn();
   const onError = vi.fn();
@@ -149,6 +150,75 @@ afterEach(() => {
 });
 
 describe('3D scene load and teardown', () => {
+  it('rejects a failed shader on the first draw before publishing ready or fetching the garden', async () => {
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene();
+    const renderer = mocks.renderers[0];
+    renderer.render.mockImplementation(() => renderer.debug.onShaderError());
+    await flush();
+    expect(view.onError).toHaveBeenCalledTimes(1);
+    expect(view.onReady).not.toHaveBeenCalled();
+    expect(mocks.garden).not.toHaveBeenCalled();
+    expect(renderer.setAnimationLoop).toHaveBeenLastCalledWith(null);
+  });
+
+  it('falls back if garden shader compilation fails after the body became ready', async () => {
+    mocks.parse.mockResolvedValue(model());
+    mocks.garden.mockResolvedValue({ ok: true, arrayBuffer: async () => new ArrayBuffer(0) });
+    const view = mountScene();
+    const renderer = mocks.renderers[0];
+    renderer.compileAsync
+      .mockImplementationOnce(async () => {})
+      .mockImplementationOnce(async () => {
+        renderer.debug.onShaderError();
+      });
+    await flush();
+    expect(view.onReady).toHaveBeenCalledTimes(1);
+    expect(view.onError).toHaveBeenCalledTimes(1);
+    expect(renderer.setAnimationLoop).toHaveBeenLastCalledWith(null);
+  });
+
+  it('falls back if switching stage needs a shader that fails on its first draw', async () => {
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene();
+    await flush();
+    const renderer = mocks.renderers[0];
+    renderer.render.mockImplementation(() => renderer.debug.onShaderError());
+    view.update({ stage: 'water' });
+    await flush();
+    expect(view.onError).toHaveBeenCalledTimes(1);
+    expect(renderer.setAnimationLoop).toHaveBeenLastCalledWith(null);
+  });
+
+  it('handles synchronous quality compilation failure without reviving the scene', async () => {
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene();
+    await flush();
+    const renderer = mocks.renderers[0];
+    renderer.compileAsync.mockImplementation(() => renderer.debug.onShaderError());
+    view.update({ quality: 'low' });
+    await flush();
+    expect(view.onError).toHaveBeenCalledTimes(1);
+    expect(renderer.setAnimationLoop).toHaveBeenLastCalledWith(null);
+  });
+
+  it('stops a ready scene once if a later draw fails and ignores stale frame callbacks', async () => {
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene();
+    await flush();
+    expect(view.onReady).toHaveBeenCalledTimes(1);
+    const renderer = mocks.renderers[0];
+    const frame = renderer.setAnimationLoop.mock.calls.at(-1)[0];
+    renderer.render.mockImplementation(() => renderer.debug.onShaderError());
+    await act(async () => frame(1000));
+    const draws = renderer.render.mock.calls.length;
+    await act(async () => frame(2000));
+    expect(renderer.render).toHaveBeenCalledTimes(draws);
+    expect(view.onError).toHaveBeenCalledTimes(1);
+    expect(renderer.setAnimationLoop).toHaveBeenLastCalledWith(null);
+    expect(view.audio.setSpatialPose).toHaveBeenLastCalledWith(null);
+  });
+
   it.each(['pointerup', 'pointercancel', 'lostpointercapture'])(
     'keeps dragging when a second pointer emits %s',
     async (ending) => {

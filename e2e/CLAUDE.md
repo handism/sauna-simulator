@@ -47,3 +47,7 @@
 - 自動照明動画は `MOTION_QUALITY=high` で高画質を入室前に保存し、本体／庭の準備から同じ画質で検査できる（既定はstandard）。集計に `--quality high` を渡す。添付と全標本の画質不一致を拒否する。通常品質の既存記録を再集計する場合は、全標本にqualityがあることを確認する。
 
 - `MOTION_SCOPE=sauna` はサウナ室に留まって昼→夕暮れと夕暮れ→夜を各195秒記録する。既定の `outdoor` は水風呂・外気浴の既存2経路。集計には `--scope sauna` を渡し、経路の混入・欠落を拒否する。
+
+- `MOTION_SCOPE=all MOTION_LOOK=surround` は3ステージ×昼夕／夕夜を各195秒記録し、20〜170秒の150秒で水平360度・俯仰約±23度の実ポインター入力を行う。集計に `--scope all --look surround` を渡すと途中入力の欠落・時間・総移動・上下幅も検査する。全俯仰・性能・実機承認ではない。
+- `mirror-steps.visual.ts` / `playwright.mirror.config.ts` は製品の0.002鏡像キーと連続更新の診断応答を制御60HzでABBA比較する。材質バンドルの置換対象が正確に1箇所であることを要求し、配信物は変えない。`summarize_mirror_steps.py` がPNG・時刻・入力・同方式再撮影差を検査する。実時間の知覚的ちらつき合否は別範囲。
+- `scene-shader.e2e.ts` は実WebGL2のfragment shaderに故障を挿入し、初回／準備後の低画質切替 × 通常／splitで2D復帰・セッション維持・手動再試行を確認する。標準→高画質では同じプログラムを再利用するため故障条件に使わない。`playwright.webkit.config.ts` はこの4件と通常ライフサイクル5件をWebKitで実行する。実Safariではない。`playwright.firefox.config.ts` は通常ライフサイクル5件用、起動障害の記録は `docs/3d-qa/firefox-launch-20261010/`。

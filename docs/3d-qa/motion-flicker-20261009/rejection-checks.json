@@ -1,0 +1,27 @@
+[
+  {
+    "mutation": "skip",
+    "rejected": true,
+    "reason": "ValueError: Incomplete or failed run"
+  },
+  {
+    "mutation": "engine",
+    "rejected": true,
+    "reason": "ValueError: Unexpected browser/error/patch count"
+  },
+  {
+    "mutation": "quality",
+    "rejected": true,
+    "reason": "ValueError: Capture state mismatch"
+  },
+  {
+    "mutation": "missing-frame",
+    "rejected": true,
+    "reason": "ValueError: Incomplete or reordered frames"
+  },
+  {
+    "mutation": "input-hash",
+    "rejected": true,
+    "reason": "ValueError: Input drift: src/components/3d/SaunaScene.tsx"
+  }
+]

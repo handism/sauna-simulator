@@ -17,17 +17,24 @@ const quality = process.env.MOTION_QUALITY ?? 'standard';
 if (quality !== 'standard' && quality !== 'high') throw Error('Invalid MOTION_QUALITY');
 
 const scope = process.env.MOTION_SCOPE ?? 'outdoor';
-if (scope !== 'outdoor' && scope !== 'sauna') throw Error('Invalid MOTION_SCOPE');
+if (!['outdoor', 'sauna', 'all'].includes(scope)) throw Error('Invalid MOTION_SCOPE');
+const look = process.env.MOTION_LOOK ?? 'sweep';
+if (!['sweep', 'surround'].includes(look)) throw Error('Invalid MOTION_LOOK');
 const conditions =
-  scope === 'sauna'
-    ? ([
-        { stage: 'sauna', minute: 12, from: 0 },
-        { stage: 'sauna', minute: 27, from: 1 },
-      ] as const)
-    : ([
-        { stage: 'water', minute: 12, from: 0 },
-        { stage: 'totonou', minute: 27, from: 1 },
-      ] as const);
+  scope === 'all'
+    ? (['sauna', 'water', 'totonou'] as const).flatMap((stage) => [
+        { stage, minute: 12, from: 0 },
+        { stage, minute: 27, from: 1 },
+      ])
+    : scope === 'sauna'
+      ? ([
+          { stage: 'sauna', minute: 12, from: 0 },
+          { stage: 'sauna', minute: 27, from: 1 },
+        ] as const)
+      : ([
+          { stage: 'water', minute: 12, from: 0 },
+          { stage: 'totonou', minute: 27, from: 1 },
+        ] as const);
 
 // Skip only the initial 12/27 minute hold. Once recording the transition, Date.now,
 // rAF, timers and water animation all advance at their real rate. Video encoding
@@ -113,6 +120,11 @@ for (const { stage, minute, from } of conditions) {
 
     const samples: { seconds: number; wallMs: number; time: number; data: Record<string, string> }[] = [];
     let dragging = false;
+    let pointerX = 300;
+    let pointerY = 400;
+    let totalX = 0;
+    let previousProgress = 0;
+    const looks: { seconds: number; progress: number; totalX: number; pitchOffset: number }[] = [];
     let nextSample = 0;
     // Two slow ±0.5 rad sweeps, returning exactly to the original view. Static
     // sections expose reflection updates without camera-induced image changes.
@@ -122,14 +134,35 @@ for (const { stage, minute, from } of conditions) {
       );
       const sweep =
         seconds >= 50 && seconds < 70 ? seconds - 50 : seconds >= 110 && seconds < 130 ? seconds - 110 : null;
-      if (sweep !== null) {
+      if (look === 'surround' && seconds >= 20 && previousProgress < 1) {
+        const progress = Math.min(1, (seconds - 20) / 150);
+        const dx = ((progress - previousProgress) * Math.PI * 2) / 0.004;
+        const y = 400 + 100 * Math.sin(progress * Math.PI * 4);
+        if (!dragging || pointerX + dx > 1050) {
+          if (dragging) await page.mouse.up();
+          pointerX = 300;
+          await page.mouse.move(pointerX, pointerY);
+          await page.mouse.down();
+          dragging = true;
+        }
+        pointerX += dx;
+        totalX += dx;
+        await page.mouse.move(pointerX, y);
+        pointerY = y;
+        previousProgress = progress;
+        looks.push({ seconds, progress, totalX, pitchOffset: -(y - 400) * 0.004 });
+        if (progress === 1) {
+          await page.mouse.up();
+          dragging = false;
+        }
+      } else if (look === 'sweep' && sweep !== null) {
         if (!dragging) {
           await page.mouse.move(640, 400);
           await page.mouse.down();
           dragging = true;
         }
         await page.mouse.move(640 + 125 * Math.sin((sweep / 20) * Math.PI * 2), 400);
-      } else if (dragging) {
+      } else if (look === 'sweep' && dragging) {
         await page.mouse.move(640, 400);
         await page.mouse.up();
         dragging = false;
@@ -162,15 +195,20 @@ for (const { stage, minute, from } of conditions) {
           quality,
           warmup,
           scope,
+          look,
+          looks,
           hashes,
           stage,
           minute,
           recordingStart,
           durationSeconds: 195,
-          sweeps: [
-            [50, 70],
-            [110, 130],
-          ],
+          sweeps:
+            look === 'surround'
+              ? [[20, 170]]
+              : [
+                  [50, 70],
+                  [110, 130],
+                ],
           samples,
           errors,
         },
@@ -179,6 +217,12 @@ for (const { stage, minute, from } of conditions) {
       ),
     });
     expect(samples.length).toBeGreaterThan(170);
+    if (look === 'surround') {
+      expect(previousProgress).toBe(1);
+      expect(totalX * 0.004).toBeCloseTo(Math.PI * 2, 6);
+      expect(Math.max(...looks.map((s) => s.pitchOffset))).toBeGreaterThan(0.39);
+      expect(Math.min(...looks.map((s) => s.pitchOffset))).toBeLessThan(-0.39);
+    }
     for (let index = 0; index < samples.length; index++) {
       const sample = samples[index];
       const target = from + Math.min(1, sample.seconds / 180);

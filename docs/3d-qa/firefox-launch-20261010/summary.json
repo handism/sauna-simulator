@@ -1,0 +1,19 @@
+{
+  "browser": "Playwright Firefox Nightly 155.0 build 15526.9.2",
+  "stats": {
+    "startTime": "2026-10-10T03:42:52.620Z",
+    "duration": 3145.944,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  },
+  "reportSha256": "95acd73413e2c9b9fa3118c4f4d66ba2e64458028f1047b77c23a5e554bc3ed9",
+  "result": "blocked before page creation",
+  "attempts": [
+    "default OS temporary profile: Could not find profile folder",
+    "TMPDIR=/private/tmp: Could not find profile folder",
+    "persistent /private/tmp/sauna-firefox-profile (directory exists, mode 0700): Could not find profile folder"
+  ],
+  "limits": "No Firefox page, WebGL, product lifecycle or shader fallback validation succeeded."
+}

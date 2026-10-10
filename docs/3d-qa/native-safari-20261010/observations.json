@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-10 JST",
+  "method": "Manual native Safari UI and developer console through cua_repl; observations transcribed from visible AX and screenshots, not a Playwright run",
+  "browser": "Safari 27.0.1 (22625.1.29.11.28)",
+  "os": "macOS 27.0.1",
+  "hardware": {
+    "model": "Mac Studio Mac13,1",
+    "chip": "Apple M1 Max",
+    "gpuCores": 24,
+    "memoryGB": 32
+  },
+  "sourceSha256": "c8e9aa1959895bc867f3fb21c759f2fadd40c2569a431df3f39d1ee29695ed51",
+  "bundle": {
+    "file": "dist/assets/SaunaScene-DeWFd84f.js",
+    "sha256": "773c4e503f13dbf97aec96037ed3a59875d8784d47079ae2c06328b4c5fcfa85"
+  },
+  "inspectorOpenViewport": {
+    "width": 1723,
+    "height": 827,
+    "devicePixelRatio": 1
+  },
+  "observations": [
+    {
+      "scope": "2D before product fix",
+      "result": "mute entry, sauna→water→totonou→sauna (second set), U hide/show, mute popup passed"
+    },
+    {
+      "scope": "3D before product fix",
+      "result": "Scene displayed, but initial load produced shader link errors; not accepted as a clean pass",
+      "errorPrefix": "Internal error while linking shader. MSL compilation error",
+      "fullCauseRetrieved": false,
+      "retryNonemptyProgramLogs": 0
+    },
+    {
+      "scope": "3D after product fix, before synthetic fault",
+      "quality": "high",
+      "warmup": "split",
+      "temporal": "on",
+      "garden": "ready",
+      "warmupUndrawn": "0",
+      "gardenWarmupUndrawn": "0",
+      "stages": [
+        "sauna",
+        "water",
+        "totonou"
+      ],
+      "result": "display, drag, U hide/show, muted popup passed",
+      "nonemptyProgramLogs": 0,
+      "pageErrors": 0
+    },
+    {
+      "scope": "actual WEBGL_lose_context after product fix",
+      "extensionSupported": true,
+      "result": "2D fallback text, external-rest stage and session preserved; explicit 2D→3D retry successful",
+      "retryNonemptyProgramLogs": 0,
+      "pageErrors": 0,
+      "expectedConsoleWarning": "WEBGL_lose_context extension not supported during teardown of already lost context"
+    },
+    {
+      "scope": "actual fragment shader syntax fault after product fix",
+      "trigger": "high→low quality while armed",
+      "injectedShaderSources": 36,
+      "nonemptyProgramLogs": 1,
+      "programLog": "Fragment shader is not compiled.",
+      "pageErrors": 0,
+      "canvasCountAfterFailure": 0,
+      "result": "2D fallback visible; fault disarmed; explicit 2D→3D retry successful",
+      "finalQuality": "low",
+      "finalGarden": "ready",
+      "finalStage": "totonou",
+      "finalMuted": "true",
+      "finalNonemptyProgramLogs": 1,
+      "finalPageErrors": 0
+    }
+  ],
+  "limits": [
+    "Native manual subset, not all lighting/quality/viewport/driver conditions",
+    "Initial natural shader failure root cause not identified or declared repaired",
+    "No native Safari motion video, FPS/GPU total memory, audio listening, mobile, Windows or non-HDR-device approval",
+    "Screenshots and AX evidence are in the tool transcript; no native screenshot file was exported",
+    "Only created test tabs closed; original Start Page retained; temporary server stopped"
+  ]
+}

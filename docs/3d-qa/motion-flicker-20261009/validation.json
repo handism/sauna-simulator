@@ -1,0 +1,27 @@
+{
+  "hardware": {
+    "model": "Mac Studio (Mac13,1)",
+    "chip": "Apple M1 Max",
+    "gpuCores": 24,
+    "memoryGB": 32
+  },
+  "videoFrameCount": 40804,
+  "pngTests": {
+    "chromium": 8,
+    "webkit": 8
+  },
+  "pngFrameCount": 976,
+  "rejections": {
+    "videoUnitTests": 4,
+    "pngReportMutations": 5
+  },
+  "records": {
+    "docs/3d-qa/mirror-steps-chrome/summary.json": "2d49a6a65d92bf48a1bad1c356a6adf103fcee4275d0eb557574486873327db4",
+    "docs/3d-qa/mirror-steps-webkit/summary.json": "ea0d1b024018501664444fbc156638e8c56183c81ab6ac0702f8c20946c50f8c",
+    "docs/3d-qa/warmup-auto-motion-webkit-high/frames.json": "c6c52aa992c406991d2c3072775cf7cd2c4386de9a7310007eb10cf003c86a3f",
+    "docs/3d-qa/warmup-sauna-motion-high/frames.json": "e6a466ce2c787ce0b77ba1777e8f8be900f73fdf15ab8fb592e2f8be9b76155d",
+    "docs/3d-qa/warmup-sauna-motion-webkit-high/frames.json": "2f52ea3f60b03a827137c367a795b2c2c39037a22e65c3ab12a4d1dffff4bd07",
+    "docs/3d-qa/warmup-auto-motion-high/frames.json": "32a9cbc6c73d0db5eb557701adbfd92aa0f9c59caeda57de85e1b13469f32b16"
+  },
+  "limits": "Video and controlled PNG diagnostics only; no performance, total GPU memory or perceptual flicker approval."
+}

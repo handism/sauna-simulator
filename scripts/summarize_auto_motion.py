@@ -7,6 +7,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 from pathlib import Path
 import shutil
 import subprocess
@@ -20,6 +21,21 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def validate_surround(looks):
+    if len(looks) < 76 or not 20 <= looks[0]['seconds'] < 22 or not 170 <= looks[-1]['seconds'] < 172:
+        raise ValueError('Incomplete surround input duration')
+    if looks[-1]['progress'] != 1 or abs(looks[-1]['totalX'] * 0.004 - 2 * math.pi) > 1e-6:
+        raise ValueError('Incomplete surround input')
+    for sample in looks:
+        if abs(sample['totalX'] * 0.004 - sample['progress'] * 2 * math.pi) > 1e-6:
+            raise ValueError('Inconsistent surround input')
+    for a, b in zip(looks, looks[1:]):
+        if not 0 < b['seconds'] - a['seconds'] < 2 or b['progress'] < a['progress']:
+            raise ValueError('Missing or reordered surround input')
+    if max(s['pitchOffset'] for s in looks) < 0.39 or min(s['pitchOffset'] for s in looks) > -0.39:
+        raise ValueError('Incomplete vertical input')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('report', type=Path)
@@ -27,7 +43,8 @@ def main():
     parser.add_argument('--warmup', choices=['normal', 'split'], default='normal')
     parser.add_argument('--browser', choices=['chromium', 'webkit'])
     parser.add_argument('--quality', choices=['standard', 'high'], default='standard')
-    parser.add_argument('--scope', choices=['outdoor', 'sauna'], default='outdoor')
+    parser.add_argument('--scope', choices=['outdoor', 'sauna', 'all'], default='outdoor')
+    parser.add_argument('--look', choices=['sweep', 'surround'], default='sweep')
     args = parser.parse_args()
     raw = args.report.read_text()
     report = json.loads(raw[raw.index('\n{') + 1:] if not raw.startswith('{') else raw)
@@ -45,6 +62,10 @@ def main():
         run = json.loads(base64.b64decode(data[0]['body']))
         if run.get('scope', 'outdoor') != args.scope:
             raise SystemExit('Unexpected motion scope')
+        if run.get('look', 'sweep') != args.look:
+            raise SystemExit('Unexpected look pattern')
+        if args.look == 'surround':
+            validate_surround(run.get('looks', []))
         if args.browser and run.get('browserName') != args.browser:
             raise SystemExit('Unexpected browser engine')
         if run.get('warmup', 'normal') != args.warmup:
@@ -65,14 +86,16 @@ def main():
             if sha(path) != digest:
                 raise SystemExit(f'Input changed since recording: {path}')
         runs.append((run, Path(video[0]['path'])))
-    expected = [('sauna', 12), ('sauna', 27)] if args.scope == 'sauna' else [('totonou', 27), ('water', 12)]
+    expected = (sorted((stage, minute) for stage in ['sauna', 'water', 'totonou'] for minute in [12, 27])
+                if args.scope == 'all' else [('sauna', 12), ('sauna', 27)] if args.scope == 'sauna'
+                else [('totonou', 27), ('water', 12)])
     if sorted((r['stage'], r['minute']) for r, _ in runs) != expected:
         raise SystemExit('Missing or duplicate condition')
     for key in ['hashes', 'browser', 'browserName', 'viewport', 'quality']:
-        if runs[0][0].get(key) != runs[1][0].get(key):
+        if any(run.get(key) != runs[0][0].get(key) for run, _ in runs):
             raise SystemExit(f'Mismatched {key}')
     args.output.mkdir(parents=True, exist_ok=True)
-    summary = dict(scope=args.scope, warmup=args.warmup, reportSha256=sha(args.report), startedAt=report['stats']['startTime'],
+    summary = dict(scope=args.scope, look=args.look, warmup=args.warmup, reportSha256=sha(args.report), startedAt=report['stats']['startTime'],
                    testDurationSeconds=report['stats']['duration'] / 1000,
                    limits='Video encoding is overhead. Extracted frames are a partial review, not continuous perceptual or FPS approval.',
                    runs=[])
@@ -111,6 +134,7 @@ def main():
         start = 0 if run['minute'] == 12 else 1
         summary['runs'].append(dict(
             stage=run['stage'], minute=run['minute'], browser=run['browser'], quality=run['quality'],
+            look=run.get('look', 'sweep'),
             browserName=run.get('browserName'),
             viewport=run['viewport'], hashes=run['hashes'], samples=len(samples),
             observedSeconds=samples[-1]['seconds'], timeRange=[samples[0]['time'], samples[-1]['time']],
