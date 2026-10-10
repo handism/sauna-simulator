@@ -41,6 +41,14 @@ def validate_surround(looks, full_pitch=False):
         raise ValueError('Incomplete vertical input')
 
 
+def validate_conditions(conditions, scope):
+    expected = (sorted((stage, minute) for stage in ['sauna', 'water', 'totonou'] for minute in [12, 27])
+                if scope == 'all' else [('sauna', 12), ('sauna', 27)] if scope == 'sauna'
+                else [('totonou', 12), ('water', 27)] if scope == 'outdoor-reverse'
+                else [('totonou', 27), ('water', 12)])
+    if sorted(conditions) != expected:
+        raise ValueError('Missing or duplicate condition')
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('report', type=Path)
@@ -48,7 +56,7 @@ def main():
     parser.add_argument('--warmup', choices=['normal', 'split'], default='normal')
     parser.add_argument('--browser', choices=['chromium', 'webkit'])
     parser.add_argument('--quality', choices=['standard', 'high'], default='standard')
-    parser.add_argument('--scope', choices=['outdoor', 'sauna', 'all'], default='outdoor')
+    parser.add_argument('--scope', choices=['outdoor', 'outdoor-reverse', 'sauna', 'all'], default='outdoor')
     parser.add_argument('--look', choices=['sweep', 'surround', 'full-pitch'], default='sweep')
     args = parser.parse_args()
     raw = args.report.read_text()
@@ -91,11 +99,7 @@ def main():
             if sha(path) != digest:
                 raise SystemExit(f'Input changed since recording: {path}')
         runs.append((run, Path(video[0]['path'])))
-    expected = (sorted((stage, minute) for stage in ['sauna', 'water', 'totonou'] for minute in [12, 27])
-                if args.scope == 'all' else [('sauna', 12), ('sauna', 27)] if args.scope == 'sauna'
-                else [('totonou', 27), ('water', 12)])
-    if sorted((r['stage'], r['minute']) for r, _ in runs) != expected:
-        raise SystemExit('Missing or duplicate condition')
+    validate_conditions([(r['stage'], r['minute']) for r, _ in runs], args.scope)
     for key in ['hashes', 'browser', 'browserName', 'viewport', 'quality']:
         if any(run.get(key) != runs[0][0].get(key) for run, _ in runs):
             raise SystemExit(f'Mismatched {key}')

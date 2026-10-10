@@ -2,7 +2,7 @@ import copy
 import math
 import unittest
 
-from summarize_auto_motion import validate_surround
+from summarize_auto_motion import validate_surround, validate_conditions
 
 
 class SurroundValidationTests(unittest.TestCase):
@@ -11,6 +11,15 @@ class SurroundValidationTests(unittest.TestCase):
                        'totalX': frame / 150 * 2 * math.pi / .004,
                        'pitchOffset': -.4 * math.sin(frame / 150 * math.pi * 4)}
                       for frame in range(151)]
+
+    def test_reverse_conditions_reject_previous_or_duplicate_routes(self):
+        validate_conditions([('water', 27), ('totonou', 12)], 'outdoor-reverse')
+        for conditions in [[('water', 12), ('totonou', 27)],
+                           [('water', 27), ('water', 27)], [('water', 27)]]:
+            with self.assertRaisesRegex(ValueError, 'Missing or duplicate'):
+                validate_conditions(conditions, 'outdoor-reverse')
+        with self.assertRaises(ValueError):
+            validate_conditions([('water', 27), ('totonou', 12)], 'outdoor')
 
     def test_complete_sequence(self):
         validate_surround(self.looks)

@@ -17,7 +17,7 @@ const quality = process.env.MOTION_QUALITY ?? 'standard';
 if (quality !== 'standard' && quality !== 'high') throw Error('Invalid MOTION_QUALITY');
 
 const scope = process.env.MOTION_SCOPE ?? 'outdoor';
-if (!['outdoor', 'sauna', 'all'].includes(scope)) throw Error('Invalid MOTION_SCOPE');
+if (!['outdoor', 'outdoor-reverse', 'sauna', 'all'].includes(scope)) throw Error('Invalid MOTION_SCOPE');
 const look = process.env.MOTION_LOOK ?? 'sweep';
 if (!['sweep', 'surround', 'full-pitch'].includes(look)) throw Error('Invalid MOTION_LOOK');
 const surrounding = look !== 'sweep';
@@ -33,10 +33,15 @@ const conditions =
           { stage: 'sauna', minute: 12, from: 0 },
           { stage: 'sauna', minute: 27, from: 1 },
         ] as const)
-      : ([
-          { stage: 'water', minute: 12, from: 0 },
-          { stage: 'totonou', minute: 27, from: 1 },
-        ] as const);
+      : scope === 'outdoor-reverse'
+        ? ([
+            { stage: 'water', minute: 27, from: 1 },
+            { stage: 'totonou', minute: 12, from: 0 },
+          ] as const)
+        : ([
+            { stage: 'water', minute: 12, from: 0 },
+            { stage: 'totonou', minute: 27, from: 1 },
+          ] as const);
 
 // Skip only the initial 12/27 minute hold. Once recording the transition, Date.now,
 // rAF, timers and water animation all advance at their real rate. Video encoding

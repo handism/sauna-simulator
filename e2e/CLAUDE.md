@@ -53,3 +53,5 @@
 - `scene-shader.e2e.ts` は実WebGL2のfragment shaderに故障を挿入し、初回／準備後の低画質切替 × 通常／splitで2D復帰・セッション維持・手動再試行を確認する。標準→高画質では同じプログラムを再利用するため故障条件に使わない。`playwright.webkit.config.ts` はこの4件と通常ライフサイクル5件をWebKitで実行する。実Safariではない。`playwright.firefox.config.ts` は通常ライフサイクル5件用、起動障害の記録は `docs/3d-qa/firefox-launch-20261010/`。
 
 - `MOTION_LOOK=full-pitch` は `surround` の水平360度入力を維持し、上下入力を±0.86radへ広げる。録画前に下限まで32回ArrowDown、14回ArrowUpで俯仰を約−0.01radへ揃え、製品の±0.85rad制限に触れる入力を行う。集計には `--look full-pitch` を渡す。標本のpitchOffsetは入力から求めた相対量で、カメラ角の実測ではない。3ステージ・全時間帯の完了を個別の室内結果から推定しない。
+
+- `MOTION_SCOPE=outdoor-reverse` は水風呂の夕暮れ→夜と外気浴の昼→夕暮れを各195秒記録する。既存の `outdoor` の反対側2経路。集計に `--scope outdoor-reverse` を渡し、経路の混在・欠落・重複を拒否する。

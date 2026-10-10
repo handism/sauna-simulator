@@ -1,0 +1,22 @@
+{
+  "stats": {
+    "startTime": "2026-10-10T09:59:03.597Z",
+    "duration": 404668.26,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "errors": [],
+  "checks": {
+    "webmMp4FullyDecoded": true,
+    "extractedFramesReviewed": 24,
+    "unitTests": 321,
+    "surroundBoundaryTests": 8,
+    "typecheck": true,
+    "lint": true,
+    "format": true,
+    "build": true
+  },
+  "inspection": "抽出24枚で大きな形状欠落・黒抜けなし。水面のクリーム色の反射像は残る。連続再生の知覚的ちらつきは未判定。"
+}
