@@ -1,0 +1,169 @@
+{
+  "scope": "outdoor",
+  "look": "full-pitch",
+  "warmup": "split",
+  "reportSha256": "c5267ad2745e73e859506d114df028b9f0ed9ba1bd1d13456af533314898b4e9",
+  "startedAt": "2026-10-10T09:16:40.154Z",
+  "testDurationSeconds": 403.984255,
+  "limits": "Video encoding is overhead. Extracted frames are a partial review, not continuous perceptual or FPS approval.",
+  "runs": [
+    {
+      "stage": "water",
+      "minute": 12,
+      "browser": "154.0.8037.98",
+      "quality": "high",
+      "look": "full-pitch",
+      "browserName": "chromium",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/SaunaScene.tsx": "c8e9aa1959895bc867f3fb21c759f2fadd40c2569a431df3f39d1ee29695ed51",
+        "src/components/3d/lighting.ts": "43801bb0664cc82a5c9a5ec21826b3931982cbca6bfb3847d57698b672623f56",
+        "src/components/3d/lookControls.ts": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+        "src/components/3d/sceneWarmup.ts": "04cfa73668c8fdcb4225c7ad1206d52dfd31889fbd7031f7f3db29b287ba9a58",
+        "src/components/3d/warmupPasses.ts": "6185892d64481ee4182e0e290f8c7c6f09d18b60dea32a10532913ac08beeaa8",
+        "src/components/3d/warmupPrograms.ts": "5b45515548735e52f42cb44a50ad899b61ff28643b5d4fb4fc4bcf5e24992c10",
+        "src/components/3d/warmupScheduler.ts": "242f51b5cf4af16b8eed2ed52423711a63b9e1484076d557f8607de5382509e1",
+        "src/components/3d/hdrOutput.ts": "abfe51600a17fdc92dea9e89235c6cc3c8c35f8ff6e91d012fbd95dd9500a30e",
+        "src/components/3d/softShadows.ts": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+        "src/components/3d/planarReflection.ts": "5aed09d2e14cd06c10b921ea42d35a1b31017ca34be7ac43ffc5d8774c717e65",
+        "src/hooks/useSaunaSession.ts": "0f3662cd803e444ff41f2f78ec50531252cd6086a70fcc5e8bf3cc7524ce154c",
+        "e2e/auto-lighting.motion.ts": "d0eeae631f466879462958a52bcbf33c63ff8ff3c5cb8078d87cff9d2a248f50",
+        "playwright.motion.config.ts": "18126eef8e53e44d12a8f2eb31a81b2995de6f694aeb3a59925018ac7b9881dc",
+        "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+        "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+        "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d"
+      },
+      "samples": 186,
+      "observedSeconds": 195.059,
+      "timeRange": [
+        0,
+        1
+      ],
+      "maxTargetDifference": 0.008290555555621748,
+      "maxSampleGapSeconds": 1.121900000035751,
+      "resourceCounts": {
+        "geometries": [
+          "128",
+          "132"
+        ],
+        "textures": [
+          "34"
+        ]
+      },
+      "video": {
+        "file": "water-12.webm",
+        "sha256": "d835b94f6a2a7a6319f210e770f4bc66b5540c87912b518fdddb27cef8e2600b",
+        "durationSeconds": 201.04,
+        "codec": "vp8",
+        "encodedFrameRate": "25/1",
+        "bytes": 25012004,
+        "decoded": true
+      },
+      "sheetTimesSeconds": [
+        8.376666666666667,
+        25.13,
+        41.88333333333333,
+        58.63666666666666,
+        75.39,
+        92.14333333333333,
+        108.89666666666666,
+        125.64999999999999,
+        142.40333333333334,
+        159.15666666666667,
+        175.91,
+        192.66333333333333
+      ],
+      "errors": [],
+      "mp4": {
+        "file": "water-12.mp4",
+        "sha256": "ef7282b6e18f369a9856d382800bef6c4bbfaed4d132aad089fec52b865209a1",
+        "bytes": 79200915,
+        "decoded": true
+      }
+    },
+    {
+      "stage": "totonou",
+      "minute": 27,
+      "browser": "154.0.8037.98",
+      "quality": "high",
+      "look": "full-pitch",
+      "browserName": "chromium",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "hashes": {
+        "src/components/3d/SaunaScene.tsx": "c8e9aa1959895bc867f3fb21c759f2fadd40c2569a431df3f39d1ee29695ed51",
+        "src/components/3d/lighting.ts": "43801bb0664cc82a5c9a5ec21826b3931982cbca6bfb3847d57698b672623f56",
+        "src/components/3d/lookControls.ts": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+        "src/components/3d/sceneWarmup.ts": "04cfa73668c8fdcb4225c7ad1206d52dfd31889fbd7031f7f3db29b287ba9a58",
+        "src/components/3d/warmupPasses.ts": "6185892d64481ee4182e0e290f8c7c6f09d18b60dea32a10532913ac08beeaa8",
+        "src/components/3d/warmupPrograms.ts": "5b45515548735e52f42cb44a50ad899b61ff28643b5d4fb4fc4bcf5e24992c10",
+        "src/components/3d/warmupScheduler.ts": "242f51b5cf4af16b8eed2ed52423711a63b9e1484076d557f8607de5382509e1",
+        "src/components/3d/hdrOutput.ts": "abfe51600a17fdc92dea9e89235c6cc3c8c35f8ff6e91d012fbd95dd9500a30e",
+        "src/components/3d/softShadows.ts": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+        "src/components/3d/planarReflection.ts": "5aed09d2e14cd06c10b921ea42d35a1b31017ca34be7ac43ffc5d8774c717e65",
+        "src/hooks/useSaunaSession.ts": "0f3662cd803e444ff41f2f78ec50531252cd6086a70fcc5e8bf3cc7524ce154c",
+        "e2e/auto-lighting.motion.ts": "d0eeae631f466879462958a52bcbf33c63ff8ff3c5cb8078d87cff9d2a248f50",
+        "playwright.motion.config.ts": "18126eef8e53e44d12a8f2eb31a81b2995de6f694aeb3a59925018ac7b9881dc",
+        "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+        "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+        "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d"
+      },
+      "samples": 186,
+      "observedSeconds": 195.02459999996424,
+      "timeRange": [
+        1,
+        2
+      ],
+      "maxTargetDifference": 0.00830611111091234,
+      "maxSampleGapSeconds": 1.1149000000357674,
+      "resourceCounts": {
+        "geometries": [
+          "128",
+          "132"
+        ],
+        "textures": [
+          "34"
+        ]
+      },
+      "video": {
+        "file": "totonou-27.webm",
+        "sha256": "1f7a0187294de0a85eadfc9fea5ceabfd3cbfe0155ae3117302aeba7f1f65448",
+        "durationSeconds": 202.48,
+        "codec": "vp8",
+        "encodedFrameRate": "25/1",
+        "bytes": 21401155,
+        "decoded": true
+      },
+      "sheetTimesSeconds": [
+        8.436666666666666,
+        25.31,
+        42.18333333333333,
+        59.056666666666665,
+        75.92999999999999,
+        92.80333333333333,
+        109.67666666666666,
+        126.55,
+        143.42333333333332,
+        160.29666666666665,
+        177.17,
+        194.04333333333332
+      ],
+      "errors": [],
+      "mp4": {
+        "file": "totonou-27.mp4",
+        "sha256": "840a209785825d10861e564343713eb7e9a71edaffb062559f75cbf259e06707",
+        "bytes": 63705580,
+        "decoded": true
+      }
+    }
+  ]
+}
