@@ -55,3 +55,5 @@
 - `MOTION_LOOK=full-pitch` は `surround` の水平360度入力を維持し、上下入力を±0.86radへ広げる。録画前に下限まで32回ArrowDown、14回ArrowUpで俯仰を約−0.01radへ揃え、製品の±0.85rad制限に触れる入力を行う。集計には `--look full-pitch` を渡す。標本のpitchOffsetは入力から求めた相対量で、カメラ角の実測ではない。3ステージ・全時間帯の完了を個別の室内結果から推定しない。
 
 - `MOTION_SCOPE=outdoor-reverse` は水風呂の夕暮れ→夜と外気浴の昼→夕暮れを各195秒記録する。既存の `outdoor` の反対側2経路。集計に `--scope outdoor-reverse` を渡し、経路の混在・欠落・重複を拒否する。
+
+- 全周静止画比較は `SURROUND_QUALITY=high` で入室前から高画質にできる（既定standard）。集計に `--quality high` を渡し、添付と全視点の画質一致を要求する。3ステージ×昼夕夜×8方向×上下限／水平の216視点をABBAで撮る。上下限は±0.85rad、水平は0.8rad間隔であり、連続する全角度の網羅・実時間のちらつき判定ではない。

@@ -1,14 +1,19 @@
 """Validate warmup ABBA full-surround captures, including replay noise."""
+import argparse
 import base64
 import hashlib
 import json
-import sys
 from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageDraw
 
-report_path, output = map(Path, sys.argv[1:])
+parser = argparse.ArgumentParser()
+parser.add_argument('report', type=Path)
+parser.add_argument('output', type=Path)
+parser.add_argument('--quality', choices=['standard', 'high'], default='standard')
+args = parser.parse_args()
+report_path, output = args.report, args.output
 raw = report_path.read_text()
 report = json.loads(raw[raw.index('\n{') + 1:] if not raw.startswith('{') else raw)
 assert not report['errors']
@@ -36,7 +41,7 @@ def visit(suites):
                 assert meta['index'] == index
                 assert meta['variant'] == ['normal', 'split', 'split', 'normal'][index]
                 assert meta['requests'] == 1 and not meta['errors']
-                assert meta['quality'] == 'standard' and meta['dpr'] == 1 and meta['reducedMotion']
+                assert meta['quality'] == args.quality and meta['dpr'] == 1 and meta['reducedMotion']
                 assert meta['viewport'] == {'width': 1200, 'height': 800}
                 assert [(r['stage'], r['lighting'], r['heading'], r['pitch']) for r in meta['rows']] == expected
                 images = [a for a in attachments if a['contentType'] == 'image/png']
@@ -55,7 +60,7 @@ def visit(suites):
                     (directory / f'{name}.png').write_bytes(data)
                     metrics = row['metrics']
                     assert metrics['stage'] == row['stage'] and metrics['lighting'] == row['lighting']
-                    assert metrics['garden'] == 'ready' and metrics['quality'] == 'standard'
+                    assert metrics['garden'] == 'ready' and metrics['quality'] == args.quality
                     assert float(metrics['pixelRatio']) == 1
                     if meta['variant'] == 'split':
                         assert metrics['warmup'] == 'split' and metrics['warming'] == 'none'
@@ -107,7 +112,8 @@ for stage in ['sauna', 'water', 'totonou']:
 summary = {'reportSha256': hashlib.sha256(report_path.read_bytes()).hexdigest(), 'browser': runs[0]['browser'], 'stats': report['stats'],
            'inputHashes': runs[0]['inputHashes'], 'runs': runs, 'comparisons': comparisons,
            'scriptSha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-           'note': 'Static standard-quality/DPR1 ABBA survey, 216 views per run. Replay differences are separate. No real-motion, shadow-update/load-cost, driver-memory or mobile approval.'}
+           'quality': args.quality,
+           'note': f'Static {args.quality}-quality/DPR1 ABBA survey, 216 views per run. Replay differences are separate. No real-motion, shadow-update/load-cost, driver-memory or mobile approval.'}
 output.write_text(json.dumps(summary, indent=2) + '\n')
 print(json.dumps({label: {'views': len(rows), 'changedViews': sum(r['changedPixels'] > 0 for r in rows),
                         'maxChangedPixels': max(r['changedPixels'] for r in rows),

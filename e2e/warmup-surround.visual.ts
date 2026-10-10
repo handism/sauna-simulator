@@ -5,6 +5,8 @@ import { chooseSceneSetting } from './settings-controls';
 import { rendererCaptureStyle, settleRenderer } from './scene-capture';
 
 // Compare the shipped optional warmup with normal preparation, including replay noise.
+const quality = process.env.SURROUND_QUALITY ?? 'standard';
+if (!['standard', 'high'].includes(quality)) throw new Error('Invalid SURROUND_QUALITY');
 const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
 const inputHashes = Object.fromEntries(
   [
@@ -39,13 +41,14 @@ for (const [index, variant] of ['normal', 'split', 'split', 'normal'].entries())
     page.on('request', (request) => {
       if (request.url().endsWith('/sauna-garden.glb')) requests++;
     });
+    await page.addInitScript((value) => localStorage.setItem('sui-quality', value), quality);
     await page.goto(`?view=3d&resolution=fixed&frameRate=full&warmup=${variant === 'split' ? 'split' : 'off'}`);
     await page.getByRole('button', { name: '音なしで入室する' }).click();
     const scene = page.locator('.sauna-3d-canvas');
     const canvas = scene.locator('canvas');
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-    await chooseSceneSetting(page, '3Dの画質', 'standard');
-    await expect(scene).toHaveAttribute('data-quality', 'standard');
+    await chooseSceneSetting(page, '3Dの画質', quality);
+    await expect(scene).toHaveAttribute('data-quality', quality);
     if (variant === 'split') {
       await expect(scene).toHaveAttribute('data-warmup', 'split');
       await expect(scene).toHaveAttribute('data-warming', 'none');
@@ -108,7 +111,7 @@ for (const [index, variant] of ['normal', 'split', 'split', 'normal'].entries())
         index,
         variant,
         browser: browser.version(),
-        quality: 'standard',
+        quality,
         dpr: 1,
         viewport: page.viewportSize(),
         reducedMotion: true,
