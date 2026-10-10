@@ -19,8 +19,8 @@ if (quality !== 'standard' && quality !== 'high') throw Error('Invalid MOTION_QU
 const scope = process.env.MOTION_SCOPE ?? 'outdoor';
 if (!['outdoor', 'outdoor-reverse', 'sauna', 'all'].includes(scope)) throw Error('Invalid MOTION_SCOPE');
 const look = process.env.MOTION_LOOK ?? 'sweep';
-if (!['sweep', 'surround', 'full-pitch'].includes(look)) throw Error('Invalid MOTION_LOOK');
-const surrounding = look !== 'sweep';
+if (!['sweep', 'surround', 'full-pitch', 'fixed'].includes(look)) throw Error('Invalid MOTION_LOOK');
+const surrounding = look === 'surround' || look === 'full-pitch';
 const pitchPixels = look === 'full-pitch' ? 215 : 100;
 const conditions =
   scope === 'all'
@@ -216,12 +216,15 @@ for (const { stage, minute, from } of conditions) {
           minute,
           recordingStart,
           durationSeconds: 195,
-          sweeps: surrounding
-            ? [[20, 170]]
-            : [
-                [50, 70],
-                [110, 130],
-              ],
+          sweeps:
+            look === 'fixed'
+              ? []
+              : surrounding
+                ? [[20, 170]]
+                : [
+                    [50, 70],
+                    [110, 130],
+                  ],
           samples,
           errors,
         },

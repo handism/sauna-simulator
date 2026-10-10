@@ -37,6 +37,17 @@ class AutoMotionFramesTest(unittest.TestCase):
         self.assertTrue(hold[int(190 * FPS)])
         self.assertFalse(hold[int(180 * FPS)] or ramp[int(180 * FPS)])
 
+    def test_fixed_view_provides_eight_contiguous_windows(self):
+        observed = np.arange(0, 195, 1 / FPS)
+        ramp, _ = segments(observed, [])
+        indexes = np.flatnonzero(ramp)
+        self.assertTrue(np.all(np.diff(indexes) == 1))
+        self.assertEqual(len(indexes) // (20 * FPS), 8)
+        moving_ramp, _ = segments(observed, [[20, 170]])
+        runs = np.split(np.flatnonzero(moving_ramp),
+                        np.flatnonzero(np.diff(np.flatnonzero(moving_ramp)) > 1) + 1)
+        self.assertEqual(sum(len(run) // (20 * FPS) for run in runs), 0)
+
     def test_high_pass_ignores_a_steady_ramp_and_sees_flicker(self):
         ramp = np.stack([np.full((4, 4), float(i)) for i in range(10)])
         flicker = np.stack([np.full((4, 4), float(i % 2) * 4) for i in range(10)])

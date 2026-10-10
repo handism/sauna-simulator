@@ -54,6 +54,19 @@ class RecordingValidationTests(unittest.TestCase):
                     analyze(run, folder)
                 decoder.assert_not_called()
 
+    def test_fixed_with_sweep_rejected_before_decode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            run, path = self.fixture(folder)
+            run['look'] = 'fixed'
+            data = json.loads(path.read_text())
+            data.update(look='fixed', looks=[], sweeps=[[50, 70]])
+            path.write_text(json.dumps(data))
+            with patch('analyze_auto_motion_frames.decode') as decoder:
+                with self.assertRaisesRegex(ValueError, 'camera input'):
+                    analyze(run, folder)
+                decoder.assert_not_called()
+
     def test_missing_timestamp_rejected_before_decode(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder = Path(tmp)

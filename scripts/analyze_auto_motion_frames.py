@@ -21,6 +21,8 @@ import tempfile
 import numpy as np
 from PIL import Image, ImageDraw
 
+from summarize_auto_motion import validate_fixed
+
 FPS = 25
 WIDTH, HEIGHT = 320, 200
 LUMA = np.array([0.2126, 0.7152, 0.0722], np.float32)
@@ -138,6 +140,8 @@ def analyze(run, folder):
     for key in ('stage', 'minute', 'browser', 'quality', 'hashes', 'look'):
         if samples.get(key) != run.get(key):
             raise ValueError(f'Sample/summary mismatch: {key}')
+    if run.get('look') == 'fixed':
+        validate_fixed(samples)
     if samples['errors'] or len(samples['samples']) != run['samples']:
         raise ValueError('Failed or incomplete samples')
     probe = json.loads(subprocess.run(

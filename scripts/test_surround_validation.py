@@ -2,7 +2,7 @@ import copy
 import math
 import unittest
 
-from summarize_auto_motion import validate_surround, validate_conditions
+from summarize_auto_motion import validate_surround, validate_conditions, validate_fixed
 
 
 class SurroundValidationTests(unittest.TestCase):
@@ -20,6 +20,14 @@ class SurroundValidationTests(unittest.TestCase):
                 validate_conditions(conditions, 'outdoor-reverse')
         with self.assertRaises(ValueError):
             validate_conditions([('water', 27), ('totonou', 12)], 'outdoor')
+
+    def test_fixed_rejects_input_or_missing_records(self):
+        validate_fixed({'looks': [], 'sweeps': []})
+        for data in [{'looks': [{}], 'sweeps': []},
+                     {'looks': [], 'sweeps': [[50, 70]]},
+                     {'looks': []}, {'sweeps': []}]:
+            with self.assertRaisesRegex(ValueError, 'camera input'):
+                validate_fixed(data)
 
     def test_complete_sequence(self):
         validate_surround(self.looks)

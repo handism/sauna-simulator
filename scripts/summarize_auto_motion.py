@@ -41,6 +41,11 @@ def validate_surround(looks, full_pitch=False):
         raise ValueError('Incomplete vertical input')
 
 
+def validate_fixed(run):
+    if run.get('looks') != [] or run.get('sweeps') != []:
+        raise ValueError('Unexpected camera input in fixed recording')
+
+
 def validate_conditions(conditions, scope):
     expected = (sorted((stage, minute) for stage in ['sauna', 'water', 'totonou'] for minute in [12, 27])
                 if scope == 'all' else [('sauna', 12), ('sauna', 27)] if scope == 'sauna'
@@ -57,7 +62,7 @@ def main():
     parser.add_argument('--browser', choices=['chromium', 'webkit'])
     parser.add_argument('--quality', choices=['standard', 'high'], default='standard')
     parser.add_argument('--scope', choices=['outdoor', 'outdoor-reverse', 'sauna', 'all'], default='outdoor')
-    parser.add_argument('--look', choices=['sweep', 'surround', 'full-pitch'], default='sweep')
+    parser.add_argument('--look', choices=['sweep', 'surround', 'full-pitch', 'fixed'], default='sweep')
     args = parser.parse_args()
     raw = args.report.read_text()
     report = json.loads(raw[raw.index('\n{') + 1:] if not raw.startswith('{') else raw)
@@ -77,7 +82,9 @@ def main():
             raise SystemExit('Unexpected motion scope')
         if run.get('look', 'sweep') != args.look:
             raise SystemExit('Unexpected look pattern')
-        if args.look != 'sweep':
+        if args.look == 'fixed':
+            validate_fixed(run)
+        elif args.look != 'sweep':
             validate_surround(run.get('looks', []), full_pitch=args.look == 'full-pitch')
         if args.browser and run.get('browserName') != args.browser:
             raise SystemExit('Unexpected browser engine')
