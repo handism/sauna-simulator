@@ -10,7 +10,7 @@ export interface HeartRateRowProps {
 // 情報パネル下段の心拍数表示。アイコンは心拍に合わせて脈打つ
 const HeartRateRow = ({ heartRate, divided = true }: HeartRateRowProps) => (
   <div className={`stage-info-row heart-rate-row${divided ? ' stage-info-row-divided' : ''}`}>
-    <span className="reading-label">心拍数</span>
+    <span className="reading-label">心拍数（演出）</span>
     <span className="heart-rate">
       <span
         className="heart-rate-icon"

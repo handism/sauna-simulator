@@ -204,7 +204,7 @@ export default function SceneMode({
   const settings = (
     <div className="scene-mode-controls">
       <details ref={settingsRef} key={stage} className="display-settings">
-        <summary className="icon-btn" aria-label="表示設定" title="表示設定">
+        <summary className="icon-btn" data-short-label="表示" aria-label="表示設定" title="表示設定">
           <ActionIcon name="settings" />
         </summary>
         <div className="settings-panel">

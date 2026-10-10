@@ -71,7 +71,7 @@ export default function StageDock({
         >
           <path d={compact ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'} />
         </svg>
-        <span className="dock-handle-label">{compact ? '詳しく表示' : 'コンパクト表示'}</span>
+        <span className="dock-handle-label">{compact ? '詳しく表示' : '詳細を閉じる'}</span>
       </button>
       <div ref={contentRef} id={id}>
         {children}

@@ -114,7 +114,7 @@ function App() {
           <div className="app-main-ui-container" ref={contentRef}>
             {/* 右上の操作はすべてここに並べる。入室前は表示設定だけ。全画面は表示設定の中。
                 最初のサウナの間だけ、アイコンの下に名前を添える（アイコンだけでは意味が取りにくい） */}
-            <div className="app-toolbar" data-labeled={stage === 'sauna' && scoreHistory.length === 0}>
+            <div className="app-toolbar" data-labeled={stage !== 'start'}>
               {stage !== 'start' && (
                 <>
                   <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
@@ -173,22 +173,25 @@ function App() {
                     音なしで入室する
                   </button>
                 </div>
-                <ul className="app-shortcut-hint" aria-label="キーボード操作">
-                  <li>
-                    <kbd>Space</kbd> 各場面の主な操作
-                  </li>
-                  <li>
-                    <kbd>M</kbd> ミュート
-                  </li>
-                  <li>
-                    <kbd>U</kbd> UI表示切替
-                  </li>
-                  {fullscreen.isSupported && (
+                <details className="entry-help">
+                  <summary>操作方法</summary>
+                  <ul className="app-shortcut-hint" aria-label="キーボード操作">
                     <li>
-                      <kbd>F</kbd> 全画面
+                      <kbd>Space</kbd> 各場面の主な操作
                     </li>
-                  )}
-                </ul>
+                    <li>
+                      <kbd>M</kbd> ミュート
+                    </li>
+                    <li>
+                      <kbd>U</kbd> UI表示切替
+                    </li>
+                    {fullscreen.isSupported && (
+                      <li>
+                        <kbd>F</kbd> 全画面
+                      </li>
+                    )}
+                  </ul>
+                </details>
               </div>
             )}
 
@@ -225,7 +228,7 @@ function App() {
                   </dl>
                   {sessionSummary.scores.length > 0 && (
                     <details className="score-details session-summary-history">
-                      <summary>体験内のスコアを見る</summary>
+                      <summary>スコア</summary>
                       <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
                       <ScoreHistory scores={sessionSummary.scores} />
                     </details>

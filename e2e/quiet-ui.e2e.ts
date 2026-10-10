@@ -28,9 +28,9 @@ for (const viewport of [
       await expect(page.locator('.stage-dock')).toHaveAttribute('data-compact', 'true');
       await page.getByRole('button', { name: '詳しく表示' }).click();
     }
-    await expect(page.getByText('心拍数', { exact: true })).toBeHidden();
+    await expect(page.getByText('心拍数（演出）', { exact: true })).toBeHidden();
     await page.getByText('からだの様子を見る').click();
-    await expect(page.getByText('心拍数', { exact: true })).toBeVisible();
+    await expect(page.getByText('心拍数（演出）', { exact: true })).toBeVisible();
     await page.getByText('からだの様子を見る').click();
     await page.getByRole('button', { name: 'ロウリュ' }).click();
     await expect(page.locator('.sauna-steam-particle')).toHaveCount(1);
@@ -46,20 +46,20 @@ for (const viewport of [
     await expect(page.getByRole('heading', { name: '外気浴' })).toBeFocused();
     await expect(page.getByText('ととのい度', { exact: true })).toBeHidden();
     await page.screenshot({ path: info.outputPath('rest.png') });
-    await page.getByText('今回の休息を振り返る').click();
+    await page.getByText('振り返り', { exact: true }).click();
     await expect(page.getByText('ととのい度', { exact: true })).toBeHidden();
-    await page.getByText('体験内のスコアを見る').click();
+    await page.getByText('スコア', { exact: true }).click();
     await expect(page.getByText('ととのい度', { exact: true })).toBeVisible();
     await page.screenshot({ path: info.outputPath('rest-details.png') });
     // 振り返りとスコアは片方だけ開くため、スコアを開いた時点で振り返りは閉じている
     await expect(page.locator('.rest-summary')).toBeHidden();
-    await page.getByText('体験内のスコアを見る').click();
+    await page.getByText('スコア', { exact: true }).click();
     const finish = page.getByRole('button', { name: '体験を終える' });
     await expect(finish).toBeInViewport({ ratio: 1 });
     await finish.click();
     await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeFocused();
     await expect(page.locator('.session-summary')).toContainText('1 セット');
-    await page.getByText('体験内のスコアを見る').click();
+    await page.getByText('スコア', { exact: true }).click();
     await expect(page.getByRole('list', { name: 'セットごとのととのい度' }).getByRole('listitem')).toHaveCount(1);
     await page.screenshot({ path: info.outputPath('finished.png') });
     await page.getByRole('button', { name: 'トップに戻る' }).click();
@@ -100,7 +100,7 @@ for (const stage of ['sauna', 'water']) {
     await page.getByRole('button', { name: '体験を終える', exact: true }).click();
     await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeFocused();
     await expect(page.locator('.session-summary')).toContainText('0 セット');
-    await expect(page.getByText('体験内のスコアを見る')).toHaveCount(0);
+    await expect(page.getByText('スコア', { exact: true })).toHaveCount(0);
   });
 }
 
@@ -114,7 +114,7 @@ test('reduced motion keeps breathing text and shows the score immediately', asyn
   await expect(page.locator('.breathing-label')).toBeVisible();
   await expect(page.locator('.breathing-ring')).toBeHidden();
   await expect(page.locator('.breathing-circle-premium')).toHaveCSS('transform', 'none');
-  await page.getByText('体験内のスコアを見る').click();
+  await page.getByText('スコア', { exact: true }).click();
   await expect(page.locator('.totonou-progress-val')).not.toHaveText('0%');
   const score = await page.locator('.totonou-progress-val').innerText();
   await expect(page.locator('.totonou-progress-bar')).toHaveAttribute('style', new RegExp(`width: ${score}`));

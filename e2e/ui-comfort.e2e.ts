@@ -18,7 +18,7 @@ for (const viewport of [
     await page.getByRole('button', { name: 'わかりました' }).click();
     // Phones and low landscape screens start compact so the dock does not cover half the scenery.
     if (viewport.width > 600 && viewport.height > 480) {
-      await page.getByRole('button', { name: 'コンパクト表示' }).click();
+      await page.getByRole('button', { name: '詳細を閉じる' }).click();
     }
     await expect(page.locator('.stage-dock')).toHaveAttribute('data-compact', 'true');
     await expect(page.locator('.sauna-meters-grid')).toBeHidden();
@@ -38,7 +38,7 @@ for (const viewport of [
         const style = getComputedStyle(element, '::after');
         return { content: style.content, display: style.display };
       });
-      expect(label.content).toContain('景色だけ見る');
+      expect(label.content).toContain('景色');
       expect(label.display).not.toBe('none');
     }
     await page.screenshot({ path: info.outputPath('compact-sauna.png') });
@@ -80,15 +80,15 @@ for (const viewport of [
       ring!.y + ring!.height > dock!.y;
     expect(overlaps).toBe(false);
     await page.screenshot({ path: info.outputPath('rest-expanded.png') });
-    await page.getByText('今回の休息を振り返る').click();
+    await page.getByText('振り返り', { exact: true }).click();
     await expect(page.locator('.rest-summary')).toBeVisible();
     await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
     await expect(page.locator('.breathing-circle-premium')).toHaveCSS('opacity', '1');
     await page.getByRole('button', { name: '操作を表示', exact: true }).click();
     await expect(page.getByText('ととのい度', { exact: true })).toBeHidden();
-    await page.getByText('体験内のスコアを見る').click();
+    await page.getByText('スコア', { exact: true }).click();
     await expect(page.getByText('ととのい度', { exact: true })).toBeVisible();
-    await page.getByText('体験内のスコアを見る').click();
+    await page.getByText('スコア', { exact: true }).click();
     await page.getByRole('button', { name: 'もう一度サウナへ' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
     await expect(page.locator('.first-visit-guide')).toHaveCount(0);

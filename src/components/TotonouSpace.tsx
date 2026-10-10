@@ -135,7 +135,8 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
       <StageDock className="rest-dock">
         <div className="rest-disclosures">
           <details className="stage-details rest-details" name="rest-review">
-            <summary>今回の休息を振り返る</summary>
+            <summary>振り返り</summary>
+            <p className="detail-note">今回の休息を振り返る</p>
             <dl className="rest-summary">
               <div>
                 <dt>過ごしたセット</dt>
@@ -153,7 +154,7 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
           {/* スコアは振り返りと並べて置き、開いたときだけ見せる（入れ子にすると2段開く必要がある）。
             同じ name で片方だけ開き、パネルが伸びて操作ボタンが画面外に出ないようにする */}
           <details className="stage-details score-details" name="rest-review">
-            <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
+            <summary onClick={() => setIsRevealed(true)}>スコア</summary>
             <div className="totonou-info-panel">
               {/* 数値より先に言葉で伝える。開いた時点で読み上げるため、ライブリージョンは常に置いておく */}
               <div aria-live="polite">{isRevealed && <p className="totonou-feedback">{feedback}</p>}</div>

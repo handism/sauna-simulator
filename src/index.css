@@ -246,7 +246,7 @@ body {
   right: 16px;
   z-index: 20;
   display: flex;
-  gap: 12px;
+  gap: 28px;
 }
 .icon-btn {
   width: 44px;
@@ -289,30 +289,29 @@ body {
   font-size: 0.85rem;
   white-space: nowrap;
 }
-/* 最初のサウナの間だけ、丸いアイコンの下に名前を出す（App の data-labeled）。
-   名前は aria-label と同じ文字を使い、メニューを開いている間とUIを隠している間は出さない */
+/* 入室後は丸いアイコンの下に短い名前を出す。
+   読み上げには操作の名前を使い、UIを隠している間は復帰の札を残す */
 .app-toolbar[data-labeled='true'] .icon-btn {
   position: relative;
 }
 .app-toolbar[data-labeled='true'] .icon-btn::after {
-  content: attr(aria-label);
+  content: attr(data-short-label);
   position: absolute;
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   white-space: nowrap;
-  color: var(--ink-soft);
+  color: var(--ink-strong);
   text-shadow: var(--text-shadow-status);
   pointer-events: none;
 }
-.app-toolbar:has(details[open]) .icon-btn::after,
 .ui-hidden .app-toolbar .icon-btn::after {
   content: none;
 }
 /* 初回の短い案内はスマホでも残し、名前の幅に合わせてアイコン間を空ける。 */
 @media (max-width: 480px) {
-  .app-toolbar[data-labeled='true']:not(:has(details[open])) {
+  .app-toolbar[data-labeled='true'] {
     gap: 28px;
   }
   .app-container:has(.app-toolbar[data-labeled='true']) .stage-heading {
@@ -885,8 +884,8 @@ h2:focus {
   padding-top: 12px;
 }
 .detail-note {
-  font-size: 0.75rem;
-  color: var(--ink-faint);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
   margin: 12px 0;
   line-height: 1.6;
 }
@@ -1703,7 +1702,7 @@ h2:focus {
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
   .app-toolbar {
-    gap: 6px;
+    gap: 12px;
   }
   .button-shortcut {
     display: none;
@@ -1718,8 +1717,18 @@ h2:focus {
   .stage-heading {
     top: calc(86px + env(safe-area-inset-top, 0px));
   }
+  .stage-details {
+    margin: 8px 0;
+  }
+  .cooling-heart {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+  .stay-timer {
+    margin-top: 8px;
+  }
   .sauna-meters-grid {
-    gap: 16px;
+    gap: 12px;
   }
   .sauna-meter-value,
   .stay-timer-value {
@@ -1916,5 +1925,41 @@ h2:focus {
       100dvh - var(--breath-docked-top) - var(--breath-docked-size) - 64px - env(safe-area-inset-top, 0px) -
         env(safe-area-inset-bottom, 0px)
     );
+  }
+}
+
+/* 入室の主操作に寄せ、詳しいキー操作は必要なときだけ開く。 */
+.entry-help {
+  margin-top: 20px;
+  color: var(--ink-soft);
+  text-shadow: var(--text-shadow-soft);
+}
+.entry-help > summary {
+  cursor: pointer;
+  padding: 12px;
+  min-height: 44px;
+  font-size: 0.9rem;
+}
+.entry-help .app-shortcut-hint {
+  margin-top: 8px;
+}
+.journey-guide {
+  margin-bottom: 20px;
+}
+.entry-duration {
+  margin-bottom: 16px;
+}
+.stay-timer-goal,
+.stay-timer-note {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+.dock-finish {
+  font-size: 0.9rem;
+  color: var(--ink-strong);
+}
+@media (hover: none) and (pointer: coarse) {
+  .entry-help {
+    display: none;
   }
 }

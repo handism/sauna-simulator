@@ -26,6 +26,7 @@ function IconButton({
       className={className}
       onClick={onClick}
       aria-label={label}
+      data-short-label={className.includes('ui-toggle-btn') ? '景色' : undefined}
       aria-pressed={pressed}
       aria-keyshortcuts={shortcut}
       title={`${label} (${shortcut})`}

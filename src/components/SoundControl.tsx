@@ -15,7 +15,7 @@ export default function SoundControl({
   const ref = useDismissibleDetails();
   return (
     <details className="sound-control" ref={ref} data-muted={isMuted}>
-      <summary className="icon-btn" aria-label="音の設定" title="音の設定（Mでミュート切替）">
+      <summary className="icon-btn" data-short-label="音" aria-label="音の設定" title="音の設定（Mでミュート切替）">
         <svg
           width="20"
           height="20"
