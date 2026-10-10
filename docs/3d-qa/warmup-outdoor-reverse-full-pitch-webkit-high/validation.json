@@ -1,0 +1,29 @@
+{
+  "stats": {
+    "expected": 2,
+    "unexpected": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "durationSeconds": 406.022832
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": {
+      "files": 48,
+      "tests": 321
+    },
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diffCheck": "passed",
+    "surroundBoundaryTests": 8,
+    "webmAndMp4FullDecode": "passed",
+    "partialVisualReview": "24 extracted frames"
+  },
+  "toolHashes": {
+    "e2e/auto-lighting.motion.ts": "97e571f9987a85d3a62dcb38d41d7958aa4421893fed16ea2137a962396d1b71",
+    "scripts/summarize_auto_motion.py": "dd680383a707917f14a49ff3535be0b9fadf849ad78f71c32a58b1e3f1638cde",
+    "scripts/test_surround_validation.py": "ca40377e0b04d88e9b1b3a7f89a6d0191b6faf51647906feb3f92c6a082ab5db"
+  },
+  "productChanges": false
+}
