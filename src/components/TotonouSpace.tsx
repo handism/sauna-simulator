@@ -133,56 +133,58 @@ const TotonouSpace = ({ saunaTime, waterTime, loylyCount, scoreHistory, onNext, 
 
       {/* 「ととのい度」情報パネル */}
       <StageDock className="rest-dock">
-        <details className="stage-details rest-details" name="rest-review">
-          <summary>今回の休息を振り返る</summary>
-          <dl className="rest-summary">
-            <div>
-              <dt>過ごしたセット</dt>
-              <dd>{scoreHistory.length} セット</dd>
-            </div>
-            <div>
-              <dt>サウナ / 水風呂</dt>
-              <dd>
-                {formatMinutesSeconds(saunaTime)} / {formatMinutesSeconds(waterTime)}
-              </dd>
-            </div>
-          </dl>
-          <p className="detail-note">自分のペースで過ごせたら、それで十分。</p>
-        </details>
-        {/* スコアは振り返りと並べて置き、開いたときだけ見せる（入れ子にすると2段開く必要がある）。
+        <div className="rest-disclosures">
+          <details className="stage-details rest-details" name="rest-review">
+            <summary>今回の休息を振り返る</summary>
+            <dl className="rest-summary">
+              <div>
+                <dt>過ごしたセット</dt>
+                <dd>{scoreHistory.length} セット</dd>
+              </div>
+              <div>
+                <dt>サウナ / 水風呂</dt>
+                <dd>
+                  {formatMinutesSeconds(saunaTime)} / {formatMinutesSeconds(waterTime)}
+                </dd>
+              </div>
+            </dl>
+            <p className="detail-note">自分のペースで過ごせたら、それで十分。</p>
+          </details>
+          {/* スコアは振り返りと並べて置き、開いたときだけ見せる（入れ子にすると2段開く必要がある）。
             同じ name で片方だけ開き、パネルが伸びて操作ボタンが画面外に出ないようにする */}
-        <details className="stage-details score-details" name="rest-review">
-          <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
-          <div className="totonou-info-panel">
-            {/* 数値より先に言葉で伝える。開いた時点で読み上げるため、ライブリージョンは常に置いておく */}
-            <div aria-live="polite">{isRevealed && <p className="totonou-feedback">{feedback}</p>}</div>
+          <details className="stage-details score-details" name="rest-review">
+            <summary onClick={() => setIsRevealed(true)}>体験内のスコアを見る</summary>
+            <div className="totonou-info-panel">
+              {/* 数値より先に言葉で伝える。開いた時点で読み上げるため、ライブリージョンは常に置いておく */}
+              <div aria-live="polite">{isRevealed && <p className="totonou-feedback">{feedback}</p>}</div>
 
-            {/* 段階名を主役にし、数値は横に控えめに添える（短い滞在の低い数値を減点に見せない） */}
-            <div className="totonou-info-row">
-              <span className="reading-label">ととのい度</span>
-              <span className="totonou-score">
-                <span className="totonou-tier">{totonouTierLabel(maxTotonou)}</span>
-                <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
-                  0%
+              {/* 段階名を主役にし、数値は横に控えめに添える（短い滞在の低い数値を減点に見せない） */}
+              <div className="totonou-info-row">
+                <span className="reading-label">ととのい度</span>
+                <span className="totonou-score">
+                  <span className="totonou-tier">{totonouTierLabel(maxTotonou)}</span>
+                  <span ref={totonouTextRef} className="dashboard-value totonou-progress-val">
+                    0%
+                  </span>
                 </span>
-              </span>
-            </div>
+              </div>
 
-            {/* プログレスバー */}
-            <div className="totonou-progress-bg">
-              <div
-                ref={totonouBarRef}
-                className="totonou-progress-bar"
-                style={{ width: '0%', background: scoreColor(0) }}
-              />
-            </div>
+              {/* プログレスバー */}
+              <div className="totonou-progress-bg">
+                <div
+                  ref={totonouBarRef}
+                  className="totonou-progress-bar"
+                  style={{ width: '0%', background: scoreColor(0) }}
+                />
+              </div>
 
-            {/* これまでのセットの推移（2セット目以降） */}
-            {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
-          </div>
-          {/* 注記は読み終えた後の補足として末尾に置く */}
-          <p className="detail-note totonou-note">ととのい度は体験内の遊びの指標です。</p>
-        </details>
+              {/* これまでのセットの推移（2セット目以降） */}
+              {scoreHistory.length > 1 && <ScoreHistory scores={scoreHistory} />}
+            </div>
+            {/* 注記は読み終えた後の補足として末尾に置く */}
+            <p className="detail-note totonou-note">ととのい度は体験内の遊びの指標です。</p>
+          </details>
+        </div>
         <div className="dock-actions">
           <button className="primary-btn totonou-next-btn" onClick={onNext} aria-keyshortcuts="Space">
             <ActionIcon name="repeat" /> もう一度サウナへ{' '}

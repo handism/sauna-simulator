@@ -3,7 +3,10 @@ export default function FirstVisitGuide({ onDismiss }: { onDismiss: () => void }
   return (
     <aside className="first-visit-guide">
       {/* 次へ進むタイミングは滞在時間の「好きなタイミングで次へ」が伝えるため、ロウリュの説明だけにする */}
-      <p>ロウリュで石に水をかけ、蒸気を楽しめます。</p>
+      <p>
+        ロウリュで石に水をかけ、蒸気を楽しめます。
+        <span className="first-visit-scenery">右上の「景色だけ見る」で操作を隠せます。</span>
+      </p>
       <button className="text-control" onClick={onDismiss}>
         わかりました
       </button>

@@ -224,10 +224,11 @@ body {
     box-shadow 0.3s ease,
     opacity 0.5s ease;
 }
-/* 木の色は各場面の主操作（Space キーと同じ操作。入室画面は音ありの入室、終了画面はトップに戻る）に付ける */
+/* 木の色は主操作と外気浴の終了に付け、休息後は継続と終了を同じ強さにする。 */
 .primary-btn.sauna-loyly-btn,
 .primary-btn.cooling-next-btn,
 .primary-btn.totonou-next-btn,
+.primary-btn.finish-btn,
 .primary-btn.app-btn-primary,
 .primary-btn.session-end-btn {
   background-color: var(--wood);
@@ -299,7 +300,7 @@ body {
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   white-space: nowrap;
   color: var(--ink-soft);
   text-shadow: var(--text-shadow-status);
@@ -332,6 +333,7 @@ body {
   .primary-btn.sauna-loyly-btn:hover,
   .primary-btn.cooling-next-btn:hover,
   .primary-btn.totonou-next-btn:hover,
+  .primary-btn.finish-btn:hover,
   .primary-btn.app-btn-primary:hover,
   .primary-btn.session-end-btn:hover {
     background-color: var(--wood-light);
@@ -571,6 +573,13 @@ h2:focus {
   width: 16px;
   color: var(--wood-deep);
 }
+.entry-duration {
+  margin: -12px 0 24px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  text-shadow: var(--text-shadow-soft);
+}
 
 .app-btn-group {
   display: flex;
@@ -627,7 +636,7 @@ h2:focus {
 }
 /* 選択肢の中に添える一言の説明。選択中かどうかは文字色ではなく面で示すため、両方同じ控えめな色 */
 .segment-note {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: var(--ink-soft);
 }
@@ -798,7 +807,8 @@ h2:focus {
   cursor: pointer;
 }
 .dock-handle-label {
-  color: var(--ink-faint);
+  color: var(--ink-soft);
+  font-size: 0.85rem;
 }
 .dock-handle-bar {
   width: 36px;
@@ -942,6 +952,9 @@ h2:focus {
   flex: 1;
   padding: 6px 0;
 }
+.first-visit-scenery {
+  display: block;
+}
 .first-visit-guide .text-control {
   flex-shrink: 0;
   padding: 0 12px;
@@ -991,9 +1004,9 @@ h2:focus {
   background: var(--water);
 }
 .stay-timer-goal {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 400;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 .stay-timer-reached {
   margin-left: 10px;
@@ -1423,6 +1436,26 @@ h2:focus {
   margin: 0;
   border-top: none;
 }
+.rest-disclosures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+  margin-bottom: 12px;
+}
+.rest-disclosures > .stage-details {
+  margin: 0;
+  border-top: none;
+}
+.rest-disclosures > details[open] {
+  grid-column: 1 / -1;
+}
+.rest-disclosures > details > summary {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.stage-dock[data-compact='true'] .rest-disclosures {
+  display: none;
+}
 .rest-dock .score-details {
   margin-top: 0;
 }
@@ -1815,7 +1848,7 @@ h2:focus {
 
 .stay-timer-note {
   color: var(--ink-soft);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   margin: 6px 0;
 }
 @media (prefers-reduced-motion: reduce) {

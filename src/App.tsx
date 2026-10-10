@@ -140,6 +140,11 @@ function App() {
                 <p className="journey-guide" aria-label="体験の流れ">
                   サウナ <ActionIcon name="arrow" /> 水風呂 <ActionIcon name="arrow" /> 外気浴
                 </p>
+                <p className="entry-duration">
+                  1セットは約1〜2分から。
+                  <br />
+                  好きなタイミングで移動できます。
+                </p>
                 {/* 景色は入室前に決めるため、入室ボタンより先に置く。説明は各選択肢の中に小さく添える */}
                 <div className="entry-scene-choice" role="group" aria-label="景色">
                   <button className="segment-btn" aria-pressed={!is3d} onClick={() => is3d && toggle3d()}>
