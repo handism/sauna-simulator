@@ -19,7 +19,9 @@ if (quality !== 'standard' && quality !== 'high') throw Error('Invalid MOTION_QU
 const scope = process.env.MOTION_SCOPE ?? 'outdoor';
 if (!['outdoor', 'sauna', 'all'].includes(scope)) throw Error('Invalid MOTION_SCOPE');
 const look = process.env.MOTION_LOOK ?? 'sweep';
-if (!['sweep', 'surround'].includes(look)) throw Error('Invalid MOTION_LOOK');
+if (!['sweep', 'surround', 'full-pitch'].includes(look)) throw Error('Invalid MOTION_LOOK');
+const surrounding = look !== 'sweep';
+const pitchPixels = look === 'full-pitch' ? 215 : 100;
 const conditions =
   scope === 'all'
     ? (['sauna', 'water', 'totonou'] as const).flatMap((stage) => [
@@ -45,6 +47,7 @@ for (const { stage, minute, from } of conditions) {
       [
         'src/components/3d/SaunaScene.tsx',
         'src/components/3d/lighting.ts',
+        'src/components/3d/lookControls.ts',
         'src/components/3d/sceneWarmup.ts',
         'src/components/3d/warmupPasses.ts',
         'src/components/3d/warmupPrograms.ts',
@@ -105,6 +108,12 @@ for (const { stage, minute, from } of conditions) {
     }
     await expect(scene).toHaveAttribute('data-stage', stage);
     await expect(scene).toHaveAttribute('data-time-of-day', from.toFixed(3), { timeout: 20_000 });
+    if (look === 'full-pitch') {
+      await scene.focus();
+      for (let n = 0; n < 32; n++) await page.keyboard.press('ArrowDown');
+      for (let n = 0; n < 14; n++) await page.keyboard.press('ArrowUp');
+      await scene.blur();
+    }
     const recordingStart = await page.evaluate((startMinute) => {
       const clock = (window as unknown as MotionWindow).motionClock;
       if (!clock.entered) throw Error('Entry click was not observed');
@@ -134,10 +143,10 @@ for (const { stage, minute, from } of conditions) {
       );
       const sweep =
         seconds >= 50 && seconds < 70 ? seconds - 50 : seconds >= 110 && seconds < 130 ? seconds - 110 : null;
-      if (look === 'surround' && seconds >= 20 && previousProgress < 1) {
+      if (surrounding && seconds >= 20 && previousProgress < 1) {
         const progress = Math.min(1, (seconds - 20) / 150);
         const dx = ((progress - previousProgress) * Math.PI * 2) / 0.004;
-        const y = 400 + 100 * Math.sin(progress * Math.PI * 4);
+        const y = 400 + pitchPixels * Math.sin(progress * Math.PI * 4);
         if (!dragging || pointerX + dx > 1050) {
           if (dragging) await page.mouse.up();
           pointerX = 300;
@@ -202,13 +211,12 @@ for (const { stage, minute, from } of conditions) {
           minute,
           recordingStart,
           durationSeconds: 195,
-          sweeps:
-            look === 'surround'
-              ? [[20, 170]]
-              : [
-                  [50, 70],
-                  [110, 130],
-                ],
+          sweeps: surrounding
+            ? [[20, 170]]
+            : [
+                [50, 70],
+                [110, 130],
+              ],
           samples,
           errors,
         },
@@ -217,11 +225,11 @@ for (const { stage, minute, from } of conditions) {
       ),
     });
     expect(samples.length).toBeGreaterThan(170);
-    if (look === 'surround') {
+    if (surrounding) {
       expect(previousProgress).toBe(1);
       expect(totalX * 0.004).toBeCloseTo(Math.PI * 2, 6);
-      expect(Math.max(...looks.map((s) => s.pitchOffset))).toBeGreaterThan(0.39);
-      expect(Math.min(...looks.map((s) => s.pitchOffset))).toBeLessThan(-0.39);
+      expect(Math.max(...looks.map((s) => s.pitchOffset))).toBeGreaterThan(look === 'full-pitch' ? 0.85 : 0.39);
+      expect(Math.min(...looks.map((s) => s.pitchOffset))).toBeLessThan(look === 'full-pitch' ? -0.85 : -0.39);
     }
     for (let index = 0; index < samples.length; index++) {
       const sample = samples[index];

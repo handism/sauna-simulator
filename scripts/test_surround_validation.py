@@ -15,6 +15,22 @@ class SurroundValidationTests(unittest.TestCase):
     def test_complete_sequence(self):
         validate_surround(self.looks)
 
+    def test_full_pitch_sequence_and_mode_mismatch(self):
+        data = copy.deepcopy(self.looks)
+        for sample in data:
+            sample['pitchOffset'] *= .86 / .4
+        validate_surround(data, full_pitch=True)
+        with self.assertRaisesRegex(ValueError, 'vertical'):
+            validate_surround(self.looks, full_pitch=True)
+        with self.assertRaisesRegex(ValueError, 'vertical'):
+            validate_surround(data)
+
+    def test_modified_vertical_trajectory_rejected(self):
+        data = copy.deepcopy(self.looks)
+        data[30]['pitchOffset'] += .01
+        with self.assertRaisesRegex(ValueError, 'vertical'):
+            validate_surround(data)
+
     def test_endpoint_alone_cannot_prove_coverage(self):
         with self.assertRaises(ValueError):
             validate_surround(self.looks[-1:])

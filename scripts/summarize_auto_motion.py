@@ -21,7 +21,7 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def validate_surround(looks):
+def validate_surround(looks, full_pitch=False):
     if len(looks) < 76 or not 20 <= looks[0]['seconds'] < 22 or not 170 <= looks[-1]['seconds'] < 172:
         raise ValueError('Incomplete surround input duration')
     if looks[-1]['progress'] != 1 or abs(looks[-1]['totalX'] * 0.004 - 2 * math.pi) > 1e-6:
@@ -32,7 +32,12 @@ def validate_surround(looks):
     for a, b in zip(looks, looks[1:]):
         if not 0 < b['seconds'] - a['seconds'] < 2 or b['progress'] < a['progress']:
             raise ValueError('Missing or reordered surround input')
-    if max(s['pitchOffset'] for s in looks) < 0.39 or min(s['pitchOffset'] for s in looks) > -0.39:
+    amplitude = 0.86 if full_pitch else 0.4
+    for sample in looks:
+        if abs(sample['pitchOffset'] + amplitude * math.sin(sample['progress'] * math.pi * 4)) > 1e-6:
+            raise ValueError('Inconsistent vertical input')
+    threshold = 0.85 if full_pitch else 0.39
+    if max(s['pitchOffset'] for s in looks) < threshold or min(s['pitchOffset'] for s in looks) > -threshold:
         raise ValueError('Incomplete vertical input')
 
 
@@ -44,7 +49,7 @@ def main():
     parser.add_argument('--browser', choices=['chromium', 'webkit'])
     parser.add_argument('--quality', choices=['standard', 'high'], default='standard')
     parser.add_argument('--scope', choices=['outdoor', 'sauna', 'all'], default='outdoor')
-    parser.add_argument('--look', choices=['sweep', 'surround'], default='sweep')
+    parser.add_argument('--look', choices=['sweep', 'surround', 'full-pitch'], default='sweep')
     args = parser.parse_args()
     raw = args.report.read_text()
     report = json.loads(raw[raw.index('\n{') + 1:] if not raw.startswith('{') else raw)
@@ -64,8 +69,8 @@ def main():
             raise SystemExit('Unexpected motion scope')
         if run.get('look', 'sweep') != args.look:
             raise SystemExit('Unexpected look pattern')
-        if args.look == 'surround':
-            validate_surround(run.get('looks', []))
+        if args.look != 'sweep':
+            validate_surround(run.get('looks', []), full_pitch=args.look == 'full-pitch')
         if args.browser and run.get('browserName') != args.browser:
             raise SystemExit('Unexpected browser engine')
         if run.get('warmup', 'normal') != args.warmup:
