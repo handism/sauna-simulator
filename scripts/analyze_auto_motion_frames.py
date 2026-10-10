@@ -93,6 +93,8 @@ def band_ratio(signal, band=MIRROR_BAND, fps=FPS, window=20, rest=(1.0, 12.0)):
     """Mean power in `band` over the mean power elsewhere in `rest`, averaged over windows of
     `window` seconds (each detrended with a cubic and Hann-windowed)."""
     n = window * fps
+    if len(signal) < n:
+        return None
     freqs = np.fft.rfftfreq(n, 1 / fps)
     total = np.zeros(len(freqs))
     for k in range(len(signal) // n):
@@ -102,7 +104,8 @@ def band_ratio(signal, band=MIRROR_BAND, fps=FPS, window=20, rest=(1.0, 12.0)):
         total += np.abs(np.fft.rfft(seg * np.hanning(n))) ** 2
     inside = (freqs > band[0]) & (freqs < band[1])
     outside = (freqs > rest[0]) & (freqs < rest[1]) & ~inside
-    return float(total[inside].mean() / total[outside].mean())
+    denominator = total[outside].mean()
+    return float(total[inside].mean() / denominator) if denominator > 0 else None
 
 
 def high_pass(frames, index):
@@ -132,7 +135,7 @@ def analyze(run, folder):
     if sha(video) != run['video']['sha256']:
         raise SystemExit(f'{video} does not match summary.json')
     samples = json.loads((folder / f"{run['stage']}-{run['minute']}-samples.json").read_text())
-    for key in ('stage', 'minute', 'browser', 'quality', 'hashes'):
+    for key in ('stage', 'minute', 'browser', 'quality', 'hashes', 'look'):
         if samples.get(key) != run.get(key):
             raise ValueError(f'Sample/summary mismatch: {key}')
     if samples['errors'] or len(samples['samples']) != run['samples']:
@@ -154,12 +157,18 @@ def analyze(run, folder):
     changed = np.r_[True, diffs[1:] >= DUPLICATE]
     key = near_keyframes(count, keyframe_times(video))
     ramp, hold = segments(observed, samples['sweeps'])
+    moving = np.zeros(count, bool)
+    for a, b in samples['sweeps']:
+        moving |= (observed >= a) & (observed <= b)
     lower = frames[:, HEIGHT // 2:].mean(axis=(1, 2))
     result = {'frames': count, 'videoSha256': sha(video),
               'samplesSha256': sha(folder / f"{run['stage']}-{run['minute']}-samples.json"),
               'unchangedFrames': int((~changed).sum()), 'segments': {}}
     maps = []
-    for label, mask in (('ramp', ramp), ('hold', hold)):
+    regions = [('ramp', ramp), ('hold', hold)]
+    if moving.any():
+        regions.append(('moving', moving))
+    for label, mask in regions:
         plain = np.flatnonzero(mask & ~key)
         at_key = np.flatnonzero(mask & key)
         hp, triples = high_pass(frames, np.flatnonzero(mask & changed & ~key))
@@ -180,11 +189,13 @@ def analyze(run, folder):
             'highPassMean': round(float(hp.mean()), 4),
             'highPassBlockMax': round(float(blocks.max()), 3),
         }
-    ramp_blocks, hold_blocks = (m.reshape(HEIGHT // 20, 20, WIDTH // 20, 20).mean(axis=(1, 3)) for m in maps)
+    ramp_blocks, hold_blocks = (m.reshape(HEIGHT // 20, 20, WIDTH // 20, 20).mean(axis=(1, 3)) for m in maps[:2])
     result['rampBlocksOverTwiceHold'] = int(((ramp_blocks > 2 * hold_blocks) & (ramp_blocks > 0.3)).sum())
     runs = np.split(np.flatnonzero(ramp), np.flatnonzero(np.diff(np.flatnonzero(ramp)) > 1) + 1)
     signal = np.concatenate([lower[r][: len(r) // (20 * FPS) * 20 * FPS] for r in runs])
-    result['mirrorBandPowerRatio'] = round(band_ratio(signal), 3)
+    ratio = band_ratio(signal)
+    result['mirrorBandPowerRatio'] = round(ratio, 3) if ratio is not None else None
+    result['mirrorBandWindowCount'] = len(signal) // (20 * FPS)
     # Endpoint averages cannot bound single updates: intermediate changes can cancel.
     # Endpoint average / 500 is a descriptive heuristic, not a bound on individual updates.
     result['endpointChangeDividedBy500'] = per_step_change(frames, np.flatnonzero(ramp))
@@ -196,7 +207,7 @@ def main():
     parser.add_argument('folder', type=Path)
     args = parser.parse_args()
     summary = json.loads((args.folder / 'summary.json').read_text())
-    out = {'schema': 2, 'scriptSha256': sha(__file__),
+    out = {'schema': 3, 'scriptSha256': sha(__file__),
            'summarySha256': sha(args.folder / 'summary.json'), 'size': [WIDTH, HEIGHT],
            'limits': 'Lossy encoded frames, spatially reduced to 320x200; page/video clock alignment is approximate. '
                      'Differences include waves, foliage, TAA, exposure and codec refresh. '
@@ -207,9 +218,11 @@ def main():
         name = f"{run['stage']}-{run['minute']}"
         result, maps, still = analyze(run, args.folder)
         # Three consecutive native-video frames around each ranked event, at half resolution.
-        sheet = Image.new('RGB', (640 * 3, 424 * 2))
-        for row, key in enumerate(('diffMaxVideoSeconds', 'keyframeDiffMaxVideoSeconds')):
-            center = result['segments']['ramp'][key]
+        events = [(region, key) for region in ('ramp', 'moving') if region in result['segments']
+                  for key in ('diffMaxVideoSeconds', 'keyframeDiffMaxVideoSeconds')]
+        sheet = Image.new('RGB', (640 * 3, 424 * len(events)))
+        for row, (region, key) in enumerate(events):
+            center = result['segments'][region][key]
             if center is None:
                 continue
             for column, delta in enumerate((-1 / FPS, 0, 1 / FPS)):
@@ -221,7 +234,7 @@ def main():
                 with Image.open(io.BytesIO(raw)) as image:
                     sheet.paste(image.convert('RGB'), (column * 640, row * 424 + 24))
                 ImageDraw.Draw(sheet).text((column * 640 + 8, row * 424 + 5),
-                    f'{key}: video {second:.3f}s', fill='white')
+                    f'{region} {key}: video {second:.3f}s', fill='white')
         sheet.save(args.folder / f'{name}-frame-events.jpg', quality=94)
         out['runs'][name] = result
         scale = lambda m: np.clip(m / 2 * 255, 0, 255)

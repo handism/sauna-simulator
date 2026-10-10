@@ -41,6 +41,19 @@ class RecordingValidationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'quality'):
                 analyze(run, folder)
 
+    def test_swapped_look_mode_rejected_before_decode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            run, path = self.fixture(folder)
+            run['look'] = 'full-pitch'
+            data = json.loads(path.read_text())
+            data['look'] = 'surround'
+            path.write_text(json.dumps(data))
+            with patch('analyze_auto_motion_frames.decode') as decoder:
+                with self.assertRaisesRegex(ValueError, 'look'):
+                    analyze(run, folder)
+                decoder.assert_not_called()
+
     def test_missing_timestamp_rejected_before_decode(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder = Path(tmp)

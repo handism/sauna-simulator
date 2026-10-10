@@ -6,6 +6,10 @@ from analyze_auto_motion_frames import FPS, band_ratio, frame_diffs, high_pass, 
 
 
 class AutoMotionFramesTest(unittest.TestCase):
+    def test_short_or_constant_signal_has_no_power_ratio(self):
+        self.assertIsNone(band_ratio(np.ones(19 * FPS)))
+        self.assertIsNone(band_ratio(np.zeros(20 * FPS)))
+
     def test_band_ratio_finds_a_mirror_step_rhythm(self):
         t = np.arange(60 * FPS) / FPS
         rng = np.random.default_rng(1)
