@@ -4,6 +4,8 @@
 
 ## 目次（ファイルは平置き）
 
+- `diagnose_firefox_launch.mjs <out.json>` はサーバーや製品を使わずFirefoxの起動と静的HTMLだけを確認する。起動失敗は終了コード1、JSONにページ作成の有無・バージョン・入力／スクリプト／生ログハッシュを保存し、生ログは `<out.json>.log`（Git管理外）に出す。ブラウザ権限・ブランド・セキュリティ設定は変更しない。macOS 27の起動障害の記録と再開条件は `docs/3d-qa/firefox-launch-20261010/README.md`。
+
 - 初期化後の画像差を追跡するときは `SUI_CAPTURE_STABILITY=1` を `diagnose_compile_batches.mjs` に渡す。従来の2秒待ちの撮影を残し、全速描画でさらに70／140 rAF後のPNG・ハッシュを保存する。`summarize_compile_batches.py` は追加撮影の順・寸法・ハッシュ・共有なしを検査し、同一読み込み内の変化と140フレーム後の方式間の差を分ける。`compare_compile_unmatched.py <旧image-check.json> <新summary.json> --out <json>` は未一致の旧画像を新しい通常画像と比較する（元レポート・PNG・RGBハッシュ、画質・時間帯・ステージ・ブラウザ版・製品入力の一致を要求）。画素座標とRGBの両端を残すが、描画原因や採用の可否は判定しない。検査は `python3 -m unittest discover -s scripts -p test_compile_capture_stability.py`。
 
 診断スクリプトは同じディレクトリの補助モジュールを `sys.path`／`with_name()` で読み、`parents[1]` をリポジトリ直下とみなす。QA記録（`docs/3d-qa/*/validation.json` など）は実行時の `script_sha256` を残すため、サブフォルダへの移動や改名はしない。

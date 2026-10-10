@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-10T05:00:15.295Z",
+  "playwright": "1.63.0",
+  "platform": "darwin",
+  "osVersion": "27.0.1",
+  "architecture": "arm64",
+  "inputSha256": "f68b6b8e40f8a98152d0e4a9c30e4586df4bbcf48b816ee9efc03104d53af973",
+  "scriptSha256": "33509283507bdf9f3766571ce0092243e4d49dcfd0e10baaff7a762278cb30e5",
+  "probe": "firefox.launch({ headless: true, timeout: 15000 }); newPage(); setContent(static HTML)",
+  "appRequested": false,
+  "pageCreated": false,
+  "result": "blocked before page creation",
+  "profileFolderError": true,
+  "logSha256": "b0637f2fcf1c68f6eeae6becaf1b631d8039159f15b3fff3eba3de765d90154d",
+  "errorSummary": "Could not find profile folder"
+}
