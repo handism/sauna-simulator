@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "scripts/summarize_auto_motion.py": "54f9ce0cebab90fb53eb88405bd72f86a943848cc34e2096b53cba649ec5eb10",
+    "scripts/analyze_auto_motion_frames.py": "c60af46e5b6eabe741f4fd3b9922654483ec4674f7351efede43d672f7236af7",
+    "scripts/test_auto_motion_frames.py": "34efe5465473b28d61681d3570cd53a89fea52c35352489eae03c097989632a7",
+    "scripts/test_motion_frame_validation.py": "37d41cba22940468296c2ee5a0b683ae967773a149a97754ebbf352ca04d0dc7",
+    "scripts/test_surround_validation.py": "c49e868e8a1989c779694f12da5463052b6400da852d381c5057cc5403081cda"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": 321,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "motionFrameTests": 13,
+    "motionInputTests": 9,
+    "browserCases": 2
+  },
+  "limits": "Playwright WebKit fixed-view sauna recordings only (not real Safari); no product change or ordinary regression/soak/network rerun."
+}

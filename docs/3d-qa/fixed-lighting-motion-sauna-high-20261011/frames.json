@@ -1,0 +1,114 @@
+{
+ "schema": 3,
+ "scriptSha256": "c60af46e5b6eabe741f4fd3b9922654483ec4674f7351efede43d672f7236af7",
+ "summarySha256": "866b2a27254318c2d1722647c692146a962b49111f5e79b8d95862abe88e0f43",
+ "size": [
+  320,
+  200
+ ],
+ "limits": "Lossy encoded frames, spatially reduced to 320x200; page/video clock alignment is approximate. Differences include waves, foliage, TAA, exposure and codec refresh. No perceptual flicker verdict, mirror attribution, FPS or individual-step bound.",
+ "runs": {
+  "sauna-12": {
+   "frames": 4995,
+   "videoSha256": "1dd85c4c107f07073fa07d6b2567c52af634c9ee0d4368b6db935c2e65f80878",
+   "samplesSha256": "403273cdde5510a4cd509f575750bff021f047747be909caf7a160987fb4c072",
+   "unchangedFrames": 2504,
+   "segments": {
+    "ramp": {
+     "seconds": 178.0,
+     "meanLumaStartEnd": [
+      95.9,
+      74.78
+     ],
+     "diffP50": 0.052,
+     "diffP99": 0.351,
+     "diffMax": 0.594,
+     "diffMaxAtSeconds": 7.51,
+     "diffMaxVideoSeconds": 10.52,
+     "keyframeDiffMax": 2.471,
+     "keyframeDiffMaxAtSeconds": 22.59,
+     "keyframeDiffMaxVideoSeconds": 25.6,
+     "highPassTriples": 1779,
+     "highPassMean": 0.1436,
+     "highPassBlockMax": 0.788
+    },
+    "hold": {
+     "seconds": 13.0,
+     "meanLumaStartEnd": [
+      74.31,
+      74.05
+     ],
+     "diffP50": 0.017,
+     "diffP99": 0.279,
+     "diffMax": 0.458,
+     "diffMaxAtSeconds": 191.83,
+     "diffMaxVideoSeconds": 194.84,
+     "keyframeDiffMax": 2.312,
+     "keyframeDiffMaxAtSeconds": 181.31,
+     "keyframeDiffMaxVideoSeconds": 184.32,
+     "highPassTriples": 19,
+     "highPassMean": 0.0922,
+     "highPassBlockMax": 0.622
+    }
+   },
+   "rampBlocksOverTwiceHold": 0,
+   "mirrorBandPowerRatio": 1.609,
+   "mirrorBandWindowCount": 8,
+   "endpointChangeDividedBy500": {
+    "p99": 0.151,
+    "max": 0.241
+   }
+  },
+  "sauna-27": {
+   "frames": 5270,
+   "videoSha256": "1505b41ad8aa1ccbdacddc46a047d8afa35f485e1d6def5be3b424bd4b0ef6a7",
+   "samplesSha256": "b5f942342d397fd2a2ac6f53b3f429c6cc94588ef5d1698c52169f2230916f31",
+   "unchangedFrames": 3005,
+   "segments": {
+    "ramp": {
+     "seconds": 178.0,
+     "meanLumaStartEnd": [
+      73.99,
+      60.4
+     ],
+     "diffP50": 0.038,
+     "diffP99": 0.304,
+     "diffMax": 0.544,
+     "diffMaxAtSeconds": 1.55,
+     "diffMaxVideoSeconds": 15.64,
+     "keyframeDiffMax": 2.293,
+     "keyframeDiffMaxAtSeconds": 6.39,
+     "keyframeDiffMaxVideoSeconds": 20.48,
+     "highPassTriples": 1215,
+     "highPassMean": 0.1241,
+     "highPassBlockMax": 0.684
+    },
+    "hold": {
+     "seconds": 13.0,
+     "meanLumaStartEnd": [
+      60.04,
+      59.91
+     ],
+     "diffP50": 0.018,
+     "diffP99": 0.227,
+     "diffMax": 0.446,
+     "diffMaxAtSeconds": 191.27,
+     "diffMaxVideoSeconds": 205.36,
+     "keyframeDiffMax": 1.951,
+     "keyframeDiffMaxAtSeconds": 190.71,
+     "keyframeDiffMaxVideoSeconds": 204.8,
+     "highPassTriples": 23,
+     "highPassMean": 0.1232,
+     "highPassBlockMax": 0.665
+    }
+   },
+   "rampBlocksOverTwiceHold": 0,
+   "mirrorBandPowerRatio": 1.555,
+   "mirrorBandWindowCount": 8,
+   "endpointChangeDividedBy500": {
+    "p99": 0.147,
+    "max": 0.161
+   }
+  }
+ }
+}
