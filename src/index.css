@@ -553,20 +553,25 @@ h2:focus {
 
 .journey-guide {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 14px;
-  margin: 6px 0 28px;
+  gap: 6px 18px;
+  margin: 6px 0 24px;
   color: var(--ink);
   font-size: 0.9rem;
+}
+.journey-steps {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
 }
 .journey-guide .action-icon {
   width: 16px;
   color: var(--wood-deep);
 }
-.entry-duration {
-  margin: -12px 0 24px;
-  font-size: 0.9rem;
-  line-height: 1.6;
+.journey-note {
+  font-size: 0.85rem;
   color: var(--ink-soft);
   text-shadow: var(--text-shadow-soft);
 }
@@ -795,18 +800,21 @@ h2:focus {
 }
 /* 開閉の印はブラウザ標準の三角ではなく、パネルの取っ手と同じ線のシェブロンにする */
 .stage-details > summary,
-.score-details > summary {
+.score-details > summary,
+.entry-help > summary {
   display: flex;
   align-items: center;
   gap: 10px;
   list-style: none;
 }
 .stage-details > summary::-webkit-details-marker,
-.score-details > summary::-webkit-details-marker {
+.score-details > summary::-webkit-details-marker,
+.entry-help > summary::-webkit-details-marker {
   display: none;
 }
 .stage-details > summary::before,
-.score-details > summary::before {
+.score-details > summary::before,
+.entry-help > summary::before {
   content: '';
   flex-shrink: 0;
   width: 6px;
@@ -818,7 +826,8 @@ h2:focus {
   transition: transform 0.2s ease;
 }
 .stage-details[open] > summary::before,
-.score-details[open] > summary::before {
+.score-details[open] > summary::before,
+.entry-help[open] > summary::before {
   transform: translateY(-2px) rotate(45deg);
 }
 .stage-info-row {
@@ -1632,7 +1641,8 @@ h2:focus {
   .app-start-screen,
   .stay-timer-bar,
   .stage-details > summary::before,
-  .score-details > summary::before {
+  .score-details > summary::before,
+  .entry-help > summary::before {
     transition: none;
   }
   .primary-btn:active,
@@ -1886,7 +1896,9 @@ h2:focus {
   color: var(--ink-soft);
   text-shadow: var(--text-shadow-soft);
 }
+/* 中央の1行に収め、開閉の印は他の開閉と同じ線のシェブロン */
 .entry-help > summary {
+  display: inline-flex;
   cursor: pointer;
   padding: 12px;
   min-height: 44px;
@@ -1894,12 +1906,6 @@ h2:focus {
 }
 .entry-help .app-shortcut-hint {
   margin-top: 8px;
-}
-.journey-guide {
-  margin-bottom: 20px;
-}
-.entry-duration {
-  margin-bottom: 16px;
 }
 .stay-timer-goal {
   font-size: 0.9rem;

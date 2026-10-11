@@ -124,13 +124,13 @@ function App() {
                 </h1>
                 <p className="app-subtitle">音と景色で、ひと息つく。</p>
 
-                <p className="journey-guide" aria-label="体験の流れ">
-                  サウナ <ActionIcon name="arrow" /> 水風呂 <ActionIcon name="arrow" /> 外気浴
-                </p>
-                <p className="entry-duration">
-                  1セットは約1〜2分から。
-                  <br />
-                  好きなタイミングで移動できます。
+                {/* 流れと所要時間を1行で伝える。狭い画面では所要時間が次の行に回る */}
+                <p className="journey-guide">
+                  <span className="visually-hidden">体験の流れ：</span>
+                  <span className="journey-steps">
+                    サウナ <ActionIcon name="arrow" /> 水風呂 <ActionIcon name="arrow" /> 外気浴
+                  </span>
+                  <span className="journey-note">1セット約1〜2分・移動は自由</span>
                 </p>
                 {/* 景色は入室前に決めるため、入室ボタンより先に置く。説明は各選択肢の中に小さく添える */}
                 <div className="entry-scene-choice" role="group" aria-label="景色">

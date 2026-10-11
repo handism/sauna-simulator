@@ -12,7 +12,7 @@ for (const viewport of [
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('?view=2d');
-    await expect(page.getByLabel('体験の流れ')).toBeVisible();
+    await expect(page.getByText('1セット約1〜2分・移動は自由')).toBeVisible();
     await expect(page.getByRole('button', { name: '3Dを試す' })).toBeHidden();
     await openSceneSettings(page);
     await expect(page.getByRole('button', { name: '3Dを試す' })).toBeVisible();
