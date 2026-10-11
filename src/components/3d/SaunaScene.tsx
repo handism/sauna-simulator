@@ -11,6 +11,7 @@ import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { createSteam, LIFETIME_SECONDS } from './steam';
+import { addGardenDetails } from './gardenDetails';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
 import { createRain } from './rain';
@@ -162,7 +163,7 @@ export default function SaunaScene({
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
     let mirror: PlanarReflection | null = null;
-    const mirrorState = [0, 0, 0, 0, 0];
+    const mirrorState = [0, 0, 0, 0, 0, 0];
     const seasonColors = createSeasonColors();
     let gardenAdded = 0;
     let qualityIndex = 0;
@@ -312,7 +313,10 @@ export default function SaunaScene({
           return refraction.triangles;
         };
         addSpringFlowers(gltf.scene);
+        const gardenDetails = addGardenDetails(gltf.scene);
         prepare(gltf.scene);
+        gardenDetails.finishPreparation();
+        gardenDetails.update(0, seasonRef.current, lighting.time, weatherRef.current, reducedMotion.matches);
         const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
         // After every material change: the mirrored images copy the finished materials.
         const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
@@ -652,6 +656,9 @@ export default function SaunaScene({
           setData('weather', weatherRef.current);
           setData('rain', lighting.rain.toFixed(3));
           setData('snow', lighting.snow.toFixed(3));
+          gardenDetails.update(now / 1000, seasonRef.current, lighting.time, weatherRef.current, reducedMotion.matches);
+          mirrorState[5] = reducedMotion.matches ? 0 : Math.floor(now / 125);
+          setData('gardenDetails', 'ready');
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);
           waterEffects.update(now / 1000, reducedMotion.matches, lighting.rain);
           const fallTime = reducedMotion.matches ? 0 : now / 1000;

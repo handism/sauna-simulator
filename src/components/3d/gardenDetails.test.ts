@@ -1,0 +1,78 @@
+import { describe, expect, it } from 'vitest';
+import * as THREE from 'three';
+import { addGardenDetails } from './gardenDetails';
+import { disposeTree, prepareModel } from './modelMaterials';
+
+function garden() {
+  const root = new THREE.Group();
+  const material = new THREE.MeshStandardMaterial();
+  material.name = 'garden moss';
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), material);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = 2;
+  root.add(ground);
+  const details = addGardenDetails(root);
+  prepareModel(root);
+  details.finishPreparation();
+  return { root, details };
+}
+
+describe('garden accents', () => {
+  it('anchors decorations to the ground, keeps moving objects out of static shadows, and has valid geometry', () => {
+    const { root, details } = garden();
+    details.update(3, 'summer', 0, 'clear', false);
+    const grass = root.getObjectByName('Garden grasses 0') as THREE.Mesh;
+    expect(grass.position.y).toBeCloseTo(2);
+    expect(grass.castShadow).toBe(false);
+    root.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      expect(object.geometry).toBeInstanceOf(THREE.BufferGeometry);
+      expect(Array.from(object.geometry.attributes.position.array).every(Number.isFinite)).toBe(true);
+    });
+    disposeTree(root);
+  });
+
+  it('removes flowers in winter and freezes grass under reduced motion without allocating new geometry', () => {
+    const { root, details } = garden();
+    const flowers = root.getObjectByName('Garden seasonal flowers') as THREE.Mesh;
+    const grass = root.getObjectByName('Garden grasses 0') as THREE.Mesh;
+    const geometry = grass.geometry;
+    details.update(2, 'summer', 0, 'clear', false);
+    expect(grass.rotation.z).not.toBe(0);
+    expect(flowers.visible).toBe(true);
+    details.update(9, 'winter', 2, 'snow', true);
+    expect(flowers.visible).toBe(false);
+    expect(grass.rotation.z).toBe(0);
+    details.update(18, 'spring', 0, 'clear', true);
+    expect(flowers.visible).toBe(true);
+    expect(grass.rotation.z).toBe(0);
+    expect(grass.geometry).toBe(geometry);
+    disposeTree(root);
+  });
+
+  it('shows butterflies only on warm clear days and hides them for reduced motion', () => {
+    const { root, details } = garden();
+    const butterfly = root.getObjectByName('Garden butterfly 0')!;
+    details.update(2, 'summer', 0, 'clear', false);
+    expect(butterfly.visible).toBe(true);
+    for (const [season, time, weather, reduced] of [
+      ['winter', 0, 'clear', false],
+      ['summer', 0, 'rain', false],
+      ['summer', 2, 'clear', false],
+      ['spring', 0, 'clear', true],
+    ] as const) {
+      details.update(2, season, time, weather, reduced);
+      expect(butterfly.visible).toBe(false);
+    }
+    details.update(30, 'summer', 0, 'clear', false);
+    expect(butterfly.visible).toBe(false);
+    disposeTree(root);
+  });
+
+  it('leaves models without garden terrain alone', () => {
+    const root = new THREE.Group();
+    const details = addGardenDetails(root);
+    details.update(0, 'summer', 0, 'clear', false);
+    expect(root.children).toHaveLength(0);
+  });
+});
