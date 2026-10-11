@@ -495,19 +495,6 @@ h2:focus {
   display: flex;
   align-items: center;
 }
-.settings-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  cursor: pointer;
-}
-.settings-checkbox input {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--wood);
-}
 .scene-lighting-control {
   display: flex;
   align-items: center;
@@ -792,48 +779,6 @@ h2:focus {
   pointer-events: auto;
 }
 
-/* パネル上端の取っ手。触れる範囲は44pxを保ち、見た目は細い棒と矢印だけ */
-.dock-handle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-width: 96px;
-  height: 44px;
-  padding: 0 12px;
-  font: inherit;
-  font-size: 0.75rem;
-  margin: -18px auto -8px;
-  border: 0;
-  background: transparent;
-  color: var(--ink-muted);
-  cursor: pointer;
-}
-.dock-handle-label {
-  color: var(--ink-soft);
-  font-size: 0.85rem;
-}
-.dock-handle-bar {
-  width: 36px;
-  height: 4px;
-  border-radius: var(--radius-pill);
-  background: var(--line-strong);
-  transition: background-color 0.3s ease;
-}
-@media (hover: hover) {
-  .dock-handle:hover,
-  .dock-handle:hover .dock-handle-label {
-    color: var(--ink-strong);
-  }
-  .dock-handle:hover .dock-handle-bar {
-    background: var(--ink-muted);
-  }
-}
-.dock-handle:focus-visible {
-  outline-offset: -2px;
-  border-radius: var(--radius-md);
-}
-
 .stage-details {
   border-top: 1px solid var(--line);
   margin: 14px 0;
@@ -918,26 +863,6 @@ h2:focus {
   border-top: 1px solid var(--glass-border);
 }
 
-/* コンパクト表示では時間・主操作・表示復帰だけを残す。初回案内はロウリュの説明なので残す
-   （スマホは既定でコンパクトから始まるため。最初のロウリュで閉じる） */
-.stage-dock[data-compact='true'] {
-  padding: 12px 18px 16px;
-}
-.stage-dock[data-compact='true'] .dock-handle {
-  margin-top: -12px;
-}
-.stage-dock[data-compact='true'] .sauna-meters-grid,
-.stage-dock[data-compact='true'] .cooling-heart,
-.stage-dock[data-compact='true'] .stage-details,
-.stage-dock[data-compact='true'] .stay-timer-track {
-  display: none;
-}
-.stage-dock[data-compact='true'] .stay-timer {
-  border: 0;
-  padding: 0;
-  margin: 0 0 12px;
-}
-
 /* 初回案内は説明するロウリュボタンの真上に1段で置き、メーターを押し下げない */
 .first-visit-guide {
   display: flex;
@@ -1011,11 +936,6 @@ h2:focus {
   font-weight: 400;
   color: var(--ink-soft);
 }
-.stay-timer-reached {
-  margin-left: 10px;
-  font-size: 0.75rem;
-  color: var(--moss);
-}
 .stay-timer[data-reached='true'] .stay-timer-bar {
   background: var(--moss);
 }
@@ -1086,22 +1006,6 @@ h2:focus {
     text-shadow: none;
   }
 }
-/* 通知は主操作の直上に専用の高さを確保し、開閉の取っ手と重ねない。 */
-.loyly-feedback {
-  display: none;
-}
-.stage-dock[data-compact='true'] .loyly-feedback {
-  display: block;
-  min-height: 26px;
-}
-.loyly-compact-delta {
-  margin: 0;
-  font-size: 0.8rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--wood);
-  pointer-events: none;
-  animation: meter-delta-rise 1.6s ease-out forwards;
-}
 @keyframes meter-delta-rise {
   0% {
     opacity: 0;
@@ -1127,12 +1031,6 @@ h2:focus {
   100% {
     opacity: 0;
   }
-}
-
-.sauna-info-panel,
-.cooling-info-panel {
-  display: grid;
-  gap: 12px;
 }
 
 /* Steam blur overlay after Löyly. */
@@ -1410,72 +1308,34 @@ h2:focus {
   box-shadow: none;
 }
 
-/* 振り返りかスコアを開くとパネルが伸びて呼吸ガイドに重なるため、ガイドを見出しの下へ小さく退かせ、
-   パネルはその下までに収める（はみ出す分はパネル内でスクロールし、主操作は下端に固定される）。
-   コンパクト表示では振り返りが隠れるため、ガイドは元の位置のままにする */
-.scene-container:has(.rest-dock:not([data-compact='true']) [open]) {
+/* スコアを開くとパネルが伸びて呼吸ガイドに重なるため、ガイドを見出しの下へ小さく退かせ、
+   パネルはその下までに収める（はみ出す分はパネル内でスクロールし、主操作は下端に固定される） */
+.scene-container:has(.rest-dock [open]) {
   --breath-docked-top: 222px;
   --breath-docked-size: 84px;
 }
-.scene-container:has(.rest-dock:not([data-compact='true']) [open]) .breathing-circle-premium {
+.scene-container:has(.rest-dock [open]) .breathing-circle-premium {
   position: absolute;
   top: calc(var(--breath-docked-top) + env(safe-area-inset-top, 0px));
   width: var(--breath-docked-size);
   height: var(--breath-docked-size);
   margin: 0;
 }
-.scene-container:has(.rest-dock:not([data-compact='true']) [open]) .breathing-label {
+.scene-container:has(.rest-dock [open]) .breathing-label {
   font-size: 0.85rem;
   letter-spacing: 1px;
 }
-.scene-container:has(.rest-dock:not([data-compact='true']) [open]) .rest-dock {
+.scene-container:has(.rest-dock [open]) .rest-dock {
   max-height: calc(
     100dvh - var(--breath-docked-top) - var(--breath-docked-size) - 64px - env(safe-area-inset-top, 0px) -
       env(safe-area-inset-bottom, 0px)
   );
 }
 
-.rest-details {
-  margin: 0;
-  border-top: none;
-}
-.rest-disclosures {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 12px;
-  margin-bottom: 12px;
-}
-.rest-disclosures > .stage-details {
-  margin: 0;
-  border-top: none;
-}
-.rest-disclosures > details[open] {
-  grid-column: 1 / -1;
-}
-.rest-disclosures > details > summary {
-  font-size: 0.85rem;
-  line-height: 1.5;
-}
-.stage-dock[data-compact='true'] .rest-disclosures {
-  display: none;
-}
+/* 外気浴のパネルはスコアが先頭なので、区切り線を付けない */
 .rest-dock .score-details {
   margin-top: 0;
-}
-.rest-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding-top: 6px;
-}
-.rest-summary dt {
-  font-size: 0.75rem;
-  color: var(--ink-muted);
-  margin-bottom: 8px;
-}
-.rest-summary dd {
-  font-size: 1rem;
-  font-variant-numeric: tabular-nums;
+  border-top: none;
 }
 .score-details {
   border-top: 1px solid var(--line);
@@ -1497,10 +1357,9 @@ h2:focus {
   align-items: baseline;
   justify-content: space-between;
 }
-.totonou-score {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
+/* 段階名は閉じたスコアの見出しの右端に添える */
+.score-details > summary .totonou-tier {
+  margin-left: auto;
 }
 .totonou-tier {
   font-size: 1.1rem;
@@ -1638,15 +1497,11 @@ h2:focus {
 }
 
 /* ---------- UI hidden ---------- */
+/* 呼吸ガイドは景色の一部として、操作を隠しても残す */
 .ui-hidden .stage-dock,
-.ui-hidden .stage-heading,
-.ui-hidden .breathing-circle-premium {
+.ui-hidden .stage-heading {
   visibility: hidden;
   pointer-events: none;
-}
-.ui-hidden[data-keep-breathing='true'] .scene-container .breathing-circle-premium {
-  visibility: visible;
-  opacity: 1;
 }
 .ui-hidden .scene-status {
   opacity: 0;
@@ -1792,8 +1647,7 @@ h2:focus {
     animation: none !important;
   }
   /* The Löyly rise still has to disappear on its own, so it only fades in place. */
-  .meter-delta,
-  .stage-dock[data-compact='true'] .loyly-compact-delta {
+  .meter-delta {
     animation-name: meter-delta-fade;
   }
   /* Without their motion these would only flash in and out (the overlay blurs the whole view). */
@@ -1827,9 +1681,6 @@ h2:focus {
   .stage-dock {
     padding: 16px;
     bottom: calc(34px + env(safe-area-inset-bottom, 0px));
-  }
-  .dock-handle {
-    margin-top: -14px;
   }
   .stage-heading {
     top: calc(86px + env(safe-area-inset-top, 0px));
@@ -1885,10 +1736,6 @@ h2:focus {
     bottom: calc(28px + env(safe-area-inset-bottom, 0px));
     padding: 12px 16px;
   }
-  .dock-handle {
-    margin-top: -12px;
-    margin-bottom: -10px;
-  }
   .stage-details {
     margin: 8px 0;
   }
@@ -1917,7 +1764,7 @@ h2:focus {
     height: 130px;
     margin-bottom: 46px;
   }
-  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) {
+  .scene-container:has(.rest-dock [open]) {
     --breath-docked-top: 140px;
     --breath-docked-size: 72px;
   }
@@ -1949,16 +1796,16 @@ h2:focus {
   .breathing-label {
     letter-spacing: 2px;
   }
-  /* パネルは右にあり呼吸ガイドと重ならないため、振り返りを開いても元の位置と大きさのまま */
-  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) {
+  /* パネルは右にあり呼吸ガイドと重ならないため、スコアを開いても元の位置と大きさのまま */
+  .scene-container:has(.rest-dock [open]) {
     --breath-docked-top: 165px;
     --breath-docked-size: 110px;
   }
-  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) .breathing-label {
+  .scene-container:has(.rest-dock [open]) .breathing-label {
     font-size: 1rem;
     letter-spacing: 2px;
   }
-  .scene-container:has(.rest-dock:not([data-compact='true']) [open]) .rest-dock {
+  .scene-container:has(.rest-dock [open]) .rest-dock {
     max-height: calc(100dvh - 110px);
   }
 }
@@ -1972,11 +1819,6 @@ h2:focus {
   }
 }
 
-.stay-timer-note {
-  color: var(--ink-soft);
-  font-size: 0.85rem;
-  margin: 6px 0;
-}
 @media (prefers-reduced-motion: reduce) {
   [data-breath] .breathing-circle-premium {
     transform: none;
@@ -1997,7 +1839,7 @@ h2:focus {
   }
 }
 
-/* 終了は主操作より控えめにしつつ、コンパクト表示でも常にアクセスできる。 */
+/* 終了は主操作より控えめにしつつ、常にアクセスできる。 */
 .dock-finish {
   display: block;
   min-height: 44px;
@@ -2013,31 +1855,24 @@ h2:focus {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.settings-more.stage-details {
-  margin: 0;
-}
-.settings-more-content {
-  display: grid;
-  gap: 12px;
-}
 /* 縦長の低い画面では、詳細項目を開く前からパネルがリングに重なる。 */
 @media (max-height: 620px) and (max-width: 599px) {
-  .scene-container:has(.rest-dock[data-compact='false']) {
+  .scene-container:has(.rest-dock) {
     --breath-docked-top: 140px;
     --breath-docked-size: 72px;
   }
-  .scene-container:has(.rest-dock[data-compact='false']) .breathing-circle-premium {
+  .scene-container:has(.rest-dock) .breathing-circle-premium {
     position: absolute;
     top: calc(var(--breath-docked-top) + env(safe-area-inset-top, 0px));
     width: var(--breath-docked-size);
     height: var(--breath-docked-size);
     margin: 0;
   }
-  .scene-container:has(.rest-dock[data-compact='false']) .breathing-label {
+  .scene-container:has(.rest-dock) .breathing-label {
     font-size: 0.85rem;
     letter-spacing: 1px;
   }
-  .scene-container:has(.rest-dock[data-compact='false']) .rest-dock {
+  .scene-container:has(.rest-dock) .rest-dock {
     max-height: calc(
       100dvh - var(--breath-docked-top) - var(--breath-docked-size) - 64px - env(safe-area-inset-top, 0px) -
         env(safe-area-inset-bottom, 0px)
@@ -2066,8 +1901,7 @@ h2:focus {
 .entry-duration {
   margin-bottom: 16px;
 }
-.stay-timer-goal,
-.stay-timer-note {
+.stay-timer-goal {
   font-size: 0.9rem;
   color: var(--ink-soft);
 }

@@ -1,5 +1,4 @@
 import SoundControl from './components/SoundControl';
-import { readPreference, writePreference } from './utils/preferences';
 import { useEffect, useRef, useState } from 'react';
 import './index.css';
 import SceneMode from './components/SceneMode';
@@ -60,9 +59,6 @@ function App() {
     dismissSummary,
   } = useSaunaContext();
 
-  const [keepBreathing, setKeepBreathing] = useState(
-    () => readPreference('sui-keep-breathing', ['yes', 'no'], 'no') === 'yes',
-  );
   const [loylyEvents] = useState(() => new EventTarget());
   const fullscreen = useFullscreen();
   // Space is bound by each stage to its own main action.
@@ -76,11 +72,7 @@ function App() {
   }, [stage, sessionSummary]);
 
   return (
-    <div
-      className={`app-container ${isUiHidden ? 'ui-hidden' : ''}`}
-      data-keep-breathing={keepBreathing}
-      style={{ background: '#000' }}
-    >
+    <div className={`app-container ${isUiHidden ? 'ui-hidden' : ''}`} style={{ background: '#000' }}>
       <div className="background-stack" style={{ opacity }}>
         {background && (
           <div
@@ -99,16 +91,11 @@ function App() {
         enteredAt={enteredAt ?? undefined}
         opacity={opacity}
         loylyEvents={loylyEvents}
-        keepBreathing={keepBreathing}
         settingsExtra={
           fullscreen.isSupported && (
             <FullscreenMenuButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
           )
         }
-        onKeepBreathingChange={(value) => {
-          setKeepBreathing(value);
-          writePreference('sui-keep-breathing', value ? 'yes' : 'no');
-        }}
       >
         {(is3d, toggle3d, settings) => (
           <div className="app-main-ui-container" ref={contentRef}>

@@ -7,7 +7,6 @@ import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
 import { useSecondTicker } from '../hooks/useSecondTicker';
 import type { SaunaResult } from '../hooks/useSaunaSession';
 import { calculateHeatIndex, RESTING_HEART_RATE, STAY_TARGET_SECONDS } from '../utils/saunaUtils';
-import HeartRateRow from './HeartRateRow';
 import StayTimer from './StayTimer';
 import { ActionIcon } from './ActionIcon';
 import StageStep from './StageStep';
@@ -167,9 +166,6 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly, onFinish }: SaunaRoo
     });
   });
 
-  // 体感温度のリアルタイム計算
-  const heatIndex = calculateHeatIndex(temperature, humidity);
-
   const handleLeave = () => {
     onNext({ heartRate: Math.round(heartRate), saunaTime: seconds, loylyCount: loylyCountRef.current });
   };
@@ -217,37 +213,11 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly, onFinish }: SaunaRoo
           </div>
         </div>
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.SAUNA} />
-        {/* 体感温度 & 心拍数情報 */}
-        <details className="stage-details">
-          <summary>からだの様子を見る</summary>
-          <div className="sauna-info-panel">
-            <div className="stage-info-row">
-              <span className="reading-label">体感温度</span>
-              <span className="dashboard-value">{Math.round(heatIndex)}°C</span>
-            </div>
-
-            <HeartRateRow heartRate={heartRate} />
-          </div>
-
-          <p className="detail-note">数値は体験内のシミュレーションです。</p>
-        </details>
         {/* 案内は説明するロウリュボタンの真上に置く（メーターを押し下げない） */}
         {showGuide && <FirstVisitGuide onDismiss={dismissGuide} />}
-        {!showGuide && (
-          <div className="loyly-feedback" aria-hidden="true">
-            {loylyDelta && (loylyDelta.temperature > 0 || loylyDelta.humidity > 0) && (
-              <p key={loylyDelta.id} className="loyly-compact-delta">
-                温度 +{loylyDelta.temperature} · 湿度 +{loylyDelta.humidity}
-              </p>
-            )}
-          </div>
-        )}
         <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
-            <ActionIcon name="steam" /> ロウリュ{' '}
-            <kbd className="button-shortcut" aria-hidden="true">
-              Space
-            </kbd>
+            <ActionIcon name="steam" /> ロウリュ
           </button>
           <button className="primary-btn sauna-next-stage-btn" onClick={handleLeave}>
             水風呂へ <ActionIcon name="arrow" />

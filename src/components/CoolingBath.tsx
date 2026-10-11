@@ -84,7 +84,7 @@ const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext, onFinish }: Cool
         <h2 className="cooling-title" tabIndex={-1}>
           水風呂
         </h2>
-        <p>水の音に耳を澄ませて。</p>
+        <p>{COOLING_CONFIG.WATER_TEMP}°Cの水の音に、耳を澄ませて。</p>
       </header>
       <StageDock onFinish={onFinish} className="cooling-panel">
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.WATER} />
@@ -92,21 +92,8 @@ const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext, onFinish }: Cool
         <div className="cooling-heart">
           <HeartRateRow heartRate={heartRate} divided={false} />
         </div>
-        <details className="stage-details">
-          <summary>水の様子を見る</summary>
-          <div className="cooling-info-panel">
-            <div className="stage-info-row">
-              <span className="reading-label">水温</span>
-              <span className="dashboard-value">{COOLING_CONFIG.WATER_TEMP}°C</span>
-            </div>
-          </div>
-          <p className="detail-note">数値は体験内のシミュレーションです。</p>
-        </details>
         <button className="primary-btn cooling-next-btn" onClick={handleLeave} aria-keyshortcuts="Space">
-          外気浴へ <ActionIcon name="arrow" />{' '}
-          <kbd className="button-shortcut" aria-hidden="true">
-            Space
-          </kbd>
+          外気浴へ <ActionIcon name="arrow" />
         </button>
       </StageDock>
 

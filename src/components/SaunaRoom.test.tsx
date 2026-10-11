@@ -32,8 +32,8 @@ describe('SaunaRoom', () => {
     // Temperature: 90°C, Humidity: 15%
     expect(screen.getByText('90°C')).toBeInTheDocument();
     expect(screen.getByText('15%')).toBeInTheDocument();
-    // Heart rate initial: 75
-    expect(screen.getByText(/75/)).toBeInTheDocument();
+    // The heart rate is simulated here but shown only in the cold bath.
+    expect(screen.queryByText(/BPM/i)).not.toBeInTheDocument();
   });
 
   it('updates state periodically', () => {
@@ -48,10 +48,6 @@ describe('SaunaRoom', () => {
 
     // Hum drops 0.4 per second. 15 -> 14.6 -> ... -> 12
     expect(screen.getByText('12%')).toBeInTheDocument();
-
-    // Heart rate increases
-    const hrElement = screen.getByText(/BPM/i).parentElement;
-    expect(hrElement).not.toHaveTextContent('75 BPM');
   });
 
   it('handles Loyly button interaction', () => {
@@ -117,14 +113,14 @@ describe('SaunaRoom', () => {
     const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
     const value = container.querySelector('.stay-timer-value');
     // The suggestion sits next to the reading; screen readers hear what the second figure means.
-    expect(value).toHaveTextContent('0:00 · 目安 50秒');
-    expect(screen.queryByText('目安に届きました')).not.toBeInTheDocument();
+    expect(value).toHaveTextContent('0:00 / 目安 50秒');
+    expect(container.querySelector('.stay-timer')).toHaveAttribute('data-reached', 'false');
 
     act(() => {
       vi.advanceTimersByTime(50_000);
     });
-    expect(value).toHaveTextContent('0:50 · 目安 50秒');
-    expect(screen.getByText('目安に届きました')).toBeInTheDocument();
+    expect(value).toHaveTextContent('0:50 / 目安 50秒');
+    expect(container.querySelector('.stay-timer')).toHaveAttribute('data-reached', 'true');
   });
 
   it('pours Löyly with the Space key', () => {
@@ -219,12 +215,9 @@ describe('SaunaRoom', () => {
     expect(loylyCount).toBe(1);
   });
 
-  it('shows the current set and the Löyly rise for the compact dock', () => {
+  it('shows the current set in the heading', () => {
     render(<SaunaRoom audio={mockAudioEngine as any} setNumber={2} onNext={mockOnNext} />);
     expect(screen.getByText('2セット目')).toBeInTheDocument();
     expect(screen.getByText('3段階中1番目')).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('button', { name: /ロウリュ/ }));
-    expect(screen.getByText('温度 +3 · 湿度 +25')).toBeInTheDocument();
   });
 });

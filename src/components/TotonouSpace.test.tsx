@@ -107,6 +107,9 @@ describe('TotonouSpace Component', () => {
   it('should render correctly and display initial breathing text', () => {
     render(<TotonouSpace saunaTime={50} waterTime={20} loylyCount={2} scoreHistory={[100]} onNext={() => {}} />);
     expect(screen.getByText('外気浴')).toBeInTheDocument();
+    // The tier name stays readable on the closed score; the stays are inside it.
+    expect(screen.getByText('スコア', { exact: true }).closest('summary')).toHaveTextContent(/スコア.+/);
+    expect(screen.getByText('0:50 / 0:20')).not.toBeVisible();
     expect(screen.getByText('風の音に身を任せて')).toBeInTheDocument();
     expect(screen.getByText('吸って…')).toBeInTheDocument();
   });
@@ -157,9 +160,8 @@ describe('TotonouSpace Component', () => {
     act(() => {
       vi.advanceTimersByTime(10_000);
     });
-    // The meter only starts rising once the reflection is opened.
+    // The meter only starts rising once the score is opened.
     expect(screen.queryByText(feedback)).not.toBeInTheDocument();
-    fireEvent.click(screen.getByText('振り返り', { exact: true }));
     fireEvent.click(screen.getByText('スコア', { exact: true }));
     act(() => {
       vi.advanceTimersByTime(10_000);
@@ -177,7 +179,6 @@ describe('TotonouSpace Component', () => {
 
     render(<TotonouSpace saunaTime={35} waterTime={18} loylyCount={0} scoreHistory={[50, 71]} onNext={() => {}} />);
     expect(screen.getByText('2セット目')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('振り返り', { exact: true }));
     fireEvent.click(screen.getByText('スコア', { exact: true }));
     const items = screen.getAllByRole('listitem');
     expect(items.map((item) => item.textContent)).toEqual(['50%1セット', '71%2セット']);

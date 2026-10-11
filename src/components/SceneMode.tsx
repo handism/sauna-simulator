@@ -174,16 +174,12 @@ export default function SceneMode({
   loylyEvents,
   audio,
   children,
-  keepBreathing = false,
-  onKeepBreathingChange,
   settingsExtra,
 }: {
   /** Receives the mode, its switch and the settings menu, which the caller places in its toolbar. */
   children?: (enabled: boolean, toggle: () => void, settings: ReactNode) => ReactNode;
-  keepBreathing?: boolean;
   /** Additional controls in the settings disclosure (the fullscreen switch). */
   settingsExtra?: ReactNode;
-  onKeepBreathingChange?: (value: boolean) => void;
   audio: AudioEngine;
   stage: Stage;
   /** Date.now() of entering, for the automatic lighting (the scene's mount when absent). */
@@ -253,27 +249,12 @@ export default function SceneMode({
               {stage === 'start' && <span>入室すると3Dで体験できます</span>}
             </>
           )}
-          <details className="settings-more stage-details">
-            <summary>その他</summary>
-            <div className="settings-more-content">
-              {settingsExtra}
-              {onKeepBreathingChange && (
-                <label className="settings-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={keepBreathing}
-                    onChange={(event) => onKeepBreathingChange(event.target.checked)}
-                  />
-                  UIを隠しても呼吸ガイドを残す
-                </label>
-              )}
-              {enabled && (
-                <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
-                  素材クレジット
-                </a>
-              )}
-            </div>
-          </details>
+          {settingsExtra}
+          {enabled && (
+            <a href={`${import.meta.env.BASE_URL}models/CREDITS.md`} target="_blank" rel="noreferrer">
+              素材クレジット
+            </a>
+          )}
         </div>
       </details>
     </div>
