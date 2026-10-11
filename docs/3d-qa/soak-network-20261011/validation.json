@@ -1,0 +1,554 @@
+{
+ "schema": 1,
+ "scope": "Current-source Chrome soak (5+ min resource stability) and CDP bandwidth/latency loading after the 2026-10-10/11 UI changes. Not performance, GPU total memory, audio-node counts, real devices, packet loss or production CDN.",
+ "commit": "84f6985a32271cdcc42677dde79e7f3e25596d4c",
+ "browser": "154.0.8037.98",
+ "soak": {
+  "stats": {
+   "startTime": "2026-10-11T03:02:02.403Z",
+   "duration": 324126.468,
+   "expected": 1,
+   "skipped": 0,
+   "unexpected": 0,
+   "flaky": 0
+  },
+  "reportSha256": "9f1174513229f20684818f5396626d27cff31764c1e92eb93ca19599fd52183b",
+  "tests": [
+   {
+    "title": "five minutes of effects, stages, quality and mode changes remain usable",
+    "status": "passed",
+    "retry": 0,
+    "durationMs": 322690,
+    "errors": 0
+   }
+  ],
+  "elapsedMs": 322216,
+  "cycles": 8,
+  "slowSamples": 0,
+  "errors": [],
+  "sampleCount": 40,
+  "groups": {
+   "low/evening/sauna": {
+    "samples": 9,
+    "textures": [
+     "17"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "138"
+    ],
+    "triangles": [
+     "732438"
+    ],
+    "temporal": [
+     "off"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "low/evening/water": {
+    "samples": 3,
+    "textures": [
+     "17"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "129"
+    ],
+    "triangles": [
+     "720272"
+    ],
+    "temporal": [
+     "off"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "low/evening/totonou": {
+    "samples": 3,
+    "textures": [
+     "17"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "83"
+    ],
+    "triangles": [
+     "539614"
+    ],
+    "temporal": [
+     "off"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "standard/night/sauna": {
+    "samples": 9,
+    "textures": [
+     "34"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "138"
+    ],
+    "triangles": [
+     "732438"
+    ],
+    "temporal": [
+     "on"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "standard/night/water": {
+    "samples": 3,
+    "textures": [
+     "34"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "129"
+    ],
+    "triangles": [
+     "720272"
+    ],
+    "temporal": [
+     "on"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "standard/night/totonou": {
+    "samples": 3,
+    "textures": [
+     "34"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "83"
+    ],
+    "triangles": [
+     "539614"
+    ],
+    "temporal": [
+     "on"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "high/day/sauna": {
+    "samples": 6,
+    "textures": [
+     "34"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "138"
+    ],
+    "triangles": [
+     "732438"
+    ],
+    "temporal": [
+     "on"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "high/day/water": {
+    "samples": 2,
+    "textures": [
+     "34"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "129"
+    ],
+    "triangles": [
+     "720272"
+    ],
+    "temporal": [
+     "on"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   },
+   "high/day/totonou": {
+    "samples": 2,
+    "textures": [
+     "34"
+    ],
+    "geometries": [
+     "128"
+    ],
+    "drawCalls": [
+     "83"
+    ],
+    "triangles": [
+     "539614"
+    ],
+    "temporal": [
+     "on"
+    ],
+    "pixelRatio": [
+     "1"
+    ],
+    "garden": [
+     "ready"
+    ],
+    "frameMeanMsRange": [
+     16.67,
+     16.67
+    ],
+    "frameMaxMs": 16.8
+   }
+  }
+ },
+ "network": {
+  "stats": {
+   "startTime": "2026-10-11T03:07:27.437Z",
+   "duration": 133757.172,
+   "expected": 5,
+   "skipped": 0,
+   "unexpected": 0,
+   "flaky": 0
+  },
+  "reportSha256": "660bd8271b5edb3ef41f1319d5253cc7afd750bb5d01fbccac6140c62c249bcc",
+  "tests": [
+   {
+    "title": "12 Mbps completion",
+    "status": "passed",
+    "retry": 0,
+    "durationMs": 9663,
+    "errors": 0
+   },
+   {
+    "title": "4 Mbps completion",
+    "status": "passed",
+    "retry": 0,
+    "durationMs": 24032,
+    "errors": 0
+   },
+   {
+    "title": "1.6 Mbps completion",
+    "status": "passed",
+    "retry": 0,
+    "durationMs": 55644,
+    "errors": 0
+   },
+   {
+    "title": "0.8 Mbps timeout",
+    "status": "passed",
+    "retry": 0,
+    "durationMs": 34340,
+    "errors": 0
+   },
+   {
+    "title": "0.8 Mbps manual cancellation",
+    "status": "passed",
+    "retry": 0,
+    "durationMs": 8655,
+    "errors": 0
+   }
+  ],
+  "profiles": [
+   {
+    "profile": {
+     "name": "12 Mbps completion",
+     "mbps": 12,
+     "latency": 80,
+     "outcome": "ready"
+    },
+    "elapsedMs": 3788,
+    "internalLoadMs": 3350,
+    "gardenElapsedMs": 8087,
+    "internalGardenMs": 7520,
+    "recoveryMs": null,
+    "errors": []
+   },
+   {
+    "profile": {
+     "name": "4 Mbps completion",
+     "mbps": 4,
+     "latency": 150,
+     "outcome": "ready"
+    },
+    "elapsedMs": 9956,
+    "internalLoadMs": 9266,
+    "gardenElapsedMs": 22281,
+    "internalGardenMs": 21495,
+    "recoveryMs": null,
+    "errors": []
+   },
+   {
+    "profile": {
+     "name": "1.6 Mbps completion",
+     "mbps": 1.6,
+     "latency": 150,
+     "outcome": "ready"
+    },
+    "elapsedMs": 23472,
+    "internalLoadMs": 22152,
+    "gardenElapsedMs": 53897,
+    "internalGardenMs": 52320,
+    "recoveryMs": null,
+    "errors": []
+   },
+   {
+    "profile": {
+     "name": "0.8 Mbps timeout",
+     "mbps": 0.8,
+     "latency": 150,
+     "outcome": "timeout"
+    },
+    "elapsedMs": 30450,
+    "internalLoadMs": null,
+    "gardenElapsedMs": null,
+    "internalGardenMs": null,
+    "recoveryMs": 585,
+    "errors": []
+   },
+   {
+    "profile": {
+     "name": "0.8 Mbps manual cancellation",
+     "mbps": 0.8,
+     "latency": 150,
+     "outcome": "cancel"
+    },
+    "elapsedMs": 4863,
+    "internalLoadMs": null,
+    "gardenElapsedMs": null,
+    "internalGardenMs": null,
+    "recoveryMs": 574,
+    "errors": []
+   }
+  ]
+ },
+ "hashes": {
+  "bun.lock": "f68b6b8e40f8a98152d0e4a9c30e4586df4bbcf48b816ee9efc03104d53af973",
+  "e2e/scene-loading.network.ts": "f7e49bb2efd9940d1c41783b934393b2e24dd8c82a07763e8df980f41df498bc",
+  "e2e/scene-stability.soak.ts": "45f4a379aeea8a3bf90f766ff0ff176ef2c14f6b350f8f5acd0cf8698ba032c9",
+  "index.html": "9028a119ad748d9b41ef0ad17feee2c605a377ce1732f5fd3fa1cf6358aea398",
+  "package.json": "9f61cc557b83976df540fae96763f778f02d77bb81177a2596ebdde3e5b5a6e6",
+  "playwright.network.config.ts": "e85e801ae206b0044693f6417c8542c13fd37659d43b80c0fecf3d79a3656cbf",
+  "playwright.soak.config.ts": "eae44a299fd51aa291f0df7d0c4e254c7d84b99a2d598114b96d81ebbf348261",
+  "public/favicon.svg": "b3166847d1800bd98de572bb23f26019f07da3fd33697186427a49ba10c3f781",
+  "public/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+  "public/models/CREDITS.md": "c2ea788205936aba0fc2009bc20d83053531e89216a521986f98addbbd57cdb4",
+  "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+  "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+  "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+  "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+  "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+  "public/models/sauna.glb": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+  "public/models/sauna.scene.json": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+  "public/sauna_bg.webp": "58233f0a5531c9094dfa9f30474ff213d07d5c93f58bcaafb114b54567cb6c37",
+  "public/totonou_bg.webp": "33137888ac05dc1dedb6847cd2525bbb112bd5f65f99ed47ba3125dedb6556d3",
+  "public/water_bg.webp": "e28902ead7c5f3e2dfb36855d0f99a05c16dfc16c457d0e415a589c8794414e7",
+  "src/App.tsx": "375dfd82b30240069b2e5397b332c3c647699550f9e7ee5544a8f138198c72d1",
+  "src/components/3d/CLAUDE.md": "1632cfbdb54584c3294abef47f9d802855f9830b6858c87cd56b0f0cbb684dd5",
+  "src/components/3d/SaunaScene.test.tsx": "b5242df899371afe01a6160fbcba5e2c3f61eeea9808ece40817c11750c94672",
+  "src/components/3d/SaunaScene.tsx": "c8e9aa1959895bc867f3fb21c759f2fadd40c2569a431df3f39d1ee29695ed51",
+  "src/components/3d/agx.test.ts": "8780f2c3f0ed088f4d10b86e4c62ecd1291657df89667e3ee98ae191f5ee7aa7",
+  "src/components/3d/agx.ts": "e61f358b008dbe6cd1a4606545fe66ea87e18fe21b572d462990fa48ee411dbc",
+  "src/components/3d/caustics.test.ts": "2c13c16139e45fe69a58d7895f2f420611bf0e1f4034431fa130cdd84ffa4308",
+  "src/components/3d/caustics.ts": "97a63fe23a116b258d43141bba0a4df8d188f386500d2dd8c394fe4d82b8c62f",
+  "src/components/3d/depthPrepass.test.ts": "4c7af6b71a6da42c0a8202828fdce101920a1fc7f103e8a6028899262f3427c7",
+  "src/components/3d/depthPrepass.ts": "519cff11b7ac8a5c149cfe88a5e0e9004770ada603d8873232e9fcc50bee4c76",
+  "src/components/3d/dynamicResolution.test.ts": "8caf048e9bc54eae84d3d23d593a6807f160c69db44d9a5e372d70b46555c576",
+  "src/components/3d/dynamicResolution.ts": "358b4bd82e57ba85a02bb6fc67a26829f8a9bf72d2a77e5da7c64d8c72f57a89",
+  "src/components/3d/foliage.test.ts": "95214e59bfc9cf55fcfa228fa8f05e9c725ce08472939776ccb2ab26a822834e",
+  "src/components/3d/foliage.ts": "d900a695228c8788d37904f5ad54b9770bd4f33e8cf225f312739872ab35b1fe",
+  "src/components/3d/frameMetrics.test.ts": "23e9f51b43e7ffdc2bbd0e2515c7b0dc3dcb417a5626f619803eebaa7e52672a",
+  "src/components/3d/frameMetrics.ts": "7c6dfe830edca2e16ebd7594ef337c1fea1ecc06418b2997b4c4cad44c0037d7",
+  "src/components/3d/frameRate.test.ts": "25da8673d70cfbcb25884e7f7ff31c919483a67028a8a5377fd56e7d0ed04ad5",
+  "src/components/3d/frameRate.ts": "9d1913989f063e90b0550de6f6343dd5cfeebe822462d58e9e1e70ab9be771d3",
+  "src/components/3d/glass.test.ts": "66d3ba120c78a563605e65cb8872279c416741263e2451598eaab9d5017ac326",
+  "src/components/3d/glass.ts": "0f25307535afc84c232bab02ff58ed54cb4ba7ab6245a887f57957dd3284fe7d",
+  "src/components/3d/glossyLights.test.ts": "5d115fa8ddea526b4ca8e22d296368e95c92bcb2c47cae58c2a37158f130f7e0",
+  "src/components/3d/glossyLights.ts": "ed2def38dc5738b66875bcf87f22127fec7d2f1f3fd45cb0e8899d6217e4e6b4",
+  "src/components/3d/hdrOutput.test.ts": "7d8d1525cd1e5b10829fc73966a24035966faf5ed606c58b1fc1ea4b0da6fef8",
+  "src/components/3d/hdrOutput.ts": "abfe51600a17fdc92dea9e89235c6cc3c8c35f8ff6e91d012fbd95dd9500a30e",
+  "src/components/3d/imageRamp.test.ts": "01adff6b84743286f130b88fdffe7acc41a8bf08381291725a780647debe9cb9",
+  "src/components/3d/imageRamp.ts": "199bcf80e5ef50f32e8643bb2f6faead7fa68dd07fee5dc59c7cc7e19ac31a67",
+  "src/components/3d/interiorLights.test.ts": "0fb524e625932783f778596376b33989ed93cbcea291828db9a05572bcf23c21",
+  "src/components/3d/interiorLights.ts": "9aecde3c881e1c3f7379903c0e973cecfa698a2cb7d66e86595788131398a2f6",
+  "src/components/3d/irradiance.test.ts": "e4a18af490077419730c87b85efbfabeea1dfbf7a8c498ca46d742599f0b5e03",
+  "src/components/3d/irradiance.ts": "62291f44da9d647c45565f971ed01880fafb03860957cbf130e35113345ede48",
+  "src/components/3d/leafCluster.test.ts": "a724fe1f37204399ad040e39747e338dfc0cb6d13e6e41ce27937fc94d7c43cc",
+  "src/components/3d/leafCluster.ts": "31581aff8bd4648a4afcaaf934471189e98ef6279568f156f908a50180dd1c44",
+  "src/components/3d/lighting.test.ts": "1ccfcfff1b2914d58c754cdf5a72bbcb81841c2b63e9f8114cca65b4e4af2f5c",
+  "src/components/3d/lighting.ts": "43801bb0664cc82a5c9a5ec21826b3931982cbca6bfb3847d57698b672623f56",
+  "src/components/3d/lookControls.test.ts": "c393f11214417668c4493b01a616b6f17286572d7c7870d29107e3b61ae44d9b",
+  "src/components/3d/lookControls.ts": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+  "src/components/3d/modelMaterials.test.ts": "71f15381d130e07d80202dd2bd0fca0a40082389e0d6eea18b10a7147f14e2b0",
+  "src/components/3d/modelMaterials.ts": "09eac5e56fe11a5012ad39f1d49ac286843929897b12be1234d8ab7d02c46686",
+  "src/components/3d/noiseColor.test.ts": "7357fb3452ff12d7569c03727b06ee21b4996b9fd195faa658001b2cf58e5ab6",
+  "src/components/3d/noiseColor.ts": "c6bb54719bff5dd7bdcf222f31b7a6a5273016c91556416d20b6e747ff7f9dec",
+  "src/components/3d/planarReflection.test.ts": "33c23c09c3b887d10309dd6a56d3198b1f588cbccdd838f46b5b9becef78c6c2",
+  "src/components/3d/planarReflection.ts": "5aed09d2e14cd06c10b921ea42d35a1b31017ca34be7ac43ffc5d8774c717e65",
+  "src/components/3d/quality.ts": "74fd9de704f252220831238197ad50c998fd110e8f02d91dd740a81676b292fd",
+  "src/components/3d/reflection.test.ts": "baf808025fb752790297f745b1fc31ddbde90143d3b880cf7b1bd0bdeec2e128",
+  "src/components/3d/reflection.ts": "a65f2592dda0bf63081d17732fdfe1cd9ddd98164938cb17340bb2232bf81dc1",
+  "src/components/3d/refraction.test.ts": "0c0ea7e75dd86a52e37ec20c1a4c4881af2fbdf04f477f3260a02eab9d04c92e",
+  "src/components/3d/refraction.ts": "e2eb276ba24d908b47537af53f1092dbaf388dd528edecb0659fa4f34b31e3de",
+  "src/components/3d/sceneAssets.ts": "5fa93faa482c1bd611337547dbb998d83302e78cbf2b6af106db858e1e48defc",
+  "src/components/3d/sceneWarmup.test.ts": "7d18aa21caf683d0ad5a4f6664c8cf5347e7fa2b5fd380476db7ff705fc4e73c",
+  "src/components/3d/sceneWarmup.ts": "04cfa73668c8fdcb4225c7ad1206d52dfd31889fbd7031f7f3db29b287ba9a58",
+  "src/components/3d/shadowMask.test.ts": "99785297c98b5c456ed4d79da7500a9759f6070908a70ccd7f4abd9144387183",
+  "src/components/3d/shadowMask.ts": "9e218cc6bbfe555c8f15403d2b0bae94fe8f6d5171b59cf43e483849a151d781",
+  "src/components/3d/sky.json": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d",
+  "src/components/3d/sky.test.ts": "983f70836ac9897a2a17850b56412bdc0bbd2e11835e45595aa3adcb04da5cf8",
+  "src/components/3d/sky.ts": "5f914681bd67cbd17930b8ad19f7906039613b2aed41baeeb546147fc438a108",
+  "src/components/3d/softShadows.test.ts": "c97516a7b770ef6d39cc5e73469df838dbce655f5a198fcf7169fd28931e8aa7",
+  "src/components/3d/softShadows.ts": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+  "src/components/3d/steam.test.ts": "0b34f7c8d6a4e18c101f962b3f435bada9cddc2a016af21c8851f840ea4767d4",
+  "src/components/3d/steam.ts": "299ff59d9f1b9cb454b34fed24a0d1914a7f9d920b3f1378618272861af93a0f",
+  "src/components/3d/temporalAA.test.ts": "b0d60bc5c5c439581ced7d260e6631f25a26f91fbe741d6666679fd44b1434c3",
+  "src/components/3d/temporalAA.ts": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+  "src/components/3d/warmupPasses.test.ts": "18cf813132d959dc227a3e9241fda1f466a056d8202213bbeebba7b80a42a6a3",
+  "src/components/3d/warmupPasses.ts": "6185892d64481ee4182e0e290f8c7c6f09d18b60dea32a10532913ac08beeaa8",
+  "src/components/3d/warmupPrograms.test.ts": "bad1154d5296a98f3767bb34ad02bf42cb3ca2c6b43e8395944a5f2862e0f09c",
+  "src/components/3d/warmupPrograms.ts": "5b45515548735e52f42cb44a50ad899b61ff28643b5d4fb4fc4bcf5e24992c10",
+  "src/components/3d/warmupScheduler.test.ts": "d88a9ffa3ca3cec1a5fd498a0e06cb847c05a3811a06dde72f3568be7e26b747",
+  "src/components/3d/warmupScheduler.ts": "242f51b5cf4af16b8eed2ed52423711a63b9e1484076d557f8607de5382509e1",
+  "src/components/3d/waterBottom.test.ts": "8e000934cbb3504e8708a6bf76d7e392f08cb15f3f4912b8bb4e280d985c6031",
+  "src/components/3d/waterBottom.ts": "b4a6bce0c8a64d16b96cd63100ae98af20c8d4d1c25e615defd15ac20dd5136b",
+  "src/components/3d/waterEffects.test.ts": "c8dd8bbae528de9c45988775732b4a847aed1b9387f85e8876edbd09c2b51b3c",
+  "src/components/3d/waterEffects.ts": "81ec8d295bb03b997d464380133e9d99a285e57325e220bcbeea653c2ef3b4bc",
+  "src/components/ActionIcon.tsx": "dbc6a941ac1e585574b083559fd8dbd7c6d2b9e1b5df0d8c4be6fa9e460c8c30",
+  "src/components/CLAUDE.md": "230084b498d035b205de7232532d057c903f27e35363446710f323ba315032d2",
+  "src/components/ControlButtons.tsx": "0dbe4104afdf122f6eb46b65498fcfd71c253ffa5dd334b86cd52464e43f83f0",
+  "src/components/CoolingBath.test.tsx": "523283eddfdabf46411f823a3f057d29f0a578786ef2a2f0fe7208c01139ff9c",
+  "src/components/CoolingBath.tsx": "f686235b8b608621889e3cf952072acc790e17b251c9e8553ef00911c034c5e0",
+  "src/components/FirstVisitGuide.tsx": "394ede17fa36677313bff55888f6e7ac8412f75724a9c73affd056d79755df44",
+  "src/components/HeartRateRow.tsx": "cd4fab53f137a18b1c1f7b298d152cb1e810ff10ccdafe60f9be412c884197ee",
+  "src/components/SaunaRoom.test.tsx": "23469634f4ffc99e48e04eec9bb42d1fa301e8cf0e48f45efb7fb3a733e1ea65",
+  "src/components/SaunaRoom.tsx": "dccbc14d9e70d4f19f31d76c7ed04d901a06a1dbd59ab124b02a009ddb6c7a66",
+  "src/components/SceneMode.test.tsx": "b370d6d24b03a88299438c5a69019947307b6529fbbe88215bede878fe9aba5b",
+  "src/components/SceneMode.tsx": "6af9f95e5db935baa87ca66d9ed3c1167a0f2dfaf74a9a2f737d45083f70b8a3",
+  "src/components/ScoreHistory.tsx": "8a143b9fbe167d55b279165acb91140e138a188ebefad9786a1de9df8409fd91",
+  "src/components/SoundControl.tsx": "0d9a4998e9d441c0810796402e4b4e367ed277c333021354c8d528cb6647bb7f",
+  "src/components/StageDock.tsx": "5318400395c97312545a40a140e38d5fc3bed87be463b989db72e6a880bf449b",
+  "src/components/StageStep.tsx": "57f9c8475481b41314278ca356c01c4654329e19c674f92586602faf45158177",
+  "src/components/StayTimer.tsx": "0feac19a2a9222133ced0222f4ec0c2adc37e8278b279b1af1d78a76b5802d85",
+  "src/components/TotonouSpace.test.tsx": "0778b139d01b315b70e1d5fd5bd2746520659fec26e16fa0c09d567a3e0aa1c0",
+  "src/components/TotonouSpace.tsx": "a7bb980454fbad6f0d5a055cfb64b7874739321a006e0318ddc0bdd60fd1340d",
+  "src/context/SaunaContext.test.tsx": "7c06db07acec01dcade9de2bc3a151fc131aceb91b4d16ca6568e333f80c21b4",
+  "src/context/SaunaContext.tsx": "6af7ba57390729b1db7bdd78db12d3a49b2b7c95ef43878264f543b35f18c8b7",
+  "src/hooks/audioWorker.test.ts": "5b17aec44f3aa83cffb128fa6c92b807f4128c33990a642abbe41dd8890dfe21",
+  "src/hooks/audioWorker.ts": "3f32cf782e44d4a57e29145d2c225a18d38c49a4d460237152a92bcb6ba70364",
+  "src/hooks/noiseWorkerClient.ts": "b29e47ae1a4a783a6c092171f1dbd54c3d7389180671520f306f6ae50f7139ad",
+  "src/hooks/spatialAudio.test.ts": "8054a52bac4e39a4aea5fe5d37dbb3861e64719cad462389694c439f319ff6b3",
+  "src/hooks/spatialAudio.ts": "01f402fc74f624f72319da070f93f442e627f0facb7b2267076f29bbee6c0b45",
+  "src/hooks/useAudioEngine.bench.test.ts": "615cfd1f3866253f1655519cc8137c144b09248d31ffd74175abaf13d18155af",
+  "src/hooks/useAudioEngine.test.ts": "6afeb139bf79cc48ffad1521868b0386c13ff0b03fca4483d3e5644f055d34cc",
+  "src/hooks/useAudioEngine.ts": "0a2a00e4f2089f51a2cd763198e37cb53342eb953eba55a0da9311efcf9462fe",
+  "src/hooks/useDismissibleDetails.ts": "500a5744af10ebcac03be06cc6704b45d48170da7d00b7f2a30238666d5320b1",
+  "src/hooks/useFullscreen.ts": "5655b65b2368d685a2c84f89fea24208860e63e35cbc3933f315f53b5ceb4e49",
+  "src/hooks/useKeyboardShortcut.test.tsx": "99ce619df8e55c60a9e5cb4b68b781b8e92dff6c16adfcf9d4f69ecb2fd8e71c",
+  "src/hooks/useKeyboardShortcut.ts": "cb425de95e113936e2d465b75d7917259e71607f50e02182336e57ebdafc7e02",
+  "src/hooks/useSaunaSession.ts": "0f3662cd803e444ff41f2f78ec50531252cd6086a70fcc5e8bf3cc7524ce154c",
+  "src/hooks/useSecondTicker.test.ts": "0aa971b4661a0d85c5ef1602bc9de94f6fbd39509ec1d50101a459e5db30f2b4",
+  "src/hooks/useSecondTicker.ts": "f8025f6d0eea34af6789a27fadf9f8f674332482fe72e9da94498c2a53f33084",
+  "src/index.css": "fa1ef253346913dd61eb0bbc36fa8d28763e99ccfe7f64ff65ea72229ed707ee",
+  "src/main.tsx": "1d140ae9171833a16ea61473f0377b24217a2b7306b20765afb614e067df2fb5",
+  "src/tests/App.test.tsx": "e8d23c11bde7819f0e3e6fc93cd6a908589c6fcbdae54ef1679376b4866b06ec",
+  "src/utils/preferences.test.ts": "1a721a46f2539cb350e2190f624dd819e7c9a2e70e790a23458f3c56fa32c98c",
+  "src/utils/preferences.ts": "97cfa8ea91bc2810b37ce465a748eba7728cb2eba2f73aede474df958e94275d",
+  "src/utils/saunaUtils.test.ts": "b74932183e3cc6c7e895905fabbd6382b6f38e872ec444cbeaf79ed5d9ec6814",
+  "src/utils/saunaUtils.ts": "7854cf732e4eab7170bb9f6297caf2cdb4b2ea86b4c443d6b67336a8b5946296",
+  "src/utils/scoreColor.ts": "5b8a19f70aff2445f57876073a102d3377d37852fa611b79caa1614221491237",
+  "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+  "vite.config.ts": "72439ca2a0de500c593b4e97a3692d187d9e6ec93c5008e193c343947b9dd65e"
+ },
+ "inputsSHA256": "168f834896284bfc0ff903824d497f4280a3e78743a68eecf2f4092a8e8ac891",
+ "inputsSHA256Method": "sha256 of \"<file sha256>  <path>\\n\" lines for every hashes entry, sorted by path (shasum format)"
+}

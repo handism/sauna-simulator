@@ -1,0 +1,523 @@
+[
+ {
+  "profile": {
+   "name": "12 Mbps completion",
+   "mbps": 12,
+   "latency": 80,
+   "outcome": "ready"
+  },
+  "browser": "154.0.8037.98",
+  "viewport": {
+   "width": 1280,
+   "height": 800
+  },
+  "elapsedMs": 3788,
+  "internalLoadMs": 3350,
+  "gardenElapsedMs": 8087,
+  "internalGardenMs": 7520,
+  "requests": [
+   {
+    "path": "/sauna-simulator/assets/SaunaScene-D-YdGMxy.js",
+    "start": 503672.847979,
+    "receivedBytes": 776909,
+    "cached": false,
+    "durationMs": 219.85699998913333,
+    "encodedBytes": 205774
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.scene.json",
+    "start": 503673.166857,
+    "receivedBytes": 894,
+    "cached": false,
+    "durationMs": 85.09200002299622,
+    "encodedBytes": 1164
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.glb",
+    "start": 503673.167048,
+    "receivedBytes": 2393152,
+    "cached": false,
+    "durationMs": 2947.6090000243858,
+    "encodedBytes": 2393431
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.json",
+    "start": 503673.167177,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 86.86699997633696,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.bin",
+    "start": 503673.167318,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 1776.4660000102594,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.json",
+    "start": 503673.167445,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 88.57899997383356,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.bin",
+    "start": 503673.167583,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 1778.1740000355057,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/sauna-garden.glb",
+    "start": 503676.516549,
+    "receivedBytes": 5979340,
+    "cached": false,
+    "durationMs": 4071.194000018295,
+    "encodedBytes": 5979619
+   }
+  ],
+  "errors": [],
+  "limitations": "Local Vite preview, CDP bandwidth/latency, cache disabled, 2D shell already loaded; no CPU throttle, mobile device, packet loss or production CDN measurement."
+ },
+ {
+  "profile": {
+   "name": "4 Mbps completion",
+   "mbps": 4,
+   "latency": 150,
+   "outcome": "ready"
+  },
+  "browser": "154.0.8037.98",
+  "viewport": {
+   "width": 1280,
+   "height": 800
+  },
+  "elapsedMs": 9956,
+  "internalLoadMs": 9266,
+  "gardenElapsedMs": 22281,
+  "internalGardenMs": 21495,
+  "requests": [
+   {
+    "path": "/sauna-simulator/assets/SaunaScene-D-YdGMxy.js",
+    "start": 503682.716996,
+    "receivedBytes": 776909,
+    "cached": false,
+    "durationMs": 567.8460000199266,
+    "encodedBytes": 205774
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.scene.json",
+    "start": 503683.327193,
+    "receivedBytes": 894,
+    "cached": false,
+    "durationMs": 152.8120000148192,
+    "encodedBytes": 1164
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.glb",
+    "start": 503683.32739,
+    "receivedBytes": 2393152,
+    "cached": false,
+    "durationMs": 8744.81200001901,
+    "encodedBytes": 2393431
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.json",
+    "start": 503683.327524,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 158.87599997222424,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.bin",
+    "start": 503683.327663,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 5546.705000044312,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.json",
+    "start": 503683.327798,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 164.40000000875443,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.bin",
+    "start": 503683.32793,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 5549.512999947183,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/sauna-garden.glb",
+    "start": 503692.592147,
+    "receivedBytes": 5979340,
+    "cached": false,
+    "durationMs": 12115.981999959331,
+    "encodedBytes": 5979619
+   }
+  ],
+  "errors": [],
+  "limitations": "Local Vite preview, CDP bandwidth/latency, cache disabled, 2D shell already loaded; no CPU throttle, mobile device, packet loss or production CDN measurement."
+ },
+ {
+  "profile": {
+   "name": "1.6 Mbps completion",
+   "mbps": 1.6,
+   "latency": 150,
+   "outcome": "ready"
+  },
+  "browser": "154.0.8037.98",
+  "viewport": {
+   "width": 1280,
+   "height": 800
+  },
+  "elapsedMs": 23472,
+  "internalLoadMs": 22152,
+  "gardenElapsedMs": 53897,
+  "internalGardenMs": 52320,
+  "requests": [
+   {
+    "path": "/sauna-simulator/assets/SaunaScene-D-YdGMxy.js",
+    "start": 503706.740811,
+    "receivedBytes": 776909,
+    "cached": false,
+    "durationMs": 1197.4470000131987,
+    "encodedBytes": 205774
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.scene.json",
+    "start": 503707.98454,
+    "receivedBytes": 894,
+    "cached": false,
+    "durationMs": 154.95799999916926,
+    "encodedBytes": 1164
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.glb",
+    "start": 503707.984729,
+    "receivedBytes": 2393152,
+    "cached": false,
+    "durationMs": 21627.856999984942,
+    "encodedBytes": 2393431
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.json",
+    "start": 503707.984865,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 171.03600001428276,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.bin",
+    "start": 503707.985003,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 13639.640000008512,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.json",
+    "start": 503707.985135,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 185.04699994809926,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.bin",
+    "start": 503707.985258,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 13647.786000045016,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/sauna-garden.glb",
+    "start": 503730.135499,
+    "receivedBytes": 5979340,
+    "cached": false,
+    "durationMs": 30054.601999989245,
+    "encodedBytes": 5979619
+   }
+  ],
+  "errors": [],
+  "limitations": "Local Vite preview, CDP bandwidth/latency, cache disabled, 2D shell already loaded; no CPU throttle, mobile device, packet loss or production CDN measurement."
+ },
+ {
+  "profile": {
+   "name": "0.8 Mbps timeout",
+   "mbps": 0.8,
+   "latency": 150,
+   "outcome": "timeout"
+  },
+  "browser": "154.0.8037.98",
+  "viewport": {
+   "width": 1280,
+   "height": 800
+  },
+  "elapsedMs": 30450,
+  "recoveryMs": 585,
+  "requests": [
+   {
+    "path": "/sauna-simulator/assets/SaunaScene-D-YdGMxy.js",
+    "start": 503762.38961,
+    "receivedBytes": 776909,
+    "cached": false,
+    "durationMs": 2237.796999979764,
+    "encodedBytes": 205774
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.scene.json",
+    "start": 503764.670089,
+    "receivedBytes": 894,
+    "cached": false,
+    "durationMs": 166.32499999832362,
+    "encodedBytes": 1164
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.glb",
+    "start": 503764.670306,
+    "receivedBytes": 852817,
+    "cached": false,
+    "durationMs": 27723.878999997396,
+    "failure": "net::ERR_ABORTED",
+    "canceled": true
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.json",
+    "start": 503764.670456,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 214.82100000139326,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.bin",
+    "start": 503764.670612,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 27135.129000002053,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.json",
+    "start": 503764.670758,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 240.65799999516457,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.bin",
+    "start": 503764.670902,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 27152.280000038445,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.scene.json",
+    "start": 503794.297228,
+    "receivedBytes": 894,
+    "cached": false,
+    "durationMs": 2.479999966453761,
+    "encodedBytes": 1164
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.glb",
+    "start": 503794.297484,
+    "receivedBytes": 2393152,
+    "cached": false,
+    "durationMs": 8.807000005617738,
+    "encodedBytes": 2393431
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.json",
+    "start": 503794.297661,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 3.9760000072419643,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.bin",
+    "start": 503794.29783,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 5.967999983113259,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.json",
+    "start": 503794.298008,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 4.34699998004362,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.bin",
+    "start": 503794.298177,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 5.880999960936606,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/sauna-garden.glb",
+    "start": 503794.790724,
+    "receivedBytes": 5979340,
+    "cached": false,
+    "durationMs": 13.317000004462898,
+    "encodedBytes": 5979619
+   }
+  ],
+  "errors": [],
+  "limitations": "Local Vite preview, CDP bandwidth/latency, cache disabled, 2D shell already loaded; no CPU throttle, mobile device, packet loss or production CDN measurement."
+ },
+ {
+  "profile": {
+   "name": "0.8 Mbps manual cancellation",
+   "mbps": 0.8,
+   "latency": 150,
+   "outcome": "cancel"
+  },
+  "browser": "154.0.8037.98",
+  "viewport": {
+   "width": 1280,
+   "height": 800
+  },
+  "elapsedMs": 4863,
+  "recoveryMs": 574,
+  "requests": [
+   {
+    "path": "/sauna-simulator/assets/SaunaScene-D-YdGMxy.js",
+    "start": 503796.750665,
+    "receivedBytes": 776909,
+    "cached": false,
+    "durationMs": 2230.8150000171736,
+    "encodedBytes": 205774
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.scene.json",
+    "start": 503799.018575,
+    "receivedBytes": 894,
+    "cached": false,
+    "durationMs": 157.53700002096593,
+    "encodedBytes": 1164
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.glb",
+    "start": 503799.018757,
+    "receivedBytes": 66817,
+    "cached": false,
+    "durationMs": 2276.371999992989,
+    "failure": "net::ERR_ABORTED",
+    "canceled": true
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.json",
+    "start": 503799.018883,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 188.41599998995662,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.bin",
+    "start": 503799.019014,
+    "receivedBytes": 66812,
+    "cached": false,
+    "durationMs": 2276.1609999579377,
+    "failure": "net::ERR_ABORTED",
+    "canceled": true
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.json",
+    "start": 503799.019133,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 234.46800000965595,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.bin",
+    "start": 503799.019252,
+    "receivedBytes": 66812,
+    "cached": false,
+    "durationMs": 2275.966999994125,
+    "failure": "net::ERR_ABORTED",
+    "canceled": true
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.scene.json",
+    "start": 503802.951291,
+    "receivedBytes": 894,
+    "cached": false,
+    "durationMs": 2.3899999796412885,
+    "encodedBytes": 1164
+   },
+   {
+    "path": "/sauna-simulator/models/sauna.glb",
+    "start": 503802.951563,
+    "receivedBytes": 2393152,
+    "cached": false,
+    "durationMs": 8.391000039409846,
+    "encodedBytes": 2393431
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.json",
+    "start": 503802.951765,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 2.6579999830573797,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/irradiance.bin",
+    "start": 503802.952052,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 5.973000021185726,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.json",
+    "start": 503802.952261,
+    "receivedBytes": 1727,
+    "cached": false,
+    "durationMs": 5.141999979969114,
+    "encodedBytes": 910
+   },
+   {
+    "path": "/sauna-simulator/models/reflection.bin",
+    "start": 503802.952451,
+    "receivedBytes": 796392,
+    "cached": false,
+    "durationMs": 6.025000009685755,
+    "encodedBytes": 796676
+   },
+   {
+    "path": "/sauna-simulator/models/sauna-garden.glb",
+    "start": 503803.432455,
+    "receivedBytes": 5979340,
+    "cached": false,
+    "durationMs": 14.484999992419034,
+    "encodedBytes": 5979619
+   }
+  ],
+  "errors": [],
+  "limitations": "Local Vite preview, CDP bandwidth/latency, cache disabled, 2D shell already loaded; no CPU throttle, mobile device, packet loss or production CDN measurement."
+ }
+]
