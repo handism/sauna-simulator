@@ -92,6 +92,7 @@ const WEATHER_OPTIONS = [
 const SEASON_OPTIONS = [
   ['summer', '夏'],
   ['autumn', '秋（紅葉）'],
+  ['winter', '冬（雪景色）'],
 ] as const satisfies readonly (readonly [Season, string])[];
 const SEASON_VALUES = SEASON_OPTIONS.map(([value]) => value);
 const LIGHTING_VALUES = LIGHTING_OPTIONS.map(([value]) => value);

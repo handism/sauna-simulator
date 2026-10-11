@@ -42,3 +42,50 @@ test('3D autumn persists, changes the outdoor view and restores summer without r
   expect(await page.evaluate(() => localStorage.getItem('sui-season'))).toBe('autumn');
   expect(errors).toEqual([]);
 });
+for (const quality of ['low', 'standard', 'high'] as const) {
+  test(`3D winter at ${quality} restores summer without reloading models`, async ({ page }, info) => {
+    test.setTimeout(120_000);
+    const errors: string[] = [];
+    const models: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('request', (request) => {
+      if (request.url().endsWith('.glb')) models.push(request.url());
+    });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(`?view=3d&frameRate=full&resolution=fixed${quality === 'high' ? '&warmup=split' : ''}`);
+    await chooseSceneSetting(page, '3Dの画質', quality);
+    await chooseSceneSetting(page, '天気', 'clear');
+    await chooseSceneSetting(page, '3Dの季節', 'winter');
+    await chooseSceneSetting(page, '3Dの時間帯', 'day');
+    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    const scene = page.locator('.sauna-3d-canvas');
+    const canvas = scene.locator('canvas');
+    await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 40_000 });
+    await expect(scene).toHaveAttribute('data-season', 'winter');
+    await expect(scene).toHaveAttribute('data-snow-materials', /[1-9]\d*/);
+    await expect(scene).toHaveAttribute('data-winter-hidden-leaves', /[1-9]\d*/);
+    await expect(scene).toHaveAttribute('data-snow', '0.000');
+    await expect(scene).toHaveAttribute('data-season-materials', /[1-9]\d*/);
+    await canvas.evaluate((element) => element.setAttribute('data-original-canvas', 'yes'));
+    await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
+    await expect(scene).toHaveAttribute('data-stage', 'water');
+    await page.getByRole('button', { name: '外気浴へ', exact: true }).click();
+    await expect(scene).toHaveAttribute('data-stage', 'totonou');
+    await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
+    await page.waitForTimeout(700);
+    const winter = await canvas.screenshot({ path: info.outputPath('winter.png') });
+    await chooseSceneSetting(page, '3Dの季節', 'summer');
+    await expect(scene).toHaveAttribute('data-season', 'summer');
+    await expect(scene).toHaveAttribute('data-winter-hidden-leaves', '0');
+    await page.waitForTimeout(700);
+    const summer = await canvas.screenshot({ path: info.outputPath('summer.png') });
+    expect(winter.equals(summer)).toBe(false);
+    await chooseSceneSetting(page, '3Dの季節', 'winter');
+    await expect(scene).toHaveAttribute('data-season', 'winter');
+    await expect(canvas).toHaveAttribute('data-original-canvas', 'yes');
+    expect(models.filter((url) => url.endsWith('/sauna.glb'))).toHaveLength(1);
+    expect(models.filter((url) => url.endsWith('/sauna-garden.glb'))).toHaveLength(1);
+    expect(await page.evaluate(() => localStorage.getItem('sui-season'))).toBe('winter');
+    expect(errors).toEqual([]);
+  });
+}

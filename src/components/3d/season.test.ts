@@ -49,4 +49,30 @@ describe('season colors', () => {
     expect(seasons.update('summer')).toBe(true);
     expect(seasons.update('summer')).toBe(false);
   });
+  it('winter hides deciduous meshes and restores leaves and summer colors, keeping evergreen foliage', () => {
+    const { root, materials } = tree('V11 | maple leaf 0', 'Evergreen foliage', 'V9 | layered living moss');
+    const seasons = createSeasonColors();
+    seasons.add(root, 'summer');
+    const original = materials[0].color.clone();
+    seasons.update('autumn');
+    expect(seasons.update('winter')).toBe(true);
+    expect(root.children[0].visible).toBe(false);
+    expect(root.children[1].visible).toBe(true);
+    expect(seasons.hiddenLeaves).toBe(1);
+    expect(seasons.snowMaterials).toBe(1);
+    seasons.update('summer');
+    expect(root.children[0].visible).toBe(true);
+    expect(materials[0].color.equals(original)).toBe(true);
+    expect(seasons.update('summer')).toBe(false);
+  });
+  it('a late winter garden keeps initially hidden meshes hidden on restoration', () => {
+    const { root } = tree('Forest leaf tone 1', 'V11 | maple leaf 0');
+    root.children[1].visible = false;
+    const seasons = createSeasonColors();
+    seasons.add(root, 'winter');
+    expect(root.children.every((mesh) => !mesh.visible)).toBe(true);
+    seasons.update('autumn');
+    expect(root.children[0].visible).toBe(true);
+    expect(root.children[1].visible).toBe(false);
+  });
 });
