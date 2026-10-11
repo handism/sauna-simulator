@@ -156,6 +156,7 @@ export function addGardenDetails(root: THREE.Object3D) {
   group.add(stream);
   // Low hills around the woodland, with three overlapping silhouettes and atmospheric color.
   const hills: THREE.Mesh[] = [];
+  const hazeColor = { value: new THREE.Color() };
   for (let layer = 0; layer < 3; layer++) {
     const positions: number[] = [];
     const colors: number[] = [];
@@ -178,8 +179,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       const a = (j / segments) * Math.PI * 2;
       const shade = 0.76 + 0.08 * Math.sin(a * 11 + layer) + 0.04 * Math.sin(a * 29);
       const tint = new THREE.Color().setRGB(shade, shade, shade);
-      // Pale foothills recede into the air; the ridge retains gentle variations.
-      tint.lerp(new THREE.Color(0xd1dce0), row === 0 ? 0.65 : row === 1 ? 0.28 : 0);
+      // Neutral ridge variation; atmospheric color is blended after the surface tint.
       colors.push(tint.r, tint.g, tint.b);
     };
     for (let n = 0; n < segments; n++)
@@ -195,7 +195,28 @@ export function addGardenDetails(root: THREE.Object3D) {
     geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     const mat = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
+    mat.name = `Garden distant ridge ${layer}`;
+    mat.onBeforeCompile = (shader) => {
+      shader.uniforms.gardenHazeColor = hazeColor;
+      shader.vertexShader = shader.vertexShader
+        .replace('#include <common>', '#include <common>\nvarying float gardenRidgeHeight;')
+        .replace('#include <begin_vertex>', '#include <begin_vertex>\ngardenRidgeHeight = position.y;');
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nvarying float gardenRidgeHeight; uniform vec3 gardenHazeColor;',
+        )
+        .replace(
+          '#include <color_fragment>',
+          `#include <color_fragment>
+          float valleyMist = 1.0 - smoothstep(-3.0, ${(12 + layer * 4).toFixed(1)}, gardenRidgeHeight);
+          float haze = ${(0.24 + layer * 0.19).toFixed(2)} + valleyMist * 0.25;
+          diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
+        );
+    };
+    mat.customProgramCacheKey = () => `garden-ridge-haze-${layer}`;
     const mesh = new THREE.Mesh(geo, mat);
+    mesh.name = mat.name;
     hills.push(mesh);
     group.add(mesh);
   }
@@ -263,6 +284,9 @@ export function addGardenDetails(root: THREE.Object3D) {
   const butterflyFloors = butterflies.map((_, i) => floor(patches[i + 2][0], patches[i + 2][1]));
   const hillDay = [new THREE.Color(0x718575), new THREE.Color(0x8b9c9b), new THREE.Color(0xa7b4bc)];
   const hillNight = new THREE.Color(0x101c29);
+  const airDay = new THREE.Color(0xaebdcc);
+  const airEvening = new THREE.Color(0x8d8f9f);
+  const airNight = new THREE.Color(0x25344f);
   return {
     group,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
@@ -282,6 +306,9 @@ export function addGardenDetails(root: THREE.Object3D) {
       grass.color.setHex(season === 'autumn' ? 0xad955d : season === 'winter' ? 0x827c63 : 0x819455);
       flower.color.setHex(season === 'spring' ? 0xe8c6cd : season === 'autumn' ? 0xcba657 : 0xc8c1df);
       for (const mesh of flowers) mesh.visible = season !== 'winter';
+      hazeColor.value.copy(airDay).lerp(airEvening, Math.min(1, timeOfDay));
+      hazeColor.value.lerp(airNight, Math.max(0, Math.min(1, timeOfDay - 1)));
+      hazeColor.value.multiplyScalar(weather === 'clear' ? 1 : 0.7);
       for (const [i, hill] of hills.entries())
         (hill.material as THREE.MeshBasicMaterial).color
           .copy(hillDay[i])

@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-12",
+  "unitTests": 351,
+  "gardenSeasonTests": 9,
+  "lookCaptureTests": 1,
+  "lookImages": 78,
+  "inputs": {
+    "src/components/3d/woodlandCrowns.ts": "225a4cd05eb0b171969fa0375fda3ca3cf0e2743ea68df7b92cd44f1aeed7849",
+    "src/components/3d/modelMaterials.ts": "b3ca0e01e61ffb3cf75387c8a6df8060fa99f2f8f634a9530b720aa8f21b897b",
+    "src/components/3d/gardenDetails.ts": "8a4c6bf73c8f4861ede0ed168b66803e053652a74728edf2083849cc50cc4f5a",
+    "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d"
+  }
+}

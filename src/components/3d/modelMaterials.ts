@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { broadenWoodlandCards } from './woodlandCrowns';
 import { applyFoliage, isFoliageMaterial } from './foliage';
 import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
 import { applyImageRamp, imageRampOf, type ImageRamp } from './imageRamp';
@@ -46,6 +47,8 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
     const materials = Array.isArray(object.material) ? object.material : [object.material];
+    if (materials.every((material) => /^V6 woodland leaf \d+ card$/.test(material.name) && leafClusterOf(material)))
+      broadenWoodlandCards(object.geometry);
     for (const material of materials) {
       if (isFoliageMaterial(material)) foliage.add(material);
       const noise = noiseColorOf(material);
