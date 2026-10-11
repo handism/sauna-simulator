@@ -11,6 +11,7 @@ import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { createSteam, LIFETIME_SECONDS } from './steam';
+import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
 import { createRain } from './rain';
 import { createFrameMetrics } from './frameMetrics';
@@ -310,6 +311,7 @@ export default function SaunaScene({
           for (const [key, value] of Object.entries(stats)) count(key, value);
           return refraction.triangles;
         };
+        addSpringFlowers(gltf.scene);
         prepare(gltf.scene);
         const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
         // After every material change: the mirrored images copy the finished materials.
@@ -369,7 +371,14 @@ export default function SaunaScene({
             glossyLights.update(lighting.irradiance.suiIrradianceEvening.value, 1 - lighting.clouds);
             mirrorState[1] = qualityIndex;
             mirrorState[2] = gardenAdded;
-            mirrorState[4] = seasonRef.current === 'winter' ? 2 : seasonRef.current === 'autumn' ? 1 : 0;
+            mirrorState[4] =
+              seasonRef.current === 'spring'
+                ? 3
+                : seasonRef.current === 'winter'
+                  ? 2
+                  : seasonRef.current === 'autumn'
+                    ? 1
+                    : 0;
             // The overcast in the same steps (its approach lasts a few seconds).
             mirrorState[3] = Math.round(lighting.clouds * 500) / 500;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
@@ -632,6 +641,7 @@ export default function SaunaScene({
           }
           setData('season', seasonRef.current);
           setData('seasonMaterials', String(seasonColors.size));
+          setData('springFlowers', String(seasonColors.flowerCount));
           setData('snowMaterials', String(seasonColors.snowMaterials));
           setData('winterHiddenLeaves', String(seasonColors.hiddenLeaves));
           updateAudio();

@@ -75,4 +75,20 @@ describe('season colors', () => {
     expect(root.children[0].visible).toBe(true);
     expect(root.children[1].visible).toBe(false);
   });
+  it('restores young leaves from winter, keeps evergreens unchanged and restores exact summer colors', () => {
+    const { root, materials } = tree('V11 | maple leaf 0', 'V6 woodland leaf 2 card', 'Evergreen foliage');
+    const originals = materials.map((material) => material.color.clone());
+    const seasons = createSeasonColors();
+    seasons.add(root, 'winter');
+    seasons.update('spring');
+    expect(root.children[0].visible).toBe(true);
+    expect(materials[0].color.g).toBeGreaterThan(materials[0].color.r);
+    expect(materials[0].color.equals(originals[0])).toBe(false);
+    expect(materials[0].color.equals(materials[1].color)).toBe(false);
+    expect(materials[2].color.equals(originals[2])).toBe(true);
+    seasons.update('summer');
+    materials.forEach((material, index) => expect(material.color.equals(originals[index])).toBe(true));
+    seasons.add(tree('Forest leaf tone 0').root, 'spring');
+    expect(seasons.update('summer')).toBe(true);
+  });
 });

@@ -91,6 +91,9 @@ describe('3D mode lifecycle', () => {
     fireEvent.change(screen.getByRole('combobox', { name: '3Dの季節' }), { target: { value: 'winter' } });
     expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-season', 'winter');
     expect(localStorage.getItem('sui-season')).toBe('winter');
+    fireEvent.change(screen.getByRole('combobox', { name: '3Dの季節' }), { target: { value: 'spring' } });
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-season', 'spring');
+    expect(localStorage.getItem('sui-season')).toBe('spring');
     fireEvent.change(screen.getByRole('combobox', { name: '3Dの季節' }), { target: { value: 'autumn' } });
     expect(mountScene.mock.calls.length).toBe(mounts);
     fireEvent.click(screen.getByRole('button', { name: '2Dに切り替え' }));

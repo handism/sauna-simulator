@@ -90,6 +90,7 @@ const WEATHER_OPTIONS = [
   ['snow', '雪'],
 ] as const satisfies readonly (readonly [Weather, string])[];
 const SEASON_OPTIONS = [
+  ['spring', '春（若葉と花）'],
   ['summer', '夏'],
   ['autumn', '秋（紅葉）'],
   ['winter', '冬（雪景色）'],
