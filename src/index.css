@@ -51,6 +51,8 @@
   --breath-exhale-border: #cfbda966;
   /* 3D表示中のパネル・見出しの下の暗幕・状態表示のボタン */
   --glass-bg-3d: #101714f0;
+  /* 雨の日の2Dの景色にかける薄い曇り */
+  --rain-overcast: #27303a66;
   --scrim-top: #101915b3;
   --scrim-mid: #10191570;
   --status-btn-bg: #172625;
@@ -1654,10 +1656,61 @@ h2:focus {
   display: none;
 }
 
+/* ---------- 2D rain ---------- */
+/* Over the outdoor stages' picture, under the 3D layer and the UI. The streaks fall inside a
+   tilted frame (the wind) by one tile per loop, a transform only. */
+.rain-2d {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--rain-overcast);
+  transition: opacity 1s ease;
+}
+.rain-2d-layer {
+  position: absolute;
+  inset: -25%;
+  rotate: 9deg;
+}
+.rain-2d-streaks {
+  position: absolute;
+  inset: 0;
+  top: -320px;
+  animation: rain-2d-fall 0.5s linear infinite;
+}
+.rain-2d-layer.far .rain-2d-streaks {
+  top: -240px;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='240'%3E%3Cg stroke='white' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M39.6 36.2v17.4' stroke-opacity='0.31'/%3E%3Cpath d='M64.2 87.8v11.8' stroke-opacity='0.4'/%3E%3Cpath d='M6.3 104.1v11.9' stroke-opacity='0.32'/%3E%3Cpath d='M51.2 198.4v12.4' stroke-opacity='0.34'/%3E%3Cpath d='M74.8 227.5v16.7' stroke-opacity='0.38'/%3E%3Cpath d='M74.8 -12.5v16.7' stroke-opacity='0.5'/%3E%3Cpath d='M7.4 206.0v14.0' stroke-opacity='0.33'/%3E%3Cpath d='M15.7 74.0v19.0' stroke-opacity='0.34'/%3E%3Cpath d='M69.5 153.3v14.8' stroke-opacity='0.41'/%3E%3Cpath d='M9.3 14.3v13.2' stroke-opacity='0.44'/%3E%3Cpath d='M51.6 75.4v16.8' stroke-opacity='0.39'/%3E%3Cpath d='M36.8 190.7v17.9' stroke-opacity='0.35'/%3E%3Cpath d='M68.6 126.0v19.6' stroke-opacity='0.45'/%3E%3Cpath d='M35.4 235.2v12.3' stroke-opacity='0.38'/%3E%3Cpath d='M35.4 -4.8v12.3' stroke-opacity='0.45'/%3E%3Cpath d='M19.6 117.4v11.6' stroke-opacity='0.43'/%3E%3Cpath d='M90.7 137.5v19.6' stroke-opacity='0.36'/%3E%3Cpath d='M82.7 142.6v16.8' stroke-opacity='0.39'/%3E%3C/g%3E%3C/svg%3E");
+  animation-duration: 0.62s;
+}
+.rain-2d-layer.near .rain-2d-streaks {
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='320'%3E%3Cg stroke='white' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M217.0 302.3v37.4' stroke-opacity='0.52'/%3E%3Cpath d='M217.0 -17.7v37.4' stroke-opacity='0.37'/%3E%3Cpath d='M181.6 207.1v49.2' stroke-opacity='0.56'/%3E%3Cpath d='M74.9 123.5v41.8' stroke-opacity='0.37'/%3E%3Cpath d='M120.2 53.8v29.3' stroke-opacity='0.37'/%3E%3Cpath d='M198.7 41.4v32.2' stroke-opacity='0.45'/%3E%3Cpath d='M225.1 25.8v36.8' stroke-opacity='0.49'/%3E%3Cpath d='M228.1 262.2v46.3' stroke-opacity='0.43'/%3E%3Cpath d='M108.3 114.8v46.8' stroke-opacity='0.59'/%3E%3Cpath d='M40.6 56.4v31.9' stroke-opacity='0.42'/%3E%3C/g%3E%3C/svg%3E");
+  animation-name: rain-2d-fall-near;
+  animation-duration: 0.42s;
+}
+@keyframes rain-2d-fall {
+  to {
+    translate: 0 240px;
+  }
+}
+@keyframes rain-2d-fall-near {
+  to {
+    translate: 0 320px;
+  }
+}
+/* The ready 3D scene draws its own rain. */
+.app-container:has(.sauna-3d-canvas[data-load-ms]) .rain-2d {
+  display: none;
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .background-stack,
   .scene-3d-layer,
+  .rain-2d,
   .app-stage-container,
   .app-start-screen,
   .stay-timer-bar,
@@ -1684,7 +1737,8 @@ h2:focus {
   /* Without their motion these would only flash in and out (the overlay blurs the whole view). */
   .steam-overlay,
   .sauna-steam-particle,
-  .cooling-ripple-effect {
+  .cooling-ripple-effect,
+  .rain-2d-layer {
     display: none;
   }
 }

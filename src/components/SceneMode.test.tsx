@@ -12,6 +12,7 @@ const audio = {
   setMuted: vi.fn(),
   setVolume: vi.fn(),
   setSpatialPose: vi.fn(),
+  setWeather: vi.fn(),
 };
 const steam = vi.hoisted(() => vi.fn());
 const mountScene = vi.hoisted(() => vi.fn());
@@ -20,6 +21,7 @@ vi.mock('./3d/SaunaScene', () => ({
     stage,
     quality,
     lightingMode,
+    weather,
     enteredAt,
     loylyEvents,
     onReady,
@@ -37,7 +39,13 @@ vi.mock('./3d/SaunaScene', () => ({
     }, [stage, loylyEvents, onReady]);
     return (
       <>
-        <button data-quality={quality} data-lighting={lightingMode} data-entered-at={enteredAt} onClick={onError}>
+        <button
+          data-quality={quality}
+          data-lighting={lightingMode}
+          data-weather={weather}
+          data-entered-at={enteredAt}
+          onClick={onError}
+        >
           simulate context loss
         </button>
         <button onClick={() => onGardenLoading?.(true)}>simulate garden request</button>
@@ -148,6 +156,37 @@ describe('3D mode lifecycle', () => {
     view.unmount();
     render(<SceneMode audio={audio} stage="sauna" loylyEvents={events} />);
     expect(screen.getByRole('combobox', { name: '3Dの画質' })).toHaveValue('low');
+  });
+  it('chooses the weather in 2D and 3D: the sound, the 2D rain outdoors and the scene follow it', async () => {
+    audio.setWeather.mockClear();
+    const events = new EventTarget();
+    const view = render(<SceneMode audio={audio} stage="start" loylyEvents={events} />);
+    const select = screen.getByRole('combobox', { name: '天気' });
+    expect(select).toHaveValue('clear');
+    expect(audio.setWeather).toHaveBeenLastCalledWith('clear');
+    fireEvent.change(select, { target: { value: 'rain' } });
+    expect(localStorage.getItem('sui-weather')).toBe('rain');
+    expect(audio.setWeather).toHaveBeenLastCalledWith('rain');
+    // Before entering and in the sauna room no rain is drawn over the picture.
+    expect(document.querySelector('.rain-2d')).toBeNull();
+    view.rerender(<SceneMode audio={audio} stage="sauna" loylyEvents={events} />);
+    expect(document.querySelector('.rain-2d')).toBeNull();
+    view.rerender(<SceneMode audio={audio} stage="water" loylyEvents={events} />);
+    expect(document.querySelector('.rain-2d')).toHaveAttribute('aria-hidden', 'true');
+    fireEvent.click(screen.getByRole('button', { name: '3Dを試す' }));
+    expect(await screen.findByRole('button', { name: 'simulate context loss' })).toHaveAttribute(
+      'data-weather',
+      'rain',
+    );
+    const mounts = mountScene.mock.calls.length;
+    fireEvent.change(screen.getByRole('combobox', { name: '天気' }), { target: { value: 'clear' } });
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-weather', 'clear');
+    expect(mountScene).toHaveBeenCalledTimes(mounts);
+    expect(document.querySelector('.rain-2d')).toBeNull();
+    view.unmount();
+    localStorage.setItem('sui-weather', 'snow');
+    render(<SceneMode audio={audio} stage="start" loylyEvents={events} />);
+    expect(screen.getByRole('combobox', { name: '天気' })).toHaveValue('clear');
   });
   it('uses automatic lighting for an invalid stored preference', () => {
     localStorage.setItem('sui-view-mode', '3d');

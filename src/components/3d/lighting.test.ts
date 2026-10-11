@@ -5,6 +5,9 @@ import {
   AUTO_TRANSITION_SECONDS,
   createLighting,
   DRY_ONLY,
+  RAIN_EXPOSURE,
+  RAIN_PROBES,
+  RAIN_SKY,
   sceneWeights,
   SPOT_COSINE,
   SUN_DIFFUSE_ONLY,
@@ -119,6 +122,48 @@ describe('3D lighting', () => {
       expect(sky.material.uniforms.suiSkyEvening.value).toBe(dusk);
       expect(sky.material.uniforms.suiSkyNight.value).toBe(night);
     }
+  });
+});
+
+describe('Rain', () => {
+  it('puts out the sun and the sunlight patch, dims the probes and opens the exposure', () => {
+    const scene = new THREE.Scene();
+    const renderer = { toneMappingExposure: 1 } as THREE.WebGLRenderer;
+    const lighting = createLighting(scene, renderer);
+    const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
+    const lounge = scene.children.find((child) => child instanceof THREE.SpotLight) as THREE.SpotLight;
+    const sky = scene.getObjectByName('sky') as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
+    lighting.update(0, 0, true);
+    const clearColor = sun.color.clone();
+    expect(lighting.irradiance.suiOvercast.value.toArray()).toEqual([1, 1, 0, 1]);
+    expect(sky.material.uniforms.suiSkyRain.value).toBe(0);
+    lighting.update(0, 0, true, 1);
+    expect(lighting.rain).toBe(1);
+    expect(sun.intensity).toBe(0);
+    // The color stays the time of day's, for the sun's return.
+    expect(sun.color.equals(clearColor)).toBe(true);
+    expect(lounge.intensity).toBe(0);
+    expect(lighting.irradiance.suiOvercast.value.x).toBeCloseTo(RAIN_PROBES[0]);
+    expect(lighting.irradiance.suiOvercast.value.w).toBe(0);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** (0.15 + RAIN_EXPOSURE[0]));
+    expect(sky.material.uniforms.suiSkyRain.value).toBe(1);
+    expect(lighting.overcast.g).toBeCloseTo(RAIN_SKY[0] * 0.97);
+    // At night the overcast follows the night's scale.
+    lighting.update(2, 0, true, 1);
+    expect(lighting.overcast.g).toBeCloseTo(RAIN_SKY[2] * 0.97);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** (0.9 + RAIN_EXPOSURE[2]));
+  });
+  it('approaches over a few seconds and settles on its target', () => {
+    const lighting = createLighting(new THREE.Scene(), { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    lighting.update(0, 0, true);
+    lighting.update(0, 0.5, false, 1);
+    expect(lighting.rain).toBeGreaterThan(0);
+    expect(lighting.rain).toBeLessThan(1);
+    for (let i = 0; i < 100; i++) lighting.update(0, 0.5, false, 1);
+    expect(lighting.rain).toBe(1);
+    for (let i = 0; i < 100; i++) lighting.update(0, 0.5, false, 0);
+    expect(lighting.rain).toBe(0);
+    expect(lighting.irradiance.suiOvercast.value.toArray()).toEqual([1, 1, 0, 1]);
   });
 });
 

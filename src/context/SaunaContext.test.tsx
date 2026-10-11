@@ -16,6 +16,7 @@ const mockAudioEngine = {
   setMuted: vi.fn(),
   setVolume: vi.fn(),
   setSpatialPose: vi.fn(),
+  setWeather: vi.fn(),
 };
 
 const wrapper = ({ children }: { children: React.ReactNode }) => <SaunaProvider>{children}</SaunaProvider>;

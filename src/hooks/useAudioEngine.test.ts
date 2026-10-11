@@ -384,6 +384,98 @@ describe('useAudioEngine', () => {
     expect(filterSteam.frequency.setValueAtTime).toHaveBeenCalledWith(800, expect.any(Number));
   });
 
+  describe('rain', () => {
+    const flush = () =>
+      act(async () => {
+        for (let i = 0; i < 20; i++) await Promise.resolve();
+      });
+    const rainFilters = () =>
+      mockCreateBiquadFilter.mock.results
+        .map((result) => result.value)
+        .filter((filter) => filter.type === 'bandpass' && filter.Q.value === 0.5);
+
+    it('stays silent until entering, then layers two loops over the ambient sound', async () => {
+      const { result } = renderHook(() => useAudioEngine());
+      act(() => result.current.init());
+      act(() => result.current.setWeather('rain'));
+      await flush();
+      expect(mockCreateBufferSource).not.toHaveBeenCalled();
+      await act(async () => {
+        await result.current.playAmbient('water');
+      });
+      await flush();
+      // The water loop and the rain's hiss and body.
+      expect(mockCreateBufferSource).toHaveBeenCalledTimes(3);
+      const [hiss] = rainFilters();
+      expect(hiss.frequency.setTargetAtTime).toHaveBeenCalledWith(
+        AUDIO_PRESETS.rain.outdoor.hissFrequency,
+        expect.any(Number),
+        AUDIO_PRESETS.rain.timeConstant,
+      );
+    });
+
+    it('muffles in the sauna room without restarting across stages', async () => {
+      const { result } = renderHook(() => useAudioEngine());
+      act(() => result.current.init());
+      act(() => result.current.setWeather('rain'));
+      await act(async () => {
+        await result.current.playAmbient('sauna');
+      });
+      await flush();
+      const sources = mockCreateBufferSource.mock.results.map((r) => r.value);
+      const rainSources = sources.slice(1);
+      expect(rainSources).toHaveLength(2);
+      const filters = mockCreateBiquadFilter.mock.results.map((r) => r.value);
+      const body = filters[filters.length - 1];
+      expect(body.type).toBe('lowpass');
+      expect(body.frequency.setTargetAtTime).toHaveBeenLastCalledWith(
+        AUDIO_PRESETS.rain.indoor.bodyFrequency,
+        expect.any(Number),
+        AUDIO_PRESETS.rain.timeConstant,
+      );
+      await act(async () => {
+        await result.current.playAmbient('totonou');
+      });
+      await flush();
+      expect(body.frequency.setTargetAtTime).toHaveBeenLastCalledWith(
+        AUDIO_PRESETS.rain.outdoor.bodyFrequency,
+        expect.any(Number),
+        AUDIO_PRESETS.rain.timeConstant,
+      );
+      for (const source of rainSources) expect(source.stop).not.toHaveBeenCalled();
+      // Leaving the session fades the rain out with the rest.
+      act(() => result.current.stopAmbient());
+      await flush();
+      for (const source of rainSources) expect(source.stop).toHaveBeenCalledWith(1.2);
+    });
+
+    it('fades out on a clear sky and starts once for repeated requests', async () => {
+      const { result } = renderHook(() => useAudioEngine());
+      act(() => result.current.init());
+      await act(async () => {
+        await result.current.playAmbient('water');
+      });
+      act(() => {
+        result.current.setWeather('rain');
+        result.current.setWeather('rain');
+      });
+      await flush();
+      const rainSources = mockCreateBufferSource.mock.results.map((r) => r.value).slice(1);
+      expect(rainSources).toHaveLength(2);
+      act(() => result.current.setWeather('clear'));
+      await flush();
+      for (const source of rainSources) expect(source.stop).toHaveBeenCalledWith(1.2);
+      // Cleared while generating: nothing starts.
+      mockCreateBufferSource.mockClear();
+      act(() => {
+        result.current.setWeather('rain');
+        result.current.setWeather('clear');
+      });
+      await flush();
+      expect(mockCreateBufferSource).not.toHaveBeenCalled();
+    });
+  });
+
   it('stops previous ambient sounds when playing new one', async () => {
     const { result } = renderHook(() => useAudioEngine());
 

@@ -151,13 +151,31 @@ void main() {
 	gl_Position.z = gl_Position.w;
 }`;
 
+// The rain's overcast (not in the source scenes): an even grey deck, a little brighter overhead,
+// with soft static FBM shading (the mirror keeps its image while the view holds still).
+export const OVERCAST_GLSL = /* glsl */ `
+uniform vec3 suiSkyOvercast;
+vec3 sui_sky_overcast( vec3 direction ) {
+	vec3 d = normalize( vec3( direction.x, - direction.z, direction.y ) );
+	float up = max( d.z, 0.0 );
+	vec3 cloudPoint = vec3( d.xy / ( up + 0.12 ), 0.0 ) * 1.6;
+	float footprint = max( length( dFdx( cloudPoint ) ), length( dFdy( cloudPoint ) ) );
+	float shade = sui_fbm( cloudPoint, 4.0, 0.55, 2.1, footprint );
+	return suiSkyOvercast * ( 0.75 + 0.35 * up ) * ( 0.35 + 1.3 * shade );
+}
+`;
+
 const fragmentShader = /* glsl */ `
 uniform float suiSkyEvening;
 uniform float suiSkyNight;
+uniform float suiSkyRain;
 varying vec3 vSuiSkyDirection;
 ${SKY_GLSL}
+${OVERCAST_GLSL}
 void main() {
-	gl_FragColor = vec4( sui_sky( vSuiSkyDirection, suiSkyEvening, suiSkyNight ), 1.0 );
+	vec3 sky = suiSkyRain < 1.0 ? sui_sky( vSuiSkyDirection, suiSkyEvening, suiSkyNight ) : vec3( 0.0 );
+	if ( suiSkyRain > 0.0 ) sky = mix( sky, sui_sky_overcast( vSuiSkyDirection ), suiSkyRain );
+	gl_FragColor = vec4( sky, 1.0 );
 	#include <tonemapping_fragment>
 	#include <colorspace_fragment>
 }`;
@@ -168,7 +186,13 @@ void main() {
  * shows only on paths without a glossy bounce.
  */
 export function createSky() {
-  const uniforms = { suiSkyEvening: { value: 0 }, suiSkyNight: { value: 0 }, suiSkyDisk: { value: 1 } };
+  const uniforms = {
+    suiSkyEvening: { value: 0 },
+    suiSkyNight: { value: 0 },
+    suiSkyDisk: { value: 1 },
+    suiSkyRain: { value: 0 },
+    suiSkyOvercast: { value: new THREE.Color() },
+  };
   const material = new THREE.ShaderMaterial({
     name: 'sky',
     uniforms,
@@ -186,10 +210,15 @@ export function createSky() {
   };
   return {
     mesh,
-    /** Weights of Blue hour and Night together (0 is the Daylight sky) and of Night alone. */
-    update(dusk: number, night: number) {
+    /**
+     * Weights of Blue hour and Night together (0 is the Daylight sky) and of Night alone; the
+     * rain's share of the overcast and its radiance (linear) at the zenith's base.
+     */
+    update(dusk: number, night: number, rain = 0, overcast?: THREE.Color) {
       uniforms.suiSkyEvening.value = dusk;
       uniforms.suiSkyNight.value = night;
+      uniforms.suiSkyRain.value = rain;
+      if (overcast) uniforms.suiSkyOvercast.value.copy(overcast);
     },
   };
 }

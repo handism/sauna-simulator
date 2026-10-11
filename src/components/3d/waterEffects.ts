@@ -81,6 +81,37 @@ vec3 suiWaterBump( vec3 p, vec3 n, float footprint ) {
 }
 `;
 
+// Rings of raindrops on the surface (rain.ts): in each cell of a jittered grid a drop lands once
+// a period, at a random time and spot, and its ring runs outward and fades. Two offset grids.
+// Only the reflection's normal takes them; the views through the water keep WAVE_NORMAL.
+export const RAIN_RIPPLES = { cell: 0.22, period: 1.1, radius: 0.5, wavelength: 0.06, slope: 0.14 };
+export const RAIN_RIPPLE_GLSL = /* glsl */ `
+vec3 suiRainHash( vec2 cell ) {
+	vec3 p = fract( vec3( cell.xyx ) * vec3( 0.1031, 0.1030, 0.0973 ) );
+	p += dot( p, p.yxz + 33.33 );
+	return fract( ( p.xxy + p.yzz ) * p.zyx );
+}
+// The slope (height gradient over xz, in meters per meter) of the rings at world xz, time t.
+vec2 suiRainRipples( vec2 xz, float t ) {
+	vec2 gradient = vec2( 0.0 );
+	for ( int layer = 0; layer < 2; layer ++ ) {
+		vec2 p = xz / ${f(RAIN_RIPPLES.cell)} + float( layer ) * vec2( 0.37, 0.71 );
+		vec2 base = floor( p );
+		for ( int j = - 1; j <= 1; j ++ ) for ( int i = - 1; i <= 1; i ++ ) {
+			vec2 cell = base + vec2( i, j );
+			vec3 h = suiRainHash( cell + float( layer ) * 57.0 );
+			float age = fract( t / ${f(RAIN_RIPPLES.period)} + h.z );
+			vec2 offset = p - cell - h.xy;
+			float r = length( offset );
+			float d = r - age * ${f(RAIN_RIPPLES.radius / RAIN_RIPPLES.cell)};
+			float ring = cos( d * ${f((2 * Math.PI * RAIN_RIPPLES.cell) / RAIN_RIPPLES.wavelength)} ) * exp( - d * d * 40.0 ) * ( 1.0 - age ) * ( 1.0 - age );
+			gradient += ring * offset / max( r, 1e-3 );
+		}
+	}
+	return gradient * ${f(RAIN_RIPPLES.slope)};
+}
+`;
+
 // How far the mirror image is looked up along the rippled reflection ray, in meters. The true
 // distance to the reflected surface varies (the tub walls are 0.1–3 m away); this sets how far the
 // waves displace the image.
@@ -96,6 +127,7 @@ export function createWaterEffects(
 ) {
   const group = new THREE.Group();
   const time = { value: 0 };
+  const rain = { value: 0 };
   const vertexShader = `varying vec2 vUv;
     void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
   // The source water is clear (transmission 1, IOR 1.333, absorption density 0.12), so the teal
@@ -103,7 +135,7 @@ export function createWaterEffects(
   // the reflection probes (roughness 0.018 of the source) when there is none.
   const water = new THREE.ShaderMaterial({
     defines: { SUI_IRRADIANCE: '', SUI_REFLECTION: '' },
-    uniforms: { ...probes, ...mirror, time },
+    uniforms: { ...probes, ...mirror, time, suiRain: rain },
     vertexShader: `varying vec3 vWorld;
       void main() {
         vec4 world = modelMatrix * vec4(position, 1.0);
@@ -114,11 +146,16 @@ export function createWaterEffects(
       ${IRRADIANCE_PARS}
       ${REFLECTION_PARS}
       ${WAVE_NORMAL}
-      uniform float time; uniform sampler2D suiMirror; uniform mat4 suiMirrorMatrix; uniform vec2 suiMirrorLimit; uniform float suiMirrorAmount;
+      ${RAIN_RIPPLE_GLSL}
+      uniform float time; uniform float suiRain; uniform sampler2D suiMirror; uniform mat4 suiMirrorMatrix; uniform vec2 suiMirrorLimit; uniform float suiMirrorAmount;
       varying vec3 vWorld;
       void main() {
         vec3 view = normalize(cameraPosition - vWorld);
         vec3 normal = suiWaveNormal(vWorld.xz, time);
+        if (suiRain > 0.0) {
+          vec2 rings = suiRainRipples(vWorld.xz, time) * suiRain;
+          normal = normalize(normal + vec3(-rings.x, 0.0, -rings.y));
+        }
         if (view.y < 0.0) normal = -normal;
         float facing = clamp(dot(normal, view), 0.0, 1.0);
         // Schlick's approximation for water (F0 = 0.02).
@@ -169,8 +206,10 @@ export function createWaterEffects(
     surface,
     /** The waves' time in seconds (0 with reduced motion), shared with the underwater views. */
     time,
-    update: (seconds: number, reducedMotion: boolean) => {
+    /** `rainAmount` is the rain's share (lighting.ts), which sets the rings of its drops. */
+    update: (seconds: number, reducedMotion: boolean, rainAmount = 0) => {
       time.value = reducedMotion ? 0 : seconds;
+      rain.value = rainAmount;
     },
   };
 }

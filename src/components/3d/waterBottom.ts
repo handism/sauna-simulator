@@ -76,6 +76,8 @@ function facesSurface([, size, , , , position, axis, direction]: Source, level: 
 
 // Glossy-only lights that transmission rays do not see either.
 const TRANSMISSION_INVISIBLE = ['V7 water reflection soft strip'];
+/** The Cycles sunlight patch over the lounge and plunge, which the rain's overcast puts out. */
+const SUNLIGHT = 'V9 lounge patch of sunlight';
 
 /** The glossy-only lights the reflected view can reach from the surface at `level`. */
 export const bottomLights = (level = WATER_VOLUME.max.y) =>
@@ -288,7 +290,7 @@ function lightsGlsl() {
 		vec3 hit = origin + direction * t - ${vec3(position)};
 		vec2 q = vec2( dot( hit, ${vec3(x.toArray())} ), dot( hit, ${vec3(y.toArray())} ) ) / vec2( ${f(half[0])}, ${f(half[1])} );
 		sum += ( 1.0 - smoothstep( ${f(1 - LIGHT_EDGE)}, ${f(1 + LIGHT_EDGE)}, ${distance} ) ) *
-			mix( ${vec3(areaRadiance(dayWatts, color, area))}, ${vec3(areaRadiance(eveningWatts, color, area))}, suiIrradianceEvening );
+			mix( ${vec3(areaRadiance(dayWatts, color, area))}${name === SUNLIGHT ? ' * suiOvercast.w' : ''}, ${vec3(areaRadiance(eveningWatts, color, area))}, suiIrradianceEvening );
 	}
 `;
     })
@@ -302,12 +304,13 @@ function glossyOnlyGlsl() {
     .map((source) => sourceSH(source, PROBE_POINT))
     .reduce((a, b) => a.map((scene, s) => scene.map((k, i) => k.map((c, j) => c + b[s][i][j]))));
   const coefficient = (i: number) => `mix( ${vec3(sums[0][i])}, ${vec3(sums[1][i])}, suiIrradianceEvening )`;
+  // Taken out of probes the rain dims (irradiance.ts), so it dims alike.
   return `vec3 suiGlossyOnly( vec3 n ) {
-	return ${coefficient(0)} * 0.282095 +
+	return suiOvercast.x * ( ${coefficient(0)} * 0.282095 +
 		( ${coefficient(1)} * n.y + ${coefficient(2)} * n.z + ${coefficient(3)} * n.x ) * 0.488603 +
 		${coefficient(4)} * ( 1.092548 * n.x * n.y ) + ${coefficient(5)} * ( 1.092548 * n.y * n.z ) +
 		${coefficient(6)} * ( 0.315392 * ( 3.0 * n.z * n.z - 1.0 ) ) + ${coefficient(7)} * ( 1.092548 * n.x * n.z ) +
-		${coefficient(8)} * ( 0.546274 * ( n.x * n.x - n.y * n.y ) );
+		${coefficient(8)} * ( 0.546274 * ( n.x * n.x - n.y * n.y ) ) );
 }`;
 }
 
@@ -502,7 +505,7 @@ const SOURCE_CLAMP = 10;
 export const WET_SAMPLE_WEIGHT = 0.0967;
 /** Widening of the GGX α² by the light disk's angular radius r/d. */
 export const DISK_WIDENING = 0.25;
-const WET_GLOSS_LIGHTS = ['V9 lounge patch of sunlight', 'V10 lounge dusk fill'];
+const WET_GLOSS_LIGHTS = [SUNLIGHT, 'V10 lounge dusk fill'];
 
 /** The lights that highlight the pool floor: position, disk radius and the clamp's scale. */
 export const wetGlossLights = () =>

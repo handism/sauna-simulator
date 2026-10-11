@@ -3,6 +3,8 @@ import { createSpatialAudio, type SpatialPose } from './spatialAudio';
 import { generateNoise, type NoiseType } from './noiseWorkerClient';
 
 export type AmbientEnv = 'sauna' | 'water' | 'totonou';
+/** 表示設定の天気。雨は環境音に重ねて鳴らす */
+export type Weather = 'clear' | 'rain';
 
 export interface AudioEffectSettings {
   type: BiquadFilterType;
@@ -41,12 +43,31 @@ export interface WindNoiseConfig extends NoiseSourceConfig {
   lfoGain: number;
 }
 
+export interface RainLayerSettings {
+  /** 高音のさざめき（雨粒が葉や地面を打つ音） */
+  hissFrequency: number;
+  hissGain: number;
+  /** 低い「ざー」という胴鳴り */
+  bodyFrequency: number;
+  bodyGain: number;
+}
+
+export interface RainConfig {
+  hiss: NoiseSourceConfig;
+  body: NoiseSourceConfig;
+  /** サウナ室では屋根越しにこもった音、水風呂・外気浴では屋外の音 */
+  indoor: RainLayerSettings;
+  outdoor: RainLayerSettings;
+  timeConstant: number;
+}
+
 export interface AudioPresets {
   sauna: EnvironmentConfig;
   water: EnvironmentConfig;
   totonouBinaural: BinauralBeatConfig;
   totonouWind: WindNoiseConfig;
   loyly: NoiseSourceConfig;
+  rain: RainConfig;
 }
 
 export const AUDIO_PRESETS: AudioPresets = {
@@ -97,6 +118,14 @@ export const AUDIO_PRESETS: AudioPresets = {
     noiseType: 'whiteNoise',
     bufferSeconds: 2,
   },
+  rain: {
+    // ロウリュと同じバッファを共有する
+    hiss: { noiseType: 'whiteNoise', bufferSeconds: 2 },
+    body: { noiseType: 'saunaNoise', bufferSeconds: 2 },
+    indoor: { hissFrequency: 2500, hissGain: 0, bodyFrequency: 380, bodyGain: 0.14 },
+    outdoor: { hissFrequency: 5000, hissGain: 0.07, bodyFrequency: 1100, bodyGain: 0.16 },
+    timeConstant: 1.2,
+  },
 };
 
 export interface AudioEngine {
@@ -107,6 +136,8 @@ export interface AudioEngine {
   playLoyly: () => void;
   setMuted: (muted: boolean) => void;
   setVolume: (volume: number) => void;
+  /** 雨音を環境音に重ねるか。ステージ移動では鳴らし直さず、こもり具合だけを変える */
+  setWeather: (weather: Weather) => void;
 }
 
 function applyFilterSettings(filter: BiquadFilterNode, settings: AudioEffectSettings) {
@@ -128,7 +159,12 @@ function createNoiseLoop(ctx: AudioContext, buffer: AudioBuffer, filterSettings:
   const gain = ctx.createGain();
   source.connect(filter);
   filter.connect(gain);
-  return { source, gain };
+  return { source, filter, gain };
+}
+
+interface RainNodes {
+  hiss: ReturnType<typeof createNoiseLoop>;
+  body: ReturnType<typeof createNoiseLoop>;
 }
 
 export function useAudioEngine(): AudioEngine {
@@ -200,7 +236,73 @@ export function useAudioEngine(): AudioEngine {
     [],
   );
 
-  const stopAmbient = useCallback(() => {
+  // 雨音。環境音とは別に保持し、ステージ移動では止めずにフィルタとゲインだけを変える
+  const weatherRef = useRef<Weather>('clear');
+  const envRef = useRef<AmbientEnv | null>(null);
+  const rainRef = useRef<RainNodes | null>(null);
+  const rainRequestRef = useRef<object | null>(null);
+
+  const applyRain = useCallback(async () => {
+    const ctx = ctxRef.current;
+    const master = masterGainRef.current;
+    if (!ctx || !master) return;
+    const preset = AUDIO_PRESETS.rain;
+    const env = envRef.current;
+    const now = ctx.currentTime;
+    if (weatherRef.current !== 'rain' || env === null) {
+      rainRequestRef.current = null;
+      const nodes = rainRef.current;
+      rainRef.current = null;
+      if (!nodes) return;
+      for (const layer of [nodes.hiss, nodes.body]) {
+        layer.gain.gain.cancelScheduledValues(now);
+        layer.gain.gain.setTargetAtTime(0, now, 0.4);
+        layer.source.stop(now + 1.2);
+      }
+      return;
+    }
+    if (!rainRef.current) {
+      // 生成待ちの間に同じ要求が重なっても、ループは1組だけ作る
+      if (rainRequestRef.current) return;
+      const request = {};
+      rainRequestRef.current = request;
+      const [hissBuffer, bodyBuffer] = await Promise.all([
+        getNoiseBuffer(ctx, preset.hiss, 'rain hiss noise'),
+        getNoiseBuffer(ctx, preset.body, 'rain body noise'),
+      ]);
+      if (rainRequestRef.current !== request) return;
+      rainRequestRef.current = null;
+      if (!hissBuffer || !bodyBuffer) return;
+      const hiss = createNoiseLoop(ctx, hissBuffer, { type: 'bandpass', frequency: 5000, Q: 0.5 });
+      const body = createNoiseLoop(ctx, bodyBuffer, { type: 'lowpass', frequency: 1000 });
+      for (const layer of [hiss, body]) {
+        layer.gain.gain.value = 0;
+        layer.gain.connect(master);
+        layer.source.start();
+      }
+      rainRef.current = { hiss, body };
+    }
+    // 生成を待つ間に変わったステージも反映する（天気・終了の変化は要求の取り消しで扱う）
+    const settings = envRef.current === 'sauna' ? preset.indoor : preset.outdoor;
+    const { hiss, body } = rainRef.current;
+    const at = ctx.currentTime;
+    hiss.filter.frequency.setTargetAtTime(settings.hissFrequency, at, preset.timeConstant);
+    body.filter.frequency.setTargetAtTime(settings.bodyFrequency, at, preset.timeConstant);
+    hiss.gain.gain.cancelScheduledValues(at);
+    hiss.gain.gain.setTargetAtTime(settings.hissGain, at, preset.timeConstant);
+    body.gain.gain.cancelScheduledValues(at);
+    body.gain.gain.setTargetAtTime(settings.bodyGain, at, preset.timeConstant);
+  }, [getNoiseBuffer]);
+
+  const setWeather = useCallback(
+    (weather: Weather) => {
+      weatherRef.current = weather;
+      void applyRain();
+    },
+    [applyRain],
+  );
+
+  const stopAmbientSources = useCallback(() => {
     currentRequestRef.current = null;
     if (!ctxRef.current) return;
     const now = ctxRef.current.currentTime;
@@ -226,6 +328,12 @@ export function useAudioEngine(): AudioEngine {
     activeSourcesRef.current = [];
     activeGainsRef.current = [];
   }, []);
+
+  const stopAmbient = useCallback(() => {
+    stopAmbientSources();
+    envRef.current = null;
+    void applyRain();
+  }, [stopAmbientSources, applyRain]);
 
   // サウナ・水風呂: フィルタを通したノイズのループを定位用バスへ流す
   const playNoiseAmbient = useCallback(
@@ -315,9 +423,11 @@ export function useAudioEngine(): AudioEngine {
     async (env: AmbientEnv) => {
       if (!ctxRef.current || !masterGainRef.current) return;
 
-      stopAmbient();
+      stopAmbientSources();
       const request = {};
       currentRequestRef.current = request;
+      envRef.current = env;
+      void applyRain();
 
       if (env === 'totonou') {
         await playTotonou(request);
@@ -325,7 +435,7 @@ export function useAudioEngine(): AudioEngine {
         await playNoiseAmbient(env, request);
       }
     },
-    [stopAmbient, playNoiseAmbient, playTotonou],
+    [stopAmbientSources, applyRain, playNoiseAmbient, playTotonou],
   );
 
   const playLoyly = useCallback(async () => {
@@ -402,7 +512,7 @@ export function useAudioEngine(): AudioEngine {
   }, []);
 
   return useMemo(
-    () => ({ init, playAmbient, stopAmbient, playLoyly, setMuted, setVolume, setSpatialPose }),
-    [init, playAmbient, stopAmbient, playLoyly, setMuted, setVolume, setSpatialPose],
+    () => ({ init, playAmbient, stopAmbient, playLoyly, setMuted, setVolume, setSpatialPose, setWeather }),
+    [init, playAmbient, stopAmbient, playLoyly, setMuted, setVolume, setSpatialPose, setWeather],
   );
 }

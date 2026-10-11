@@ -109,11 +109,12 @@ export function createGlossyLights() {
   const positions: number[] = [];
   const day: number[] = [];
   const evening: number[] = [];
+  const sunlit: number[] = [];
   const basis = new THREE.Matrix4();
   const x = new THREE.Vector3(),
     y = new THREE.Vector3(),
     n = new THREE.Vector3();
-  for (const [, size, color, dayWatts, eveningWatts, position, axis, direction] of GLOSSY_SOURCES) {
+  for (const [name, size, color, dayWatts, eveningWatts, position, axis, direction] of GLOSSY_SOURCES) {
     // The polygon keeps the disk's area, so it emits the same power.
     const shape =
       size.length === 2
@@ -136,6 +137,7 @@ export function createGlossyLights() {
     for (let i = 0; i < count; i++) {
       day.push(...radiance[0]);
       evening.push(...radiance[1]);
+      sunlit.push(name === 'V9 lounge patch of sunlight' ? 1 : 0);
     }
     flat.dispose();
   }
@@ -143,13 +145,17 @@ export function createGlossyLights() {
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   geometry.setAttribute('dayRadiance', new THREE.Float32BufferAttribute(day, 3));
   geometry.setAttribute('eveningRadiance', new THREE.Float32BufferAttribute(evening, 3));
+  // The sunlight patch (V9), which the rain's overcast puts out.
+  geometry.setAttribute('sunlit', new THREE.Float32BufferAttribute(sunlit, 1));
   const amount = { value: 0 };
+  const sunlight = { value: 1 };
   const material = new THREE.ShaderMaterial({
-    uniforms: { evening: amount },
-    vertexShader: `attribute vec3 dayRadiance; attribute vec3 eveningRadiance; uniform float evening;
+    uniforms: { evening: amount, sunlight },
+    vertexShader: `attribute vec3 dayRadiance; attribute vec3 eveningRadiance; attribute float sunlit;
+      uniform float evening; uniform float sunlight;
       varying vec3 vRadiance;
       void main() {
-        vRadiance = mix(dayRadiance, eveningRadiance, evening);
+        vRadiance = mix(dayRadiance * mix(1.0, sunlight, sunlit), eveningRadiance, evening);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }`,
     fragmentShader: `varying vec3 vRadiance;
@@ -164,9 +170,10 @@ export function createGlossyLights() {
   mesh.layers.set(MIRROR_LAYER);
   return {
     mesh,
-    /** 0 for the Daylight powers, 1 for Blue hour and Night. */
-    update(eveningAmount: number) {
+    /** 0 for the Daylight powers, 1 for Blue hour and Night; the share of the sunlight the rain leaves. */
+    update(eveningAmount: number, sunlightAmount = 1) {
       amount.value = eveningAmount;
+      sunlight.value = sunlightAmount;
     },
   };
 }

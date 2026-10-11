@@ -1,6 +1,6 @@
 import { useDismissibleDetails } from '../hooks/useDismissibleDetails';
 import { Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
-import type { AudioEngine } from '../hooks/useAudioEngine';
+import type { AudioEngine, Weather } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
 import type { LightingMode } from './3d/lighting';
 import type { AmbientEnv, Stage } from '../context/SaunaContext';
@@ -16,6 +16,7 @@ const SaunaScene = lazy(() =>
 const STORAGE_KEY = 'sui-view-mode';
 const LIGHTING_KEY = 'sui-lighting-mode';
 const QUALITY_KEY = 'sui-quality';
+const WEATHER_KEY = 'sui-weather';
 type ViewMode = '2d' | '3d';
 function viewQuery(): ViewMode | null {
   const query = new URLSearchParams(window.location.search).get('view');
@@ -81,7 +82,12 @@ const QUALITY_OPTIONS = [
   ['standard', '標準'],
   ['high', '高精細'],
 ] as const satisfies readonly (readonly [QualityMode, string])[];
+const WEATHER_OPTIONS = [
+  ['clear', '晴れ'],
+  ['rain', '雨'],
+] as const satisfies readonly (readonly [Weather, string])[];
 const LIGHTING_VALUES = LIGHTING_OPTIONS.map(([value]) => value);
+const WEATHER_VALUES = WEATHER_OPTIONS.map(([value]) => value);
 const QUALITY_VALUES = QUALITY_OPTIONS.map(([value]) => value);
 function ActiveScene({
   stage,
@@ -89,12 +95,14 @@ function ActiveScene({
   opacity,
   loylyEvents,
   lightingMode,
+  weather,
   quality,
   audio,
 }: {
   quality: QualityMode;
   audio: AudioEngine;
   lightingMode: LightingMode;
+  weather: Weather;
   stage: AmbientEnv;
   enteredAt?: number;
   opacity: number;
@@ -125,6 +133,7 @@ function ActiveScene({
                 quality={quality}
                 audio={audio}
                 lightingMode={lightingMode}
+                weather={weather}
                 stage={stage}
                 enteredAt={enteredAt}
                 loylyEvents={loylyEvents}
@@ -183,6 +192,11 @@ export default function SceneMode({
 }) {
   const [lightingMode, setLightingMode] = usePreference<LightingMode>(LIGHTING_KEY, LIGHTING_VALUES, 'auto');
   const [quality, setQuality] = usePreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard');
+  const [weather, setWeather] = usePreference<Weather>(WEATHER_KEY, WEATHER_VALUES, 'clear');
+  // The rain's sound follows the setting in 2D and 3D alike; the engine holds it until entering.
+  useEffect(() => {
+    audio.setWeather(weather);
+  }, [audio, weather]);
   const [enabled, setEnabled] = useState(initialSceneMode);
   const settingsRef = useDismissibleDetails();
   // ?view= overrides the saved choice. Saved after mount: state initializers stay free of side effects.
@@ -212,6 +226,13 @@ export default function SceneMode({
           <button type="button" onClick={toggle} aria-pressed={enabled}>
             {enabled ? '2Dに切り替え' : '3Dを試す'}
           </button>
+          <PreferenceSelect
+            label="天気"
+            ariaLabel="天気"
+            value={weather}
+            options={WEATHER_OPTIONS}
+            onChange={setWeather}
+          />
           {enabled && (
             <>
               <PreferenceSelect
@@ -258,11 +279,23 @@ export default function SceneMode({
   );
   return (
     <>
+      {/* The 2D rain over the outdoor stages; the ready 3D scene draws its own (index.css). */}
+      {weather === 'rain' && (stage === 'water' || stage === 'totonou') && (
+        <div className="rain-2d" style={{ opacity }} aria-hidden="true">
+          <div className="rain-2d-layer far">
+            <div className="rain-2d-streaks" />
+          </div>
+          <div className="rain-2d-layer near">
+            <div className="rain-2d-streaks" />
+          </div>
+        </div>
+      )}
       {enabled && stage !== 'start' && (
         <ActiveScene
           quality={quality}
           audio={audio}
           lightingMode={lightingMode}
+          weather={weather}
           stage={stage}
           enteredAt={enteredAt}
           opacity={opacity}

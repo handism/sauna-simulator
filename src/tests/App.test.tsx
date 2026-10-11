@@ -38,6 +38,7 @@ describe('App Component', () => {
     setMuted: vi.fn(),
     setVolume: vi.fn(),
     setSpatialPose: vi.fn(),
+    setWeather: vi.fn(),
     playAmbient: vi.fn(),
     stopAmbient: vi.fn(),
   };

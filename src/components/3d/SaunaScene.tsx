@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'meshoptimizer/decoder';
 
-import type { AmbientEnv, AudioEngine } from '../../hooks/useAudioEngine';
+import type { AmbientEnv, AudioEngine, Weather } from '../../hooks/useAudioEngine';
 import { QUALITY, type QualityMode } from './quality';
 // Replaces three's AgX curve with Blender's before any material compiles.
 import './agx';
@@ -11,6 +11,7 @@ import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { createSteam, LIFETIME_SECONDS } from './steam';
+import { createRain } from './rain';
 import { createFrameMetrics } from './frameMetrics';
 import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
 import { attachLookControls } from './lookControls';
@@ -37,6 +38,7 @@ export interface SceneProps {
   quality: QualityMode;
   stage: AmbientEnv;
   lightingMode: LightingMode;
+  weather?: Weather;
   /** Date.now() of entering; automatic lighting follows the time since (the mount when absent). */
   enteredAt?: number;
   loylyEvents: EventTarget;
@@ -56,6 +58,7 @@ export default function SaunaScene({
   audio,
   stage,
   lightingMode,
+  weather = 'clear',
   enteredAt,
   loylyEvents,
   onReady,
@@ -79,6 +82,10 @@ export default function SaunaScene({
   useLayoutEffect(() => {
     lightingRef.current = lightingMode;
   }, [lightingMode]);
+  const weatherRef = useRef(weather);
+  useLayoutEffect(() => {
+    weatherRef.current = weather;
+  }, [weather]);
   // Kept across 2D/3D switches by the session, so a remounted scene resumes the same time of day.
   const [mountedAt] = useState(Date.now);
   const enteredAtRef = useRef(enteredAt ?? mountedAt);
@@ -93,6 +100,7 @@ export default function SaunaScene({
   useEffect(() => {
     const element = host.current!;
     const targetTime = () => timeOfDay(lightingRef.current, (Date.now() - enteredAtRef.current) / 1000);
+    const targetRain = () => (weatherRef.current === 'rain' ? 1 : 0);
     // Metrics for browser tests. Skip unchanged values so the render loop does not mutate the DOM every frame.
     const setData = (key: string, value: string) => {
       if (element.dataset[key] !== value) element.dataset[key] = value;
@@ -145,7 +153,7 @@ export default function SaunaScene({
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
     let mirror: PlanarReflection | null = null;
-    const mirrorState = [0, 0, 0];
+    const mirrorState = [0, 0, 0, 0];
     let gardenAdded = 0;
     let qualityIndex = 0;
     const steam = createSteam();
@@ -154,6 +162,10 @@ export default function SaunaScene({
     steam.points.layers.set(STEAM_LAYER);
     camera.layers.enable(STEAM_LAYER);
     scene.add(steam.points);
+    // Like the steam, the main camera alone sees the rain: in the mirror it would redraw every frame.
+    const rain = createRain();
+    rain.mesh.layers.set(STEAM_LAYER);
+    scene.add(rain.mesh);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onLoyly = () => {
       if (!ready || stageRef.current !== 'sauna') return;
@@ -341,9 +353,11 @@ export default function SaunaScene({
             // of it, well under a percent of any light) keeps the reflection from being redrawn
             // each frame.
             mirrorState[0] = Math.round(lighting.time * 500) / 500;
-            glossyLights.update(lighting.irradiance.suiIrradianceEvening.value);
+            glossyLights.update(lighting.irradiance.suiIrradianceEvening.value, 1 - lighting.rain);
             mirrorState[1] = qualityIndex;
             mirrorState[2] = gardenAdded;
+            // The rain's overcast in the same steps (its approach lasts a few seconds).
+            mirrorState[3] = Math.round(lighting.rain * 500) / 500;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
             // Counts of the last mirror pass; frames that keep its image add no draws.
             setData('mirrorCalls', String(reflected.calls));
@@ -375,7 +389,7 @@ export default function SaunaScene({
           resolution?.settle();
           metrics.reset();
           setData('stage', next);
-          lighting.update(targetTime(), 0, true);
+          lighting.update(targetTime(), 0, true, targetRain());
           try {
             recordRenderInfo(draw());
           } catch {
@@ -397,7 +411,7 @@ export default function SaunaScene({
           const entry = stageRef.current;
           const saved = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), fov: camera.fov };
           look.cancel();
-          lighting.update(targetTime(), 0, true);
+          lighting.update(targetTime(), 0, true, targetRain());
           warming = true;
           setData('warming', part);
           const run = startSceneWarmup(
@@ -600,11 +614,14 @@ export default function SaunaScene({
           }
           updateAudio();
           const delta = metrics.frame(now);
-          lighting.update(targetTime(), delta, reducedMotion.matches);
+          lighting.update(targetTime(), delta, reducedMotion.matches, targetRain());
           setData('lighting', lightingRef.current);
           setData('timeOfDay', lighting.time.toFixed(3));
+          setData('weather', weatherRef.current);
+          setData('rain', lighting.rain.toFixed(3));
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);
-          waterEffects.update(now / 1000, reducedMotion.matches);
+          waterEffects.update(now / 1000, reducedMotion.matches, lighting.rain);
+          rain.update(lighting.rain, lighting.overcast, camera, reducedMotion.matches ? 0 : now / 1000);
           try {
             recordRenderInfo(draw());
           } catch {

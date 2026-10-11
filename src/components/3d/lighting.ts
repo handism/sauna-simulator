@@ -72,6 +72,24 @@ export function timeOfDay(mode: LightingMode, elapsedSeconds: number): number {
   return Math.min(2, scene + THREE.MathUtils.clamp((scenes - scene - hold) / (1 - hold), 0, 1));
 }
 
+// The rain is not in the source scenes, and nothing is baked for it: an approximation over the
+// time of day's lighting. It puts out the sun (the moon at night) and the V9 sunlight patch, turns
+// the sky to an overcast deck (sky.ts) and dims and greys the probes (irradiance.ts suiOvercast),
+// then opens the exposure part of the way back. Per scene (Daylight, Blue hour, Night):
+/** Outdoor probe scale: the day loses its sunlit bounce, the dusk and night little. */
+export const RAIN_PROBES = [0.45, 0.8, 0.85];
+/** Indoor probes keep more: the room's own lights fill them. */
+export const RAIN_INDOOR = [0.7, 0.9, 0.95];
+/** Share of the probes' color taken to grey. */
+export const RAIN_DESATURATION = 0.55;
+/** Exposure added (stops), as an eye or camera adapts to the darker overcast. */
+export const RAIN_EXPOSURE = [0.9, 0.3, 0.1];
+/** Overcast sky radiance (linear) at its base; slightly blue grey. */
+export const RAIN_SKY = [0.24, 0.06, 0.012];
+const RAIN_SKY_TINT = [0.92, 0.97, 1.06];
+/** Seconds of the exponential approach of the weather (and of the time of day). */
+const SMOOTHING_SECONDS = 1.4;
+
 /** Weights of the Daylight, Blue hour and Night scenes at a time of day (at most two are not 0). */
 export function sceneWeights(time: number): [number, number, number] {
   const t = THREE.MathUtils.clamp(time, 0, 2);
@@ -214,7 +232,9 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   ];
   const sunIntensity = [3.2, 0.045, 0.1];
   const dot = (weights: number[], values: number[]) => weights.reduce((sum, w, i) => sum + w * values[i], 0);
+  const overcast = new THREE.Color();
   let current = 0;
+  let rain = 0;
   return {
     irradiance,
     setShadowSize(size: number) {
@@ -260,24 +280,46 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     get time() {
       return current;
     },
-    update(target: number, delta: number, immediate: boolean) {
+    /** The smoothed share of the rain (0 clear, 1 rain). */
+    get rain() {
+      return rain;
+    },
+    /** The overcast sky's radiance at its base (scene-linear), which the rain's drops carry. */
+    get overcast() {
+      return overcast;
+    },
+    /** `target` is the time of day (timeOfDay), `rainTarget` 1 for rain and 0 for a clear sky. */
+    update(target: number, delta: number, immediate: boolean, rainTarget = 0) {
       // Exponential smoothing is independent of frame rate; reduced motion snaps.
-      current = immediate ? target : THREE.MathUtils.lerp(current, target, 1 - Math.exp(-delta / 1.4));
+      const step = 1 - Math.exp(-delta / SMOOTHING_SECONDS);
+      current = immediate ? target : THREE.MathUtils.lerp(current, target, step);
+      rain = immediate ? rainTarget : THREE.MathUtils.lerp(rain, rainTarget, step);
+      // Settles instead of approaching for ever (the mirror redraws while it changes).
+      if (Math.abs(rain - rainTarget) < 1e-3) rain = rainTarget;
       const weights = sceneWeights(current);
       // Blue hour and Night share the powers of every light but the sun and the baked sky fills.
       const dusk = 1 - weights[0];
-      sky.update(dusk, weights[2]);
+      const sky0 = dot(weights, RAIN_SKY);
+      overcast.setRGB(sky0 * RAIN_SKY_TINT[0], sky0 * RAIN_SKY_TINT[1], sky0 * RAIN_SKY_TINT[2]);
+      sky.update(dusk, weights[2], rain, overcast);
+      irradiance.suiOvercast.value.set(
+        THREE.MathUtils.lerp(1, dot(weights, RAIN_PROBES), rain),
+        THREE.MathUtils.lerp(1, dot(weights, RAIN_INDOOR), rain),
+        RAIN_DESATURATION * rain,
+        1 - rain,
+      );
       // Every light uses the source values of each scene; the probes mix the bakes.
       irradiance.suiIrradianceEvening.value = dusk;
       irradiance.suiIrradianceNight.value = weights[2];
       sun.color.setRGB(0, 0, 0);
       weights.forEach((w, i) => sun.color.add(sunColors[i].clone().multiplyScalar(w * sunIntensity[i])));
-      sun.intensity = Math.max(sun.color.r, sun.color.g, sun.color.b);
-      if (sun.intensity > 0) sun.color.multiplyScalar(1 / sun.intensity);
+      const peak = Math.max(sun.color.r, sun.color.g, sun.color.b);
+      if (peak > 0) sun.color.multiplyScalar(1 / peak);
+      sun.intensity = peak * (1 - rain);
       sun.shadow.radius = THREE.MathUtils.lerp(sunPenumbra, moonPenumbra, weights[2]);
-      lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, dusk);
+      lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, dusk) * (1 - rain);
       for (const light of duskLights) light.intensity = light.userData.candela * dusk;
-      renderer.toneMappingExposure = 2 ** dot(weights, EXPOSURE);
+      renderer.toneMappingExposure = 2 ** (dot(weights, EXPOSURE) + rain * dot(weights, RAIN_EXPOSURE));
     },
   };
 }

@@ -54,6 +54,12 @@ export function createIrradianceUniforms() {
     suiIrradianceEvening: { value: 0 },
     /** Weight of the Night scene (at most suiIrradianceEvening). */
     suiIrradianceNight: { value: 0 },
+    /**
+     * The rain's overcast, which no bake holds (lighting.ts): x scales the probes outdoors, y
+     * indoors, z takes that share of their color to grey, w is what remains of the sunlight (the
+     * V9 patch seen off the water's bottom, waterBottom.ts). (1, 1, 0, 1) leaves them as baked.
+     */
+    suiOvercast: { value: new THREE.Vector4(1, 1, 0, 1) },
   };
 }
 export type IrradianceUniforms = ReturnType<typeof createIrradianceUniforms>;
@@ -205,6 +211,7 @@ uniform vec3 suiIrradianceMax[ ${GRID_NAMES.length} ];
 uniform vec3 suiIrradianceRes[ ${GRID_NAMES.length} ];
 uniform float suiIrradianceEvening;
 uniform float suiIrradianceNight;
+uniform vec4 suiOvercast;
 
 vec3 suiEvaluateSH( const in highp sampler3D atlas, const in vec2 uv, const in float z, const in float first, const in float slices, const in vec3 n, const in vec3 band ) {
 	float depth = ${(TEXELS * SCENES.length * KINDS.length).toFixed(1)} * slices;
@@ -238,9 +245,13 @@ vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 
 	return result;
 }
 
+vec3 suiOvercastLight( const in vec3 light, const in float scale ) {
+	return mix( light, vec3( dot( light, vec3( 0.2126, 0.7152, 0.0722 ) ) ), suiOvercast.z ) * scale;
+}
+
 vec3 suiProbes( const in vec3 P, const in vec3 N, const in vec3 D, const in vec3 band, const in bool interior, const in bool underwater, const in float kind ) {
-	if ( interior ) return suiGridSH( suiProbeRoom, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N, 0.5, D, band, kind );
-	if ( underwater ) return suiGridSH( suiProbeWater, suiIrradianceMin[ 3 ], suiIrradianceMax[ 3 ], suiIrradianceRes[ 3 ], P, N, 0.0, D, band, kind );
+	if ( interior ) return suiOvercastLight( suiGridSH( suiProbeRoom, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N, 0.5, D, band, kind ), suiOvercast.y );
+	if ( underwater ) return suiOvercastLight( suiGridSH( suiProbeWater, suiIrradianceMin[ 3 ], suiIrradianceMax[ 3 ], suiIrradianceRes[ 3 ], P, N, 0.0, D, band, kind ), suiOvercast.x );
 	vec3 lo = suiIrradianceMin[ 1 ];
 	vec3 hi = suiIrradianceMax[ 1 ];
 	vec2 inside = min( P.xz - lo.xz, hi.xz - P.xz );
@@ -248,7 +259,7 @@ vec3 suiProbes( const in vec3 P, const in vec3 N, const in vec3 D, const in vec3
 	vec3 result = vec3( 0.0 );
 	if ( weight > 0.0 ) result += weight * suiGridSH( suiProbeCourtyard, lo, hi, suiIrradianceRes[ 1 ], P, N, 0.5, D, band, kind );
 	if ( weight < 1.0 ) result += ( 1.0 - weight ) * suiGridSH( suiProbeOuter, suiIrradianceMin[ 2 ], suiIrradianceMax[ 2 ], suiIrradianceRes[ 2 ], P, N, 0.5, D, band, kind );
-	return result;
+	return suiOvercastLight( result, suiOvercast.x );
 }
 
 vec3 suiIrradiance( const in vec3 P, const in vec3 N, const in bool interior, const in bool underwater ) {
