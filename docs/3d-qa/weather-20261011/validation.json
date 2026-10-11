@@ -1,0 +1,74 @@
+{
+  "commit": "8fb923e9fdffbb8f8b99bc15289247ffbb4b9f1f",
+  "browser": "Google Chrome 154.0.8037.98 headless",
+  "regression": {
+    "reportSha256": "5403e5348c071f26e8b389b776a5c76a6ccccf1244e233a50be62c22f167d28f",
+    "stats": {
+      "startTime": "2026-10-11T06:05:45.492Z",
+      "duration": 1107752.79,
+      "expected": 68,
+      "skipped": 0,
+      "unexpected": 2,
+      "flaky": 0
+    },
+    "unexpected": [
+      {
+        "file": "reduced-motion.e2e.ts",
+        "title": "reduced motion stops the 2D stages from pulsing, drifting and flashing",
+        "status": "timedOut",
+        "retry": 0,
+        "durationMs": 90402
+      },
+      {
+        "file": "reduced-motion.e2e.ts",
+        "title": "without the preference the 2D stages keep their motion",
+        "status": "timedOut",
+        "retry": 0,
+        "durationMs": 90816
+      }
+    ]
+  },
+  "reducedMotionRerun": {
+    "tests": 2,
+    "passed": 2,
+    "note": "e2e/reduced-motion.e2e.ts after moving the heart-rate checks to the cold bath"
+  },
+  "weatherCaptures": {
+    "sauna-day-clear.jpg": "726c25ddb9a5415d829c3948669b9d34f6410703c83e290b6a2eb86b7e57474f",
+    "sauna-day-rain.jpg": "b8b2290dc318bca4beba72bd09e0bbf3cd70a15e361eb5f86fdffcdc9f7e9cc9",
+    "sauna-day-snow.jpg": "451316342394582eee73dae87739ac86e149089cf93640424885017aa99a58e4",
+    "sauna-evening-clear.jpg": "0b374f9c98fdc889a7d7f6337f5f597b586705b71ff771567c201c2ea3fc379c",
+    "sauna-evening-rain.jpg": "4c8cb26b25f2ffb18bed0691fa5614fa766083af0f0558c460d1631cd2dbd9b2",
+    "sauna-evening-snow.jpg": "280a375c4a1782de3f80f2029b0b02ee2af62845a0e81c1a4b55d832a38b7768",
+    "sauna-night-clear.jpg": "260769e7048bde6b3a8110a29e2fbb5295c59578dfb2655365858e000192cff8",
+    "sauna-night-rain.jpg": "0142398dae262033414f6e3916e01350b18ec2baf4f8fc086bd3941dcb3d361b",
+    "sauna-night-snow.jpg": "cd46e3be2c0ea876f6d072475624cfc68a6ecba9f7c05e1e6c1a8b3334af2e40",
+    "totonou-day-clear.jpg": "2bff34321d653f00174337cb1cbd39635cf2c1f2fd6f8e0d81f1acbaf8835492",
+    "totonou-day-rain.jpg": "8b3241a3948fd63fccc7bd58e5cdaba5e4ac14a05a9664c5a257fcc2dda989c3",
+    "totonou-day-snow.jpg": "3e91222dfe85cbcbe6d1baa65a0dbad84b7d56a22654cd0dda99e8838a64f942",
+    "totonou-evening-clear.jpg": "88b73867adb84bc132f1e2e553f0413fe4230ef065c9400b7fffa30a3946cc4e",
+    "totonou-evening-rain.jpg": "96396c534831bb5c7ab87e96cd415c3bd0e5109fe65d4e7c309119c823ef142f",
+    "totonou-evening-snow.jpg": "6a19394b085b2e8a5f5b5fce6d118cf9ae10856cd1724a41b3c8893af0d3a080",
+    "totonou-night-clear.jpg": "bc67f7dcab7f45a6f16619931be5acd757e9b31955f5453eeeba697746e044d4",
+    "totonou-night-rain.jpg": "043dacf4e43fe0a7df181f937b0649d53c97ef520e5512b9f7be97e15fc741c1",
+    "totonou-night-snow.jpg": "8a1add3b7a77c52627ca191ff270a458b26da9ae25362d43a1f76b662b257b20",
+    "water-day-clear.jpg": "fa0f0f8b2755d2be0d8d2ae3758e7c639ccf8a3351c6a7b9e5740214ecb90ecc",
+    "water-day-rain.jpg": "9c25b698c740ebfeb11788d68be4b9e62dbc4240c4ddad3ebf84492598a066b8",
+    "water-day-snow.jpg": "647223257d14306f8e26e0659fdc63b5bec44c9537f704e90ab07150126cb115",
+    "water-evening-clear.jpg": "9231caa7eec855cc4911b4774a124f4d024a36a387e319d01b911b130bb0ac25",
+    "water-evening-rain.jpg": "a15a92b492001bcdee155c5687d6d512ee094b92e7597cd0c76ccc6e40d1113d",
+    "water-evening-snow.jpg": "2cd6bb26101c9c13c55e404804aa27dff62a74812876c980c05a78616f41e27e",
+    "water-night-clear.jpg": "4140747ae6d4737bde7cd2d75406ad64aa5ba743bd4bf9b3450380d3855c386d",
+    "water-night-rain.jpg": "bc7a2f6992c93479e92f7f09b2b4576bee78cceeee965283bd24de9f08750fdf",
+    "water-night-snow.jpg": "aa6cc7ee6f50e2394e736aa44f555f7a8a459fdc7622ed7b461e465b81a362bc"
+  },
+  "sourceSHA256": {
+    "src/components/3d/SaunaScene.tsx": "95ccc895c796a3ce935ec015f8ee89f30d27acd921bea78526f6e730a994a924",
+    "src/components/3d/rain.ts": "46e4fac9562b6a975b62fa753f1408b9583549bfab8c29132bd7fde1b3e912b0",
+    "src/components/3d/lighting.ts": "30385191155f9c1164f1498e3fe3397b1c96bda79c8309f70b3273d00081402f",
+    "src/components/3d/sky.ts": "9c99b6f8338a1e44c6e789bad5f9a2c2b11916e81e1c29c1610dd187adef849c",
+    "src/components/3d/waterEffects.ts": "9dd09030f89e0b79cfdd31c42d18f096ca835e0e7eb6ca62cd7569657f942131",
+    "e2e/weather.visual.ts": "8f1409fbadbed33cafb16f4823d39f8aa5e83c569555f54ce6ebcaaaa9811d7c",
+    "e2e/reduced-motion.e2e.ts": "eafc0c529b065d4054ddf86f8f58dd1d7481a2e68ce68bdf471e35d7d27afa42"
+  }
+}
