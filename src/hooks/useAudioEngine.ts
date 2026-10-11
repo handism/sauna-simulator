@@ -122,8 +122,9 @@ export const AUDIO_PRESETS: AudioPresets = {
     // ロウリュと同じバッファを共有する
     hiss: { noiseType: 'whiteNoise', bufferSeconds: 2 },
     body: { noiseType: 'saunaNoise', bufferSeconds: 2 },
-    indoor: { hissFrequency: 2500, hissGain: 0, bodyFrequency: 380, bodyGain: 0.14 },
-    outdoor: { hissFrequency: 5000, hissGain: 0.07, bodyFrequency: 1100, bodyGain: 0.16 },
+    // 3Dの雨筋（小〜中雨）に合わせ、本降りの「ざー」より静かで柔らかい音にする
+    indoor: { hissFrequency: 2500, hissGain: 0, bodyFrequency: 320, bodyGain: 0.05 },
+    outdoor: { hissFrequency: 4000, hissGain: 0.03, bodyFrequency: 700, bodyGain: 0.06 },
     timeConstant: 1.2,
   },
 };
