@@ -11,6 +11,7 @@ import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { createSteam, LIFETIME_SECONDS } from './steam';
+import { createSeasonColors, type Season } from './season';
 import { createRain } from './rain';
 import { createFrameMetrics } from './frameMetrics';
 import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
@@ -39,6 +40,7 @@ export interface SceneProps {
   stage: AmbientEnv;
   lightingMode: LightingMode;
   weather?: Weather;
+  season?: Season;
   /** Date.now() of entering; automatic lighting follows the time since (the mount when absent). */
   enteredAt?: number;
   loylyEvents: EventTarget;
@@ -59,6 +61,7 @@ export default function SaunaScene({
   stage,
   lightingMode,
   weather = 'clear',
+  season = 'summer',
   enteredAt,
   loylyEvents,
   onReady,
@@ -82,6 +85,10 @@ export default function SaunaScene({
   useLayoutEffect(() => {
     lightingRef.current = lightingMode;
   }, [lightingMode]);
+  const seasonRef = useRef(season);
+  useLayoutEffect(() => {
+    seasonRef.current = season;
+  }, [season]);
   const weatherRef = useRef(weather);
   useLayoutEffect(() => {
     weatherRef.current = weather;
@@ -154,7 +161,8 @@ export default function SaunaScene({
     // The water's mirror needs the linear HDR pass; without it the water keeps the probes.
     const mirrorUniforms = createMirrorUniforms();
     let mirror: PlanarReflection | null = null;
-    const mirrorState = [0, 0, 0, 0];
+    const mirrorState = [0, 0, 0, 0, 0];
+    const seasonColors = createSeasonColors();
     let gardenAdded = 0;
     let qualityIndex = 0;
     const steam = createSteam();
@@ -290,6 +298,7 @@ export default function SaunaScene({
         };
         const prepare = (root: THREE.Object3D) => {
           const stats = prepareModel(root);
+          seasonColors.add(root, seasonRef.current);
           const refraction = applyRefraction(root, definition.water.center[1]);
           count('refractionMaterials', refraction.materials);
           count('refractionTriangles', refraction.triangles);
@@ -360,6 +369,7 @@ export default function SaunaScene({
             glossyLights.update(lighting.irradiance.suiIrradianceEvening.value, 1 - lighting.clouds);
             mirrorState[1] = qualityIndex;
             mirrorState[2] = gardenAdded;
+            mirrorState[4] = seasonRef.current === 'autumn' ? 1 : 0;
             // The overcast in the same steps (its approach lasts a few seconds).
             mirrorState[3] = Math.round(lighting.clouds * 500) / 500;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
@@ -616,6 +626,9 @@ export default function SaunaScene({
             setData('pixelRatio', String(renderer.getPixelRatio()));
             metrics.reset();
           }
+          if (seasonColors.update(seasonRef.current)) output.resetTemporal();
+          setData('season', seasonRef.current);
+          setData('seasonMaterials', String(seasonColors.size));
           updateAudio();
           const delta = metrics.frame(now);
           lighting.update(targetTime(), delta, reducedMotion.matches, targetRain(), targetSnow());

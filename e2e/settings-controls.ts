@@ -6,7 +6,11 @@ export async function openSceneSettings(page: Page) {
   }
 }
 
-export async function chooseSceneSetting(page: Page, label: '3Dの画質' | '3Dの時間帯' | '天気', value: string) {
+export async function chooseSceneSetting(
+  page: Page,
+  label: '3Dの画質' | '3Dの時間帯' | '3Dの季節' | '天気',
+  value: string,
+) {
   await openSceneSettings(page);
   await page.getByLabel(label).selectOption(value);
   await page.locator('.display-settings > summary').click();

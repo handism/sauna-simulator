@@ -2,6 +2,7 @@ import { useDismissibleDetails } from '../hooks/useDismissibleDetails';
 import { Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
 import type { AudioEngine, Weather } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
+import type { Season } from './3d/season';
 import type { LightingMode } from './3d/lighting';
 import type { AmbientEnv, Stage } from '../context/SaunaContext';
 import { readPreference, writePreference } from '../utils/preferences';
@@ -17,6 +18,7 @@ const STORAGE_KEY = 'sui-view-mode';
 const LIGHTING_KEY = 'sui-lighting-mode';
 const QUALITY_KEY = 'sui-quality';
 const WEATHER_KEY = 'sui-weather';
+const SEASON_KEY = 'sui-season';
 type ViewMode = '2d' | '3d';
 function viewQuery(): ViewMode | null {
   const query = new URLSearchParams(window.location.search).get('view');
@@ -87,6 +89,11 @@ const WEATHER_OPTIONS = [
   ['rain', '雨'],
   ['snow', '雪'],
 ] as const satisfies readonly (readonly [Weather, string])[];
+const SEASON_OPTIONS = [
+  ['summer', '夏'],
+  ['autumn', '秋（紅葉）'],
+] as const satisfies readonly (readonly [Season, string])[];
+const SEASON_VALUES = SEASON_OPTIONS.map(([value]) => value);
 const LIGHTING_VALUES = LIGHTING_OPTIONS.map(([value]) => value);
 const WEATHER_VALUES = WEATHER_OPTIONS.map(([value]) => value);
 const QUALITY_VALUES = QUALITY_OPTIONS.map(([value]) => value);
@@ -97,6 +104,7 @@ function ActiveScene({
   loylyEvents,
   lightingMode,
   weather,
+  season,
   quality,
   audio,
 }: {
@@ -104,6 +112,7 @@ function ActiveScene({
   audio: AudioEngine;
   lightingMode: LightingMode;
   weather: Weather;
+  season: Season;
   stage: AmbientEnv;
   enteredAt?: number;
   opacity: number;
@@ -135,6 +144,7 @@ function ActiveScene({
                 audio={audio}
                 lightingMode={lightingMode}
                 weather={weather}
+                season={season}
                 stage={stage}
                 enteredAt={enteredAt}
                 loylyEvents={loylyEvents}
@@ -190,6 +200,7 @@ export default function SceneMode({
   const [lightingMode, setLightingMode] = usePreference<LightingMode>(LIGHTING_KEY, LIGHTING_VALUES, 'auto');
   const [quality, setQuality] = usePreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard');
   const [weather, setWeather] = usePreference<Weather>(WEATHER_KEY, WEATHER_VALUES, 'clear');
+  const [season, setSeason] = usePreference<Season>(SEASON_KEY, SEASON_VALUES, 'summer');
   // The rain's sound follows the setting in 2D and 3D alike; the engine holds it until entering.
   useEffect(() => {
     audio.setWeather(weather);
@@ -232,6 +243,13 @@ export default function SceneMode({
           />
           {enabled && (
             <>
+              <PreferenceSelect
+                label="季節"
+                ariaLabel="3Dの季節"
+                value={season}
+                options={SEASON_OPTIONS}
+                onChange={setSeason}
+              />
               <PreferenceSelect
                 label="時間帯"
                 ariaLabel="3Dの時間帯"
@@ -278,6 +296,7 @@ export default function SceneMode({
           audio={audio}
           lightingMode={lightingMode}
           weather={weather}
+          season={season}
           stage={stage}
           enteredAt={enteredAt}
           opacity={opacity}

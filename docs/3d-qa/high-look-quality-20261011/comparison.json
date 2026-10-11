@@ -1,0 +1,136 @@
+{
+  "note": "Single paired diagnostic, no repeatability floor or perceptual acceptance.",
+  "rows": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "on": {
+        "pixel": 0.4795,
+        "tile": 0.0461,
+        "tileP99": 0.5457
+      },
+      "off": {
+        "pixel": 0.7635,
+        "tile": 0.072,
+        "tileP99": 0.8918
+      },
+      "onOverOff": {
+        "pixel": 0.628,
+        "tile": 0.6403,
+        "tileP99": 0.6119
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "on": {
+        "pixel": 0.3863,
+        "tile": 0.0338,
+        "tileP99": 0.4944
+      },
+      "off": {
+        "pixel": 0.6179,
+        "tile": 0.0536,
+        "tileP99": 0.8091
+      },
+      "onOverOff": {
+        "pixel": 0.6252,
+        "tile": 0.6306,
+        "tileP99": 0.611
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "on": {
+        "pixel": 0.6361,
+        "tile": 0.069,
+        "tileP99": 0.8166
+      },
+      "off": {
+        "pixel": 1.0737,
+        "tile": 0.1062,
+        "tileP99": 1.2645
+      },
+      "onOverOff": {
+        "pixel": 0.5924,
+        "tile": 0.6497,
+        "tileP99": 0.6458
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "on": {
+        "pixel": 0.5203,
+        "tile": 0.0544,
+        "tileP99": 0.771
+      },
+      "off": {
+        "pixel": 0.8936,
+        "tile": 0.0835,
+        "tileP99": 1.1846
+      },
+      "onOverOff": {
+        "pixel": 0.5823,
+        "tile": 0.6515,
+        "tileP99": 0.6509
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "on": {
+        "pixel": 0.5257,
+        "tile": 0.0609,
+        "tileP99": 0.795
+      },
+      "off": {
+        "pixel": 0.8779,
+        "tile": 0.0947,
+        "tileP99": 1.2075
+      },
+      "onOverOff": {
+        "pixel": 0.5988,
+        "tile": 0.6431,
+        "tileP99": 0.6584
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "on": {
+        "pixel": 0.4819,
+        "tile": 0.0544,
+        "tileP99": 0.7416
+      },
+      "off": {
+        "pixel": 0.8143,
+        "tile": 0.0847,
+        "tileP99": 1.1442
+      },
+      "onOverOff": {
+        "pixel": 0.5918,
+        "tile": 0.6423,
+        "tileP99": 0.6481
+      }
+    }
+  ],
+  "ratios": {
+    "pixel": {
+      "min": 0.5823,
+      "median": 0.5956,
+      "max": 0.628
+    },
+    "tile": {
+      "min": 0.6306,
+      "median": 0.6427,
+      "max": 0.6515
+    },
+    "tileP99": {
+      "min": 0.611,
+      "median": 0.64695,
+      "max": 0.6584
+    }
+  }
+}

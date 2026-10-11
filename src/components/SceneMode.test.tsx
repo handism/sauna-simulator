@@ -22,6 +22,7 @@ vi.mock('./3d/SaunaScene', () => ({
     quality,
     lightingMode,
     weather,
+    season,
     enteredAt,
     loylyEvents,
     onReady,
@@ -43,6 +44,7 @@ vi.mock('./3d/SaunaScene', () => ({
           data-quality={quality}
           data-lighting={lightingMode}
           data-weather={weather}
+          data-season={season}
           data-entered-at={enteredAt}
           onClick={onError}
         >
@@ -76,6 +78,22 @@ describe('3D mode lifecycle', () => {
     render(<SceneMode audio={audio} stage="sauna" loylyEvents={events} />);
     expect(screen.getByRole('button', { name: '3Dを試す' })).toBeInTheDocument();
     expect(localStorage.getItem('sui-view-mode')).toBe('2d');
+  });
+  it('persists the 3D season without remounting the scene and hides the control in 2D', async () => {
+    render(<SceneMode audio={audio} stage="sauna" loylyEvents={new EventTarget()} />);
+    expect(screen.queryByRole('combobox', { name: '3Dの季節' })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: '3Dを試す' }));
+    await screen.findByRole('button', { name: 'simulate context loss' });
+    const mounts = mountScene.mock.calls.length;
+    fireEvent.change(screen.getByRole('combobox', { name: '3Dの季節' }), { target: { value: 'autumn' } });
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-season', 'autumn');
+    expect(localStorage.getItem('sui-season')).toBe('autumn');
+    expect(mountScene.mock.calls.length).toBe(mounts);
+    fireEvent.click(screen.getByRole('button', { name: '2Dに切り替え' }));
+    fireEvent.click(screen.getByRole('button', { name: '3Dを試す' }));
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-season', 'autumn'),
+    );
   });
   it('tells that the garden is still loading in the ready scene', async () => {
     render(<SceneMode audio={audio} stage="sauna" loylyEvents={new EventTarget()} />);
