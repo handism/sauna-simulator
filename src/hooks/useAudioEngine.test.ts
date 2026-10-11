@@ -449,6 +449,17 @@ describe('useAudioEngine', () => {
       for (const source of rainSources) expect(source.stop).toHaveBeenCalledWith(1.2);
     });
 
+    it('adds no sound for snow', async () => {
+      const { result } = renderHook(() => useAudioEngine());
+      act(() => result.current.init());
+      act(() => result.current.setWeather('snow'));
+      await act(async () => {
+        await result.current.playAmbient('totonou');
+      });
+      await flush();
+      expect(rainFilters()).toHaveLength(0);
+    });
+
     it('fades out on a clear sky and starts once for repeated requests', async () => {
       const { result } = renderHook(() => useAudioEngine());
       act(() => result.current.init());

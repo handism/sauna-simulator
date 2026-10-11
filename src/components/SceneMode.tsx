@@ -85,6 +85,7 @@ const QUALITY_OPTIONS = [
 const WEATHER_OPTIONS = [
   ['clear', '晴れ'],
   ['rain', '雨'],
+  ['snow', '雪'],
 ] as const satisfies readonly (readonly [Weather, string])[];
 const LIGHTING_VALUES = LIGHTING_OPTIONS.map(([value]) => value);
 const WEATHER_VALUES = WEATHER_OPTIONS.map(([value]) => value);
@@ -279,14 +280,14 @@ export default function SceneMode({
   );
   return (
     <>
-      {/* The 2D rain over the outdoor stages; the ready 3D scene draws its own (index.css). */}
-      {weather === 'rain' && (stage === 'water' || stage === 'totonou') && (
-        <div className="rain-2d" style={{ opacity }} aria-hidden="true">
-          <div className="rain-2d-layer far">
-            <div className="rain-2d-streaks" />
+      {/* The 2D rain or snow over the outdoor stages; the ready 3D scene draws its own (index.css). */}
+      {weather !== 'clear' && (stage === 'water' || stage === 'totonou') && (
+        <div className={`${weather}-2d`} style={{ opacity }} aria-hidden="true">
+          <div className={`${weather}-2d-layer far`}>
+            <div className={`${weather}-2d-fall`} />
           </div>
-          <div className="rain-2d-layer near">
-            <div className="rain-2d-streaks" />
+          <div className={`${weather}-2d-layer near`}>
+            <div className={`${weather}-2d-fall`} />
           </div>
         </div>
       )}

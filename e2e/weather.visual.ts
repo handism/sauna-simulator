@@ -1,9 +1,9 @@
 import { chooseSceneSetting } from './settings-controls';
 import { expect, test } from '@playwright/test';
 
-// Review captures of the rain's approximation (lighting.ts, rain.ts) beside the clear sky, at each
-// stage's entry view and time of day. Not golden images; reduced motion holds the drops still.
-test('capture the rain beside the clear sky', async ({ page }, info) => {
+// Review captures of the rain's and the snow's approximation (lighting.ts, rain.ts) beside the clear sky, at each
+// stage's entry view and time of day. Not golden images; reduced motion holds the drops and flakes still.
+test('capture the rain and the snow beside the clear sky', async ({ page }, info) => {
   test.setTimeout(170_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -24,9 +24,10 @@ test('capture the rain beside the clear sky', async ({ page }, info) => {
     await page.waitForTimeout(1200);
     for (const lighting of ['day', 'evening', 'night']) {
       await chooseSceneSetting(page, '3Dの時間帯', lighting);
-      for (const weather of ['clear', 'rain']) {
+      for (const weather of ['clear', 'rain', 'snow']) {
         await chooseSceneSetting(page, '天気', weather);
         await expect(scene).toHaveAttribute('data-rain', weather === 'rain' ? '1.000' : '0.000');
+        await expect(scene).toHaveAttribute('data-snow', weather === 'snow' ? '1.000' : '0.000');
         await page.waitForTimeout(300);
         await canvas.screenshot({
           path: info.outputPath(`${stage}-${lighting}-${weather}.jpg`),

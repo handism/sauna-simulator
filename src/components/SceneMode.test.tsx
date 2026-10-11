@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { useEffect } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import SceneMode from './SceneMode';
@@ -183,8 +183,16 @@ describe('3D mode lifecycle', () => {
     expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-weather', 'clear');
     expect(mountScene).toHaveBeenCalledTimes(mounts);
     expect(document.querySelector('.rain-2d')).toBeNull();
+    fireEvent.change(screen.getByRole('combobox', { name: '天気' }), { target: { value: 'snow' } });
+    expect(audio.setWeather).toHaveBeenLastCalledWith('snow');
+    expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-weather', 'snow');
+    expect(document.querySelector('.snow-2d')).toHaveAttribute('aria-hidden', 'true');
+    expect(document.querySelector('.rain-2d')).toBeNull();
     view.unmount();
-    localStorage.setItem('sui-weather', 'snow');
+    render(<SceneMode audio={audio} stage="start" loylyEvents={events} />);
+    expect(screen.getByRole('combobox', { name: '天気' })).toHaveValue('snow');
+    cleanup();
+    localStorage.setItem('sui-weather', 'hail');
     render(<SceneMode audio={audio} stage="start" loylyEvents={events} />);
     expect(screen.getByRole('combobox', { name: '天気' })).toHaveValue('clear');
   });

@@ -3,8 +3,8 @@ import { createSpatialAudio, type SpatialPose } from './spatialAudio';
 import { generateNoise, type NoiseType } from './noiseWorkerClient';
 
 export type AmbientEnv = 'sauna' | 'water' | 'totonou';
-/** 表示設定の天気。雨は環境音に重ねて鳴らす */
-export type Weather = 'clear' | 'rain';
+/** 表示設定の天気。雨は環境音に重ねて鳴らす（雪は音を足さない） */
+export type Weather = 'clear' | 'rain' | 'snow';
 
 export interface AudioEffectSettings {
   type: BiquadFilterType;

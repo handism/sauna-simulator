@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { createRain, dropPosition, RAIN_DROPS, RAIN_SPAN, RAIN_SPEED, rainReaches } from './rain';
+import { createRain, dropPosition, FALLS, RAIN_DROPS, RAIN_SPAN, RAIN_SPEED, rainReaches } from './rain';
 import { INTERIOR_BOX } from './interiorLights';
 
 describe('rain', () => {
@@ -34,6 +34,21 @@ describe('rain', () => {
     expect(moved[0]).toBeCloseTo(a[0]);
     expect(moved[2]).toBeCloseTo(a[2]);
   });
+  it('lets the snow fall slowly and sway around its place', () => {
+    const seed = [0.2, 0.4, 0.7, 0.3];
+    const a = dropPosition(seed, [0, 0], 0, 'snow');
+    const b = dropPosition(seed, [0, 0], 1, 'snow');
+    expect(a[1] - b[1]).toBeCloseTo(FALLS.snow.speed);
+    expect(FALLS.snow.speed).toBeLessThan(RAIN_SPEED / 5);
+    // Over a sway the flake stays within its amplitude of the wind's line.
+    const base = dropPosition([0.2, 0.4, 0.7, 0], [0, 0], 0, 'rain');
+    for (let t = 0; t < 1; t += 0.1) {
+      const flake = dropPosition([0.2, 0.4, 0.7, t], [0, 0], 0, 'snow');
+      const windShift =
+        (FALLS.snow.wind[0] / FALLS.snow.speed - FALLS.rain.wind[0] / FALLS.rain.speed) * (flake[1] + 0.5);
+      expect(Math.abs(flake[0] - (base[0] - windShift))).toBeLessThanOrEqual(FALLS.snow.sway + 1e-9);
+    }
+  });
   it('keeps out of the sauna room', () => {
     expect(
       rainReaches(INTERIOR_BOX.getCenter(new THREE.Vector3()).x, INTERIOR_BOX.getCenter(new THREE.Vector3()).z),
@@ -60,5 +75,13 @@ describe('rain', () => {
     expect(rain.mesh.visible).toBe(true);
     expect(material.uniforms.suiRainAmount.value).toBe(0.5);
     expect(material.uniforms.suiRainCenter.value.toArray()).toEqual([4, -2]);
+  });
+  it('makes the snow a separate mesh of round flakes', () => {
+    const snow = createRain('snow');
+    expect(snow.mesh.name).toBe('snow');
+    expect(snow.mesh.geometry.getAttribute('seed').count).toBe(FALLS.snow.count * 4);
+    const material = snow.mesh.material as THREE.ShaderMaterial;
+    expect(material.fragmentShader).toContain('A soft round flake');
+    expect((createRain('rain').mesh.material as THREE.ShaderMaterial).fragmentShader).not.toContain('flake');
   });
 });

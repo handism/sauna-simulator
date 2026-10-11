@@ -101,6 +101,7 @@ export default function SaunaScene({
     const element = host.current!;
     const targetTime = () => timeOfDay(lightingRef.current, (Date.now() - enteredAtRef.current) / 1000);
     const targetRain = () => (weatherRef.current === 'rain' ? 1 : 0);
+    const targetSnow = () => (weatherRef.current === 'snow' ? 1 : 0);
     // Metrics for browser tests. Skip unchanged values so the render loop does not mutate the DOM every frame.
     const setData = (key: string, value: string) => {
       if (element.dataset[key] !== value) element.dataset[key] = value;
@@ -163,9 +164,12 @@ export default function SaunaScene({
     camera.layers.enable(STEAM_LAYER);
     scene.add(steam.points);
     // Like the steam, the main camera alone sees the rain: in the mirror it would redraw every frame.
-    const rain = createRain();
-    rain.mesh.layers.set(STEAM_LAYER);
-    scene.add(rain.mesh);
+    const rain = createRain('rain');
+    const snow = createRain('snow');
+    for (const fall of [rain, snow]) {
+      fall.mesh.layers.set(STEAM_LAYER);
+      scene.add(fall.mesh);
+    }
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onLoyly = () => {
       if (!ready || stageRef.current !== 'sauna') return;
@@ -353,11 +357,11 @@ export default function SaunaScene({
             // of it, well under a percent of any light) keeps the reflection from being redrawn
             // each frame.
             mirrorState[0] = Math.round(lighting.time * 500) / 500;
-            glossyLights.update(lighting.irradiance.suiIrradianceEvening.value, 1 - lighting.rain);
+            glossyLights.update(lighting.irradiance.suiIrradianceEvening.value, 1 - lighting.clouds);
             mirrorState[1] = qualityIndex;
             mirrorState[2] = gardenAdded;
-            // The rain's overcast in the same steps (its approach lasts a few seconds).
-            mirrorState[3] = Math.round(lighting.rain * 500) / 500;
+            // The overcast in the same steps (its approach lasts a few seconds).
+            mirrorState[3] = Math.round(lighting.clouds * 500) / 500;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);
             // Counts of the last mirror pass; frames that keep its image add no draws.
             setData('mirrorCalls', String(reflected.calls));
@@ -389,7 +393,7 @@ export default function SaunaScene({
           resolution?.settle();
           metrics.reset();
           setData('stage', next);
-          lighting.update(targetTime(), 0, true, targetRain());
+          lighting.update(targetTime(), 0, true, targetRain(), targetSnow());
           try {
             recordRenderInfo(draw());
           } catch {
@@ -411,7 +415,7 @@ export default function SaunaScene({
           const entry = stageRef.current;
           const saved = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), fov: camera.fov };
           look.cancel();
-          lighting.update(targetTime(), 0, true, targetRain());
+          lighting.update(targetTime(), 0, true, targetRain(), targetSnow());
           warming = true;
           setData('warming', part);
           const run = startSceneWarmup(
@@ -614,14 +618,17 @@ export default function SaunaScene({
           }
           updateAudio();
           const delta = metrics.frame(now);
-          lighting.update(targetTime(), delta, reducedMotion.matches, targetRain());
+          lighting.update(targetTime(), delta, reducedMotion.matches, targetRain(), targetSnow());
           setData('lighting', lightingRef.current);
           setData('timeOfDay', lighting.time.toFixed(3));
           setData('weather', weatherRef.current);
           setData('rain', lighting.rain.toFixed(3));
+          setData('snow', lighting.snow.toFixed(3));
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);
           waterEffects.update(now / 1000, reducedMotion.matches, lighting.rain);
-          rain.update(lighting.rain, lighting.overcast, camera, reducedMotion.matches ? 0 : now / 1000);
+          const fallTime = reducedMotion.matches ? 0 : now / 1000;
+          rain.update(lighting.rain, lighting.overcast, camera, fallTime);
+          snow.update(lighting.snow, lighting.overcast, camera, fallTime);
           try {
             recordRenderInfo(draw());
           } catch {

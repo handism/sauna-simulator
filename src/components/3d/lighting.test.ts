@@ -153,6 +153,22 @@ describe('Rain', () => {
     expect(lighting.overcast.g).toBeCloseTo(RAIN_SKY[2] * 0.97);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** (0.9 + RAIN_EXPOSURE[2]));
   });
+  it('gives the snow the same overcast, held through a change between rain and snow', () => {
+    const scene = new THREE.Scene();
+    const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
+    const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
+    lighting.update(0, 0, true, 0, 1);
+    expect(lighting.snow).toBe(1);
+    expect(lighting.rain).toBe(0);
+    expect(lighting.clouds).toBe(1);
+    expect(sun.intensity).toBe(0);
+    expect(lighting.irradiance.suiOvercast.value.x).toBeCloseTo(RAIN_PROBES[0]);
+    lighting.update(0, 0.5, false, 1, 0);
+    expect(lighting.rain).toBeGreaterThan(0);
+    expect(lighting.snow).toBeLessThan(1);
+    expect(lighting.clouds).toBeCloseTo(1);
+    expect(sun.intensity).toBeCloseTo(0);
+  });
   it('approaches over a few seconds and settles on its target', () => {
     const lighting = createLighting(new THREE.Scene(), { toneMappingExposure: 1 } as THREE.WebGLRenderer);
     lighting.update(0, 0, true);
