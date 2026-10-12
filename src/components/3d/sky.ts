@@ -44,6 +44,21 @@ export interface SkyParameters {
 }
 
 export const SKY = record.scenes as Record<'day' | 'evening' | 'night', SkyParameters>;
+/**
+ * The clear day the browser draws (not the source): the source Daylight sky has about 40% grey-blue
+ * cloud cover, which read as overcast next to the "clear" weather. Fewer fair-weather clouds with
+ * brighter undersides, and a deeper zenith. sky.e2e.ts checks SKY_GLSL, which keeps the source.
+ */
+export const CLEAR_DAY_SKY: SkyParameters = {
+  ...SKY.day,
+  zenith: SKY.day.zenith.map((c, i) => c * [0.85, 0.92, 1.08][i]),
+  clouds: {
+    ...SKY.day.clouds,
+    low: SKY.day.clouds.low + 0.09,
+    high: SKY.day.clouds.high + 0.06,
+    shade: SKY.day.clouds.shade.map((c, i) => c * [1.55, 1.42, 1.22][i]),
+  },
+};
 /** Hash of the source blend the sky came from; the probes are baked from the same blend. */
 export const SKY_BLEND_SHA256 = record.output_sha256;
 
@@ -88,7 +103,7 @@ ${disk}
 }`;
 }
 
-export const SKY_GLSL = /* glsl */ `${FBM_GLSL}${BLENDER_HASH_GLSL}
+const skyGlsl = (day: SkyParameters) => /* glsl */ `${FBM_GLSL}${BLENDER_HASH_GLSL}
 uniform float suiSkyDisk;
 // Blender's safe power for a >= 0.
 float sui_sky_pow( float a, float b ) { return a > 0.0 ? pow( a, b ) : 0.0; }
@@ -127,7 +142,7 @@ float sui_sky_disk( vec3 d, vec3 sun, float diskCos ) {
 	float angle = acos( clamp( cosine, - 1.0, 1.0 ) );
 	return clamp( ( acos( diskCos ) - angle ) / pixel + 0.5, 0.0, 1.0 );
 }
-${skyFunction('day', SKY.day)}
+${skyFunction('day', day)}
 ${skyFunction('evening', SKY.evening)}
 ${skyFunction('night', SKY.night)}
 // Direction in glTF axes (y up) to Blender axes (z up). dusk is the weight of Blue hour and Night
@@ -141,6 +156,8 @@ vec3 sui_sky( vec3 direction, float dusk, float night ) {
 	return sky;
 }
 `;
+/** The source skies, as Cycles renders them. */
+export const SKY_GLSL = skyGlsl(SKY.day);
 
 const vertexShader = /* glsl */ `
 varying vec3 vSuiSkyDirection;
@@ -170,7 +187,7 @@ uniform float suiSkyEvening;
 uniform float suiSkyNight;
 uniform float suiSkyRain;
 varying vec3 vSuiSkyDirection;
-${SKY_GLSL}
+${skyGlsl(CLEAR_DAY_SKY)}
 ${OVERCAST_GLSL}
 void main() {
 	vec3 sky = suiSkyRain < 1.0 ? sui_sky( vSuiSkyDirection, suiSkyEvening, suiSkyNight ) : vec3( 0.0 );

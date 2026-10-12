@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import * as THREE from 'three';
 import { MIRROR_LAYER } from './planarReflection';
-import { createSky, SKY, SKY_BLEND_SHA256, SKY_GLSL, skyFunction } from './sky';
+import { CLEAR_DAY_SKY, createSky, SKY, SKY_BLEND_SHA256, SKY_GLSL, skyFunction } from './sky';
 
 const header = (name: string) => JSON.parse(readFileSync(`public/models/${name}.json`, 'utf8'));
 
@@ -75,5 +75,17 @@ describe('source sky', () => {
     expect(material.uniforms.suiSkyNight.value).toBe(0.4);
     // Only skies with a weight are evaluated.
     expect(SKY_GLSL).toContain('if ( night > 0.0 ) sky += night * sui_sky_night( d );');
+  });
+
+  it('draws a clearer day than the source while the Cycles check keeps the source sky', () => {
+    expect(SKY_GLSL).toContain(skyFunction('day', SKY.day));
+    expect(CLEAR_DAY_SKY.clouds.low).toBeGreaterThan(SKY.day.clouds.low);
+    expect(CLEAR_DAY_SKY.clouds.high).toBeGreaterThan(SKY.day.clouds.high);
+    expect(CLEAR_DAY_SKY.zenith[2]).toBeGreaterThan(SKY.day.zenith[2]);
+    const { material } = createSky().mesh;
+    expect(material.fragmentShader).toContain(skyFunction('day', CLEAR_DAY_SKY));
+    expect(material.fragmentShader).not.toContain(skyFunction('day', SKY.day));
+    // Dusk and night are the source's.
+    expect(material.fragmentShader).toContain(skyFunction('evening', SKY.evening));
   });
 });

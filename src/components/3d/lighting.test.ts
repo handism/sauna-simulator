@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import {
   AUTO_SECONDS_PER_SCENE,
   AUTO_TRANSITION_SECONDS,
+  CLEAR_DAY_EXPOSURE,
+  CLEAR_DAY_SUN,
   createLighting,
   DRY_ONLY,
   RAIN_EXPOSURE,
@@ -83,9 +85,10 @@ describe('3D lighting', () => {
     const renderer = { toneMappingExposure: 0 } as THREE.WebGLRenderer;
     const lighting = createLighting(scene, renderer);
     lighting.update(0, 0, true);
-    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.15);
+    // The clear day closes the source Daylight exposure a little (its sun is stronger).
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** (0.15 + CLEAR_DAY_EXPOSURE));
     lighting.update(1, 0.1, false);
-    expect(renderer.toneMappingExposure).toBeGreaterThan(2 ** 0.15);
+    expect(renderer.toneMappingExposure).toBeGreaterThan(2 ** (0.15 + CLEAR_DAY_EXPOSURE));
     expect(renderer.toneMappingExposure).toBeLessThan(2 ** 0.55);
     lighting.update(1, 0, true);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.55);
@@ -141,7 +144,7 @@ describe('Rain', () => {
     expect(lighting.rain).toBe(1);
     expect(sun.intensity).toBe(0);
     // The color stays the time of day's, for the sun's return.
-    expect(sun.color.equals(clearColor)).toBe(true);
+    expect(sun.color.toArray().map((v) => +v.toFixed(6))).toEqual(clearColor.toArray().map((v) => +v.toFixed(6)));
     expect(lounge.intensity).toBe(0);
     expect(lighting.irradiance.suiOvercast.value.x).toBeCloseTo(RAIN_PROBES[0]);
     expect(lighting.irradiance.suiOvercast.value.w).toBe(0);
@@ -190,7 +193,11 @@ describe('Cycles lounge light', () => {
     const lounge = scene.children.find((child) => child instanceof THREE.SpotLight) as THREE.SpotLight;
     const sun = scene.children.find((child) => child instanceof THREE.DirectionalLight) as THREE.DirectionalLight;
     lighting.update(0, 0, true);
-    expect(lounge.intensity).toBeCloseTo(950 / Math.PI);
+    expect(lounge.intensity).toBeCloseTo((950 / Math.PI) * CLEAR_DAY_SUN);
+    // The source power under the overcast's share (where it is then put out).
+    lighting.update(0, 0, true, 0.5);
+    expect(lounge.intensity).toBeCloseTo((950 / Math.PI) * THREE.MathUtils.lerp(1, CLEAR_DAY_SUN, 0.5) * 0.5);
+    lighting.update(0, 0, true);
     // Blender (0.13, 0.3757, -0.9176) in glTF axes.
     const direction = lounge.target.position.clone().sub(lounge.position).normalize();
     expect(direction.toArray().map((v) => +v.toFixed(3))).toEqual([0.13, -0.918, -0.376]);
@@ -297,7 +304,8 @@ describe('Cycles Night lights', () => {
     expect(sun.intensity).toBeCloseTo(0.5 * 0.045 + 0.5 * 0.1);
     expect(sun.color.r * sun.intensity).toBeCloseTo(0.5 * 0.47 * 0.045 + 0.5 * 0.62 * 0.1);
     lighting.update(0, 0, true);
-    expect(sun.intensity).toBeCloseTo(3.2);
+    // The source Daylight sun (3.2), strengthened for the clear day.
+    expect(sun.intensity).toBeCloseTo(3.2 * CLEAR_DAY_SUN);
     expect(sun.shadow.radius).toBeCloseTo(directionalPenumbra(sun.shadow.camera, 0.085));
   });
 });

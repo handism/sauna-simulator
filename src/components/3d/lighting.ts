@@ -82,6 +82,16 @@ export const RAIN_PROBES = [0.45, 0.8, 0.85];
 export const RAIN_INDOOR = [0.7, 0.9, 0.95];
 /** Share of the probes' color taken to grey. */
 export const RAIN_DESATURATION = 0.55;
+/**
+ * The clear day the browser shows (not the source): the source Daylight's sun is soft against its
+ * sky fill, so shadows and sunlit faces read flat, like a hazy day. With a clear sky (sky.ts
+ * CLEAR_DAY_SKY) the sun and the V9 patch of sunlight are this much stronger, by the day's weight
+ * and the share of clear weather; the exposure closes a little so sunlit faces keep their color.
+ * The probes are unchanged, so the sun's share of the light rises.
+ */
+export const CLEAR_DAY_SUN = 2.2;
+export const CLEAR_DAY_EXPOSURE = -0.1;
+
 /** Exposure added (stops), as an eye or camera adapts to the darker overcast. */
 export const RAIN_EXPOSURE = [0.9, 0.3, 0.1];
 /** Overcast sky radiance (linear) at its base; slightly blue grey. */
@@ -325,14 +335,19 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
       irradiance.suiIrradianceEvening.value = dusk;
       irradiance.suiIrradianceNight.value = weights[2];
       sun.color.setRGB(0, 0, 0);
-      weights.forEach((w, i) => sun.color.add(sunColors[i].clone().multiplyScalar(w * sunIntensity[i])));
+      const clear = weights[0] * (1 - clouds);
+      const boost = THREE.MathUtils.lerp(1, CLEAR_DAY_SUN, 1 - clouds);
+      weights.forEach((w, i) =>
+        sun.color.add(sunColors[i].clone().multiplyScalar(w * sunIntensity[i] * (i === 0 ? boost : 1))),
+      );
       const peak = Math.max(sun.color.r, sun.color.g, sun.color.b);
       if (peak > 0) sun.color.multiplyScalar(1 / peak);
       sun.intensity = peak * (1 - clouds);
       sun.shadow.radius = THREE.MathUtils.lerp(sunPenumbra, moonPenumbra, weights[2]);
-      lounge.intensity = THREE.MathUtils.lerp(950 / Math.PI, 0, dusk) * (1 - clouds);
+      lounge.intensity = THREE.MathUtils.lerp((950 / Math.PI) * boost, 0, dusk) * (1 - clouds);
       for (const light of duskLights) light.intensity = light.userData.candela * dusk;
-      renderer.toneMappingExposure = 2 ** (dot(weights, EXPOSURE) + clouds * dot(weights, RAIN_EXPOSURE));
+      renderer.toneMappingExposure =
+        2 ** (dot(weights, EXPOSURE) + clouds * dot(weights, RAIN_EXPOSURE) + clear * CLEAR_DAY_EXPOSURE);
     },
   };
 }
