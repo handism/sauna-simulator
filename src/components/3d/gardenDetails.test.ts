@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { addGardenDetails, rockGeometry } from './gardenDetails';
+import { addGardenDetails, rockGeometry, tuckGrassBehindBoulders } from './gardenDetails';
 import { disposeTree, prepareModel } from './modelMaterials';
 
 function garden() {
@@ -186,5 +186,79 @@ describe('garden accents', () => {
     const details = addGardenDetails(root);
     details.update(0, 'summer', 0, 'clear', false);
     expect(root.children).toHaveLength(0);
+  });
+  it('moves grass clumps rooted in a boulder to its far rim, onto the lower support, and leaves other grass', () => {
+    const root = new THREE.Group();
+    // Two clumps of upright blades: one inside a boulder at (6.8, 2.9), one in the open at (-3, 6).
+    const blades = (x: number, z: number) =>
+      [0, 1, 2].flatMap((k) => [x + k * 0.1 - 0.1, 0, z, x + k * 0.1 - 0.08, 0, z, x + k * 0.1 - 0.09, 0.85, z]);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute([...blades(6.8, 2.9), ...blades(-3, 6)], 3));
+    const grass = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial());
+    grass.name = 'Ornamental_grass_blade';
+    root.add(grass);
+    root.updateMatrixWorld(true);
+    const boulder = new THREE.Box3(new THREE.Vector3(6.45, -0.01, 2.55), new THREE.Vector3(7.15, 0.48, 3.25));
+    expect(
+      tuckGrassBehindBoulders(
+        root,
+        [boulder],
+        () => -0.2,
+        () => () => true,
+      ),
+    ).toBe(1);
+    const position = geometry.attributes.position;
+    const away = new THREE.Vector2(6.8, 2.9).normalize().multiplyScalar(0.35 * 0.9);
+    // The tuft keeps its shape, shifted outward to the rim and down onto the terrain.
+    expect(position.getX(0)).toBeCloseTo(6.7 + away.x);
+    expect(position.getZ(0)).toBeCloseTo(2.9 + away.y);
+    expect(position.getY(0)).toBeCloseTo(-0.2);
+    expect(position.getY(2) - position.getY(0)).toBeCloseTo(0.85);
+    expect(position.getX(9)).toBeCloseTo(-3.1);
+    expect(position.getY(9)).toBe(0);
+    // Already out of the rock: a second pass moves nothing.
+    expect(
+      tuckGrassBehindBoulders(
+        root,
+        [boulder],
+        () => -0.2,
+        () => () => true,
+      ),
+    ).toBe(0);
+  });
+  it('turns a clump aside from a wall behind its boulder, or leaves it when no side has room', () => {
+    const tuft = () => {
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute([7, 0, 0, 7.02, 0, 0, 7.01, 0.8, 0], 3));
+      const grass = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial());
+      grass.name = 'Ornamental_grass_blade';
+      const root = new THREE.Group().add(grass);
+      root.updateMatrixWorld(true);
+      return { root, position: geometry.attributes.position };
+    };
+    const boulder = new THREE.Box3(new THREE.Vector3(6.7, 0, -0.3), new THREE.Vector3(7.3, 0.45, 0.3));
+    // A wall just beyond the boulder along +x: the first side (+45°) has room.
+    const walled = tuft();
+    const wall = (_: THREE.Vector3, direction: THREE.Vector3) => direction.x < 0.9;
+    expect(
+      tuckGrassBehindBoulders(
+        walled.root,
+        [boulder],
+        () => 0,
+        () => wall,
+      ),
+    ).toBe(1);
+    expect(walled.position.getX(0)).toBeCloseTo(7 + Math.SQRT1_2 * 0.27);
+    expect(walled.position.getZ(0)).toBeCloseTo(Math.SQRT1_2 * 0.27);
+    const boxed = tuft();
+    expect(
+      tuckGrassBehindBoulders(
+        boxed.root,
+        [boulder],
+        () => 0,
+        () => () => false,
+      ),
+    ).toBe(0);
+    expect(boxed.position.getX(0)).toBe(7);
   });
 });

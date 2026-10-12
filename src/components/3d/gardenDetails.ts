@@ -134,7 +134,106 @@ function restingStones(root: THREE.Object3D, ground: (x: number, z: number) => n
     if (flat(box)) shades.push([x, z, hx, hz, 0.3 + gap * 0.6, 0.6, below]);
     else shades.push([x, z, hx * 0.55, hz * 0.55, Math.max(hx, hz) * 0.7, 0.55, below]);
   }
-  return { shades, support };
+  return { shades, support, boulders: pieces.filter((box) => !flat(box)) };
+}
+
+/**
+ * The source's ornamental grass clumps (`Ornamental_grass_blade`) are rooted at the centers of the
+ * boulders on the plinth's edge (also so in the source), so their blades stuck out of the rock tops
+ * like hair. Each clump moves to its boulder's rim on the far side from the courtyard (the origin
+ * lies between the sauna, the plunge and the terrace, so every stage looks at the near side), and
+ * down onto the support there: the terrain or the plinth. Where a wall stands close behind, the
+ * clump turns up to 90° aside to a side with room for its blades (`clear`: nothing but the boulder
+ * itself in the way from a point along a direction within a distance), or stays. A clump is the grass within half a meter of
+ * a boulder's outline that reaches inside it. Returns the number of clumps moved.
+ */
+export function tuckGrassBehindBoulders(
+  root: THREE.Object3D,
+  boulders: THREE.Box3[],
+  support: (x: number, z: number, below: number) => number | undefined,
+  clearAround: (
+    boulders: THREE.Box3[],
+  ) => (from: THREE.Vector3, direction: THREE.Vector3, far: number, boulder: THREE.Box3) => boolean,
+) {
+  const p = new THREE.Vector3();
+  const size = new THREE.Vector3();
+  const clumps: {
+    position: THREE.BufferAttribute | THREE.InterleavedBufferAttribute;
+    world: Float32Array;
+    toLocal: THREE.Matrix4;
+    boulder: THREE.Box3;
+    vertices: number[];
+    base: number;
+  }[] = [];
+  const grass: THREE.Mesh[] = [];
+  root.traverse((object) => {
+    if (object instanceof THREE.Mesh && object.name.startsWith('Ornamental_grass_blade')) grass.push(object);
+  });
+  for (const mesh of grass) {
+    const position = mesh.geometry.attributes.position;
+    const world = new Float32Array(position.count * 3);
+    for (let i = 0; i < position.count; i++)
+      p.fromBufferAttribute(position, i)
+        .applyMatrix4(mesh.matrixWorld)
+        .toArray(world, i * 3);
+    const toLocal = mesh.matrixWorld.clone().invert();
+    for (const boulder of boulders) {
+      boulder.getSize(size);
+      const reach = Math.max(size.x, size.z) / 2;
+      const cx = (boulder.min.x + boulder.max.x) / 2;
+      const cz = (boulder.min.z + boulder.max.z) / 2;
+      if (reach < 0.12 || reach > 0.75 || Math.hypot(cx, cz) < 1) continue;
+      const vertices: number[] = [];
+      let inside = false;
+      let base = Infinity;
+      for (let i = 0; i < position.count; i++) {
+        p.fromArray(world, i * 3);
+        if (Math.hypot(p.x - cx, p.z - cz) > reach + 0.5) continue;
+        vertices.push(i);
+        inside ||= boulder.containsPoint(p);
+        base = Math.min(base, p.y);
+      }
+      if (inside) clumps.push({ position, world, toLocal, boulder, vertices, base });
+    }
+  }
+  if (!clumps.length) return 0;
+  const clear = clearAround(clumps.map(({ boulder }) => boulder));
+  const from = new THREE.Vector3();
+  const direction = new THREE.Vector3();
+  let moved = 0;
+  for (const { position, world, toLocal, boulder, vertices, base } of clumps) {
+    boulder.getSize(size);
+    const reach = Math.max(size.x, size.z) / 2;
+    const cx = (boulder.min.x + boulder.max.x) / 2;
+    const cz = (boulder.min.z + boulder.max.z) / 2;
+    let spread = 0;
+    for (const i of vertices) spread = Math.max(spread, Math.hypot(world[i * 3] - cx, world[i * 3 + 2] - cz));
+    const shift = reach * 0.9;
+    const outward = Math.atan2(cz, cx);
+    const turn = [0, 1, -1, 2, -2].find((k) => {
+      const angle = outward + (k * Math.PI) / 4;
+      direction.set(Math.cos(angle), 0, Math.sin(angle));
+      return [0.3, 0.6].every((h) => clear(from.set(cx, base + h, cz), direction, shift + spread + 0.05, boulder));
+    });
+    if (turn === undefined) continue;
+    const dx = Math.cos(outward + (turn * Math.PI) / 4) * shift;
+    const dz = Math.sin(outward + (turn * Math.PI) / 4) * shift;
+    const ground = support(cx + dx, cz + dz, base + 0.05);
+    // Down onto a lower terrace edge or into the gravel trench, never up into the air.
+    const dy = ground === undefined ? 0 : Math.min(0, Math.max(-0.5, ground - base));
+    for (const i of vertices) {
+      p.fromArray(world, i * 3);
+      p.set(p.x + dx, p.y + dy, p.z + dz).toArray(world, i * 3);
+      position.setXYZ(i, ...p.applyMatrix4(toLocal).toArray());
+    }
+    position.needsUpdate = true;
+    moved++;
+  }
+  for (const mesh of grass) {
+    mesh.geometry.computeBoundingBox();
+    mesh.geometry.computeBoundingSphere();
+  }
+  return moved;
 }
 
 /** Browser-built garden accents. Geometry is deterministic and owned by the scene. */
@@ -148,7 +247,7 @@ export function addGardenDetails(root: THREE.Object3D) {
     }
   });
   // An incomplete or substitute model must not receive floating decorations.
-  if (!terrain.length) return { finishPreparation() {}, update() {} };
+  if (!terrain.length) return { tuckedGrass: 0, finishPreparation() {}, update() {} };
   const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
   const ground = (x: number, z: number) => {
     ray.ray.origin.set(x, 25, z);
@@ -156,6 +255,59 @@ export function addGardenDetails(root: THREE.Object3D) {
   };
   const floor = (x: number, z: number) => ground(x, z) ?? 0;
   const resting = restingStones(root, ground);
+  // Walls and other solid parts near the grass's boulders, as world-space triangles within 1.5m of
+  // one (raycasting the whole merged model took seconds). Leaves, grass and the ground do not block
+  // the grass; a stone blocks it unless it is the clump's own boulder, which the rays start inside.
+  const tuckedGrass = tuckGrassBehindBoulders(root, resting.boulders, resting.support, (boulders) => {
+    const near = boulders.map((box) => box.clone().expandByVector(new THREE.Vector3(1.5, 0.3, 1.5)));
+    const all = near.reduce((union, box) => union.union(box), new THREE.Box3());
+    const solid: number[] = [];
+    const stones: number[] = [];
+    const corner = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+    const triangle = new THREE.Box3();
+    const bounds = new THREE.Box3();
+    root.traverse((object) => {
+      if (!(object instanceof THREE.Mesh) || Array.isArray(object.material)) return;
+      const name = `${object.material.name} ${object.name}`;
+      if (/leaf|foliage|fern|grass|moss|woodland earth|gravel/i.test(name)) return;
+      if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+      if (
+        !near.some((box) =>
+          box.intersectsBox(bounds.copy(object.geometry.boundingBox!).applyMatrix4(object.matrixWorld)),
+        )
+      )
+        return;
+      const into = /mineral charcoal stone/i.test(name) ? stones : solid;
+      const position = object.geometry.attributes.position;
+      const index = object.geometry.index;
+      const count = index ? index.count : position.count;
+      for (let t = 0; t < count; t += 3) {
+        for (let k = 0; k < 3; k++)
+          corner[k].fromBufferAttribute(position, index ? index.getX(t + k) : t + k).applyMatrix4(object.matrixWorld);
+        triangle.setFromPoints(corner);
+        if (all.intersectsBox(triangle) && near.some((box) => box.intersectsBox(triangle)))
+          for (const c of corner) into.push(c.x, c.y, c.z);
+      }
+    });
+    const soup = (points: number[]) => {
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+      return new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }));
+    };
+    const solidSoup = soup(solid);
+    const stoneSoup = soup(stones);
+    const sideways = new THREE.Raycaster();
+    const own = new THREE.Box3();
+    return (from, direction, far, boulder) => {
+      sideways.set(from, direction);
+      sideways.far = far;
+      own.copy(boulder).expandByScalar(0.02);
+      return (
+        sideways.intersectObject(solidSoup, false).length === 0 &&
+        sideways.intersectObject(stoneSoup, false).every((hit) => own.containsPoint(hit.point))
+      );
+    };
+  });
   const group = new THREE.Group();
   group.name = 'Living garden';
   group.applyMatrix4(root.matrixWorld.clone().invert());
@@ -634,6 +786,8 @@ export function addGardenDetails(root: THREE.Object3D) {
   const POOL_RADIANCE = 0.12;
   return {
     group,
+    /** The source's grass clumps moved out of their boulders (tuckGrassBehindBoulders). */
+    tuckedGrass,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
     finishPreparation() {
       for (const mesh of [...hills, stream, shade, pool, ...movingGrass, ...lamps]) mesh.castShadow = false;
