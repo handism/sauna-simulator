@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
 import { applyFoliage, isFoliageMaterial } from './foliage';
 import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
@@ -42,6 +43,7 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   const foliage = new Set<THREE.MeshStandardMaterial>();
   const noiseColors = new Map<THREE.MeshStandardMaterial, NoiseColor>();
   const imageRamps = new Map<THREE.MeshStandardMaterial, ImageRamp>();
+  const surfaces = new Map<THREE.MeshStandardMaterial, SurfaceDetail>();
   const leafClusters = new Map<number, THREE.DataTexture>();
   let leafClusterMaterials = 0;
   root.traverse((object) => {
@@ -53,6 +55,8 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       if (isFoliageMaterial(material)) foliage.add(material);
       const noise = noiseColorOf(material);
       if (noise) noiseColors.set(material as THREE.MeshStandardMaterial, noise);
+      const detail = surfaceDetailOf(material.name);
+      if (detail && material instanceof THREE.MeshStandardMaterial) surfaces.set(material, detail);
       const ramp = imageRampOf(material);
       if (ramp) imageRamps.set(material as THREE.MeshStandardMaterial, ramp);
       const cluster = leafClusterOf(material);
@@ -74,6 +78,7 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   foliage.forEach(applyFoliage);
   noiseColors.forEach((noise, material) => applyNoiseColor(material, noise));
   imageRamps.forEach((ramp, material) => applyImageRamp(material, ramp));
+  surfaces.forEach((kind, material) => applySurfaceDetails(material, kind));
   return {
     foliageMaterials: foliage.size,
     noiseColorMaterials: noiseColors.size,

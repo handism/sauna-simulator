@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-12",
+  "unitTests": 355,
+  "gardenSeasonTests": 9,
+  "closeViewCaptureTests": 1,
+  "closeViewImages": 9,
+  "simulatedNoHdrTests": 3,
+  "inputs": {
+    "src/components/3d/surfaceDetails.ts": "39eff68b3d15804ef831df6294715170c0a7c29d8981baeb9439227e754c665e",
+    "src/components/3d/modelMaterials.ts": "9eeafc2b01532f3580fd3271a0e790132128a44b77c44f71b745660f5fe9a48e",
+    "e2e/surface-details.visual.ts": "90db6b80f6f1f6ec13a14ac33aba7b9b18f447973941da864079ea4a62c62a14"
+  }
+}
