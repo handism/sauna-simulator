@@ -10505,7 +10505,7 @@
   "output_sha256": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
   "garden_output_bytes": 5979340,
   "garden_output_sha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
-  "scene_definition_sha256": "fe097615c8da3d8d76a0c77c29a65f65c76ab1d6ef0dbd77e9e7cbd11a3a81a8",
+  "scene_definition_sha256": "94687703bde085b5fe8b03345b44a81521835524be7eae47f210c5329d673647",
   "recompressed": {
     "date": "2026-09-27",
     "method": "The previous lossless GLB (sha256 15dcb2da…, git bde1708^) was decoded back to the uncompressed export and compressed with scripts/compress_web_glb.mjs --garden; without --garden the same input reproduces the previous single GLB (sha256 64eb0d1a…) byte for byte. Its JSON chunk differs from the Blender output by whitespace/key layout only, so compression.inputSha256 differs from the original export. Blender was not rerun.",
