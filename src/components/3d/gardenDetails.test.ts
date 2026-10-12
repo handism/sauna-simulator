@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { addGardenDetails } from './gardenDetails';
+import { addGardenDetails, rockGeometry } from './gardenDetails';
 import { disposeTree, prepareModel } from './modelMaterials';
 
 function garden() {
@@ -67,6 +67,38 @@ describe('garden accents', () => {
     details.update(30, 'summer', 0, 'clear', false);
     expect(butterfly.visible).toBe(false);
     disposeTree(root);
+  });
+
+  it('builds the same varied garden on every load', () => {
+    const first = garden();
+    const second = garden();
+    for (const name of ['Garden evergreen foliage', 'Garden mineral charcoal stone', 'Garden seasonal flowers']) {
+      const a = (first.root.getObjectByName(name) as THREE.Mesh).geometry;
+      const b = (second.root.getObjectByName(name) as THREE.Mesh).geometry;
+      expect(Array.from(a.attributes.position.array)).toEqual(Array.from(b.attributes.position.array));
+      expect(a.attributes.color.count).toBe(a.attributes.position.count);
+    }
+    // Shrubs differ in green: more than a handful of distinct tints.
+    const colors = (first.root.getObjectByName('Garden evergreen foliage') as THREE.Mesh).geometry.attributes.color;
+    const tints = new Set<string>();
+    for (let i = 0; i < colors.count; i += 12) tints.add(colors.getX(i).toFixed(3));
+    expect(tints.size).toBeGreaterThan(20);
+    disposeTree(first.root);
+    disposeTree(second.root);
+  });
+
+  it('shapes each rock differently with smooth, finite normals and a settled base', () => {
+    const a = rockGeometry(1.5);
+    const b = rockGeometry(42);
+    expect(Array.from(a.attributes.position.array)).not.toEqual(Array.from(b.attributes.position.array));
+    for (const rock of [a, b]) {
+      expect(rock.index).not.toBeNull();
+      expect(Array.from(rock.attributes.normal.array).every(Number.isFinite)).toBe(true);
+      rock.computeBoundingBox();
+      expect(rock.boundingBox!.min.y).toBeGreaterThan(-0.7);
+      expect(rock.boundingBox!.max.y).toBeGreaterThan(0.8);
+      rock.dispose();
+    }
   });
 
   it('leaves models without garden terrain alone', () => {

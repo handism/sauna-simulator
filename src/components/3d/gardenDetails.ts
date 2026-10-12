@@ -1,6 +1,41 @@
 import * as THREE from 'three';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Season } from './season';
+
+/** A deterministic generator in [0, 1), so every load builds the same garden. */
+function seeded(seed: number) {
+  let state = seed >>> 0;
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(state ^ (state >>> 15), 1 | state);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** A unit rock: an icosphere with a lumpy, flattened-bottom outline and smooth normals. */
+export function rockGeometry(seed: number) {
+  const sphere = new THREE.IcosahedronGeometry(1, 1);
+  sphere.deleteAttribute('normal');
+  sphere.deleteAttribute('uv');
+  const geometry = mergeVertices(sphere);
+  sphere.dispose();
+  const position = geometry.attributes.position;
+  const p = new THREE.Vector3();
+  for (let i = 0; i < position.count; i++) {
+    p.fromBufferAttribute(position, i);
+    const lump =
+      1 +
+      0.13 * Math.sin(p.x * 2.7 + seed * 1.3) * Math.cos(p.z * 2.3 - seed) +
+      0.08 * Math.sin(p.y * 4.1 + p.x * 1.7 + seed * 2.1);
+    p.multiplyScalar(lump);
+    // Rocks settle on a broad base.
+    if (p.y < -0.25) p.y = -0.25 + (p.y + 0.25) * 0.45;
+    position.setXYZ(i, p.x, p.y, p.z);
+  }
+  geometry.computeVertexNormals();
+  return geometry;
+}
 
 /** Browser-built garden accents. Geometry is deterministic and owned by the scene. */
 export function addGardenDetails(root: THREE.Object3D) {
@@ -30,9 +65,15 @@ export function addGardenDetails(root: THREE.Object3D) {
   };
   const stone = material('Garden mineral charcoal stone', 0x777c70);
   const shrub = material('Garden evergreen foliage', 0x58713c);
+  // Per-plant and per-stone tints, so repeated shapes do not read as copies.
+  stone.vertexColors = shrub.vertexColors = true;
   const grass = material('Garden meadow foliage', 0x819455);
   grass.side = THREE.DoubleSide;
   const flower = material('Garden seasonal flowers', 0xd7bd82);
+  flower.vertexColors = true;
+  const random = seeded(0x5a17);
+  const range = (min: number, max: number) => min + (max - min) * random();
+  const white = new THREE.Color(1, 1, 1);
   const batches = new Map<THREE.Material, THREE.BufferGeometry[]>();
   const add = (
     geometry: THREE.BufferGeometry,
@@ -43,6 +84,7 @@ export function addGardenDetails(root: THREE.Object3D) {
     sx = 1,
     sy = 1,
     sz = 1,
+    tint = white,
   ) => {
     geometry.scale(sx, sy, sz);
     geometry.translate(x, y, z);
@@ -52,6 +94,11 @@ export function addGardenDetails(root: THREE.Object3D) {
       geometry.dispose();
       geometry = expanded;
     }
+    // Untextured materials: every batch shares position, normal and color only.
+    geometry.deleteAttribute('uv');
+    const colors = new Float32Array(geometry.attributes.position.count * 3);
+    for (let i = 0; i < colors.length; i += 3) tint.toArray(colors, i);
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     list.push(geometry);
     batches.set(mat, list);
   };
@@ -65,34 +112,86 @@ export function addGardenDetails(root: THREE.Object3D) {
     [-5.8, 11],
     [1.1, 12.5],
   ];
-  for (const [index, [x, z]] of patches.entries()) {
+  // A stone with its own outline, turn and shade.
+  const addRock = (x: number, y: number, z: number, sx: number, sy: number, sz: number) => {
+    const geometry = rockGeometry(random() * 100);
+    geometry.rotateY(random() * Math.PI * 2);
+    const shade = range(0.8, 1.12);
+    add(
+      geometry,
+      stone,
+      x,
+      y,
+      z,
+      sx,
+      sy,
+      sz,
+      new THREE.Color(shade * range(0.96, 1.06), shade, shade * range(0.92, 1.04)),
+    );
+  };
+  for (const [x, z] of patches) {
     for (let n = 0; n < 7; n++) {
-      const angle = n * 2.4 + index;
-      const px = x + Math.cos(angle) * (0.25 + n * 0.15);
-      const pz = z + Math.sin(angle) * (0.25 + n * 0.12);
+      const angle = n * 2.4 + range(-0.35, 0.35);
+      const px = x + Math.cos(angle) * (0.25 + n * 0.15) + range(-0.1, 0.1);
+      const pz = z + Math.sin(angle) * (0.25 + n * 0.12) + range(-0.1, 0.1);
       const y = floor(px, pz);
-      const size = 0.28 + (n % 3) * 0.09;
-      for (let leaf = 0; leaf < 54; leaf++) {
-        const a = leaf * 2.399;
-        const rise = (leaf + 0.5) / 54;
-        const reach = Math.sqrt(1 - rise * rise) * size;
+      // Each shrub has its own size, footprint, height, density, turn and green.
+      const size = range(0.24, 0.48);
+      const wide = range(1.15, 1.65);
+      const deep = range(0.8, 1.2);
+      const tall = range(1.2, 1.85);
+      const leaves = 38 + Math.floor(random() * 32);
+      const turn = random() * Math.PI * 2;
+      const light = range(0.78, 1.16);
+      const plant = new THREE.Color(light * range(0.9, 1.12), light, light * range(0.82, 1.05));
+      for (let leaf = 0; leaf < leaves; leaf++) {
+        const a = leaf * 2.399 + turn + range(-0.3, 0.3);
+        const rise = (leaf + range(0.2, 0.8)) / leaves;
+        const reach = Math.sqrt(1 - rise * rise) * size * range(0.78, 1.15);
+        const scale = range(0.7, 1.3);
         const geometry = new THREE.IcosahedronGeometry(1, 0);
-        geometry.scale(0.12, 0.028, 0.065);
-        geometry.rotateZ(Math.sin(a) * 0.4);
+        geometry.scale(0.12 * scale, 0.028 * scale, 0.065 * scale);
+        geometry.rotateX(range(-0.3, 0.3));
+        geometry.rotateZ(Math.sin(a) * 0.4 + range(-0.25, 0.25));
         geometry.rotateY(a);
-        add(geometry, shrub, px + Math.cos(a) * reach * 1.4, y + 0.1 + rise * size * 1.6, pz + Math.sin(a) * reach);
+        add(
+          geometry,
+          shrub,
+          px + Math.cos(a) * reach * wide,
+          y + 0.1 + rise * size * tall,
+          pz + Math.sin(a) * reach * deep,
+          1,
+          1,
+          1,
+          plant.clone().multiplyScalar(range(0.93, 1.07)),
+        );
       }
-      if (n % 2 === 0) add(new THREE.IcosahedronGeometry(1, 1), stone, px + 0.3, y + 0.12, pz + 0.25, 0.3, 0.22, 0.25);
-      for (let f = 0; f < 4; f++) {
+      if (random() < 0.5)
+        addRock(
+          px + range(0.2, 0.4),
+          y + 0.1,
+          pz + range(0.15, 0.35),
+          range(0.2, 0.36),
+          range(0.16, 0.26),
+          range(0.18, 0.3),
+        );
+      // Blooms scattered over the upper crown.
+      const blooms = 2 + Math.floor(random() * 5);
+      for (let f = 0; f < blooms; f++) {
+        const a = random() * Math.PI * 2;
+        const rise = range(0.55, 0.95);
+        const reach = Math.sqrt(1 - rise * rise) * size * 1.05;
+        const scale = range(0.75, 1.3);
         add(
           new THREE.IcosahedronGeometry(1, 0),
           flower,
-          px + Math.cos(f * 2.4) * 0.2,
-          y + size * 1.55,
-          pz + Math.sin(f * 2.4) * 0.2,
-          0.07,
-          0.045,
-          0.07,
+          px + Math.cos(a) * reach * wide,
+          y + 0.12 + rise * size * tall,
+          pz + Math.sin(a) * reach * deep,
+          0.07 * scale,
+          0.045 * scale,
+          0.07 * scale,
+          new THREE.Color().setScalar(range(0.86, 1.1)),
         );
       }
     }
@@ -127,8 +226,15 @@ export function addGardenDetails(root: THREE.Object3D) {
       nz,
     );
     for (const side of [-1, 1]) {
-      const bx = x + side * (0.36 + 0.04 * Math.sin(i * 3));
-      add(new THREE.IcosahedronGeometry(1, 1), stone, bx, floor(bx, z) + 0.09, z, 0.2 + (i % 3) * 0.025, 0.16, 0.19);
+      // Uneven edging: varied size, turn and spacing, with an occasional pebble behind.
+      const bx = x + side * (0.36 + 0.04 * Math.sin(i * 3) + range(-0.03, 0.05));
+      const bz = z + range(-0.07, 0.07);
+      addRock(bx, floor(bx, bz) + 0.08, bz, range(0.15, 0.27), range(0.11, 0.19), range(0.14, 0.25));
+      if (random() < 0.22) {
+        const px = bx + side * range(0.18, 0.26);
+        const pz = bz + range(-0.1, 0.1);
+        addRock(px, floor(px, pz) + 0.05, pz, range(0.07, 0.12), range(0.05, 0.09), range(0.07, 0.11));
+      }
     }
   }
   const streamGeometry = new THREE.BufferGeometry();
