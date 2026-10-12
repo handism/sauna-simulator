@@ -307,7 +307,8 @@ body {
   font-size: 0.85rem;
   white-space: nowrap;
   color: var(--ink-strong);
-  text-shadow: var(--text-shadow-status);
+  /* Over the bright 3D sky with no scrim behind the toolbar. */
+  text-shadow: var(--text-shadow-heading);
   pointer-events: none;
 }
 .ui-hidden .app-toolbar .icon-btn::after {
@@ -1469,16 +1470,18 @@ h2:focus {
 .app-container:has(.sauna-3d-canvas[data-load-ms]) .aurora-container {
   display: none;
 }
-/* A soft top scrim keeps the sky readable without a visible panel behind the heading. */
-.app-container:has(.sauna-3d-canvas) .scene-container::before {
+/* A soft scrim around the heading only keeps it readable over the lit 3D sky: a full-width band
+   across the top of the screen made a clear day look overcast. */
+.app-container:has(.sauna-3d-canvas) .stage-heading::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 270px;
-  z-index: 9;
-  background: linear-gradient(to bottom, var(--scrim-top), var(--scrim-mid) 58%, transparent);
+  top: -56px;
+  bottom: -56px;
+  left: 50%;
+  width: min(720px, 100%);
+  transform: translateX(-50%);
+  z-index: -1;
+  background: radial-gradient(closest-side, var(--scrim-mid), transparent);
   pointer-events: none;
 }
 
@@ -1517,9 +1520,6 @@ h2:focus {
 }
 .ui-hidden .scene-status button {
   visibility: hidden;
-}
-.ui-hidden .scene-container::before {
-  display: none;
 }
 
 /* ---------- 2D rain ---------- */

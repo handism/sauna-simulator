@@ -24,6 +24,17 @@ describe('garden accents', () => {
     const grass = root.getObjectByName('Garden grasses 0') as THREE.Mesh;
     expect(grass.position.y).toBeCloseTo(2);
     expect(grass.castShadow).toBe(false);
+    // Contact shade lies just above the ground and fades to nothing at each rim.
+    const shade = root.getObjectByName('Garden contact shade') as THREE.Mesh;
+    expect(shade.castShadow).toBe(false);
+    expect(shade.receiveShadow).toBe(false);
+    const heights = Array.from(shade.geometry.attributes.position.array).filter((_, i) => i % 3 === 1);
+    expect(heights.every((y) => Math.abs(y - 2.012) < 1e-4)).toBe(true);
+    const colors = shade.geometry.attributes.color;
+    expect(colors.itemSize).toBe(4);
+    for (let i = 0; i < colors.count; i++)
+      if (i % 3 === 0) expect(colors.getW(i)).toBeGreaterThan(0);
+      else expect(colors.getW(i)).toBe(0);
     root.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
       expect(object.geometry).toBeInstanceOf(THREE.BufferGeometry);

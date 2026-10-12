@@ -112,8 +112,11 @@ export function addGardenDetails(root: THREE.Object3D) {
     [-5.8, 11],
     [1.1, 12.5],
   ];
+  // Soft darkening where each accent meets the ground: [x, z, radius, depth at the center].
+  const contacts: [number, number, number, number][] = [];
   // A stone with its own outline, turn and shade.
   const addRock = (x: number, y: number, z: number, sx: number, sy: number, sz: number) => {
+    contacts.push([x, z, Math.max(sx, sz) * 1.5, 0.6]);
     const geometry = rockGeometry(random() * 100);
     geometry.rotateY(random() * Math.PI * 2);
     const shade = range(0.8, 1.12);
@@ -144,6 +147,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       const turn = random() * Math.PI * 2;
       const light = range(0.78, 1.16);
       const plant = new THREE.Color(light * range(0.9, 1.12), light, light * range(0.82, 1.05));
+      contacts.push([px, pz, size * wide * 1.25, 0.5]);
       for (let leaf = 0; leaf < leaves; leaf++) {
         const a = leaf * 2.399 + turn + range(-0.3, 0.3);
         const rise = (leaf + range(0.2, 0.8)) / leaves;
@@ -355,6 +359,7 @@ export function addGardenDetails(root: THREE.Object3D) {
     [0.1, 10.7],
   ]) {
     const y = floor(x, z);
+    contacts.push([x, z, 0.38, 0.6]);
     add(new THREE.CylinderGeometry(0.13, 0.17, 0.48, 8), stone, x, y + 0.24, z);
     const lamp = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.095, 0.13, 8), lampMaterial);
     lamp.position.set(x, y + 0.48, z);
@@ -371,6 +376,42 @@ export function addGardenDetails(root: THREE.Object3D) {
     if (mat === flower) flowers.push(mesh);
     group.add(mesh);
   }
+  // Contact shade: a disc per accent laid on the terrain, black with the depth falling to zero at
+  // the rim (vertex alpha), so rocks, shrubs and lanterns do not seem to float. Without baked
+  // occlusion under the browser-built accents, their base met the lit ground with no darkening.
+  const shadePositions: number[] = [];
+  const shadeColors: number[] = [];
+  const RIM = 16;
+  for (const [x, z, radius, depth] of contacts) {
+    const lift = 0.012;
+    const center = [x, floor(x, z) + lift, z];
+    const rim = Array.from({ length: RIM }, (_, k) => {
+      const a = (k / RIM) * Math.PI * 2;
+      const rx = x + Math.cos(a) * radius,
+        rz = z + Math.sin(a) * radius;
+      return [rx, floor(rx, rz) + lift, rz];
+    });
+    for (let k = 0; k < RIM; k++) {
+      shadePositions.push(...center, ...rim[(k + 1) % RIM], ...rim[k]);
+      shadeColors.push(0, 0, 0, depth, 0, 0, 0, 0, 0, 0, 0, 0);
+    }
+  }
+  const shadeGeometry = new THREE.BufferGeometry();
+  shadeGeometry.setAttribute('position', new THREE.Float32BufferAttribute(shadePositions, 3));
+  shadeGeometry.setAttribute('color', new THREE.Float32BufferAttribute(shadeColors, 4));
+  const shadeMaterial = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    vertexColors: true,
+    transparent: true,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -2,
+  });
+  shadeMaterial.name = 'Garden contact shade';
+  const shade = new THREE.Mesh(shadeGeometry, shadeMaterial);
+  shade.name = shadeMaterial.name;
+  group.add(shade);
   const butterflies: THREE.Group[] = [];
   const wingMaterial = new THREE.MeshStandardMaterial({ color: 0xf0d9a2, roughness: 0.9, side: THREE.DoubleSide });
   const wingGeometry = new THREE.CircleGeometry(0.09, 5);
@@ -389,16 +430,19 @@ export function addGardenDetails(root: THREE.Object3D) {
   }
   const butterflyFloors = butterflies.map((_, i) => floor(patches[i + 2][0], patches[i + 2][1]));
   const hillDay = [new THREE.Color(0x718575), new THREE.Color(0x8b9c9b), new THREE.Color(0xa7b4bc)];
+  // Unlit, so the dusk colors are set here: halfway to night they stood out above the darkened
+  // meadow under the opened evening exposure.
+  const hillEvening = [new THREE.Color(0x2b3340), new THREE.Color(0x384050), new THREE.Color(0x474e60)];
   const hillNight = new THREE.Color(0x101c29);
   const airDay = new THREE.Color(0xaebdcc);
-  const airEvening = new THREE.Color(0x8d8f9f);
+  const airEvening = new THREE.Color(0x5c5f72);
   const airNight = new THREE.Color(0x25344f);
   return {
     group,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
     finishPreparation() {
-      for (const mesh of [...hills, stream, ...movingGrass, ...lamps]) mesh.castShadow = false;
-      for (const hill of hills) hill.receiveShadow = false;
+      for (const mesh of [...hills, stream, shade, ...movingGrass, ...lamps]) mesh.castShadow = false;
+      for (const mesh of [...hills, shade]) mesh.receiveShadow = false;
       for (const butterfly of butterflies)
         butterfly.traverse((object) => {
           if (object instanceof THREE.Mesh) object.castShadow = false;
@@ -418,7 +462,8 @@ export function addGardenDetails(root: THREE.Object3D) {
       for (const [i, hill] of hills.entries())
         (hill.material as THREE.MeshBasicMaterial).color
           .copy(hillDay[i])
-          .lerp(hillNight, Math.min(1, timeOfDay / 2))
+          .lerp(hillEvening[i], Math.min(1, timeOfDay))
+          .lerp(hillNight, Math.max(0, Math.min(1, timeOfDay - 1)))
           .multiplyScalar(weather === 'clear' ? 1 : 0.7);
       for (const [i, mesh] of movingGrass.entries())
         mesh.rotation.z = Math.sin(time * 0.8 + i * 1.7) * (reducedMotion ? 0 : 0.025);
