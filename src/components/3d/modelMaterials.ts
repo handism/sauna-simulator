@@ -49,7 +49,11 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
     const materials = Array.isArray(object.material) ? object.material : [object.material];
-    if (materials.every((material) => /^V6 woodland leaf \d+ card$/.test(material.name) && leafClusterOf(material)))
+    if (
+      materials.every(
+        (material) => /^V6 woodland leaf \d+ card(?: evergreen)?$/.test(material.name) && leafClusterOf(material),
+      )
+    )
       broadenWoodlandCards(object.geometry);
     for (const material of materials) {
       if (isFoliageMaterial(material)) foliage.add(material);

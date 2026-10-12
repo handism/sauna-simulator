@@ -12,6 +12,7 @@ import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { createSteam, LIFETIME_SECONDS } from './steam';
 import { addGardenDetails } from './gardenDetails';
+import { splitEvergreenWoodland } from './evergreenWoodland';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
 import { createRain } from './rain';
@@ -574,6 +575,7 @@ export default function SaunaScene({
               return;
             }
             gardenScenes.push(woodland);
+            setData('evergreenTrees', String(splitEvergreenWoodland(woodland)));
             if (prepare(woodland)) throw Error('Garden under water');
             count('prepassMeshes', prepass.add(woodland));
             count('shadowMaskMeshes', shadowMask?.add(woodland) ?? 0);
