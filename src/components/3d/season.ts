@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { applyAutumnGround } from './autumnGround';
+import { surfaceDetailOf } from './surfaceDetails';
 import { applyWinterSnow, receivesWinterSnow } from './winterSnow';
 
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
@@ -33,11 +35,17 @@ export function createSeasonColors() {
   >();
   const snow = { value: 0 };
   const snowy = new Set<THREE.MeshStandardMaterial>();
+  // The meadow and forest floor dry and gather fallen leaves in autumn (autumnGround.ts).
+  const autumnGround = { value: 0 };
+  const grounds = new Set<THREE.MeshStandardMaterial>();
   const flowers = new Map<THREE.Mesh, number>();
   const leaves = new Map<THREE.Mesh, boolean>();
   return {
     get snowMaterials() {
       return snowy.size;
+    },
+    get autumnGroundMaterials() {
+      return grounds.size;
     },
     get hiddenLeaves() {
       return [...leaves.keys()].filter((mesh) => !mesh.visible).length;
@@ -63,6 +71,15 @@ export function createSeasonColors() {
           object.visible = season === 'winter' ? false : object.visible;
         }
         for (const material of materials) {
+          // Before the snow, which is drawn over it.
+          if (
+            material instanceof THREE.MeshStandardMaterial &&
+            surfaceDetailOf(material.name) === 'ground' &&
+            !grounds.has(material)
+          ) {
+            applyAutumnGround(material, autumnGround);
+            grounds.add(material);
+          }
           if (
             material instanceof THREE.MeshStandardMaterial &&
             receivesWinterSnow(material.name) &&
@@ -81,11 +98,14 @@ export function createSeasonColors() {
         }
       });
       snow.value = season === 'winter' ? 1 : 0;
+      autumnGround.value = season === 'autumn' ? 1 : 0;
     },
     update(season: Season) {
       const amount = season === 'winter' ? 1 : 0;
-      let changed = snow.value !== amount;
+      const autumn = season === 'autumn' ? 1 : 0;
+      let changed = snow.value !== amount || autumnGround.value !== autumn;
       snow.value = amount;
+      autumnGround.value = autumn;
       for (const mesh of flowers.keys()) {
         const next = season === 'spring';
         if (mesh.visible !== next) {

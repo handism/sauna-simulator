@@ -654,6 +654,7 @@ export default function SaunaScene({
           setData('seasonMaterials', String(seasonColors.size));
           setData('springFlowers', String(seasonColors.flowerCount));
           setData('snowMaterials', String(seasonColors.snowMaterials));
+          setData('autumnGroundMaterials', String(seasonColors.autumnGroundMaterials));
           setData('winterHiddenLeaves', String(seasonColors.hiddenLeaves));
           updateAudio();
           const delta = metrics.frame(now);
