@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { act, render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import App from '../App';
 import { SaunaProvider } from '../context/SaunaContext';
@@ -198,6 +198,9 @@ describe('App Component', () => {
   const enterSauna = async () => {
     fireEvent.click(screen.getByText('音なしで入室する'));
     await waitFor(() => expect(screen.getByTestId('sauna-room')).toBeInTheDocument(), { timeout: 1500 });
+    // The stage changes on a timer outside act, so the shortcut listeners registered in its
+    // passive effects may not be attached yet when the DOM first shows the room.
+    await act(async () => {});
   };
 
   it('toggles mute and UI visibility with the M and U keys once the session has started', async () => {
