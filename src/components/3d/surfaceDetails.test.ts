@@ -9,16 +9,20 @@ describe('deck and stone surface details', () => {
     expect(surfaceDetailOf('V7 | locally damp ash.035')).toBe('deck');
     expect(surfaceDetailOf('V2 | pale mineral paving')).toBe('stone');
     expect(surfaceDetailOf('Garden mineral charcoal stone')).toBe('stone');
+    expect(surfaceDetailOf('V9 | layered living moss')).toBe('ground');
+    expect(surfaceDetailOf('V3 | moss and woodland earth')).toBe('ground');
     for (const name of [
       'V2 | warm open-grain timber',
       'Teal glazed pool tile',
       'Low iron architectural glass',
       'V10 | submerged light / V9 | quiet honed stone / V2 | mineral c',
+      'V7 | shaded moss garden',
+      'Fine garden gravel',
     ])
       expect(surfaceDetailOf(name)).toBeNull();
   });
 
-  it.each(['deck', 'stone'] as const)(
+  it.each(['deck', 'stone', 'ground'] as const)(
     'composes %s with existing materials and snow without adding texture samplers',
     (kind) => {
       const material = new THREE.MeshStandardMaterial();
@@ -41,6 +45,7 @@ describe('deck and stone surface details', () => {
       );
       expect(material.customProgramCacheKey()).toContain(`original|surface-details-${kind}-v1|winter-snow`);
       expect(shader.vertexShader).toContain('vSuiSurfacePosition = (modelMatrix');
+      expect(shader.vertexShader).toContain('vSuiSurfaceUp = normalize(mat3(modelMatrix) * objectNormal).y');
       material.dispose();
     },
   );

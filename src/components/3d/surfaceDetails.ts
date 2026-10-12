@@ -1,12 +1,14 @@
 import * as THREE from 'three';
 
-export type SurfaceDetail = 'deck' | 'stone';
+export type SurfaceDetail = 'deck' | 'stone' | 'ground';
 
 // Keep indoor timber, pool tiles, glass and the submerged stone/light materials out.
 export function surfaceDetailOf(name: string): SurfaceDetail | null {
   if (/^V2 \| outdoor ash \/ grain & wear$|^V7 \| locally damp ash(?:\.\d+)?$/.test(name)) return 'deck';
   if (['V2 | mineral charcoal stone', 'V2 | pale mineral paving', 'Garden mineral charcoal stone'].includes(name))
     return 'stone';
+  // The rolling moss terrain and the forest floor around it; the moss garden by the opening keeps its flat color.
+  if (['V9 | layered living moss', 'V3 | moss and woodland earth'].includes(name)) return 'ground';
   return null;
 }
 
@@ -16,6 +18,7 @@ const ROUGHNESS = '#include <roughnessmap_fragment>';
 const NORMAL = '#include <normal_fragment_maps>';
 const PARS = /* glsl */ `
 varying vec3 vSuiSurfacePosition;
+varying float vSuiSurfaceUp;
 float suiSurfaceHash(vec3 p) {
   p = fract(p * 0.1031);
   p += dot(p, p.yzx + 33.33);
@@ -62,6 +65,27 @@ const STONE = /* glsl */ `
   float suiSurfaceRoughness = (suiPores - 0.5) * 0.14;
   float suiSurfaceHeight = suiMineral * 0.0007 + suiPores * 0.00045;
 `;
+// The source moss noise repeats every meter or so and averages to one flat green beyond a few
+// meters. Broad patches keep the meadow readable at mid distance: drier yellow-green and lusher
+// dark green (balanced around the source color), drier crests, earthier steep slopes, and tufts
+// and blades near the camera that fade to their mean.
+const GROUND = /* glsl */ `
+  vec3 suiSurfaceP = vSuiSurfacePosition;
+  float suiBroad = suiSurfaceNoise(vec3(suiSurfaceP.xz * 0.07, 0.0)) * 0.65
+    + suiSurfaceNoise(vec3(suiSurfaceP.xz * 0.19 + 3.1, 1.7)) * 0.35;
+  float suiCrest = smoothstep(0.2, 2.2, suiSurfaceP.y);
+  float suiDry = smoothstep(0.45, 0.72, suiBroad + suiCrest * 0.12);
+  float suiLush = 1.0 - smoothstep(0.24, 0.5, suiBroad + suiCrest * 0.12);
+  float suiSlope = 1.0 - smoothstep(0.82, 0.96, abs(vSuiSurfaceUp));
+  float suiTuft = suiSurfaceFilteredNoise(suiSurfaceP * 1.7);
+  float suiBlade = suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 42.0, suiSurfaceP.y * 9.0, suiSurfaceP.z * 42.0));
+  vec3 suiGroundTint = mix(vec3(1.0), vec3(1.7, 1.42, 0.72), suiDry * 0.85);
+  suiGroundTint = mix(suiGroundTint, vec3(0.6, 0.76, 0.72), suiLush * 0.85);
+  suiGroundTint = mix(suiGroundTint, vec3(1.15, 0.85, 0.62), suiSlope * 0.7);
+  diffuseColor.rgb *= suiGroundTint * (1.0 + (suiTuft - 0.5) * 0.45 + (suiBlade - 0.5) * 0.3);
+  float suiSurfaceRoughness = (suiDry - suiLush) * 0.05;
+  float suiSurfaceHeight = suiTuft * 0.004 + suiBlade * 0.0006;
+`;
 const BUMP = /* glsl */ `
   // Surface-gradient bump in view space, layered over the existing normal map.
   vec3 suiDx = dFdx(-vViewPosition), suiDy = dFdy(-vViewPosition);
@@ -84,14 +108,17 @@ export function patchSurfaceDetailShader(
   )
     throw Error('Unsupported three.js shader chunks for surface details');
   shader.vertexShader = shader.vertexShader
-    .replace(COMMON, `${COMMON}\nvarying vec3 vSuiSurfacePosition;`)
-    .replace(PROJECT, `${PROJECT}\nvSuiSurfacePosition = (modelMatrix * vec4(transformed, 1.0)).xyz;`);
+    .replace(COMMON, `${COMMON}\nvarying vec3 vSuiSurfacePosition;\nvarying float vSuiSurfaceUp;`)
+    .replace(
+      PROJECT,
+      `${PROJECT}\nvSuiSurfacePosition = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvSuiSurfaceUp = normalize(mat3(modelMatrix) * objectNormal).y;`,
+    );
   shader.fragmentShader = shader.fragmentShader
     .replace(COMMON, `${COMMON}\n${PARS}`)
     // Runs after the image ramp, before winter snow overwrites color/roughness.
     .replace(
       ROUGHNESS,
-      `${kind === 'deck' ? DECK : STONE}\n${ROUGHNESS}\nroughnessFactor = clamp(roughnessFactor + suiSurfaceRoughness, 0.32, 1.0);`,
+      `${{ deck: DECK, stone: STONE, ground: GROUND }[kind]}\n${ROUGHNESS}\nroughnessFactor = clamp(roughnessFactor + suiSurfaceRoughness, 0.32, 1.0);`,
     )
     .replace(NORMAL, `${NORMAL}\n${BUMP}`);
 }
