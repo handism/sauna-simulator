@@ -17,11 +17,17 @@ import { REFLECTION_PARS } from './reflection';
 // refractions, t², would pass only 0.71 of the red). The probes are sampled on the camera side of the
 // pane, so the room grid serves views from inside the sauna. Refraction offsets (at most a few
 // millimeters) and the 0.055 roughness are left out; L2 probes give a soft reflection.
+//
+// The condensation beads on the sauna's window are fully transmissive water (IOR 1.333) too, but
+// the exporter wrote them as an opaque off-white surface: dimly lit, they showed as dark specks
+// against the bright sky. Drawn as this glass, each bead's front face is one slab; the blur of
+// its refraction (Cycles' frosted view through them) is left out.
 
 /** Source IOR and base color by material name. */
 export const GLASS: Record<string, { ior: number; tint: [number, number, number] }> = {
   'Low iron architectural glass': { ior: 1.45, tint: [0.87, 0.96, 0.95] },
   'V11 | timer clear glass': { ior: 1.46, tint: [0.9, 0.97, 1] },
+  'V2 | condensed clear droplets': { ior: 1.333, tint: [0.94, 0.98, 1] },
 };
 
 /** Unpolarized Fresnel reflectance of a dielectric interface (suiFresnel in the shader). */

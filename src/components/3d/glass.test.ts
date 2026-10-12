@@ -65,4 +65,20 @@ describe('glass', () => {
     expect(reflection.defines).toHaveProperty('SUI_REFLECTION');
     expect(wall.material).toBeInstanceOf(THREE.MeshStandardMaterial);
   });
+
+  it('draws the condensation beads as transmissive water, not an opaque surface', () => {
+    const root = new THREE.Group();
+    const bead = new THREE.Mesh(
+      new THREE.SphereGeometry(),
+      new THREE.MeshStandardMaterial({ name: 'V2 | condensed clear droplets' }),
+    );
+    root.add(bead);
+    expect(applyGlass(root, createIrradianceUniforms())).toBe(1);
+    const transmission = bead.material as unknown as THREE.ShaderMaterial;
+    expect(transmission.uniforms.ior.value).toBe(1.333);
+    expect(transmission.defines).toHaveProperty('SUI_GLASS_TRANSMISSION');
+    // Mostly see-through at normal incidence: a speck no darker than the view behind × 0.9.
+    const { transmittance } = slab(1, GLASS['V2 | condensed clear droplets']);
+    for (const t of transmittance) expect(t).toBeGreaterThan(0.85);
+  });
 });
