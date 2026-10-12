@@ -37,6 +37,106 @@ export function rockGeometry(seed: number) {
   return geometry;
 }
 
+/** A contact shade: [x, z, half width, half depth, margin, depth, the height its stone rests below]. */
+type Contact = [number, number, number, number, number, number, number?];
+
+/**
+ * The source model's stones on the ground (the terrace plinth, the stepping-stone row and boulders),
+ * as contact shades in world space: one per connected piece of the merged stone mesh whose base meets
+ * its support or overhangs it. The stepping stones sit on the plinth's edge and overhang a gravel
+ * trench 0.4m below; without the source's occlusion they looked laid on the lit plinth. Interior
+ * and raised stones and pebbles in the gravel are left out. `support` gives the surface under a point
+ * below a height: the terrain or the top of a flat piece (an axis-aligned slab, so its box is exact).
+ */
+function restingStones(root: THREE.Object3D, ground: (x: number, z: number) => number | undefined) {
+  const pieces: THREE.Box3[] = [];
+  const meshes: THREE.Mesh[] = [];
+  root.traverse((object) => {
+    if (
+      object instanceof THREE.Mesh &&
+      !Array.isArray(object.material) &&
+      /mineral charcoal stone/i.test(object.material.name)
+    )
+      meshes.push(object);
+  });
+  const p = new THREE.Vector3();
+  for (const mesh of meshes) {
+    const position = mesh.geometry.attributes.position;
+    const index = mesh.geometry.index;
+    // Pieces share no vertices but may be split at seams, so coincident points (1mm) are joined.
+    const parent = Int32Array.from({ length: position.count }, (_, i) => i);
+    const find = (i: number): number => {
+      while (parent[i] !== i) i = parent[i] = parent[parent[i]];
+      return i;
+    };
+    const join = (a: number, b: number) => {
+      parent[find(b)] = find(a);
+    };
+    const world = new Float32Array(position.count * 3);
+    const seen = new Map<string, number>();
+    for (let i = 0; i < position.count; i++) {
+      p.fromBufferAttribute(position, i)
+        .applyMatrix4(mesh.matrixWorld)
+        .toArray(world, i * 3);
+      const key = `${Math.round(p.x * 1000)},${Math.round(p.y * 1000)},${Math.round(p.z * 1000)}`;
+      const first = seen.get(key);
+      if (first === undefined) seen.set(key, i);
+      else join(first, i);
+    }
+    const corners = index ? index.count : position.count;
+    for (let t = 0; t < corners; t += 3) {
+      const at = (k: number) => (index ? index.getX(t + k) : t + k);
+      join(at(0), at(1));
+      join(at(0), at(2));
+    }
+    const boxes = new Map<number, THREE.Box3>();
+    for (let i = 0; i < position.count; i++) {
+      const piece = find(i);
+      const box = boxes.get(piece) ?? new THREE.Box3();
+      box.expandByPoint(p.fromArray(world, i * 3));
+      boxes.set(piece, box);
+    }
+    for (const box of boxes.values()) pieces.push(box);
+  }
+  const size = new THREE.Vector3();
+  const flat = (box: THREE.Box3) => (box.getSize(size), size.y < 0.35 * Math.min(size.x, size.z));
+  const tops = pieces.filter(flat);
+  const support = (x: number, z: number, below: number) => {
+    let y = ground(x, z);
+    for (const top of tops)
+      if (
+        top.max.y <= below &&
+        top.max.y > (y ?? -Infinity) &&
+        x >= top.min.x &&
+        x <= top.max.x &&
+        z >= top.min.z &&
+        z <= top.max.z
+      )
+        y = top.max.y;
+    return y;
+  };
+  const shades: Contact[] = [];
+  for (const box of pieces) {
+    box.getSize(size);
+    const width = Math.max(size.x, size.z);
+    if (width > 16 || width < 0.25) continue;
+    const x = (box.min.x + box.max.x) / 2;
+    const z = (box.min.z + box.max.z) / 2;
+    const below = box.min.y + 0.05;
+    const y = support(x, z, below);
+    // Its base under its support or overhanging it by up to 0.5m, and its top above it.
+    if (y === undefined || box.min.y > y + 0.5 || box.min.y < y - 0.5 || box.max.y < y) continue;
+    const hx = size.x / 2;
+    const hz = size.z / 2;
+    // Slabs keep their rectangle up to the edge, with a softer, wider shade the higher they float;
+    // rounded rocks get a smaller core and a wider fall-off.
+    const gap = Math.max(0, box.min.y - y);
+    if (flat(box)) shades.push([x, z, hx, hz, 0.3 + gap * 0.6, 0.6, below]);
+    else shades.push([x, z, hx * 0.55, hz * 0.55, Math.max(hx, hz) * 0.7, 0.55, below]);
+  }
+  return { shades, support };
+}
+
 /** Browser-built garden accents. Geometry is deterministic and owned by the scene. */
 export function addGardenDetails(root: THREE.Object3D) {
   root.updateMatrixWorld(true);
@@ -50,10 +150,12 @@ export function addGardenDetails(root: THREE.Object3D) {
   // An incomplete or substitute model must not receive floating decorations.
   if (!terrain.length) return { finishPreparation() {}, update() {} };
   const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
-  const floor = (x: number, z: number) => {
+  const ground = (x: number, z: number) => {
     ray.ray.origin.set(x, 25, z);
-    return ray.intersectObjects(terrain, false)[0]?.point.y ?? 0;
+    return ray.intersectObjects(terrain, false)[0]?.point.y;
   };
+  const floor = (x: number, z: number) => ground(x, z) ?? 0;
+  const resting = restingStones(root, ground);
   const group = new THREE.Group();
   group.name = 'Living garden';
   group.applyMatrix4(root.matrixWorld.clone().invert());
@@ -112,11 +214,12 @@ export function addGardenDetails(root: THREE.Object3D) {
     [-5.8, 11],
     [1.1, 12.5],
   ];
-  // Soft darkening where each accent meets the ground: [x, z, radius, depth at the center].
-  const contacts: [number, number, number, number][] = [];
+  // Soft darkening where each accent meets the ground: [x, z, half width, half depth, margin, depth]
+  // (a rounded rectangle, a disc when the half sizes are 0), darkest inside and 0 at the margin.
+  const contacts: Contact[] = [...resting.shades];
   // A stone with its own outline, turn and shade.
   const addRock = (x: number, y: number, z: number, sx: number, sy: number, sz: number) => {
-    contacts.push([x, z, Math.max(sx, sz) * 1.5, 0.6]);
+    contacts.push([x, z, 0, 0, Math.max(sx, sz) * 1.5, 0.6]);
     const geometry = rockGeometry(random() * 100);
     geometry.rotateY(random() * Math.PI * 2);
     const shade = range(0.8, 1.12);
@@ -147,7 +250,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       const turn = random() * Math.PI * 2;
       const light = range(0.78, 1.16);
       const plant = new THREE.Color(light * range(0.9, 1.12), light, light * range(0.82, 1.05));
-      contacts.push([px, pz, size * wide * 1.25, 0.5]);
+      contacts.push([px, pz, 0, 0, size * wide * 1.25, 0.5]);
       for (let leaf = 0; leaf < leaves; leaf++) {
         const a = leaf * 2.399 + turn + range(-0.3, 0.3);
         const rise = (leaf + range(0.2, 0.8)) / leaves;
@@ -359,7 +462,7 @@ export function addGardenDetails(root: THREE.Object3D) {
     [0.1, 10.7],
   ]) {
     const y = floor(x, z);
-    contacts.push([x, z, 0.38, 0.6]);
+    contacts.push([x, z, 0, 0, 0.38, 0.6]);
     add(new THREE.CylinderGeometry(0.13, 0.17, 0.48, 8), stone, x, y + 0.24, z);
     const lamp = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.095, 0.13, 8), lampMaterial);
     lamp.position.set(x, y + 0.48, z);
@@ -376,24 +479,62 @@ export function addGardenDetails(root: THREE.Object3D) {
     if (mat === flower) flowers.push(mesh);
     group.add(mesh);
   }
-  // Contact shade: a disc per accent laid on the terrain, black with the depth falling to zero at
-  // the rim (vertex alpha), so rocks, shrubs and lanterns do not seem to float. Without baked
-  // occlusion under the browser-built accents, their base met the lit ground with no darkening.
+  // Contact shade: a disc or rounded rectangle per accent laid on the terrain, black with the depth
+  // falling to zero at the rim (vertex alpha), so rocks, shrubs and lanterns do not seem to float.
+  // Without baked occlusion under the browser-built accents, their base met the lit ground with no
+  // darkening; the source's stepping stones and boulders read as slabs floating above the meadow.
   const shadePositions: number[] = [];
   const shadeColors: number[] = [];
-  const RIM = 16;
-  for (const [x, z, radius, depth] of contacts) {
-    const lift = 0.012;
-    const center = [x, floor(x, z) + lift, z];
-    const rim = Array.from({ length: RIM }, (_, k) => {
-      const a = (k / RIM) * Math.PI * 2;
-      const rx = x + Math.cos(a) * radius,
-        rz = z + Math.sin(a) * radius;
-      return [rx, floor(rx, rz) + lift, rz];
+  const ARC = 4;
+  const lift = 0.012;
+  for (const [x, z, hx, hz, margin, depth, below] of contacts) {
+    const onGround = (px: number, pz: number) => [
+      px,
+      (below === undefined ? floor(px, pz) : (resting.support(px, pz, below) ?? floor(px, pz))) + lift,
+      pz,
+    ];
+    // Rings around the core, point for point: each corner's arc around its core corner. Around a
+    // stone's footprint the shade gathers at the edge, as occlusion does where it meets the ground.
+    const rings: [number, number][] =
+      hx || hz
+        ? [
+            [0, depth],
+            [margin * 0.3, depth * 0.4],
+            [margin, 0],
+          ]
+        : [
+            [0, depth],
+            [margin, 0],
+          ];
+    const points = rings.map(([offset]) => {
+      const ring: number[][] = [];
+      for (let corner = 0; corner < 4; corner++) {
+        const cx = x + (corner === 0 || corner === 3 ? hx : -hx);
+        const cz = z + (corner < 2 ? hz : -hz);
+        for (let k = 0; k <= ARC; k++) {
+          const a = ((corner + k / ARC) * Math.PI) / 2;
+          ring.push(onGround(cx + Math.cos(a) * offset, cz + Math.sin(a) * offset));
+        }
+      }
+      return ring;
     });
-    for (let k = 0; k < RIM; k++) {
-      shadePositions.push(...center, ...rim[(k + 1) % RIM], ...rim[k]);
-      shadeColors.push(0, 0, 0, depth, 0, 0, 0, 0, 0, 0, 0, 0);
+    const center = onGround(x, z);
+    const same = (a: number[], b: number[]) => Math.abs(a[0] - b[0]) + Math.abs(a[2] - b[2]) < 1e-6;
+    const triangle = (corners: number[][], alphas: number[]) => {
+      for (const point of corners) shadePositions.push(...point);
+      for (const alpha of alphas) shadeColors.push(0, 0, 0, alpha);
+    };
+    const count = points[0].length;
+    for (let i = 0; i < count; i++) {
+      const j = (i + 1) % count;
+      const core = points[0];
+      if (!same(core[i], core[j])) triangle([center, core[j], core[i]], [depth, depth, depth]);
+      for (let r = 0; r + 1 < rings.length; r++) {
+        const [inner, outer] = [points[r], points[r + 1]];
+        const [ai, ao] = [rings[r][1], rings[r + 1][1]];
+        if (!same(outer[i], outer[j])) triangle([inner[i], outer[j], outer[i]], [ai, ao, ao]);
+        if (!same(inner[i], inner[j])) triangle([inner[i], inner[j], outer[j]], [ai, ai, ao]);
+      }
     }
   }
   const shadeGeometry = new THREE.BufferGeometry();
@@ -417,6 +558,7 @@ export function addGardenDetails(root: THREE.Object3D) {
   // The weights fall off as 1/(1 + (r/r0)²) shifted to 0 at the rim (sampled on rings).
   const poolPositions: number[] = [];
   const poolColors: number[] = [];
+  const RIM = 16;
   const POOL_RINGS = [0, 0.18, 0.4, 0.7, 1.05, 1.5];
   const falloff = (r: number) => 1 / (1 + (r / 0.32) ** 2);
   const poolWeight = (r: number) => (falloff(r) - falloff(1.5)) / (1 - falloff(1.5));

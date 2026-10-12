@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { addGardenDetails, rockGeometry } from './gardenDetails';
 import { disposeTree, prepareModel } from './modelMaterials';
 
@@ -96,6 +97,55 @@ describe('garden accents', () => {
       expect(ridge.color.b).toBeLessThan(clear[0].b);
     }
     expect(ridges[0].color.r).toBeLessThan(ridges[2].color.r);
+    disposeTree(root);
+  });
+
+  it('shades the support around the source stepping stones, darkest at their edge, but not raised stones', () => {
+    const root = new THREE.Group();
+    const moss = new THREE.MeshStandardMaterial();
+    moss.name = 'garden moss';
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), moss);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = 2;
+    const stone = new THREE.MeshStandardMaterial();
+    stone.name = 'V2 | mineral charcoal stone';
+    // A slab set into the ground at x 30, one set into a plinth (top 2.4) at x 0, and one on a bench.
+    const merged = mergeGeometries([
+      new THREE.BoxGeometry(1.2, 0.1, 0.6).translate(30, 2.03, 0),
+      new THREE.BoxGeometry(6, 0.5, 6).translate(0, 2.15, 0),
+      new THREE.BoxGeometry(1.2, 0.1, 0.6).translate(0, 2.43, 0),
+      new THREE.BoxGeometry(1.2, 0.1, 0.6).translate(-30, 3.5, 0),
+    ]);
+    root.add(ground, new THREE.Mesh(merged, stone));
+    addGardenDetails(root);
+    const shade = root.getObjectByName('Garden contact shade') as THREE.Mesh;
+    const position = shade.geometry.attributes.position;
+    const alpha = shade.geometry.attributes.color;
+    // Distance outside each slab's footprint.
+    const outside = (i: number, cx: number) =>
+      Math.hypot(Math.max(Math.abs(position.getX(i) - cx) - 0.6, 0), Math.max(Math.abs(position.getZ(i)) - 0.3, 0));
+    for (const [cx, top] of [
+      [30, 2],
+      [0, 2.4],
+    ]) {
+      let core = 0;
+      let rim = 0;
+      for (let i = 0; i < position.count; i++) {
+        // The plinth's own shade lies on the ground under it.
+        if (Math.abs(position.getX(i) - cx) > 1 || Math.abs(position.getZ(i)) > 1 || position.getY(i) < top) continue;
+        expect(position.getY(i)).toBeCloseTo(top + 0.012);
+        if (alpha.getW(i) >= 0.6) {
+          core++;
+          expect(outside(i, cx)).toBeLessThan(1e-4);
+        } else if (alpha.getW(i) === 0) {
+          rim++;
+          expect(outside(i, cx)).toBeCloseTo(0.3);
+        } else expect(outside(i, cx)).toBeCloseTo(0.09);
+      }
+      expect(core).toBeGreaterThan(0);
+      expect(rim).toBeGreaterThan(0);
+    }
+    for (let i = 0; i < position.count; i++) expect(Math.abs(position.getX(i) + 30)).toBeGreaterThan(2);
     disposeTree(root);
   });
 

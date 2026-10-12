@@ -38,7 +38,7 @@ describe('deck and stone surface details', () => {
       expect(shader.fragmentShader).toContain('// previous extension');
       expect(shader.uniforms.suiWinterSnow.value).toBe(1);
       expect(shader.fragmentShader.indexOf('diffuseColor.rgb *=')).toBeLessThan(
-        shader.fragmentShader.indexOf('diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.78'),
+        shader.fragmentShader.indexOf('diffuseColor.rgb = mix(diffuseColor.rgb, suiSnowColor'),
       );
       expect(shader.fragmentShader.match(/sampler2D/g)?.length ?? 0).toBe(
         THREE.ShaderLib.standard.fragmentShader.match(/sampler2D/g)?.length ?? 0,

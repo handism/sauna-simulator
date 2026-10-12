@@ -16,6 +16,13 @@ describe('settled winter snow', () => {
       shader.fragmentShader.indexOf('#include <lights_fragment_begin>'),
     );
     expect(shader.vertexShader).toContain('inverseTransformDirection(transformedNormal, viewMatrix)');
+    // The drift bump follows the final normal, before lighting.
+    expect(shader.fragmentShader.indexOf('suiSnowGradient')).toBeGreaterThan(
+      shader.fragmentShader.indexOf('#include <normal_fragment_maps>'),
+    );
+    expect(shader.fragmentShader.indexOf('suiSnowGradient')).toBeLessThan(
+      shader.fragmentShader.indexOf('#include <lights_fragment_begin>'),
+    );
   });
   it('keeps snow out of glass, water, pool tiles and textiles', () => {
     for (const name of [
@@ -27,6 +34,7 @@ describe('settled winter snow', () => {
       expect(receivesWinterSnow(name)).toBe(false);
     expect(receivesWinterSnow('V9 | layered living moss')).toBe(true);
     expect(receivesWinterSnow('Garden evergreen foliage')).toBe(true);
+    expect(receivesWinterSnow('V3 | fern 2')).toBe(true);
   });
   it('composes existing hooks and shares the mutable season uniform across shader compilations', () => {
     const material = new THREE.MeshStandardMaterial();
@@ -40,7 +48,7 @@ describe('settled winter snow', () => {
     material.onBeforeCompile(shader as Parameters<typeof material.onBeforeCompile>[0], {} as THREE.WebGLRenderer);
     expect(shader.uniforms.existing.value).toBe(1);
     expect(shader.uniforms.suiWinterSnow).toBe(amount);
-    expect(material.customProgramCacheKey()).toBe('existing|winter-snow');
+    expect(material.customProgramCacheKey()).toBe('existing|winter-snow-v2');
     amount.value = 1;
     expect(shader.uniforms.suiWinterSnow.value).toBe(1);
   });

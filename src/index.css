@@ -56,7 +56,7 @@
   /* 雪の日の2Dの景色にかける冷たく明るい曇り */
   --snow-overcast: #cdd6e033;
   --scrim-top: #101915b3;
-  --scrim-mid: #10191570;
+  --scrim-mid: #10191552;
   --status-btn-bg: #172625;
   --status-btn-border: #ffffff80;
   /* 角丸は4段階。パネル・ポップアップ／ボタン・入力／キー表示／丸 */
@@ -1471,17 +1471,24 @@ h2:focus {
   display: none;
 }
 /* A soft scrim around the heading only keeps it readable over the lit 3D sky: a full-width band
-   across the top of the screen made a clear day look overcast. */
+   across the top of the screen made a clear day look overcast, and a wide, linearly fading one still
+   read as a grey cloud over the clear sky. It hugs the text and eases out; the text shadow does the rest. */
 .app-container:has(.sauna-3d-canvas) .stage-heading::before {
   content: '';
   position: absolute;
-  top: -56px;
-  bottom: -56px;
+  top: -32px;
+  bottom: -32px;
   left: 50%;
-  width: min(720px, 100%);
+  width: min(560px, 100%);
   transform: translateX(-50%);
   z-index: -1;
-  background: radial-gradient(closest-side, var(--scrim-mid), transparent);
+  background: radial-gradient(
+    closest-side,
+    var(--scrim-mid),
+    color-mix(in srgb, var(--scrim-mid) 55%, transparent) 50%,
+    color-mix(in srgb, var(--scrim-mid) 15%, transparent) 80%,
+    transparent
+  );
   pointer-events: none;
 }
 
