@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { createFarForest } from './farForest';
 import type { Season } from './season';
 
 /** A deterministic generator in [0, 1), so every load builds the same garden. */
@@ -585,6 +586,9 @@ export function addGardenDetails(root: THREE.Object3D) {
     hills.push(mesh);
     group.add(mesh);
   }
+  // Distant forest between the woodland and the ridges, in the same air (farForest.ts).
+  const farForest = createFarForest(hazeColor);
+  group.add(farForest.mesh);
   const movingGrass: THREE.Mesh[] = [];
   for (const [index, [x, z]] of patches.entries()) {
     const positions: number[] = [];
@@ -783,6 +787,16 @@ export function addGardenDetails(root: THREE.Object3D) {
   // Before the vertex shade (about 0.8) and the haze; nearer ridges stand darker against the deck.
   const OVERCAST_RIDGE = [0.4, 0.5, 0.6];
   const overcastAir = new THREE.Color();
+  // The light on the far forest multiplies its tints: by day 0.45, as dark as the lit woodland's
+  // crowns in front of it (at full tint the unlit band stood as bright as the ridges, a pale
+  // backdrop), then the ridges' own darkening toward dusk and night, and under the cloud deck the
+  // nearest ridge's share of it.
+  const FOREST_DAY = 0.45;
+  const forestLight = new THREE.Color();
+  const forestEvening = new THREE.Color().setRGB(0.15, 0.17, 0.22).multiplyScalar(FOREST_DAY);
+  const forestNight = new THREE.Color().setRGB(0.035, 0.06, 0.1).multiplyScalar(FOREST_DAY);
+  const FOREST_OVERCAST =
+    (FOREST_DAY * OVERCAST_RIDGE[0] * 0.8) / (0.2126 * hillDay[0].r + 0.7152 * hillDay[0].g + 0.0722 * hillDay[0].b);
   const POOL_RADIANCE = 0.12;
   return {
     group,
@@ -790,8 +804,9 @@ export function addGardenDetails(root: THREE.Object3D) {
     tuckedGrass,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
     finishPreparation() {
-      for (const mesh of [...hills, stream, shade, pool, ...movingGrass, ...lamps]) mesh.castShadow = false;
-      for (const mesh of [...hills, shade, pool]) mesh.receiveShadow = false;
+      for (const mesh of [...hills, farForest.mesh, stream, shade, pool, ...movingGrass, ...lamps])
+        mesh.castShadow = false;
+      for (const mesh of [...hills, farForest.mesh, shade, pool]) mesh.receiveShadow = false;
       for (const butterfly of butterflies)
         butterfly.traverse((object) => {
           if (object instanceof THREE.Mesh) object.castShadow = false;
@@ -833,6 +848,12 @@ export function addGardenDetails(root: THREE.Object3D) {
           .lerp(hillNight, Math.max(0, Math.min(1, timeOfDay - 1)));
         if (overcast) color.lerp(overcastAir.copy(overcast).multiplyScalar(OVERCAST_RIDGE[i]), cover);
       }
+      forestLight
+        .setScalar(FOREST_DAY)
+        .lerp(forestEvening, Math.min(1, timeOfDay))
+        .lerp(forestNight, Math.max(0, Math.min(1, timeOfDay - 1)));
+      if (overcast) forestLight.lerp(overcastAir.copy(overcast).multiplyScalar(FOREST_OVERCAST), cover);
+      farForest.update(season, forestLight);
       for (const [i, mesh] of movingGrass.entries())
         mesh.rotation.z = Math.sin(time * 0.8 + i * 1.7) * (reducedMotion ? 0 : 0.025);
       for (const [i, butterfly] of butterflies.entries()) {

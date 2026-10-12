@@ -1,0 +1,56 @@
+import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
+import { FAR_FOREST_RADIUS, createFarForest, crownHeight, farForestCrowns } from './farForest';
+
+describe('far forest', () => {
+  it('rings the woodland with the same crowns on every load, about a third evergreen', () => {
+    const crowns = farForestCrowns();
+    expect(crowns).toEqual(farForestCrowns());
+    expect(crowns.length).toBeGreaterThan(80);
+    const evergreen = crowns.filter((crown) => crown.evergreen).length / crowns.length;
+    expect(evergreen).toBeGreaterThan(0.25);
+    expect(evergreen).toBeLessThan(0.45);
+    for (const crown of crowns) {
+      expect(crown.top).toBeGreaterThan(4.5);
+      expect(crown.top).toBeLessThan(15);
+    }
+  });
+  it('rounds broadleaf crowns and points the evergreens, peaking on their axis', () => {
+    const [broad, ever] = [false, true].map((evergreen) => ({
+      angle: 0,
+      radius: 2,
+      top: 10,
+      evergreen,
+      shade: 0,
+      pick: 0,
+    }));
+    expect(crownHeight(broad, 0)).toBe(10);
+    expect(crownHeight(ever, 0)).toBe(10);
+    expect(crownHeight(broad, 2.1)).toBe(-Infinity);
+    // Halfway out, the dome has barely fallen and the cone has lost half its height and more.
+    expect(10 - crownHeight(broad, 1)).toBeLessThan(0.5);
+    expect(10 - crownHeight(ever, 1)).toBeGreaterThan(2);
+  });
+  it('stands on its ring between the woodland and the ridges, recolored by season and lit by the caller', () => {
+    const forest = createFarForest({ value: new THREE.Color() });
+    const position = forest.mesh.geometry.attributes.position;
+    for (let i = 0; i < position.count; i += 97) {
+      expect(Math.hypot(position.getX(i), position.getZ(i))).toBeCloseTo(FAR_FOREST_RADIUS, 3);
+      expect(position.getY(i)).toBeLessThan(16);
+    }
+    const color = forest.mesh.geometry.attributes.color;
+    forest.update('summer', new THREE.Color(0.45, 0.45, 0.45));
+    const summer = Array.from(color.array);
+    expect(summer.every(Number.isFinite)).toBe(true);
+    forest.update('autumn', new THREE.Color(0.45, 0.45, 0.45));
+    const autumn = Array.from(color.array);
+    expect(autumn).not.toEqual(summer);
+    // Autumn reds and ochres: more red than green on average.
+    const mean = (values: number[], k: number) => values.filter((_, i) => i % 3 === k).reduce((a, b) => a + b, 0);
+    expect(mean(autumn, 0)).toBeGreaterThan(mean(autumn, 1));
+    expect(mean(summer, 1)).toBeGreaterThan(mean(summer, 0));
+    forest.update('summer', new THREE.Color(0.1, 0.2, 0.3));
+    expect(Array.from(color.array)).toEqual(summer);
+    expect((forest.mesh.material as THREE.MeshBasicMaterial).color.toArray()).toEqual([0.1, 0.2, 0.3]);
+  });
+});
