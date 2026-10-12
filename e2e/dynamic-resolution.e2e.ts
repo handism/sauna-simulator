@@ -7,7 +7,15 @@ import { expect, test, type Page } from '@playwright/test';
 // and frames within 60 fps again bring a trial step up after RAISE_AFTER_MS (10 s). Animation frames held
 // at 30 fps (window.suiCap, as a low power mode does) are as slow at any ratio: the step down is
 // undone. A check of the control loop, not of a GPU's frame budget.
-test.use({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: 1.5, reducedMotion: 'reduce' });
+// The trace's screencast drops display frames now and then (0-4 in 12 s at ratio 1, none without
+// it); under a machine load enough 1 s windows passed GOOD_MS that the step up never came. Its timing
+// is the subject here, so no trace (a failure attaches the frame windows instead).
+test.use({
+  viewport: { width: 1200, height: 800 },
+  deviceScaleFactor: 1.5,
+  reducedMotion: 'reduce',
+  trace: 'off',
+});
 
 function slowFrames() {
   const w = window as unknown as { suiSlow?: boolean; suiCap?: boolean };
@@ -69,7 +77,35 @@ test('slow frames step the pixel ratio down and a run within 60 fps tries it bac
   // The canvas follows: 1200×800 CSS pixels at ratio 1.
   expect(await scene.locator('canvas').evaluate((canvas: HTMLCanvasElement) => canvas.width)).toBe(1200);
   await slow(false);
-  await expect(scene).toHaveAttribute('data-pixel-ratio', '1.25', { timeout: 20_000 });
+  // The step up needs real frames within the budget at ratio 1 (about 60% of it on the development
+  // Mac). On failure, attach the 1 s window means the control saw, to tell a slow GPU or dropped
+  // display frames from a fault of the control.
+  await page.evaluate(() => {
+    const w = window as unknown as { suiTimes: number[] };
+    w.suiTimes = [];
+    const tick = (time: number) => {
+      w.suiTimes.push(time);
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+  try {
+    await expect(scene).toHaveAttribute('data-pixel-ratio', '1.25', { timeout: 20_000 });
+  } catch (error) {
+    const times = await page.evaluate(() => (window as unknown as { suiTimes: number[] }).suiTimes);
+    const windows: { mean: number; max: number }[] = [];
+    for (let start = 0, k = 1; k < times.length; k++)
+      if (times[k] - times[start] >= 1000 || k === times.length - 1) {
+        const gaps = times.slice(start + 1, k + 1).map((t, n) => t - times[start + n]);
+        windows.push({ mean: (times[k] - times[start]) / (k - start), max: Math.max(...gaps) });
+        start = k;
+      }
+    await test.info().attach('frame-windows', {
+      body: JSON.stringify({ budgetMs: 1000 / 60, goodMs: (1000 / 60) * 1.04, windows }, null, 1),
+      contentType: 'application/json',
+    });
+    throw error;
+  }
   // A quality change returns to its ratio at once.
   await chooseSceneSetting(page, '3Dの画質', 'low');
   await expect(scene).toHaveAttribute('data-pixel-ratio', '1');
