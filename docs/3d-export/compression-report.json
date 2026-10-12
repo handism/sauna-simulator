@@ -16,26 +16,26 @@
       "TEXCOORD_0": 0.0001220703125,
       "TEXCOORD_1": 0.0001220703125
     },
-    "gardenNormals": {
-      "name": "OCTAHEDRAL",
-      "bits": 8,
-      "tolerance": 1.5
-    },
     "bodyNormals": {
       "name": "OCTAHEDRAL",
       "bits": 8,
       "tolerance": 1.5,
       "afterExponential": true
+    },
+    "gardenNormals": {
+      "name": "OCTAHEDRAL",
+      "bits": 8,
+      "tolerance": 1.5
     }
   },
-  "inputBytes": 29442072,
-  "inputSha256": "e6b4b0757389a20873e0cee09d9927dfda0a4c5da0750fbd66f43fd8dd973d3d",
+  "inputBytes": 29427816,
+  "inputSha256": "cd9bed0266d920ca73a4b91d1ec053f7a043cb7c012d76b30e59f40d3f89599a",
   "files": {
     "sauna.glb": {
-      "outputBytes": 2393152,
-      "outputSha256": "8c82b55d4095a2fd5140265ba0600d0ae11ffe3eb2768b7675d7b5be50a878ec",
+      "outputBytes": 2390472,
+      "outputSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
       "nodes": 66,
-      "triangles": 107816,
+      "triangles": 107552,
       "verification": {
         "compressedViews": 309,
         "exactViews": 100,
@@ -45,15 +45,16 @@
           "POSITION": {
             "14": 38,
             "15": 2,
-            "16": 5,
+            "16": 6,
             "17": 12,
-            "18": 14,
+            "18": 13,
             "20": 1,
             "21": 1
           },
           "NORMAL": {
             "8": 2,
-            "10": 71
+            "9": 1,
+            "10": 70
           },
           "TEXCOORD_0": {
             "8": 1,
@@ -69,7 +70,7 @@
           }
         },
         "maxError": {
-          "POSITION": 9.961624975405074e-05,
+          "POSITION": 0.00009961624975405074,
           "NORMAL": 0.09449311055734992,
           "TEXCOORD_0": 0.0001220703125,
           "TEXCOORD_1": 0.00012195110321044922
@@ -347,10 +348,10 @@
             },
             {
               "accessor": 172,
-              "count": 24921,
+              "count": 24647,
               "maxAngleDegrees": 1.0102194981071786,
-              "beforeBytes": 73329,
-              "afterBytes": 25653
+              "beforeBytes": 72556,
+              "afterBytes": 25410
             },
             {
               "accessor": 177,
@@ -361,31 +362,31 @@
             },
             {
               "accessor": 182,
-              "count": 271,
-              "maxAngleDegrees": 0.6652372160008317,
-              "beforeBytes": 1039,
-              "afterBytes": 349
-            },
-            {
-              "accessor": 186,
               "count": 12839,
               "maxAngleDegrees": 0.8030137850348932,
               "beforeBytes": 36126,
               "afterBytes": 10836
             },
             {
-              "accessor": 192,
+              "accessor": 188,
               "count": 1022,
               "maxAngleDegrees": 0.5522577286980167,
               "beforeBytes": 3122,
               "afterBytes": 1029
             },
             {
-              "accessor": 197,
+              "accessor": 193,
               "count": 244,
               "maxAngleDegrees": 0.41413609330012313,
               "beforeBytes": 1054,
               "afterBytes": 436
+            },
+            {
+              "accessor": 198,
+              "count": 100,
+              "maxAngleDegrees": 0.6600803327099565,
+              "beforeBytes": 332,
+              "afterBytes": 140
             },
             {
               "accessor": 202,
@@ -459,10 +460,10 @@
             },
             {
               "accessor": 244,
-              "count": 1039,
+              "count": 1185,
               "maxAngleDegrees": 1.1360730396011403,
-              "beforeBytes": 4376,
-              "afterBytes": 1680
+              "beforeBytes": 4696,
+              "afterBytes": 1859
             },
             {
               "accessor": 247,
@@ -622,71 +623,12 @@
           }
         },
         "maxError": {
-          "POSITION": 9.123927337132629e-05,
+          "POSITION": 0.00009123927337132629,
           "OCT_NORMAL": 1.159396564562088,
           "TEXCOORD_0": 0
         },
         "octNormals": 16
       }
     }
-  },
-  "gardenReexport": {
-    "note": "2026-10-04: only sauna-garden.glb was replaced. Blender re-exported SUI_Retreat_v11.blend (sha256 edf3c35b\u2026, the recorded input) to a scratch directory with the current scripts, whose compression stores the garden's normals as 8-bit octahedral int8 (KHR_mesh_quantization). That export's sauna.glb differs from the served one (Thermometer numerals gains TEXCOORD_1, image bytes differ) and was not adopted; sauna.glb and its entry in files are unchanged from the 2026-09-27 recompression.",
-    "inputBytes": 29458904,
-    "inputSha256": "13b026bac08af930058c244b94e68f1755601d994d5adc375b10c33f3bd72b98",
-    "previousGarden": {
-      "outputBytes": 7117228,
-      "outputSha256": "e38967d606af979ea050df2443b1164112cd31d500fddcb78422aec1ad3bc0b5"
-    }
-  },
-  "bodyNormalAdoption": {
-    "date": "2026-10-05",
-    "previousBody": {
-      "outputBytes": 2725640,
-      "outputSha256": "60df711d16bc106ff1fb7cb8c3efc3778d1c63c53ef3e3e052302fcce6d53d4e",
-      "nodes": 66,
-      "triangles": 107816,
-      "verification": {
-        "compressedViews": 309,
-        "exactViews": 100,
-        "filteredViews": 209,
-        "imageViews": 6,
-        "bits": {
-          "POSITION": {
-            "14": 38,
-            "15": 2,
-            "16": 5,
-            "17": 12,
-            "18": 14,
-            "20": 1,
-            "21": 1
-          },
-          "NORMAL": {
-            "8": 2,
-            "10": 71
-          },
-          "TEXCOORD_0": {
-            "8": 1,
-            "12": 1,
-            "13": 12,
-            "14": 35,
-            "15": 8,
-            "16": 1
-          },
-          "TEXCOORD_1": {
-            "14": 4,
-            "16": 1
-          }
-        },
-        "maxError": {
-          "POSITION": 9.961624975405074e-05,
-          "NORMAL": 0.09449311055734992,
-          "TEXCOORD_0": 0.0001220703125,
-          "TEXCOORD_1": 0.00012195110321044922
-        }
-      }
-    },
-    "report": "../3d-qa/body-attributes/adoption.json",
-    "note": "Postprocess the previously deployed body, no Blender re-export. Reviewed candidate SHA-256 is identical. Existing verification bits/errors describe the preceding exponential stage; bodyNormals describes the final normal layout."
   }
 }

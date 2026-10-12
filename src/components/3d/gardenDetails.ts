@@ -412,6 +412,51 @@ export function addGardenDetails(root: THREE.Object3D) {
   const shade = new THREE.Mesh(shadeGeometry, shadeMaterial);
   shade.name = shadeMaterial.name;
   group.add(shade);
+  // Lamp pools: the lanterns add no browser light (every light costs each pixel's shader), so a
+  // terrain-following additive disc per lantern carries their warm spill on the ground at dusk.
+  // The weights fall off as 1/(1 + (r/r0)²) shifted to 0 at the rim (sampled on rings).
+  const poolPositions: number[] = [];
+  const poolColors: number[] = [];
+  const POOL_RINGS = [0, 0.18, 0.4, 0.7, 1.05, 1.5];
+  const falloff = (r: number) => 1 / (1 + (r / 0.32) ** 2);
+  const poolWeight = (r: number) => (falloff(r) - falloff(1.5)) / (1 - falloff(1.5));
+  for (const lamp of lamps) {
+    const { x, z } = lamp.position;
+    const ring = (r: number) =>
+      Array.from({ length: RIM }, (_, k) => {
+        const a = (k / RIM) * Math.PI * 2;
+        const rx = x + Math.cos(a) * r,
+          rz = z + Math.sin(a) * r;
+        return [rx, floor(rx, rz) + 0.016, rz];
+      });
+    const rings = POOL_RINGS.map(ring);
+    for (let n = 0; n + 1 < POOL_RINGS.length; n++) {
+      const [inner, outer] = [rings[n], rings[n + 1]];
+      const [wi, wo] = [poolWeight(POOL_RINGS[n]), poolWeight(POOL_RINGS[n + 1])];
+      for (let k = 0; k < RIM; k++) {
+        const next = (k + 1) % RIM;
+        poolPositions.push(...inner[k], ...outer[next], ...outer[k], ...inner[k], ...inner[next], ...outer[next]);
+        for (const w of [wi, wo, wo, wi, wi, wo]) poolColors.push(w, w, w);
+      }
+    }
+  }
+  const poolGeometry = new THREE.BufferGeometry();
+  poolGeometry.setAttribute('position', new THREE.Float32BufferAttribute(poolPositions, 3));
+  poolGeometry.setAttribute('color', new THREE.Float32BufferAttribute(poolColors, 3));
+  const poolMaterial = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    vertexColors: true,
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -3,
+  });
+  poolMaterial.name = 'Garden lantern pool';
+  const pool = new THREE.Mesh(poolGeometry, poolMaterial);
+  pool.name = poolMaterial.name;
+  group.add(pool);
   const butterflies: THREE.Group[] = [];
   const wingMaterial = new THREE.MeshStandardMaterial({ color: 0xf0d9a2, roughness: 0.9, side: THREE.DoubleSide });
   const wingGeometry = new THREE.CircleGeometry(0.09, 5);
@@ -434,37 +479,64 @@ export function addGardenDetails(root: THREE.Object3D) {
   // meadow under the opened evening exposure.
   const hillEvening = [new THREE.Color(0x2b3340), new THREE.Color(0x384050), new THREE.Color(0x474e60)];
   const hillNight = new THREE.Color(0x101c29);
+  // Winter days: snow-covered ridges, nearer ones greyer with their bare woods, instead of summer green.
+  const hillWinter = [new THREE.Color(0xa3aaab), new THREE.Color(0xb1b9bf), new THREE.Color(0xbdc6ce)];
   const airDay = new THREE.Color(0xaebdcc);
   const airEvening = new THREE.Color(0x5c5f72);
   const airNight = new THREE.Color(0x25344f);
+  // The overcast sky at the horizon is its base radiance × 0.75 (sky.ts OVERCAST_GLSL, mean shade 1).
+  const OVERCAST_HAZE = 0.75;
+  // Before the vertex shade (about 0.8) and the haze; nearer ridges stand darker against the deck.
+  const OVERCAST_RIDGE = [0.4, 0.5, 0.6];
+  const overcastAir = new THREE.Color();
+  const POOL_RADIANCE = 0.12;
   return {
     group,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
     finishPreparation() {
-      for (const mesh of [...hills, stream, shade, ...movingGrass, ...lamps]) mesh.castShadow = false;
-      for (const mesh of [...hills, shade]) mesh.receiveShadow = false;
+      for (const mesh of [...hills, stream, shade, pool, ...movingGrass, ...lamps]) mesh.castShadow = false;
+      for (const mesh of [...hills, shade, pool]) mesh.receiveShadow = false;
       for (const butterfly of butterflies)
         butterfly.traverse((object) => {
           if (object instanceof THREE.Mesh) object.castShadow = false;
         });
     },
-    update(seconds: number, season: Season, timeOfDay: number, weather: string, reducedMotion: boolean) {
+    /**
+     * `clouds` is the overcast's share and `overcast` its radiance at the base (lighting.ts): under
+     * the cloud deck the ridges fade into its grey instead of keeping the clear air's blue.
+     */
+    update(
+      seconds: number,
+      season: Season,
+      timeOfDay: number,
+      weather: string,
+      reducedMotion: boolean,
+      clouds = 0,
+      overcast?: THREE.Color,
+    ) {
       const time = reducedMotion ? 0 : seconds;
       clock.value = time;
       const evening = Math.min(1, timeOfDay);
       lampMaterial.emissiveIntensity = evening * 3;
+      // Scene-linear radiance at the lamp's foot (before exposure); hidden by day.
+      poolMaterial.color.copy(lampMaterial.emissive).multiplyScalar(evening * POOL_RADIANCE);
+      pool.visible = evening > 0;
       grass.color.setHex(season === 'autumn' ? 0xad955d : season === 'winter' ? 0x827c63 : 0x819455);
       flower.color.setHex(season === 'spring' ? 0xe8c6cd : season === 'autumn' ? 0xcba657 : 0xc8c1df);
       for (const mesh of flowers) mesh.visible = season !== 'winter';
       hazeColor.value.copy(airDay).lerp(airEvening, Math.min(1, timeOfDay));
       hazeColor.value.lerp(airNight, Math.max(0, Math.min(1, timeOfDay - 1)));
-      hazeColor.value.multiplyScalar(weather === 'clear' ? 1 : 0.7);
-      for (const [i, hill] of hills.entries())
-        (hill.material as THREE.MeshBasicMaterial).color
-          .copy(hillDay[i])
+      // The clear air's colors are far brighter than the overcast at night (a blue band under the
+      // grey deck), so the haze takes the deck's radiance near the horizon and the ridges a darker share.
+      const cover = overcast ? clouds : 0;
+      if (overcast) hazeColor.value.lerp(overcastAir.copy(overcast).multiplyScalar(OVERCAST_HAZE), cover);
+      for (const [i, hill] of hills.entries()) {
+        const color = (hill.material as THREE.MeshBasicMaterial).color
+          .copy(season === 'winter' ? hillWinter[i] : hillDay[i])
           .lerp(hillEvening[i], Math.min(1, timeOfDay))
-          .lerp(hillNight, Math.max(0, Math.min(1, timeOfDay - 1)))
-          .multiplyScalar(weather === 'clear' ? 1 : 0.7);
+          .lerp(hillNight, Math.max(0, Math.min(1, timeOfDay - 1)));
+        if (overcast) color.lerp(overcastAir.copy(overcast).multiplyScalar(OVERCAST_RIDGE[i]), cover);
+      }
       for (const [i, mesh] of movingGrass.entries())
         mesh.rotation.z = Math.sin(time * 0.8 + i * 1.7) * (reducedMotion ? 0 : 0.025);
       for (const [i, butterfly] of butterflies.entries()) {

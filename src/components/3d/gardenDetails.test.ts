@@ -80,6 +80,25 @@ describe('garden accents', () => {
     disposeTree(root);
   });
 
+  it('fades the distant ridges into the overcast instead of standing brighter than the cloud deck', () => {
+    const { root, details } = garden();
+    const ridges = [0, 1, 2].map(
+      (i) => (root.getObjectByName(`Garden distant ridge ${i}`) as THREE.Mesh).material as THREE.MeshBasicMaterial,
+    );
+    const overcast = new THREE.Color(0.011, 0.0116, 0.0127);
+    details.update(2, 'summer', 2, 'clear', false, 0, overcast);
+    const clear = ridges.map((ridge) => ridge.color.clone());
+    details.update(2, 'summer', 2, 'clear', false);
+    ridges.forEach((ridge, i) => expect(ridge.color.equals(clear[i])).toBe(true));
+    details.update(2, 'summer', 2, 'rain', false, 1, overcast);
+    for (const ridge of ridges) {
+      expect(ridge.color.b).toBeLessThan(overcast.b);
+      expect(ridge.color.b).toBeLessThan(clear[0].b);
+    }
+    expect(ridges[0].color.r).toBeLessThan(ridges[2].color.r);
+    disposeTree(root);
+  });
+
   it('builds the same varied garden on every load', () => {
     const first = garden();
     const second = garden();

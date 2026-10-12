@@ -656,7 +656,15 @@ export default function SaunaScene({
           setData('weather', weatherRef.current);
           setData('rain', lighting.rain.toFixed(3));
           setData('snow', lighting.snow.toFixed(3));
-          gardenDetails.update(now / 1000, seasonRef.current, lighting.time, weatherRef.current, reducedMotion.matches);
+          gardenDetails.update(
+            now / 1000,
+            seasonRef.current,
+            lighting.time,
+            weatherRef.current,
+            reducedMotion.matches,
+            lighting.clouds,
+            lighting.overcast,
+          );
           mirrorState[5] = reducedMotion.matches ? 0 : Math.floor(now / 125);
           setData('gardenDetails', 'ready');
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);

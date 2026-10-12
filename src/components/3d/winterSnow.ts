@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 
-// Restrict the treatment to existing outdoor surfaces and timber. The timber
+// Restrict the treatment to existing outdoor surfaces, timber and the garden accents' shrubs
+// (which stood bright green on the white ground otherwise). The timber
 // shader excludes the sheltered room/terrace by position; water, glass, towels,
 // lamps and pool tiles never receive the extension.
 export function receivesWinterSnow(name: string) {
-  return /moss|woodland earth|garden gravel|tree bark|mineral charcoal stone|pale mineral paving|quiet honed stone|outdoor ash|warm open-grain timber/i.test(
+  return /moss|woodland earth|garden gravel|tree bark|mineral charcoal stone|pale mineral paving|quiet honed stone|outdoor ash|warm open-grain timber|garden evergreen foliage/i.test(
     name,
   );
 }

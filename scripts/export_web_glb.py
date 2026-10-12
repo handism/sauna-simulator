@@ -365,7 +365,10 @@ for o in list(bpy.context.scene.objects):
     size=max(o.dimensions) if o.type=='MESH' else 0
     exclude=(o.type!='MESH' or o.hide_render or 'steam' in o.name.lower()
              or 'droplet' in o.name.lower()
-             or (o.location.y < 0 and size < .35 and o.name not in text_names))
+             or (o.location.y < 0 and size < .35 and o.name not in text_names)
+             # The four low lanterns stand inside the garden boulders in the source (the bodies' tops
+             # stuck out of the rock as dark prisms); the garden accents carry their own lanterns.
+             or o.name.startswith(('Low garden lantern', 'Lantern diffuser')))
     if exclude:
         report['excluded'].append(o.name)
         bpy.data.objects.remove(o, do_unlink=True)
