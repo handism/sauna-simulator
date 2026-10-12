@@ -16,6 +16,7 @@ import { splitEvergreenWoodland } from './evergreenWoodland';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
 import { createRain } from './rain';
+import { applyRainWetness } from './rainWetness';
 import { createFrameMetrics } from './frameMetrics';
 import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
 import { attachLookControls } from './lookControls';
@@ -166,6 +167,8 @@ export default function SaunaScene({
     let mirror: PlanarReflection | null = null;
     const mirrorState = [0, 0, 0, 0, 0, 0];
     const seasonColors = createSeasonColors();
+    // Follows the rain's weight: the surfaces dry as it eases off (rainWetness.ts).
+    const wetness = { value: 0 };
     let gardenAdded = 0;
     let qualityIndex = 0;
     const steam = createSteam();
@@ -302,6 +305,7 @@ export default function SaunaScene({
         const prepare = (root: THREE.Object3D) => {
           const stats = prepareModel(root);
           seasonColors.add(root, seasonRef.current);
+          count('wetMaterials', applyRainWetness(root, wetness));
           const refraction = applyRefraction(root, definition.water.center[1]);
           count('refractionMaterials', refraction.materials);
           count('refractionTriangles', refraction.triangles);
@@ -657,6 +661,7 @@ export default function SaunaScene({
           setData('timeOfDay', lighting.time.toFixed(3));
           setData('weather', weatherRef.current);
           setData('rain', lighting.rain.toFixed(3));
+          wetness.value = lighting.rain;
           setData('snow', lighting.snow.toFixed(3));
           gardenDetails.update(
             now / 1000,
