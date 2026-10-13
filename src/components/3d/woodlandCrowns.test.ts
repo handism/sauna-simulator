@@ -4,6 +4,26 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { broadenWoodlandCards, CROWN_FILL_COPIES } from './woodlandCrowns';
 
 describe('woodland crown cards', () => {
+  it('rounds narrow branch tufts without increasing their area beyond the existing broadening', () => {
+    const geometry = new THREE.PlaneGeometry(4, 1).translate(3, 5, 2);
+    broadenWoodlandCards(geometry);
+    const p = geometry.attributes.position;
+    const point = (i: number) => new THREE.Vector3().fromBufferAttribute(p, i);
+    const width = point(0).distanceTo(point(1));
+    const height = point(0).distanceTo(point(2));
+    expect(width / height).toBeLessThan(2);
+    expect(width / height).toBeGreaterThan(1);
+    expect(width * height).toBeGreaterThanOrEqual(4 * 1.15 ** 2);
+    expect(width * height).toBeLessThanOrEqual(4 * 1.35 ** 2);
+    expect(
+      point(0)
+        .add(point(3))
+        .multiplyScalar(0.5)
+        .distanceTo(new THREE.Vector3(3, 5, 2)),
+    ).toBeLessThan(1e-6);
+    geometry.dispose();
+  });
+
   it('keeps branch anchors, UVs and normals, adds lit-alike copies beside each card, and runs once', () => {
     const cards = [new THREE.PlaneGeometry(2, 2).translate(-4, 3, 0), new THREE.PlaneGeometry(2, 2).translate(4, 5, 2)];
     const geometry = mergeGeometries(cards);

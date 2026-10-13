@@ -182,7 +182,12 @@ describe('garden accents', () => {
   it('builds the same varied garden on every load', () => {
     const first = garden();
     const second = garden();
-    for (const name of ['Garden evergreen foliage', 'Garden mineral charcoal stone', 'Garden seasonal flowers']) {
+    for (const name of [
+      'Garden evergreen foliage',
+      'Garden mineral charcoal stone',
+      'Garden seasonal flowers',
+      'Garden grasses 0',
+    ]) {
       const a = (first.root.getObjectByName(name) as THREE.Mesh).geometry;
       const b = (second.root.getObjectByName(name) as THREE.Mesh).geometry;
       expect(Array.from(a.attributes.position.array)).toEqual(Array.from(b.attributes.position.array));

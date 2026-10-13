@@ -324,6 +324,7 @@ export function addGardenDetails(root: THREE.Object3D) {
   stone.vertexColors = shrub.vertexColors = true;
   const grass = material('Garden meadow foliage', 0x819455);
   grass.side = THREE.DoubleSide;
+  grass.vertexColors = true;
   const flower = material('Garden seasonal flowers', 0xd7bd82);
   flower.vertexColors = true;
   const random = seeded(0x5a17);
@@ -401,7 +402,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       const size = range(0.24, 0.48);
       const wide = range(1.15, 1.65);
       const deep = range(0.8, 1.2);
-      const tall = range(1.2, 1.85);
+      const tall = range(1.05, 1.85);
       const leaves = 38 + Math.floor(random() * 32);
       const turn = random() * Math.PI * 2;
       const light = range(0.78, 1.16);
@@ -413,7 +414,12 @@ export function addGardenDetails(root: THREE.Object3D) {
         const reach = Math.sqrt(1 - rise * rise) * size * range(0.78, 1.15);
         const scale = range(0.7, 1.3);
         const geometry = new THREE.IcosahedronGeometry(1, 0);
-        geometry.scale(0.12 * scale, 0.028 * scale, 0.065 * scale);
+        geometry.scale(0.12 * scale, 0.017 * scale, 0.055 * scale);
+        // A cupped leaf instead of a flat, chunky lozenge; retain the same triangles.
+        const vertices = geometry.attributes.position;
+        for (let v = 0; v < vertices.count; v++)
+          vertices.setY(v, vertices.getY(v) + 0.018 * scale * (vertices.getX(v) / (0.12 * scale)) ** 2);
+        geometry.computeVertexNormals();
         geometry.rotateX(range(-0.3, 0.3));
         geometry.rotateZ(Math.sin(a) * 0.4 + range(-0.25, 0.25));
         geometry.rotateY(a);
@@ -445,15 +451,18 @@ export function addGardenDetails(root: THREE.Object3D) {
         const rise = range(0.55, 0.95);
         const reach = Math.sqrt(1 - rise * rise) * size * 1.05;
         const scale = range(0.75, 1.3);
+        const bloom = new THREE.IcosahedronGeometry(1, 0);
+        bloom.rotateY(a);
+        bloom.rotateZ(Math.sin(a * 3) * 0.3);
         add(
-          new THREE.IcosahedronGeometry(1, 0),
+          bloom,
           flower,
           px + Math.cos(a) * reach * wide,
           y + 0.12 + rise * size * tall,
           pz + Math.sin(a) * reach * deep,
           0.07 * scale,
-          0.045 * scale,
-          0.07 * scale,
+          0.025 * scale,
+          0.06 * scale,
           new THREE.Color().setScalar(range(0.86, 1.1)),
         );
       }
@@ -490,9 +499,18 @@ export function addGardenDetails(root: THREE.Object3D) {
     );
     for (const side of [-1, 1]) {
       // Uneven edging: varied size, turn and spacing, with an occasional pebble behind.
-      const bx = x + side * (0.36 + 0.04 * Math.sin(i * 3) + range(-0.03, 0.05));
-      const bz = z + range(-0.07, 0.07);
-      addRock(bx, floor(bx, bz) + 0.08, bz, range(0.15, 0.27), range(0.11, 0.19), range(0.14, 0.25));
+      const cluster = 0.5 + 0.5 * Math.sin(i * 1.7 + side * 2.1);
+      const bx = x + side * (0.33 + 0.13 * cluster + range(-0.03, 0.05));
+      const bz = z + 0.08 * Math.sin(i * 2.3 + side) + range(-0.07, 0.07);
+      const size = 0.65 + cluster * 0.8;
+      addRock(
+        bx,
+        floor(bx, bz) + 0.035 + cluster * 0.025,
+        bz,
+        range(0.15, 0.27) * size,
+        range(0.11, 0.19) * (0.65 + cluster * 0.5),
+        range(0.14, 0.25) * size,
+      );
       if (random() < 0.22) {
         const px = bx + side * range(0.18, 0.26);
         const pz = bz + range(-0.1, 0.1);
@@ -595,16 +613,46 @@ export function addGardenDetails(root: THREE.Object3D) {
   const movingGrass: THREE.Mesh[] = [];
   for (const [index, [x, z]] of patches.entries()) {
     const positions: number[] = [];
+    const colors: number[] = [];
+    const next = seeded(0x711 + index * 139);
+    const tuftHeight = 0.7 + next() * 0.55;
     for (let blade = 0; blade < 32; blade++) {
-      const a = blade * 2.4;
-      const r = 0.08 + (blade % 7) * 0.075;
+      const a = blade * 2.4 + next() * 0.5;
+      const r = 0.06 + Math.sqrt(next()) * 0.33;
       const px = Math.cos(a) * r,
         pz = Math.sin(a) * r;
-      const height = 0.35 + (blade % 5) * 0.09;
-      positions.push(px - 0.025, 0, pz, px + 0.025, 0, pz, px + Math.cos(a) * 0.2, height, pz + Math.sin(a) * 0.2);
+      const height = (0.3 + next() * 0.5) * tuftHeight;
+      const bend = 0.2 + next() * 0.38;
+      const width = 0.014 + next() * 0.018;
+      const tint = 0.78 + next() * 0.36;
+      const vertex = (t: number, side: number) => {
+        const reach = bend * t * t;
+        const half = width * (1 - t) * (0.8 + 0.6 * t);
+        positions.push(
+          px + Math.cos(a) * reach - Math.sin(a) * half * side,
+          height * (t - 0.32 * t ** 3),
+          pz + Math.sin(a) * reach + Math.cos(a) * half * side,
+        );
+        const light = tint * (0.66 + 0.34 * t);
+        colors.push(light, light, light * 0.92);
+      };
+      // Four curved sections, tapered to a point; no extra draw call or per-frame geometry work.
+      for (let segment = 0; segment < 4; segment++) {
+        const lo = segment / 4;
+        const hi = (segment + 1) / 4;
+        vertex(lo, -1);
+        vertex(lo, 1);
+        vertex(hi, -1);
+        if (segment < 3) {
+          vertex(lo, 1);
+          vertex(hi, 1);
+          vertex(hi, -1);
+        }
+      }
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     geo.computeVertexNormals();
     const mesh = new THREE.Mesh(geo, grass);
     mesh.position.set(x + 0.9, floor(x + 0.9, z - 0.6), z - 0.6);

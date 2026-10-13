@@ -1,0 +1,49 @@
+{
+  "baselineCommit": "b44daa8",
+  "sourcesAfter": {
+    "src/components/3d/gardenDetails.ts": "6774f0c7a5a026e4ee57947874cd39924fcc77675702c664db9512d185399f24",
+    "src/components/3d/woodlandCrowns.ts": "509ad6bf2b500f3ef3852a11b3ed7d1fc3ced7c388ae5d3613b02ffa00e49381"
+  },
+  "gardenScreenshots": {
+    "before": {
+      "sauna-day.png": "f4d59bb0c549083466f6b9ed7420d3bba22eff72bfc3a3c51f837ad8f6dc9d86",
+      "totonou-autumn.png": "99f75faf3dbea2e6d2248aa774fb118136db957b879fd7aba80902f3eb11d9bf",
+      "totonou-evening.png": "b474301fa4b6888ccb61004e76fa3b429a0cdce7c53c293292de686c9d824bcb",
+      "totonou-night.png": "388ad3d2a2e1a58350ae27a3c24e40e2e1e87ec71733d255f5a1139bb5db24ab",
+      "totonou-rain.png": "2a833c2e26a714769ce213a8dd1e27ec6fc8413a01b0aa7e15568b491b2bb974",
+      "totonou-spring.png": "e23e1b62c178e2047d625e2b9a25f3566ac812e0d3bb740aa90123144b6c10a4",
+      "totonou-summer.png": "1983f50527f8628c2a1eabe8f10c10e59637146c86ad120a703a040cf2540538",
+      "totonou-winter.png": "9287d71119387e031bd877d8332cc9fd3b6c2718111418d30d0bb99f0cec0ea0",
+      "water-day.png": "11093cd0adfe61c5e15dae1d7cbf1e25f06a74fa63755e9a348a03f894d5242f"
+    },
+    "after": {
+      "sauna-day.png": "80b16dfc4f282ca225452e7854bce23ed370bcc6ac2ae667a8d189a5a0740157",
+      "totonou-autumn.png": "311b1730b9362a25c0368417f51d7993032383b36796f391df4c646d039fba75",
+      "totonou-evening.png": "8d8c8e2a836d48d61a49b239357d301fa85d2ede5e46294a63bbdc5dc582d0dd",
+      "totonou-night.png": "d37578383b2092693112495a26781582dc0c6fe4eefadddef089645b17117f1f",
+      "totonou-rain.png": "b9239df9ee03bd14863f9540431fc722d3df6b08c625bbf00edd574aec549e4a",
+      "totonou-spring.png": "583567f40885e5086de22d8d8df4c31f788444ba39343be53c735cdd12c0cd21",
+      "totonou-summer.png": "d9d4747da6f7819b1c9f97b75804cd5727f4ba43748923c7d20f5a60546a5031",
+      "totonou-winter.png": "ecbbb79a541cc752e030ee6bf60f7acc414b0e936efff70adb67de205dc97061",
+      "water-day.png": "fdd7af7d0e7fe33f0a6cb055d6d8205c3d9d732be048a2dce27d86140cca6975"
+    }
+  },
+  "visualConditions": {
+    "browser": "Chrome 155.0.8059.40",
+    "quality": "standard",
+    "viewport": [
+      1280,
+      800
+    ],
+    "dpr": 1,
+    "reducedMotion": true
+  },
+  "gates": {
+    "unitTests": 382,
+    "browserTargetedTests": 14,
+    "fullBrowserSuiteRerun": false,
+    "staticRechecked": "2026-10-14",
+    "costBeforePassed": 3,
+    "costAfterPassed": 3
+  }
+}

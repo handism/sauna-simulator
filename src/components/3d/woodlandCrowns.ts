@@ -45,6 +45,8 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry) {
   const normal = new THREE.Vector3();
   const axis = new THREE.Vector3();
   const offset = new THREE.Vector3();
+  const shortAxis = new THREE.Vector3();
+  const longAxis = new THREE.Vector3();
   const spin = new THREE.Quaternion();
   const tilt = new THREE.Quaternion();
   const filled: { root: number; vertices: number[] }[] = [];
@@ -59,9 +61,39 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry) {
       const noise = Math.sin(center.x * 12.9898 + center.y * 78.233 + center.z * 37.719 + salt * 4.1414) * 43758.5453;
       return noise - Math.floor(noise);
     };
+    // Exported cards inherit a single leaf's narrow rectangle. Round that footprint into
+    // a branch-tip tuft while keeping its area and anchor, instead of adding more cards.
+    a.fromBufferAttribute(position, vertices[0]);
+    let shortest = Infinity;
+    for (const i of vertices.slice(1)) {
+      point.fromBufferAttribute(position, i).sub(a);
+      if (point.lengthSq() < shortest) {
+        shortest = point.lengthSq();
+        shortAxis.copy(point);
+      }
+    }
+    b.fromBufferAttribute(position, vertices[1]);
+    c.fromBufferAttribute(position, vertices[2]);
+    normal.crossVectors(axis.subVectors(b, a), point.subVectors(c, a));
+    if (normal.lengthSq() < 1e-12 || shortest < 1e-12) continue;
+    normal.normalize();
+    shortAxis.normalize();
+    longAxis.crossVectors(normal, shortAxis).normalize();
+    let longExtent = 0;
+    for (const i of vertices) {
+      point.fromBufferAttribute(position, i).sub(center);
+      longExtent = Math.max(longExtent, Math.abs(point.dot(longAxis)));
+    }
+    const aspect = (2 * longExtent) / Math.sqrt(shortest);
+    const round = Math.min(1.45, Math.max(1, Math.sqrt(aspect / 1.35)));
     const scale = 1.15 + random(0) * 0.2;
     for (const i of vertices) {
-      point.fromBufferAttribute(position, i).sub(center).multiplyScalar(scale).add(center);
+      point.fromBufferAttribute(position, i).sub(center);
+      const across = point.dot(shortAxis);
+      const along = point.dot(longAxis);
+      point.addScaledVector(shortAxis, across * (round - 1));
+      point.addScaledVector(longAxis, along * (1 / round - 1));
+      point.multiplyScalar(scale).add(center);
       position.setXYZ(i, point.x, point.y, point.z);
     }
     a.fromBufferAttribute(position, vertices[0]);
