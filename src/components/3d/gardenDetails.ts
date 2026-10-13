@@ -357,10 +357,13 @@ export function addGardenDetails(root: THREE.Object3D) {
     list.push(geometry);
     batches.set(mat, list);
   };
+  // Clear of the beams of the source's footlights (V10 path grazing light 1/4/7, lighting.ts),
+  // which shine low across the stepping stones in +x from x≈-1: a group at (-0.5, 5.7) stood
+  // around light 7 and took the stones' pools of light on its leaves. (The lanterns below, too.)
   const patches = [
     [-4.8, 4.8],
     [-2.9, 7.2],
-    [-0.5, 5.7],
+    [-3.4, 3.6],
     [3.8, 6.3],
     [6.4, 4.8],
     [7.6, 9.5],
@@ -613,7 +616,8 @@ export function addGardenDetails(root: THREE.Object3D) {
   const lampMaterial = material('Garden amber lantern', 0xf1c284);
   lampMaterial.emissive.setHex(0xffb75c);
   for (const [x, z] of [
-    [-0.9, 4.7],
+    // Behind footlight 7 (-1.3, 5.23): at (-0.9, 4.7) it shaded the near stepping stones.
+    [-1.9, 4.3],
     [3.2, 7.9],
     [0.1, 10.7],
   ]) {

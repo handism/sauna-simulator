@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { addGardenDetails, rockGeometry, tuckGrassBehindBoulders } from './gardenDetails';
+import { FOOTLIGHT_DIRECTION, FOOTLIGHTS } from './lighting';
 import { disposeTree, prepareModel } from './modelMaterials';
 
 function garden() {
@@ -19,6 +20,35 @@ function garden() {
 }
 
 describe('garden accents', () => {
+  it("keeps the shadow casters out of the footlights' beams across the stepping stones", () => {
+    // Ground just under the lights, as around the source's stepping stones.
+    const root = new THREE.Group();
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshStandardMaterial());
+    ground.material.name = 'garden moss';
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.3;
+    root.add(ground);
+    const details = addGardenDetails(root);
+    prepareModel(root);
+    details.finishPreparation();
+    root.updateMatrixWorld(true);
+    const casters: THREE.Mesh[] = [];
+    details.group!.traverse((object) => {
+      if (object instanceof THREE.Mesh && object.castShadow) casters.push(object);
+    });
+    const ray = new THREE.Raycaster();
+    const axis = new THREE.Vector3(...FOOTLIGHT_DIRECTION).setY(0).normalize();
+    for (const position of FOOTLIGHTS)
+      for (let yaw = -60; yaw <= 60; yaw += 10)
+        for (const rise of [0, 0.15, 0.3]) {
+          const direction = axis.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), (yaw * Math.PI) / 180);
+          ray.set(new THREE.Vector3(...position), direction.setY(rise).normalize());
+          ray.far = 2;
+          expect(ray.intersectObjects(casters, false).map((hit) => hit.object.name)).toEqual([]);
+        }
+    disposeTree(root);
+  });
+
   it('anchors decorations to the ground, keeps moving objects out of static shadows, and has valid geometry', () => {
     const { root, details } = garden();
     details.update(3, 'summer', 0, 'clear', false);

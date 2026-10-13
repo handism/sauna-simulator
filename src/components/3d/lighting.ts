@@ -99,6 +99,17 @@ export const CLEAR_DAY_EXPOSURE = -0.1;
  */
 export const SNOW_GROUND_EXPOSURE = -0.35;
 
+/**
+ * 'V10 path grazing light 1/4/7' (glTF axes): low 0.28m disks beside the stepping stones, shining
+ * across them. Garden accents keep out of their beams (gardenDetails.ts).
+ */
+export const FOOTLIGHTS = [
+  [-0.9754, -0.1338, 8.89],
+  [-0.7056, -0.0702, 7.06],
+  [-1.2998, -0.0486, 5.23],
+] as const;
+export const FOOTLIGHT_DIRECTION = [0.9661, -0.1255, -0.2258] as const;
+
 /** Exposure added (stops), as an eye or camera adapts to the darker overcast. */
 export const RAIN_EXPOSURE = [0.9, 0.3, 0.1];
 /** Overcast sky radiance (linear) at its base; slightly blue grey. */
@@ -188,10 +199,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     [
       // 'V10 lounge dusk fill': 2 m disk over the loungers.
       [42, [5.9, 2.8, 1.4], [-0.3142, -0.6569, -0.6854]],
-      // 'V10 path grazing light 1/4/7': low disks beside the stepping stones.
-      [8, [-0.9754, -0.1338, 8.89], [0.9661, -0.1255, -0.2258]],
-      [8, [-0.7056, -0.0702, 7.06], [0.9661, -0.1255, -0.2258]],
-      [8, [-1.2998, -0.0486, 5.23], [0.9661, -0.1255, -0.2258]],
+      ...FOOTLIGHTS.map((position) => [8, position, FOOTLIGHT_DIRECTION] as const),
       // 'V10 specimen uplight' under the garden maple.
       [35, [0.5, 0.04, 5.7], [0.3186, 0.9344, 0.1593]],
     ] as const
