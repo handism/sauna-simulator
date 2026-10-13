@@ -162,7 +162,27 @@ describe('3D mode lifecycle', () => {
     expect(localStorage.getItem('sui-lighting-mode')).toBe('night');
     expect(screen.getByRole('button', { name: 'simulate context loss' })).toHaveAttribute('data-lighting', 'night');
   });
-  it('persists quality without remounting the scene or resetting it across stages and modes', async () => {
+  it('leaves the quality to the standard preset unless a measurement asks with ?quality', async () => {
+    localStorage.setItem('sui-view-mode', '3d');
+    localStorage.setItem('sui-quality', 'low');
+    const plain = render(<SceneMode audio={audio} stage="sauna" loylyEvents={new EventTarget()} />);
+    expect(await screen.findByRole('button', { name: 'simulate context loss' })).toHaveAttribute(
+      'data-quality',
+      'standard',
+    );
+    expect(screen.queryByRole('combobox', { name: '3Dの画質' })).not.toBeInTheDocument();
+    plain.unmount();
+    window.history.replaceState(null, '', '?quality=high');
+    const query = render(<SceneMode audio={audio} stage="sauna" loylyEvents={new EventTarget()} />);
+    expect(await screen.findByRole('button', { name: 'simulate context loss' })).toHaveAttribute(
+      'data-quality',
+      'high',
+    );
+    query.unmount();
+    window.history.replaceState(null, '', window.location.pathname);
+  });
+  it('persists the measured quality without remounting the scene or resetting it across stages and modes', async () => {
+    window.history.replaceState(null, '', '?quality');
     localStorage.setItem('sui-view-mode', '3d');
     localStorage.setItem('sui-quality', 'invalid');
     const events = new EventTarget();
@@ -181,6 +201,7 @@ describe('3D mode lifecycle', () => {
     view.unmount();
     render(<SceneMode audio={audio} stage="sauna" loylyEvents={events} />);
     expect(screen.getByRole('combobox', { name: '3Dの画質' })).toHaveValue('low');
+    window.history.replaceState(null, '', window.location.pathname);
   });
   it('chooses the weather in 2D and 3D: the sound, the 2D rain outdoors and the scene follow it', async () => {
     audio.setWeather.mockClear();

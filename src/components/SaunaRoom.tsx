@@ -1,5 +1,3 @@
-import FirstVisitGuide from './FirstVisitGuide';
-import { readPreference, writePreference } from '../utils/preferences';
 import StageDock from './StageDock';
 import { useState, useEffect, useRef, type CSSProperties } from 'react';
 import { AudioEngine } from '../hooks/useAudioEngine';
@@ -34,9 +32,6 @@ export interface SaunaRoomProps {
   onFinish?: () => void;
   onNext: (result: SaunaResult) => void;
 }
-
-/** 初回案内を閉じたか（「わかりました」か初回のロウリュで閉じる） */
-const GUIDE_DISMISSED_KEY = 'sui-guide-dismissed';
 
 const SAUNA_CONFIG = {
   INITIAL_TEMP: 90,
@@ -73,11 +68,6 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly, onFinish }: SaunaRoo
   // ロウリュごとに増やし、曇り演出の要素を作り直してアニメーションを最初から再生する
   const [steamBurst, setSteamBurst] = useState<number>(0);
   const [loylyDelta, setLoylyDelta] = useState<LoylyDelta | null>(null);
-  const [showGuide, setShowGuide] = useState(() => readPreference(GUIDE_DISMISSED_KEY, ['yes', 'no'], 'no') !== 'yes');
-  const dismissGuide = () => {
-    setShowGuide(false);
-    writePreference(GUIDE_DISMISSED_KEY, 'yes');
-  };
 
   const rootRef = useRef<HTMLDivElement>(null);
   const loylyCountRef = useRef<number>(0);
@@ -97,8 +87,6 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly, onFinish }: SaunaRoo
 
   // ロウリュ実行
   const handleLoyly = () => {
-    // 一度ロウリュすれば案内の役目は済んでいるので、パネルを占め続けないよう閉じる
-    if (showGuide) dismissGuide();
     audio.playLoyly();
     onLoyly?.();
     // 上限で頭打ちになった分は表示しない（直前の表示値からの差分）
@@ -180,7 +168,6 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly, onFinish }: SaunaRoo
         <h2 className="sauna-room-title" tabIndex={-1}>
           サウナルーム
         </h2>
-        <p>湯気と木の香りを、ゆっくりと。</p>
       </header>
       <StageDock onFinish={onFinish} className="sauna-room-panel">
         {/* メインデジタルメーター */}
@@ -213,8 +200,6 @@ const SaunaRoom = ({ audio, setNumber = 1, onNext, onLoyly, onFinish }: SaunaRoo
           </div>
         </div>
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.SAUNA} />
-        {/* 案内は説明するロウリュボタンの真上に置く（メーターを押し下げない） */}
-        {showGuide && <FirstVisitGuide onDismiss={dismissGuide} />}
         <div className="dock-actions sauna-action-btn-container">
           <button className="primary-btn sauna-loyly-btn" onClick={handleLoyly} aria-keyshortcuts="Space">
             <ActionIcon name="steam" /> ロウリュ

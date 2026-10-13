@@ -29,8 +29,8 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
   const candidate = await useModelCandidate(page);
   if (CUT) await page.addInitScript(patchFrameCost, CUT);
   // CAPTURE_QUERY adds to the query, e.g. &resolution=fixed to keep dynamic resolution from stepping.
-  await page.goto(`?view=3d&frameRate=full${process.env.CAPTURE_QUERY ?? ''}`);
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto(`?sound=off&quality&view=3d&frameRate=full${process.env.CAPTURE_QUERY ?? ''}`);
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });

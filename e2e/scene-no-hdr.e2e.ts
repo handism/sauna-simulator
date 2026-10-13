@@ -17,7 +17,6 @@ async function configureNoHdr(page: Page, quality: string) {
     };
     localStorage.setItem('sui-quality', quality);
     localStorage.setItem('sui-lighting-mode', 'day');
-    localStorage.setItem('sui-guide-dismissed', 'yes');
   }, quality);
 }
 
@@ -31,8 +30,8 @@ for (const quality of ['low', 'standard', 'high']) {
       if (message.type() === 'error') errors.push(message.text());
     });
     await configureNoHdr(page, quality);
-    await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
-    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    await page.goto('?sound=off&quality&view=3d&warmup=split&frameRate=full&resolution=fixed');
+    await page.getByRole('button', { name: '入室する', exact: true }).click();
     const scene = page.locator('.sauna-3d-canvas');
     const ready = async () => {
       await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
@@ -78,13 +77,13 @@ for (const quality of ['low', 'standard', 'high']) {
     await expect(scene).toHaveCount(0);
     await page.getByRole('button', { name: 'もう一度サウナへ', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
     await switchSceneMode(page, '2Dに切り替え');
     await switchSceneMode(page, '3Dを試す');
     await ready();
     await expect(scene).toHaveAttribute('data-stage', 'sauna');
     await expect(scene).toHaveAttribute('data-time-of-day', '2.000');
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
     expect(errors).toEqual([]);
     const hashes = Object.fromEntries(
       [
@@ -144,9 +143,9 @@ for (const action of ['cancel', 'timeout'] as const) {
       { times: 1 },
     );
     try {
-      await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
+      await page.goto('?sound=off&quality&view=3d&warmup=split&frameRate=full&resolution=fixed');
       const entered = Date.now();
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect.poll(() => bodyRequests).toBe(1);
       await expect(page.getByRole('status')).toContainText('読み込み中');
@@ -177,7 +176,7 @@ for (const action of ['cancel', 'timeout'] as const) {
       await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
       await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
       await expect(scene).toHaveCount(0); // Late completion must not revive the scene.
-      await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+      await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
       if (action === 'timeout') await switchSceneMode(page, '2Dに切り替え');
       await switchSceneMode(page, '3Dを試す');
       await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
@@ -188,7 +187,7 @@ for (const action of ['cancel', 'timeout'] as const) {
       await expect(scene).toHaveAttribute('data-warmup', 'off');
       await expect(scene).toHaveAttribute('data-temporal', 'off');
       await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
-      await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+      await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
       expect(bodyRequests).toBe(2);
       expect(gardenRequests).toBe(1);
       expect(errors).toEqual([]);
@@ -244,8 +243,8 @@ for (const action of ['complete', 'cancel'] as const) {
       if (request.url().endsWith('/sauna.glb')) bodyRequests++;
       if (request.url().endsWith('/sauna-garden.glb')) gardenRequests++;
     });
-    await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
-    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    await page.goto('?sound=off&quality&view=3d&warmup=split&frameRate=full&resolution=fixed');
+    await page.getByRole('button', { name: '入室する', exact: true }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
     await expect.poll(() => page.evaluate(() => (window as any).__noHdrCompile.queries)).toBeGreaterThan(0);
@@ -295,7 +294,7 @@ for (const action of ['complete', 'cancel'] as const) {
     await expect(scene).toHaveAttribute('data-warmup', 'off');
     await expect(scene).toHaveAttribute('data-temporal', 'off');
     await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
     expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
       action === 'complete',
     );
@@ -349,10 +348,10 @@ for (const action of ['complete', 'cancel', 'timeout'] as const) {
       if (request.url().endsWith('/sauna.glb')) bodyRequests++;
       if (request.url().endsWith('/sauna-garden.glb')) gardenRequests++;
     });
-    await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
+    await page.goto('?sound=off&quality&view=3d&warmup=split&frameRate=full&resolution=fixed');
     await page.clock.pauseAt(new Date('2026-10-08T01:00:00Z'));
     // dispatchEvent avoids the pointer stability rAF wait while the clock is paused.
-    await page.getByRole('button', { name: '音なしで入室する' }).dispatchEvent('click');
+    await page.getByRole('button', { name: '入室する', exact: true }).dispatchEvent('click');
     const scene = page.locator('.sauna-3d-canvas');
     await expect
       .poll(
@@ -436,7 +435,7 @@ for (const action of ['complete', 'cancel', 'timeout'] as const) {
     await expect(scene).toHaveAttribute('data-stage', 'water');
     await expect(scene).toHaveAttribute('data-time-of-day', '2.000');
     await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
     expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
       action !== 'cancel',
     );
@@ -500,8 +499,8 @@ for (const action of ['complete', 'cancel', 'timeout', 'context-loss'] as const)
       if (request.url().endsWith('/sauna.glb')) bodyRequests++;
       if (request.url().endsWith('/sauna-garden.glb')) gardenRequests++;
     });
-    await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
-    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    await page.goto('?sound=off&quality&view=3d&warmup=split&frameRate=full&resolution=fixed');
+    await page.getByRole('button', { name: '入室する', exact: true }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect
       .poll(() => page.evaluate(() => (window as any).__noHdrParse.pending), { timeout: 30_000 })
@@ -572,7 +571,7 @@ for (const action of ['complete', 'cancel', 'timeout', 'context-loss'] as const)
     await expect(scene).toHaveAttribute('data-warmup', 'off');
     await expect(scene).toHaveAttribute('data-temporal', 'off');
     await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
     expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
       action === 'complete',
     );
@@ -654,8 +653,8 @@ for (const action of ['complete', 'cancel', 'context-loss'] as const) {
       if (request.url().endsWith('/sauna.glb')) bodyRequests++;
       if (request.url().endsWith('/sauna-garden.glb')) gardenRequests++;
     });
-    await page.goto('?view=3d&warmup=split&frameRate=full&resolution=fixed');
-    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    await page.goto('?sound=off&quality&view=3d&warmup=split&frameRate=full&resolution=fixed');
+    await page.getByRole('button', { name: '入室する', exact: true }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect
       .poll(() => page.evaluate(() => (window as any).__noHdrGardenParse.pending), { timeout: 30_000 })
@@ -729,7 +728,7 @@ for (const action of ['complete', 'cancel', 'context-loss'] as const) {
     await expect(scene).toHaveAttribute('data-warmup', 'off');
     await expect(scene).toHaveAttribute('data-temporal', 'off');
     await expect(scene).toHaveAttribute('data-draw-calls', /^[1-9]\d*$/);
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
     expect(await original!.evaluate((canvas) => canvas === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
       action === 'complete',
     );

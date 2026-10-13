@@ -3,20 +3,19 @@ import { expect, test } from '@playwright/test';
 test('keyboard shortcuts drive the session and fullscreen in a real browser', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('?view=2d');
-  await expect(page.locator('.app-shortcut-hint')).toContainText('全画面');
+  await page.goto('?sound=off&view=2d');
+  await expect(page.locator('.display-settings button[aria-keyshortcuts="F"]')).toHaveCount(1);
 
   await page.keyboard.press('f');
   await expect.poll(() => page.evaluate(() => document.fullscreenElement !== null)).toBe(true);
   await page.keyboard.press('f');
   await expect.poll(() => page.evaluate(() => document.fullscreenElement !== null)).toBe(false);
 
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
 
   // A clicked button keeps focus in Chrome. Space must pour Löyly without also
   // clicking that button on keyup.
-  await page.getByLabel('音の設定', { exact: true }).click();
   await page.getByRole('button', { name: 'ミュート解除', exact: true }).click();
   const mute = page.getByRole('button', { name: 'ミュート', exact: true });
   await expect(mute).toBeFocused();

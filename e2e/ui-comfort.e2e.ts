@@ -9,13 +9,9 @@ for (const viewport of [
 ]) {
   test(`dock controls, audio and breathing at ${viewport.width}x${viewport.height}`, async ({ page }, info) => {
     await page.setViewportSize(viewport);
-    await page.goto('?view=2d');
-    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    await page.goto('?sound=off&view=2d');
+    await page.getByRole('button', { name: '入室する', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
-    await expect(page.locator('.first-visit-guide')).toBeVisible();
-    // The guide must not push the main action out of a low dock (StageDock pins it to the bottom).
-    await expect(page.getByRole('button', { name: 'ロウリュ', exact: true })).toBeInViewport({ ratio: 1 });
-    await page.getByRole('button', { name: 'わかりました' }).click();
     // One dock for every screen: readings, stay and actions, without a second level to open.
     await expect(page.locator('.sauna-meters-grid')).toBeVisible();
     await expect(page.locator('.stay-timer-row')).toBeVisible();
@@ -32,18 +28,22 @@ for (const viewport of [
       expect(label.display).not.toBe('none');
     }
     await page.screenshot({ path: info.outputPath('sauna-dock.png') });
-    await page.getByLabel('音の設定', { exact: true }).click();
-    const volume = page.getByRole('slider', { name: '音量' });
+    // The volume sits in the settings menu; changing it keeps the mute.
+    await page.getByLabel('設定', { exact: true }).click();
+    const volume = page.getByRole('slider', { name: /音量/ });
     await volume.focus();
     await volume.press('Home');
     await volume.press('ArrowRight');
     await expect(volume).toHaveValue('1');
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.getByRole('button', { name: 'ミュート解除', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
     await page.locator('.sauna-steam-particle').waitFor({ state: 'detached' });
     await volume.press('Space');
     await expect(page.locator('.sauna-steam-particle')).toHaveCount(0);
     await page.keyboard.press('Escape');
-    await expect(page.getByLabel('音の設定', { exact: true })).toBeFocused();
+    await expect(page.getByLabel('設定', { exact: true })).toBeFocused();
     await expect(volume).toBeHidden();
     await page.getByRole('button', { name: '水風呂へ' }).click();
     await expect(page.locator('.cooling-heart')).toBeVisible();
@@ -67,54 +67,43 @@ for (const viewport of [
       );
     };
     expect(await ringOverlapsDock()).toBe(false);
-    await expect(page.getByText('ととのい度', { exact: true })).toBeHidden();
-    await page.getByText('スコア', { exact: true }).click();
-    await expect(page.getByText('ととのい度', { exact: true })).toBeVisible();
-    // Opening the score moves the ring aside instead of covering it.
-    expect(await ringOverlapsDock()).toBe(false);
-    await page.screenshot({ path: info.outputPath('rest-expanded.png') });
-    await page.getByText('スコア', { exact: true }).click();
+    await expect(page.locator('.totonou-tier')).toBeInViewport();
+    await page.screenshot({ path: info.outputPath('rest.png') });
     await page.getByRole('button', { name: 'もう一度サウナへ' }).click();
     await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
-    await expect(page.locator('.first-visit-guide')).toHaveCount(0);
-    await page.getByLabel('音の設定', { exact: true }).click();
+    await page.getByLabel('設定', { exact: true }).click();
     await expect(volume).toHaveValue('1');
-    await page.reload();
-    await page.getByRole('button', { name: '音なしで入室する' }).click();
-    await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
-    await expect(page.locator('.first-visit-guide')).toHaveCount(0);
   });
 }
 
 test('entry offers explicit 3D selection without loading it before entry', async ({ page }) => {
   const requests: string[] = [];
   page.on('request', (request) => requests.push(request.url()));
-  await page.goto('?view=2d');
+  await page.goto('?sound=off&view=2d');
   await page.getByRole('button', { name: '3Dで見渡す' }).click();
   await expect(page.getByRole('button', { name: '3Dで見渡す' })).toHaveAttribute('aria-pressed', 'true');
   expect(requests.some((url) => url.endsWith('.glb'))).toBe(false);
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   await expect(page.locator('.sauna-3d-canvas')).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
 });
 
 for (const width of [320, 390]) {
   test(`3D settings keep every choice in one keyboard-accessible menu at ${width}px`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 568 });
-    await page.goto('?view=3d');
+    await page.goto('?sound=off&view=3d');
     await openSceneSettings(page);
     await expect(page.getByLabel('3Dの時間帯')).toBeInViewport({ ratio: 1 });
-    await expect(page.getByLabel('3Dの画質')).toBeInViewport({ ratio: 1 });
+    // The quality is not a visitor's choice (the dynamic resolution adapts the standard preset).
+    await expect(page.getByLabel('3Dの画質')).toHaveCount(0);
     await expect(page.getByRole('link', { name: '素材クレジット' })).toBeVisible();
-    await page.getByLabel('3Dの画質').selectOption('low');
     await page.getByLabel('3Dの時間帯').selectOption('night');
     await page.screenshot({ path: info.outputPath('primary-settings.png') });
     await page.getByRole('link', { name: '素材クレジット' }).focus();
     await expect(page.getByRole('link', { name: '素材クレジット' })).toBeFocused();
     await page.keyboard.press('Escape');
     await expect(page.locator('.display-settings > summary')).toBeFocused();
-    await expect(page.getByLabel('3Dの画質')).toBeHidden();
+    await expect(page.getByLabel('3Dの時間帯')).toBeHidden();
     await openSceneSettings(page);
-    await expect(page.getByLabel('3Dの画質')).toHaveValue('low');
     await expect(page.getByLabel('3Dの時間帯')).toHaveValue('night');
   });
 }

@@ -77,8 +77,8 @@ for (const profile of profiles) {
     let recoveryMs: number | undefined;
     let internalLoadMs: number | undefined;
     try {
-      await page.goto('?view=2d');
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.goto('?sound=off&view=2d');
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();
       expect(model()).toHaveLength(0);
       requests.clear();
@@ -162,7 +162,7 @@ for (const profile of profiles) {
         expect(garden()).toHaveLength(1);
       }
       await expect(scene.locator('canvas')).toHaveCount(1);
-      await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+      await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
       expect([...requests.values()].some((item) => item.cached)).toBe(false);
       expect(errors).toEqual([]);
     } finally {

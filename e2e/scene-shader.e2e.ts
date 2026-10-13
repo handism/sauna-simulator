@@ -18,8 +18,8 @@ for (const warmup of ['off', 'split']) {
           return source.call(this, shader, code);
         };
       }, timing === 'initial');
-      await page.goto(`?view=3d&warmup=${warmup}`);
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.goto(`?sound=off&quality&view=3d&warmup=${warmup}`);
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       const scene = page.locator('.sauna-3d-canvas');
       if (timing === 'later') {
         await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
@@ -35,7 +35,7 @@ for (const warmup of ['off', 'split']) {
       await page.evaluate(() => {
         (window as any).shaderFailure.armed = false;
       });
-      await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+      await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
       await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
       await expect(page.getByRole('heading', { name: '水風呂', exact: true })).toBeVisible();
       await switchSceneMode(page, '2Dに切り替え');

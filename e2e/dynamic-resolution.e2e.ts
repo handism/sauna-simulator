@@ -54,8 +54,8 @@ async function enter(page: Page, query: string) {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.addInitScript(slowFrames);
-  await page.goto(`?view=3d&frameRate=full${query}`);
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto(`?sound=off&quality&view=3d&frameRate=full${query}`);
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
   await chooseSceneSetting(page, '3Dの画質', 'standard');

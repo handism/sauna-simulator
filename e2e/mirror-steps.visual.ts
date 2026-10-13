@@ -94,8 +94,8 @@ for (const minute of [12, 27]) {
         patches.push({ url: route.request().url(), before: sha(source), after: sha(modified) });
         await route.fulfill({ response, body: modified });
       });
-      await page.goto('?view=3d&warmup=split&resolution=fixed&frameRate=full');
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.goto('?sound=off&quality&view=3d&warmup=split&resolution=fixed&frameRate=full');
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
       await expect(scene).toHaveAttribute('data-warmup', 'split');

@@ -1,4 +1,4 @@
-import SoundControl from './components/SoundControl';
+import VolumeSetting from './components/VolumeSetting';
 import { useEffect, useRef, useState } from 'react';
 import './index.css';
 import SceneMode from './components/SceneMode';
@@ -7,10 +7,13 @@ import ScoreHistory from './components/ScoreHistory';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
-import { FullscreenMenuButton, UiToggleButton } from './components/ControlButtons';
+import { FullscreenMenuButton, MuteButton, UiToggleButton } from './components/ControlButtons';
 import { useSaunaContext, type AmbientEnv } from './context/SaunaContext';
 import { useFullscreen } from './hooks/useFullscreen';
 import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
+
+// 計測用（e2e・診断スクリプト）。入室ボタンで音なしに入る。利用者向けの選択肢は出さない
+const startsMuted = () => new URLSearchParams(window.location.search).get('sound') === 'off';
 
 interface BackgroundConfig {
   gradient: string;
@@ -92,26 +95,23 @@ function App() {
         opacity={opacity}
         loylyEvents={loylyEvents}
         settingsExtra={
-          fullscreen.isSupported && (
-            <FullscreenMenuButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
-          )
+          <>
+            {stage !== 'start' && <VolumeSetting volume={volume} onVolume={setVolume} />}
+            {fullscreen.isSupported && (
+              <FullscreenMenuButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
+            )}
+          </>
         }
       >
         {(is3d, toggle3d, settings) => (
           <div className="app-main-ui-container" ref={contentRef}>
-            {/* 右上の操作はすべてここに並べる。入室前は表示設定だけ。全画面は表示設定の中。
-                最初のサウナの間だけ、アイコンの下に名前を添える（アイコンだけでは意味が取りにくい） */}
+            {/* 右上の操作はすべてここに並べる。入室前は設定だけ。音量・全画面は設定の中。
+                入室後はアイコンの下に名前を添える（アイコンだけでは意味が取りにくい） */}
             <div className="app-toolbar" data-labeled={stage !== 'start'}>
               {stage !== 'start' && (
                 <>
                   <UiToggleButton isUiHidden={isUiHidden} onToggle={toggleUiVisibility} />
-                  <SoundControl
-                    key={stage}
-                    isMuted={isMuted}
-                    volume={volume}
-                    onMute={toggleMute}
-                    onVolume={setVolume}
-                  />
+                  <MuteButton isMuted={isMuted} onToggle={toggleMute} />
                 </>
               )}
               {settings}
@@ -144,51 +144,28 @@ function App() {
                   </button>
                 </div>
 
+                {/* 入室は1つだけ。音は入室後に右上のミュートで切り替える */}
                 <div className="app-btn-group">
                   <button
                     className="primary-btn app-btn-primary"
-                    onClick={() => handleStart(true)}
+                    onClick={() => handleStart(!startsMuted())}
                     aria-describedby="headphone-note"
                   >
-                    音ありで入室する
+                    入室する
                   </button>
-                  {/* 音ありの補足。押せる部品に見えないよう、面や枠を付けない */}
+                  {/* 補足。押せる部品に見えないよう、面や枠を付けない */}
                   <p id="headphone-note" className="entry-note">
-                    <ActionIcon name="headphones" /> ヘッドホン・イヤホン推奨
+                    <ActionIcon name="headphones" /> 音が鳴ります（ヘッドホン推奨）
                   </p>
-                  <button className="primary-btn app-btn-secondary" onClick={() => handleStart(false)}>
-                    音なしで入室する
-                  </button>
                 </div>
-                <details className="entry-help">
-                  <summary>操作方法</summary>
-                  <ul className="app-shortcut-hint" aria-label="キーボード操作">
-                    <li>
-                      <kbd>Space</kbd> 各場面の主な操作
-                    </li>
-                    <li>
-                      <kbd>M</kbd> ミュート
-                    </li>
-                    <li>
-                      <kbd>U</kbd> UI表示切替
-                    </li>
-                    {fullscreen.isSupported && (
-                      <li>
-                        <kbd>F</kbd> 全画面
-                      </li>
-                    )}
-                  </ul>
-                </details>
               </div>
             )}
 
             {stage === 'start' && sessionSummary && (
               <section className="app-start-screen session-end" style={{ opacity }} inert={pendingStage !== null}>
-                <p className="welcome-eyebrow">おつかれさまでした</p>
                 <h1 className="app-main-title" tabIndex={-1}>
-                  今日のひと息
+                  おつかれさまでした
                 </h1>
-                <p className="app-subtitle">この余韻を、日常へ。</p>
                 <div className="glass-panel session-summary">
                   <dl className="session-summary-stats">
                     <div>
@@ -214,11 +191,10 @@ function App() {
                     </div>
                   </dl>
                   {sessionSummary.scores.length > 0 && (
-                    <details className="score-details session-summary-history">
-                      <summary>スコア</summary>
-                      <p className="detail-note">ととのい度は体験内の遊びの指標です。</p>
+                    <div className="session-summary-history">
+                      <p className="session-summary-caption">セットごとのととのい度</p>
                       <ScoreHistory scores={sessionSummary.scores} />
-                    </details>
+                    </div>
                   )}
                 </div>
                 {/* トップに戻るのが主操作。続けて入りたい人は入室画面を経ずに、今の音の設定のまま入り直せる */}

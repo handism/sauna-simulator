@@ -19,7 +19,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const [base, out, repeatArg] = process.argv.slice(2);
 if (!base || !out) throw new Error('usage: diagnose_parallel_compile.mjs <app url> <out.json> [repeat]');
 const REPEAT = Number(repeatArg ?? 2);
-const app = (query) => `${base}?view=3d&frameRate=full&resolution=fixed${query}`;
+const app = (query) => `${base}?sound=off&view=3d&frameRate=full&resolution=fixed${query}`;
 
 const heavyPage = `<!doctype html><canvas width=1200 height=800 style="width:100vw;height:100vh"></canvas><script>
 const gl = document.querySelector('canvas').getContext('webgl2');
@@ -135,7 +135,7 @@ for (let r = 0; r < REPEAT; r++) {
     if (a === 'app') {
       const page = await ctxA.newPage();
       await page.goto(app(''));
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 60_000 });
       await page.waitForTimeout(1_500);
     } else if (a === 'heavy') {
@@ -150,7 +150,7 @@ for (let r = 0; r < REPEAT; r++) {
       await page.addInitScript(hook);
       const started = Date.now();
       await page.goto(app('&temporal=off'));
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 60_000 });
       Object.assign(row, {

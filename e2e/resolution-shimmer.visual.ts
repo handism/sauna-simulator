@@ -28,8 +28,8 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.addInitScript(controlFrames);
-  await page.goto(`?view=3d&frameRate=full${process.env.SHIMMER_QUERY ?? ''}`);
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto(`?sound=off&quality&view=3d&frameRate=full${process.env.SHIMMER_QUERY ?? ''}`);
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });

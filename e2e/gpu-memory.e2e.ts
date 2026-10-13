@@ -27,8 +27,8 @@ test('GPU memory stays the same over stages, qualities and scene regeneration', 
   const candidate = await useModelCandidate(page);
   await page.addInitScript(observeGpuMemory);
   // A fixed pixel ratio: the dynamic resolution resizes the render targets.
-  await page.goto('?view=3d&resolution=fixed');
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto('?sound=off&quality&view=3d&resolution=fixed');
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const ready = async () => {
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });

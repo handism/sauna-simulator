@@ -1115,7 +1115,6 @@ try {
         await context.addInitScript(
           ([quality, lighting]) => {
             localStorage.setItem('sui-quality', quality);
-            localStorage.setItem('sui-guide-dismissed', 'yes');
             localStorage.setItem('sui-lighting-mode', lighting);
           },
           [quality, lighting],
@@ -1141,8 +1140,10 @@ try {
         page.on('console', (m) => {
           if (m.type() === 'error') errors.push(m.text());
         });
-        await page.goto(`${url}?view=2d&resolution=fixed&frameRate=full${product ? '&warmup=split' : ''}`);
-        await page.getByRole('button', { name: '音なしで入室する' }).click();
+        await page.goto(
+          `${url}?sound=off&quality&view=2d&resolution=fixed&frameRate=full${product ? '&warmup=split' : ''}`,
+        );
+        await page.getByRole('button', { name: '入室する', exact: true }).click();
         if (entry !== 'sauna') {
           await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
           await page.getByRole('button', { name: '外気浴へ', exact: true }).waitFor();

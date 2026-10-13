@@ -4,8 +4,8 @@ import { observeSoakTiming } from './soak-timing';
 
 test('diagnose synchronous work on the first 3D load and a recreated scene', async ({ page }, info) => {
   await page.addInitScript(observeSoakTiming);
-  await page.goto('?view=3d&frameRate=full');
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto('?sound=off&view=3d&frameRate=full');
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const loaded = async () => {
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });

@@ -24,6 +24,18 @@ function viewQuery(): ViewMode | null {
   const query = new URLSearchParams(window.location.search).get('view');
   return query === '3d' || query === '2d' ? query : null;
 }
+// 画質は利用者に選ばせない（標準から動的解像度が下げる）。計測（e2e・診断）だけが ?quality で
+// 選択肢を出し、保存した値か ?quality=<画質> を使う
+function qualityQuery(): QualityMode | 'stored' | null {
+  const query = new URLSearchParams(window.location.search).get('quality');
+  if (query === null) return null;
+  return (QUALITY_VALUES as readonly string[]).includes(query) ? (query as QualityMode) : 'stored';
+}
+function initialQuality(): QualityMode {
+  const query = qualityQuery();
+  if (query === null) return 'standard';
+  return query === 'stored' ? readPreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard') : query;
+}
 function initialSceneMode(): boolean {
   return (viewQuery() ?? readPreference<ViewMode>(STORAGE_KEY, ['2d', '3d'], '2d')) === '3d';
 }
@@ -200,7 +212,12 @@ export default function SceneMode({
   loylyEvents: EventTarget;
 }) {
   const [lightingMode, setLightingMode] = usePreference<LightingMode>(LIGHTING_KEY, LIGHTING_VALUES, 'auto');
-  const [quality, setQuality] = usePreference<QualityMode>(QUALITY_KEY, QUALITY_VALUES, 'standard');
+  const [quality, setQualityState] = useState(initialQuality);
+  const [qualityChoice] = useState(() => qualityQuery() !== null);
+  const setQuality = (next: QualityMode) => {
+    setQualityState(next);
+    writePreference(QUALITY_KEY, next);
+  };
   const [weather, setWeather] = usePreference<Weather>(WEATHER_KEY, WEATHER_VALUES, 'clear');
   const [season, setSeason] = usePreference<Season>(SEASON_KEY, SEASON_VALUES, 'summer');
   // The rain's sound follows the setting in 2D and 3D alike; the engine holds it until entering.
@@ -228,7 +245,7 @@ export default function SceneMode({
   const settings = (
     <div className="scene-mode-controls">
       <details ref={settingsRef} key={stage} className="display-settings">
-        <summary className="icon-btn" data-short-label="表示" aria-label="表示設定" title="表示設定">
+        <summary className="icon-btn" data-short-label="設定" aria-label="設定" title="設定">
           <ActionIcon name="settings" />
         </summary>
         <div className="settings-panel">
@@ -259,13 +276,15 @@ export default function SceneMode({
                 options={LIGHTING_OPTIONS}
                 onChange={setLightingMode}
               />
-              <PreferenceSelect
-                label="画質"
-                ariaLabel="3Dの画質"
-                value={quality}
-                options={QUALITY_OPTIONS}
-                onChange={setQuality}
-              />
+              {qualityChoice && (
+                <PreferenceSelect
+                  label="画質"
+                  ariaLabel="3Dの画質"
+                  value={quality}
+                  options={QUALITY_OPTIONS}
+                  onChange={setQuality}
+                />
+              )}
               {stage === 'start' && <span>入室すると3Dで体験できます</span>}
             </>
           )}
