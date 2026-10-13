@@ -74,15 +74,18 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry) {
     filled.push({ root, vertices });
     for (let copy = 0; copy < CROWN_FILL_COPIES; copy++) {
       const salt = 1 + copy * 7;
-      // Spin within the card's plane, then tilt about an in-plane axis so the copy adds depth.
+      // Near-parallel copies overlap the same thin branch tufts. Lean the existing copy
+      // out of that plane and spread it farther, filling gaps without more cards or leaf area.
+      // Keep the crown shading normals: rotating those would make a copy a separate dark patch.
       spin.setFromAxisAngle(normal, ((50 + random(salt) * 80) * Math.PI) / 180);
       axis.subVectors(b, a).applyQuaternion(spin).normalize();
-      tilt.setFromAxisAngle(axis, ((random(salt + 1) - 0.5) * 40 * Math.PI) / 180);
+      const lean = random(salt + 1);
+      tilt.setFromAxisAngle(axis, ((lean < 0.5 ? -1 : 1) * (35 + Math.abs(lean - 0.5) * 50) * Math.PI) / 180);
       spin.premultiply(tilt);
       offset
         .copy(axis)
         .applyAxisAngle(normal, random(salt + 2) * Math.PI * 2)
-        .multiplyScalar(size * (0.3 + random(salt + 3) * 0.2));
+        .multiplyScalar(size * (0.55 + random(salt + 3) * 0.2));
       const shrink = 0.85 + random(salt + 4) * 0.25;
       for (const i of vertices) {
         point.fromBufferAttribute(position, i).sub(center).applyQuaternion(spin).multiplyScalar(shrink);

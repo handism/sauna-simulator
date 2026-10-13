@@ -1,0 +1,152 @@
+{
+ "note": "L* residual after warping frame k onto frame k+1 by the known rotation (0.004 rad of yaw per frame), mean over the pairs of a sequence. tile: |mean| over 12x12 capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, twice). relativeTo1_5: per view, the ratio to the 1.5 sequence.",
+ "quality": "standard",
+ "yawPerStep": 0.004,
+ "framesPerStep": 2,
+ "relativeTo1_5": {},
+ "sequences": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.6127,
+   "firstPairWrongSignPixel": 6.1389,
+   "pixel": 0.6242,
+   "tile": 0.0782,
+   "tileP99": 0.7535,
+   "tripPixel": 0.2961,
+   "tripTile": 0.0084,
+   "relativeToBaseline": {
+    "pixel": 0.9796,
+    "tile": 0.9911,
+    "tileP99": 0.9659
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.3832,
+   "firstPairWrongSignPixel": 4.5389,
+   "pixel": 0.4081,
+   "tile": 0.0438,
+   "tileP99": 0.59,
+   "tripPixel": 0.2203,
+   "tripTile": 0.0058,
+   "relativeToBaseline": {
+    "pixel": 0.9673,
+    "tile": 0.9865,
+    "tileP99": 0.9452
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 5.7717,
+   "firstPairWrongSignPixel": 7.6736,
+   "pixel": 0.7967,
+   "tile": 0.1001,
+   "tileP99": 0.9277,
+   "tripPixel": 0.3722,
+   "tripTile": 0.0103,
+   "relativeToBaseline": {
+    "pixel": 1.0261,
+    "tile": 1.032,
+    "tileP99": 1.0116
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.0837,
+   "firstPairWrongSignPixel": 5.431,
+   "pixel": 0.588,
+   "tile": 0.0704,
+   "tileP99": 1.0115,
+   "tripPixel": 0.2955,
+   "tripTile": 0.0079,
+   "relativeToBaseline": {
+    "pixel": 1.0244,
+    "tile": 1.0292,
+    "tileP99": 1.0163
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.618,
+   "firstPairWrongSignPixel": 4.8002,
+   "pixel": 0.5997,
+   "tile": 0.0842,
+   "tileP99": 0.9426,
+   "tripPixel": 0.2809,
+   "tripTile": 0.0074,
+   "relativeToBaseline": {
+    "pixel": 1.0359,
+    "tile": 1.0434,
+    "tileP99": 1.026
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.1265,
+   "firstPairWrongSignPixel": 4.2887,
+   "pixel": 0.5082,
+   "tile": 0.0701,
+   "tileP99": 0.9392,
+   "tripPixel": 0.2555,
+   "tripTile": 0.0068,
+   "relativeToBaseline": {
+    "pixel": 1.0371,
+    "tile": 1.0526,
+    "tileP99": 1.0453
+   }
+  }
+ ],
+ "relativeToBaseline": {
+  "baseline": "docs/3d-qa/crown-spread/shimmer-before/shimmer.json",
+  "baselineRatio": null,
+  "byRatio": {
+   "1.5": {
+    "pixel": {
+     "min": 0.9673,
+     "median": 1.02525,
+     "max": 1.0371
+    },
+    "tile": {
+     "min": 0.9865,
+     "median": 1.0306,
+     "max": 1.0526
+    },
+    "tileP99": {
+     "min": 0.9452,
+     "median": 1.01395,
+     "max": 1.0453
+    }
+   }
+  }
+ }
+}
