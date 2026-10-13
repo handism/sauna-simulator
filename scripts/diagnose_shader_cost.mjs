@@ -155,7 +155,6 @@ if (mode === 'capture') {
   await context.addInitScript((q) => {
     try {
       localStorage.setItem('sui-quality', q);
-      localStorage.setItem('sui-guide-dismissed', 'yes');
     } catch {}
   }, quality);
   await context.addInitScript(() => {
@@ -188,8 +187,8 @@ if (mode === 'capture') {
     }
   });
   const page = await context.newPage();
-  await page.goto(`${base}?view=3d&frameRate=full`);
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto(`${base}?sound=off&quality&view=3d&frameRate=full`);
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 120_000 });
   const programs = await page.evaluate(() => window.__programs);
   writeFileSync(out, JSON.stringify({ quality, programs }) + '\n');
@@ -341,14 +340,13 @@ if (mode === 'capture') {
   await context.addInitScript((q) => {
     try {
       localStorage.setItem('sui-quality', q);
-      localStorage.setItem('sui-guide-dismissed', 'yes');
     } catch {}
   }, quality);
   await context.addInitScript(attributeHook);
   const page = await context.newPage();
   const started = Date.now();
-  await page.goto(`${base}?view=3d&frameRate=full`);
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto(`${base}?sound=off&quality&view=3d&frameRate=full`);
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   await page.locator('.sauna-3d-canvas[data-garden="ready"]').waitFor({ timeout: 300_000 });
   const stages = [['sauna', Date.now() - started]];
   for (const [stage, button] of [

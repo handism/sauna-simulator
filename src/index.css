@@ -241,6 +241,7 @@ body {
 }
 .primary-btn.cooling-next-btn {
   width: 100%;
+  margin-top: 14px;
 }
 
 /* Top-right icon controls (fullscreen, UI, sound, display settings) laid out as one row. */
@@ -367,26 +368,12 @@ body {
   color: var(--ink-muted);
 }
 
-.text-control {
-  color: var(--ink-muted);
-  font: inherit;
-  font-size: 0.8rem;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  min-height: 44px;
-  padding: 8px 4px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
 kbd,
 .button-shortcut {
   font: inherit;
   border-radius: var(--radius-sm);
 }
-.button-shortcut,
-.control-hint kbd {
+.button-shortcut {
   font-size: 0.7rem;
   padding: 1px 4px;
   border: 1px solid currentColor;
@@ -406,21 +393,17 @@ h2:focus {
   outline: none;
 }
 
-/* ---------- Popovers (sound & display settings) ---------- */
-.sound-control,
+/* ---------- Settings popover ---------- */
 .scene-mode-controls {
   position: relative;
   pointer-events: auto;
 }
-.sound-control > summary,
 .display-settings > summary {
   list-style: none;
 }
-.sound-control > summary::-webkit-details-marker,
 .display-settings > summary::-webkit-details-marker {
   display: none;
 }
-.sound-panel,
 .settings-panel {
   position: absolute;
   top: 54px;
@@ -432,11 +415,6 @@ h2:focus {
   background: var(--popover-bg);
   box-shadow: var(--popover-shadow);
 }
-.sound-panel {
-  width: min(260px, calc(100vw - 32px));
-  padding: 18px;
-  font-size: 0.85rem;
-}
 .settings-panel {
   width: min(290px, calc(100vw - 32px));
   padding: 20px;
@@ -446,25 +424,17 @@ h2:focus {
   line-height: 1.6;
   color: var(--ink);
 }
-.sound-mute-row,
 .volume-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
 }
-.volume-label {
-  margin-top: 16px;
-}
-.sound-panel input[type='range'] {
+.volume-setting input[type='range'] {
   width: 100%;
   min-height: 44px;
   accent-color: var(--wood);
   cursor: pointer;
-}
-.control-hint {
-  color: var(--ink-muted);
-  font-size: 0.75rem;
 }
 
 .settings-heading {
@@ -529,13 +499,6 @@ h2:focus {
   pointer-events: auto;
 }
 
-.welcome-eyebrow {
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
-  margin-bottom: 18px;
-  color: var(--wood-light);
-}
-
 .app-main-title {
   font-size: clamp(1.7rem, 7vw, 3.5rem);
   margin-bottom: 0.5rem;
@@ -584,22 +547,19 @@ h2:focus {
   width: 100%;
   max-width: 280px;
 }
-/* 音ありの補足。直上のボタンに寄せ、押せる部品と見分けられるよう面や枠を付けない */
+/* 入室ボタンの補足。直上のボタンに寄せ、押せる部品と見分けられるよう面や枠を付けない */
 .entry-note {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin: -7px 0 7px;
+  margin: -5px 0 0;
   font-size: 0.8rem;
   color: var(--ink-soft);
   text-shadow: var(--text-shadow-soft);
 }
 .entry-note .action-icon {
   width: 16px;
-}
-.app-btn-secondary {
-  padding: 12px 24px;
 }
 
 /* 2D／3Dの景色の2択。入室前に決めるため入室ボタンの上に置く。押した側が選ばれた状態になる */
@@ -648,24 +608,6 @@ h2:focus {
   }
 }
 
-/* Keyboard shortcut guide; touch-only devices have no keyboard to use it with. */
-.app-shortcut-hint {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 16px;
-  margin-top: 2rem;
-  font-size: 0.8rem;
-  color: var(--ink-soft);
-}
-.app-shortcut-hint kbd {
-  padding: 1px 6px;
-  margin-right: 4px;
-  border: 1px solid var(--line-strong);
-  background: var(--tint-subtle);
-}
-
 .session-summary {
   margin: 12px 0 32px;
   width: min(460px, 100%);
@@ -688,9 +630,6 @@ h2:focus {
 .session-summary dd span {
   font-size: 0.85rem;
 }
-.session-summary-history {
-  margin-top: 20px;
-}
 /* 主操作（トップに戻る）を先に、入り直しは控えめな面で並べる。狭い画面では縦に積む */
 .session-end-actions {
   display: flex;
@@ -702,14 +641,20 @@ h2:focus {
   min-width: 220px;
 }
 /* パネルの外に直接置く副ボタンは、明るい景色に重なっても輪郭が消えないよう枠を強める */
-.primary-btn.session-reenter-btn,
-.primary-btn.app-btn-secondary {
+.primary-btn.session-reenter-btn {
   border-color: var(--line-control-bare);
 }
-.session-summary-history > summary {
-  justify-content: center;
+.session-summary-history {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
 }
-.session-summary-history .score-history {
+.session-summary-caption {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+.session-summary .score-history {
   justify-content: center;
   border-top: none;
   padding-top: 0;
@@ -785,52 +730,6 @@ h2:focus {
   pointer-events: auto;
 }
 
-.stage-details {
-  border-top: 1px solid var(--line);
-  margin: 14px 0;
-}
-.stage-details > summary {
-  cursor: pointer;
-  min-height: 44px;
-  padding: 13px 0;
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
-.stage-details[open] > summary {
-  margin-bottom: 6px;
-}
-/* 開閉の印はブラウザ標準の三角ではなく、パネルの取っ手と同じ線のシェブロンにする */
-.stage-details > summary,
-.score-details > summary,
-.entry-help > summary {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  list-style: none;
-}
-.stage-details > summary::-webkit-details-marker,
-.score-details > summary::-webkit-details-marker,
-.entry-help > summary::-webkit-details-marker {
-  display: none;
-}
-.stage-details > summary::before,
-.score-details > summary::before,
-.entry-help > summary::before {
-  content: '';
-  flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  margin: 0 2px;
-  border-right: 1.5px solid var(--ink-faint);
-  border-bottom: 1.5px solid var(--ink-faint);
-  transform: rotate(-45deg);
-  transition: transform 0.2s ease;
-}
-.stage-details[open] > summary::before,
-.score-details[open] > summary::before,
-.entry-help[open] > summary::before {
-  transform: translateY(-2px) rotate(45deg);
-}
 .stage-info-row {
   display: flex;
   justify-content: space-between;
@@ -841,12 +740,6 @@ h2:focus {
 .stage-info-row-divided {
   border-top: 1px solid var(--line);
   padding-top: 12px;
-}
-.detail-note {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-  margin: 12px 0;
-  line-height: 1.6;
 }
 
 .dock-actions {
@@ -871,32 +764,6 @@ h2:focus {
   padding: 10px 16px 0;
   background: var(--glass-bg-3d);
   border-top: 1px solid var(--glass-border);
-}
-
-/* 初回案内は説明するロウリュボタンの真上に1段で置き、メーターを押し下げない */
-.first-visit-guide {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--tint-faint);
-  border-left: 2px solid var(--wood);
-  padding: 0 0 0 12px;
-  margin-bottom: 12px;
-  font-size: 0.8rem;
-  line-height: 1.6;
-  color: var(--ink-muted);
-}
-.first-visit-guide p {
-  flex: 1;
-  padding: 6px 0;
-}
-.first-visit-scenery {
-  display: block;
-}
-.first-visit-guide .text-control {
-  flex-shrink: 0;
-  padding: 0 12px;
-  color: var(--wood-light);
 }
 
 .heart-rate {
@@ -1318,83 +1185,20 @@ h2:focus {
   box-shadow: none;
 }
 
-/* スコアを開くとパネルが伸びて呼吸ガイドに重なるため、ガイドを見出しの下へ小さく退かせ、
-   パネルはその下までに収める（はみ出す分はパネル内でスクロールし、主操作は下端に固定される） */
-.scene-container:has(.rest-dock [open]) {
-  --breath-docked-top: 222px;
-  --breath-docked-size: 84px;
-}
-.scene-container:has(.rest-dock [open]) .breathing-circle-premium {
-  position: absolute;
-  top: calc(var(--breath-docked-top) + env(safe-area-inset-top, 0px));
-  width: var(--breath-docked-size);
-  height: var(--breath-docked-size);
-  margin: 0;
-}
-.scene-container:has(.rest-dock [open]) .breathing-label {
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-}
-.scene-container:has(.rest-dock [open]) .rest-dock {
-  max-height: calc(
-    100dvh - var(--breath-docked-top) - var(--breath-docked-size) - 64px - env(safe-area-inset-top, 0px) -
-      env(safe-area-inset-bottom, 0px)
-  );
-}
-
-/* 外気浴のパネルはスコアが先頭なので、区切り線を付けない */
-.rest-dock .score-details {
-  margin-top: 0;
-  border-top: none;
-}
-.score-details {
-  border-top: 1px solid var(--line);
-}
-.score-details:not(.stage-details) > summary {
-  min-height: 44px;
-  padding: 12px 0;
-  font-size: 0.8rem;
-  cursor: pointer;
-  color: var(--ink-muted);
-}
-.totonou-info-panel {
+/* 外気浴の結果は段階名を大きく、ひと言を添える（数値と推移は終了画面） */
+.totonou-result {
   display: grid;
-  gap: 12px;
-  padding: 4px 0 16px;
-}
-.totonou-info-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-/* 段階名は閉じたスコアの見出しの右端に添える */
-.score-details > summary .totonou-tier {
-  margin-left: auto;
+  gap: 4px;
+  margin-bottom: 14px;
 }
 .totonou-tier {
   font-size: 1.1rem;
   color: var(--ink-strong);
   letter-spacing: 0.08em;
 }
-.totonou-progress-val {
-  font-size: 0.9rem;
-  color: var(--ink-muted);
-}
-.totonou-info-panel + .totonou-note {
-  margin-top: 0;
-}
-.totonou-progress-bg {
-  height: 4px;
-  background: var(--line);
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-}
-.totonou-progress-bar {
-  height: 100%;
-}
 .totonou-feedback {
-  font-size: 1rem;
-  color: var(--ink-strong);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
   line-height: 1.7;
 }
 
@@ -1646,10 +1450,7 @@ h2:focus {
   .snow-2d,
   .app-stage-container,
   .app-start-screen,
-  .stay-timer-bar,
-  .stage-details > summary::before,
-  .score-details > summary::before,
-  .entry-help > summary::before {
+  .stay-timer-bar {
     transition: none;
   }
   .primary-btn:active,
@@ -1680,9 +1481,7 @@ h2:focus {
 /* ---------- Input-dependent hints ---------- */
 /* タッチだけの端末にはキーボードがないため、キー操作の案内を出さない */
 @media (hover: none) and (pointer: coarse) {
-  .app-shortcut-hint,
-  .button-shortcut,
-  .control-hint {
+  .button-shortcut {
     display: none;
   }
 }
@@ -1701,9 +1500,6 @@ h2:focus {
   }
   .stage-heading {
     top: calc(86px + env(safe-area-inset-top, 0px));
-  }
-  .stage-details {
-    margin: 8px 0;
   }
   .cooling-heart {
     margin-top: 8px;
@@ -1753,24 +1549,14 @@ h2:focus {
     bottom: calc(28px + env(safe-area-inset-bottom, 0px));
     padding: 12px 16px;
   }
-  .stage-details {
-    margin: 8px 0;
-  }
   .stay-timer {
     margin-top: 8px;
   }
   .stay-timer-track {
     margin: 6px 0 2px;
   }
-  .first-visit-guide {
-    font-size: 0.75rem;
-    line-height: 1.5;
-  }
   .app-start-screen {
     justify-content: flex-start;
-  }
-  .welcome-eyebrow {
-    margin-bottom: 10px;
   }
   .session-summary {
     margin: 4px 0 20px;
@@ -1780,10 +1566,6 @@ h2:focus {
     width: 130px;
     height: 130px;
     margin-bottom: 46px;
-  }
-  .scene-container:has(.rest-dock [open]) {
-    --breath-docked-top: 140px;
-    --breath-docked-size: 72px;
   }
   .breathing-label {
     font-size: 1rem;
@@ -1813,18 +1595,6 @@ h2:focus {
   .breathing-label {
     letter-spacing: 2px;
   }
-  /* パネルは右にあり呼吸ガイドと重ならないため、スコアを開いても元の位置と大きさのまま */
-  .scene-container:has(.rest-dock [open]) {
-    --breath-docked-top: 165px;
-    --breath-docked-size: 110px;
-  }
-  .scene-container:has(.rest-dock [open]) .breathing-label {
-    font-size: 1rem;
-    letter-spacing: 2px;
-  }
-  .scene-container:has(.rest-dock [open]) .rest-dock {
-    max-height: calc(100dvh - 110px);
-  }
 }
 @media (max-width: 360px) {
   .rest-dock .dock-actions {
@@ -1851,9 +1621,6 @@ h2:focus {
     opacity: 0.6;
     transition: none;
   }
-  .totonou-progress-bar {
-    transition: none;
-  }
 }
 
 /* 終了は主操作より控えめにしつつ、常にアクセスできる。 */
@@ -1872,7 +1639,7 @@ h2:focus {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-/* 縦長の低い画面では、詳細項目を開く前からパネルがリングに重なる。 */
+/* 縦長の低い画面では、パネルがリングに重なるため、リングを見出しの下へ小さく退かせる。 */
 @media (max-height: 620px) and (max-width: 599px) {
   .scene-container:has(.rest-dock) {
     --breath-docked-top: 140px;
@@ -1897,23 +1664,6 @@ h2:focus {
   }
 }
 
-/* 入室の主操作に寄せ、詳しいキー操作は必要なときだけ開く。 */
-.entry-help {
-  margin-top: 20px;
-  color: var(--ink-soft);
-  text-shadow: var(--text-shadow-soft);
-}
-/* 中央の1行に収め、開閉の印は他の開閉と同じ線のシェブロン */
-.entry-help > summary {
-  display: inline-flex;
-  cursor: pointer;
-  padding: 12px;
-  min-height: 44px;
-  font-size: 0.9rem;
-}
-.entry-help .app-shortcut-hint {
-  margin-top: 8px;
-}
 .stay-timer-goal {
   font-size: 0.9rem;
   color: var(--ink-soft);
@@ -1921,9 +1671,4 @@ h2:focus {
 .dock-finish {
   font-size: 0.9rem;
   color: var(--ink-strong);
-}
-@media (hover: none) and (pointer: coarse) {
-  .entry-help {
-    display: none;
-  }
 }

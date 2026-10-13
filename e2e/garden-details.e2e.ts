@@ -9,9 +9,9 @@ test('garden accents survive seasons, weather, motion preferences and stage chan
     if (message.type() === 'error') errors.push(message.text());
   });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('?view=3d&resolution=fixed');
+  await page.goto('?sound=off&view=3d&resolution=fixed');
   await chooseSceneSetting(page, '3Dの時間帯', 'day');
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 40_000 });
   await expect(scene).toHaveAttribute('data-garden-details', 'ready');

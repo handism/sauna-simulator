@@ -51,13 +51,15 @@ describe('App Component', () => {
   it('renders start screen initially', () => {
     renderWithProvider(<App />);
     expect(screen.getByText('ブラウザサウナ')).toBeInTheDocument();
-    expect(screen.getByText('音ありで入室する')).toBeInTheDocument();
-    expect(screen.getByText('音なしで入室する')).toBeInTheDocument();
+    // One way in: the sound is switched afterwards with the mute button.
+    expect(screen.getByRole('button', { name: '入室する' })).toBeInTheDocument();
+    expect(screen.queryByText(/音なし/)).not.toBeInTheDocument();
+    expect(screen.queryByText('操作方法')).not.toBeInTheDocument();
   });
 
-  it('starts experience with sound when "音ありで入室する" is clicked', async () => {
+  it('starts experience with sound when "入室する" is clicked', async () => {
     renderWithProvider(<App />);
-    const button = screen.getByText('音ありで入室する');
+    const button = screen.getByRole('button', { name: '入室する' });
     fireEvent.click(button);
 
     expect(mockAudioEngine.init).toHaveBeenCalled();
@@ -72,10 +74,11 @@ describe('App Component', () => {
     );
   });
 
-  it('starts experience muted when "音なしで入室する" is clicked', async () => {
+  it('starts muted for measurements with ?sound=off', async () => {
+    window.history.replaceState(null, '', '?sound=off');
     renderWithProvider(<App />);
-    const button = screen.getByText('音なしで入室する');
-    fireEvent.click(button);
+    fireEvent.click(screen.getByRole('button', { name: '入室する' }));
+    window.history.replaceState(null, '', window.location.pathname);
 
     expect(mockAudioEngine.init).toHaveBeenCalled();
     expect(mockAudioEngine.setMuted).toHaveBeenCalledWith(true);
@@ -93,7 +96,7 @@ describe('App Component', () => {
     renderWithProvider(<App />);
 
     // Start -> Sauna
-    fireEvent.click(screen.getByText('音ありで入室する'));
+    fireEvent.click(screen.getByRole('button', { name: '入室する' }));
 
     await waitFor(
       () => {
@@ -139,8 +142,7 @@ describe('App Component', () => {
   it('toggles mute correctly', async () => {
     renderWithProvider(<App />);
 
-    // Start without sound
-    fireEvent.click(screen.getByText('音なしで入室する'));
+    fireEvent.click(screen.getByRole('button', { name: '入室する' }));
 
     await waitFor(
       () => {
@@ -149,25 +151,23 @@ describe('App Component', () => {
       { timeout: 1500 },
     );
 
-    // Initial state (muted)
-    fireEvent.click(screen.getByLabelText('音の設定'));
-    const muteButton = screen.getByRole('button', { name: 'ミュート解除' });
-    expect(muteButton).toBeInTheDocument();
+    // One tap on the toolbar mutes, without a popup in between.
+    fireEvent.click(screen.getByRole('button', { name: 'ミュート' }));
+    expect(mockAudioEngine.setMuted).toHaveBeenLastCalledWith(true);
+    fireEvent.click(screen.getByRole('button', { name: 'ミュート解除' }));
+    expect(mockAudioEngine.setMuted).toHaveBeenLastCalledWith(false);
 
-    // Toggle mute (unmute)
-    fireEvent.click(muteButton);
-    expect(mockAudioEngine.setMuted).toHaveBeenCalledWith(false);
-
-    // Check if the button changed to 'ミュート'
-    const unmuteButton = screen.getByRole('button', { name: 'ミュート' });
-    expect(unmuteButton).toBeInTheDocument();
+    // The volume lives in the settings menu.
+    fireEvent.click(screen.getByLabelText('設定'));
+    fireEvent.change(screen.getByRole('slider', { name: /音量/ }), { target: { value: '40' } });
+    expect(mockAudioEngine.setVolume).toHaveBeenLastCalledWith(0.4);
   });
 
   it('toggles UI visibility correctly', async () => {
     renderWithProvider(<App />);
 
     // Start
-    fireEvent.click(screen.getByText('音ありで入室する'));
+    fireEvent.click(screen.getByRole('button', { name: '入室する' }));
 
     await waitFor(
       () => {
@@ -196,7 +196,7 @@ describe('App Component', () => {
   });
 
   const enterSauna = async () => {
-    fireEvent.click(screen.getByText('音なしで入室する'));
+    fireEvent.click(screen.getByRole('button', { name: '入室する' }));
     await waitFor(() => expect(screen.getByTestId('sauna-room')).toBeInTheDocument(), { timeout: 1500 });
     // The stage changes on a timer outside act, so the shortcut listeners registered in its
     // passive effects may not be attached yet when the DOM first shows the room.
@@ -206,7 +206,7 @@ describe('App Component', () => {
   it('toggles mute and UI visibility with the M and U keys once the session has started', async () => {
     renderWithProvider(<App />);
 
-    // Before entry the audio graph does not exist yet and the entry buttons pick the mute state.
+    // Before entry the audio graph does not exist yet.
     fireEvent.keyDown(document.body, { key: 'm' });
     expect(mockAudioEngine.setMuted).not.toHaveBeenCalled();
 
@@ -214,9 +214,8 @@ describe('App Component', () => {
     const container = screen.getByLabelText('景色だけ見る').closest('.app-container');
 
     fireEvent.keyDown(document.body, { key: 'm' });
-    expect(mockAudioEngine.setMuted).toHaveBeenLastCalledWith(false);
-    fireEvent.click(screen.getByLabelText('音の設定'));
-    expect(screen.getByRole('button', { name: 'ミュート' })).toBeInTheDocument();
+    expect(mockAudioEngine.setMuted).toHaveBeenLastCalledWith(true);
+    expect(screen.getByRole('button', { name: 'ミュート解除' })).toBeInTheDocument();
 
     fireEvent.keyDown(document.body, { key: 'u' });
     expect(container).toHaveClass('ui-hidden');
@@ -277,7 +276,7 @@ describe('App Component', () => {
 
     it('toggles fullscreen with the F key, including on the start screen', async () => {
       renderWithProvider(<App />);
-      expect(screen.getByText('全画面')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '全画面表示' })).toHaveAttribute('aria-keyshortcuts', 'F');
 
       fireEvent.keyDown(document.body, { key: 'f' });
       expect(requestFullscreen).toHaveBeenCalledTimes(1);

@@ -197,7 +197,6 @@ for (const name of names) {
     await context.addInitScript((q) => {
       try {
         localStorage.setItem('sui-quality', q);
-        localStorage.setItem('sui-guide-dismissed', 'yes');
       } catch {}
     }, quality);
     await context.addInitScript(hook);
@@ -208,8 +207,8 @@ for (const name of names) {
     const row = { browser: name, quality, run, stages: [] };
     const started = Date.now();
     try {
-      await page.goto(`${base}?view=3d&frameRate=full`);
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.goto(`${base}?sound=off&quality&view=3d&frameRate=full`);
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       // Ready (the garden settled either way), or SceneMode's status says it fell back to 2D.
       let outcome = 'pending';
       for (const until = Date.now() + 60_000; outcome === 'pending' && Date.now() < until;) {

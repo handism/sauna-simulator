@@ -8,6 +8,8 @@ interface IconButtonProps {
   className?: string;
   /** アイコンの横に文字でも出す（名前と同じ文字にする） */
   showLabel?: boolean;
+  /** 入室後にアイコンの下へ添える短い名前 */
+  shortLabel?: string;
   children: ReactNode;
 }
 
@@ -18,6 +20,7 @@ function IconButton({
   onClick,
   className = 'icon-btn',
   showLabel = false,
+  shortLabel,
   children,
 }: IconButtonProps) {
   return (
@@ -26,7 +29,7 @@ function IconButton({
       className={className}
       onClick={onClick}
       aria-label={label}
-      data-short-label={className.includes('ui-toggle-btn') ? '景色' : undefined}
+      data-short-label={shortLabel}
       aria-pressed={pressed}
       aria-keyshortcuts={shortcut}
       title={`${label} (${shortcut})`}
@@ -60,6 +63,7 @@ export function UiToggleButton({ isUiHidden, onToggle }: { isUiHidden: boolean; 
       pressed={isUiHidden}
       onClick={onToggle}
       className="icon-btn ui-toggle-btn"
+      shortLabel="景色"
       // 隠している間は戻し方を文字でも示す（目のアイコンだけでは意味が取りにくい）
       showLabel={isUiHidden}
     >
@@ -80,7 +84,14 @@ export function UiToggleButton({ isUiHidden, onToggle }: { isUiHidden: boolean; 
 
 export function MuteButton({ isMuted, onToggle }: { isMuted: boolean; onToggle: () => void }) {
   return (
-    <IconButton label={isMuted ? 'ミュート解除' : 'ミュート'} shortcut="M" pressed={isMuted} onClick={onToggle}>
+    <IconButton
+      label={isMuted ? 'ミュート解除' : 'ミュート'}
+      shortcut="M"
+      pressed={isMuted}
+      onClick={onToggle}
+      className="icon-btn mute-btn"
+      shortLabel="音"
+    >
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
       {isMuted ? (
         <>
@@ -97,7 +108,7 @@ export function MuteButton({ isMuted, onToggle }: { isMuted: boolean; onToggle: 
   );
 }
 
-// 使う頻度が低いため、右上のアイコンではなく表示設定の中に置く。F キーは常に使える
+// 使う頻度が低いため、右上のアイコンではなく設定の中に置く。F キーは常に使える
 export function FullscreenMenuButton({ isFullscreen, onToggle }: { isFullscreen: boolean; onToggle: () => void }) {
   return (
     <button

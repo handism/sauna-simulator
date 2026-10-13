@@ -92,23 +92,6 @@ describe('SaunaRoom', () => {
     expect(screen.queryByText('+25')).not.toBeInTheDocument();
   });
 
-  it('closes the first-visit guide for good after the first Löyly', () => {
-    localStorage.removeItem('sui-guide-dismissed');
-    const { unmount } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
-    expect(screen.getByText('ロウリュで石に水をかけ、蒸気を楽しめます。')).toBeInTheDocument();
-
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: /^ロウリュ$/ }));
-    });
-    expect(screen.queryByText('ロウリュで石に水をかけ、蒸気を楽しめます。')).not.toBeInTheDocument();
-    expect(localStorage.getItem('sui-guide-dismissed')).toBe('yes');
-
-    unmount();
-    render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
-    expect(screen.queryByText('ロウリュで石に水をかけ、蒸気を楽しめます。')).not.toBeInTheDocument();
-    localStorage.removeItem('sui-guide-dismissed');
-  });
-
   it('shows the elapsed time against the suggested stay', () => {
     const { container } = render(<SaunaRoom audio={mockAudioEngine as any} onNext={mockOnNext} />);
     const value = container.querySelector('.stay-timer-value');

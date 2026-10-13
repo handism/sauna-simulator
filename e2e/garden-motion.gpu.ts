@@ -133,8 +133,8 @@ for (const [index, variant] of ['original', 'candidate', 'candidate', 'original'
         (window as unknown as Measured).suiPointerId = event.pointerId;
       });
     });
-    await page.goto('?view=3d&resolution=fixed&frameRate=full');
-    await page.getByRole('button', { name: '音なしで入室する' }).click();
+    await page.goto('?sound=off&quality&view=3d&resolution=fixed&frameRate=full');
+    await page.getByRole('button', { name: '入室する', exact: true }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
     await chooseSceneSetting(page, '3Dの画質', 'standard');
@@ -187,8 +187,8 @@ for (const [index, variant] of ['original', 'candidate', 'candidate', 'original'
         localStorage.setItem('sui-lighting-mode', 'day');
       });
       await loader.addInitScript(recordCallbacks);
-      await loader.goto('?view=3d&resolution=fixed&frameRate=full');
-      await loader.getByRole('button', { name: '音なしで入室する' }).click();
+      await loader.goto('?sound=off&quality&view=3d&resolution=fixed&frameRate=full');
+      await loader.getByRole('button', { name: '入室する', exact: true }).click();
       const element = loader.locator('.sauna-3d-canvas');
       await expect(element).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
       await expect(element).toHaveAttribute('data-quality', 'standard');

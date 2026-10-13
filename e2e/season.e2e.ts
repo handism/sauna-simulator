@@ -12,10 +12,10 @@ test('3D autumn persists, changes the outdoor view and restores summer without r
     if (request.url().endsWith('.glb')) models.push(request.url());
   });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('?view=3d&frameRate=full&resolution=fixed');
+  await page.goto('?sound=off&quality&view=3d&frameRate=full&resolution=fixed');
   await chooseSceneSetting(page, '3Dの季節', 'autumn');
   await chooseSceneSetting(page, '3Dの時間帯', 'day');
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 40_000 });
@@ -53,12 +53,14 @@ for (const season of ['winter', 'spring'] as const) {
         if (request.url().endsWith('.glb')) models.push(request.url());
       });
       await page.emulateMedia({ reducedMotion: 'reduce' });
-      await page.goto(`?view=3d&frameRate=full&resolution=fixed${quality === 'high' ? '&warmup=split' : ''}`);
+      await page.goto(
+        `?sound=off&quality&view=3d&frameRate=full&resolution=fixed${quality === 'high' ? '&warmup=split' : ''}`,
+      );
       await chooseSceneSetting(page, '3Dの画質', quality);
       await chooseSceneSetting(page, '天気', 'clear');
       await chooseSceneSetting(page, '3Dの季節', season);
       await chooseSceneSetting(page, '3Dの時間帯', 'day');
-      await page.getByRole('button', { name: '音なしで入室する' }).click();
+      await page.getByRole('button', { name: '入室する', exact: true }).click();
       const scene = page.locator('.sauna-3d-canvas');
       const canvas = scene.locator('canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 40_000 });
@@ -114,8 +116,8 @@ test('a delayed garden uses the latest spring selection without resetting the bo
     await gate;
     await route.continue();
   });
-  await page.goto('?view=3d&frameRate=full');
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto('?sound=off&quality&view=3d&frameRate=full');
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
   await expect(scene).toHaveAttribute('data-garden', 'loading');

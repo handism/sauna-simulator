@@ -18,10 +18,9 @@ async function enter(page: Page, errors: string[]) {
       while (performance.now() < end);
       return (read as (...a: unknown[]) => void).apply(this, args);
     };
-    localStorage.setItem('sui-guide-dismissed', 'yes');
   });
-  await page.goto('?view=3d&warmup=split&frameRate=full');
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.goto('?sound=off&quality&view=3d&warmup=split&frameRate=full');
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   await expect(scene(page)).toHaveAttribute('data-warmup', 'split');
 }
 async function ready(page: Page) {
@@ -68,7 +67,7 @@ for (const part of ['body', 'garden'] as const) {
     ).toBe(true);
     expect(requests.filter((url) => url.endsWith('/sauna.glb'))).toHaveLength(1);
     expect(requests.filter((url) => url.endsWith('/sauna-garden.glb'))).toHaveLength(1);
-    await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+    await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
     expect(errors).toEqual([]);
     await info.attach('warmup-lighting', {
       contentType: 'application/json',
@@ -141,7 +140,7 @@ test('2D while the body warms, then context loss while the garden warms, keep th
   expect(lost).toBe(true);
   await expect(page.getByRole('status')).toContainText('2Dで続けています');
   await expect(scene(page)).toHaveCount(0);
-  await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+  await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
   await switchSceneMode(page, '2Dに切り替え');
   await switchSceneMode(page, '3Dを試す');
   await ready(page);

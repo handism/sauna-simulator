@@ -6,8 +6,8 @@ test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, reducedMotion:
 test('touch look survives a second finger and cancellation; controls remain tappable', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('?view=3d&frameRate=full');
-  await page.getByRole('button', { name: '音なしで入室する' }).tap();
+  await page.goto('?sound=off&view=3d&frameRate=full');
+  await page.getByRole('button', { name: '入室する', exact: true }).tap();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
   await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 20_000 });
@@ -74,7 +74,7 @@ test('touch look survives a second finger and cancellation; controls remain tapp
   expect(await original!.evaluate((element) => element === document.querySelector('.sauna-3d-canvas canvas'))).toBe(
     true,
   );
-  await expect(page.locator('.sound-control')).toHaveAttribute('data-muted', 'true');
+  await expect(page.locator('.mute-btn')).toHaveAttribute('aria-pressed', 'true');
   await switchSceneMode(page, '2Dに切り替え', true);
   await expect(scene).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'サウナルーム' })).toBeVisible();

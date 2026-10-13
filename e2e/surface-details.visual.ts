@@ -11,10 +11,10 @@ test('deck and stone close views render through lighting changes', async ({ page
   page.on('console', (message) => {
     if (message.type() === 'error') errors.push(message.text());
   });
-  await page.goto('?view=3d&resolution=fixed&frameRate=full');
+  await page.goto('?sound=off&quality&view=3d&resolution=fixed&frameRate=full');
   await chooseSceneSetting(page, '3Dの画質', 'high');
   await chooseSceneSetting(page, '3Dの時間帯', 'day');
-  await page.getByRole('button', { name: '音なしで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 40_000 });
   await expect(scene).toHaveAttribute('data-quality', 'high');

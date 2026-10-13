@@ -84,7 +84,7 @@ const CoolingBath = ({ initialHeartRate, setNumber = 1, onNext, onFinish }: Cool
         <h2 className="cooling-title" tabIndex={-1}>
           水風呂
         </h2>
-        <p>{COOLING_CONFIG.WATER_TEMP}°Cの水の音に、耳を澄ませて。</p>
+        <p>水温 {COOLING_CONFIG.WATER_TEMP}°C</p>
       </header>
       <StageDock onFinish={onFinish} className="cooling-panel">
         <StayTimer seconds={seconds} targetSeconds={STAY_TARGET_SECONDS.WATER} />

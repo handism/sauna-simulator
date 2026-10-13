@@ -60,7 +60,7 @@ const spatialPose = (page: Page) =>
 async function rounds(page: Page, query: string, between?: () => Promise<void>) {
   await page.addInitScript(observeAudioNodes);
   await page.goto(query);
-  await page.getByRole('button', { name: '音ありで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   const heading = page.getByRole('heading', { name: 'サウナルーム' });
   await expect(heading).toBeVisible();
   // Fades out over 1.2 s; a loyly sounds for 2 s.
@@ -145,16 +145,16 @@ test('the 3D scene and its regeneration add no audio nodes', async ({ page }, in
 test('finishing fades and stops every ambient source before a fresh session', async ({ page }) => {
   await page.addInitScript(observeAudioNodes);
   await page.goto('?view=2d');
-  await page.getByRole('button', { name: '音ありで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   await expect.poll(async () => (await nodes(page)).playing).toBe(1);
   await page.getByRole('button', { name: '水風呂へ' }).click();
   await page.getByRole('button', { name: '外気浴へ' }).click();
   await expect.poll(async () => (await nodes(page)).playing).toBe(4);
   await page.getByRole('button', { name: '体験を終える' }).click();
-  await expect(page.getByRole('heading', { name: '今日のひと息' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'おつかれさまでした' })).toBeVisible();
   await expect.poll(async () => (await nodes(page)).playing).toBe(0);
   await page.getByRole('button', { name: 'トップに戻る' }).click();
-  await page.getByRole('button', { name: '音ありで入室する' }).click();
+  await page.getByRole('button', { name: '入室する', exact: true }).click();
   await expect.poll(async () => (await nodes(page)).playing).toBe(1);
   expect((await nodes(page)).contexts).toBe(1);
 });
