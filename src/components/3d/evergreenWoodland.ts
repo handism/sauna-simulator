@@ -4,7 +4,7 @@ import * as THREE from 'three';
 export const EVERGREEN_SHARE = 0.35;
 /** Evergreen crowns are a deeper, cooler green than the deciduous summer tones. */
 const EVERGREEN_TINT = new THREE.Color(0.58, 0.7, 0.6);
-const WOODLAND_CARD = /^V6 woodland leaf \d+ card$/;
+export const WOODLAND_CARD = /^V6 woodland leaf \d+ card$/;
 
 /**
  * A choice by the trunk's position (to 10cm, so rounding in the base does not flip it) that survives
@@ -18,7 +18,7 @@ export function isEvergreenTree(x: number, z: number) {
 }
 
 /** The base (mean of the lowest 0.3m) of every bark piece rising more than 2m from near the ground. */
-function trunkBases(root: THREE.Object3D) {
+export function trunkBases(root: THREE.Object3D) {
   const bases: THREE.Vector2[] = [];
   const p = new THREE.Vector3();
   root.traverse((object) => {
@@ -71,6 +71,31 @@ function trunkBases(root: THREE.Object3D) {
   return bases;
 }
 
+/**
+ * The nearest of the trunk bases to a point on the ground and its squared distance, or -1 past 5m.
+ * Trunks go in 5m cells: a card's nearest trunk within 5m is in its cell or the eight around it.
+ */
+export function trunkFinder(trunks: THREE.Vector2[]) {
+  const cells = new Map<string, number[]>();
+  const cellOf = (x: number, z: number) => `${Math.floor(x / 5)},${Math.floor(z / 5)}`;
+  trunks.forEach((base, i) => {
+    const key = cellOf(base.x, base.y);
+    cells.set(key, [...(cells.get(key) ?? []), i]);
+  });
+  return (x: number, z: number) => {
+    let nearest = -1;
+    let best = Infinity;
+    const [cx, cz] = [Math.floor(x / 5), Math.floor(z / 5)];
+    for (let dx = -1; dx <= 1; dx++)
+      for (let dz = -1; dz <= 1; dz++)
+        for (const i of cells.get(`${cx + dx},${cz + dz}`) ?? []) {
+          const d = (trunks[i].x - x) ** 2 + (trunks[i].y - z) ** 2;
+          if (d < best) [best, nearest] = [d, i];
+        }
+    return [nearest, best] as const;
+  };
+}
+
 /** The listed vertices and the triangles among them, as a compact indexed geometry. */
 function subset(geometry: THREE.BufferGeometry, vertices: number[], triangles: number[]) {
   const remap = new Map<number, number>();
@@ -104,25 +129,7 @@ export function splitEvergreenWoodland(root: THREE.Object3D) {
   const trunks = trunkBases(root);
   const chosen = trunks.map((base) => isEvergreenTree(base.x, base.y));
   if (!chosen.some(Boolean)) return 0;
-  // Trunks in 5m cells: a card's nearest trunk within 5m is in its cell or the eight around it.
-  const cells = new Map<string, number[]>();
-  const cellOf = (x: number, z: number) => `${Math.floor(x / 5)},${Math.floor(z / 5)}`;
-  trunks.forEach((base, i) => {
-    const key = cellOf(base.x, base.y);
-    cells.set(key, [...(cells.get(key) ?? []), i]);
-  });
-  const nearestTrunk = (x: number, z: number) => {
-    let nearest = -1;
-    let best = Infinity;
-    const [cx, cz] = [Math.floor(x / 5), Math.floor(z / 5)];
-    for (let dx = -1; dx <= 1; dx++)
-      for (let dz = -1; dz <= 1; dz++)
-        for (const i of cells.get(`${cx + dx},${cz + dz}`) ?? []) {
-          const d = (trunks[i].x - x) ** 2 + (trunks[i].y - z) ** 2;
-          if (d < best) [best, nearest] = [d, i];
-        }
-    return [nearest, best] as const;
-  };
+  const nearestTrunk = trunkFinder(trunks);
   const meshes: THREE.Mesh[] = [];
   root.traverse((object) => {
     if (
@@ -168,6 +175,8 @@ export function splitEvergreenWoodland(root: THREE.Object3D) {
     const material = mesh.material as THREE.MeshStandardMaterial;
     const evergreenMaterial = material.clone();
     evergreenMaterial.name = `${material.name} evergreen`;
+    // Material.copy leaves the defines behind (crownNormals.ts marks the cards before the split).
+    if (material.defines) evergreenMaterial.defines = { ...material.defines };
     evergreenMaterial.color.multiply(EVERGREEN_TINT);
     const crowns = new THREE.Mesh(subset(geometry, move.vertices, move.triangles), evergreenMaterial);
     crowns.name = `${mesh.name} evergreen`;

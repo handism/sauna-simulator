@@ -1,11 +1,12 @@
 import * as THREE from 'three';
+import { TURNS_TO_VIEWER } from './crownNormals';
 
 // Restrict the treatment to existing outdoor surfaces, timber, the garden accents' shrubs and the
 // ferns and evergreen crowns (which stood bright green on the white ground otherwise). The timber
 // shader excludes the sheltered room/terrace by position; water, glass, towels,
 // lamps and pool tiles never receive the extension.
 export function receivesWinterSnow(name: string) {
-  return /moss|woodland earth|garden gravel|tree bark|mineral charcoal stone|pale mineral paving|quiet honed stone|outdoor ash|warm open-grain timber|garden evergreen foliage|fern \d|card evergreen$/i.test(
+  return /moss|woodland earth|garden gravel|tree bark|mineral charcoal stone|pale mineral paving|quiet honed stone|outdoor ash|locally damp ash|warm open-grain timber|garden evergreen foliage|fern \d|card evergreen$/i.test(
     name,
   );
 }
@@ -39,7 +40,7 @@ float suiSnowFiltered(vec2 p) {
 const SNOW = /* glsl */ `
   vec3 suiSnowP = vSuiSnowPosition;
   float suiSnowUp = normalize(vSuiSnowNormal).y;
-  #ifdef DOUBLE_SIDED
+  #if ${TURNS_TO_VIEWER}
   suiSnowUp *= gl_FrontFacing ? 1.0 : -1.0;
   #endif
   float suiSnowGrain = sin(suiSnowP.x * 3.1 + sin(suiSnowP.z * 2.7)) * sin(suiSnowP.z * 4.3);
@@ -52,7 +53,12 @@ const SNOW = /* glsl */ `
   float suiSnowCover = smoothstep(0.42, 0.88, suiSnowUp + suiSnowGrain * 0.07 + (suiSnowDrift - 0.5) * 0.2);
   // Preserve the sauna, pool and sheltered deck; their roof tops remain eligible.
   bool suiSheltered = suiSnowP.x > -7.1 && suiSnowP.x < 7.1 && suiSnowP.z > -5.3 && suiSnowP.z < 2.9 && suiSnowP.y < 3.35;
-  suiSnowCover *= suiSheltered ? 0.0 : suiWinterSnow;
+  // The deck runs on past the roofs' edge (z 0.74) to 2.84 under the open sky. Bare to its edge, it
+  // met the white garden in a hard line: there, snow lies in crisp drifts along the outer meter (the
+  // walked middle kept clear; a soft, partial cover read as stains on the boards).
+  float suiOpenDeck = suiSnowP.y < 0.5 ? smoothstep(1.7, 2.75, suiSnowP.z) : 0.0;
+  suiOpenDeck = smoothstep(0.42, 0.5, suiOpenDeck * 0.75 + (suiSnowFiltered(suiSnowP.xz * 2.2 + 4.1) - 0.5) * 0.35 + (suiSnowDrift - 0.5) * 0.3);
+  suiSnowCover *= (suiSheltered ? suiOpenDeck : 1.0) * suiWinterSnow;
   #ifdef SUI_SNOW_DUSTING
   // Fronds hold only a dusting in clumps; fully covered they read as white cut-outs.
   suiSnowCover *= 0.1 + 0.35 * smoothstep(0.35, 0.75, suiSnowFiltered(suiSnowP.xz * 7.0));

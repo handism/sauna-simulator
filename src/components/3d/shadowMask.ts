@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TURNS_TO_VIEWER } from './crownNormals';
 import './softShadows';
 import { cutoutOf, PREPASS_LAYER, takesPrepassDepth } from './depthPrepass';
 import { LEAF_COVERAGE_GLSL } from './leafCluster';
@@ -90,7 +91,7 @@ void main() {
 	vec3 geometryPosition = - vViewPosition;
 	${discard}
 	vec3 normal = normalize( vSuiNormal );
-	#ifdef DOUBLE_SIDED
+	#if ${TURNS_TO_VIEWER}
 	normal *= gl_FrontFacing ? 1.0 : - 1.0;
 	#endif
 	float suiShadow[ ${MASK_SLOTS} ];
@@ -209,7 +210,7 @@ float suiMaskFactor( int slot ) {
 export const MASK_LOAD = /* glsl */ `
 #if defined( SUI_SHADOW_MASK ) && defined( USE_SHADOWMAP )
 vec3 suiMaskNormal = normalize( vNormal );
-#ifdef DOUBLE_SIDED
+#if ${TURNS_TO_VIEWER}
 suiMaskNormal *= gl_FrontFacing ? 1.0 : - 1.0;
 #endif
 suiLoadShadowMask( vViewPosition.z, fwidth( vViewPosition.z ), suiMaskNormal );
@@ -279,6 +280,7 @@ function maskMaterial(side: THREE.Side, level?: string, waterBottom = false, cut
     defines: {
       ...(level === undefined ? {} : { SUI_REFRACTION: level, ...(waterBottom ? { SUI_WATER_BOTTOM: '' } : {}) }),
       ...(cutout ? { SUI_CUTOUT: '' } : {}),
+      ...(cutout?.defines?.SUI_CROWN_NORMAL === undefined ? {} : { SUI_CROWN_NORMAL: '' }),
     },
     lights: true,
     side,

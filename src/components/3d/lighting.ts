@@ -92,6 +92,13 @@ export const RAIN_DESATURATION = 0.55;
 export const CLEAR_DAY_SUN = 2.2;
 export const CLEAR_DAY_EXPOSURE = -0.1;
 
+/**
+ * Exposure added (stops) by day while snow lies on the ground (the winter season): an eye or camera
+ * adapts to the bright field. At the day's exposure the snow sat on the tone curve's shoulder, a
+ * flat white in which neither the ground's relief nor the drifts showed.
+ */
+export const SNOW_GROUND_EXPOSURE = -0.35;
+
 /** Exposure added (stops), as an eye or camera adapts to the darker overcast. */
 export const RAIN_EXPOSURE = [0.9, 0.3, 0.1];
 /** Overcast sky radiance (linear) at its base; slightly blue grey. */
@@ -307,8 +314,11 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     get overcast() {
       return overcast;
     },
-    /** `target` is the time of day (timeOfDay); `rainTarget` and `snowTarget` are 1 for that weather. */
-    update(target: number, delta: number, immediate: boolean, rainTarget = 0, snowTarget = 0) {
+    /**
+     * `target` is the time of day (timeOfDay); `rainTarget` and `snowTarget` are 1 for that weather;
+     * `groundSnow` is 1 while snow lies on the ground (applied at once, as the season's surfaces are).
+     */
+    update(target: number, delta: number, immediate: boolean, rainTarget = 0, snowTarget = 0, groundSnow = 0) {
       // Exponential smoothing is independent of frame rate; reduced motion snaps.
       const step = 1 - Math.exp(-delta / SMOOTHING_SECONDS);
       current = immediate ? target : THREE.MathUtils.lerp(current, target, step);
@@ -347,7 +357,11 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
       lounge.intensity = THREE.MathUtils.lerp((950 / Math.PI) * boost, 0, dusk) * (1 - clouds);
       for (const light of duskLights) light.intensity = light.userData.candela * dusk;
       renderer.toneMappingExposure =
-        2 ** (dot(weights, EXPOSURE) + clouds * dot(weights, RAIN_EXPOSURE) + clear * CLEAR_DAY_EXPOSURE);
+        2 **
+        (dot(weights, EXPOSURE) +
+          clouds * dot(weights, RAIN_EXPOSURE) +
+          clear * CLEAR_DAY_EXPOSURE +
+          groundSnow * weights[0] * SNOW_GROUND_EXPOSURE);
     },
   };
 }

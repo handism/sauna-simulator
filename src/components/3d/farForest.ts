@@ -5,8 +5,9 @@ import type { Season } from './season';
 // beyond): the sky showed between the woodland's thin trunks and tufts down to the horizon, so it
 // read as a few trees on bare hills rather than a wood. One unlit ring of crown silhouettes, like
 // the ridges (gardenDetails.ts): rounded broadleaf crowns and pointed evergreens (about a third),
-// tops 6–13m above y=0 so the ridges still rise above the lower stands, darker toward the
-// foot, hazed with the same air color. Each crown has its own shade; the season changes the
+// tops 5–9m above y=0, below the ridges' crest as seen from the deck (taller, the band made the
+// skyline and its smooth domes and cones read as hills and rocky peaks), with ragged leafy outlines,
+// darker toward the foot, hazed with the same air color. Each crown has its own shade; the season changes the
 // colors (autumn reds and ochres, bare grey-brown twigs in winter among the evergreens, fresh green
 // in spring) and the time of day and the overcast darken them as they do the ridges.
 
@@ -15,6 +16,8 @@ const SEGMENTS = 1440;
 /** Ground under the band (the terrain lies about 2m up out there) and the understory's top. */
 const BASE = -4;
 const UNDERSTORY = 4.5;
+/** How deep (m) the ragged foliage cuts into the outline. */
+const FRAY = 1.2;
 
 interface Crown {
   /** Angle (rad), half width (m), top (m above y=0) and per-crown shade and pick in [0, 1). */
@@ -45,11 +48,11 @@ export function farForestCrowns(): Crown[] {
     const angle = along / FAR_FOREST_RADIUS;
     const evergreen = random() < 0.35;
     // Taller stands and lower gaps over a few tens of meters, so the ridges show in places.
-    const stand = 9.5 + 2.2 * Math.sin(angle * 5 + 1.3) + 1.4 * Math.sin(angle * 13 + 0.4);
+    const stand = 7 + 1.1 * Math.sin(angle * 5 + 1.3) + 0.7 * Math.sin(angle * 13 + 0.4);
     crowns.push({
       angle,
-      radius: evergreen ? 1.3 + random() * 0.8 : 1.6 + random() * 1.4,
-      top: stand + (random() - 0.5) * 2.6,
+      radius: evergreen ? 1.1 + random() * 0.6 : 1.6 + random() * 1.4,
+      top: stand + (random() - 0.5) * 1.6,
       evergreen,
       shade: random(),
       pick: random(),
@@ -117,11 +120,14 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   const lift: number[] = [];
   // The top of the crown each quad belongs to, so every crown is lit at its top and darker below.
   const tops: number[] = [];
-  const at = (j: number, y: number, top: number) => {
+  // The outline over each vertex (Infinity under a crown): the shader frays the foliage below it.
+  const edges: number[] = [];
+  const at = (j: number, y: number, top: number, edge: number) => {
     const a = j * step;
     positions.push(Math.cos(a) * FAR_FOREST_RADIUS, y, Math.sin(a) * FAR_FOREST_RADIUS);
     lift.push(Math.max(0, Math.min(1, (y - BASE) / (UNDERSTORY - BASE))));
     tops.push(top);
+    edges.push(edge);
   };
   for (let j = 0; j < SEGMENTS; j++) {
     const top = owner[j] >= 0 ? crowns[owner[j]].top : UNDERSTORY;
@@ -133,12 +139,16 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       [UNDERSTORY, a, b],
     ] as const) {
       if (hiA <= lo && hiB <= lo) continue;
-      at(j, lo, top);
-      at(j, hiA, top);
-      at(j + 1, hiB, top);
-      at(j, lo, top);
-      at(j + 1, hiB, top);
-      at(j + 1, lo, top);
+      // The understory's top is an outline only where no crown stands over it.
+      const covered = lo === BASE && (a > UNDERSTORY || b > UNDERSTORY);
+      // A crown's side may fall below the understory's top (the quad then narrows to a triangle).
+      const [edgeA, edgeB] = covered ? [1e4, 1e4] : [Math.max(hiA, lo), Math.max(hiB, lo)];
+      at(j, lo, top, edgeA);
+      at(j, hiA, top, edgeA);
+      at(j + 1, hiB, top, edgeB);
+      at(j, lo, top, edgeA);
+      at(j + 1, hiB, top, edgeB);
+      at(j + 1, lo, top, edgeB);
     }
   }
   const geometry = new THREE.BufferGeometry();
@@ -147,6 +157,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   geometry.setAttribute('gardenLift', new THREE.Float32BufferAttribute(lift, 1));
   geometry.setAttribute('gardenCrownTop', new THREE.Float32BufferAttribute(tops, 1));
+  geometry.setAttribute('gardenEdge', new THREE.Float32BufferAttribute(edges, 1));
   // The segment of each vertex, for the seasonal recoloring.
   const segmentOf: number[] = [];
   for (let j = 0; j < SEGMENTS; j++) {
@@ -155,16 +166,19 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   }
   const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
   material.name = 'Garden far forest';
+  // The shader frays the outline with discard; an alpha test (never failed: the alpha is 1) keeps the
+  // band out of the depth prepass, whose depth would hide the sky behind the frayed edge.
+  material.alphaTest = 0.01;
   material.onBeforeCompile = (shader) => {
     shader.uniforms.gardenHazeColor = hazeColor;
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute float gardenLift;\nattribute float gardenCrownTop;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying vec3 vGardenPosition;',
+        '#include <common>\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;',
       )
       .replace(
         '#include <begin_vertex>',
-        '#include <begin_vertex>\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenPosition = position;',
+        '#include <begin_vertex>\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenPosition = position;',
       );
     shader.fragmentShader = shader.fragmentShader
       .replace(
@@ -172,6 +186,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         `#include <common>
         varying float vGardenLift;
         varying float vGardenTop;
+        varying float vGardenEdge;
         varying vec3 vGardenPosition;
         uniform vec3 gardenHazeColor;
         float gardenForestHash(vec2 p) {
@@ -185,6 +200,17 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
           return mix(mix(gardenForestHash(cell), gardenForestHash(cell + vec2(1, 0)), f.x),
             mix(gardenForestHash(cell + vec2(0, 1)), gardenForestHash(cell + vec2(1, 1)), f.x), f.y);
         }`,
+      )
+      .replace(
+        '#include <clipping_planes_fragment>',
+        `#include <clipping_planes_fragment>
+        // Ragged foliage along the outline: the smooth domes and cones read as hills and rocky
+        // peaks. Leafy masses (about 0.45m and 0.2m) cut up to ${FRAY.toFixed(1)}m into the crowns, gone
+        // where they would be finer than a pixel.
+        vec2 gardenEdgeArc = vec2(atan(vGardenPosition.z, vGardenPosition.x) * ${FAR_FOREST_RADIUS.toFixed(1)}, vGardenPosition.y);
+        float gardenFine = 1.0 - smoothstep(0.08, 0.2, max(length(dFdx(gardenEdgeArc)), length(dFdy(gardenEdgeArc))));
+        float gardenRag = gardenForestNoise(gardenEdgeArc * 2.2) * 0.65 + mix(0.5, gardenForestNoise(gardenEdgeArc * 5.0 + 7.7), gardenFine) * 0.35;
+        if (vGardenEdge - vGardenPosition.y < (gardenRag - 0.3) * ${FRAY.toFixed(1)}) discard;`,
       )
       .replace(
         '#include <color_fragment>',
@@ -201,7 +227,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v3';
+  material.customProgramCacheKey = () => 'garden-far-forest-v4';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();

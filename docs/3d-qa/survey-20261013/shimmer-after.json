@@ -1,0 +1,461 @@
+{
+ "note": "L* residual after warping frame k onto frame k+1 by the known rotation (0.004 rad of yaw per frame), mean over the pairs of a sequence. tile: |mean| over 12x12 capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, twice). relativeTo1_5: per view, the ratio to the 1.5 sequence.",
+ "quality": "standard",
+ "yawPerStep": 0.004,
+ "framesPerStep": 2,
+ "relativeTo1_5": {
+  "1.25": {
+   "pixel": {
+    "min": 0.8023,
+    "median": 0.8445,
+    "max": 0.8496
+   },
+   "tile": {
+    "min": 1.2102,
+    "median": 1.2791000000000001,
+    "max": 1.3207
+   },
+   "tileP99": {
+    "min": 1.1695,
+    "median": 1.21305,
+    "max": 1.2518
+   }
+  },
+  "1": {
+   "pixel": {
+    "min": 0.8856,
+    "median": 0.9128000000000001,
+    "max": 0.9259
+   },
+   "tile": {
+    "min": 1.5224,
+    "median": 1.56,
+    "max": 1.6125
+   },
+   "tileP99": {
+    "min": 1.4555,
+    "median": 1.48865,
+    "max": 1.5185
+   }
+  }
+ },
+ "sequences": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.6124,
+   "firstPairWrongSignPixel": 6.1335,
+   "pixel": 0.6407,
+   "tile": 0.079,
+   "tileP99": 0.7772,
+   "tripPixel": 0.3097,
+   "tripTile": 0.0087,
+   "relativeToBaseline": {
+    "pixel": 1.0314,
+    "tile": 1.0381,
+    "tileP99": 1.0602
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "ratio": 1.25,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.0544,
+   "firstPairWrongSignPixel": 5.5961,
+   "pixel": 0.5434,
+   "tile": 0.0997,
+   "tileP99": 0.9305,
+   "tripPixel": 0.1358,
+   "tripTile": 0.007,
+   "relativeToBaseline": {
+    "pixel": 1.0307,
+    "tile": 1.0385,
+    "tileP99": 1.0713
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "ratio": 1,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.8419,
+   "firstPairWrongSignPixel": 5.4098,
+   "pixel": 0.5932,
+   "tile": 0.1234,
+   "tileP99": 1.1624,
+   "tripPixel": 0.1,
+   "tripTile": 0.0047,
+   "relativeToBaseline": {
+    "pixel": 1.0254,
+    "tile": 1.0292,
+    "tileP99": 1.0456
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.4651,
+   "firstPairWrongSignPixel": 4.6473,
+   "pixel": 0.4268,
+   "tile": 0.0449,
+   "tileP99": 0.6291,
+   "tripPixel": 0.2341,
+   "tripTile": 0.0061,
+   "relativeToBaseline": {
+    "pixel": 1.104,
+    "tile": 1.1225,
+    "tileP99": 1.1752
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "ratio": 1.25,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.0847,
+   "firstPairWrongSignPixel": 4.2868,
+   "pixel": 0.3626,
+   "tile": 0.0593,
+   "tileP99": 0.7773,
+   "tripPixel": 0.105,
+   "tripTile": 0.0051,
+   "relativeToBaseline": {
+    "pixel": 1.0922,
+    "tile": 1.1168,
+    "tileP99": 1.1874
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "ratio": 1,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 2.9339,
+   "firstPairWrongSignPixel": 4.1606,
+   "pixel": 0.3947,
+   "tile": 0.0724,
+   "tileP99": 0.941,
+   "tripPixel": 0.0792,
+   "tripTile": 0.0036,
+   "relativeToBaseline": {
+    "pixel": 1.0888,
+    "tile": 1.1053,
+    "tileP99": 1.1359
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 5.718,
+   "firstPairWrongSignPixel": 7.7076,
+   "pixel": 0.7873,
+   "tile": 0.0979,
+   "tileP99": 0.9199,
+   "tripPixel": 0.3735,
+   "tripTile": 0.0104,
+   "relativeToBaseline": {
+    "pixel": 0.9562,
+    "tile": 0.9505,
+    "tileP99": 0.9218
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "ratio": 1.25,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.9358,
+   "firstPairWrongSignPixel": 6.9672,
+   "pixel": 0.664,
+   "tile": 0.1269,
+   "tileP99": 1.1515,
+   "tripPixel": 0.1534,
+   "tripTile": 0.0082,
+   "relativeToBaseline": {
+    "pixel": 0.9769,
+    "tile": 0.9709,
+    "tileP99": 0.9444
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "ratio": 1,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.6291,
+   "firstPairWrongSignPixel": 6.6818,
+   "pixel": 0.7196,
+   "tile": 0.1547,
+   "tileP99": 1.3969,
+   "tripPixel": 0.1125,
+   "tripTile": 0.0056,
+   "relativeToBaseline": {
+    "pixel": 0.9296,
+    "tile": 0.9068,
+    "tileP99": 0.8949
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.0969,
+   "firstPairWrongSignPixel": 5.5569,
+   "pixel": 0.5804,
+   "tile": 0.069,
+   "tileP99": 0.9925,
+   "tripPixel": 0.2956,
+   "tripTile": 0.0078,
+   "relativeToBaseline": {
+    "pixel": 1.0078,
+    "tile": 1.0,
+    "tileP99": 0.9582
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "ratio": 1.25,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.5979,
+   "firstPairWrongSignPixel": 5.0809,
+   "pixel": 0.4908,
+   "tile": 0.09,
+   "tileP99": 1.2197,
+   "tripPixel": 0.1231,
+   "tripTile": 0.0063,
+   "relativeToBaseline": {
+    "pixel": 1.0337,
+    "tile": 1.0345,
+    "tileP99": 0.9795
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "ratio": 1,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.4012,
+   "firstPairWrongSignPixel": 4.9085,
+   "pixel": 0.5291,
+   "tile": 0.1075,
+   "tileP99": 1.4706,
+   "tripPixel": 0.0909,
+   "tripTile": 0.0044,
+   "relativeToBaseline": {
+    "pixel": 1.0968,
+    "tile": 1.1003,
+    "tileP99": 1.063
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.4822,
+   "firstPairWrongSignPixel": 4.7122,
+   "pixel": 0.5771,
+   "tile": 0.0804,
+   "tileP99": 0.9148,
+   "tripPixel": 0.2742,
+   "tripTile": 0.0072,
+   "relativeToBaseline": {
+    "pixel": 1.0173,
+    "tile": 1.0126,
+    "tileP99": 0.9832
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "ratio": 1.25,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 2.9801,
+   "firstPairWrongSignPixel": 4.2228,
+   "pixel": 0.463,
+   "tile": 0.0973,
+   "tileP99": 1.0699,
+   "tripPixel": 0.117,
+   "tripTile": 0.006,
+   "relativeToBaseline": {
+    "pixel": 1.0151,
+    "tile": 1.0083,
+    "tileP99": 0.9696
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "ratio": 1,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 2.8052,
+   "firstPairWrongSignPixel": 4.0578,
+   "pixel": 0.5111,
+   "tile": 0.1224,
+   "tileP99": 1.344,
+   "tripPixel": 0.0819,
+   "tripTile": 0.0039,
+   "relativeToBaseline": {
+    "pixel": 1.0083,
+    "tile": 1.0049,
+    "tileP99": 0.9787
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.0257,
+   "firstPairWrongSignPixel": 4.2501,
+   "pixel": 0.4921,
+   "tile": 0.0669,
+   "tileP99": 0.9025,
+   "tripPixel": 0.2512,
+   "tripTile": 0.0067,
+   "relativeToBaseline": {
+    "pixel": 1.013,
+    "tile": 0.9985,
+    "tileP99": 0.9588
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "ratio": 1.25,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 2.6657,
+   "firstPairWrongSignPixel": 3.8881,
+   "pixel": 0.3979,
+   "tile": 0.0823,
+   "tileP99": 1.0768,
+   "tripPixel": 0.1076,
+   "tripTile": 0.0055,
+   "relativeToBaseline": {
+    "pixel": 0.9721,
+    "tile": 0.9416,
+    "tileP99": 0.8843
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "ratio": 1,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 2.53,
+   "firstPairWrongSignPixel": 3.7632,
+   "pixel": 0.4369,
+   "tile": 0.1029,
+   "tileP99": 1.3136,
+   "tripPixel": 0.0782,
+   "tripTile": 0.0037,
+   "relativeToBaseline": {
+    "pixel": 1.0215,
+    "tile": 1.0088,
+    "tileP99": 0.965
+   }
+  }
+ ],
+ "relativeToBaseline": {
+  "baseline": "/private/tmp/claude-501/-Users-mac-git-sauna-simulator/03463da9-7b61-420f-a7a7-581737e81b3d/scratchpad/shimmer-rec/shimmer.json",
+  "baselineRatio": null,
+  "byRatio": {
+   "1.5": {
+    "pixel": {
+     "min": 0.9562,
+     "median": 1.01515,
+     "max": 1.104
+    },
+    "tile": {
+     "min": 0.9505,
+     "median": 1.0063,
+     "max": 1.1225
+    },
+    "tileP99": {
+     "min": 0.9218,
+     "median": 0.971,
+     "max": 1.1752
+    }
+   },
+   "1.25": {
+    "pixel": {
+     "min": 0.9721,
+     "median": 1.0229,
+     "max": 1.0922
+    },
+    "tile": {
+     "min": 0.9416,
+     "median": 1.0213999999999999,
+     "max": 1.1168
+    },
+    "tileP99": {
+     "min": 0.8843,
+     "median": 0.97455,
+     "max": 1.1874
+    }
+   },
+   "1": {
+    "pixel": {
+     "min": 0.9296,
+     "median": 1.02345,
+     "max": 1.0968
+    },
+    "tile": {
+     "min": 0.9068,
+     "median": 1.019,
+     "max": 1.1053
+    },
+    "tileP99": {
+     "min": 0.8949,
+     "median": 1.01215,
+     "max": 1.1359
+    }
+   }
+  }
+ }
+}

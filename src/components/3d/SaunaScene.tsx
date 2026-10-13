@@ -12,6 +12,7 @@ import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { createSteam, LIFETIME_SECONDS } from './steam';
 import { addGardenDetails } from './gardenDetails';
+import { roundWoodlandCrowns } from './crownNormals';
 import { splitEvergreenWoodland } from './evergreenWoodland';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
@@ -113,6 +114,7 @@ export default function SaunaScene({
     const targetTime = () => timeOfDay(lightingRef.current, (Date.now() - enteredAtRef.current) / 1000);
     const targetRain = () => (weatherRef.current === 'rain' ? 1 : 0);
     const targetSnow = () => (weatherRef.current === 'snow' ? 1 : 0);
+    const groundSnow = () => (seasonRef.current === 'winter' ? 1 : 0);
     // Metrics for browser tests. Skip unchanged values so the render loop does not mutate the DOM every frame.
     const setData = (key: string, value: string) => {
       if (element.dataset[key] !== value) element.dataset[key] = value;
@@ -422,7 +424,7 @@ export default function SaunaScene({
           resolution?.settle();
           metrics.reset();
           setData('stage', next);
-          lighting.update(targetTime(), 0, true, targetRain(), targetSnow());
+          lighting.update(targetTime(), 0, true, targetRain(), targetSnow(), groundSnow());
           try {
             recordRenderInfo(draw());
           } catch {
@@ -444,7 +446,7 @@ export default function SaunaScene({
           const entry = stageRef.current;
           const saved = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), fov: camera.fov };
           look.cancel();
-          lighting.update(targetTime(), 0, true, targetRain(), targetSnow());
+          lighting.update(targetTime(), 0, true, targetRain(), targetSnow(), groundSnow());
           warming = true;
           setData('warming', part);
           const run = startSceneWarmup(
@@ -580,6 +582,7 @@ export default function SaunaScene({
               return;
             }
             gardenScenes.push(woodland);
+            setData('roundedCrownCards', String(roundWoodlandCrowns(woodland)));
             setData('evergreenTrees', String(splitEvergreenWoodland(woodland)));
             if (prepare(woodland)) throw Error('Garden under water');
             count('prepassMeshes', prepass.add(woodland));
@@ -658,7 +661,7 @@ export default function SaunaScene({
           setData('winterHiddenLeaves', String(seasonColors.hiddenLeaves));
           updateAudio();
           const delta = metrics.frame(now);
-          lighting.update(targetTime(), delta, reducedMotion.matches, targetRain(), targetSnow());
+          lighting.update(targetTime(), delta, reducedMotion.matches, targetRain(), targetSnow(), groundSnow());
           setData('lighting', lightingRef.current);
           setData('timeOfDay', lighting.time.toFixed(3));
           setData('weather', weatherRef.current);

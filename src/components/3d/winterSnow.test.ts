@@ -35,6 +35,8 @@ describe('settled winter snow', () => {
     expect(receivesWinterSnow('V9 | layered living moss')).toBe(true);
     expect(receivesWinterSnow('Garden evergreen foliage')).toBe(true);
     expect(receivesWinterSnow('V3 | fern 2')).toBe(true);
+    // The deck's planks beyond the roofs' edge.
+    expect(receivesWinterSnow('V7 | locally damp ash.012')).toBe(true);
   });
   it('composes existing hooks and shares the mutable season uniform across shader compilations', () => {
     const material = new THREE.MeshStandardMaterial();

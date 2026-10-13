@@ -12,7 +12,8 @@ describe('far forest', () => {
     expect(evergreen).toBeLessThan(0.45);
     for (const crown of crowns) {
       expect(crown.top).toBeGreaterThan(4.5);
-      expect(crown.top).toBeLessThan(15);
+      // Below the ridges' crest as seen from the deck: taller, the band made the skyline.
+      expect(crown.top).toBeLessThan(9.5);
     }
   });
   it('rounds broadleaf crowns and points the evergreens, peaking on their axis', () => {
@@ -51,6 +52,12 @@ describe('far forest', () => {
     expect(mean(summer, 1)).toBeGreaterThan(mean(summer, 0));
     forest.update('summer', new THREE.Color(0.1, 0.2, 0.3));
     expect(Array.from(color.array)).toEqual(summer);
+    // The frayed outline over each vertex; none where a crown covers the understory's top.
+    const edge = forest.mesh.geometry.attributes.gardenEdge;
+    expect(edge.count).toBe(position.count);
+    for (let i = 0; i < position.count; i++) expect(edge.getX(i)).toBeGreaterThanOrEqual(position.getY(i) - 1e-4);
+    // Kept out of the depth prepass, whose depth would hide the sky behind the frayed edge.
+    expect((forest.mesh.material as THREE.MeshBasicMaterial).alphaTest).toBeGreaterThan(0);
     expect((forest.mesh.material as THREE.MeshBasicMaterial).color.toArray()).toEqual([0.1, 0.2, 0.3]);
   });
 });

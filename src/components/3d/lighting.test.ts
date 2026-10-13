@@ -11,6 +11,7 @@ import {
   RAIN_PROBES,
   RAIN_SKY,
   sceneWeights,
+  SNOW_GROUND_EXPOSURE,
   SPOT_COSINE,
   SUN_DIFFUSE_ONLY,
   timeOfDay,
@@ -110,6 +111,16 @@ describe('3D lighting', () => {
     lighting.update(1, 0, true);
     expect(scene.fog).toBeNull();
   });
+  it('closes the day exposure over snow-covered ground, and not at night', () => {
+    const renderer = { toneMappingExposure: 0 } as THREE.WebGLRenderer;
+    const lighting = createLighting(new THREE.Scene(), renderer);
+    lighting.update(0, 0, true, 0, 0, 1);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** (0.15 + CLEAR_DAY_EXPOSURE + SNOW_GROUND_EXPOSURE));
+    expect(SNOW_GROUND_EXPOSURE).toBeLessThan(0);
+    lighting.update(2, 0, true, 0, 0, 1);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.9);
+  });
+
   it('draws the source sky as a mesh that follows the time of day', () => {
     const scene = new THREE.Scene();
     const lighting = createLighting(scene, { toneMappingExposure: 1 } as THREE.WebGLRenderer);
