@@ -65,3 +65,5 @@
 - `weather.visual.ts` は3ステージの入室視点で、昼・夕暮れ・夜それぞれの晴れ・雨・雪を撮る（`bun run test:browser:visual weather`、動作抑制ありなので雨筋・雪片は止まった状態）。雨・雪の近似の目視確認用で、Cyclesとの比較や基準画像の照合ではない。
 
 - `garden-stream.visual.ts` は外気浴・昼の時刻を0/500/1000msの相対差で固定し、各70フレーム整定後に通常／動作抑制の水辺を撮影する。実時間動画ではなく、周囲の草も含むので流水単体の差分やちらつき・FPSの証明にはしない。
+
+- 水辺の時刻固定撮影は `STREAM_QUALITY=high` で高画質・DPR2（既定standard・DPR1）。URLで入室前に画質を指定し、実際のquality/pixelRatioを確認する。水辺／見回しの添付にはChrome等のブラウザー版を記録し、見回しもconsole errorを失敗扱いにする。

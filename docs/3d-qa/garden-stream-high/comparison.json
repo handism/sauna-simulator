@@ -1,0 +1,161 @@
+{
+  "note": "High quality; display DPR2; after/before in same Chrome patch version, one capture each. Full-image L* residual, not isolated stream or perceptual flicker.",
+  "byRenderRatio": {
+    "2": {
+      "pixel": {
+        "min": 0.9972,
+        "median": 1.0018,
+        "max": 1.0083
+      },
+      "tile": {
+        "min": 0.9979,
+        "median": 1.00205,
+        "max": 1.0108
+      },
+      "tileP99": {
+        "min": 0.996,
+        "median": 0.99975,
+        "max": 1.0096
+      }
+    },
+    "1.5": {
+      "pixel": {
+        "min": 0.9907,
+        "median": 0.9993,
+        "max": 1.0049
+      },
+      "tile": {
+        "min": 0.9885,
+        "median": 0.9991000000000001,
+        "max": 1.0058
+      },
+      "tileP99": {
+        "min": 0.9755,
+        "median": 0.99905,
+        "max": 1.0017
+      }
+    }
+  },
+  "sequences": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "ratio": 2,
+      "afterOverBefore": {
+        "pixel": 1.0017,
+        "tile": 1.0019,
+        "tileP99": 0.9979
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "ratio": 1.5,
+      "afterOverBefore": {
+        "pixel": 1.001,
+        "tile": 1.0013,
+        "tileP99": 0.9996
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "ratio": 2,
+      "afterOverBefore": {
+        "pixel": 1.0054,
+        "tile": 1.0108,
+        "tileP99": 1.0096
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "ratio": 1.5,
+      "afterOverBefore": {
+        "pixel": 0.9907,
+        "tile": 0.9885,
+        "tileP99": 0.9755
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "ratio": 2,
+      "afterOverBefore": {
+        "pixel": 1.0083,
+        "tile": 1.0085,
+        "tileP99": 1.0055
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "ratio": 1.5,
+      "afterOverBefore": {
+        "pixel": 1.0032,
+        "tile": 1.003,
+        "tileP99": 1.0017
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "ratio": 2,
+      "afterOverBefore": {
+        "pixel": 0.9972,
+        "tile": 0.9979,
+        "tileP99": 0.9969
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "ratio": 1.5,
+      "afterOverBefore": {
+        "pixel": 1.0049,
+        "tile": 1.0058,
+        "tileP99": 1.0004
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "ratio": 2,
+      "afterOverBefore": {
+        "pixel": 0.9986,
+        "tile": 0.9982,
+        "tileP99": 0.996
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "ratio": 1.5,
+      "afterOverBefore": {
+        "pixel": 0.9943,
+        "tile": 0.9935,
+        "tileP99": 0.9899
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "ratio": 2,
+      "afterOverBefore": {
+        "pixel": 1.0019,
+        "tile": 1.0022,
+        "tileP99": 1.0016
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "ratio": 1.5,
+      "afterOverBefore": {
+        "pixel": 0.9976,
+        "tile": 0.9969,
+        "tileP99": 0.9985
+      }
+    }
+  ]
+}

@@ -23,10 +23,13 @@ const PX = Number(process.env.SHIMMER_PX ?? 1);
 const FRAMES = Number(process.env.SHIMMER_FRAMES ?? 2);
 const RATIOS = (process.env.SHIMMER_RATIOS ?? (QUALITY === 'high' ? '2,1.75,1.5,1.25' : '1.5,1.25,1')).split(',');
 
-test('capture the dynamic resolution steps while looking around', async ({ page }, info) => {
+test('capture the dynamic resolution steps while looking around', async ({ page, browser }, info) => {
   test.setTimeout(900_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
   await page.addInitScript(controlFrames);
   await page.goto(`?sound=off&quality&view=3d&frameRate=full${process.env.SHIMMER_QUERY ?? ''}`);
   await page.getByRole('button', { name: '入室する', exact: true }).click();
@@ -87,6 +90,10 @@ test('capture the dynamic resolution steps while looking around', async ({ page 
   expect(errors).toEqual([]);
   await info.attach('resolution-shimmer', {
     contentType: 'application/json',
-    body: JSON.stringify({ quality: QUALITY, yawPerStep: 0.004 * PX, framesPerStep: FRAMES, samples }, null, 2),
+    body: JSON.stringify(
+      { browser: browser.version(), quality: QUALITY, yawPerStep: 0.004 * PX, framesPerStep: FRAMES, samples },
+      null,
+      2,
+    ),
   });
 });
