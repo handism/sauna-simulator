@@ -79,10 +79,23 @@ describe('garden accents', () => {
     const flowers = root.getObjectByName('Garden seasonal flowers') as THREE.Mesh;
     const grass = root.getObjectByName('Garden grasses 0') as THREE.Mesh;
     const geometry = grass.geometry;
+    const stream = root.getObjectByName('Garden flowing water') as THREE.Mesh<
+      THREE.BufferGeometry,
+      THREE.MeshStandardMaterial
+    >;
+    const shader = {
+      vertexShader: THREE.ShaderLib.standard.vertexShader,
+      fragmentShader: THREE.ShaderLib.standard.fragmentShader,
+      uniforms: {},
+    } as Parameters<typeof stream.material.onBeforeCompile>[0];
+    stream.material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
     details.update(2, 'summer', 0, 'clear', false);
+    expect(shader.uniforms.gardenTime.value).toBe(2);
+    expect(stream.castShadow).toBe(false);
     expect(grass.rotation.z).not.toBe(0);
     expect(flowers.visible).toBe(true);
     details.update(9, 'winter', 2, 'snow', true);
+    expect(shader.uniforms.gardenTime.value).toBe(0);
     expect(flowers.visible).toBe(false);
     expect(grass.rotation.z).toBe(0);
     details.update(18, 'spring', 0, 'clear', true);

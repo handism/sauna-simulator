@@ -1,0 +1,31 @@
+{
+  "note": "Held timestamps, 70 settling frames each. ROI includes bank/vegetation; not isolated water or real-time motion. RGB 0-255.",
+  "roi": [
+    730,
+    535,
+    820,
+    605
+  ],
+  "samples": [
+    {
+      "kind": "flow",
+      "offsetMs": 500,
+      "meanAbsoluteRGBDifference": 0.3406349206349206
+    },
+    {
+      "kind": "flow",
+      "offsetMs": 1000,
+      "meanAbsoluteRGBDifference": 0.5788888888888889
+    },
+    {
+      "kind": "still",
+      "offsetMs": 500,
+      "meanAbsoluteRGBDifference": 0.0
+    },
+    {
+      "kind": "still",
+      "offsetMs": 1000,
+      "meanAbsoluteRGBDifference": 0.0
+    }
+  ]
+}

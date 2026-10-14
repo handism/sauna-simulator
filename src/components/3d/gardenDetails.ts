@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createFarForest } from './farForest';
+import { gardenBloomGeometry } from './gardenBloom';
+import { createGardenStream, streamSection } from './gardenStream';
 import type { Season } from './season';
 
 /** A deterministic generator in [0, 1), so every load builds the same garden. */
@@ -327,6 +329,7 @@ export function addGardenDetails(root: THREE.Object3D) {
   grass.vertexColors = true;
   const flower = material('Garden seasonal flowers', 0xd7bd82);
   flower.vertexColors = true;
+  flower.side = THREE.DoubleSide;
   const random = seeded(0x5a17);
   const range = (min: number, max: number) => min + (max - min) * random();
   const white = new THREE.Color(1, 1, 1);
@@ -353,7 +356,12 @@ export function addGardenDetails(root: THREE.Object3D) {
     // Untextured materials: every batch shares position, normal and color only.
     geometry.deleteAttribute('uv');
     const colors = new Float32Array(geometry.attributes.position.count * 3);
-    for (let i = 0; i < colors.length; i += 3) tint.toArray(colors, i);
+    const sourceColors = geometry.getAttribute('color');
+    for (let i = 0; i < colors.length; i += 3) {
+      colors[i] = tint.r * (sourceColors?.getX(i / 3) ?? 1);
+      colors[i + 1] = tint.g * (sourceColors?.getY(i / 3) ?? 1);
+      colors[i + 2] = tint.b * (sourceColors?.getZ(i / 3) ?? 1);
+    }
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     list.push(geometry);
     batches.set(mat, list);
@@ -451,56 +459,41 @@ export function addGardenDetails(root: THREE.Object3D) {
         const rise = range(0.55, 0.95);
         const reach = Math.sqrt(1 - rise * rise) * size * 1.05;
         const scale = range(0.75, 1.3);
-        const bloom = new THREE.IcosahedronGeometry(1, 0);
+        const bloom = gardenBloomGeometry();
         bloom.rotateY(a);
         bloom.rotateZ(Math.sin(a * 3) * 0.3);
+        const flowerX = px + Math.cos(a) * reach * wide;
+        const flowerY = y + 0.12 + rise * size * tall;
+        const flowerZ = pz + Math.sin(a) * reach * deep;
+        const start = new THREE.Vector3(px, y + 0.05, pz);
+        const end = new THREE.Vector3(flowerX, flowerY, flowerZ);
+        const stem = new THREE.CylinderGeometry(0.0025, 0.005, start.distanceTo(end), 3, 1);
+        stem.applyQuaternion(
+          new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), end.clone().sub(start).normalize()),
+        );
+        const midpoint = start.add(end).multiplyScalar(0.5);
+        add(stem, shrub, midpoint.x, midpoint.y, midpoint.z, 1, 1, 1, plant.clone().multiplyScalar(0.65));
         add(
           bloom,
           flower,
-          px + Math.cos(a) * reach * wide,
-          y + 0.12 + rise * size * tall,
-          pz + Math.sin(a) * reach * deep,
+          flowerX,
+          flowerY,
+          flowerZ,
           0.07 * scale,
-          0.025 * scale,
-          0.06 * scale,
+          0.07 * scale,
+          0.07 * scale,
           new THREE.Color().setScalar(range(0.86, 1.1)),
         );
       }
     }
   }
-  // A shallow, stone-lined runnel alongside the path. Each ribbon section follows the terrain.
-  const streamPositions: number[] = [];
+  // Stone banks follow the water's changing width; keep the existing deterministic stones.
   for (let i = 0; i < 38; i++) {
-    const z = 4.7 + i * 0.23;
-    const x = 1.65 + Math.sin(i * 0.12) * 0.65;
-    const nz = z + 0.23;
-    const nx = 1.65 + Math.sin((i + 1) * 0.12) * 0.65;
-    const y = floor(x, z) + 0.105;
-    const ny = floor(nx, nz) + 0.105;
-    streamPositions.push(
-      x - 0.27,
-      y,
-      z,
-      nx - 0.27,
-      ny,
-      nz,
-      x + 0.27,
-      y,
-      z,
-      x + 0.27,
-      y,
-      z,
-      nx - 0.27,
-      ny,
-      nz,
-      nx + 0.27,
-      ny,
-      nz,
-    );
+    const { x, z, width } = streamSection(i * 0.23);
     for (const side of [-1, 1]) {
       // Uneven edging: varied size, turn and spacing, with an occasional pebble behind.
       const cluster = 0.5 + 0.5 * Math.sin(i * 1.7 + side * 2.1);
-      const bx = x + side * (0.33 + 0.13 * cluster + range(-0.03, 0.05));
+      const bx = x + side * (width + 0.09 + 0.13 * cluster + range(-0.03, 0.05));
       const bz = z + 0.08 * Math.sin(i * 2.3 + side) + range(-0.07, 0.07);
       const size = 0.65 + cluster * 0.8;
       addRock(
@@ -518,28 +511,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       }
     }
   }
-  const streamGeometry = new THREE.BufferGeometry();
-  streamGeometry.setAttribute('position', new THREE.Float32BufferAttribute(streamPositions, 3));
-  streamGeometry.computeVertexNormals();
-  const streamMaterial = material('Garden flowing water', 0x718c87);
-  streamMaterial.roughness = 0.25;
-  streamMaterial.metalness = 0.2;
-  streamMaterial.side = THREE.DoubleSide;
-  const clock = { value: 0 };
-  streamMaterial.onBeforeCompile = (shader) => {
-    shader.uniforms.gardenTime = clock;
-    shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 gardenPosition;')
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\ngardenPosition = position;');
-    shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec3 gardenPosition; uniform float gardenTime;')
-      .replace(
-        '#include <color_fragment>',
-        '#include <color_fragment>\nfloat ripple = sin(gardenPosition.z * 36.0 - gardenTime * 2.8 + sin(gardenPosition.x * 24.0)); diffuseColor.rgb *= 0.9 + 0.1 * ripple;',
-      );
-  };
-  streamMaterial.customProgramCacheKey = () => 'garden-runnel-v1';
-  const stream = new THREE.Mesh(streamGeometry, streamMaterial);
+  const { mesh: stream, clock } = createGardenStream(floor);
   group.add(stream);
   // Low hills around the woodland, with three overlapping silhouettes and atmospheric color.
   const hills: THREE.Mesh[] = [];

@@ -1,0 +1,152 @@
+{
+ "note": "L* residual after warping frame k onto frame k+1 by the known rotation (0.004 rad of yaw per frame), mean over the pairs of a sequence. tile: |mean| over 12x12 capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, twice). relativeTo1_5: per view, the ratio to the 1.5 sequence.",
+ "quality": "standard",
+ "yawPerStep": 0.004,
+ "framesPerStep": 2,
+ "relativeTo1_5": {},
+ "sequences": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.5822,
+   "firstPairWrongSignPixel": 6.0805,
+   "pixel": 0.6129,
+   "tile": 0.0768,
+   "tileP99": 0.7236,
+   "tripPixel": 0.2902,
+   "tripTile": 0.0082,
+   "relativeToBaseline": {
+    "pixel": 0.9908,
+    "tile": 0.9871,
+    "tileP99": 0.9856
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.3476,
+   "firstPairWrongSignPixel": 4.485,
+   "pixel": 0.3935,
+   "tile": 0.0419,
+   "tileP99": 0.5416,
+   "tripPixel": 0.2135,
+   "tripTile": 0.0056,
+   "relativeToBaseline": {
+    "pixel": 0.9944,
+    "tile": 0.9952,
+    "tileP99": 0.9883
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 5.745,
+   "firstPairWrongSignPixel": 7.5936,
+   "pixel": 0.7878,
+   "tile": 0.0999,
+   "tileP99": 0.917,
+   "tripPixel": 0.3655,
+   "tripTile": 0.0102,
+   "relativeToBaseline": {
+    "pixel": 0.9888,
+    "tile": 0.9862,
+    "tileP99": 0.9867
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.0145,
+   "firstPairWrongSignPixel": 5.313,
+   "pixel": 0.572,
+   "tile": 0.0695,
+   "tileP99": 0.9887,
+   "tripPixel": 0.2845,
+   "tripTile": 0.0076,
+   "relativeToBaseline": {
+    "pixel": 0.9901,
+    "tile": 0.99,
+    "tileP99": 0.986
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.6218,
+   "firstPairWrongSignPixel": 4.7761,
+   "pixel": 0.5914,
+   "tile": 0.0829,
+   "tileP99": 0.9219,
+   "tripPixel": 0.2739,
+   "tripTile": 0.0072,
+   "relativeToBaseline": {
+    "pixel": 1.0027,
+    "tile": 1.0024,
+    "tileP99": 0.9998
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.1187,
+   "firstPairWrongSignPixel": 4.2566,
+   "pixel": 0.4964,
+   "tile": 0.0689,
+   "tileP99": 0.9276,
+   "tripPixel": 0.2473,
+   "tripTile": 0.0066,
+   "relativeToBaseline": {
+    "pixel": 0.9861,
+    "tile": 0.9871,
+    "tileP99": 0.9842
+   }
+  }
+ ],
+ "relativeToBaseline": {
+  "baseline": "docs/3d-qa/garden-natural-shapes/shimmer-after/shimmer.json",
+  "baselineRatio": null,
+  "byRatio": {
+   "1.5": {
+    "pixel": {
+     "min": 0.9861,
+     "median": 0.99045,
+     "max": 1.0027
+    },
+    "tile": {
+     "min": 0.9862,
+     "median": 0.98855,
+     "max": 1.0024
+    },
+    "tileP99": {
+     "min": 0.9842,
+     "median": 0.9863500000000001,
+     "max": 0.9998
+    }
+   }
+  }
+ }
+}

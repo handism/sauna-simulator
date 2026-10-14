@@ -1,0 +1,62 @@
+{
+  "baselineCommit": "2c428b89f1588ad6e5181e2d22818a2a72b8a2b5",
+  "reusedBaselineSourceHashChecks": {
+    "src/components/3d/gardenDetails.ts": true,
+    "src/components/3d/woodlandCrowns.ts": true
+  },
+  "sourcesAfter": {
+    "src/components/3d/gardenDetails.ts": "cf16a938729b016f400ff9cf7209d2c415688e562d8bc0ca24d139913d623acc",
+    "src/components/3d/gardenStream.ts": "830b3c5056df31be8311d90814a103e35365a41754e1f490b464ef1d08f10a5a",
+    "src/components/3d/gardenBloom.ts": "6f520adb037a66fc9dffdb13256ddf0930a61cf07be398cccbb42b5c1d852fc1"
+  },
+  "gates": {
+    "typecheck": true,
+    "unitTests": 382,
+    "unitFiles": 60,
+    "lint": true,
+    "format": true,
+    "build": true,
+    "diffCheck": true,
+    "targetedBrowserTests": 14,
+    "visualTests": 2,
+    "fullBrowserSuiteRerun": false,
+    "costTests": {
+      "before": 3,
+      "after": 3
+    }
+  },
+  "visualStats": {
+    "startTime": "2026-10-14T07:41:07.556Z",
+    "duration": 89669.81599999999,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "screenshots": {
+    "before": {
+      "sauna-day.png": "8310c90b103ec02e44fc2b8dba5ea2cb1e5731c71fdbb3e0cd334f71135ea91d",
+      "totonou-autumn.png": "311b1730b9362a25c0368417f51d7993032383b36796f391df4c646d039fba75",
+      "totonou-evening.png": "8d8c8e2a836d48d61a49b239357d301fa85d2ede5e46294a63bbdc5dc582d0dd",
+      "totonou-night.png": "d37578383b2092693112495a26781582dc0c6fe4eefadddef089645b17117f1f",
+      "totonou-rain.png": "b9239df9ee03bd14863f9540431fc722d3df6b08c625bbf00edd574aec549e4a",
+      "totonou-spring.png": "583567f40885e5086de22d8d8df4c31f788444ba39343be53c735cdd12c0cd21",
+      "totonou-summer.png": "d9d4747da6f7819b1c9f97b75804cd5727f4ba43748923c7d20f5a60546a5031",
+      "totonou-winter.png": "ecbbb79a541cc752e030ee6bf60f7acc414b0e936efff70adb67de205dc97061",
+      "water-day.png": "554f6dfffe6a482e936d313cb552431441bba29db9ba35ccbd6c1b6c95d2d2ac"
+    },
+    "after": {
+      "sauna-day.png": "afc6d523dfe41ecd641345a44e5b74d9ea63fe474268901cae1afce260bb661f",
+      "totonou-autumn.png": "017bb156bd306ea08e83c448fd2190ce076dad48ef51cae6fb992b585b26874b",
+      "totonou-evening.png": "8dd38178689c4d9d2a30002dc4bd9ba71524a0db580017afbb8c2599c8bbddfb",
+      "totonou-night.png": "9bfba05ea38789d33487b6041c50fd6d626be057bc32a16cb3b4802ec74c24a0",
+      "totonou-rain.png": "552ab2f88723fa87932fb6a1ad35c7e2aee99c42adfbc72471f9da41b72d4fd5",
+      "totonou-spring.png": "ee1655c8e3207b71a7058932a2b4e84c94ac434f63e8865e3967a82826726153",
+      "totonou-summer.png": "5fd7576481c374bc88437c311806e06789c96374d0b7f6531500e7aa3f6acd48",
+      "totonou-winter.png": "1aa7dc37dc9aa15b3bad9eb65b1a433616dc988b5680cbc5a89d588096cbab1a",
+      "water-day.png": "e1e44f406059504e9376e5a8d00ce301db26323896aa11ddc1475489c78c98f9"
+    }
+  },
+  "costBrowser": "155.0.8059.79",
+  "shimmerBaselineCaveat": "Reused matching-source previous captures; Chrome patch drift detected during QA, browser variation cannot be excluded."
+}

@@ -1,0 +1,544 @@
+{
+  "baselineCommit": "2c428b8",
+  "baselineReport": "test-results/stream-qa/cost-before.json",
+  "method": "Independent HEAD baseline build measured after the changed build with the same Chrome patch version; not interleaved. Warmup excluded, mean of two product samples; drawn frame interval / 3, not GPU-only timing or real-device FPS.",
+  "settings": {
+    "browser": "155.0.8059.79",
+    "quality": "standard",
+    "dpr": 1,
+    "repeat": 3
+  },
+  "stats": {
+    "before": {
+      "startTime": "2026-10-14T08:08:05.401Z",
+      "duration": 270258.909,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "after": {
+      "startTime": "2026-10-14T08:02:11.935Z",
+      "duration": 269861.455,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "views": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "before": {
+        "intervalMs": [
+          10.177862595419851,
+          10.13511450381679
+        ],
+        "drawCalls": [
+          "163",
+          "163"
+        ],
+        "triangles": [
+          "900766",
+          "900766"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "145",
+          "145"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          10.249095607235141,
+          10.213076923076924
+        ],
+        "drawCalls": [
+          "163",
+          "163"
+        ],
+        "triangles": [
+          "904985",
+          "904985"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "145",
+          "145"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 1.0073448333223904
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "before": {
+        "intervalMs": [
+          13.604761904761903,
+          13.54863945578231
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "901246",
+          "901246"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "146",
+          "146"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          13.687972508591054,
+          13.687972508591054
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "905465",
+          "905465"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "146",
+          "146"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 1.0081957929941427
+    },
+    {
+      "stage": "sauna",
+      "lighting": "night",
+      "before": {
+        "intervalMs": [
+          14.590476190476194,
+          14.590476190476194
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "901246",
+          "901246"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "146",
+          "146"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          14.651282051282047,
+          14.651282051282047
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "905465",
+          "905465"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "146",
+          "146"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 1.0041675035147615
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "before": {
+        "intervalMs": [
+          10.882786885245897,
+          10.883333333333342
+        ],
+        "drawCalls": [
+          "154",
+          "154"
+        ],
+        "triangles": [
+          "888736",
+          "888736"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          10.926997245179065,
+          10.926997245179065
+        ],
+        "drawCalls": [
+          "154",
+          "154"
+        ],
+        "triangles": [
+          "892955",
+          "892955"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 1.0040372041914885
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "before": {
+        "intervalMs": [
+          13.54795918367349,
+          13.548639455782299
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "889216",
+          "889216"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          13.071568627450985,
+          13.090759075907592
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "893435",
+          "893435"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 0.9655207301651211
+    },
+    {
+      "stage": "water",
+      "lighting": "night",
+      "before": {
+        "intervalMs": [
+          14.006382978723416,
+          14.034385964912266
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "889216",
+          "889216"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          13.630584192439862,
+          13.68797250859108
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "893435",
+          "893435"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 0.974244206923981
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "before": {
+        "intervalMs": [
+          8.368143459915611,
+          8.403375527426155
+        ],
+        "drawCalls": [
+          "95",
+          "95"
+        ],
+        "triangles": [
+          "701968",
+          "701968"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          8.403375527426155,
+          8.421231422505295
+        ],
+        "drawCalls": [
+          "95",
+          "95"
+        ],
+        "triangles": [
+          "706187",
+          "706187"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 1.0031653640096496
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "before": {
+        "intervalMs": [
+          11.157627118644077,
+          11.157422969187666
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "702448",
+          "702448"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          11.298870056497185,
+          11.300569800569802
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "706667",
+          "706667"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 1.0127443034237382
+    },
+    {
+      "stage": "totonou",
+      "lighting": "night",
+      "before": {
+        "intervalMs": [
+          11.805059523809524,
+          11.854761904761896
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "702448",
+          "702448"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          11.91878787878787,
+          12.019696969696971
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "706667",
+          "706667"
+        ],
+        "textures": [
+          "33",
+          "33"
+        ],
+        "geometries": [
+          "155",
+          "155"
+        ],
+        "pixelRatio": [
+          "1",
+          "1"
+        ]
+      },
+      "ratio": 1.011777917291333
+    }
+  ]
+}
