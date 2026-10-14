@@ -1,0 +1,64 @@
+{
+  "browserRegression": {
+    "reportSha256": "4709bd3a61a172df3587642e4914db1fde8ce517127ee2a9e637714a068593b8",
+    "stats": {
+      "startTime": "2026-10-14T13:51:42.719Z",
+      "duration": 149816.578,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "repeated modes, stages and real context loss preserve the session",
+        "status": "passed",
+        "durationMs": 79405
+      },
+      {
+        "title": "split request without HDR renders and recovers at low quality",
+        "status": "passed",
+        "durationMs": 21436
+      },
+      {
+        "title": "split request without HDR renders and recovers at standard quality",
+        "status": "passed",
+        "durationMs": 26386
+      },
+      {
+        "title": "split request without HDR renders and recovers at high quality",
+        "status": "passed",
+        "durationMs": 20951
+      }
+    ]
+  },
+  "gates": {
+    "typecheck": "passed",
+    "unitTests": 385,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed with 851.34 kB lazy 3D chunk size warning (850 kB threshold)",
+    "pythonSummaryTests": 3
+  },
+  "notRun": [
+    "Full browser regression",
+    "High-quality cost",
+    "Continuous real-time motion and perceptual flicker",
+    "Real Safari and physical devices"
+  ],
+  "discardedRuns": [
+    "Initial sandbox server startup failure",
+    "Interrupted first after-cost run: not used in the cost comparison"
+  ],
+  "canopyAblation": {
+    "reportSha256": "c194bc1081ab7583617a8f9af082e92687c019b7b06cf0275e4c89f75ad6f569",
+    "stats": {
+      "startTime": "2026-10-14T23:22:57.574Z",
+      "duration": 366055.47699999996,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  }
+}

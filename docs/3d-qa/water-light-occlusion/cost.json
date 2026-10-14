@@ -1,0 +1,330 @@
+{
+  "method": "Before then after; independent builds, same Chrome. Warmup excluded; mean of two samples of frame interval divided by 3. Not interleaved; not GPU-only time or real-device FPS.",
+  "settings": {
+    "browser": "155.0.8059.79",
+    "quality": "standard",
+    "dpr": 1,
+    "repeat": 3
+  },
+  "stats": {
+    "before": {
+      "startTime": "2026-10-14T13:28:20.459Z",
+      "duration": 270940.35699999996,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "after": {
+      "startTime": "2026-10-14T13:46:11.350Z",
+      "duration": 273543.00800000003,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "reportSha256": {
+    "before": "d09906ef621d62b3a09d73dc87a1407caeb030aa9674f3f6689f6799906c6cb3",
+    "after": "07479f5dee2e374958b467d6cc4597d1f7e2fa2db4c38327fc3f5661d19ec003"
+  },
+  "views": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "before": {
+        "intervalMs": [
+          10.213333333333335,
+          10.292506459948322
+        ],
+        "drawCalls": [
+          "163",
+          "163"
+        ],
+        "triangles": [
+          "904985",
+          "904985"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          11.854761904761908,
+          10.092875318066158
+        ],
+        "drawCalls": [
+          "163",
+          "163"
+        ],
+        "triangles": [
+          "904985",
+          "904985"
+        ]
+      },
+      "ratio": 1.0703115524202418
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "before": {
+        "intervalMs": [
+          13.547959183673465,
+          13.745017182130594
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "905465",
+          "905465"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          16.063855421686753,
+          13.547959183673477
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "905465",
+          "905465"
+        ]
+      },
+      "ratio": 1.0849609880753603
+    },
+    {
+      "stage": "sauna",
+      "lighting": "night",
+      "before": {
+        "intervalMs": [
+          14.529670329670338,
+          14.855430711610493
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "905465",
+          "905465"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          17.021794871794864,
+          14.590476190476194
+        ],
+        "drawCalls": [
+          "164",
+          "164"
+        ],
+        "triangles": [
+          "905465",
+          "905465"
+        ]
+      },
+      "ratio": 1.0757924915031412
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "before": {
+        "intervalMs": [
+          10.926997245179065,
+          10.97300275482093
+        ],
+        "drawCalls": [
+          "154",
+          "154"
+        ],
+        "triangles": [
+          "892955",
+          "892955"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          12.578301886792458,
+          10.973002754820948
+        ],
+        "drawCalls": [
+          "154",
+          "154"
+        ],
+        "triangles": [
+          "892955",
+          "892955"
+        ]
+      },
+      "ratio": 1.0754020384298362
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "before": {
+        "intervalMs": [
+          13.016993464052279,
+          13.145874587458762
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "893435",
+          "893435"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          15.087499999999993,
+          13.016666666666685
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "893435",
+          "893435"
+        ]
+      },
+      "ratio": 1.0742005276842543
+    },
+    {
+      "stage": "water",
+      "lighting": "night",
+      "before": {
+        "intervalMs": [
+          13.630240549828185,
+          13.68797250859108
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "893435",
+          "893435"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          13.604761904761915,
+          13.68797250859108
+        ],
+        "drawCalls": [
+          "155",
+          "155"
+        ],
+        "triangles": [
+          "893435",
+          "893435"
+        ]
+      },
+      "ratio": 0.9990673385183801
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "before": {
+        "intervalMs": [
+          8.457112526539285,
+          8.43839662447258
+        ],
+        "drawCalls": [
+          "95",
+          "95"
+        ],
+        "triangles": [
+          "706187",
+          "706187"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          8.35052410901467,
+          9.220138888888869
+        ],
+        "drawCalls": [
+          "95",
+          "95"
+        ],
+        "triangles": [
+          "706187",
+          "706187"
+        ]
+      },
+      "ratio": 1.0399605505141727
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "before": {
+        "intervalMs": [
+          11.253276353276378,
+          11.251694915254213
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "706667",
+          "706667"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          11.204802259887005,
+          12.659615384615394
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "706667",
+          "706667"
+        ]
+      },
+      "ratio": 1.0604064924034258
+    },
+    {
+      "stage": "totonou",
+      "lighting": "night",
+      "before": {
+        "intervalMs": [
+          11.961261261261235,
+          12.019696969696971
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "706667",
+          "706667"
+        ]
+      },
+      "after": {
+        "intervalMs": [
+          11.911411411411413,
+          13.630584192439862
+        ],
+        "drawCalls": [
+          "96",
+          "96"
+        ],
+        "triangles": [
+          "706667",
+          "706667"
+        ]
+      },
+      "ratio": 1.0650948705993677
+    }
+  ]
+}

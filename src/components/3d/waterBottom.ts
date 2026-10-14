@@ -15,6 +15,7 @@ import './reflection';
 import { DIRECT_CALL, DIRECTIONAL_START, DRY_ONLY, SPOT_START } from './lighting';
 import { FBM_GLSL } from './noiseColor';
 import { WATER_BUMP_GLSL } from './waterEffects';
+import { canopyBlocks, CANOPY_GLSL } from './waterLightOcclusion';
 
 // The bottom of the source water. Its flat bottom face lies 1.3 cm above the tiles with air
 // between, so in Cycles the view that reaches the pool floor crosses one more water–air boundary
@@ -173,7 +174,7 @@ export function lightCoverage(
   if (along > -1e-4) return 0;
   const center = new THREE.Vector3().fromArray(position);
   const t = center.clone().sub(origin).dot(n) / along;
-  if (t <= 0) return 0;
+  if (t <= 0 || canopyBlocks(origin, direction, t)) return 0;
   const q = origin.clone().addScaledVector(direction, t).sub(center);
   const x = new THREE.Vector3().fromArray(axis).normalize();
   const y = new THREE.Vector3().crossVectors(n, x);
@@ -289,7 +290,7 @@ function lightsGlsl() {
 	if ( along < -1e-4 && t > 0.0 ) {
 		vec3 hit = origin + direction * t - ${vec3(position)};
 		vec2 q = vec2( dot( hit, ${vec3(x.toArray())} ), dot( hit, ${vec3(y.toArray())} ) ) / vec2( ${f(half[0])}, ${f(half[1])} );
-		sum += ( 1.0 - smoothstep( ${f(1 - LIGHT_EDGE)}, ${f(1 + LIGHT_EDGE)}, ${distance} ) ) *
+		if ( ${distance} < ${f(1 + LIGHT_EDGE)} && ! suiCanopyBlocks( origin, direction, t ) ) sum += ( 1.0 - smoothstep( ${f(1 - LIGHT_EDGE)}, ${f(1 + LIGHT_EDGE)}, ${distance} ) ) *
 			mix( ${vec3(areaRadiance(dayWatts, color, area))}${name === SUNLIGHT ? ' * suiOvercast.w' : ''}, ${vec3(areaRadiance(eveningWatts, color, area))}, suiIrradianceEvening );
 	}
 `;
@@ -327,6 +328,7 @@ export function bottomGlsl() {
 #if defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION ) && defined( SUI_REFLECTION )
 ${FBM_GLSL}
 ${WATER_BUMP_GLSL}
+${CANOPY_GLSL}
 float suiSideDistance( vec2 p, vec2 d ) {
 	vec2 wall = mix( ${box(min)}, ${box(max)}, step( 0.0, d ) );
 	vec2 t = max( ( wall - p ) / ( sign( d ) * max( abs( d ), vec2( 1e-6 ) ) ), 0.0 );
@@ -395,7 +397,7 @@ vec4 suiBottomReflection( vec3 point, vec3 d, vec3 view, bool entryBump, vec3 fl
 	// The bump turns the view by about a hundredth of a radian at most, so it is followed only where
 	// that can change which light the view meets: where the smooth view, reflected about the bottom
 	// tilted by BUMP_REACH four ways, sees the lights differently (near a light's edge, the rim
-	// that hides it or where the path turns off another side). The probes are too smooth to change
+	// or canopy that hides it or where the path turns off another side). The probes are too smooth to change
 	// with it.
 	bool near = false;
 	vec3 q, l, m;

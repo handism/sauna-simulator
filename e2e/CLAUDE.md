@@ -67,3 +67,7 @@
 - `garden-stream.visual.ts` は外気浴・昼の時刻を0/500/1000msの相対差で固定し、各70フレーム整定後に通常／動作抑制の水辺を撮影する。実時間動画ではなく、周囲の草も含むので流水単体の差分やちらつき・FPSの証明にはしない。
 
 - 水辺の時刻固定撮影は `STREAM_QUALITY=high` で高画質・DPR2（既定standard・DPR1）。URLで入室前に画質を指定し、実際のquality/pixelRatioを確認する。水辺／見回しの添付にはChrome等のブラウザー版を記録し、見回しもconsole errorを失敗扱いにする。
+
+- `stage-compare.visual.ts` は添付にブラウザー版を記録し、ページエラーに加えてconsole errorも失敗扱いにする。`CAPTURE_PNG=1` で保存した同視点の前後画像とCycles参照を、水底反射の遮蔽の比較にも使う（`docs/3d-qa/water-light-occlusion/`）。
+
+- `frame-cost.ts` の `cut-canopy` は水底の面光源の天蓋遮蔽だけを検証ブラウザ内で外す。`FRAME_COST_VARIANTS=warmup,product,cut-canopy,product` で通常描画で挟んで費用を調べる。GLSLの置換件数を検査し、製品の設定や描画コードには診断スイッチを置かない。

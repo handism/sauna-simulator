@@ -1,0 +1,13 @@
+{
+  "src/components/3d/waterBottom.ts": "b207a9935584a19308ef02c89a7ce60afc78332a64caff453b3dda4d17bfd476",
+  "src/components/3d/waterLightOcclusion.ts": "5c8351e36bf791301f245f76bd5fd6e22e42a44c37ede3f3302919afc3af1105",
+  "src/components/3d/waterLightOcclusion.test.ts": "c0d941c08283e8cfb038900995b012d38a44fe6b12a49a666652da70628f8064",
+  "src/components/3d/waterBottom.test.ts": "5d7765d9eb3714b601c388d1b63d1693418254ddddc2b9b20b1f7d3609091c92",
+  "e2e/stage-compare.visual.ts": "4fdd4637aaa4ab7acbc5fca393e40951e3e7d3c0ba0d1d12981d62aa959f7d1b",
+  "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+  "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+  "public/models/sauna.scene.json": "94687703bde085b5fe8b03345b44a81521835524be7eae47f210c5329d673647",
+  "e2e/frame-cost.ts": "1b134b8e1264b7aa819dffeefcf4555eb8ff1b219c2a74205b4abf2339fae39a",
+  "scripts/summarize_water_light_occlusion.py": "e64487ae0407b172dd2d8b80a0495bdf2031b87f398ef23cc28a1b52dd151cea",
+  "scripts/test_water_light_occlusion.py": "a51df4a232c44c7901d40bc0d26d2822fff0e20e2cfbc29d8c14209c7b988757"
+}

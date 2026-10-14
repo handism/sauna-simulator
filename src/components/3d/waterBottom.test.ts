@@ -40,6 +40,25 @@ function refracted(air: THREE.Vector3) {
 }
 
 describe('water bottom reflection', () => {
+  it('hides only the part of an area light behind a canopy slat', () => {
+    const light: (typeof GLOSSY_SOURCES)[number] = [
+      'test disk',
+      [1],
+      [1, 1, 1],
+      1,
+      1,
+      [3.23, 4, -2],
+      [1, 0, 0],
+      [0, -1, 0],
+    ];
+    const up = new THREE.Vector3(0, 1, 0);
+    expect(lightCoverage(light, new THREE.Vector3(3.23, LEVEL, -2), up)).toBe(0);
+    expect(lightCoverage(light, new THREE.Vector3(3.344, LEVEL, -2), up)).toBe(1);
+    // The same light below the canopy remains visible.
+    light[5][1] = 2;
+    expect(lightCoverage(light, new THREE.Vector3(3.23, LEVEL, -2), up)).toBe(1);
+  });
+
   it('reflects 2% looking straight down and nearly all at the steepest refracted grazing view', () => {
     expect(bottomReflectance(new THREE.Vector3(0, -1, 0))).toBeCloseTo(0.02, 3);
     const grazing = refracted(new THREE.Vector3(1, -0.01, 0));

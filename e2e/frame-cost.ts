@@ -32,6 +32,7 @@
  * the caustics and `voronoi`, `warp` and `visibility` the caustics' Voronoi edges, the noise that
  * warps them and the noise that fades them, `wet` the highlights through the water, `wetimage`
  * their paths off the sides (suiWetImage's loop) and `wetimagenever` that loop kept but never run.
+ * `canopy` removes only the sharp water-bottom light rays' canopy occlusion.
  * Parts joined by `+` are skipped together, e.g. `cut-tilt+wetimage`.
  * A part kept but never run costs what its code alone costs (registers): `bumpnever` nothing,
  * `wetimagenever` about half of `wetimage` (docs/3d-qa/tilt-cost). The replacements are in
@@ -56,6 +57,7 @@ export type FrameCostMode =
   | `noshadow-${'all' | 'sun' | `spot${number}` | `with-${string}` | `without-${string}`}`;
 
 export const CUTS = [
+  'canopy',
   'bottom',
   'tilt',
   'bump',
@@ -79,6 +81,7 @@ export function patchFrameCost(mode: FrameCostMode) {
   };
   const w = window as unknown as Overdraw;
   const cuts: Record<string, [string, string]> = {
+    canopy: ['! suiCanopyBlocks( origin, direction, t )', 'true'],
     bottom: [
       'vec4 suiBottom = suiBottomReflection(',
       'vec4 suiBottom = vec4( 0.0 ); if ( false ) suiBottom = suiBottomReflection(',

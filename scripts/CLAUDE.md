@@ -85,3 +85,6 @@
 - `summarize_warmup_surround.py <report.json> <summary.json>` は `warmup-surround.visual.ts` の通常／分割ABBA全周864枚を検査・集計する。成功4件・順序・同一入力／ブラウザ・設定・PNGハッシュ／寸法・共有パスなし・分割完了を要求し、方式間2組と各方式の再撮影差を分ける。記録は `docs/3d-qa/warmup-surround/`。
 
 - `summarize_auto_motion.py --look full-pitch` は上下±0.86radの入力軌跡を照合し、従来の±0.4radのsurround記録との混在を拒否する。`test_surround_validation.py` で時間・移動・上下軌跡の欠落／改変・モード混在を検査する。実カメラ角・知覚的ちらつき・性能の計測とは扱わない。
+
+- `inspect_water_light_canopy.py -- <output.json>`（Blender、元blend、`-S "SUI • Blue hour"`）は水底の面光源を遮る天蓋の梁2本・ルーバー17本の評価済み境界をglTF座標で保存する。元blendを保存せず前後ハッシュを確認。`waterLightOcclusion.ts` の静的寸法の根拠で、面取りや柱は含まない。
+- `summarize_water_light_occlusion.py <before.json> <before-repeat.json> <after.json> <after-repeat.json> --captures <4つの保存済み撮影フォルダ> --out <記録先>` は成功した同一ブラウザー・標準DPR1の12視点×4撮影を検査し、再撮影差、変更領域のCyclesとのΔE76、画像・レポートハッシュ、比較画像を保存する。最初の撮影がブラウザー版の添付追加前の場合だけ `--baseline-browser` で同じビルドの再撮影から確認した版を渡す。失敗・skip・flaky・添付の重複／欠落は拒否し、`test_water_light_occlusion.py` で検査する。

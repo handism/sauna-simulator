@@ -1,0 +1,367 @@
+{
+  "browser": "155.0.8059.79",
+  "quality": "standard",
+  "dpr": 1,
+  "reports": [
+    {
+      "sha256": "7b0a9f422a25a851096e51c1eacf9cc14f3550b6f9dbc399a19f3e7a4622aeff",
+      "stats": {
+        "startTime": "2026-10-14T13:15:58.564Z",
+        "duration": 29045.074,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    {
+      "sha256": "23ad4188961c985501c01530923e544f526fcea5b9a25528c32da5bfa96f1da1",
+      "stats": {
+        "startTime": "2026-10-14T13:32:51.796Z",
+        "duration": 27964.234,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    {
+      "sha256": "d6151b1b8cfe34cf61c97e461100ed4a6ecdc20ae7a4de5cf21abe04c3cac80c",
+      "stats": {
+        "startTime": "2026-10-14T13:50:45.314Z",
+        "duration": 28426.667999999998,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    {
+      "sha256": "6ea8797ad82947101a4590fb50b0f99e4970caf23d3adac23df44ccf2af17fe2",
+      "stats": {
+        "startTime": "2026-10-14T13:51:14.134Z",
+        "duration": 28192.575,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "views": {
+    "day-0-level": {
+      "sha256": [
+        "b40410610bddd0a39116d9567c36bbcc617bd232c2ca5a5cbb9a7f87568b3408",
+        "b40410610bddd0a39116d9567c36bbcc617bd232c2ca5a5cbb9a7f87568b3408",
+        "b40410610bddd0a39116d9567c36bbcc617bd232c2ca5a5cbb9a7f87568b3408",
+        "b40410610bddd0a39116d9567c36bbcc617bd232c2ca5a5cbb9a7f87568b3408",
+        "7287eaf7f46c3f10864713093920843ff58e90ba75418d2fb3644fd8134f96c3"
+      ],
+      "changedPixelsDE76Above2": 0,
+      "changedMeanDE76ToCycles": [
+        null,
+        null
+      ],
+      "wholeMeanDE76ToCycles": [
+        10.323062436597821,
+        10.323062436597821
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "day-2-level": {
+      "sha256": [
+        "79f7e38e0644924345e9c57fd8ca7a2695d94e61cf56e9eafdf17bdc6e4b052e",
+        "79f7e38e0644924345e9c57fd8ca7a2695d94e61cf56e9eafdf17bdc6e4b052e",
+        "e3f50104a193e1cdaf1526d40067f05e929229881493bcaef828bbd532431497",
+        "e3f50104a193e1cdaf1526d40067f05e929229881493bcaef828bbd532431497",
+        "78f19d2fb6fd119a16ee0d7d2bec5214e85177a35c2a17cefb74a96c47854a22"
+      ],
+      "changedPixelsDE76Above2": 9542,
+      "changedMeanDE76ToCycles": [
+        9.865109298565955,
+        9.970501133145277
+      ],
+      "wholeMeanDE76ToCycles": [
+        11.10501174102769,
+        11.106148004106414
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "day-4-level": {
+      "sha256": [
+        "13abeebaef8cf49a7cdaab54e1bc40492fb00e9c91271ceb974f653bfade472c",
+        "13abeebaef8cf49a7cdaab54e1bc40492fb00e9c91271ceb974f653bfade472c",
+        "98809168da9b19204a3d49042c300bd4944ccd6be7e8cef7be5d7e74570f4d69",
+        "98809168da9b19204a3d49042c300bd4944ccd6be7e8cef7be5d7e74570f4d69",
+        "bbfd3caf863de57612340f7e7e057db42d2fb917d6439308da4b8383f5dc5123"
+      ],
+      "changedPixelsDE76Above2": 1744,
+      "changedMeanDE76ToCycles": [
+        6.320297659898862,
+        5.939624022310123
+      ],
+      "wholeMeanDE76ToCycles": [
+        7.805959942176306,
+        7.804037850520655
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "day-1-down": {
+      "sha256": [
+        "5c601eb3218848e8bb9702c7acbde1602c2d985b50908e24482123175d383120",
+        "5c601eb3218848e8bb9702c7acbde1602c2d985b50908e24482123175d383120",
+        "750b36f5888b20781480da256f480a71984b133aa0025533e1ed393c5e3e0029",
+        "750b36f5888b20781480da256f480a71984b133aa0025533e1ed393c5e3e0029",
+        "93e7a1ffbfa946575108b488a0264c68b014081b49c400eef017801370c55fe3"
+      ],
+      "changedPixelsDE76Above2": 3044,
+      "changedMeanDE76ToCycles": [
+        9.121284914004203,
+        10.116106050761818
+      ],
+      "wholeMeanDE76ToCycles": [
+        7.0947836034802565,
+        7.097850357687906
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "evening-0-level": {
+      "sha256": [
+        "be5fa19493af3fdf746aa39b7c4c5ef56b7eb623f43b3648c120eb34e5a4a753",
+        "be5fa19493af3fdf746aa39b7c4c5ef56b7eb623f43b3648c120eb34e5a4a753",
+        "be5fa19493af3fdf746aa39b7c4c5ef56b7eb623f43b3648c120eb34e5a4a753",
+        "be5fa19493af3fdf746aa39b7c4c5ef56b7eb623f43b3648c120eb34e5a4a753",
+        "832c4d64626041a20314c382f94376a5fc5a8411325bd11c2c560d19db43c78b"
+      ],
+      "changedPixelsDE76Above2": 0,
+      "changedMeanDE76ToCycles": [
+        null,
+        null
+      ],
+      "wholeMeanDE76ToCycles": [
+        9.34734606297538,
+        9.34734606297538
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "evening-2-level": {
+      "sha256": [
+        "f1239a51861c9a7535460e76cb742c1727830c4c0b9952a9ad7fa5aa6c475816",
+        "f1239a51861c9a7535460e76cb742c1727830c4c0b9952a9ad7fa5aa6c475816",
+        "555e3337fd2778f9a7bf2a636929aa0421ba3311f29b39e85fe818b2f3cc0204",
+        "555e3337fd2778f9a7bf2a636929aa0421ba3311f29b39e85fe818b2f3cc0204",
+        "84a82d5fbaddd3030a61ae9eeef6f40d7b09f8af08f61116058a2a8d18f0db03"
+      ],
+      "changedPixelsDE76Above2": 10022,
+      "changedMeanDE76ToCycles": [
+        31.992244348888242,
+        18.245053068202665
+      ],
+      "wholeMeanDE76ToCycles": [
+        10.894689738790689,
+        10.760121468554502
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "evening-4-level": {
+      "sha256": [
+        "dc6b900c74c8b0ce7d47ddf7566938bcf34bf5975d3ad18ab22c8ddbf9192901",
+        "dc6b900c74c8b0ce7d47ddf7566938bcf34bf5975d3ad18ab22c8ddbf9192901",
+        "cc089acbb969e2572ba2dcc94752aae6ecd729727e486d5bbc9a86182376a864",
+        "cc089acbb969e2572ba2dcc94752aae6ecd729727e486d5bbc9a86182376a864",
+        "07075c59771a377161c73f0004bed0c087ebc29886e1145c0d8e337d1c772f32"
+      ],
+      "changedPixelsDE76Above2": 3497,
+      "changedMeanDE76ToCycles": [
+        34.27672452102581,
+        10.887054139499051
+      ],
+      "wholeMeanDE76ToCycles": [
+        6.643565497321094,
+        6.563710971039622
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "evening-1-down": {
+      "sha256": [
+        "c82562e7ecc286de4059b071ccf45bf337dad93140936880c84e5333b40eb3bb",
+        "c82562e7ecc286de4059b071ccf45bf337dad93140936880c84e5333b40eb3bb",
+        "d9b427ea6a159cab176561e548ee3b1f32b7ae22312f49a15eb5cce0b6397f24",
+        "d9b427ea6a159cab176561e548ee3b1f32b7ae22312f49a15eb5cce0b6397f24",
+        "c75f1533394c7ca405e70d796d5fcf769c9807efad39b734fae28c7de8e9f591"
+      ],
+      "changedPixelsDE76Above2": 3287,
+      "changedMeanDE76ToCycles": [
+        30.837251962162785,
+        14.40142055874258
+      ],
+      "wholeMeanDE76ToCycles": [
+        5.766953598919275,
+        5.714171712573025
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "night-0-level": {
+      "sha256": [
+        "cf345abfeb564408e984c8bbd8bbd4be1b0076c1e25cf88b0f4c439780c14260",
+        "cf345abfeb564408e984c8bbd8bbd4be1b0076c1e25cf88b0f4c439780c14260",
+        "cf345abfeb564408e984c8bbd8bbd4be1b0076c1e25cf88b0f4c439780c14260",
+        "cf345abfeb564408e984c8bbd8bbd4be1b0076c1e25cf88b0f4c439780c14260",
+        "6a0bbf48df05416488166196e91cf299590a811f7860f5dbdbe7b4309569bbc7"
+      ],
+      "changedPixelsDE76Above2": 0,
+      "changedMeanDE76ToCycles": [
+        null,
+        null
+      ],
+      "wholeMeanDE76ToCycles": [
+        7.023492655546679,
+        7.023492655546679
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "night-2-level": {
+      "sha256": [
+        "2cdc39cb60e38792eec776624fe9596c5b6dc8910abfe8832fd15017337c9d10",
+        "2cdc39cb60e38792eec776624fe9596c5b6dc8910abfe8832fd15017337c9d10",
+        "b6a59ffa10b9ed4cfe38f1d5c580ab152d5825a6ed3d5d25b388b3f96b3f8209",
+        "b6a59ffa10b9ed4cfe38f1d5c580ab152d5825a6ed3d5d25b388b3f96b3f8209",
+        "9734e5ccae8afb4908a37159d55c57f5a83c7574081ee503b5c9d4388cd73675"
+      ],
+      "changedPixelsDE76Above2": 10028,
+      "changedMeanDE76ToCycles": [
+        32.78840392082611,
+        18.7087159354669
+      ],
+      "wholeMeanDE76ToCycles": [
+        10.482583552055358,
+        10.344661312698499
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "night-4-level": {
+      "sha256": [
+        "3a1287463b512336babba2048c8bea2074027e375cbb86d51bde8dc217195cb4",
+        "3a1287463b512336babba2048c8bea2074027e375cbb86d51bde8dc217195cb4",
+        "e7911523c044ee8529225d7d3e7f98f30eba0f4e9c2eeadc306fb3b765a79e28",
+        "e7911523c044ee8529225d7d3e7f98f30eba0f4e9c2eeadc306fb3b765a79e28",
+        "ce141b5a349efc26753bd4627688e488484e416a90a6c863c30e99b4b8e30410"
+      ],
+      "changedPixelsDE76Above2": 3512,
+      "changedMeanDE76ToCycles": [
+        36.947913245590065,
+        11.398018188777726
+      ],
+      "wholeMeanDE76ToCycles": [
+        6.180729843189949,
+        6.0931150387336945
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    },
+    "night-1-down": {
+      "sha256": [
+        "e29f5b43bd8e9a5ac5af5a4729b16152dffe0bdb63210d0470a3743ec395c68e",
+        "e29f5b43bd8e9a5ac5af5a4729b16152dffe0bdb63210d0470a3743ec395c68e",
+        "095e01cfb61c7c7f0fd88fa50815851f7310192e854be454347b755db7ca9f86",
+        "095e01cfb61c7c7f0fd88fa50815851f7310192e854be454347b755db7ca9f86",
+        "b4e8c902176764a0bb20db14d3f06894af874b29f753d712fe48457f01d30b01"
+      ],
+      "changedPixelsDE76Above2": 3293,
+      "changedMeanDE76ToCycles": [
+        31.71059977229643,
+        14.824052760978972
+      ],
+      "wholeMeanDE76ToCycles": [
+        5.783064407534865,
+        5.728725933778549
+      ],
+      "repeatMeanDE76": [
+        0.0,
+        0.0
+      ],
+      "repeatChangedPixels": [
+        0,
+        0
+      ]
+    }
+  },
+  "limitations": "Static PNGs, fixed views; Cycles reference predates garden/weather changes. No perceptual flicker or device performance claim.",
+  "scriptSha256": "e64487ae0407b172dd2d8b80a0495bdf2031b87f398ef23cc28a1b52dd151cea"
+}

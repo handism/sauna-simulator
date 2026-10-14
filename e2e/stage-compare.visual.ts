@@ -23,9 +23,12 @@ const FORMAT = process.env.CAPTURE_PNG === '1' ? 'png' : 'jpeg';
 // CAPTURE_DPR sets the device pixel ratio (the quality still caps the drawn one: standard 1.5).
 test.use({ deviceScaleFactor: Number(process.env.CAPTURE_DPR ?? 1) });
 
-test('capture the water stage views rendered in Cycles', async ({ page }, info) => {
+test('capture the water stage views rendered in Cycles', async ({ page, browser }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
   const candidate = await useModelCandidate(page);
   if (CUT) await page.addInitScript(patchFrameCost, CUT);
   // CAPTURE_QUERY adds to the query, e.g. &resolution=fixed to keep dynamic resolution from stepping.
@@ -85,6 +88,7 @@ test('capture the water stage views rendered in Cycles', async ({ page }, info) 
     contentType: 'application/json',
     body: JSON.stringify(
       {
+        browser: browser.version(),
         cut: CUT ?? null,
         quality: QUALITY,
         samples,
