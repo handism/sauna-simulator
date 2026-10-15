@@ -102,7 +102,14 @@ test('capture all seated views for manual geometry and lighting review', async (
         hashes,
         sourceHashes: Object.fromEntries(
           await Promise.all(
-            ['src/components/3d/farForest.ts', 'src/components/3d/gardenDetails.ts'].map(async (file) => [
+            [
+              'src/components/3d/farForest.ts',
+              'src/components/3d/gardenDetails.ts',
+              'src/components/3d/woodlandCrowns.ts',
+              'src/components/3d/modelMaterials.ts',
+              'src/components/3d/crownNormals.ts',
+              'src/components/3d/leafCluster.ts',
+            ].map(async (file) => [
               file,
               createHash('sha256')
                 .update(await readFile(file))

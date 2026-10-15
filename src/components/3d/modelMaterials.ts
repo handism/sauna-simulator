@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
+import { INTERIOR_BOX } from './interiorLights';
 import { applyFoliage, isFoliageMaterial } from './foliage';
 import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
 import { applyImageRamp, imageRampOf, type ImageRamp } from './imageRamp';
@@ -53,8 +54,12 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       materials.every(
         (material) => /^V6 woodland leaf \d+ card(?: evergreen)?$/.test(material.name) && leafClusterOf(material),
       )
-    )
-      broadenWoodlandCards(object.geometry);
+    ) {
+      // Exclusion is in the card geometry's local space, including transformed mesh parents.
+      object.updateWorldMatrix(true, false);
+      const excluded = INTERIOR_BOX.clone().expandByScalar(0.15).applyMatrix4(object.matrixWorld.clone().invert());
+      broadenWoodlandCards(object.geometry, excluded);
+    }
     for (const material of materials) {
       if (isFoliageMaterial(material)) foliage.add(material);
       const noise = noiseColorOf(material);

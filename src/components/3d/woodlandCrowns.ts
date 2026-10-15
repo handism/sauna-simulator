@@ -7,7 +7,7 @@ export const CROWN_FILL_COPIES = 1;
  * beside them (same UVs and normals, so each copy is lit like its card), without new draws.
  * Only four-vertex islands are eligible; shared/continuous meshes are left untouched.
  */
-export function broadenWoodlandCards(geometry: THREE.BufferGeometry) {
+export function broadenWoodlandCards(geometry: THREE.BufferGeometry, excluded?: THREE.Box3) {
   if (geometry.userData.suiBroadenedCrowns) return;
   const position = geometry.getAttribute('position');
   const index = geometry.getIndex();
@@ -45,6 +45,10 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry) {
   const normal = new THREE.Vector3();
   const axis = new THREE.Vector3();
   const offset = new THREE.Vector3();
+  const inward = new THREE.Vector3();
+  const scatter = new THREE.Vector3();
+  const copyBounds = new THREE.Box3();
+  const shadingNormal = geometry.getAttribute('normal');
   const shortAxis = new THREE.Vector3();
   const longAxis = new THREE.Vector3();
   const spin = new THREE.Quaternion();
@@ -103,6 +107,12 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry) {
     if (normal.lengthSq() < 1e-12) continue;
     normal.normalize();
     const size = Math.max(a.distanceTo(b), b.distanceTo(c), a.distanceTo(c));
+    // The crown normals already point out of the tree's rounded envelope. Guide the
+    // existing copy toward its interior, connecting branch tufts rather than scattering
+    // another isolated tuft outward. Keep a little tangential variation and the same reach.
+    inward.set(0, 0, 0);
+    if (shadingNormal) for (const i of vertices) inward.sub(point.fromBufferAttribute(shadingNormal, i));
+    inward.normalize();
     filled.push({ root, vertices });
     for (let copy = 0; copy < CROWN_FILL_COPIES; copy++) {
       const salt = 1 + copy * 7;
@@ -114,15 +124,31 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry) {
       const lean = random(salt + 1);
       tilt.setFromAxisAngle(axis, ((lean < 0.5 ? -1 : 1) * (35 + Math.abs(lean - 0.5) * 50) * Math.PI) / 180);
       spin.premultiply(tilt);
-      offset
-        .copy(axis)
-        .applyAxisAngle(normal, random(salt + 2) * Math.PI * 2)
-        .multiplyScalar(size * (0.55 + random(salt + 3) * 0.2));
+      offset.copy(axis).applyAxisAngle(normal, random(salt + 2) * Math.PI * 2);
+      const reach = size * (0.55 + random(salt + 3) * 0.2);
+      scatter.copy(offset).multiplyScalar(reach);
+      if (inward.lengthSq() > 0) offset.multiplyScalar(0.3).addScaledVector(inward, 0.7).normalize();
+      offset.multiplyScalar(reach);
       const shrink = 0.85 + random(salt + 4) * 0.25;
+      // Only nearby cards need the conservative building check. A rotated copy reaches
+      // at most (0.75 + 1.10 / 2) diagonals from its anchor; 2 leaves margin for quads.
+      const nearby = excluded && excluded.distanceToPoint(center) < size * 2;
+      if (nearby) copyBounds.makeEmpty();
+      const start = copies.length;
       for (const i of vertices) {
         point.fromBufferAttribute(position, i).sub(center).applyQuaternion(spin).multiplyScalar(shrink);
         point.add(center).add(offset);
         copies.push(point.x, point.y, point.z);
+        if (nearby) copyBounds.expandByPoint(point);
+      }
+      // Preserve the old scatter beside buildings rather than moving a tuft through a wall.
+      if (nearby && excluded.intersectsBox(copyBounds)) {
+        copies.length = start;
+        for (const i of vertices) {
+          point.fromBufferAttribute(position, i).sub(center).applyQuaternion(spin).multiplyScalar(shrink);
+          point.add(center).add(scatter);
+          copies.push(point.x, point.y, point.z);
+        }
       }
     }
   }

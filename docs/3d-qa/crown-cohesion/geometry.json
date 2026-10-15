@@ -1,0 +1,177 @@
+{
+  "glbSHA256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+  "roundedCards": 38492,
+  "evergreenTrees": 59,
+  "meshes": [
+    {
+      "name": "V6 woodland leaf 0 card",
+      "vertices": 41152,
+      "triangles": 20576,
+      "attributeBytes": 946496,
+      "originalPositionsSHA256": "7f750f5c83f00a3669f7b1795dcfbdd557a5773afc50daa0ce7e84833320f378",
+      "beforePositionsSHA256": "ff41cc4ee85caeef6a4d8b67545b02a95af7e13100bd18925554332bdb01d21d",
+      "afterPositionsSHA256": "b9fff47f9157ff7ce549a4264e1859c1f73e12184f0a14c804293500fbfc950c",
+      "normalSHA256": "a1e7b2f22928cde537ea85d1b16a80222bd1e9f5c4b0aa8bb41d1b72542ca7ff",
+      "uvSHA256": "04cbb6c81d3b9679eee3b1b06481b3ba320d76b9215fe8348e21e81f8537d8ed",
+      "indexSHA256": "777c992b9522262bd86bb94330fd0d9170ada0b75652d2cf08f9455bd393a41a"
+    },
+    {
+      "name": "V6 woodland leaf 1 card",
+      "vertices": 40000,
+      "triangles": 20000,
+      "attributeBytes": 920000,
+      "originalPositionsSHA256": "1e4417070a0142878a1e26fbf4d72d42ccb38f8c882fde828404f5c4d8b4d4fd",
+      "beforePositionsSHA256": "d65f7f186e55d8457d136031508b06ee136c0b089ec81065cd1cef5bc0977374",
+      "afterPositionsSHA256": "05eb8ec6dd106cfcbc24d4bbf16188026a5a16fcbc356c5bc9b1711349b4357e",
+      "normalSHA256": "5597b684dd7da52bf2770d8ea2d1d7f99237c224d9dfc9ebc181ecd63aec4cfe",
+      "uvSHA256": "e2986046025ce1818a10bcd1342bd554a26090ce22465c68e28440c5108ed270",
+      "indexSHA256": "417d75ccf695de902f110f1d0072369ec0884fbf48686da6a7dd49556c6da34e"
+    },
+    {
+      "name": "V6 woodland leaf 2 card",
+      "vertices": 40240,
+      "triangles": 20120,
+      "attributeBytes": 925520,
+      "originalPositionsSHA256": "fe8c7ac0fc702cb5a84034f666ccd5677c3bc742f617a6de693e62fe94946c7b",
+      "beforePositionsSHA256": "ed4cedf1ebce9ccd4641b3237ffa75cf0f99b32c179b7f362375f796d70b706d",
+      "afterPositionsSHA256": "4b33324d37810a236841219a1f2a46263fc0e650194e921ba2a7054e9e056e5e",
+      "normalSHA256": "fd83fc9836f589b4e7bb544884ac016fe13280d5774cfb3ffb61a52d41e7b4b2",
+      "uvSHA256": "5fba5deab238b8b08370285b633b8c0d4c89c661e3a1bcdd593fd4a10663aeff",
+      "indexSHA256": "6bc3ee7b451f696b8999ad447f466b8b6c6cbc50a18735b17647482d976820f9"
+    },
+    {
+      "name": "V6 woodland leaf 3 card",
+      "vertices": 40136,
+      "triangles": 20068,
+      "attributeBytes": 923128,
+      "originalPositionsSHA256": "5c2d6b00fa255e69d5e312dc0d86b23241deb459d148820293216d681542ffe9",
+      "beforePositionsSHA256": "ea7464e37677fbf4fac5cfe015f0548cf0637e71527a6eb042bb78947346cc82",
+      "afterPositionsSHA256": "c674a0d38f94d3d0ca1bdb2a42b43a70c82b805e1247ec1b5288dc7b0c4db249",
+      "normalSHA256": "f284ec652bed64f0515c425042f0ab2ea73e622847ee93cc98953bfccca0cd12",
+      "uvSHA256": "1cc9ddf04db76d93ce02c7f61ab69c1586bde472e9989bc9c11f1c23a36147e5",
+      "indexSHA256": "57529ac9f648ef086056176015013ba9b75e970645f6bb0980d63b00b0a1085b"
+    },
+    {
+      "name": "V6 woodland leaf 4 card",
+      "vertices": 39792,
+      "triangles": 19896,
+      "attributeBytes": 915216,
+      "originalPositionsSHA256": "ceef7574a810d4ce821f0a96a327f23feb9c57876ed15fbfcdb5b435cce6f0a0",
+      "beforePositionsSHA256": "58d7a00486ea8a75ea29d165be8f9612fb1f5e2563234d8a2f2e0eb17ebc916c",
+      "afterPositionsSHA256": "84dc3784838c229ec1a0e6bc95559978400f8fbaf1b0e5f1f25e238bf3ba0936",
+      "normalSHA256": "ed72651cc677451e219cd5283d5b0c213e3586e08bc905d864e4010be950c03e",
+      "uvSHA256": "78d8329126af2fa3b26e3da715c41644031cf13e01264ce4fcc22730ce17ae7c",
+      "indexSHA256": "e02015aba1a0ae7f3cb9da8df49abde6212495f94b5c6383ec29ddd739cc8a87"
+    },
+    {
+      "name": "V6 woodland leaf 0 card evergreen",
+      "vertices": 21000,
+      "triangles": 10500,
+      "attributeBytes": 483000,
+      "originalPositionsSHA256": "df0dcdf019de477e1bce224eb9a55ea555be6293129bdc3f352979395e6f2193",
+      "beforePositionsSHA256": "066d4cdcb41d2aa6d512fd001276058951a2544f1e5b1cbc70b601a3685ff628",
+      "afterPositionsSHA256": "9cb22cefb6b9e018aa258c9224157150e60886fa93c00416056442f79588dacf",
+      "normalSHA256": "6d387024e6c9bec6fc71700dfafcf96a76df0eb7c680ccda4136f2344ebc1149",
+      "uvSHA256": "04a268aa4642ed7fe1252a2af4ef7fbd5ed0a8c5cc8c86c7a6dc02d5d6d03664",
+      "indexSHA256": "4f9ffdc7313328e26952488a40baeb66e29814537ca4bee539370339d5a7ddf8"
+    },
+    {
+      "name": "V6 woodland leaf 1 card evergreen",
+      "vertices": 21448,
+      "triangles": 10724,
+      "attributeBytes": 493304,
+      "originalPositionsSHA256": "adf450596772a17401cb7422fbf8989b81e32710a23603bae31e5b843c95f4f8",
+      "beforePositionsSHA256": "64cc3b18adbd68f7b6873a81f526510cc81aae191090276afffc6aba7b5e7d5f",
+      "afterPositionsSHA256": "ed3a8f998723087aa49472fe9d1b5dc9ce96dc19ebf6976bc7338f296d35f57e",
+      "normalSHA256": "d4af454df7a0ce1b27a6839e319b78d1b0d48fa046abc9571bfd25dedc553af0",
+      "uvSHA256": "4a016b6c7755e2e24edfe0444e5836fd5b084c80b697e2c9258b91bc736b9852",
+      "indexSHA256": "670e12421b96dc0b74720af18498421fa47d2d605bbe1e6dbad803a896679fba"
+    },
+    {
+      "name": "V6 woodland leaf 2 card evergreen",
+      "vertices": 20832,
+      "triangles": 10416,
+      "attributeBytes": 479136,
+      "originalPositionsSHA256": "26cb758588a1387c4c1cc87a4fac60b02f4d2738b423abd520d55420bed1dd23",
+      "beforePositionsSHA256": "868e93701df555f82057607c46ab7a691a9d6369709665f4483693610e91c507",
+      "afterPositionsSHA256": "673536bb25d4846a47db658488f2177891082a87d62752acc6f4590ad939a67e",
+      "normalSHA256": "de4f298948a25a7ef647c1d506c233e684d6426ebbf146fe38b4e5aa2ef41755",
+      "uvSHA256": "b41ec6ec711fa539f837f66e1967732633f90779ad634aecd05dcefb811afb09",
+      "indexSHA256": "f1b37adc6ad74315e72456498b742162d68c5d8186e2af37f25db839b0b109ea"
+    },
+    {
+      "name": "V6 woodland leaf 3 card evergreen",
+      "vertices": 21880,
+      "triangles": 10940,
+      "attributeBytes": 503240,
+      "originalPositionsSHA256": "bf0d821cec5b5a8239e5c4e7b50e792d2524bafb0a580b198e2a2b285c0782d3",
+      "beforePositionsSHA256": "f3fae4402c08ba3e287bafdcc0a1b0f34ab52aba78a7e580390c8891ff20fabc",
+      "afterPositionsSHA256": "4b6d42a83a3a6a0e95228972c6fe18325506ebc7a340bbac3abb45a5f8994159",
+      "normalSHA256": "38f92a08524b974db127307a783d76f6ee7357e769056b65a6201b1164764d53",
+      "uvSHA256": "e07ff243def80ff286f9f56d6380140d5829d0c992003f63f22179223c6a8149",
+      "indexSHA256": "7f1e91a3a2af33fb1f7805addb273782ec527b26e8ad2b924dbec685a42b9da7"
+    },
+    {
+      "name": "V6 woodland leaf 4 card evergreen",
+      "vertices": 21520,
+      "triangles": 10760,
+      "attributeBytes": 494960,
+      "originalPositionsSHA256": "6ec26c43252a2e8346e73c47333af58d6c9da2abf9207d4524cb645f7ec0f6d2",
+      "beforePositionsSHA256": "124a2cb1c3e66b083c72f00acd88a49c1e3b7b9780f7cbdd79539cd5a1b595d7",
+      "afterPositionsSHA256": "4ced499692bcee7d4ea555251fb45c4fb1170697227cdd3197070b07379e5b5d",
+      "normalSHA256": "8b6592d92f3884b0884829bac2fdd3d5807fedcba67bd4cfd41b1ec58ef1965a",
+      "uvSHA256": "da860e48e49e50d4233b14d25257fb77137255080e7abaa421ea26f1459fe0bb",
+      "indexSHA256": "2b677757a1ffd83cd5198959bac7a853ec37a0a67ba64163a41fbf29bcaadd10"
+    }
+  ],
+  "roomExclusion": {
+    "margin": 0.15,
+    "overlaps": {
+      "before": [
+        {
+          "name": "V6 woodland leaf 0 card",
+          "first": 27212,
+          "positionSHA256": "7514330b64b4c0f61d1d8320f354d36cf4ad151ca7552e5276e4fa45535e1ab6"
+        },
+        {
+          "name": "V6 woodland leaf 0 card",
+          "first": 27240,
+          "positionSHA256": "89634d3edeb4f4ff8f328716a9a1d7f8eab3c444a6796baa65ebd3fe99d650a8"
+        },
+        {
+          "name": "V6 woodland leaf 2 card",
+          "first": 26572,
+          "positionSHA256": "12893638fa60d16dbdc91485439a9ecb4ae20cbf1af1506f4ec14a444a1aede4"
+        },
+        {
+          "name": "V6 woodland leaf 3 card",
+          "first": 26616,
+          "positionSHA256": "ecab4f2e8898915e8dbe7ae47a6f23042a6aa1128eb0fc3fc46341d7e301c8cc"
+        },
+        {
+          "name": "V6 woodland leaf 4 card",
+          "first": 26176,
+          "positionSHA256": "7c38055f6466abca1b3211925fd555721a1fa3c10e71580509c6bd9823f19ed5"
+        }
+      ],
+      "after": [
+        {
+          "name": "V6 woodland leaf 0 card",
+          "first": 27240,
+          "positionSHA256": "89634d3edeb4f4ff8f328716a9a1d7f8eab3c444a6796baa65ebd3fe99d650a8"
+        },
+        {
+          "name": "V6 woodland leaf 3 card",
+          "first": 26616,
+          "positionSHA256": "ecab4f2e8898915e8dbe7ae47a6f23042a6aa1128eb0fc3fc46341d7e301c8cc"
+        },
+        {
+          "name": "V6 woodland leaf 4 card",
+          "first": 26176,
+          "positionSHA256": "7c38055f6466abca1b3211925fd555721a1fa3c10e71580509c6bd9823f19ed5"
+        }
+      ]
+    },
+    "note": "Any remaining overlap retains the exact pre-change quad. No new or moved quads overlap the room box."
+  }
+}

@@ -74,6 +74,56 @@ describe('woodland crown cards', () => {
     cards.forEach((card) => card.dispose());
   });
 
+  it('guides the existing copy into the crown while keeping its reach and original branch anchor', () => {
+    const geometry = new THREE.PlaneGeometry(2, 2).translate(4, 5, 0);
+    // A tree to the left: these are outward crown shading normals, not the plane's +Z normal.
+    const normals = geometry.attributes.normal;
+    for (let i = 0; i < normals.count; i++) normals.setXYZ(i, 1, 0, 0);
+    const before = Array.from(normals.array);
+    broadenWoodlandCards(geometry);
+    const p = geometry.attributes.position;
+    const center = (start: number) => {
+      const sum = new THREE.Vector3();
+      for (let i = start; i < start + 4; i++) sum.add(new THREE.Vector3().fromBufferAttribute(p, i));
+      return sum.multiplyScalar(0.25);
+    };
+    const anchor = new THREE.Vector3(4, 5, 0);
+    expect(center(0).distanceTo(anchor)).toBeLessThan(1e-6);
+    const direction = center(4).sub(anchor);
+    expect(direction.clone().normalize().x).toBeLessThan(-0.9);
+    const size = new THREE.Vector3()
+      .fromBufferAttribute(p, 0)
+      .distanceTo(new THREE.Vector3().fromBufferAttribute(p, 3));
+    expect(direction.length() / size).toBeGreaterThanOrEqual(0.55 - 1e-6);
+    expect(direction.length() / size).toBeLessThanOrEqual(0.75 + 1e-6);
+    expect(Array.from(geometry.attributes.normal.array)).toEqual([...before, ...before]);
+    expect(p.count).toBe(8);
+    expect(geometry.index!.count).toBe(12);
+    geometry.dispose();
+  });
+
+  it('keeps the old scatter when an inward copy would overlap the protected room', () => {
+    const make = (normalX: number) => {
+      const geometry = new THREE.PlaneGeometry(2, 2).translate(4, 5, 0);
+      for (let i = 0; i < 4; i++) geometry.attributes.normal.setXYZ(i, normalX, 0, 0);
+      return geometry;
+    };
+    const inward = make(1);
+    broadenWoodlandCards(inward);
+    const bounds = new THREE.Box3();
+    for (let i = 4; i < 8; i++)
+      bounds.expandByPoint(new THREE.Vector3().fromBufferAttribute(inward.attributes.position, i));
+    const protectedCard = make(1);
+    broadenWoodlandCards(protectedCard, bounds);
+    const oldScatter = make(0); // No normal direction: the original random placement.
+    broadenWoodlandCards(oldScatter);
+    expect(Array.from(protectedCard.attributes.position.array)).toEqual(
+      Array.from(oldScatter.attributes.position.array),
+    );
+    expect(Array.from(inward.attributes.position.array)).not.toEqual(Array.from(oldScatter.attributes.position.array));
+    for (const geometry of [inward, protectedCard, oldScatter]) geometry.dispose();
+  });
+
   it('leaves continuous meshes intact', () => {
     const geometry = new THREE.PlaneGeometry(2, 2, 2, 2);
     const positions = Array.from(geometry.attributes.position.array);

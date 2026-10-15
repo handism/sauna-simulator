@@ -1,0 +1,1908 @@
+{
+  "order": [
+    "before1",
+    "after1",
+    "after2",
+    "before2"
+  ],
+  "browser": "155.0.8059.79",
+  "quality": "standard",
+  "dpr": 1.5,
+  "viewport": [
+    1200,
+    800
+  ],
+  "headingSteps": 0,
+  "fixedResolution": true,
+  "framesPerStep": 2,
+  "yawPerStep": 0.004,
+  "reports": {
+    "before1": {
+      "startTime": "2026-10-15T15:04:52.298Z",
+      "duration": 108497.724,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "after1": {
+      "startTime": "2026-10-15T15:06:41.450Z",
+      "duration": 101518.363,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "after2": {
+      "startTime": "2026-10-15T15:08:23.675Z",
+      "duration": 102564.023,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "before2": {
+      "startTime": "2026-10-15T15:10:06.991Z",
+      "duration": 102880.428,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "inputs": {
+    "before": {
+      "src/App.tsx": "efc42a35579a52c2f439407d39b3df79ea718be1abf23aa7d88d81c2a3a50f6e",
+      "src/main.tsx": "1d140ae9171833a16ea61473f0377b24217a2b7306b20765afb614e067df2fb5",
+      "src/index.css": "02433be09f14daf76d5d26a35e6577aef53fc4f7470f8a49eee90c3238b57eef",
+      "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+      "src/context/SaunaContext.tsx": "6af7ba57390729b1db7bdd78db12d3a49b2b7c95ef43878264f543b35f18c8b7",
+      "src/context/SaunaContext.test.tsx": "33855fbcc15647b07a00412c6e657a5d42b6994116893077e95140885c91954b",
+      "src/tests/App.test.tsx": "ef926ce759ddf998f519aa35f6329f8d6c6d0bcf0363e0777914c74611654da3",
+      "src/utils/preferences.test.ts": "1a721a46f2539cb350e2190f624dd819e7c9a2e70e790a23458f3c56fa32c98c",
+      "src/utils/saunaUtils.test.ts": "b74932183e3cc6c7e895905fabbd6382b6f38e872ec444cbeaf79ed5d9ec6814",
+      "src/utils/preferences.ts": "97cfa8ea91bc2810b37ce465a748eba7728cb2eba2f73aede474df958e94275d",
+      "src/utils/saunaUtils.ts": "7854cf732e4eab7170bb9f6297caf2cdb4b2ea86b4c443d6b67336a8b5946296",
+      "src/utils/scoreColor.ts": "5b8a19f70aff2445f57876073a102d3377d37852fa611b79caa1614221491237",
+      "src/components/CoolingBath.test.tsx": "523283eddfdabf46411f823a3f057d29f0a578786ef2a2f0fe7208c01139ff9c",
+      "src/components/CoolingBath.tsx": "e71c351f33126b260abcb3fd98bf29957d2985606919b61ced453b692c56a99b",
+      "src/components/StageStep.tsx": "57f9c8475481b41314278ca356c01c4654329e19c674f92586602faf45158177",
+      "src/components/TotonouSpace.tsx": "85717072f4804b43cc66b787b98f29631c0ddeaea6ffa8f08c8b7d590ffd34ee",
+      "src/components/StageDock.tsx": "66c51d04583083198518db65b81ee6a6c42ed801015d68dcdecaf37451a386c0",
+      "src/components/VolumeSetting.tsx": "c1a1c7d75ed5567ef38e0fc92d8d86eac8888fc5d3cbca5c248dc327e7d91b2d",
+      "src/components/ScoreHistory.tsx": "8a143b9fbe167d55b279165acb91140e138a188ebefad9786a1de9df8409fd91",
+      "src/components/ControlButtons.tsx": "3640791cf79deaf4e0afc9ea89eee7c474e252d5eab9ba20d3d121ce0105c825",
+      "src/components/SceneMode.test.tsx": "9c0a5adf4a0c47af4c65af81f00426489f58f61767d6917bf6bef2c103db6e56",
+      "src/components/TotonouSpace.test.tsx": "cb010b0a454bb9b792bb988788606ca27e3600362e715629af6dfc926f6186f7",
+      "src/components/SaunaRoom.test.tsx": "814e0407654968a6499077ef40758c2337f572f5f64fe0059a89b1819bb7faa0",
+      "src/components/HeartRateRow.tsx": "cd4fab53f137a18b1c1f7b298d152cb1e810ff10ccdafe60f9be412c884197ee",
+      "src/components/SceneMode.tsx": "e4f6f617a7da0dc8f425910bfcc073b20b173cf632e185e347f9bb16da92aab7",
+      "src/components/SaunaRoom.tsx": "dac6630f9b25a9e81f8376c5b32432560f52cc10913c7c768de26f552cb35ce7",
+      "src/components/CLAUDE.md": "230084b498d035b205de7232532d057c903f27e35363446710f323ba315032d2",
+      "src/components/ActionIcon.tsx": "dbc6a941ac1e585574b083559fd8dbd7c6d2b9e1b5df0d8c4be6fa9e460c8c30",
+      "src/components/StayTimer.tsx": "7dc9b4827ec753d53755763710924455c2500f976c929aea9140199b9bbab58a",
+      "src/components/3d/farForest.test.ts": "e090affbafcee85f6b16e56418467d5bb5e7a4df96d088fe5d578c9f036ff476",
+      "src/components/3d/steam.test.ts": "0b34f7c8d6a4e18c101f962b3f435bada9cddc2a016af21c8851f840ea4767d4",
+      "src/components/3d/farForest.ts": "846efd6125f1ed46595facd42a6dfaa366b2f8f5135d6f329cb7bd24ad171d5c",
+      "src/components/3d/warmupPrograms.test.ts": "bad1154d5296a98f3767bb34ad02bf42cb3ca2c6b43e8395944a5f2862e0f09c",
+      "src/components/3d/evergreenWoodland.ts": "2fd5a78720aab0132d147762c231c31385bb0dee1db9fbd589ddffa9de08f0ea",
+      "src/components/3d/warmupPrograms.ts": "5b45515548735e52f42cb44a50ad899b61ff28643b5d4fb4fc4bcf5e24992c10",
+      "src/components/3d/SaunaScene.test.tsx": "0a40539d8e82c01437f3c6ca74acba1fd524b14397bd6c30c9740474d4b56954",
+      "src/components/3d/rain.ts": "46e4fac9562b6a975b62fa753f1408b9583549bfab8c29132bd7fde1b3e912b0",
+      "src/components/3d/deckIrradiance.ts": "a8d341158caec83f54d9e38b35e80ded209a072c529aa6624537444196567f59",
+      "src/components/3d/gardenDetails.ts": "cf16a938729b016f400ff9cf7209d2c415688e562d8bc0ca24d139913d623acc",
+      "src/components/3d/foliage.test.ts": "95214e59bfc9cf55fcfa228fa8f05e9c725ce08472939776ccb2ab26a822834e",
+      "src/components/3d/interiorLights.test.ts": "0fb524e625932783f778596376b33989ed93cbcea291828db9a05572bcf23c21",
+      "src/components/3d/season.test.ts": "f8ae4a7e194f13576fb8e8d2321f55e8c46ca09ac2f909dad096093c8635ba9c",
+      "src/components/3d/steam.ts": "299ff59d9f1b9cb454b34fed24a0d1914a7f9d920b3f1378618272861af93a0f",
+      "src/components/3d/frameRate.test.ts": "25da8673d70cfbcb25884e7f7ff31c919483a67028a8a5377fd56e7d0ed04ad5",
+      "src/components/3d/hdrOutput.test.ts": "7d8d1525cd1e5b10829fc73966a24035966faf5ed606c58b1fc1ea4b0da6fef8",
+      "src/components/3d/lookControls.ts": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+      "src/components/3d/waterBottom.test.ts": "5d7765d9eb3714b601c388d1b63d1693418254ddddc2b9b20b1f7d3609091c92",
+      "src/components/3d/quality.ts": "74fd9de704f252220831238197ad50c998fd110e8f02d91dd740a81676b292fd",
+      "src/components/3d/woodlandCrowns.ts": "509ad6bf2b500f3ef3852a11b3ed7d1fc3ced7c388ae5d3613b02ffa00e49381",
+      "src/components/3d/reflection.test.ts": "baf808025fb752790297f745b1fc31ddbde90143d3b880cf7b1bd0bdeec2e128",
+      "src/components/3d/woodlandCrowns.test.ts": "b43fd0ba84d26301a76ba595f61f3cb3147dfa3abc0bb6777a340ba29fd179a7",
+      "src/components/3d/glossyLights.ts": "3091cd1f5bc120f7fa4c5c67f80b5e6de3c1dc01cc621480bfed2fdf1555d817",
+      "src/components/3d/autumnGround.ts": "ced3981af402716da32057cb5970a6b3f5f56d2278fc707757f29ac2c7fb4ba1",
+      "src/components/3d/autumnGround.test.ts": "f0cd46d0c71bc3583e0e6aa6a7e18ea56c41b6ad147f878c8b95766391f0b47b",
+      "src/components/3d/hdrOutput.ts": "abfe51600a17fdc92dea9e89235c6cc3c8c35f8ff6e91d012fbd95dd9500a30e",
+      "src/components/3d/temporalAA.ts": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+      "src/components/3d/modelMaterials.ts": "df303e348ea86db2fcfd85f95b8a72767fa63df2b0bba5e4256b2dc025ce3798",
+      "src/components/3d/lookControls.test.ts": "c393f11214417668c4493b01a616b6f17286572d7c7870d29107e3b61ae44d9b",
+      "src/components/3d/glass.ts": "243db8db43746f8685870b75249e5f064edc6cf125c106bea2f583721e308be8",
+      "src/components/3d/waterEffects.test.ts": "c8dd8bbae528de9c45988775732b4a847aed1b9387f85e8876edbd09c2b51b3c",
+      "src/components/3d/refraction.ts": "e2eb276ba24d908b47537af53f1092dbaf388dd528edecb0659fa4f34b31e3de",
+      "src/components/3d/winterSnow.ts": "fb5a917fea01159d1f4e788b13cc0663aadfb4f9c522d0d6bafa14e98ebd88e6",
+      "src/components/3d/waterEffects.ts": "9dd09030f89e0b79cfdd31c42d18f096ca835e0e7eb6ca62cd7569657f942131",
+      "src/components/3d/lighting.test.ts": "8eb9d4dc8cf3cff214b60a7d389d9da29c464cce99bd5c5cd5b2ea3ab3a01436",
+      "src/components/3d/season.ts": "15b7c72a410ade6efb1fb9bfb8405d1c1622fd3c024d83ed15610a140b87e609",
+      "src/components/3d/sceneWarmup.test.ts": "7d18aa21caf683d0ad5a4f6664c8cf5347e7fa2b5fd380476db7ff705fc4e73c",
+      "src/components/3d/shadowMask.test.ts": "99785297c98b5c456ed4d79da7500a9759f6070908a70ccd7f4abd9144387183",
+      "src/components/3d/temporalAA.test.ts": "b0d60bc5c5c439581ced7d260e6631f25a26f91fbe741d6666679fd44b1434c3",
+      "src/components/3d/caustics.test.ts": "2c13c16139e45fe69a58d7895f2f420611bf0e1f4034431fa130cdd84ffa4308",
+      "src/components/3d/warmupScheduler.ts": "242f51b5cf4af16b8eed2ed52423711a63b9e1484076d557f8607de5382509e1",
+      "src/components/3d/foliage.ts": "d900a695228c8788d37904f5ad54b9770bd4f33e8cf225f312739872ab35b1fe",
+      "src/components/3d/frameRate.ts": "9d1913989f063e90b0550de6f6343dd5cfeebe822462d58e9e1e70ab9be771d3",
+      "src/components/3d/crownNormals.test.ts": "701b332e808d420f25a3b3a4ec1607f78c0a6171f69c8afe68e24c54ad7d9c7e",
+      "src/components/3d/rain.test.ts": "c6f2830bfa0c2f9a13828c67355edcd191b7770248124f85601b68cd4beb1a2f",
+      "src/components/3d/planarReflection.ts": "5aed09d2e14cd06c10b921ea42d35a1b31017ca34be7ac43ffc5d8774c717e65",
+      "src/components/3d/imageRamp.ts": "199bcf80e5ef50f32e8643bb2f6faead7fa68dd07fee5dc59c7cc7e19ac31a67",
+      "src/components/3d/refraction.test.ts": "0c0ea7e75dd86a52e37ec20c1a4c4881af2fbdf04f477f3260a02eab9d04c92e",
+      "src/components/3d/springFlowers.ts": "e5aa3e2bd2f900a013f2303b5fb518ba4d92aba77e60f0c1129e95e2e0f7985c",
+      "src/components/3d/gardenDetails.test.ts": "e5214764679f4db7521ed01afcc5ec2f134ea2db058ec52a890e0a595cb08b02",
+      "src/components/3d/sky.ts": "424389b909111465a1cb83b560fe2a0250d1ce2d5be37bdb28a3acdd83618957",
+      "src/components/3d/lighting.ts": "74925d2adaa4279694b2ece21e0d283784c678946f83035abe5959c2fc4554f0",
+      "src/components/3d/sceneAssets.ts": "965ec77bb42bdc025b285f20eff2903789f338fb7aa2f338cf921f5bf4972bd2",
+      "src/components/3d/glass.test.ts": "53f16a6dc79fe52afc70b1c419f2e04dc71bde8aec5517b3ae7871607e1f5782",
+      "src/components/3d/imageRamp.test.ts": "01adff6b84743286f130b88fdffe7acc41a8bf08381291725a780647debe9cb9",
+      "src/components/3d/springFlowers.test.ts": "1c4c71c279b47340cd2eb531bad255b0cc8f849c1fb2796f5832e95b088dca2d",
+      "src/components/3d/crownNormals.ts": "487d2ee92e0561c3cc1cfb8d821c2736c3302ad3b7c968e516e270b7425d9393",
+      "src/components/3d/irradiance.test.ts": "e4a18af490077419730c87b85efbfabeea1dfbf7a8c498ca46d742599f0b5e03",
+      "src/components/3d/rainWetness.ts": "d72726ae0be8de466a9a8d67ae6c75d441a356823f7db2f7f0e4f4476921e8e7",
+      "src/components/3d/sky.test.ts": "caaf67602a5264698d55ac882297ad99662b7e7e6a8fc24b63fef9bd0731a407",
+      "src/components/3d/waterBottom.ts": "b207a9935584a19308ef02c89a7ce60afc78332a64caff453b3dda4d17bfd476",
+      "src/components/3d/surfaceDetails.ts": "360380d93959ada36b16fd6e4f3662a66cdf06a90ba357be3d2390059c42cc9a",
+      "src/components/3d/softShadows.ts": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+      "src/components/3d/warmupPasses.test.ts": "18cf813132d959dc227a3e9241fda1f466a056d8202213bbeebba7b80a42a6a3",
+      "src/components/3d/depthPrepass.test.ts": "4c7af6b71a6da42c0a8202828fdce101920a1fc7f103e8a6028899262f3427c7",
+      "src/components/3d/softShadows.test.ts": "c97516a7b770ef6d39cc5e73469df838dbce655f5a198fcf7169fd28931e8aa7",
+      "src/components/3d/winterSnow.test.ts": "53bead0338f8e0431f73f6cd628514b2423b45d52327cbab8cc16b65e4526bd7",
+      "src/components/3d/glossyLights.test.ts": "5d115fa8ddea526b4ca8e22d296368e95c92bcb2c47cae58c2a37158f130f7e0",
+      "src/components/3d/reflection.ts": "a65f2592dda0bf63081d17732fdfe1cd9ddd98164938cb17340bb2232bf81dc1",
+      "src/components/3d/noiseColor.ts": "c6bb54719bff5dd7bdcf222f31b7a6a5273016c91556416d20b6e747ff7f9dec",
+      "src/components/3d/noiseColor.test.ts": "7357fb3452ff12d7569c03727b06ee21b4996b9fd195faa658001b2cf58e5ab6",
+      "src/components/3d/deckIrradiance.test.ts": "6e5b814618b1028c8cdcc68bb558700fd06761da913dfa6ee543982b9a1d802c",
+      "src/components/3d/depthPrepass.ts": "519cff11b7ac8a5c149cfe88a5e0e9004770ada603d8873232e9fcc50bee4c76",
+      "src/components/3d/frameMetrics.test.ts": "23e9f51b43e7ffdc2bbd0e2515c7b0dc3dcb417a5626f619803eebaa7e52672a",
+      "src/components/3d/dynamicResolution.test.ts": "8caf048e9bc54eae84d3d23d593a6807f160c69db44d9a5e372d70b46555c576",
+      "src/components/3d/agx.test.ts": "8780f2c3f0ed088f4d10b86e4c62ecd1291657df89667e3ee98ae191f5ee7aa7",
+      "src/components/3d/sceneWarmup.ts": "04cfa73668c8fdcb4225c7ad1206d52dfd31889fbd7031f7f3db29b287ba9a58",
+      "src/components/3d/waterLightOcclusion.ts": "5c8351e36bf791301f245f76bd5fd6e22e42a44c37ede3f3302919afc3af1105",
+      "src/components/3d/surfaceDetails.test.ts": "d45646793de06a809a2b6538a9cd35dd2088aa35d7de498bb616e8d8b77ac620",
+      "src/components/3d/frameMetrics.ts": "7c6dfe830edca2e16ebd7594ef337c1fea1ecc06418b2997b4c4cad44c0037d7",
+      "src/components/3d/warmupScheduler.test.ts": "d88a9ffa3ca3cec1a5fd498a0e06cb847c05a3811a06dde72f3568be7e26b747",
+      "src/components/3d/modelMaterials.test.ts": "71f15381d130e07d80202dd2bd0fca0a40082389e0d6eea18b10a7147f14e2b0",
+      "src/components/3d/planarReflection.test.ts": "33c23c09c3b887d10309dd6a56d3198b1f588cbccdd838f46b5b9becef78c6c2",
+      "src/components/3d/leafCluster.ts": "31581aff8bd4648a4afcaaf934471189e98ef6279568f156f908a50180dd1c44",
+      "src/components/3d/sky.json": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d",
+      "src/components/3d/waterLightOcclusion.test.ts": "c0d941c08283e8cfb038900995b012d38a44fe6b12a49a666652da70628f8064",
+      "src/components/3d/warmupPasses.ts": "6185892d64481ee4182e0e290f8c7c6f09d18b60dea32a10532913ac08beeaa8",
+      "src/components/3d/agx.ts": "e61f358b008dbe6cd1a4606545fe66ea87e18fe21b572d462990fa48ee411dbc",
+      "src/components/3d/irradiance.ts": "0bc82fd4802fe5eefbe539bd9db589b5ec3f16bac39921db41648c09c618008d",
+      "src/components/3d/evergreenWoodland.test.ts": "0cd2d357106de5da733d67fb41a3d6dbda8067d82459609ba8b7ab674efee22d",
+      "src/components/3d/gardenStream.ts": "830b3c5056df31be8311d90814a103e35365a41754e1f490b464ef1d08f10a5a",
+      "src/components/3d/SaunaScene.tsx": "71193eef628f27717e933508628355861b79f72a425172a216629d40a9bffeb8",
+      "src/components/3d/CLAUDE.md": "d4784a5e9bf159d6ec92fc73fd10551261930195dc37eecc426e5dfd7f186e45",
+      "src/components/3d/shadowMask.ts": "29a5f8655708faee940919bdcf5f478af3a1ea3537749d62780ded8367ce6a23",
+      "src/components/3d/interiorLights.ts": "9aecde3c881e1c3f7379903c0e973cecfa698a2cb7d66e86595788131398a2f6",
+      "src/components/3d/rainWetness.test.ts": "f5066cc40995c1708bd9f22db84fe851866bb62e762e5ad8f39787d22b3fe36e",
+      "src/components/3d/dynamicResolution.ts": "358b4bd82e57ba85a02bb6fc67a26829f8a9bf72d2a77e5da7c64d8c72f57a89",
+      "src/components/3d/caustics.ts": "97a63fe23a116b258d43141bba0a4df8d188f386500d2dd8c394fe4d82b8c62f",
+      "src/components/3d/leafCluster.test.ts": "a724fe1f37204399ad040e39747e338dfc0cb6d13e6e41ce27937fc94d7c43cc",
+      "src/components/3d/gardenBloom.ts": "6f520adb037a66fc9dffdb13256ddf0930a61cf07be398cccbb42b5c1d852fc1",
+      "src/hooks/useKeyboardShortcut.test.tsx": "99ce619df8e55c60a9e5cb4b68b781b8e92dff6c16adfcf9d4f69ecb2fd8e71c",
+      "src/hooks/useSecondTicker.test.ts": "0aa971b4661a0d85c5ef1602bc9de94f6fbd39509ec1d50101a459e5db30f2b4",
+      "src/hooks/useDismissibleDetails.ts": "500a5744af10ebcac03be06cc6704b45d48170da7d00b7f2a30238666d5320b1",
+      "src/hooks/spatialAudio.ts": "01f402fc74f624f72319da070f93f442e627f0facb7b2267076f29bbee6c0b45",
+      "src/hooks/audioWorker.test.ts": "5b17aec44f3aa83cffb128fa6c92b807f4128c33990a642abbe41dd8890dfe21",
+      "src/hooks/useAudioEngine.bench.test.ts": "615cfd1f3866253f1655519cc8137c144b09248d31ffd74175abaf13d18155af",
+      "src/hooks/audioWorker.ts": "3f32cf782e44d4a57e29145d2c225a18d38c49a4d460237152a92bcb6ba70364",
+      "src/hooks/useAudioEngine.test.ts": "387c4184f4da08f8b1edd949be7848dee07e5e6000c0d02f8cfe537b5b15d4ee",
+      "src/hooks/useAudioEngine.ts": "d48648cc8da8396b615ef81e286ab3e23bdaac8ba33223d6a963d29b3dc3a463",
+      "src/hooks/useFullscreen.ts": "5655b65b2368d685a2c84f89fea24208860e63e35cbc3933f315f53b5ceb4e49",
+      "src/hooks/noiseWorkerClient.ts": "b29e47ae1a4a783a6c092171f1dbd54c3d7389180671520f306f6ae50f7139ad",
+      "src/hooks/spatialAudio.test.ts": "8054a52bac4e39a4aea5fe5d37dbb3861e64719cad462389694c439f319ff6b3",
+      "src/hooks/useSecondTicker.ts": "f8025f6d0eea34af6789a27fadf9f8f674332482fe72e9da94498c2a53f33084",
+      "src/hooks/useKeyboardShortcut.ts": "cb425de95e113936e2d465b75d7917259e71607f50e02182336e57ebdafc7e02",
+      "src/hooks/useSaunaSession.ts": "0f3662cd803e444ff41f2f78ec50531252cd6086a70fcc5e8bf3cc7524ce154c",
+      "public/sauna_bg.webp": "58233f0a5531c9094dfa9f30474ff213d07d5c93f58bcaafb114b54567cb6c37",
+      "public/water_bg.webp": "e28902ead7c5f3e2dfb36855d0f99a05c16dfc16c457d0e415a589c8794414e7",
+      "public/totonou_bg.webp": "33137888ac05dc1dedb6847cd2525bbb112bd5f65f99ed47ba3125dedb6556d3",
+      "public/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "public/favicon.svg": "b3166847d1800bd98de572bb23f26019f07da3fd33697186427a49ba10c3f781",
+      "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+      "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+      "public/models/CREDITS.md": "c2ea788205936aba0fc2009bc20d83053531e89216a521986f98addbbd57cdb4",
+      "public/models/deck-irradiance.bin": "3fad6ed06fb3f30e147eebe9961561a14050eebdb6ecea70674f3c21ee9f143f",
+      "public/models/sauna.scene.json": "94687703bde085b5fe8b03345b44a81521835524be7eae47f210c5329d673647",
+      "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+      "public/models/deck-irradiance.json": "51059c573abaa80dc883d6918767c0e70bccaf9dac14e6f47914b892aec74070",
+      "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+      "e2e/scene-no-hdr.e2e.ts": "f31c6db58b27850be1a0ffe8eca0425b7cad795d07cecee6ec3fd6a9906b82dd",
+      "e2e/sun-shadow.gpu.ts": "1181d964cfdebb4d0a526f4c03e7774928c97e81d391ee0329d4aec3d0f1f387",
+      "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3",
+      "e2e/scene-stability.soak.ts": "4626f3916525331187741c29d8aa6cf15968d8682b7b935f36ae723164a0e367",
+      "e2e/surface-details.visual.ts": "d9dee861f60b6b7b54be6e7cfb5bbfdc246c3aa71a0eba84ee055c943b5a33d2",
+      "e2e/scene-shader.e2e.ts": "aa08a44da13cc769d5eb92b51c0fc14bcbae04f1fcf6b1c997072ea4d3f3d526",
+      "e2e/quiet-ui.e2e.ts": "c4b138dae10575a6ab49cbeadb847420e64f1dc596d1b90d3b9eceef30e34ab4",
+      "e2e/temporal-aa.e2e.ts": "607456b9e20a10b832307a7f6d117dd2cd0bfdcd4c95030c60ca1d054772ae66",
+      "e2e/dynamic-resolution.e2e.ts": "9c03483746db93d606ac8e289a94418263b12cbf0d08982aeac51a6562495bb6",
+      "e2e/water-gloss-capture.visual.ts": "8b7a9c3882033b61b1778859cb460020aa2637870e0daab8f7bc6a990205afa9",
+      "e2e/garden-surround.visual.ts": "2f1ff6cdf240831983b80c468c85f67c7e4a057d36cafb1a435338ef44e7aab7",
+      "e2e/frame-rate.e2e.ts": "526fe722d623412f92ca0d54c16c13741ff0c965fd2ae22d1f03752382156a07",
+      "e2e/reduced-motion.e2e.ts": "49908eda261389be2b74d8fa3b89a5a87feb41d6e33f6554614e1f0aa3f70910",
+      "e2e/weather.visual.ts": "972283ddb07f20ff950fec33c61393dcb442e782d5572dc6250155e696c0eb64",
+      "e2e/scene-loading.network.ts": "bcfb568e33416d9838d6d59a4738725a59cd67eb46df0a7842a72b5fabf5eba4",
+      "e2e/season.e2e.ts": "435921fe56493c836edb80bddb2a46d61cfd61e92f1dae4db33baed9b1684841",
+      "e2e/capture-stability.visual.ts": "057bc8b02290948bf6a15ab05af09bfe44d33a6e2c518f7a2dfb925e8429db1e",
+      "e2e/quality-stall.gpu.ts": "71131d335351c76ce68ad24e108aa7086a7378b9aacd50c2e3e72bcf36cdae47",
+      "e2e/scene-warmup.e2e.ts": "1c6af8df0a6c18d5766780012f10b2d73bd785051b94ef8755b2647db1f47bc2",
+      "e2e/frame-cost.ts": "1b134b8e1264b7aa819dffeefcf4555eb8ff1b219c2a74205b4abf2339fae39a",
+      "e2e/shadow-samples.visual.ts": "a0d257e8232223c0033b803d5ff24811c482a12513ace208fea34dd2ce8374ec",
+      "e2e/scene-lifecycle.e2e.ts": "c8ae1ba9a86dfd453077bf727f157d6733a609868b15ed9db7d5de71335d6e93",
+      "e2e/deck-light.visual.ts": "7cfada49221b1b6ca5329c7b5e880003c0f3efbab27aa6c9f703d1ed491dd976",
+      "e2e/audio-nodes.e2e.ts": "9e1870e125259d6b8df332185cba81401fed52d98640ae1c810efb2d25fed9f9",
+      "e2e/soak-timing.ts": "518578a585c5de8917d5be32b11090169fa1b6f8dd7d0ea9068d56f5c98d7569",
+      "e2e/ui-comfort.e2e.ts": "dd840ff1a23e7fd43683ba64b44fcd5b8f21636109bd0a5c4353d6878683d691",
+      "e2e/model-candidate.ts": "4abdb49e6babc26d702e8463a6949df427a0cdc4558d531492f61f7cc2304455",
+      "e2e/resolution-steps.visual.ts": "a02e93bd0a1a16501d12da5e9102d826590363725ac5295aac221b299a3fa7d9",
+      "e2e/scene-touch.e2e.ts": "61168034f6af29c9955743ab7bc9428ee32ebb00d2cd634d34466bbc997743d5",
+      "e2e/shadow-cost.gpu.ts": "530c3803a419c81f95b12a1e682b2a03399db8577fb6ba1f09143a6ac2a39222",
+      "e2e/garden-details.e2e.ts": "76df1c5229b02d1deb3244c9cb0c9ae420cc4239f9aabcdfc7656683d67aa217",
+      "e2e/water-bump-motion.visual.ts": "7ac9a85e77c635749c268a9f26781dbee92fe27904771cf40dae780fe438d18b",
+      "e2e/frame-cost.gpu.ts": "22ca10621f2ed563d40be408b9e00805f3184ae127a1e0743f68ed02ceaf79c6",
+      "e2e/scene-gpu-time.gpu.ts": "1b6c286df42067aa2eecae2e9c404bc021b6490c5ad1b14f38a0d6cb950cb240",
+      "e2e/caustics.e2e.ts": "37769ad2723cbdda5a11f76524c15e2c2df7bc879336b3736c132a09c807db6a",
+      "e2e/stage-compare.visual.ts": "4fdd4637aaa4ab7acbc5fca393e40951e3e7d3c0ba0d1d12981d62aa959f7d1b",
+      "e2e/gpu-memory.ts": "b9d7cd64a9acb0cbf4c2c0628b50b235e36c0b776e5c95bab69e4827168f721f",
+      "e2e/resolution-control.ts": "0c28238fad8d67f24b9473e0c04f855706c38ba245344c70cd6c23c44af364d7",
+      "e2e/garden-indices.gpu.ts": "ded88bbe5f430099c46b68e21c86968f3d9686c788f71ad1194dc169d9dad740",
+      "e2e/resolution-shimmer.visual.ts": "823913c9cbb042aee0d2f4cf746d87e5f2114a36867a6ae4bc039e91e5680302",
+      "e2e/mirror-steps.visual.ts": "17524bc7c9428b8ec8ed36028c9f550bbf80b97284bf87858cfeec8a4230f49a",
+      "e2e/noise-color.e2e.ts": "f4aaaf9d3f9363a9afd0f5c2957d4ffea968a529428fdb1e99da4430f9890359",
+      "e2e/sun-transition.visual.ts": "0f4a9b3bfe85aee7aa784c3eb8d01b921168793531583e597570168e54974905",
+      "e2e/scene-capture.ts": "e46276540e55f19670c2fe1265290911d61b71bddf0326324a0913499f6e2f9b",
+      "e2e/cycles-compare.visual.ts": "24a5f227458a96c7d1999a9edfdbc65d979ff63635c664638e78e265a4159c29",
+      "e2e/scene-viewport.e2e.ts": "74d2420d2ce83ed32e692973e4bee4b391f0e9de994bc2e9af8621ee2e89a9e7",
+      "e2e/settings-controls.ts": "3c67e6fbfe59a05817b9ab5d930becc88927e110cfee49ca8e5c96ba143aec33",
+      "e2e/shadow-variants.ts": "52969cffa2bde286d1ae7d7ba340e855676bc9ec6719714197f8e20e3e6913a9",
+      "e2e/garden-stream.visual.ts": "ccdeec46adf48ef97544641b947178410b1ce1ec6e2f2f38f4ba91ecb41d232c",
+      "e2e/auto-lighting.visual.ts": "6ab6ff4267e01792aebb013d2d2066d423cd9443fffc4fe9518ab8c207b1426a",
+      "e2e/keyboard-shortcuts.e2e.ts": "39b309ee307ea108fcaf69c5a2f8fd2e0006d44f01d10efcf8ae693dc06547e7",
+      "e2e/body-normals-look.visual.ts": "6da14e2ded63759d1246501a4dc70393bc414a6b670415bc0161b79b3a171e82",
+      "e2e/warmup-surround.visual.ts": "dc7705612c64971cb7ef0c2f9370d62ff82747af06dd5c5343d742588aa94906",
+      "e2e/gpu-memory.e2e.ts": "c1b6ca48c82a084e5bb0f037e18346b565f35b0dc758503a58bb70327c9b4bee",
+      "e2e/scene-chunk.e2e.ts": "e3b2fdb4f67ace3c47b4c6a36f808c3e63d8f266b2717189edba4835b05505c1",
+      "e2e/auto-lighting.motion.ts": "a11b9792745aa05f810a38d6b442fe00cbc3d87dd105f3e482838169484be504",
+      "e2e/load-compile.gpu.ts": "024279fbe36fe3e12136693ec80bb437a9d75e75a5b089941d188c08ce497fb0",
+      "e2e/CLAUDE.md": "599f70eb986cac8bb0088c6577164e446699a13ac1dfda28320b9361dcfc9400",
+      "e2e/sky.e2e.ts": "dda3c4e038310b5ecced7faed4e135e03e0d5e77b8cd36319ba1e84f4931b797",
+      "e2e/body-normals.visual.ts": "ab73be28782ef64a9a1e7d00cb2289cf79c1412054908ca9bffe426cb85133d3",
+      "e2e/scene-aurora.e2e.ts": "38e19e887e44d2126c49cd229a3507b83b724b5c40c49b8c1ba98abe5ceb2d01",
+      "e2e/garden-motion.gpu.ts": "6a576f1b60ea9c8bcde4322c7001124abb91250151375f2b620c7db7452c98c1",
+      "e2e/scene-survey.visual.ts": "f2d27ebcbb6cc8054f78bbba14b2154c17da2539c2ecbb09481b9ad4510f0b68",
+      "e2e/fixtures/blender-caustic.json": "7f2ce8a8e6eb37ad23c6b07d629eb2e801e6e5d89842485d0d36912d8c7ab5a2",
+      "e2e/fixtures/cycles-cameras.json": "96ae74b22212564c8ab1f783649a550be27553c7e5ec8bd8935c4111a8888b6a",
+      "e2e/fixtures/blender-sky.json": "30d2f642840564b0176b9c8f2c124db0ef4ced277eef5aeba1b7b3b6fb565dd1",
+      "e2e/fixtures/blender-noise.json": "6d1261764e322f00e3b0ee57bb1d6c350ce428fdff15eb604ca246d0754d247d",
+      "playwright.config.ts": "4ba959e8f9ae047b174da70f0276bdf37ff0f343e1a113abee9deaa7c0327858"
+    },
+    "after": {
+      "src/App.tsx": "efc42a35579a52c2f439407d39b3df79ea718be1abf23aa7d88d81c2a3a50f6e",
+      "src/main.tsx": "1d140ae9171833a16ea61473f0377b24217a2b7306b20765afb614e067df2fb5",
+      "src/index.css": "02433be09f14daf76d5d26a35e6577aef53fc4f7470f8a49eee90c3238b57eef",
+      "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+      "src/context/SaunaContext.tsx": "6af7ba57390729b1db7bdd78db12d3a49b2b7c95ef43878264f543b35f18c8b7",
+      "src/context/SaunaContext.test.tsx": "33855fbcc15647b07a00412c6e657a5d42b6994116893077e95140885c91954b",
+      "src/tests/App.test.tsx": "ef926ce759ddf998f519aa35f6329f8d6c6d0bcf0363e0777914c74611654da3",
+      "src/utils/preferences.test.ts": "1a721a46f2539cb350e2190f624dd819e7c9a2e70e790a23458f3c56fa32c98c",
+      "src/utils/saunaUtils.test.ts": "b74932183e3cc6c7e895905fabbd6382b6f38e872ec444cbeaf79ed5d9ec6814",
+      "src/utils/preferences.ts": "97cfa8ea91bc2810b37ce465a748eba7728cb2eba2f73aede474df958e94275d",
+      "src/utils/saunaUtils.ts": "7854cf732e4eab7170bb9f6297caf2cdb4b2ea86b4c443d6b67336a8b5946296",
+      "src/utils/scoreColor.ts": "5b8a19f70aff2445f57876073a102d3377d37852fa611b79caa1614221491237",
+      "src/components/CoolingBath.test.tsx": "523283eddfdabf46411f823a3f057d29f0a578786ef2a2f0fe7208c01139ff9c",
+      "src/components/CoolingBath.tsx": "e71c351f33126b260abcb3fd98bf29957d2985606919b61ced453b692c56a99b",
+      "src/components/StageStep.tsx": "57f9c8475481b41314278ca356c01c4654329e19c674f92586602faf45158177",
+      "src/components/TotonouSpace.tsx": "85717072f4804b43cc66b787b98f29631c0ddeaea6ffa8f08c8b7d590ffd34ee",
+      "src/components/StageDock.tsx": "66c51d04583083198518db65b81ee6a6c42ed801015d68dcdecaf37451a386c0",
+      "src/components/VolumeSetting.tsx": "c1a1c7d75ed5567ef38e0fc92d8d86eac8888fc5d3cbca5c248dc327e7d91b2d",
+      "src/components/ScoreHistory.tsx": "8a143b9fbe167d55b279165acb91140e138a188ebefad9786a1de9df8409fd91",
+      "src/components/ControlButtons.tsx": "3640791cf79deaf4e0afc9ea89eee7c474e252d5eab9ba20d3d121ce0105c825",
+      "src/components/SceneMode.test.tsx": "9c0a5adf4a0c47af4c65af81f00426489f58f61767d6917bf6bef2c103db6e56",
+      "src/components/TotonouSpace.test.tsx": "cb010b0a454bb9b792bb988788606ca27e3600362e715629af6dfc926f6186f7",
+      "src/components/SaunaRoom.test.tsx": "814e0407654968a6499077ef40758c2337f572f5f64fe0059a89b1819bb7faa0",
+      "src/components/HeartRateRow.tsx": "cd4fab53f137a18b1c1f7b298d152cb1e810ff10ccdafe60f9be412c884197ee",
+      "src/components/SceneMode.tsx": "e4f6f617a7da0dc8f425910bfcc073b20b173cf632e185e347f9bb16da92aab7",
+      "src/components/SaunaRoom.tsx": "dac6630f9b25a9e81f8376c5b32432560f52cc10913c7c768de26f552cb35ce7",
+      "src/components/CLAUDE.md": "230084b498d035b205de7232532d057c903f27e35363446710f323ba315032d2",
+      "src/components/ActionIcon.tsx": "dbc6a941ac1e585574b083559fd8dbd7c6d2b9e1b5df0d8c4be6fa9e460c8c30",
+      "src/components/StayTimer.tsx": "7dc9b4827ec753d53755763710924455c2500f976c929aea9140199b9bbab58a",
+      "src/components/3d/farForest.test.ts": "e090affbafcee85f6b16e56418467d5bb5e7a4df96d088fe5d578c9f036ff476",
+      "src/components/3d/steam.test.ts": "0b34f7c8d6a4e18c101f962b3f435bada9cddc2a016af21c8851f840ea4767d4",
+      "src/components/3d/farForest.ts": "846efd6125f1ed46595facd42a6dfaa366b2f8f5135d6f329cb7bd24ad171d5c",
+      "src/components/3d/warmupPrograms.test.ts": "bad1154d5296a98f3767bb34ad02bf42cb3ca2c6b43e8395944a5f2862e0f09c",
+      "src/components/3d/evergreenWoodland.ts": "2fd5a78720aab0132d147762c231c31385bb0dee1db9fbd589ddffa9de08f0ea",
+      "src/components/3d/warmupPrograms.ts": "5b45515548735e52f42cb44a50ad899b61ff28643b5d4fb4fc4bcf5e24992c10",
+      "src/components/3d/SaunaScene.test.tsx": "0a40539d8e82c01437f3c6ca74acba1fd524b14397bd6c30c9740474d4b56954",
+      "src/components/3d/rain.ts": "46e4fac9562b6a975b62fa753f1408b9583549bfab8c29132bd7fde1b3e912b0",
+      "src/components/3d/deckIrradiance.ts": "a8d341158caec83f54d9e38b35e80ded209a072c529aa6624537444196567f59",
+      "src/components/3d/gardenDetails.ts": "cf16a938729b016f400ff9cf7209d2c415688e562d8bc0ca24d139913d623acc",
+      "src/components/3d/foliage.test.ts": "95214e59bfc9cf55fcfa228fa8f05e9c725ce08472939776ccb2ab26a822834e",
+      "src/components/3d/interiorLights.test.ts": "0fb524e625932783f778596376b33989ed93cbcea291828db9a05572bcf23c21",
+      "src/components/3d/season.test.ts": "f8ae4a7e194f13576fb8e8d2321f55e8c46ca09ac2f909dad096093c8635ba9c",
+      "src/components/3d/steam.ts": "299ff59d9f1b9cb454b34fed24a0d1914a7f9d920b3f1378618272861af93a0f",
+      "src/components/3d/frameRate.test.ts": "25da8673d70cfbcb25884e7f7ff31c919483a67028a8a5377fd56e7d0ed04ad5",
+      "src/components/3d/hdrOutput.test.ts": "7d8d1525cd1e5b10829fc73966a24035966faf5ed606c58b1fc1ea4b0da6fef8",
+      "src/components/3d/lookControls.ts": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+      "src/components/3d/waterBottom.test.ts": "5d7765d9eb3714b601c388d1b63d1693418254ddddc2b9b20b1f7d3609091c92",
+      "src/components/3d/quality.ts": "74fd9de704f252220831238197ad50c998fd110e8f02d91dd740a81676b292fd",
+      "src/components/3d/woodlandCrowns.ts": "37962f88faf2c75b9c3b9140dc8e2c1b076f0494aa4630fa247530a5031635ad",
+      "src/components/3d/reflection.test.ts": "baf808025fb752790297f745b1fc31ddbde90143d3b880cf7b1bd0bdeec2e128",
+      "src/components/3d/woodlandCrowns.test.ts": "b43fd0ba84d26301a76ba595f61f3cb3147dfa3abc0bb6777a340ba29fd179a7",
+      "src/components/3d/glossyLights.ts": "3091cd1f5bc120f7fa4c5c67f80b5e6de3c1dc01cc621480bfed2fdf1555d817",
+      "src/components/3d/autumnGround.ts": "ced3981af402716da32057cb5970a6b3f5f56d2278fc707757f29ac2c7fb4ba1",
+      "src/components/3d/autumnGround.test.ts": "f0cd46d0c71bc3583e0e6aa6a7e18ea56c41b6ad147f878c8b95766391f0b47b",
+      "src/components/3d/hdrOutput.ts": "abfe51600a17fdc92dea9e89235c6cc3c8c35f8ff6e91d012fbd95dd9500a30e",
+      "src/components/3d/temporalAA.ts": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+      "src/components/3d/modelMaterials.ts": "56ecd53a257b91dc595337556fe8ffaae6d1a25fdc22935e3f7a49cd6b8b4975",
+      "src/components/3d/lookControls.test.ts": "c393f11214417668c4493b01a616b6f17286572d7c7870d29107e3b61ae44d9b",
+      "src/components/3d/glass.ts": "243db8db43746f8685870b75249e5f064edc6cf125c106bea2f583721e308be8",
+      "src/components/3d/waterEffects.test.ts": "c8dd8bbae528de9c45988775732b4a847aed1b9387f85e8876edbd09c2b51b3c",
+      "src/components/3d/refraction.ts": "e2eb276ba24d908b47537af53f1092dbaf388dd528edecb0659fa4f34b31e3de",
+      "src/components/3d/winterSnow.ts": "fb5a917fea01159d1f4e788b13cc0663aadfb4f9c522d0d6bafa14e98ebd88e6",
+      "src/components/3d/waterEffects.ts": "9dd09030f89e0b79cfdd31c42d18f096ca835e0e7eb6ca62cd7569657f942131",
+      "src/components/3d/lighting.test.ts": "8eb9d4dc8cf3cff214b60a7d389d9da29c464cce99bd5c5cd5b2ea3ab3a01436",
+      "src/components/3d/season.ts": "15b7c72a410ade6efb1fb9bfb8405d1c1622fd3c024d83ed15610a140b87e609",
+      "src/components/3d/sceneWarmup.test.ts": "7d18aa21caf683d0ad5a4f6664c8cf5347e7fa2b5fd380476db7ff705fc4e73c",
+      "src/components/3d/shadowMask.test.ts": "99785297c98b5c456ed4d79da7500a9759f6070908a70ccd7f4abd9144387183",
+      "src/components/3d/temporalAA.test.ts": "b0d60bc5c5c439581ced7d260e6631f25a26f91fbe741d6666679fd44b1434c3",
+      "src/components/3d/caustics.test.ts": "2c13c16139e45fe69a58d7895f2f420611bf0e1f4034431fa130cdd84ffa4308",
+      "src/components/3d/warmupScheduler.ts": "242f51b5cf4af16b8eed2ed52423711a63b9e1484076d557f8607de5382509e1",
+      "src/components/3d/foliage.ts": "d900a695228c8788d37904f5ad54b9770bd4f33e8cf225f312739872ab35b1fe",
+      "src/components/3d/frameRate.ts": "9d1913989f063e90b0550de6f6343dd5cfeebe822462d58e9e1e70ab9be771d3",
+      "src/components/3d/crownNormals.test.ts": "701b332e808d420f25a3b3a4ec1607f78c0a6171f69c8afe68e24c54ad7d9c7e",
+      "src/components/3d/rain.test.ts": "c6f2830bfa0c2f9a13828c67355edcd191b7770248124f85601b68cd4beb1a2f",
+      "src/components/3d/planarReflection.ts": "5aed09d2e14cd06c10b921ea42d35a1b31017ca34be7ac43ffc5d8774c717e65",
+      "src/components/3d/imageRamp.ts": "199bcf80e5ef50f32e8643bb2f6faead7fa68dd07fee5dc59c7cc7e19ac31a67",
+      "src/components/3d/refraction.test.ts": "0c0ea7e75dd86a52e37ec20c1a4c4881af2fbdf04f477f3260a02eab9d04c92e",
+      "src/components/3d/springFlowers.ts": "e5aa3e2bd2f900a013f2303b5fb518ba4d92aba77e60f0c1129e95e2e0f7985c",
+      "src/components/3d/gardenDetails.test.ts": "e5214764679f4db7521ed01afcc5ec2f134ea2db058ec52a890e0a595cb08b02",
+      "src/components/3d/sky.ts": "424389b909111465a1cb83b560fe2a0250d1ce2d5be37bdb28a3acdd83618957",
+      "src/components/3d/lighting.ts": "74925d2adaa4279694b2ece21e0d283784c678946f83035abe5959c2fc4554f0",
+      "src/components/3d/sceneAssets.ts": "965ec77bb42bdc025b285f20eff2903789f338fb7aa2f338cf921f5bf4972bd2",
+      "src/components/3d/glass.test.ts": "53f16a6dc79fe52afc70b1c419f2e04dc71bde8aec5517b3ae7871607e1f5782",
+      "src/components/3d/imageRamp.test.ts": "01adff6b84743286f130b88fdffe7acc41a8bf08381291725a780647debe9cb9",
+      "src/components/3d/springFlowers.test.ts": "1c4c71c279b47340cd2eb531bad255b0cc8f849c1fb2796f5832e95b088dca2d",
+      "src/components/3d/crownNormals.ts": "487d2ee92e0561c3cc1cfb8d821c2736c3302ad3b7c968e516e270b7425d9393",
+      "src/components/3d/irradiance.test.ts": "e4a18af490077419730c87b85efbfabeea1dfbf7a8c498ca46d742599f0b5e03",
+      "src/components/3d/rainWetness.ts": "d72726ae0be8de466a9a8d67ae6c75d441a356823f7db2f7f0e4f4476921e8e7",
+      "src/components/3d/sky.test.ts": "caaf67602a5264698d55ac882297ad99662b7e7e6a8fc24b63fef9bd0731a407",
+      "src/components/3d/waterBottom.ts": "b207a9935584a19308ef02c89a7ce60afc78332a64caff453b3dda4d17bfd476",
+      "src/components/3d/surfaceDetails.ts": "360380d93959ada36b16fd6e4f3662a66cdf06a90ba357be3d2390059c42cc9a",
+      "src/components/3d/softShadows.ts": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+      "src/components/3d/warmupPasses.test.ts": "18cf813132d959dc227a3e9241fda1f466a056d8202213bbeebba7b80a42a6a3",
+      "src/components/3d/depthPrepass.test.ts": "4c7af6b71a6da42c0a8202828fdce101920a1fc7f103e8a6028899262f3427c7",
+      "src/components/3d/softShadows.test.ts": "c97516a7b770ef6d39cc5e73469df838dbce655f5a198fcf7169fd28931e8aa7",
+      "src/components/3d/winterSnow.test.ts": "53bead0338f8e0431f73f6cd628514b2423b45d52327cbab8cc16b65e4526bd7",
+      "src/components/3d/glossyLights.test.ts": "5d115fa8ddea526b4ca8e22d296368e95c92bcb2c47cae58c2a37158f130f7e0",
+      "src/components/3d/reflection.ts": "a65f2592dda0bf63081d17732fdfe1cd9ddd98164938cb17340bb2232bf81dc1",
+      "src/components/3d/noiseColor.ts": "c6bb54719bff5dd7bdcf222f31b7a6a5273016c91556416d20b6e747ff7f9dec",
+      "src/components/3d/noiseColor.test.ts": "7357fb3452ff12d7569c03727b06ee21b4996b9fd195faa658001b2cf58e5ab6",
+      "src/components/3d/deckIrradiance.test.ts": "6e5b814618b1028c8cdcc68bb558700fd06761da913dfa6ee543982b9a1d802c",
+      "src/components/3d/depthPrepass.ts": "519cff11b7ac8a5c149cfe88a5e0e9004770ada603d8873232e9fcc50bee4c76",
+      "src/components/3d/frameMetrics.test.ts": "23e9f51b43e7ffdc2bbd0e2515c7b0dc3dcb417a5626f619803eebaa7e52672a",
+      "src/components/3d/dynamicResolution.test.ts": "8caf048e9bc54eae84d3d23d593a6807f160c69db44d9a5e372d70b46555c576",
+      "src/components/3d/agx.test.ts": "8780f2c3f0ed088f4d10b86e4c62ecd1291657df89667e3ee98ae191f5ee7aa7",
+      "src/components/3d/sceneWarmup.ts": "04cfa73668c8fdcb4225c7ad1206d52dfd31889fbd7031f7f3db29b287ba9a58",
+      "src/components/3d/waterLightOcclusion.ts": "5c8351e36bf791301f245f76bd5fd6e22e42a44c37ede3f3302919afc3af1105",
+      "src/components/3d/surfaceDetails.test.ts": "d45646793de06a809a2b6538a9cd35dd2088aa35d7de498bb616e8d8b77ac620",
+      "src/components/3d/frameMetrics.ts": "7c6dfe830edca2e16ebd7594ef337c1fea1ecc06418b2997b4c4cad44c0037d7",
+      "src/components/3d/warmupScheduler.test.ts": "d88a9ffa3ca3cec1a5fd498a0e06cb847c05a3811a06dde72f3568be7e26b747",
+      "src/components/3d/modelMaterials.test.ts": "71f15381d130e07d80202dd2bd0fca0a40082389e0d6eea18b10a7147f14e2b0",
+      "src/components/3d/planarReflection.test.ts": "33c23c09c3b887d10309dd6a56d3198b1f588cbccdd838f46b5b9becef78c6c2",
+      "src/components/3d/leafCluster.ts": "31581aff8bd4648a4afcaaf934471189e98ef6279568f156f908a50180dd1c44",
+      "src/components/3d/sky.json": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d",
+      "src/components/3d/waterLightOcclusion.test.ts": "c0d941c08283e8cfb038900995b012d38a44fe6b12a49a666652da70628f8064",
+      "src/components/3d/warmupPasses.ts": "6185892d64481ee4182e0e290f8c7c6f09d18b60dea32a10532913ac08beeaa8",
+      "src/components/3d/agx.ts": "e61f358b008dbe6cd1a4606545fe66ea87e18fe21b572d462990fa48ee411dbc",
+      "src/components/3d/irradiance.ts": "0bc82fd4802fe5eefbe539bd9db589b5ec3f16bac39921db41648c09c618008d",
+      "src/components/3d/evergreenWoodland.test.ts": "0cd2d357106de5da733d67fb41a3d6dbda8067d82459609ba8b7ab674efee22d",
+      "src/components/3d/gardenStream.ts": "830b3c5056df31be8311d90814a103e35365a41754e1f490b464ef1d08f10a5a",
+      "src/components/3d/SaunaScene.tsx": "71193eef628f27717e933508628355861b79f72a425172a216629d40a9bffeb8",
+      "src/components/3d/CLAUDE.md": "d4784a5e9bf159d6ec92fc73fd10551261930195dc37eecc426e5dfd7f186e45",
+      "src/components/3d/shadowMask.ts": "29a5f8655708faee940919bdcf5f478af3a1ea3537749d62780ded8367ce6a23",
+      "src/components/3d/interiorLights.ts": "9aecde3c881e1c3f7379903c0e973cecfa698a2cb7d66e86595788131398a2f6",
+      "src/components/3d/rainWetness.test.ts": "f5066cc40995c1708bd9f22db84fe851866bb62e762e5ad8f39787d22b3fe36e",
+      "src/components/3d/dynamicResolution.ts": "358b4bd82e57ba85a02bb6fc67a26829f8a9bf72d2a77e5da7c64d8c72f57a89",
+      "src/components/3d/caustics.ts": "97a63fe23a116b258d43141bba0a4df8d188f386500d2dd8c394fe4d82b8c62f",
+      "src/components/3d/leafCluster.test.ts": "a724fe1f37204399ad040e39747e338dfc0cb6d13e6e41ce27937fc94d7c43cc",
+      "src/components/3d/gardenBloom.ts": "6f520adb037a66fc9dffdb13256ddf0930a61cf07be398cccbb42b5c1d852fc1",
+      "src/hooks/useKeyboardShortcut.test.tsx": "99ce619df8e55c60a9e5cb4b68b781b8e92dff6c16adfcf9d4f69ecb2fd8e71c",
+      "src/hooks/useSecondTicker.test.ts": "0aa971b4661a0d85c5ef1602bc9de94f6fbd39509ec1d50101a459e5db30f2b4",
+      "src/hooks/useDismissibleDetails.ts": "500a5744af10ebcac03be06cc6704b45d48170da7d00b7f2a30238666d5320b1",
+      "src/hooks/spatialAudio.ts": "01f402fc74f624f72319da070f93f442e627f0facb7b2267076f29bbee6c0b45",
+      "src/hooks/audioWorker.test.ts": "5b17aec44f3aa83cffb128fa6c92b807f4128c33990a642abbe41dd8890dfe21",
+      "src/hooks/useAudioEngine.bench.test.ts": "615cfd1f3866253f1655519cc8137c144b09248d31ffd74175abaf13d18155af",
+      "src/hooks/audioWorker.ts": "3f32cf782e44d4a57e29145d2c225a18d38c49a4d460237152a92bcb6ba70364",
+      "src/hooks/useAudioEngine.test.ts": "387c4184f4da08f8b1edd949be7848dee07e5e6000c0d02f8cfe537b5b15d4ee",
+      "src/hooks/useAudioEngine.ts": "d48648cc8da8396b615ef81e286ab3e23bdaac8ba33223d6a963d29b3dc3a463",
+      "src/hooks/useFullscreen.ts": "5655b65b2368d685a2c84f89fea24208860e63e35cbc3933f315f53b5ceb4e49",
+      "src/hooks/noiseWorkerClient.ts": "b29e47ae1a4a783a6c092171f1dbd54c3d7389180671520f306f6ae50f7139ad",
+      "src/hooks/spatialAudio.test.ts": "8054a52bac4e39a4aea5fe5d37dbb3861e64719cad462389694c439f319ff6b3",
+      "src/hooks/useSecondTicker.ts": "f8025f6d0eea34af6789a27fadf9f8f674332482fe72e9da94498c2a53f33084",
+      "src/hooks/useKeyboardShortcut.ts": "cb425de95e113936e2d465b75d7917259e71607f50e02182336e57ebdafc7e02",
+      "src/hooks/useSaunaSession.ts": "0f3662cd803e444ff41f2f78ec50531252cd6086a70fcc5e8bf3cc7524ce154c",
+      "public/sauna_bg.webp": "58233f0a5531c9094dfa9f30474ff213d07d5c93f58bcaafb114b54567cb6c37",
+      "public/water_bg.webp": "e28902ead7c5f3e2dfb36855d0f99a05c16dfc16c457d0e415a589c8794414e7",
+      "public/totonou_bg.webp": "33137888ac05dc1dedb6847cd2525bbb112bd5f65f99ed47ba3125dedb6556d3",
+      "public/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "public/favicon.svg": "b3166847d1800bd98de572bb23f26019f07da3fd33697186427a49ba10c3f781",
+      "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+      "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+      "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+      "public/models/CREDITS.md": "c2ea788205936aba0fc2009bc20d83053531e89216a521986f98addbbd57cdb4",
+      "public/models/deck-irradiance.bin": "3fad6ed06fb3f30e147eebe9961561a14050eebdb6ecea70674f3c21ee9f143f",
+      "public/models/sauna.scene.json": "94687703bde085b5fe8b03345b44a81521835524be7eae47f210c5329d673647",
+      "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+      "public/models/deck-irradiance.json": "51059c573abaa80dc883d6918767c0e70bccaf9dac14e6f47914b892aec74070",
+      "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+      "e2e/scene-no-hdr.e2e.ts": "f31c6db58b27850be1a0ffe8eca0425b7cad795d07cecee6ec3fd6a9906b82dd",
+      "e2e/sun-shadow.gpu.ts": "1181d964cfdebb4d0a526f4c03e7774928c97e81d391ee0329d4aec3d0f1f387",
+      "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3",
+      "e2e/scene-stability.soak.ts": "4626f3916525331187741c29d8aa6cf15968d8682b7b935f36ae723164a0e367",
+      "e2e/surface-details.visual.ts": "d9dee861f60b6b7b54be6e7cfb5bbfdc246c3aa71a0eba84ee055c943b5a33d2",
+      "e2e/scene-shader.e2e.ts": "aa08a44da13cc769d5eb92b51c0fc14bcbae04f1fcf6b1c997072ea4d3f3d526",
+      "e2e/quiet-ui.e2e.ts": "c4b138dae10575a6ab49cbeadb847420e64f1dc596d1b90d3b9eceef30e34ab4",
+      "e2e/temporal-aa.e2e.ts": "607456b9e20a10b832307a7f6d117dd2cd0bfdcd4c95030c60ca1d054772ae66",
+      "e2e/dynamic-resolution.e2e.ts": "9c03483746db93d606ac8e289a94418263b12cbf0d08982aeac51a6562495bb6",
+      "e2e/water-gloss-capture.visual.ts": "8b7a9c3882033b61b1778859cb460020aa2637870e0daab8f7bc6a990205afa9",
+      "e2e/garden-surround.visual.ts": "2f1ff6cdf240831983b80c468c85f67c7e4a057d36cafb1a435338ef44e7aab7",
+      "e2e/frame-rate.e2e.ts": "526fe722d623412f92ca0d54c16c13741ff0c965fd2ae22d1f03752382156a07",
+      "e2e/reduced-motion.e2e.ts": "49908eda261389be2b74d8fa3b89a5a87feb41d6e33f6554614e1f0aa3f70910",
+      "e2e/weather.visual.ts": "972283ddb07f20ff950fec33c61393dcb442e782d5572dc6250155e696c0eb64",
+      "e2e/scene-loading.network.ts": "bcfb568e33416d9838d6d59a4738725a59cd67eb46df0a7842a72b5fabf5eba4",
+      "e2e/season.e2e.ts": "435921fe56493c836edb80bddb2a46d61cfd61e92f1dae4db33baed9b1684841",
+      "e2e/capture-stability.visual.ts": "057bc8b02290948bf6a15ab05af09bfe44d33a6e2c518f7a2dfb925e8429db1e",
+      "e2e/quality-stall.gpu.ts": "71131d335351c76ce68ad24e108aa7086a7378b9aacd50c2e3e72bcf36cdae47",
+      "e2e/scene-warmup.e2e.ts": "1c6af8df0a6c18d5766780012f10b2d73bd785051b94ef8755b2647db1f47bc2",
+      "e2e/frame-cost.ts": "1b134b8e1264b7aa819dffeefcf4555eb8ff1b219c2a74205b4abf2339fae39a",
+      "e2e/shadow-samples.visual.ts": "a0d257e8232223c0033b803d5ff24811c482a12513ace208fea34dd2ce8374ec",
+      "e2e/scene-lifecycle.e2e.ts": "c8ae1ba9a86dfd453077bf727f157d6733a609868b15ed9db7d5de71335d6e93",
+      "e2e/deck-light.visual.ts": "7cfada49221b1b6ca5329c7b5e880003c0f3efbab27aa6c9f703d1ed491dd976",
+      "e2e/audio-nodes.e2e.ts": "9e1870e125259d6b8df332185cba81401fed52d98640ae1c810efb2d25fed9f9",
+      "e2e/soak-timing.ts": "518578a585c5de8917d5be32b11090169fa1b6f8dd7d0ea9068d56f5c98d7569",
+      "e2e/ui-comfort.e2e.ts": "dd840ff1a23e7fd43683ba64b44fcd5b8f21636109bd0a5c4353d6878683d691",
+      "e2e/model-candidate.ts": "4abdb49e6babc26d702e8463a6949df427a0cdc4558d531492f61f7cc2304455",
+      "e2e/resolution-steps.visual.ts": "a02e93bd0a1a16501d12da5e9102d826590363725ac5295aac221b299a3fa7d9",
+      "e2e/scene-touch.e2e.ts": "61168034f6af29c9955743ab7bc9428ee32ebb00d2cd634d34466bbc997743d5",
+      "e2e/shadow-cost.gpu.ts": "530c3803a419c81f95b12a1e682b2a03399db8577fb6ba1f09143a6ac2a39222",
+      "e2e/garden-details.e2e.ts": "76df1c5229b02d1deb3244c9cb0c9ae420cc4239f9aabcdfc7656683d67aa217",
+      "e2e/water-bump-motion.visual.ts": "7ac9a85e77c635749c268a9f26781dbee92fe27904771cf40dae780fe438d18b",
+      "e2e/frame-cost.gpu.ts": "22ca10621f2ed563d40be408b9e00805f3184ae127a1e0743f68ed02ceaf79c6",
+      "e2e/scene-gpu-time.gpu.ts": "1b6c286df42067aa2eecae2e9c404bc021b6490c5ad1b14f38a0d6cb950cb240",
+      "e2e/caustics.e2e.ts": "37769ad2723cbdda5a11f76524c15e2c2df7bc879336b3736c132a09c807db6a",
+      "e2e/stage-compare.visual.ts": "4fdd4637aaa4ab7acbc5fca393e40951e3e7d3c0ba0d1d12981d62aa959f7d1b",
+      "e2e/gpu-memory.ts": "b9d7cd64a9acb0cbf4c2c0628b50b235e36c0b776e5c95bab69e4827168f721f",
+      "e2e/resolution-control.ts": "0c28238fad8d67f24b9473e0c04f855706c38ba245344c70cd6c23c44af364d7",
+      "e2e/garden-indices.gpu.ts": "ded88bbe5f430099c46b68e21c86968f3d9686c788f71ad1194dc169d9dad740",
+      "e2e/resolution-shimmer.visual.ts": "823913c9cbb042aee0d2f4cf746d87e5f2114a36867a6ae4bc039e91e5680302",
+      "e2e/mirror-steps.visual.ts": "17524bc7c9428b8ec8ed36028c9f550bbf80b97284bf87858cfeec8a4230f49a",
+      "e2e/noise-color.e2e.ts": "f4aaaf9d3f9363a9afd0f5c2957d4ffea968a529428fdb1e99da4430f9890359",
+      "e2e/sun-transition.visual.ts": "0f4a9b3bfe85aee7aa784c3eb8d01b921168793531583e597570168e54974905",
+      "e2e/scene-capture.ts": "e46276540e55f19670c2fe1265290911d61b71bddf0326324a0913499f6e2f9b",
+      "e2e/cycles-compare.visual.ts": "24a5f227458a96c7d1999a9edfdbc65d979ff63635c664638e78e265a4159c29",
+      "e2e/scene-viewport.e2e.ts": "74d2420d2ce83ed32e692973e4bee4b391f0e9de994bc2e9af8621ee2e89a9e7",
+      "e2e/settings-controls.ts": "3c67e6fbfe59a05817b9ab5d930becc88927e110cfee49ca8e5c96ba143aec33",
+      "e2e/shadow-variants.ts": "52969cffa2bde286d1ae7d7ba340e855676bc9ec6719714197f8e20e3e6913a9",
+      "e2e/garden-stream.visual.ts": "ccdeec46adf48ef97544641b947178410b1ce1ec6e2f2f38f4ba91ecb41d232c",
+      "e2e/auto-lighting.visual.ts": "6ab6ff4267e01792aebb013d2d2066d423cd9443fffc4fe9518ab8c207b1426a",
+      "e2e/keyboard-shortcuts.e2e.ts": "39b309ee307ea108fcaf69c5a2f8fd2e0006d44f01d10efcf8ae693dc06547e7",
+      "e2e/body-normals-look.visual.ts": "6da14e2ded63759d1246501a4dc70393bc414a6b670415bc0161b79b3a171e82",
+      "e2e/warmup-surround.visual.ts": "dc7705612c64971cb7ef0c2f9370d62ff82747af06dd5c5343d742588aa94906",
+      "e2e/gpu-memory.e2e.ts": "c1b6ca48c82a084e5bb0f037e18346b565f35b0dc758503a58bb70327c9b4bee",
+      "e2e/scene-chunk.e2e.ts": "e3b2fdb4f67ace3c47b4c6a36f808c3e63d8f266b2717189edba4835b05505c1",
+      "e2e/auto-lighting.motion.ts": "a11b9792745aa05f810a38d6b442fe00cbc3d87dd105f3e482838169484be504",
+      "e2e/load-compile.gpu.ts": "024279fbe36fe3e12136693ec80bb437a9d75e75a5b089941d188c08ce497fb0",
+      "e2e/CLAUDE.md": "599f70eb986cac8bb0088c6577164e446699a13ac1dfda28320b9361dcfc9400",
+      "e2e/sky.e2e.ts": "dda3c4e038310b5ecced7faed4e135e03e0d5e77b8cd36319ba1e84f4931b797",
+      "e2e/body-normals.visual.ts": "ab73be28782ef64a9a1e7d00cb2289cf79c1412054908ca9bffe426cb85133d3",
+      "e2e/scene-aurora.e2e.ts": "38e19e887e44d2126c49cd229a3507b83b724b5c40c49b8c1ba98abe5ceb2d01",
+      "e2e/garden-motion.gpu.ts": "6a576f1b60ea9c8bcde4322c7001124abb91250151375f2b620c7db7452c98c1",
+      "e2e/scene-survey.visual.ts": "f2d27ebcbb6cc8054f78bbba14b2154c17da2539c2ecbb09481b9ad4510f0b68",
+      "e2e/fixtures/blender-caustic.json": "7f2ce8a8e6eb37ad23c6b07d629eb2e801e6e5d89842485d0d36912d8c7ab5a2",
+      "e2e/fixtures/cycles-cameras.json": "96ae74b22212564c8ab1f783649a550be27553c7e5ec8bd8935c4111a8888b6a",
+      "e2e/fixtures/blender-sky.json": "30d2f642840564b0176b9c8f2c124db0ef4ced277eef5aeba1b7b3b6fb565dd1",
+      "e2e/fixtures/blender-noise.json": "6d1261764e322f00e3b0ee57bb1d6c350ce428fdff15eb604ca246d0754d247d",
+      "playwright.config.ts": "4ba959e8f9ae047b174da70f0276bdf37ff0f343e1a113abee9deaa7c0327858"
+    }
+  },
+  "imageSHA256": {
+    "before1": {
+      "sauna-day-1.5-0.png": "1596bb2af093331470603f5d1e3f0bc2bc3ddc055d8071c32f70c7f02e9acdbe",
+      "sauna-day-1.5-1.png": "ba103b4f425334ce499fa58b9c8cffc2a1e9f38ee17df8b7512b04e4699117dc",
+      "sauna-day-1.5-2.png": "613bb8c6b61f71ab060edb1f13eefb6dd68d9a218ec210d5f96ed7b9606087b2",
+      "sauna-day-1.5-3.png": "0ff7e1b2db62d83bf58e6af4bc3e3ea3ebae9d4f2d5f6f45c60f09e9ec8ead2f",
+      "sauna-day-1.5-4.png": "60928d4e52434d563a851b99663e9c0d429662d5b1aa64f70e21965ef6fdb614",
+      "sauna-day-1.5-5.png": "ecb341bc77834970832c6f1a4509e2a77d4c0a0d85a540667603720b2cac5df1",
+      "sauna-day-1.5-6.png": "a752bd64d8cc2430ace8a2c3b34c9d8fc2eadb76d149380febb1168050f3ba1f",
+      "sauna-day-1.5-7.png": "c0f49956ce4fe289e3f723f8ac75319efb52af5d705a4adcea6fd9df88c208b4",
+      "sauna-day-1.5-8.png": "10e597dcc2fb8e20b15de4fa106d481ceadce0a68a20d03141de0cccabc50b1f",
+      "sauna-day-1.5-9.png": "404102acd204e3019272a626455d260ae835016e2c0f0f0dc3fbf6986bb57c70",
+      "sauna-day-1.5-10.png": "6e7940a6b8a1097f04ca19fe11825f21fa7850231e16f01cb9f6f28654425393",
+      "sauna-day-1.5-11.png": "626af610a353fb65a7ecedcf88ac69f484afb5ae63798b10b1acc2b0872f9593",
+      "sauna-day-1.5-12.png": "d2c42d13d7d874bd41014b2fda4761dfbc847336b02d1bf280d5af3b0fb02bc7",
+      "sauna-evening-1.5-0.png": "58f59e600bc0a425f0f2305df59cd1d285f989983b0b765c1028c5a58e2fae07",
+      "sauna-evening-1.5-1.png": "67b14a7df3ab82e2c4b6425fb811a71ba511016df2523f7e1bdc0b0f1d80fdbe",
+      "sauna-evening-1.5-2.png": "c6c43d7413fa4ac5c1dc722bb585db3458518dec97e75617372ee615a6d719c3",
+      "sauna-evening-1.5-3.png": "4077f0f6e64a2134704b1b59a5600ad51b88f6a5365d901cd16e362b4eeadd5c",
+      "sauna-evening-1.5-4.png": "7ba26a5f233900fe5ed563b64e07c1b657b98c3ac65cee40b72f9dcc8876da24",
+      "sauna-evening-1.5-5.png": "4264574837858617fa54e319af1abf99e91daed713d86721192e84ee9a06fc92",
+      "sauna-evening-1.5-6.png": "3c7a11153126b9c90aba5ded62647c54b70f0b5085f948e0632062020487b320",
+      "sauna-evening-1.5-7.png": "d198eeeb253464b8e32ba2ee8f3bc97016bcd31152c315a61988053093b0cd92",
+      "sauna-evening-1.5-8.png": "150067d6f0b11bf1b0839989cf89f63b6d97665d04a8c366a8319e1c6372810a",
+      "sauna-evening-1.5-9.png": "f37ad1f5df70982744609ac8ea85d580e3e121968cd36eba04b3157a8afd88b0",
+      "sauna-evening-1.5-10.png": "854b254f56808e6517ca4f412d3a235d9c03a6288cdadab653a967af1f20d218",
+      "sauna-evening-1.5-11.png": "82f081625019d77cfd46b0cef3bdd6c54c14c15bfd7d11c770e93592d9568732",
+      "sauna-evening-1.5-12.png": "6627636d86df697522ab1ab73cd2975774a5c929e977b86379b6647696949e78",
+      "water-day-1.5-0.png": "6196cefe7d68b5e528fd06e803ec5e26c273d1c00f47f275beb67a45d1b263d0",
+      "water-day-1.5-1.png": "c70f3e8d70756467628c277e5aa5cb351fb5136b14dd86ba473908cd5c8ec932",
+      "water-day-1.5-2.png": "a292fc50d71d92bf570249a86c7c37953f44aa53b9c9c4c010eed1cd1e61ef84",
+      "water-day-1.5-3.png": "d55e4ab0d854e7bf70ca3071af905407630a47fc86e685525af264e87bae33c8",
+      "water-day-1.5-4.png": "7bf265a657778875ee0960d7b2b368ebf5d22ee70cff9984d66c9235efeba9d6",
+      "water-day-1.5-5.png": "6749a9077c9611d2f5104acacc5e4fad8d8b080a842d72dd7656b069a474aecf",
+      "water-day-1.5-6.png": "69e6cb54c94728e32e5fec2719f803dd1f76372b85e27a1d5c6a217746a18c8c",
+      "water-day-1.5-7.png": "451b12698e00db786324a96a9d8638cf0921f8f5fd1f14ab2674ad3b0d9ad3dc",
+      "water-day-1.5-8.png": "6e09820043a0eda6f55f9367a0f3af8ef78af21b4a60ca8d230377a99a2ac81a",
+      "water-day-1.5-9.png": "2fb9acce9a26f75f53e88e1a6906512d7a8b85e03a3d85adeb2a034d704ad223",
+      "water-day-1.5-10.png": "ce0a56a53cc1a5b1b2aa82a8825e934198b91639e05d322122f8c76dd25f6433",
+      "water-day-1.5-11.png": "3889980a2e93a6fb45f37cebf598b943cc5742a3c3adaa05f9f2893736ce2be2",
+      "water-day-1.5-12.png": "d68145f0eb09b522b12c6f9a910508dc3a2dbe932e25c752aba7543d26d7a2ba",
+      "water-evening-1.5-0.png": "06536b09da49ef9a6fafd65debdf10345daa52e672ba85c2ac74f3a88f8899ad",
+      "water-evening-1.5-1.png": "896ba60b5915ad00b35819cc04ce9bc6f6400b782caa175f08e1e2705f87b065",
+      "water-evening-1.5-2.png": "9178cc2edfb929a291efd3028a0efedba7d25b23fc4d7bc1b2bd5f8419fe1a4e",
+      "water-evening-1.5-3.png": "0e1d8e67a1cad649e7805d10b213b81e2db704d43d8acc2c1eb885744c7f7378",
+      "water-evening-1.5-4.png": "87c6f377789abc98b47aaede4395b7932531a5e3557867e96da4f44081aaf9c9",
+      "water-evening-1.5-5.png": "681fa6edaceb3d3bb498cb531960e49e2e32d9c1fcfc4fc5c623e6fe2fce69e1",
+      "water-evening-1.5-6.png": "73f7220e133fdee5f7cac80ba6314589d54e6f01abf55dc279f3c0117dcbc98b",
+      "water-evening-1.5-7.png": "aa20afa091c3025c8541aa7d1089ea67afe224ce74e5ba7fc96253c89d9372f7",
+      "water-evening-1.5-8.png": "6a80aab5fc80bdffea59096ca65bc7ce4753d0353618aada5bfb44caa0a6ffc5",
+      "water-evening-1.5-9.png": "74b0ec9c19fdd5d8b40c093af1131ddabc8ecd7db999e460b891b0845b0c97a0",
+      "water-evening-1.5-10.png": "49f60db4a0758a80bfda2710ce5adcffd1a6c06caacb1df3dda87dca1ec07751",
+      "water-evening-1.5-11.png": "9dbc0d6cca7c4d18f15b1f4093254b4dd03936eab0d159a12d6b8acf34acaa56",
+      "water-evening-1.5-12.png": "0f0ac64822e5c59cc376cc6da7072ea6ae337caae5161431f025d3e463083f46",
+      "totonou-day-1.5-0.png": "11cbcd2b3924ab4441918b185241ae2c985bc033d2902d4a4636cdce08f448fb",
+      "totonou-day-1.5-1.png": "7b985f15c0e93b50d9f00de43d2d4c8140527316f01d2f7a0db41e2f5357a4fa",
+      "totonou-day-1.5-2.png": "4678aee9576bbcd3dd5139b40900955aeb24d85a30b1806207a2b36839462e28",
+      "totonou-day-1.5-3.png": "51a1755328bd93599eb08b567ee652fdddea435592be4c62508535f674034a7e",
+      "totonou-day-1.5-4.png": "82771525e4144c62605b4512042b4cba2adc7b0703a6c9ec8ac08a4fc0032bd3",
+      "totonou-day-1.5-5.png": "e7503ffb297444a0c8e27f01479ae4717067bcdd1f6bde244296c0dd1ceae5a2",
+      "totonou-day-1.5-6.png": "21f2f092e909481d149b9819474a794375009417bde4b58a33f4bf8d5bbdf062",
+      "totonou-day-1.5-7.png": "a167ae3c003ed7bdc9503dd570aa5ddc095955edc3d758bcec104829b46c0d68",
+      "totonou-day-1.5-8.png": "9469c8f9aa58852b34fa109219535addd6ba6915984655a1bf0c3e4e09d15fa2",
+      "totonou-day-1.5-9.png": "35520eefdad7504c315e49a6df17ee8144036dd51a3ec23f9ce177ad8eb8992b",
+      "totonou-day-1.5-10.png": "39187c52d77abda9c3cd3ee6d722b4a7f05c2bc52489bc51b09d18f8abafe693",
+      "totonou-day-1.5-11.png": "26a3baca3d13268ac1796756d18133c1fb7c95af6f5c621eced91956cd0b43f5",
+      "totonou-day-1.5-12.png": "2ec5e4f9825839e6cabca67d0bf3085b671bcd8385868025c1fb43b980391d63",
+      "totonou-evening-1.5-0.png": "df5ae503fb24b6eb2a11072b2e755c1c253852297aa392958fbf3755a116c2ee",
+      "totonou-evening-1.5-1.png": "50098e25c8b472e03dbe182881d083565a75bfa9f8b8badf5a630ea6e51a4e7b",
+      "totonou-evening-1.5-2.png": "8d7b71b97f4095e96cdef37bd22472d6631eb131acc9a4a8acfb3fe063fa25fe",
+      "totonou-evening-1.5-3.png": "87983894032e4dd86453c9f04b9c32add2ccf0dcd92f9b5e50f0a071f6f011f7",
+      "totonou-evening-1.5-4.png": "066be7576b0bef966dc70886a0ca1a42ab15b954441bb5942c978ddb77b3cd4d",
+      "totonou-evening-1.5-5.png": "bb5e7d6e28b03142dbed8baf98a7c916eeaf2ed22e4622f70f3a5b16fe03c08c",
+      "totonou-evening-1.5-6.png": "799b56c2d5e3af9e35f9fa477b3b8b560c1b756f64b9f2c644ecbbf5b865d32e",
+      "totonou-evening-1.5-7.png": "9633be4bc0225e6a2c296d3e0e15182787679c1d2fdb1403e756c4ed9176fd17",
+      "totonou-evening-1.5-8.png": "4420ac05e239c2f8c2a580dd5cc8cd733a10dd9c49f5c292abc2890f1e9c76f7",
+      "totonou-evening-1.5-9.png": "507d2310e137a747f9ccfabc15fdf09586059b9ffe333cc01368b8d9c604db44",
+      "totonou-evening-1.5-10.png": "b361cc143e1b4a8250d922ce12408220f6469a55285a1364a93ed12a9c2a88d1",
+      "totonou-evening-1.5-11.png": "2c22cabb455d244afb55f7b43f462468d09ab6b3636ee85b4058e08e1bb8efe4",
+      "totonou-evening-1.5-12.png": "ff02feba70efd00f3c6fde8f9e957c20a777bb027a2ce93e49f60d86544fc0a1"
+    },
+    "after1": {
+      "sauna-day-1.5-0.png": "0e83d705ace20e97fca6391dd27202ce2669aa83825c7be9b7ee1bf7dcc46af4",
+      "sauna-day-1.5-1.png": "f6dd14fb57f0fac826e320aa8cc86b0bf59d6e2174fab7b292c016d9074d19bb",
+      "sauna-day-1.5-2.png": "51b6df6a49f673c32b0c77807b451ac723f72fb5da701b4a1f78ddc45dab8c47",
+      "sauna-day-1.5-3.png": "71d76e093962f36cfa5375be8bf661a5966ec3a9a2c84b4a1fae68752c9f8958",
+      "sauna-day-1.5-4.png": "7319730dbea4ed325763c70e4c2af8dcd90f9eefed6843d3fe01e88af1d43dd6",
+      "sauna-day-1.5-5.png": "f7b1989a9c2959ce20b37616cf55b1631b0f5b431c8d7c1d88de895f47be9b4f",
+      "sauna-day-1.5-6.png": "228fc1498f1b70ec7b6d700f5523274bb0a589212a56c67e58b128df20f3734e",
+      "sauna-day-1.5-7.png": "7b94392637d7985ac750c9f736fc5520938076786bf47d5304dd9471e0d03ac0",
+      "sauna-day-1.5-8.png": "680f7a41d4b6b3e772e7f9d576ed65eb6743df5fc31a726cb89d30373f795a60",
+      "sauna-day-1.5-9.png": "0222f41920864b23264b59907f4ef6a2cd5874ed21787a0998f05843ab1f0c04",
+      "sauna-day-1.5-10.png": "f8767088a7b03837828902f74e986e7ae684d5f3d584e9171e2cdcde75ae52b7",
+      "sauna-day-1.5-11.png": "54608da7846890818c69df99e462e01e7c6a74ffe6eaa43d2d496dbd8a7ca161",
+      "sauna-day-1.5-12.png": "0ede267e40ab8a8b01ec6557e1dc93f3621970a973f0da9205f8297064cbf24e",
+      "sauna-evening-1.5-0.png": "781709aee5613e91003766e1f6906f9b1f815b77055968d3e2a43452c045ded9",
+      "sauna-evening-1.5-1.png": "eca23ea9c11b1b2f3203228955fd080d2ddb3076ba0efcbe447ad96c24b226ad",
+      "sauna-evening-1.5-2.png": "e82ac1c0ef26141f70263873a24d2ab1762d269f150fc20d301b7acf092d1a8d",
+      "sauna-evening-1.5-3.png": "6618eb06239994beb551e5851aa27fae6555c4b470bed36774b1362da344b430",
+      "sauna-evening-1.5-4.png": "204690ad14789e52f762b7d6d26950eef0b59ce7804bdd004e79f2c76c71c15f",
+      "sauna-evening-1.5-5.png": "cd35674a88b86b71822e02e1fb2123a370b1a091afe195606d97080ae543feb5",
+      "sauna-evening-1.5-6.png": "a458ed0cad8153c1c39c19a3388fb59e3900293190027be0193d4becd468ec2a",
+      "sauna-evening-1.5-7.png": "e9c744a064007ebd00d0ff7a0687b8161ee8c456372d7fbea3dc7deb877a23c3",
+      "sauna-evening-1.5-8.png": "10387e000f6405d5ccc20d6d4677468c2787af2dc1c6f17fda1d52c688633921",
+      "sauna-evening-1.5-9.png": "0b10809937ac97bc756bee00ca759531f85e32bda85f28e6ca9152f921d9bda0",
+      "sauna-evening-1.5-10.png": "d779e5f6e1a945312854551defa172a9130b3deccf4a57cc90027764fb52cbf2",
+      "sauna-evening-1.5-11.png": "5c994d3c2f2ef9cd5db997dc869d2d5d15167e951046d82a486e54bbd2d97b42",
+      "sauna-evening-1.5-12.png": "8ada8d6b57748cbe0821e6321aa1eac74e04ccf410a98cfb481707140476bbbc",
+      "water-day-1.5-0.png": "a689ab0b1cbdcdc6a7c597a1aabae6e5eb98a5584ed9bffe5a732141ae54cd19",
+      "water-day-1.5-1.png": "b91e0a6a082f7ca6318f20a8f3c8b220c5f40dc390187993a353ee4c5b7161e5",
+      "water-day-1.5-2.png": "fee05dcc1b19c29be1fea471319bbdefb29c534387e8ee3b1be89575dbbbef70",
+      "water-day-1.5-3.png": "8aa6a5e3cff83a2cc0b17949d5894b6190c21bca48e095166ace23660a2a06af",
+      "water-day-1.5-4.png": "19ba85fbc37988e179ddebb3db47994b6f08b75b392efb0b1fb1cfbd8191647d",
+      "water-day-1.5-5.png": "1300ca28f321356a517087b38d62c8e6cded09861aa37fa90783d3b286e85d85",
+      "water-day-1.5-6.png": "58c149cb09a39715155e0930bf937df1a19ec00afe463b019f3a4585a0bbc9fe",
+      "water-day-1.5-7.png": "b5c1d558e5c0787cdc0983ba4e35cafd2b1838779d117f3c332df990d576c81a",
+      "water-day-1.5-8.png": "d2a97f1dea7cffba16a962b6b1bf5d103d0492b68aaf8cc23608b67252fe0877",
+      "water-day-1.5-9.png": "34a861505b5394cc3a8610bf63777460ba3650e7b76cf88cf99b4e32cc5705ad",
+      "water-day-1.5-10.png": "86d53323f5e6cd34a8d23886f6bd8aee00d6ee9870f31a3a51f467dab2099dfd",
+      "water-day-1.5-11.png": "b39ea55d96cd211fce7a90559978bbcd47b8f152d777975372c5027f72e9c9ee",
+      "water-day-1.5-12.png": "d81532b686fb781c1abbad6f88947afda6756c585e63abf8bf9ed0b72e9f9cb7",
+      "water-evening-1.5-0.png": "e295fdcd0e33ecc46fcb388cc1b3a2fb47d166bb94b8749a250a9e972233e3a5",
+      "water-evening-1.5-1.png": "f2e726328fa0aa2f13c4a846b982c7e5b9d64f832c14066edc10ea44c9960cb4",
+      "water-evening-1.5-2.png": "2856b5caf433b6ef1bf4b6e345b491ae59022f79cad54499c1d2408d91cc87ce",
+      "water-evening-1.5-3.png": "24c623d6639d163633f279e26998a37f5776a07c5d44822e2bd1f7a23b02ac16",
+      "water-evening-1.5-4.png": "9b14c0dfe8b1d3ce6b23a9b71050cd3a5d2fe6d95a92a947531ca1718239b031",
+      "water-evening-1.5-5.png": "0be1c831e075d28060d559bb06965a589acf750952f5f4ac0239b6d82dc16cf1",
+      "water-evening-1.5-6.png": "4c9bd6b12ce81bb0e00afdd0c3c69014755a2951cda9e8a4e464e27f965c1f67",
+      "water-evening-1.5-7.png": "ed7ace934fe3e0ae3feba009c7b780abf069c3198829510ce036f7db99df7bc0",
+      "water-evening-1.5-8.png": "027137c7e7e03c887f79ea3049118c2904a4feae3cee606fbef1b67c44f2a662",
+      "water-evening-1.5-9.png": "9ec3ba3afd1b40c0f0635c2d77bbe1ac03b401cf791051eb890d54ebd1301997",
+      "water-evening-1.5-10.png": "22f9076e1fa4592e85defcb7e0ebe9b06a711ea4d4a77af058e378f3c7c6d29c",
+      "water-evening-1.5-11.png": "a9359677f5a42c376a538dbe867b1ee70f36d0cb44173c11f2fca4371c4a3fa6",
+      "water-evening-1.5-12.png": "b6f824b14ccc6f8c5ba18991c026f6927018194dad19068165cc0dac6edca21f",
+      "totonou-day-1.5-0.png": "2b341e05e78d3617d7cc8c405005ab35a68b7bd3d39a1f5381739fa0ab6c2aac",
+      "totonou-day-1.5-1.png": "d78ec0b081e0ea7548ad76eac582c72ec714e08ea033ec1f0c2b5f1eea826def",
+      "totonou-day-1.5-2.png": "24916fbc5a16bd791ef8b481a6149c2a7e0d662c189bc181115624eaf89a7d09",
+      "totonou-day-1.5-3.png": "c84eef5ce66738c2936342760e53caa4c9487feb455703104cdef96dc7bfbe31",
+      "totonou-day-1.5-4.png": "0c802b2fe5a33a24ea1e1f631227b207752e1ac96b800572e59d28742d71ab62",
+      "totonou-day-1.5-5.png": "d6d116cfcf20d53fbeb3f645e4edf815f82c6c9ff12a864bae76e8c683438248",
+      "totonou-day-1.5-6.png": "56723087021735980caf36dbfd7b71a9ed0a24761b8f13ed3ae85e7a04b2a22b",
+      "totonou-day-1.5-7.png": "1edd61cce1551da3a436cc5f1f266752926f9fb06d398288b15eda36a08d7cbb",
+      "totonou-day-1.5-8.png": "2ef965b2415f72934ee51a917c01234c094fe32e63f6b16ef2f52d6969bb97d4",
+      "totonou-day-1.5-9.png": "383dd19f648c49744a3126f92bbaa906afc6d7ada2e0cd06697df87fa08b2828",
+      "totonou-day-1.5-10.png": "1e58b3ff7cdf79212f272860b0f86a71e743a7394fde09c34ce0a3a34a9e1ab9",
+      "totonou-day-1.5-11.png": "1a1897da5d4e107a5af04730476e5f3027cf2792e691571c53059ce197462d38",
+      "totonou-day-1.5-12.png": "b6ac4db4c175e3b54614b92fd44ad479a9a43be46e9ddec78804250f134e191e",
+      "totonou-evening-1.5-0.png": "4564093cf61c898e6fd960c2bc077c03a795bad74844b0bbaf4fa3c7c7cebd0d",
+      "totonou-evening-1.5-1.png": "7e59bfee093f7994109bd549fed4b0c2408b755765b59f39432b31f2e9e5a2e7",
+      "totonou-evening-1.5-2.png": "1496b31a8762cd4049202a0e3379b920cd92e47937da77d922957c066f241d25",
+      "totonou-evening-1.5-3.png": "506006ffeea9ef18663ff8d0dbfa941d4728350f0fcfddbd94fdf34e9cfbde31",
+      "totonou-evening-1.5-4.png": "3015d525ae2225231607f504540accf7a200d6fd695b4f5e7bcf8cf29e92b4ba",
+      "totonou-evening-1.5-5.png": "4f46c5e28aaaa2964196e50461232e6107f90640a7563e1c692c7ea0128dad33",
+      "totonou-evening-1.5-6.png": "4a481c011bc0bb90205b1a87cee75c9fd142ce98186648a7315ddd3841a39f5e",
+      "totonou-evening-1.5-7.png": "c8451fef98d218582b3745c97bac0e56d82317bd5ded20c778a68b132fb44d54",
+      "totonou-evening-1.5-8.png": "d312f75436b9363fd491daa20651c1477ac5612091247ec8c70be9fcf4148db3",
+      "totonou-evening-1.5-9.png": "8cc724101c9cf58c472780cd4db968d42e701a442f488637e0bb0ec3aab06c70",
+      "totonou-evening-1.5-10.png": "f5ce2650cd29475695705d7546d99aa707ceaa2081fce25e9ef306997581f4f1",
+      "totonou-evening-1.5-11.png": "e1d2ede91beea9dfa49aa9781d66103951303368dbeccec0a8c01953f23c2771",
+      "totonou-evening-1.5-12.png": "5564d7617357b410b5081fa028058771dce2896045d00f68b1b0d824669834ed"
+    },
+    "after2": {
+      "sauna-day-1.5-0.png": "bc001132cc20c137ec1cd02c6aee2b5ac94a70c0f38bd1e24bf2366f7ff2951d",
+      "sauna-day-1.5-1.png": "227b9e73b6f955dc44b8258769fe641f5f4a4ded0aa2878de26379f894384d08",
+      "sauna-day-1.5-2.png": "4fb1a3bbe458f76d981753cd929005ebfa7799b6983577423ddfa68332ebb596",
+      "sauna-day-1.5-3.png": "19abc557e5de67b454618828f2dc8f913f2d6ba99149958420ccc917788e7d46",
+      "sauna-day-1.5-4.png": "26ec813795dd505eec9e1bab444fefde798e39f6615b25fbdacf6363d11c0b15",
+      "sauna-day-1.5-5.png": "166eaaa5fa487ea954b8cbe9c5aecfaacd4fe2956f37f057955944dfa6c96850",
+      "sauna-day-1.5-6.png": "bcf7598962e9991bb3d39eab1c102d0b92631dccb5e36ad76a01b06a9c2593c6",
+      "sauna-day-1.5-7.png": "13af4c4d2673418f82903e11aa6afe7133b64155da6952e2b1ad65b03b6cb95c",
+      "sauna-day-1.5-8.png": "6a61ee6b90556da192e0b2e3fe398a3556bc5119ed543435930792b82e123ac6",
+      "sauna-day-1.5-9.png": "7296135e37e74f4bc84df17643686c021b648cd2c00655751eb085ffffeab003",
+      "sauna-day-1.5-10.png": "d9f8620654374e7098e69b933e6c74ea7c20f9f7084a5d5ae97580242ed6a1a8",
+      "sauna-day-1.5-11.png": "192921bc9e21480137ac03c84306388bde444cfa0b1da2411ed177f417a0fa66",
+      "sauna-day-1.5-12.png": "68cb68c775df4d9cce0c6e4b6e2473aa12f5bc5831de75fc1ad28631bb9a73ab",
+      "sauna-evening-1.5-0.png": "cd293b9141dfc829d1b5798add8f39184cb70af0e1996a5ebae514f69ab8831b",
+      "sauna-evening-1.5-1.png": "8884b293f7c4367be0647c56df61b078d48b97a211ba790b2bdff053580cd107",
+      "sauna-evening-1.5-2.png": "d3fd151a8ce7feb8d785d7e333ef0134e710c68cf723064d0156bab3e4f37c99",
+      "sauna-evening-1.5-3.png": "99982115d0999428c9e37c748d9a9f54a944ecdc1aac5f84f48ee545423d65ed",
+      "sauna-evening-1.5-4.png": "248ef8050ba2e04e1102d7efc1a23b615160ba3b6515a79357be1e5f2867c52d",
+      "sauna-evening-1.5-5.png": "31e43afa6a1b97e964307053c740479d84b8ac8683bb1fce2a013a1dffd546ad",
+      "sauna-evening-1.5-6.png": "4b03002d7afc5f2601ba5f719055024aca65848a489ab259a724f1936a9d452c",
+      "sauna-evening-1.5-7.png": "6c77d3c033f74812655005088fc15c6c5c4855132d57823bb20ee3e3696b342f",
+      "sauna-evening-1.5-8.png": "0b6c606f64f19fb5dc9153eb4253212934e0cc8fad13f5da976eca27856843b6",
+      "sauna-evening-1.5-9.png": "27ee44fb2b4edbc5633144d23a7e61e83dbda992d9d686e3a7803923b79254c6",
+      "sauna-evening-1.5-10.png": "3ee42cef249b4e86059cf5e83d387dd93a231a99289f9044214e047dfda7003d",
+      "sauna-evening-1.5-11.png": "08e3cd3ab7012c70702e7126ce00ab19b9e80d3cb8e67bb1433a806cba6dc302",
+      "sauna-evening-1.5-12.png": "18b74112f6b1c9049c4bc19b808c427586efaf05c10d140dc65753016e2c2922",
+      "water-day-1.5-0.png": "a689ab0b1cbdcdc6a7c597a1aabae6e5eb98a5584ed9bffe5a732141ae54cd19",
+      "water-day-1.5-1.png": "b91e0a6a082f7ca6318f20a8f3c8b220c5f40dc390187993a353ee4c5b7161e5",
+      "water-day-1.5-2.png": "fee05dcc1b19c29be1fea471319bbdefb29c534387e8ee3b1be89575dbbbef70",
+      "water-day-1.5-3.png": "9bd4fe99d96a5c10d90093a245651954b41e28bcb019f8ef26f2f3eada627eb7",
+      "water-day-1.5-4.png": "05d0f211836a39c05fcff98e5166b72f0fc14f478b4e4e06692176b544352b6b",
+      "water-day-1.5-5.png": "f393917217dd6ac2344f94d8071560dc305e9408e5bb1ac5a1a115d5a077f38f",
+      "water-day-1.5-6.png": "527c7bc47a341875a4a6f1757a7881edb3d880cbaa8d13d6755eeb8b86730ca6",
+      "water-day-1.5-7.png": "7308db89c31addbcaf4bb9a67b56dc2278d91e1ac9bf0398291425d2a06a4830",
+      "water-day-1.5-8.png": "e8c46df5ba72eb0e1165285a5c461823557c70cab8d8a001ae1324611563b7d4",
+      "water-day-1.5-9.png": "2fb822e142996303bbb7508fe710406f03c691a3513064208a99acd9f3bca1ad",
+      "water-day-1.5-10.png": "3458db675685e1779254808644334a0af4001c54645779da00a18892cffc4588",
+      "water-day-1.5-11.png": "f733c0719bb9d0df54575ef3558b1fd20ca8a998070bd2811fa0bb094eee6284",
+      "water-day-1.5-12.png": "a0576fa64aab095b20f785d3e79674b676cb93f0daf9a732ba6250c41d1bbbe1",
+      "water-evening-1.5-0.png": "e295fdcd0e33ecc46fcb388cc1b3a2fb47d166bb94b8749a250a9e972233e3a5",
+      "water-evening-1.5-1.png": "f2e726328fa0aa2f13c4a846b982c7e5b9d64f832c14066edc10ea44c9960cb4",
+      "water-evening-1.5-2.png": "2856b5caf433b6ef1bf4b6e345b491ae59022f79cad54499c1d2408d91cc87ce",
+      "water-evening-1.5-3.png": "9da59a0ad19e8fb4bf16393b44af8e14162bd6886ead8ed56d92f053b5884322",
+      "water-evening-1.5-4.png": "9db3eb0b2e3caad6d3d207cb729093a434ffd13bd09309ba5bb6517fcf2e3c94",
+      "water-evening-1.5-5.png": "eb0b06585d2b340b85b0e118d7c62f75afdfd965d89f571166acebcfee05c28c",
+      "water-evening-1.5-6.png": "54bd45101aff7dbf35915b2e8e237fd2ecba58e84c52df80c65e2315517abcd0",
+      "water-evening-1.5-7.png": "75fc78fbd8363229bdcabf07e05466c5829831f465d7333886fff71e497bfa4b",
+      "water-evening-1.5-8.png": "233f06efac7d9db58680611f244c9624e29ef216b6b0b22bae2fb75cac371f01",
+      "water-evening-1.5-9.png": "4c7ad6a54fe7ad830583f83eb4cca5927dd70661adde56b507b299450487b2b8",
+      "water-evening-1.5-10.png": "646a14b3454061cbab71139088f13e02f8b49b5758fda622cb9e84682b39098f",
+      "water-evening-1.5-11.png": "ba99a5957659eeb9ee98396d2d3f42c149c84adc1012c8994ab2b767f0f62fea",
+      "water-evening-1.5-12.png": "f72cbb876d23200ad26ef6705116d94b81765f82eb7eb03fa8cee5d48c814f2d",
+      "totonou-day-1.5-0.png": "6124de0f9f6636a52da7c03c45c8346de6a8b3e61723a25e1f9eabe3da7218e3",
+      "totonou-day-1.5-1.png": "7b56d73a91357ededd7a2d9dd378711d11692b1e87f19ec262580a7d60e8bc21",
+      "totonou-day-1.5-2.png": "8cc9323224f2ef46a5bd057bc2c80d485efc51726054ff6ad22464f061196bbd",
+      "totonou-day-1.5-3.png": "31d422782a916058c252879bac18cb2563a3dddb78a71d52613e00cbdefc650a",
+      "totonou-day-1.5-4.png": "4d2742f7350079931509cc05f598085e7ecf8fdbd90229f9d784d38e090c3b82",
+      "totonou-day-1.5-5.png": "bc18ade07a9eb5c62e06a2152786b16c7f9d0c2242cc88968bb7b5495464b9fc",
+      "totonou-day-1.5-6.png": "250579a029be09715c4d1d8b6b105b8a8c1077bc08315bf211b0312e2550a179",
+      "totonou-day-1.5-7.png": "0f5761b0a99b5327e6214efacbe01694cdea9a63a39fbbb92f2b6b09d738c1b6",
+      "totonou-day-1.5-8.png": "ea918bcd3cd93c683e252df6c10b3a9c42be2006edda29662f39dd35f546235c",
+      "totonou-day-1.5-9.png": "1e2c409f9e059f8c0751da2aa64ed0e774a91b247f1f34715768f11123cc8443",
+      "totonou-day-1.5-10.png": "743b027cad29750f1973da08f9c40030fb610f8f81bca450643aa91c5c979348",
+      "totonou-day-1.5-11.png": "45b9a358f7dc853786dac1634b795303f95813e42932676b178da8d2921e5dfb",
+      "totonou-day-1.5-12.png": "f59dfd3db544df23440191c663ac2711d4ed02d573c97eaa903a46b7d91a5ea4",
+      "totonou-evening-1.5-0.png": "bc484bbe62581469a0631bd3d67a89c52a3418910a38aea329aa693aa4e9bef1",
+      "totonou-evening-1.5-1.png": "e9fd57218b8617e199f5ed2f5daad5cf370e0873ca74da917d933c0d76424455",
+      "totonou-evening-1.5-2.png": "74f628c451d6d0e930f3f440d266248fe679e2f9830424f74ffad86c51f4a317",
+      "totonou-evening-1.5-3.png": "d7afa61290772d8cf6ea6a18acb6009f0e43a1879edd03f4980c7fba0ca01334",
+      "totonou-evening-1.5-4.png": "5744b90fd57cc2a9f1ea599d3fbe5cbee238c62142fa91ec537d79139e962154",
+      "totonou-evening-1.5-5.png": "7c78c81eb798c53f19b066a9a62c7758f50684dee502bc621795e1c197a80338",
+      "totonou-evening-1.5-6.png": "a6a44706a7ac3a891b38b15e448417b8f55ebb292a037a13b5de85c235eb4e37",
+      "totonou-evening-1.5-7.png": "a829a04c72ecff446126e349c449e9cc8c645cdbabbbecf4c5ad0160028e8431",
+      "totonou-evening-1.5-8.png": "3ec5703c84960756fbd6f7b1fe647c8513078630b3d2f3c7a3a7c13e1f9394f4",
+      "totonou-evening-1.5-9.png": "035bc5d010d75a1d2ec268ef4dd6a2abc30678bace1c788dad2b0fbb8e0828b5",
+      "totonou-evening-1.5-10.png": "689b22ecdb41d9a054d982b0494063bff367ac661f791481128a1018c1358887",
+      "totonou-evening-1.5-11.png": "c32aa1a9d24a6a4d9f923ca089282268190dabac5f3f233c5eb00d5890a78c33",
+      "totonou-evening-1.5-12.png": "b6884b7189caf5533b7e710a4d67ead0000b83c9baedad5af081fbce54673f8d"
+    },
+    "before2": {
+      "sauna-day-1.5-0.png": "933c3f6a6f7b1449e3c055755924a5adfae1e1d0911ac70ed17dfbd626b28f15",
+      "sauna-day-1.5-1.png": "ff649672ca870c91e511bf5365bd7abd52d61e0c75be8bc0ac8122ca2d3263d9",
+      "sauna-day-1.5-2.png": "0e9bb4a77ac0a02549702920bfbb130b6edee9a425d711ef54fd8a8202298954",
+      "sauna-day-1.5-3.png": "cb812c3f8ba9f86c3d61e7268cd908f2ca24d18a5476a15495e6963584e52f91",
+      "sauna-day-1.5-4.png": "3bc58dac68ac7bbe372f08da579b506905028fb51b01edee84a4a2ed9a7da43d",
+      "sauna-day-1.5-5.png": "c31fa8c67342fba87267ad733402663c3e1c473abb31d43273ee1bbe102db999",
+      "sauna-day-1.5-6.png": "3a230dda4172138f3808656fa1013e33839c199dbb1b753a0696a3d5ed4a33f9",
+      "sauna-day-1.5-7.png": "b8c40f337d75a7aa6b54d29ff077a01e937f9f088e9a889f4e0e2585edeefc82",
+      "sauna-day-1.5-8.png": "97867b5c59d6da3f62d7ff274236012e15619e56b75b3a1e949a320214391b34",
+      "sauna-day-1.5-9.png": "10907e5045f31e2c56f899741f3fcb024f76b718b64185c027a6805f47decaaf",
+      "sauna-day-1.5-10.png": "e38254eee3ea4d9155389c9c0f1e12b490a7a2b821b08b3b193e21192dd7f925",
+      "sauna-day-1.5-11.png": "a8c9f61b8dd173f943f77626b0c65e615fa98743a95489ca65714b1b73e741e8",
+      "sauna-day-1.5-12.png": "9f5ba8f8d72614f156837bbb65f2bfaedc2d693f1eb88c532faaca9b3e51d6d7",
+      "sauna-evening-1.5-0.png": "4efed97cd4a99ecb5752fb97ae7fd0cb2fd3d52523f6b4836ed3c175f605896e",
+      "sauna-evening-1.5-1.png": "8a433933ef75856623fbf72babfb3f25b9858e07aed0bd495674d43a32db03f1",
+      "sauna-evening-1.5-2.png": "34e3f3bda7f0b9ce0f4f64d969c93124c28eb5fc9a913a4d933faf1e6f03229a",
+      "sauna-evening-1.5-3.png": "35d7ab8090c214bf3b0cc9ceb2ed7009ecf4b9917e4ebb0f11f235e5278de03a",
+      "sauna-evening-1.5-4.png": "631cd4406967ac95a6e24ca51ad06723b869a993e075a0a72e377da8c1690576",
+      "sauna-evening-1.5-5.png": "d7968ee987fb0ff61ee63ab654c9c68a691dbddfd5c74a8f682a815b502c1eaf",
+      "sauna-evening-1.5-6.png": "c5657fe47dd28c119462b3fed4b199b6f7c5e05d67492d9c4e8eb508e70aafd9",
+      "sauna-evening-1.5-7.png": "02d0fe134fca83d45cc782aa4e11580b5510fd34e6a42b1d416cef39265bc432",
+      "sauna-evening-1.5-8.png": "80df0526b40ce2e007a63a0ac7d1dbaaa1686894d61d1dca72d706e9c4557245",
+      "sauna-evening-1.5-9.png": "37b23a28fdd68ab959d1df2dd069e1ba2c751f59e516038f090e666bb6440bee",
+      "sauna-evening-1.5-10.png": "d3228ce93d78c79a5161ed1efe57bd6496308b22f2f958851008e78592957e87",
+      "sauna-evening-1.5-11.png": "e13ba5c7d46fd1a476145dcec80fc02fe1453041fd76dd98fc21e00c4917b9e6",
+      "sauna-evening-1.5-12.png": "e048692161b66548648af1511a1bfc0c9ae28c7293849706ed4db59b08258545",
+      "water-day-1.5-0.png": "6196cefe7d68b5e528fd06e803ec5e26c273d1c00f47f275beb67a45d1b263d0",
+      "water-day-1.5-1.png": "c70f3e8d70756467628c277e5aa5cb351fb5136b14dd86ba473908cd5c8ec932",
+      "water-day-1.5-2.png": "a292fc50d71d92bf570249a86c7c37953f44aa53b9c9c4c010eed1cd1e61ef84",
+      "water-day-1.5-3.png": "d9245ec24588a4a1c1c4ef819173a026106925813f9ceb5c9f56a193317ba885",
+      "water-day-1.5-4.png": "5df10c6982976acda508bbea2875c6b4a2968b27ed6d5c6d3788e7422b8cbd25",
+      "water-day-1.5-5.png": "f778cfb98e031e8cf1912749b2975790ff35894ae37cb4602c665b9e32277c92",
+      "water-day-1.5-6.png": "0313113743fd8af0e4a3757cde667ed3b9177ee0f3a4586f643a47c5503951e3",
+      "water-day-1.5-7.png": "647f425fb778322bbba8b63528353fea86f561ef231c2c157515087e6592a3aa",
+      "water-day-1.5-8.png": "04009ab9d33b20c45598f1de1eb1c7ad47e59d4d5e39922f2c217678d4b93f7f",
+      "water-day-1.5-9.png": "5912e7ac37452727e81b9eb3d60ab2c25432d9deb3cdff604ebd13e449e4337c",
+      "water-day-1.5-10.png": "0edcefc8da018010953430adca51f5812ec2e555642aadaadcff4497c1f7004d",
+      "water-day-1.5-11.png": "76d45827e1e1076e0ff7d3eb0568c176397d584ccd6680dd2c148b8f89047400",
+      "water-day-1.5-12.png": "6134c09d37850c97b9bc28bc4aae408a13cd3dd435b86b8f2789ebced28f0203",
+      "water-evening-1.5-0.png": "06536b09da49ef9a6fafd65debdf10345daa52e672ba85c2ac74f3a88f8899ad",
+      "water-evening-1.5-1.png": "896ba60b5915ad00b35819cc04ce9bc6f6400b782caa175f08e1e2705f87b065",
+      "water-evening-1.5-2.png": "9178cc2edfb929a291efd3028a0efedba7d25b23fc4d7bc1b2bd5f8419fe1a4e",
+      "water-evening-1.5-3.png": "0aaad6182eafc92139d7ca5487e3c1e89bde4a2f8af4665a69a421e2e20659e2",
+      "water-evening-1.5-4.png": "a214e4a7613fa9461bfff8e8b2cdab31d395647f7bdffb8858f5c11eec12cd46",
+      "water-evening-1.5-5.png": "865a941d266b2b5b723a3ac05825ecb2e5baf4dfc3f5d9a74c432c5f46557560",
+      "water-evening-1.5-6.png": "79051ffe38c3242c31b5abc56ada87ecce650195a165e5ede6198056476ea72c",
+      "water-evening-1.5-7.png": "3ad2a209b82ec7f72c3e91f5010f64e1593d89c434198bbf05a4fbc1143805f6",
+      "water-evening-1.5-8.png": "5eaa09c39126a92ffb6ed68b0d6088637373744916432b47c45ff7ca9559384c",
+      "water-evening-1.5-9.png": "9ac1aa931c2a33bfa0c922582a51339a7bc6fdd0eb032e4d1811c2367b498819",
+      "water-evening-1.5-10.png": "bbec07e6e271464e5b7cee205fd1ee620463935eacfe2dd555476aec90e2dc23",
+      "water-evening-1.5-11.png": "59de7d645d5f91374c36b6f889123757e49a0df6a3f4d823a10caad8d4237dfa",
+      "water-evening-1.5-12.png": "f214ced9c3d0a7ae64b37b72e45b2947b04db1716f3133bdd95f3736002980bf",
+      "totonou-day-1.5-0.png": "b182398edc5a6d2bf9ce5c0147ebe96f97fc580703ccd9288de028178c708cac",
+      "totonou-day-1.5-1.png": "f6aeb9d017b980e3ac4106f2d1e9134bae59d57fc7032ec7a54e2d06eb4ae61b",
+      "totonou-day-1.5-2.png": "ac0853207dd7fa0f13f07dcd3929d353ebcb0b2bef38a66485bc7444bff8bd16",
+      "totonou-day-1.5-3.png": "88089cf705a9816d06d60cc2b2e067b0d8dcc1387bd9f57bf108611d6d72bb94",
+      "totonou-day-1.5-4.png": "b88a7da90d7f3207b21816e8c459b0fcf63abd73e5d61f0ae0c5915b3b9c6593",
+      "totonou-day-1.5-5.png": "212bf7f75bc035218cbce5396b207561e68af0c7505acb69aeeb34cf68326760",
+      "totonou-day-1.5-6.png": "e095727283fdb598453f0f1e2b090dec1c94b50754aa262c6a7ec1fb076db93c",
+      "totonou-day-1.5-7.png": "78da2333ec5ab4322894dd0cf4a90689a509db5ae4b7720388342eb4dc51b2f3",
+      "totonou-day-1.5-8.png": "7ff9c5fad80eb7002b114607ec1f7832a50b5e9214a72b69e6bffebf479ef727",
+      "totonou-day-1.5-9.png": "e147c13541903170cca8334c4797bc6e2862539fbcf399406958c8d7d421b3b5",
+      "totonou-day-1.5-10.png": "4089c58c49798523bd9b0466a4fe6342eceeedd68f49593473d0eefaacc290d4",
+      "totonou-day-1.5-11.png": "bbf8ac3d43e4df2495b0d9d06fd672250cacc433a9c59642e5e57e1ca726ce26",
+      "totonou-day-1.5-12.png": "f1926d4c6eb2554d9a71435194023db4312d27e091249806f6e6253a6e990784",
+      "totonou-evening-1.5-0.png": "f5a868bfe552a35d7062608a5a954416232b34bb9163700f7ca88dc95199bcea",
+      "totonou-evening-1.5-1.png": "f2e9334c67c295cb85175ef623aabb5f741f036ed95370d44fd861e7ce3847dd",
+      "totonou-evening-1.5-2.png": "b1ec9d84113825c0d6fc8066563825861b1776b84367ba19998288f2460d30a6",
+      "totonou-evening-1.5-3.png": "9f6c11b771f41e3ab54a209a9be4fde17581098bf816ac0b3eb1c0eb601d355c",
+      "totonou-evening-1.5-4.png": "c9655d5f77b2ae32a38153be5bb64941580d90b97ac3ff4066c3dc2d85106c7f",
+      "totonou-evening-1.5-5.png": "014814c243c41caf5ccfe552e35f0e9adde4c96b9656e477358dbdcd7e786a02",
+      "totonou-evening-1.5-6.png": "79f62a777e78a051177320887b6c052affc41dc20a0d4b369b0e4e828fd3b0c1",
+      "totonou-evening-1.5-7.png": "f8c75a302959364187e6dfd1212a194827a8995770f0f5317283b65484a142f1",
+      "totonou-evening-1.5-8.png": "c3f01b45635afac380d4607e8548adfde614d71f4c19345c0caa92a5e40b1cb0",
+      "totonou-evening-1.5-9.png": "355ab66320fa670f2e5994d353fec31de526228b6eb523526663be439f92efac",
+      "totonou-evening-1.5-10.png": "2b13d667e7983f91e239b6ba18e003d25dac57e99e3111124e6327730adf1382",
+      "totonou-evening-1.5-11.png": "31857ec0e5d7e08d9a936ddf7dd4867c4eec858f53a5a84cddf285fd3f8194f6",
+      "totonou-evening-1.5-12.png": "d0b058a080d6525112fd6113aa14492d4e5f49a033bb9a97a23ae116a9239d53"
+    }
+  },
+  "sameVersionRecapture": {
+    "before": {
+      "changedImages": 72,
+      "maxChangedPixels": 347209,
+      "images": [
+        {
+          "file": "sauna-day-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 17
+        },
+        {
+          "file": "sauna-day-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 23
+        },
+        {
+          "file": "sauna-day-1.5-2.png",
+          "changedPixels": 9,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "sauna-day-1.5-3.png",
+          "changedPixels": 275794,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "sauna-day-1.5-4.png",
+          "changedPixels": 79499,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-day-1.5-5.png",
+          "changedPixels": 89389,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "sauna-day-1.5-6.png",
+          "changedPixels": 23584,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "sauna-day-1.5-7.png",
+          "changedPixels": 5964,
+          "maxChannelDelta": 18
+        },
+        {
+          "file": "sauna-day-1.5-8.png",
+          "changedPixels": 1913,
+          "maxChannelDelta": 23
+        },
+        {
+          "file": "sauna-day-1.5-9.png",
+          "changedPixels": 662,
+          "maxChannelDelta": 18
+        },
+        {
+          "file": "sauna-day-1.5-10.png",
+          "changedPixels": 295,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "sauna-day-1.5-11.png",
+          "changedPixels": 87430,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-day-1.5-12.png",
+          "changedPixels": 89965,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "sauna-evening-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 17
+        },
+        {
+          "file": "sauna-evening-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 16
+        },
+        {
+          "file": "sauna-evening-1.5-2.png",
+          "changedPixels": 6,
+          "maxChannelDelta": 11
+        },
+        {
+          "file": "sauna-evening-1.5-3.png",
+          "changedPixels": 197154,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "sauna-evening-1.5-4.png",
+          "changedPixels": 51289,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-evening-1.5-5.png",
+          "changedPixels": 12236,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "sauna-evening-1.5-6.png",
+          "changedPixels": 51377,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "sauna-evening-1.5-7.png",
+          "changedPixels": 12204,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "sauna-evening-1.5-8.png",
+          "changedPixels": 83905,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "sauna-evening-1.5-9.png",
+          "changedPixels": 53161,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-evening-1.5-10.png",
+          "changedPixels": 47740,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "sauna-evening-1.5-11.png",
+          "changedPixels": 11464,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "sauna-evening-1.5-12.png",
+          "changedPixels": 84120,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "water-day-1.5-0.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-day-1.5-1.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-day-1.5-2.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-day-1.5-3.png",
+          "changedPixels": 246672,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-day-1.5-4.png",
+          "changedPixels": 124832,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "water-day-1.5-5.png",
+          "changedPixels": 82513,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "water-day-1.5-6.png",
+          "changedPixels": 18442,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-day-1.5-7.png",
+          "changedPixels": 78417,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "water-day-1.5-8.png",
+          "changedPixels": 79883,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-day-1.5-9.png",
+          "changedPixels": 245410,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "water-day-1.5-10.png",
+          "changedPixels": 72522,
+          "maxChannelDelta": 5
+        },
+        {
+          "file": "water-day-1.5-11.png",
+          "changedPixels": 80223,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "water-day-1.5-12.png",
+          "changedPixels": 18532,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-evening-1.5-0.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-evening-1.5-1.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-evening-1.5-2.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-evening-1.5-3.png",
+          "changedPixels": 64903,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-evening-1.5-4.png",
+          "changedPixels": 14887,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-evening-1.5-5.png",
+          "changedPixels": 63567,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "water-evening-1.5-6.png",
+          "changedPixels": 14286,
+          "maxChannelDelta": 1
+        },
+        {
+          "file": "water-evening-1.5-7.png",
+          "changedPixels": 63952,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-evening-1.5-8.png",
+          "changedPixels": 15559,
+          "maxChannelDelta": 3
+        },
+        {
+          "file": "water-evening-1.5-9.png",
+          "changedPixels": 98772,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "water-evening-1.5-10.png",
+          "changedPixels": 67485,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-evening-1.5-11.png",
+          "changedPixels": 64105,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-evening-1.5-12.png",
+          "changedPixels": 14310,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "totonou-day-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 24
+        },
+        {
+          "file": "totonou-day-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 16
+        },
+        {
+          "file": "totonou-day-1.5-2.png",
+          "changedPixels": 344100,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-day-1.5-3.png",
+          "changedPixels": 129401,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-day-1.5-4.png",
+          "changedPixels": 40664,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-day-1.5-5.png",
+          "changedPixels": 347209,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "totonou-day-1.5-6.png",
+          "changedPixels": 198953,
+          "maxChannelDelta": 17
+        },
+        {
+          "file": "totonou-day-1.5-7.png",
+          "changedPixels": 61730,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "totonou-day-1.5-8.png",
+          "changedPixels": 346816,
+          "maxChannelDelta": 13
+        },
+        {
+          "file": "totonou-day-1.5-9.png",
+          "changedPixels": 128673,
+          "maxChannelDelta": 15
+        },
+        {
+          "file": "totonou-day-1.5-10.png",
+          "changedPixels": 39820,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-day-1.5-11.png",
+          "changedPixels": 12337,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-day-1.5-12.png",
+          "changedPixels": 347130,
+          "maxChannelDelta": 11
+        },
+        {
+          "file": "totonou-evening-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "totonou-evening-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 3
+        },
+        {
+          "file": "totonou-evening-1.5-2.png",
+          "changedPixels": 6,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "totonou-evening-1.5-3.png",
+          "changedPixels": 83063,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-evening-1.5-4.png",
+          "changedPixels": 21575,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "totonou-evening-1.5-5.png",
+          "changedPixels": 82604,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-evening-1.5-6.png",
+          "changedPixels": 23264,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "totonou-evening-1.5-7.png",
+          "changedPixels": 6445,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "totonou-evening-1.5-8.png",
+          "changedPixels": 82721,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-evening-1.5-9.png",
+          "changedPixels": 23191,
+          "maxChannelDelta": 3
+        },
+        {
+          "file": "totonou-evening-1.5-10.png",
+          "changedPixels": 82784,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-evening-1.5-11.png",
+          "changedPixels": 85209,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-evening-1.5-12.png",
+          "changedPixels": 23631,
+          "maxChannelDelta": 4
+        }
+      ]
+    },
+    "after": {
+      "changedImages": 72,
+      "maxChangedPixels": 351279,
+      "images": [
+        {
+          "file": "sauna-day-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 17
+        },
+        {
+          "file": "sauna-day-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 23
+        },
+        {
+          "file": "sauna-day-1.5-2.png",
+          "changedPixels": 9,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "sauna-day-1.5-3.png",
+          "changedPixels": 89499,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-day-1.5-4.png",
+          "changedPixels": 98635,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-day-1.5-5.png",
+          "changedPixels": 26821,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "sauna-day-1.5-6.png",
+          "changedPixels": 7474,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "sauna-day-1.5-7.png",
+          "changedPixels": 2245,
+          "maxChannelDelta": 18
+        },
+        {
+          "file": "sauna-day-1.5-8.png",
+          "changedPixels": 154679,
+          "maxChannelDelta": 23
+        },
+        {
+          "file": "sauna-day-1.5-9.png",
+          "changedPixels": 146780,
+          "maxChannelDelta": 18
+        },
+        {
+          "file": "sauna-day-1.5-10.png",
+          "changedPixels": 95081,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "sauna-day-1.5-11.png",
+          "changedPixels": 90463,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-day-1.5-12.png",
+          "changedPixels": 91206,
+          "maxChannelDelta": 5
+        },
+        {
+          "file": "sauna-evening-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 17
+        },
+        {
+          "file": "sauna-evening-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 16
+        },
+        {
+          "file": "sauna-evening-1.5-2.png",
+          "changedPixels": 199631,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "sauna-evening-1.5-3.png",
+          "changedPixels": 12,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "sauna-evening-1.5-4.png",
+          "changedPixels": 52192,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-evening-1.5-5.png",
+          "changedPixels": 52998,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "sauna-evening-1.5-6.png",
+          "changedPixels": 53416,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "sauna-evening-1.5-7.png",
+          "changedPixels": 53132,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "sauna-evening-1.5-8.png",
+          "changedPixels": 53195,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "sauna-evening-1.5-9.png",
+          "changedPixels": 53267,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "sauna-evening-1.5-10.png",
+          "changedPixels": 12586,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "sauna-evening-1.5-11.png",
+          "changedPixels": 51451,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "sauna-evening-1.5-12.png",
+          "changedPixels": 12379,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "water-day-1.5-0.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-day-1.5-1.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-day-1.5-2.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-day-1.5-3.png",
+          "changedPixels": 74891,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "water-day-1.5-4.png",
+          "changedPixels": 75250,
+          "maxChannelDelta": 5
+        },
+        {
+          "file": "water-day-1.5-5.png",
+          "changedPixels": 15417,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-day-1.5-6.png",
+          "changedPixels": 80735,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "water-day-1.5-7.png",
+          "changedPixels": 254773,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "water-day-1.5-8.png",
+          "changedPixels": 16811,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "water-day-1.5-9.png",
+          "changedPixels": 4475,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-day-1.5-10.png",
+          "changedPixels": 1272,
+          "maxChannelDelta": 1
+        },
+        {
+          "file": "water-day-1.5-11.png",
+          "changedPixels": 304,
+          "maxChannelDelta": 1
+        },
+        {
+          "file": "water-day-1.5-12.png",
+          "changedPixels": 113,
+          "maxChannelDelta": 1
+        },
+        {
+          "file": "water-evening-1.5-0.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-evening-1.5-1.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-evening-1.5-2.png",
+          "changedPixels": 0,
+          "maxChannelDelta": 0
+        },
+        {
+          "file": "water-evening-1.5-3.png",
+          "changedPixels": 67209,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-evening-1.5-4.png",
+          "changedPixels": 61422,
+          "maxChannelDelta": 5
+        },
+        {
+          "file": "water-evening-1.5-5.png",
+          "changedPixels": 13810,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-evening-1.5-6.png",
+          "changedPixels": 3223,
+          "maxChannelDelta": 1
+        },
+        {
+          "file": "water-evening-1.5-7.png",
+          "changedPixels": 65716,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "water-evening-1.5-8.png",
+          "changedPixels": 66478,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "water-evening-1.5-9.png",
+          "changedPixels": 15011,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-evening-1.5-10.png",
+          "changedPixels": 3771,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "water-evening-1.5-11.png",
+          "changedPixels": 204759,
+          "maxChannelDelta": 7
+        },
+        {
+          "file": "water-evening-1.5-12.png",
+          "changedPixels": 65075,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "totonou-day-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 24
+        },
+        {
+          "file": "totonou-day-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 16
+        },
+        {
+          "file": "totonou-day-1.5-2.png",
+          "changedPixels": 8,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-day-1.5-3.png",
+          "changedPixels": 9,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-day-1.5-4.png",
+          "changedPixels": 351279,
+          "maxChannelDelta": 11
+        },
+        {
+          "file": "totonou-day-1.5-5.png",
+          "changedPixels": 130465,
+          "maxChannelDelta": 11
+        },
+        {
+          "file": "totonou-day-1.5-6.png",
+          "changedPixels": 135251,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-day-1.5-7.png",
+          "changedPixels": 41933,
+          "maxChannelDelta": 3
+        },
+        {
+          "file": "totonou-day-1.5-8.png",
+          "changedPixels": 12902,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "totonou-day-1.5-9.png",
+          "changedPixels": 4508,
+          "maxChannelDelta": 15
+        },
+        {
+          "file": "totonou-day-1.5-10.png",
+          "changedPixels": 1645,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-day-1.5-11.png",
+          "changedPixels": 130431,
+          "maxChannelDelta": 12
+        },
+        {
+          "file": "totonou-day-1.5-12.png",
+          "changedPixels": 40612,
+          "maxChannelDelta": 8
+        },
+        {
+          "file": "totonou-evening-1.5-0.png",
+          "changedPixels": 2,
+          "maxChannelDelta": 6
+        },
+        {
+          "file": "totonou-evening-1.5-1.png",
+          "changedPixels": 1,
+          "maxChannelDelta": 3
+        },
+        {
+          "file": "totonou-evening-1.5-2.png",
+          "changedPixels": 6,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "totonou-evening-1.5-3.png",
+          "changedPixels": 6,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "totonou-evening-1.5-4.png",
+          "changedPixels": 12,
+          "maxChannelDelta": 4
+        },
+        {
+          "file": "totonou-evening-1.5-5.png",
+          "changedPixels": 83863,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-evening-1.5-6.png",
+          "changedPixels": 130938,
+          "maxChannelDelta": 16
+        },
+        {
+          "file": "totonou-evening-1.5-7.png",
+          "changedPixels": 90935,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-evening-1.5-8.png",
+          "changedPixels": 87652,
+          "maxChannelDelta": 10
+        },
+        {
+          "file": "totonou-evening-1.5-9.png",
+          "changedPixels": 87326,
+          "maxChannelDelta": 9
+        },
+        {
+          "file": "totonou-evening-1.5-10.png",
+          "changedPixels": 85679,
+          "maxChannelDelta": 11
+        },
+        {
+          "file": "totonou-evening-1.5-11.png",
+          "changedPixels": 22397,
+          "maxChannelDelta": 2
+        },
+        {
+          "file": "totonou-evening-1.5-12.png",
+          "changedPixels": 5720,
+          "maxChannelDelta": 4
+        }
+      ]
+    }
+  },
+  "sequences": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "ratio": 1.5,
+      "metrics": {
+        "pixel": {
+          "before": [
+            0.6186,
+            0.6162
+          ],
+          "after": [
+            0.6214,
+            0.6223
+          ],
+          "meanRatio": 1.0072076449627472,
+          "beforeRepeatRatio": 0.9961202715809893,
+          "afterRepeatRatio": 1.0014483424525267
+        },
+        "tile": {
+          "before": [
+            0.0777,
+            0.0773
+          ],
+          "after": [
+            0.0777,
+            0.0778
+          ],
+          "meanRatio": 1.0032258064516129,
+          "beforeRepeatRatio": 0.9948519948519947,
+          "afterRepeatRatio": 1.0012870012870012
+        },
+        "tileP99": {
+          "before": [
+            0.7346,
+            0.731
+          ],
+          "after": [
+            0.7349,
+            0.7375
+          ],
+          "meanRatio": 1.0046397379912664,
+          "beforeRepeatRatio": 0.9950993738088755,
+          "afterRepeatRatio": 1.0035378963124235
+        }
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "ratio": 1.5,
+      "metrics": {
+        "pixel": {
+          "before": [
+            0.3932,
+            0.3922
+          ],
+          "after": [
+            0.3997,
+            0.3989
+          ],
+          "meanRatio": 1.0168067226890756,
+          "beforeRepeatRatio": 0.9974567650050865,
+          "afterRepeatRatio": 0.9979984988741556
+        },
+        "tile": {
+          "before": [
+            0.0418,
+            0.0418
+          ],
+          "after": [
+            0.042,
+            0.0421
+          ],
+          "meanRatio": 1.0059808612440193,
+          "beforeRepeatRatio": 1.0,
+          "afterRepeatRatio": 1.0023809523809524
+        },
+        "tileP99": {
+          "before": [
+            0.5421,
+            0.5398
+          ],
+          "after": [
+            0.5416,
+            0.5431
+          ],
+          "meanRatio": 1.0025880395600333,
+          "beforeRepeatRatio": 0.9957572403615568,
+          "afterRepeatRatio": 1.0027695716395866
+        }
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "ratio": 1.5,
+      "metrics": {
+        "pixel": {
+          "before": [
+            0.788,
+            0.7883
+          ],
+          "after": [
+            0.7943,
+            0.7989
+          ],
+          "meanRatio": 1.0107213093954197,
+          "beforeRepeatRatio": 1.0003807106598985,
+          "afterRepeatRatio": 1.0057912627470729
+        },
+        "tile": {
+          "before": [
+            0.0997,
+            0.1002
+          ],
+          "after": [
+            0.1015,
+            0.1021
+          ],
+          "meanRatio": 1.0185092546273138,
+          "beforeRepeatRatio": 1.0050150451354063,
+          "afterRepeatRatio": 1.005911330049261
+        },
+        "tileP99": {
+          "before": [
+            0.9151,
+            0.925
+          ],
+          "after": [
+            0.9303,
+            0.9354
+          ],
+          "meanRatio": 1.013912287375686,
+          "beforeRepeatRatio": 1.0108184897825374,
+          "afterRepeatRatio": 1.0054821025475653
+        }
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "ratio": 1.5,
+      "metrics": {
+        "pixel": {
+          "before": [
+            0.5644,
+            0.5661
+          ],
+          "after": [
+            0.5815,
+            0.5805
+          ],
+          "meanRatio": 1.0278637770897832,
+          "beforeRepeatRatio": 1.0030120481927711,
+          "afterRepeatRatio": 0.998280309544282
+        },
+        "tile": {
+          "before": [
+            0.0687,
+            0.069
+          ],
+          "after": [
+            0.0716,
+            0.0715
+          ],
+          "meanRatio": 1.0392156862745099,
+          "beforeRepeatRatio": 1.0043668122270744,
+          "afterRepeatRatio": 0.9986033519553073
+        },
+        "tileP99": {
+          "before": [
+            0.9849,
+            0.9898
+          ],
+          "after": [
+            1.0357,
+            1.0339
+          ],
+          "meanRatio": 1.0480579328505597,
+          "beforeRepeatRatio": 1.0049751243781095,
+          "afterRepeatRatio": 0.9982620449937241
+        }
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "ratio": 1.5,
+      "metrics": {
+        "pixel": {
+          "before": [
+            0.5842,
+            0.5845
+          ],
+          "after": [
+            0.5945,
+            0.5967
+          ],
+          "meanRatio": 1.019252160520236,
+          "beforeRepeatRatio": 1.000513522766176,
+          "afterRepeatRatio": 1.0037005887300252
+        },
+        "tile": {
+          "before": [
+            0.0824,
+            0.0824
+          ],
+          "after": [
+            0.0839,
+            0.0842
+          ],
+          "meanRatio": 1.0200242718446602,
+          "beforeRepeatRatio": 1.0,
+          "afterRepeatRatio": 1.00357568533969
+        },
+        "tileP99": {
+          "before": [
+            0.9203,
+            0.9189
+          ],
+          "after": [
+            0.9257,
+            0.9265
+          ],
+          "meanRatio": 1.0070682905611135,
+          "beforeRepeatRatio": 0.9984787569270891,
+          "afterRepeatRatio": 1.0008642108674517
+        }
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "ratio": 1.5,
+      "metrics": {
+        "pixel": {
+          "before": [
+            0.487,
+            0.4873
+          ],
+          "after": [
+            0.5011,
+            0.5035
+          ],
+          "meanRatio": 1.031099250744124,
+          "beforeRepeatRatio": 1.0006160164271047,
+          "afterRepeatRatio": 1.0047894631810017
+        },
+        "tile": {
+          "before": [
+            0.0677,
+            0.0677
+          ],
+          "after": [
+            0.0694,
+            0.0698
+          ],
+          "meanRatio": 1.0280649926144756,
+          "beforeRepeatRatio": 1.0,
+          "afterRepeatRatio": 1.0057636887608068
+        },
+        "tileP99": {
+          "before": [
+            0.916,
+            0.9153
+          ],
+          "after": [
+            0.914,
+            0.9201
+          ],
+          "meanRatio": 1.0015289684923279,
+          "beforeRepeatRatio": 0.999235807860262,
+          "afterRepeatRatio": 1.0066739606126915
+        }
+      }
+    }
+  ],
+  "note": "Controlled snapshots and rotationally aligned L* residuals; not real-time perceptual flicker or device performance."
+}

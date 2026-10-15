@@ -1,0 +1,101 @@
+{
+  "scripts": {
+    "geometry.ts": "2af51636337413cb1c929450743d2866fcb8a2de26a36ad33cacaa2bf327124e",
+    "analyze.py": "5f5fc9cd97d479f1b1bca912e59f1f77f40a3dacaee9cc92ce538435cb0da103",
+    "aggregate.py": "49dd4cc8778b3b5a7db9a2943e0e4c9c326ab2de3ea313902e4069a11533dd46",
+    "run.sh": "670775f0ab93e5ff12453392dcb671091c9a2f1593b3cec0d556e2951df31f2f",
+    "cost.sh": "e19de547bc0537f2c861bba38e2d4a00f5f59b1cf3bdc38cf7f09c051a97999a",
+    "regression.sh": "a633232880e898643b9eff4dd9fa1393b6626b20fcd4d5c89bb60c3b369a0184"
+  },
+  "reports": {
+    "before1": "f88f2b639f2b0560333c67dfec37db947872f0c3c5e609df6165919db2bcc925",
+    "after1": "7879d161ae38956946a20a9ea02d1a0fe63e31b3afc2dc1d0367557dc507cd75",
+    "after2": "e77322911861b6a50bd5aa3dea721dc471854751943fc8b80ba294db8355b124",
+    "before2": "ddeef792dd53b0100708de2e38feb77e3a84abb43337c61233c16d7a6f533e55"
+  },
+  "analysisSourceSHA256": {
+    "scripts/summarize_resolution_shimmer.py": "01f144a11704303867d7a24fd1b7f853d459cc18a7206845e03542fa14c4aea5",
+    "scripts/summarize_visual_survey.py": "f78c7f6287d3f8cd938b2ee758de0c091ee2f43fce344d7f3ca5e0d511d7a3a0",
+    "scripts/summarize_frame_cost.py": "713a4773d5a8278efce383cac2642d3f94f3f1b53b8981cdaa014d26d06130b2"
+  },
+  "finalSourceSHA256": {
+    "src/components/3d/woodlandCrowns.ts": "37962f88faf2c75b9c3b9140dc8e2c1b076f0494aa4630fa247530a5031635ad",
+    "src/components/3d/modelMaterials.ts": "56ecd53a257b91dc595337556fe8ffaae6d1a25fdc22935e3f7a49cd6b8b4975",
+    "src/components/3d/woodlandCrowns.test.ts": "fb0ed4dfb6094676c835124244237d388d2a631a42536ae4303ac2f8288a4648",
+    "src/components/3d/modelMaterials.test.ts": "24a3e22d564a75d170acab5fbe7d6ff3cebf2a3147b2bd4868077d8a3071695b"
+  },
+  "unitGates": {
+    "tests": 392,
+    "files": 62,
+    "status": "passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diffCheck": "passed"
+  },
+  "rejectedCandidate": {
+    "reason": "A new leaf copy overlapped the sauna interior in the first candidate. Final version adds protected-room fallback; first candidate is excluded from final results.",
+    "reportSHA256": {
+      "before1": "e68c95eb80709c873eda60a3924831ac8e2e1dcd787e5ce4db4400082a721488",
+      "after1": "f1df0f2a8e2000b233a5217797b85f6dc3f2d260af078bbad75d0a80cecd908f",
+      "after2": "d60161de0532d84df78f5cf6a67d8c9a7f442d9e852ed30d2a2e5fdbdf177c6e",
+      "before2": "3cfd26a0e9e7b9b90b5567721f337d2606f9698aeb1137a3fe053cc56fac9aa0"
+    }
+  },
+  "geometryArtifact": "geometry.json",
+  "note": "Rendering inputs in controlled-review.json; final unit tests run in the workspace, browser tests run in independent builds. Images are local only.",
+  "regression": {
+    "stats": {
+      "startTime": "2026-10-15T15:16:11.330Z",
+      "duration": 177132.19499999998,
+      "expected": 12,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "reportSHA256": "44643bfa0ee0df91967acbcac09c1b5647097f9b465dec6e88d3e4f461e223e7",
+    "inputSource": "controlled-review.json inputs.after"
+  },
+  "seasonalBaseline": {
+    "stats": {
+      "startTime": "2026-10-15T14:52:42.348Z",
+      "duration": 24516.013,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "reportSHA256": "756200c4cd681d05b47c888ed86b5938aa3fc9c517059c37ceedbb955c486337",
+    "inputSource": "controlled-review.json inputs.before"
+  },
+  "seasonalImageSHA256": {
+    "before": {
+      "totonou-autumn.png": "e7d563e324967730ef16d15a1487b510edbf7cb3b3559b13a5a717243706b0bf",
+      "sauna-day.png": "093b0cbee773a1ffe6daa261459723697d768a7d42c6d7e14aa3b9847dffb6f2",
+      "totonou-rain.png": "0d25155bb691d0933ece65c184c41232aa9292fbb333cae0ce41b45a9b990951",
+      "water-day.png": "5d67926d49c85c3e0f969ae0dea425a960ed724a85c00b3f7ef355c5424957c4",
+      "totonou-night.png": "4d6a379119c4ed01422de92cf9b6117143fe8d6eb9f914334979782831cbed0e",
+      "totonou-spring.png": "8869c9de2cf04c01456a0ef353f3b4c298aaceced69fa3842da4dbe3458e80df",
+      "totonou-winter.png": "7d93bb979309c2e053c8c688d142ef6406215380e3c5624c73b2a82779e3a908",
+      "totonou-evening.png": "e5bcd408a1bf1ff9ef4bf9908a89e45f38c0f3ea09e51df00a93cf78b149d977",
+      "totonou-summer.png": "c81a07884b5f4cf2e1725c857fd8a109f979e5c524fd6568e22ade2b98d99ada"
+    },
+    "after": {
+      "totonou-autumn.png": "614e1454af810429094cdb0ebb50ebed41cc1603c6450bc4e7706d854521e8f4",
+      "sauna-day.png": "0b20c9d62cac9f3a31dcfe58c142053a4a8edaa9362725b4b4759c882bdfaef8",
+      "totonou-rain.png": "abbd78f867360cc85637df0790817153d13ea9720dfc3888b08a9a5a9c1907f4",
+      "water-day.png": "196e7296c3c34ff24dbe2d7ef0163c70f66fcb9958582a5b91dd919d88e123d2",
+      "totonou-night.png": "4e986d0f3ef15a214bbc6f71f6e8623fa3036f8e1d38ea957b56bb48c5aebb08",
+      "totonou-spring.png": "a8b05b6d8c41ea1fa3f58aba48c237a61fe840643218d044cb3e0df1b18a7562",
+      "totonou-winter.png": "4f6e0227928ee8227f8cb135ddb7c520efab31d1de5a5f7c989777038758133c",
+      "totonou-evening.png": "71ad5562a525fb7965f6972bde00f9b4a76f9ebaa47d6f206a3de928223e1089",
+      "totonou-summer.png": "026b2a79ed2f91eb0c40ebf4e1ac48743a6eeb34e65633bd09bf614b9b70eb29"
+    }
+  },
+  "costArtifactsSHA256": {
+    "cost.json": "95175cbb0162795d299b8f8587168979d1a5752433e5dd43d315bec6083ec29e",
+    "cost-validation.json": "c1786a5a2fe90d3b759b3534ab46419ee5ca4e5b2d7659a38a4c7ab5bdee1e37"
+  },
+  "costConclusion": "Inconclusive: the second capture of the same baseline was 1.60-1.77x the first. Do not attribute the time-dependent variation to the rendering change."
+}
