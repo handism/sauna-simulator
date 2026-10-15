@@ -26,6 +26,58 @@
 bun run test:browser e2e/garden-details.e2e.ts e2e/season.e2e.ts --reporter=json > /private/tmp/forest-after.json
 ```
 
+## 制御見回しの追試（2026-10-15）
+
+製品描画は `8a0941d` のまま。変更前の `farForest.ts` だけを親コミット `9f545e6` の内容へ戻した独立ビルドと比較した。`src`・`public`・検証コード・設定の入力ハッシュを照合し、両者の差が同ファイルのみであること、前回記録の前後SHA-256と一致することを確認した。
+
+Chrome 155.0.8059.79、標準画質・DPR1.5・1200×800 CSS px（PNGは1800×1200）、動作抑制・TAA有効。3ステージ×昼夕、1 CSS px（ヨー0.004rad）ずつ12回、各2 rAFの制御見回しを変更前→変更後→変更後→変更前で撮影。各1件成功・78枚、計312枚。ブラウザー版・条件・全系列・画像寸法・実行順序・成功報告を照合した。
+
+位置合わせ後のL*残差の変更後÷前（各版2回の値の平均同士）：
+
+| ステージ | 時間帯 | 画素 | 面 | 面p99 |
+| --- | --- | --- | --- | --- |
+| サウナ | 昼 | 1.002 | 1.003 | 1.005 |
+| サウナ | 夕 | 1.016 | 1.020 | 1.030 |
+| 水風呂 | 昼 | 1.027 | 1.025 | 1.027 |
+| 水風呂 | 夕 | 0.988 | 0.990 | 0.992 |
+| 外気浴 | 昼 | 0.981 | 0.987 | 0.994 |
+| 外気浴 | 夕 | 0.993 | 1.001 | 1.008 |
+
+全系列の中央値は画素0.998・面1.002・面p99 1.006倍。面の再撮影の2回目÷1回目は、変更前0.986〜1.006、変更後0.935〜1.000倍。各版78枚中56枚で再撮影の画素差があり、水風呂昼・サウナ夕の前後差は変更後の再撮影の揺れより小さい。中央値はほぼ同水準だが、全系列の改善やちらつきの改善・悪化は断定しない。再撮影は各版2回で、変動の分布や原因は切り分けていない。
+
+[昼の比較](controlled-comparison.jpg)（左：変更前、右：変更後。ローカルのみ）で、水風呂・外気浴から見た樹冠の重なりを確認。確認した画像に新しい黒抜けは見られなかった。全周・連続動画の目視合格ではない。[入力・成功報告・再撮影差・全画像ハッシュ](controlled-review.json)、各回の `shimmer-{before1,after1,after2,before2}/shimmer.json` に値を保存した。
+
+再実行は両版を別ディレクトリに置き、同じ公開アセット・依存関係・検証コードを使ってビルドした後、上記の順に実行する。各回の `test-results/visual/` は次の実行前に別フォルダーへ保存する。
+
+```sh
+SHIMMER_RATIOS=1.5 bunx playwright test --config playwright.visual.config.ts e2e/resolution-shimmer.visual.ts --reporter=json > <run>.json
+python3 scripts/summarize_resolution_shimmer.py <run>.json <capture-directory> <output-directory>
+```
+
+制御した静止フレーム間の残差であり、実時間の知覚的ちらつき・FPS・実Safari・実機の証明にはしない。
+
+## 描画負荷の追試（2026-10-15）
+
+制御見回しの撮影・画像解析を終了した後、同じ独立ビルドを変更前→変更後→変更後→変更前の順に測った。Chrome 155.0.8059.79、標準画質・DPR1・1200×800・固定解像度・動作抑制。各版の最初の実行ではwarmup→product、2回目はproductのみ。各productは3ステージ×昼夕夜の9視点、各4秒の測定と1秒の回収待ち。4実行・計6件がすべて成功し、warmup2件を集計から除外した。
+
+描画のあるフレーム間隔の平均÷3を使う。前後を2組に対応付けた比の中央値は次のとおり。
+
+| ステージ | 昼 | 夕 | 夜 |
+| --- | --- | --- | --- |
+| サウナ | 1.014 | 1.011 | 1.000 |
+| 水風呂 | 1.000 | 1.009 | 1.013 |
+| 外気浴 | 1.002 | 1.002 | 1.002 |
+
+9視点の中央値の範囲は1.000〜1.014倍、個々の組は0.989〜1.019倍。小さな増加はあるが実行間のばらつきも含み、速度改善・費用ゼロとはしない。全9視点で主描画のdrawCallsは不変、三角形は+2,336。テクスチャ追加なしの設計と合わせ、追加の形状・被覆面積による費用が残る。ANGLEのタイマー値も保存されるが、`cost.json` の `medianIntervalRatio` を本文の指標とし、`medianRatio`（タイマー由来）をGPU単体時間や実機FPSとして解釈しない。
+
+[比較値](cost.json)・[成功報告と全標本](cost-validation.json)。条件・全9視点・ブラウザー版・成功件数・実行順序・画素比・3回描画を照合した。
+
+```sh
+# 各版の1回目。2回目は FRAME_COST_VARIANTS=product
+FRAME_COST_VARIANTS=warmup,product FRAME_COST_REPEAT=3 bunx playwright test --config playwright.gpu.config.ts e2e/frame-cost.gpu.ts --grep 'frame cost' --reporter=json > <cost-run>.json
+python3 scripts/summarize_frame_cost.py --runs forest before=<before1.json>,<before2.json> after=<after1.json>,<after2.json> --out docs/3d-qa/forest-depth/cost.json
+```
+
 ## 残る範囲
 
-樹冠は静的な面による近似で、実木の枝や立体形状ではない。季節の間接光・反射は従来プローブの近似のまま。通常ブラウザ回帰全件、全周撮影、高画質の画像比較、見回し中のちらつき、GPU負荷、実Safari・実機は今回未確認。
+樹冠は静的な面による近似で、実木の枝や立体形状ではない。季節の間接光・反射は従来プローブの近似のまま。通常ブラウザ回帰全件、全周撮影、高画質の画像比較、実時間の知覚的ちらつき、GPU単体時間・高画質負荷、実Safari・実機は未確認。

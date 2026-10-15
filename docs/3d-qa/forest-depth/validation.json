@@ -22,8 +22,8 @@
     "flaky": 0
   },
   "limitations": [
-    "Static screenshots only; not continuous motion or real-device performance",
-    "No GPU timing measurement",
+    "No real-time perceptual flicker or real-device performance validation",
+    "ANGLE timer data recorded but not interpreted as isolated GPU cost",
     "Full browser regression and high-quality survey not run"
   ],
   "afterStats": {
@@ -80,5 +80,11 @@
     "build": "passed",
     "diffCheck": "passed",
     "browserRegression": 9
+  },
+  "continuationReviews": {
+    "controlledLook": "controlled-review.json",
+    "frameIntervals": "cost.json",
+    "costValidation": "cost-validation.json",
+    "productRenderingChanged": false
   }
 }
