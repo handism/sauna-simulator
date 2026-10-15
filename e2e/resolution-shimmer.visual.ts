@@ -18,6 +18,11 @@ test.use({
   deviceScaleFactor: QUALITY === 'high' ? 2 : 1.5,
 });
 
+// Optional seated heading for reviewing exposed distant forest rather than only the default view.
+const HEADING_STEPS = Number(process.env.SHIMMER_HEADING_STEPS ?? 0);
+if (!Number.isInteger(HEADING_STEPS) || HEADING_STEPS < 0 || HEADING_STEPS > 78)
+  throw Error('Invalid SHIMMER_HEADING_STEPS');
+const FIXED_RATIO = process.env.SHIMMER_FIXED === '1';
 const STEPS = 12;
 const PX = Number(process.env.SHIMMER_PX ?? 1);
 const FRAMES = Number(process.env.SHIMMER_FRAMES ?? 2);
@@ -31,7 +36,9 @@ test('capture the dynamic resolution steps while looking around', async ({ page,
     if (message.type() === 'error') errors.push(message.text());
   });
   await page.addInitScript(controlFrames);
-  await page.goto(`?sound=off&quality&view=3d&frameRate=full${process.env.SHIMMER_QUERY ?? ''}`);
+  await page.goto(
+    `?sound=off&quality&view=3d&frameRate=full${FIXED_RATIO ? `&resolution=fixed&quality=${QUALITY}` : ''}${process.env.SHIMMER_QUERY ?? ''}`,
+  );
   await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
@@ -58,11 +65,19 @@ test('capture the dynamic resolution steps while looking around', async ({ page,
   ] as const) {
     await expect(scene).toHaveAttribute('data-stage', stage);
     await page.waitForTimeout(1_200);
+    await scene.focus();
+    for (let n = 0; n < HEADING_STEPS; n++) await page.keyboard.press('ArrowRight');
     for (const lighting of ['day', 'evening']) {
       await chooseSceneSetting(page, '3Dの時間帯', lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);
       for (const ratio of RATIOS) {
-        await holdRatio(page, scene, ratio, QUALITY);
+        if (FIXED_RATIO) {
+          await expect(scene).toHaveAttribute('data-pixel-ratio', ratio);
+          await page.evaluate(() => {
+            (window as unknown as { suiHold: number }).suiHold = performance.now();
+          });
+          await frame(70);
+        } else await holdRatio(page, scene, ratio, QUALITY);
         // The panels would take the drag.
         await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
         await frame();
@@ -85,13 +100,23 @@ test('capture the dynamic resolution steps while looking around', async ({ page,
         await expect(scene).toHaveAttribute('data-pixel-ratio', ratio);
       }
     }
+    await scene.focus();
+    for (let n = 0; n < HEADING_STEPS; n++) await page.keyboard.press('ArrowLeft');
     if (next) await page.getByRole('button', { name: next, exact: true }).click();
   }
   expect(errors).toEqual([]);
   await info.attach('resolution-shimmer', {
     contentType: 'application/json',
     body: JSON.stringify(
-      { browser: browser.version(), quality: QUALITY, yawPerStep: 0.004 * PX, framesPerStep: FRAMES, samples },
+      {
+        browser: browser.version(),
+        headingSteps: HEADING_STEPS,
+        fixedResolution: FIXED_RATIO,
+        quality: QUALITY,
+        yawPerStep: 0.004 * PX,
+        framesPerStep: FRAMES,
+        samples,
+      },
       null,
       2,
     ),

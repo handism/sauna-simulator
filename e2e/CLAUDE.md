@@ -75,3 +75,5 @@
 - `stage-compare.visual.ts` は添付にブラウザー版を記録し、ページエラーに加えてconsole errorも失敗扱いにする。`CAPTURE_PNG=1` で保存した同視点の前後画像とCycles参照を、水底反射の遮蔽の比較にも使う（`docs/3d-qa/water-light-occlusion/`）。
 
 - `frame-cost.ts` の `cut-canopy` は水底の面光源の天蓋遮蔽だけを検証ブラウザ内で外す。`FRAME_COST_VARIANTS=warmup,product,cut-canopy,product` で通常描画で挟んで費用を調べる。GLSLの置換件数を検査し、製品の設定や描画コードには診断スイッチを置かない。
+
+- 遠景の横方向の制御見回しは `SHIMMER_HEADING_STEPS=20 SHIMMER_FIXED=1 SHIMMER_RATIOS=1.5` を `resolution-shimmer.visual.ts` に渡す。ステージごとに初期視点から右へ20キー分（約91.7°）向き、撮影後に戻す。`SHIMMER_FIXED=1` は入室前から画質・固定解像度を指定し、最大倍率のまま時刻を固定して70フレーム整定する（動的解像度の段変更は検査しない）。添付の `headingSteps`・`fixedResolution` で条件を区別する。前後とも同じ検証コードで撮影し、既定視点の過去記録と直接比較しない。

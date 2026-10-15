@@ -16,7 +16,7 @@ describe('far forest', () => {
       expect(crown.top).toBeLessThan(9.5);
     }
   });
-  it('rounds broadleaf crowns and points the evergreens, peaking on their axis', () => {
+  it('keeps lobed crowns below their leaders and outside their original width', () => {
     const [broad, ever] = [false, true].map((evergreen) => ({
       angle: 0,
       radius: 2,
@@ -28,9 +28,16 @@ describe('far forest', () => {
     expect(crownHeight(broad, 0)).toBe(10);
     expect(crownHeight(ever, 0)).toBe(10);
     expect(crownHeight(broad, 2.1)).toBe(-Infinity);
-    // Halfway out, the dome has barely fallen and the cone has lost half its height and more.
+    // Broadleaf shoulders remain wider than the tapering evergreen shoulders.
     expect(10 - crownHeight(broad, 1)).toBeLessThan(0.5);
-    expect(10 - crownHeight(ever, 1)).toBeGreaterThan(2);
+    expect(10 - crownHeight(ever, 1)).toBeGreaterThan(1);
+    for (const crown of farForestCrowns()) {
+      for (let n = -99; n <= 99; n++) {
+        const y = crownHeight(crown, (n / 100) * crown.radius);
+        expect(Number.isFinite(y)).toBe(true);
+        expect(y).toBeLessThanOrEqual(crown.top);
+      }
+    }
   });
   it('stands on its ring between the woodland and the ridges, recolored by season and lit by the caller', () => {
     const forest = createFarForest({ value: new THREE.Color() });
@@ -47,6 +54,7 @@ describe('far forest', () => {
     const radii = Array.from({ length: position.count }, (_, i) => Math.hypot(position.getX(i), position.getZ(i)));
     expect(radii.some((r) => r < 51)).toBe(true);
     expect(radii.some((r) => r > 53.9)).toBe(true);
+    expect(Array.from(forest.mesh.geometry.attributes.gardenCrownSide.array).every(Number.isFinite)).toBe(true);
     const color = forest.mesh.geometry.attributes.color;
     forest.update('summer', new THREE.Color(0.45, 0.45, 0.45));
     const summer = Array.from(color.array);
