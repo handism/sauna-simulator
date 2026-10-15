@@ -122,9 +122,20 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   const tops: number[] = [];
   // The outline over each vertex (Infinity under a crown): the shader frays the foliage below it.
   const edges: number[] = [];
-  const at = (j: number, y: number, top: number, edge: number) => {
+  const crownOf: number[] = [];
+  const depths: number[] = [];
+  const at = (
+    j: number,
+    y: number,
+    top: number,
+    edge: number,
+    radius = FAR_FOREST_RADIUS,
+    crown = owner[Math.min(j, SEGMENTS - 1)],
+  ) => {
     const a = j * step;
-    positions.push(Math.cos(a) * FAR_FOREST_RADIUS, y, Math.sin(a) * FAR_FOREST_RADIUS);
+    positions.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
+    crownOf.push(crown);
+    depths.push((radius - 47) / 7);
     lift.push(Math.max(0, Math.min(1, (y - BASE) / (UNDERSTORY - BASE))));
     tops.push(top);
     edges.push(edge);
@@ -143,12 +154,36 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       const covered = lo === BASE && (a > UNDERSTORY || b > UNDERSTORY);
       // A crown's side may fall below the understory's top (the quad then narrows to a triangle).
       const [edgeA, edgeB] = covered ? [1e4, 1e4] : [Math.max(hiA, lo), Math.max(hiB, lo)];
-      at(j, lo, top, edgeA);
-      at(j, hiA, top, edgeA);
-      at(j + 1, hiB, top, edgeB);
-      at(j, lo, top, edgeA);
-      at(j + 1, hiB, top, edgeB);
-      at(j + 1, lo, top, edgeB);
+      at(j, lo, top, edgeA, FAR_FOREST_RADIUS, owner[j]);
+      at(j, hiA, top, edgeA, FAR_FOREST_RADIUS, owner[j]);
+      at(j + 1, hiB, top, edgeB, FAR_FOREST_RADIUS, owner[j]);
+      at(j, lo, top, edgeA, FAR_FOREST_RADIUS, owner[j]);
+      at(j + 1, hiB, top, edgeB, FAR_FOREST_RADIUS, owner[j]);
+      at(j + 1, lo, top, edgeB, FAR_FOREST_RADIUS, owner[j]);
+    }
+  }
+  // Staggered foreground crowns bridge the last woodland trees (44m) and the backing
+  // band (54m). Reuse its palette/material; leave gaps instead of a second continuous wall.
+  // These lower crowns cannot replace the mountain skyline. No extra draw call or texture.
+  for (const [i, crown] of crowns.entries()) {
+    if (i % 3 === 0) continue;
+    const radius = 47 + crown.shade * 4;
+    const top = crown.top - 1.1;
+    const halfAngle = crown.radius / radius;
+    const steps = 16;
+    for (let k = 0; k < steps; k++) {
+      const a = crown.angle - halfAngle + (2 * halfAngle * k) / steps;
+      const b = crown.angle - halfAngle + (2 * halfAngle * (k + 1)) / steps;
+      const height = (angle: number) => Math.max(1, crownHeight(crown, (angle - crown.angle) * radius) - 1.1);
+      const [ya, yb] = [height(a), height(b)];
+      const ja = a / step,
+        jb = b / step;
+      at(ja, BASE, top, ya, radius, i);
+      at(ja, ya, top, ya, radius, i);
+      at(jb, yb, top, yb, radius, i);
+      at(ja, BASE, top, ya, radius, i);
+      at(jb, yb, top, yb, radius, i);
+      at(jb, BASE, top, yb, radius, i);
     }
   }
   const geometry = new THREE.BufferGeometry();
@@ -158,12 +193,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   geometry.setAttribute('gardenLift', new THREE.Float32BufferAttribute(lift, 1));
   geometry.setAttribute('gardenCrownTop', new THREE.Float32BufferAttribute(tops, 1));
   geometry.setAttribute('gardenEdge', new THREE.Float32BufferAttribute(edges, 1));
-  // The segment of each vertex, for the seasonal recoloring.
-  const segmentOf: number[] = [];
-  for (let j = 0; j < SEGMENTS; j++) {
-    const count = (heights[j] > UNDERSTORY || heights[j + 1] > UNDERSTORY ? 2 : 1) * 6;
-    for (let k = 0; k < count; k++) segmentOf.push(j);
-  }
+  geometry.setAttribute('gardenDepth', new THREE.Float32BufferAttribute(depths, 1));
   const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
   material.name = 'Garden far forest';
   // The shader frays the outline with discard; an alpha test (never failed: the alpha is 1) keeps the
@@ -174,16 +204,17 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;',
+        '#include <common>\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;',
       )
       .replace(
         '#include <begin_vertex>',
-        '#include <begin_vertex>\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenPosition = position;',
+        '#include <begin_vertex>\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenPosition = position;',
       );
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <common>',
         `#include <common>
+        varying float vGardenDepth;
         varying float vGardenLift;
         varying float vGardenTop;
         varying float vGardenEdge;
@@ -223,19 +254,21 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb *= 0.7 + 0.5 * gardenClump;
         diffuseColor.rgb *= mix(0.68, 1.05, smoothstep(vGardenTop - 4.5, vGardenTop - 0.3, vGardenPosition.y));
         diffuseColor.rgb *= mix(0.55, 1.0, vGardenLift);
-        float haze = 0.08 + 0.14 * (1.0 - smoothstep(0.0, 9.0, vGardenPosition.y));
+        // Foreground remains darker and clearer; backing crowns recede into the air.
+        diffuseColor.rgb *= mix(0.72, 1.0, vGardenDepth);
+        float haze = mix(0.025, 0.08, vGardenDepth) + mix(0.04, 0.14, vGardenDepth) * (1.0 - smoothstep(0.0, 9.0, vGardenPosition.y));
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v4';
+  material.customProgramCacheKey = () => 'garden-far-forest-v5';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();
   let painted: Season | null = null;
   const paint = (season: Season) => {
     painted = season;
-    for (let v = 0; v < segmentOf.length; v++) {
-      const crown = crowns[owner[segmentOf[v]]];
+    for (let v = 0; v < crownOf.length; v++) {
+      const crown = crowns[crownOf[v]];
       if (!crown) {
         // Between crowns, the understory and the trunks behind it: a mean of the season's tints.
         tint.setHex(BROADLEAF[season][0]).lerp(tint.clone().setHex(EVERGREEN[season][0]), 0.5);

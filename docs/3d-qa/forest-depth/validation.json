@@ -1,0 +1,84 @@
+{
+  "sourceSHA256": {
+    "src/components/3d/farForest.ts": "89eeed8d5d81585f67ca1858a7f390cd5bff25f05d19d12f81abbec7d4f6b7cb",
+    "src/components/3d/farForest.test.ts": "802f51402f2938c0dc5da55e200ef3084fa4689e62cf6ab38a069ccdb0e52346"
+  },
+  "beforeSourceSHA256": "ffc2f84a9a1b5efa0600fe8177dcee67189f1c86c5f13b36c620c9d0107ce731",
+  "geometry": {
+    "beforeTriangles": 5492,
+    "afterTriangles": 7828,
+    "addedTriangles": 2336,
+    "bridgeCrowns": 73,
+    "drawCallsBefore": 1,
+    "drawCallsAfter": 1,
+    "addedTextures": 0
+  },
+  "beforeStats": {
+    "startTime": "2026-10-15T12:09:05.610Z",
+    "duration": 23927.678,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "limitations": [
+    "Static screenshots only; not continuous motion or real-device performance",
+    "No GPU timing measurement",
+    "Full browser regression and high-quality survey not run"
+  ],
+  "afterStats": {
+    "startTime": "2026-10-15T12:10:51.792Z",
+    "duration": 118994.314,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browser": {
+    "channel": "chrome",
+    "installedVersion": "155.0.8059.79"
+  },
+  "images": {
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/sauna-day.png": "405396da27af1f317a4e9c9ef1ed8c5ca6368aed84abc00c7297a1da949e6244",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-autumn.png": "e5abc64c1df418f4d50e0db3bbe35a613ceea257cba63afd1a7fa6f84c6409ac",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-evening.png": "04c84f33dfdf6176d15c6c2846577f765d7bbf96db5669ba4d159a27db77d3bb",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-night.png": "50a3022132dce45764ee68078d07e84bded180102db39bbfeff7fb5ecc3f9e8f",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-rain.png": "18b76e066c1e6778ee305e624df310fecb019cd4faaeddd4314c9089eb9ade30",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-spring.png": "58695879a8e5e9d7781db2d8dc792cb7677c01c4d1921f58a9726260c22e03a2",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-summer.png": "770e99149a3fd2b985c9708a850f7bfbf4ead37f42012cf0fa0e4ddafa230d50",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-winter.png": "3812ace4eae3ec135b1d4a455babfb4c619f0277d62a6dc525b2c65368f2e07f",
+    "after/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/water-day.png": "bbcf19a3bc9579ae5d8cb2b7f92c77f7b4d94712db6d9cbcf104628908ae64f3",
+    "after/season.e2e.ts-3D-autumn-pe-1f228-er-without-reloading-models/autumn.png": "12faa64050d5e964c3ba1dcea7cadb24b1d43c85bc2e0a6a2a65f02195421fdb",
+    "after/season.e2e.ts-3D-autumn-pe-1f228-er-without-reloading-models/summer.png": "c60440049f1b2a1e3dfe11bd05a3f9c4e249605d4bd007a7bfa9fa9bf8b1c58b",
+    "after/season.e2e.ts-3D-spring-at-34c17-er-without-reloading-models/spring.png": "9438a56cb3abda26a5190798635898230dbe85a072edc771b5d0ce58dac2f7b6",
+    "after/season.e2e.ts-3D-spring-at-34c17-er-without-reloading-models/summer.png": "a64fc806e0e550cd61d857784b6fe27d35d39f0df18bfb40faebae0ff77a40ab",
+    "after/season.e2e.ts-3D-spring-at-93ebe-er-without-reloading-models/spring.png": "31636c9b3eaabed5bad8035473c1ff45a321c27d9f9d052121ec5dc89aca65ef",
+    "after/season.e2e.ts-3D-spring-at-93ebe-er-without-reloading-models/summer.png": "770e99149a3fd2b985c9708a850f7bfbf4ead37f42012cf0fa0e4ddafa230d50",
+    "after/season.e2e.ts-3D-spring-at-f37e4-er-without-reloading-models/spring.png": "a181ee95d9935e3a355df0bc4e86206f785bacfc639d59916813164e1c44c1bc",
+    "after/season.e2e.ts-3D-spring-at-f37e4-er-without-reloading-models/summer.png": "e0455886be5b97244710f75c0143dfd92533f0a09906cbc8bfdb5e6a723d8f6d",
+    "after/season.e2e.ts-3D-winter-at-04a6a-er-without-reloading-models/summer.png": "a64fc806e0e550cd61d857784b6fe27d35d39f0df18bfb40faebae0ff77a40ab",
+    "after/season.e2e.ts-3D-winter-at-04a6a-er-without-reloading-models/winter.png": "a7599184bb3a4c92443d756b7fe597631e9ccc4c8faef296f4b9325909ac5a02",
+    "after/season.e2e.ts-3D-winter-at-3d6f6-er-without-reloading-models/summer.png": "770e99149a3fd2b985c9708a850f7bfbf4ead37f42012cf0fa0e4ddafa230d50",
+    "after/season.e2e.ts-3D-winter-at-3d6f6-er-without-reloading-models/winter.png": "492aef84f9fd8dec2c092404c15b35df7d72ad86833ebde92e0520950d301397",
+    "after/season.e2e.ts-3D-winter-at-4203e-er-without-reloading-models/summer.png": "e0455886be5b97244710f75c0143dfd92533f0a09906cbc8bfdb5e6a723d8f6d",
+    "after/season.e2e.ts-3D-winter-at-4203e-er-without-reloading-models/winter.png": "9c9b44bf2ed64c9c1f4906637f31a736c5ff3f62eb291a25351e5fc92954af2b",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/sauna-day.png": "a9dbe96f428de5c8be8ff2eac9d3fe7c72bde98142e8116a9f4673421844e035",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-autumn.png": "9bca2341c42b79cc4f2052d755783cb793e4dfe08d424b59a1b92e8e28ac28d1",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-evening.png": "96e0f4d1fc9c56ac8267600eaded4c47570effddab36f1c7a39b7ddd31ac1f34",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-night.png": "2f9f7e030c9e6bd755693baa194669a692575280f0aa14521a18d706d02030c6",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-rain.png": "ddf5071667447b6c90660f0d9372ff948404ea4a47000609de71f50aec976bab",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-spring.png": "61323694ae19cf9776473ff74c617477f285321068a9e6775a79cccb00a89916",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-summer.png": "ade915924994d27f29c676494a5c8dcc67607e806ad1071b5532c0cebbea8e70",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/totonou-winter.png": "9734afc1a39d3a73a048b999fbc920af89081bf4076b9737b7266090fc32e885",
+    "before/garden-details.e2e.ts-gard-6c26f-eferences-and-stage-changes/water-day.png": "9db094d87f454c324abbf292b8922973694e2012ee2903546da61381e2c3c585"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "unitTests": 389,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed",
+    "diffCheck": "passed",
+    "browserRegression": 9
+  }
+}

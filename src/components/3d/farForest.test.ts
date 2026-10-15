@@ -36,9 +36,17 @@ describe('far forest', () => {
     const forest = createFarForest({ value: new THREE.Color() });
     const position = forest.mesh.geometry.attributes.position;
     for (let i = 0; i < position.count; i += 97) {
-      expect(Math.hypot(position.getX(i), position.getZ(i))).toBeCloseTo(FAR_FOREST_RADIUS, 3);
+      const radius = Math.hypot(position.getX(i), position.getZ(i));
+      expect(radius).toBeGreaterThanOrEqual(47 - 1e-4);
+      expect(radius).toBeLessThanOrEqual(FAR_FOREST_RADIUS + 1e-4);
       expect(position.getY(i)).toBeLessThan(16);
     }
+    // The bridge is separated in depth from the backing, stays outside the real trees,
+    // and uses finite geometry even at a crown's open ends.
+    expect(Array.from(position.array).every(Number.isFinite)).toBe(true);
+    const radii = Array.from({ length: position.count }, (_, i) => Math.hypot(position.getX(i), position.getZ(i)));
+    expect(radii.some((r) => r < 51)).toBe(true);
+    expect(radii.some((r) => r > 53.9)).toBe(true);
     const color = forest.mesh.geometry.attributes.color;
     forest.update('summer', new THREE.Color(0.45, 0.45, 0.45));
     const summer = Array.from(color.array);
