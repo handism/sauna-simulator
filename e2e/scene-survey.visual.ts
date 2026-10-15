@@ -10,6 +10,9 @@ test('capture all seated views for manual geometry and lighting review', async (
   test.setTimeout(360_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
   const samples: object[] = [];
   await page.goto('?sound=off&quality&view=3d&frameRate=full');
   await page.getByRole('button', { name: '入室する', exact: true }).click();
@@ -97,6 +100,16 @@ test('capture all seated views for manual geometry and lighting review', async (
         reducedMotion: true,
         muted: true,
         hashes,
+        sourceHashes: Object.fromEntries(
+          await Promise.all(
+            ['src/components/3d/farForest.ts', 'src/components/3d/gardenDetails.ts'].map(async (file) => [
+              file,
+              createHash('sha256')
+                .update(await readFile(file))
+                .digest('hex'),
+            ]),
+          ),
+        ),
         errors,
         samples,
         note: 'Manual visual review required. Angles are relative to each initial seated heading. No performance or Cycles equivalence claim.',

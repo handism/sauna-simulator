@@ -1,5 +1,7 @@
 # 実ブラウザ検証（e2e）
 
+- `scene-survey.visual.ts` はページ・コンソールのerrorを失敗扱いとし、公開モデル群のハッシュに加えて `farForest.ts`・`gardenDetails.ts` のソースSHA-256を添付する。全周216条件の撮影成功と、一覧・原寸の目視確認範囲は分けて記録する（`docs/3d-qa/forest-depth/survey/`）。
+
 - `deck-light.visual.ts` は同一ビルドの局所照度置換を無効→有効→有効→無効の順に撮る。対照は検証ブラウザ内の `SUI_DECK_IRRADIANCE` 定義だけを外し、三角形の分離・データ取得は共通。標準DPR1、3ステージ×昼夕夜（外気浴はCyclesの07視点）、各70フレーム整定で36枚。材質・三角形の適用数、console/page error、ブラウザー・入力ハッシュを記録する。`summarize_deck_light.py` で成功4件・条件・再撮影差・前後差を確認する。三角形分離を含む全変更の費用は独立した旧版ビルドとの比較で測る。
 
 - 静止画検証のブラウザは `VISUAL_BROWSER=webkit bun run test:browser:visual ...` でWebKitへ切り替えられる。省略時は既存のGoogle Chrome。WebKitは実Safariの検証とは分ける。高画質の全周ABBAは `SURROUND_QUALITY=high` を併用し、集計にも `--quality high` を渡す。

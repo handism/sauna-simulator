@@ -24,7 +24,7 @@
   "limitations": [
     "No real-time perceptual flicker or real-device performance validation",
     "ANGLE timer data recorded but not interpreted as isolated GPU cost",
-    "Full browser regression and high-quality survey not run"
+    "Full browser regression, other-season/weather surround and high-quality survey not run"
   ],
   "afterStats": {
     "startTime": "2026-10-15T12:10:51.792Z",
@@ -85,6 +85,7 @@
     "controlledLook": "controlled-review.json",
     "frameIntervals": "cost.json",
     "costValidation": "cost-validation.json",
-    "productRenderingChanged": false
+    "productRenderingChanged": false,
+    "standardSurround": "survey/validation.json"
   }
 }
