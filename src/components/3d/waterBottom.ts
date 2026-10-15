@@ -384,7 +384,7 @@ bool suiBottomTrace( vec3 point, vec3 d, vec3 bottom, bool bumped, float footpri
 }
 // view is the camera's view toward the fragment's image and entryBump whether it enters the water
 // there (not for mirrored images); d is the smooth refracted view.
-vec4 suiBottomReflection( vec3 point, vec3 d, vec3 view, bool entryBump, vec3 floorColor, float footprint ) {
+vec4 suiBottomReflection( vec3 point, vec3 d, vec3 view, bool entryBump, vec3 floorColor, float footprint, mat3 dx, mat3 dy ) {
 	d = normalize( d );
 	float reflectance = suiWaterAirReflectance( - d.y );
 	vec3 p, leaving, n;
@@ -408,15 +408,23 @@ vec4 suiBottomReflection( vec3 point, vec3 d, vec3 view, bool entryBump, vec3 fl
 		near = near || any( notEqual( seen, suiBottomLights( p, leaving ) ) );
 	}
 	if ( near ) {
-		vec3 bent = d;
-		if ( entryBump ) {
-			vec3 entry = cameraPosition + view * ( ( cameraPosition.y - float( SUI_REFRACTION ) ) / max( - view.y, 1e-4 ) );
-			vec3 r = refract( view, suiWaterBump( entry, suiWaveNormal( entry.xz, suiWaterTime ), footprint ), ${f(1 / WATER_IOR)} );
-			if ( r.y < 0.0 ) bent = normalize( r );
-		}
+		// Integrate the light boundary over this pixel, including the canopy and fine bump.
+		// The inputs' derivatives are taken before this divergent branch. Four fixed quarter-pixel
+		// samples keep the filter tied to resolution rather than blurring by a world-space radius.
 		lights = vec3( 0.0 );
-		if ( suiBottomTrace( point, bent, vec3( 0.0, - 1.0, 0.0 ), true, footprint, p, leaving, n, weight, path, surface ) )
-			lights = weight * ( 1.0 - surface ) * ${vec3(WATER_TINT)} * exp( - ${vec3(WATER_ABSORPTION)} * path ) * suiBottomLights( p, leaving );
+		for ( int sampleIndex = 0; sampleIndex < 4; sampleIndex ++ ) {
+			vec2 offset = vec2( sampleIndex < 2 ? - 0.25 : 0.25, sampleIndex == 0 || sampleIndex == 2 ? - 0.25 : 0.25 );
+			vec3 samplePoint = point + dx[ 0 ] * offset.x + dy[ 0 ] * offset.y;
+			vec3 bent = normalize( d + dx[ 1 ] * offset.x + dy[ 1 ] * offset.y );
+			if ( entryBump ) {
+				vec3 sampleView = normalize( view + dx[ 2 ] * offset.x + dy[ 2 ] * offset.y );
+				vec3 entry = cameraPosition + sampleView * ( ( cameraPosition.y - float( SUI_REFRACTION ) ) / max( - sampleView.y, 1e-4 ) );
+				vec3 r = refract( sampleView, suiWaterBump( entry, suiWaveNormal( entry.xz, suiWaterTime ), footprint ), ${f(1 / WATER_IOR)} );
+				if ( r.y < 0.0 ) bent = normalize( r );
+			}
+			if ( suiBottomTrace( samplePoint, bent, vec3( 0.0, - 1.0, 0.0 ), true, footprint, p, leaving, n, weight, path, surface ) )
+				lights += 0.25 * weight * ( 1.0 - surface ) * ${vec3(WATER_TINT)} * exp( - ${vec3(WATER_ABSORPTION)} * path ) * suiBottomLights( p, leaving );
+		}
 	}
 	return vec4( up + lights, reflectance );
 }
@@ -432,13 +440,16 @@ vec4 suiBottomReflection( vec3 point, vec3 d, vec3 view, bool entryBump, vec3 fl
 const BLEND = /* glsl */ `
 #if defined( SUI_WATER_BOTTOM ) && defined( SUI_REFRACTION ) && defined( SUI_REFLECTION )
 float suiFootprint = length( fwidth( suiWorldPosition.xz ) );
+vec3 suiBottomView = normalize( vSuiImage - cameraPosition );
+mat3 suiBottomDx = mat3( dFdx( suiWorldPosition ), dFdx( suiWetView ), dFdx( suiBottomView ) );
+mat3 suiBottomDy = mat3( dFdy( suiWorldPosition ), dFdy( suiWetView ), dFdy( suiBottomView ) );
 #ifdef SUI_SIDE_IMAGE
 bool suiEntryBump = false;
 #else
 bool suiEntryBump = true;
 #endif
 if ( suiWetView.y < 0.0 && suiWorldPosition.y < ${f(WATER_BOTTOM)} && all( greaterThan( suiWorldPosition.xz, vec2( ${f(WATER_VOLUME.min.x - SIDE_WALL_LAYER)}, ${f(WATER_VOLUME.min.z - SIDE_WALL_LAYER)} ) ) ) && all( lessThan( suiWorldPosition.xz, vec2( ${f(WATER_VOLUME.max.x + SIDE_WALL_LAYER)}, ${f(WATER_VOLUME.max.z + SIDE_WALL_LAYER)} ) ) ) ) {
-	vec4 suiBottom = suiBottomReflection( suiWorldPosition, suiWetView, normalize( vSuiImage - cameraPosition ), suiEntryBump, gl_FragColor.rgb, suiFootprint );
+	vec4 suiBottom = suiBottomReflection( suiWorldPosition, suiWetView, suiBottomView, suiEntryBump, gl_FragColor.rgb, suiFootprint, suiBottomDx, suiBottomDy );
 	gl_FragColor.rgb = ( 1.0 - suiBottom.a ) * ${vec3(WATER_TINT)} * gl_FragColor.rgb + suiBottom.a * suiBottom.rgb;
 }
 #endif

@@ -197,10 +197,16 @@ describe('water bottom reflection', () => {
     // The noise is guarded, so the caustics' own copy before main() does not define it twice.
     expect(pars.indexOf('#ifndef SUI_FBM')).toBeLessThan(pars.indexOf('float sui_fbm('));
     expect(pars.split('vec3 suiWaterBump(')).toHaveLength(2);
-    // One smooth trace, four tilted ones as the test and one bumped trace, whose bump is the only one.
+    // One smooth trace, four tilted checks and four pixel samples in the bumped trace loop.
     expect(reflection.split('suiBottomTrace(')).toHaveLength(4);
     expect(reflection.indexOf('if ( near )')).toBeLessThan(reflection.indexOf('suiWaterBump('));
     expect(reflection).toContain(BUMP_REACH.toFixed(6));
+    // Derivatives inside a per-fragment branch are undefined on GPUs. Capture the input
+    // differentials before the underwater test, and pass them into the boundary sampler.
+    expect(reflection).not.toMatch(/dFd[xy]\s*\(/);
+    const opaque = THREE.ShaderChunk.opaque_fragment;
+    expect(opaque.indexOf('dFdx( suiWorldPosition )')).toBeLessThan(opaque.indexOf('if ( suiWetView.y'));
+    expect(opaque.indexOf('dFdy( suiBottomView )')).toBeLessThan(opaque.indexOf('if ( suiWetView.y'));
   });
 });
 

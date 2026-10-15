@@ -1,0 +1,246 @@
+{
+  "baselineCommit": "4318473fc3c2539b2f20adfd2f6797a3fdf4b114",
+  "browser": "155.0.8059.79",
+  "captureOrder": [
+    "before1",
+    "after1",
+    "after2",
+    "before2"
+  ],
+  "browserArguments": [
+    "--disable-audio-output"
+  ],
+  "reports": {
+    "before1": {
+      "sha256": "76ff01559e987774f9d909af3818f0d1101b40ffa668393bc5f60172492a3291",
+      "stats": {
+        "startTime": "2026-10-15T15:50:36.842Z",
+        "duration": 30871.306,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "after1": {
+      "sha256": "7d2de7a8e9dfbb784a43a922d948e91724b617215df14b879ae78082ea78aa0c",
+      "stats": {
+        "startTime": "2026-10-15T15:51:08.216Z",
+        "duration": 36336.592,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "after2": {
+      "sha256": "8af6045dcbd63eac3309f95be36fd83293536fc18cdd068e01ee6baeec0b6e50",
+      "stats": {
+        "startTime": "2026-10-15T15:51:45.005Z",
+        "duration": 28038.917,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "before2": {
+      "sha256": "fd9a0602f1ba06ae70a280f39068f87ddc7b454bd34a500b53240adefd1baa1e",
+      "stats": {
+        "startTime": "2026-10-15T15:52:13.439Z",
+        "duration": 28135.327,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "motion-before": {
+      "sha256": "45d9b4908e8f32521526d3463833ed1a11ef0b62742e5b4b8d5ae7492a755e15",
+      "stats": {
+        "startTime": "2026-10-15T16:00:40.256Z",
+        "duration": 84028.522,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "motion-after": {
+      "sha256": "4276deace3bfc938e394d91e604a6567addac1051d3393a0e1c035cba00eb67a",
+      "stats": {
+        "startTime": "2026-10-15T16:02:04.664Z",
+        "duration": 85013.832,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "regression": {
+      "sha256": "513d4844491b8636d166d7244c17131d83bb07ce59791b494de246912ed64b38",
+      "stats": {
+        "startTime": "2026-10-15T16:03:30.072Z",
+        "duration": 155099.264,
+        "expected": 4,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-before1": {
+      "sha256": "2c4c9ceb535035e0b14b66afee27bd4b2ae6cad44d7c109f68c0e0ac76e96233",
+      "stats": {
+        "startTime": "2026-10-15T15:53:08.064Z",
+        "duration": 179731.756,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-after1": {
+      "sha256": "2fc9135e365fc0032b0e04688487f0e95716a360e4457d2bfdbb18570c9e0319",
+      "stats": {
+        "startTime": "2026-10-15T15:56:08.220Z",
+        "duration": 90275.56300000001,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-after2": {
+      "sha256": "25be2a6c3ee0a878a6726df54277dda2be269dbfc2b46cbcd3b032fb3fcb3094",
+      "stats": {
+        "startTime": "2026-10-15T15:57:38.878Z",
+        "duration": 90820.012,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-before2": {
+      "sha256": "f8eac7316182eebd89c3b5de98ea03a323589ee1d355fbbae7213dd86813bbdf",
+      "stats": {
+        "startTime": "2026-10-15T15:59:10.091Z",
+        "duration": 89782.58499999999,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "target-cost-before1": {
+      "sha256": "5c8fe0506b6097ddef4b72bacde191dbbf94bfe98896dcf5229e88fe774495f0",
+      "stats": {
+        "startTime": "2026-10-15T16:08:09.766Z",
+        "duration": 73104.04,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "target-cost-after1": {
+      "sha256": "7943fd7de8ab49b494cb20cdc5fa07cdeaa22e0607437070aa6b4ec7068872e2",
+      "stats": {
+        "startTime": "2026-10-15T16:09:23.252Z",
+        "duration": 38601.126,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "target-cost-after2": {
+      "sha256": "9203e8bbe481025b83221045bc554927db492dcce5d216dfe7698a79611c4931",
+      "stats": {
+        "startTime": "2026-10-15T16:10:02.247Z",
+        "duration": 38242.827,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "target-cost-before2": {
+      "sha256": "1531833bfca3768b1db6093d77a26ae17fad818368369512698fdd3da39a8229",
+      "stats": {
+        "startTime": "2026-10-15T16:10:40.892Z",
+        "duration": 37242.477999999996,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  },
+  "failures": {
+    "failed-audio": {
+      "sha256": "c64ac7f264ff26210b78a7f2e7fee5ec857b0dd0476a29ee9eaf028b9a63e4d4",
+      "stats": {
+        "startTime": "2026-10-15T15:47:51.860Z",
+        "duration": 38584.258,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      }
+    },
+    "failed-audio-repeat": {
+      "sha256": "dce8234c8cb9adccd2172fdf2afb771e6c8d2bf9b9daf7c829b6b2c873ef9011",
+      "stats": {
+        "startTime": "2026-10-15T15:48:59.191Z",
+        "duration": 31381.713,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      }
+    }
+  },
+  "environmentBlocks": [
+    "Sandbox preview server could not start; rerun with permitted browser/server access."
+  ],
+  "sourceSha256": {
+    "src/components/3d/waterBottom.ts": "3b5e9af00f30f375436ed2d77445611b6097a0b9b0d872a8adfb2d7cd5f17065",
+    "src/components/3d/waterBottom.test.ts": "98f6e41e380534a04b7a8850892c9235522a324b844da9ed77317eb7254f249e",
+    "scripts/summarize_water_light_occlusion.py": "e64487ae0407b172dd2d8b80a0495bdf2031b87f398ef23cc28a1b52dd151cea",
+    "scripts/analyze_water_bump_motion.py": "f8b1ad6eabda3eb1d63ede30bd60270b03138f6fde31bf298dafdfcbc87e8dd9",
+    "scripts/summarize_frame_cost.py": "713a4773d5a8278efce383cac2642d3f94f3f1b53b8981cdaa014d26d06130b2"
+  },
+  "targetFixtureSha256": "b24e56d58d8e2aa6221f1930237a5209a81837b848ac43adcf79536159f0b861",
+  "preservedPatchSha256": "2eb5039f14db235c410a2f72ec04126b91878c7ac27bbd6d41e310bfcbacdbb1",
+  "checks": [
+    "typecheck",
+    "392 unit tests",
+    "waterBottom 20 tests with updated derivative assertion",
+    "lint",
+    "format",
+    "build",
+    "git diff --check"
+  ],
+  "limitations": [
+    "Static reference predates garden/weather changes.",
+    "Controlled timestamps do not reproduce frame delays or prove perceptual flicker.",
+    "No audio-output validation: test Chrome audio output disabled.",
+    "No real Safari/devices, high-quality load, standard DPR1.5 motion, or full browser suite."
+  ],
+  "validationScriptSha256": "3550f0e3952ac67b6b4f6d58dcf5570075902c2fb7291209a4fc02f9515c8f3a",
+  "finalUnitLogSha256": "a164f55e3ae4f5d30552f4b859c704d60cb294d11de5785b7a7e0ec9fe01509b",
+  "build": {
+    "entryBytes": 229034,
+    "sceneBytes": 859548,
+    "sceneSha256": "8dcbb502e3011cd24c32ab0eabbfba11f56377aef41d949b264d3230f5dbec88",
+    "existingChunkWarningBytes": 850000
+  },
+  "artifacts": {
+    "comparison.json": "4842194a831101b4c9edaa23aba6552e764f5800677305012e3707306725c0e3",
+    "motion.json": "e0f7657ad06aa555d581cfc3dffd947bb0feb99e9112e03e2f2414fba07e9d6c",
+    "cost.json": "c2c30498fe41bb7206afe00a27607fbafee4e768f1bca66aedcccac9be30bdf8",
+    "target-cost.json": "09bc8d86f6e648b560760dcd1e7e0f184dace3638284b46b21d5162456f0f2bb",
+    "inputs.json": "94110276f266003e079117b9a9ea5d61014ea3c53fa4465367169d0c3667a7bd"
+  }
+}

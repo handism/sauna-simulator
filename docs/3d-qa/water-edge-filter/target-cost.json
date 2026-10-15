@@ -1,0 +1,145 @@
+{
+ "comparisons": {
+  "standard": {
+   "quality": "standard",
+   "dpr": 1,
+   "repeat": 3,
+   "browser": "155.0.8059.79",
+   "runs": 2,
+   "views": [
+    {
+     "stage": "water",
+     "lighting": "day",
+     "beforeMs": [
+      102.898416,
+      102.533708
+     ],
+     "afterMs": [
+      107.580708,
+      107.834624
+     ],
+     "ratios": [
+      1.046,
+      1.052
+     ],
+     "medianRatio": 1.049,
+     "metrics": {
+      "before": {
+       "drawCalls": "129",
+       "triangles": "888667",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "129",
+       "triangles": "888667",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      11.75,
+      11.7
+     ],
+     "afterIntervalMs": [
+      12.29,
+      12.24
+     ],
+     "intervalRatios": [
+      1.046,
+      1.046
+     ],
+     "medianIntervalRatio": 1.046
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "beforeMs": [
+      111.504749,
+      111.597083
+     ],
+     "afterMs": [
+      112.702541,
+      114.805375
+     ],
+     "ratios": [
+      1.011,
+      1.029
+     ],
+     "medianRatio": 1.02,
+     "metrics": {
+      "before": {
+       "drawCalls": "130",
+       "triangles": "889147",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "130",
+       "triangles": "889147",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      12.53,
+      12.53
+     ],
+     "afterIntervalMs": [
+      12.77,
+      12.89
+     ],
+     "intervalRatios": [
+      1.019,
+      1.029
+     ],
+     "medianIntervalRatio": 1.024
+    },
+    {
+     "stage": "water",
+     "lighting": "night",
+     "beforeMs": [
+      114.441124,
+      114.444624
+     ],
+     "afterMs": [
+      116.096124,
+      117.688958
+     ],
+     "ratios": [
+      1.014,
+      1.028
+     ],
+     "medianRatio": 1.021,
+     "metrics": {
+      "before": {
+       "drawCalls": "130",
+       "triangles": "889147",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "130",
+       "triangles": "889147",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      12.82,
+      12.77
+     ],
+     "afterIntervalMs": [
+      13.02,
+      13.2
+     ],
+     "intervalRatios": [
+      1.016,
+      1.034
+     ],
+     "medianIntervalRatio": 1.025
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,409 @@
+{
+ "comparisons": {
+  "standard": {
+   "quality": "standard",
+   "dpr": 1,
+   "repeat": 3,
+   "browser": "155.0.8059.79",
+   "runs": 2,
+   "views": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "beforeMs": [
+      87.011625,
+      69.201375
+     ],
+     "afterMs": [
+      69.648666,
+      70.040333
+     ],
+     "ratios": [
+      0.8,
+      1.012
+     ],
+     "medianRatio": 0.906,
+     "metrics": {
+      "before": {
+       "drawCalls": "164",
+       "triangles": "907381",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "164",
+       "triangles": "907381",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      10.02,
+      10.02
+     ],
+     "afterIntervalMs": [
+      10.02,
+      10.02
+     ],
+     "intervalRatios": [
+      1.0,
+      1.0
+     ],
+     "medianIntervalRatio": 1.0
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "beforeMs": [
+      125.380916,
+      118.211583
+     ],
+     "afterMs": [
+      117.207791,
+      118.422083
+     ],
+     "ratios": [
+      0.935,
+      1.002
+     ],
+     "medianRatio": 0.968,
+     "metrics": {
+      "before": {
+       "drawCalls": "165",
+       "triangles": "907861",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "165",
+       "triangles": "907861",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      13.36,
+      13.47
+     ],
+     "afterIntervalMs": [
+      13.36,
+      13.41
+     ],
+     "intervalRatios": [
+      1.0,
+      0.996
+     ],
+     "medianIntervalRatio": 0.998
+    },
+    {
+     "stage": "sauna",
+     "lighting": "night",
+     "beforeMs": [
+      137.797458,
+      136.739375
+     ],
+     "afterMs": [
+      137.032124,
+      137.827749
+     ],
+     "ratios": [
+      0.994,
+      1.008
+     ],
+     "medianRatio": 1.001,
+     "metrics": {
+      "before": {
+       "drawCalls": "165",
+       "triangles": "907861",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "165",
+       "triangles": "907861",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      14.34,
+      14.34
+     ],
+     "afterIntervalMs": [
+      14.31,
+      14.37
+     ],
+     "intervalRatios": [
+      0.998,
+      1.002
+     ],
+     "medianIntervalRatio": 1.0
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "beforeMs": [
+      93.5185,
+      94.802291
+     ],
+     "afterMs": [
+      93.85225,
+      93.694
+     ],
+     "ratios": [
+      1.004,
+      0.988
+     ],
+     "medianRatio": 0.996,
+     "metrics": {
+      "before": {
+       "drawCalls": "155",
+       "triangles": "895351",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "155",
+       "triangles": "895351",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      10.71,
+      10.71
+     ],
+     "afterIntervalMs": [
+      10.71,
+      10.75
+     ],
+     "intervalRatios": [
+      1.0,
+      1.004
+     ],
+     "medianIntervalRatio": 1.002
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "beforeMs": [
+      116.370041,
+      116.149499
+     ],
+     "afterMs": [
+      116.635625,
+      115.927208
+     ],
+     "ratios": [
+      1.002,
+      0.998
+     ],
+     "medianRatio": 1.0,
+     "metrics": {
+      "before": {
+       "drawCalls": "156",
+       "triangles": "895831",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "156",
+       "triangles": "895831",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      12.77,
+      12.7
+     ],
+     "afterIntervalMs": [
+      12.71,
+      12.71
+     ],
+     "intervalRatios": [
+      0.995,
+      1.001
+     ],
+     "medianIntervalRatio": 0.998
+    },
+    {
+     "stage": "water",
+     "lighting": "night",
+     "beforeMs": [
+      122.924291,
+      122.916125
+     ],
+     "afterMs": [
+      122.741374,
+      122.212416
+     ],
+     "ratios": [
+      0.999,
+      0.994
+     ],
+     "medianRatio": 0.996,
+     "metrics": {
+      "before": {
+       "drawCalls": "156",
+       "triangles": "895831",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "156",
+       "triangles": "895831",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      13.36,
+      13.33
+     ],
+     "afterIntervalMs": [
+      13.33,
+      13.33
+     ],
+     "intervalRatios": [
+      0.998,
+      1.0
+     ],
+     "medianIntervalRatio": 0.999
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "beforeMs": [
+      75.936374,
+      75.763541
+     ],
+     "afterMs": [
+      75.761958,
+      76.193916
+     ],
+     "ratios": [
+      0.998,
+      1.006
+     ],
+     "medianRatio": 1.002,
+     "metrics": {
+      "before": {
+       "drawCalls": "96",
+       "triangles": "708583",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "96",
+       "triangles": "708583",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      8.4,
+      8.35
+     ],
+     "afterIntervalMs": [
+      8.35,
+      8.42
+     ],
+     "intervalRatios": [
+      0.994,
+      1.008
+     ],
+     "medianIntervalRatio": 1.001
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "beforeMs": [
+      106.30975,
+      106.791291
+     ],
+     "afterMs": [
+      106.235333,
+      105.349041
+     ],
+     "ratios": [
+      0.999,
+      0.986
+     ],
+     "medianRatio": 0.993,
+     "metrics": {
+      "before": {
+       "drawCalls": "97",
+       "triangles": "709063",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "97",
+       "triangles": "709063",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      11.16,
+      11.11
+     ],
+     "afterIntervalMs": [
+      11.06,
+      11.11
+     ],
+     "intervalRatios": [
+      0.991,
+      1.0
+     ],
+     "medianIntervalRatio": 0.996
+    },
+    {
+     "stage": "totonou",
+     "lighting": "night",
+     "beforeMs": [
+      113.772875,
+      113.873124
+     ],
+     "afterMs": [
+      113.782499,
+      114.480916
+     ],
+     "ratios": [
+      1.0,
+      1.005
+     ],
+     "medianRatio": 1.003,
+     "metrics": {
+      "before": {
+       "drawCalls": "97",
+       "triangles": "709063",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      },
+      "after": {
+       "drawCalls": "97",
+       "triangles": "709063",
+       "prepassMeshes": "117",
+       "pixelRatio": "1"
+      }
+     },
+     "beforeIntervalMs": [
+      11.81,
+      11.75
+     ],
+     "afterIntervalMs": [
+      11.76,
+      11.76
+     ],
+     "intervalRatios": [
+      0.996,
+      1.001
+     ],
+     "medianIntervalRatio": 0.998
+    }
+   ]
+  }
+ }
+}
