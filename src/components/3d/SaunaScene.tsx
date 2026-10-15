@@ -23,6 +23,7 @@ import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
 import { attachLookControls } from './lookControls';
 import { disposeTree, prepareModel } from './modelMaterials';
 import { applyIrradiance, createProbeTextures } from './irradiance';
+import { createDeckIrradiance, isolateDeckReceivers } from './deckIrradiance';
 import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
@@ -286,11 +287,16 @@ export default function SaunaScene({
     async function load() {
       try {
         const get = createModelFetch(abort.signal);
-        const { definition, model, irradiance, reflection } = await fetchSceneAssets(get);
+        const { definition, model, irradiance, reflection, deck } = await fetchSceneAssets(get);
         if (disposed || failed) return;
         // Throws on a layout mismatch before the model is parsed.
         const probes = createProbeTextures(irradiance, reflection);
         releaseProbes = probes.dispose;
+        const deckLight = createDeckIrradiance(deck.header, deck.buffer);
+        releaseProbes = () => {
+          probes.dispose();
+          deckLight.dispose();
+        };
         probes.apply(lighting.irradiance);
         setData('irradianceProbes', String(probes.probes));
         const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(model, MODEL_BASE);
@@ -305,6 +311,7 @@ export default function SaunaScene({
           setData(key, String(counts[key]));
         };
         const prepare = (root: THREE.Object3D) => {
+          count('deckIrradianceTriangles', isolateDeckReceivers(root));
           const stats = prepareModel(root);
           seasonColors.add(root, seasonRef.current);
           count('wetMaterials', applyRainWetness(root, wetness));
@@ -314,6 +321,7 @@ export default function SaunaScene({
           count('causticMaterials', applyCaustics(root));
           count('glassMeshes', applyGlass(root, lighting.irradiance));
           count('irradianceMaterials', applyIrradiance(root, lighting.irradiance));
+          count('deckIrradianceMaterials', deckLight.apply(root));
           count('reflectionMaterials', applyReflection(root, lighting.irradiance));
           count('waterBottomMaterials', applyWaterBottom(root));
           for (const [key, value] of Object.entries(stats)) count(key, value);

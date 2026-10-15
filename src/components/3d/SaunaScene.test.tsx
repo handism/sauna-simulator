@@ -60,6 +60,15 @@ const irradiance = {
   })),
 };
 const irradianceBytes = 4 * 648 * 2;
+const deckHeader = {
+  version: 1,
+  width: 2,
+  height: 2,
+  min: [-5.5, 3.65],
+  max: [5.5, 4.55],
+  level: 0.065,
+  scenes: ['evening', 'night'],
+};
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -135,8 +144,20 @@ beforeEach(() => {
         ? mocks.garden()
         : {
             ok: true,
-            json: async () => (/(irradiance|reflection)\.json$/.test(url) ? irradiance : definition),
-            arrayBuffer: async () => new ArrayBuffer(/(irradiance|reflection)\.bin$/.test(url) ? irradianceBytes : 0),
+            json: async () =>
+              url.endsWith('deck-irradiance.json')
+                ? deckHeader
+                : /(irradiance|reflection)\.json$/.test(url)
+                  ? irradiance
+                  : definition,
+            arrayBuffer: async () =>
+              new ArrayBuffer(
+                url.endsWith('deck-irradiance.bin')
+                  ? 64
+                  : /(irradiance|reflection)\.bin$/.test(url)
+                    ? irradianceBytes
+                    : 0,
+              ),
             url,
           },
     ),
@@ -260,6 +281,27 @@ describe('3D scene load and teardown', () => {
     expect(view.onReady).not.toHaveBeenCalled();
     expect(view.onError).not.toHaveBeenCalled();
     expect(mocks.renderers[0].dispose).toHaveBeenCalledOnce();
+  });
+
+  it('does not revive the scene when the deck lighting arrives after exit', async () => {
+    const original = vi.mocked(fetch).getMockImplementation()!;
+    const pending = deferred<Response>();
+    vi.mocked(fetch).mockImplementation((url, options) =>
+      String(url).endsWith('deck-irradiance.bin') ? pending.promise : original(url, options),
+    );
+    const view = mountScene();
+    await flush();
+    expect(mocks.parse).not.toHaveBeenCalled();
+    const signal = vi.mocked(fetch).mock.calls.find(([url]) => String(url).endsWith('deck-irradiance.bin'))![1]!
+      .signal!;
+    view.unmount();
+    expect(signal.aborted).toBe(true);
+    pending.resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(64) } as Response);
+    await flush();
+    expect(mocks.parse).not.toHaveBeenCalled();
+    expect(view.onReady).not.toHaveBeenCalled();
+    expect(view.onError).not.toHaveBeenCalled();
+    expect(vi.mocked(fetch).mock.calls.some(([url]) => String(url).endsWith('sauna-garden.glb'))).toBe(false);
   });
 
   it.each(['timeout', 'context loss', 'unmount'])(
@@ -394,8 +436,8 @@ describe('3D scene load and teardown', () => {
     expect(pane.material).toBeInstanceOf(THREE.ShaderMaterial);
     const release = vi.spyOn(THREE.Data3DTexture.prototype, 'dispose');
     view.unmount();
-    // One texture per grid holds both the irradiance and the reflection.
-    expect(release).toHaveBeenCalledTimes(4);
+    // Four grids hold irradiance/reflection; one texture holds the deck's surface lighting.
+    expect(release).toHaveBeenCalledTimes(5);
     release.mockRestore();
   });
 

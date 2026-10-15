@@ -1,5 +1,7 @@
 # 実ブラウザ検証（e2e）
 
+- `deck-light.visual.ts` は同一ビルドの局所照度置換を無効→有効→有効→無効の順に撮る。対照は検証ブラウザ内の `SUI_DECK_IRRADIANCE` 定義だけを外し、三角形の分離・データ取得は共通。標準DPR1、3ステージ×昼夕夜（外気浴はCyclesの07視点）、各70フレーム整定で36枚。材質・三角形の適用数、console/page error、ブラウザー・入力ハッシュを記録する。`summarize_deck_light.py` で成功4件・条件・再撮影差・前後差を確認する。三角形分離を含む全変更の費用は独立した旧版ビルドとの比較で測る。
+
 - 静止画検証のブラウザは `VISUAL_BROWSER=webkit bun run test:browser:visual ...` でWebKitへ切り替えられる。省略時は既存のGoogle Chrome。WebKitは実Safariの検証とは分ける。高画質の全周ABBAは `SURROUND_QUALITY=high` を併用し、集計にも `--quality high` を渡す。
 
 - 入室ボタンは「入室する」1つで音ありになる。計測・撮影は `?sound=off` で同じボタンからミュートのまま入る（従来の「音なしで入室する」と同じ状態）。画質の選択は利用者向けメニューにないため、画質を選ぶ・保存値（`sui-quality`）を使うテストと診断は `?quality` を付けて開く（`settings-controls.ts` の `chooseSceneSetting(page, '3Dの画質', …)` はこの選択肢を操作する）。

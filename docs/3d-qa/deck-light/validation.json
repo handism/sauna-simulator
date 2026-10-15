@@ -1,0 +1,112 @@
+{
+  "baseline": "58c017f5ff73784fe4e944b2477b99fea33de70f",
+  "browser": "Chrome 155.0.8059.79",
+  "sourceBlendUnchanged": true,
+  "sourceBlendSha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "gates": {
+    "typecheck": true,
+    "unitTests": 389,
+    "lint": true,
+    "format": true,
+    "build": true,
+    "diffCheck": true,
+    "logSha256": "cc57650253e7ab37f5ede23c707e8c1c058e4f0abce72fe0735403bbf7ee225c"
+  },
+  "reports": {
+    "visual": {
+      "sha256": "d50ee1bdb19d39abb5f4b5a9239bb5ec2c02a540a6c758e07fa5c4968d377028",
+      "stats": {
+        "startTime": "2026-10-15T04:16:54.872Z",
+        "duration": 92414.21800000001,
+        "expected": 4,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "regression": {
+      "sha256": "5de496fa51c0642c8794dae25d7a654c6245c613091d2206402b320c8b924357",
+      "stats": {
+        "startTime": "2026-10-15T08:38:40.735Z",
+        "duration": 246012.405,
+        "expected": 13,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "no-hdr": {
+      "sha256": "7d6aab45be8a1e35941da7cc000320362933c769a6ddb69a6cfe1e9b4dd7326f",
+      "stats": {
+        "startTime": "2026-10-15T08:42:47.643Z",
+        "duration": 62526.415,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-before-1": {
+      "sha256": "89fc33908793a0c7db97355b89317589aa7abf793f722feaa5c9eaffadf6a347",
+      "stats": {
+        "startTime": "2026-10-15T04:40:23.746Z",
+        "duration": 217059.163,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-after-1": {
+      "sha256": "0ffe1b1ae3ce3894533cbe39500a558d66edf716de0e1bb075b1949dfbe41873",
+      "stats": {
+        "startTime": "2026-10-15T04:44:01.681Z",
+        "duration": 213063.32,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-after-2": {
+      "sha256": "b576138a6d1bc5aa87cde3b8b62aa4e87e4d8fcc99f037a42f84ef1cf63ddbe6",
+      "stats": {
+        "startTime": "2026-10-15T04:47:35.524Z",
+        "duration": 123050.414,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cost-before-2": {
+      "sha256": "035aedd40668bd1fbb324df05909b5051a2657c8403c4bd7b27fb323dcb74477",
+      "stats": {
+        "startTime": "2026-10-15T04:49:39.337Z",
+        "duration": 122622.81,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  },
+  "inputs": {
+    "src/components/3d/deckIrradiance.ts": "a8d341158caec83f54d9e38b35e80ded209a072c529aa6624537444196567f59",
+    "src/components/3d/SaunaScene.tsx": "71193eef628f27717e933508628355861b79f72a425172a216629d40a9bffeb8",
+    "src/components/3d/sceneAssets.ts": "965ec77bb42bdc025b285f20eff2903789f338fb7aa2f338cf921f5bf4972bd2",
+    "public/models/deck-irradiance.json": "51059c573abaa80dc883d6918767c0e70bccaf9dac14e6f47914b892aec74070",
+    "public/models/deck-irradiance.bin": "3fad6ed06fb3f30e147eebe9961561a14050eebdb6ecea70674f3c21ee9f143f",
+    "scripts/bake_irradiance_probes.py": "605699cea29e1a5a8489c97a8379ec8a4fc9a0674cd0b2a5e87520800dc2ec7b",
+    "scripts/bake_deck_irradiance.py": "cc64d3b64dd03eebada0f9fc3f715b7ad7fd19d8fe38f0b44459adea62714041",
+    "scripts/inspect_deck_light.py": "8882111412c81844632d916c17e72b84d5ddaf0a11cb908ba836b2f6017b2ff2",
+    "scripts/summarize_deck_light.py": "a20c8070c038d6e0f320da31874e07b59d8d6c5a1d3ab74c19947da1bda15da1",
+    "e2e/deck-light.visual.ts": "7cfada49221b1b6ca5329c7b5e880003c0f3efbab27aa6c9f703d1ed491dd976"
+  },
+  "limits": [
+    "Static Chrome captures, not continuous motion or real Safari/device approval",
+    "Cost is repeated-frame interval at standard DPR1, not GPU-only time or device FPS",
+    "Non-HDR route simulated by hiding EXT_color_buffer_float",
+    "Existing 850 kB lazy 3D chunk warning remains"
+  ]
+}

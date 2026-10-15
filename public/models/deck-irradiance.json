@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "width": 89,
+  "height": 9,
+  "min": [
+    -5.5,
+    3.65
+  ],
+  "max": [
+    5.5,
+    4.55
+  ],
+  "level": 0.065,
+  "offset": 0.02,
+  "scenes": [
+    "evening",
+    "night"
+  ],
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "bin_sha256": "3fad6ed06fb3f30e147eebe9961561a14050eebdb6ecea70674f3c21ee9f143f",
+  "scripts_sha256": {
+    "bake_deck_irradiance.py": "cc64d3b64dd03eebada0f9fc3f715b7ad7fd19d8fe38f0b44459adea62714041",
+    "bake_irradiance_probes.py": "605699cea29e1a5a8489c97a8379ec8a4fc9a0674cd0b2a5e87520800dc2ec7b"
+  },
+  "panorama": [
+    64,
+    32
+  ],
+  "samples": 128,
+  "method": "cosine integral; replaces probe irradiance on approach-stone tops"
+}

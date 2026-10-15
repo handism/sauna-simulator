@@ -556,6 +556,10 @@ def restore_sky_gates(world, old):
 report = dict(mode=NAME, plain_materials=plain_materials, flipped_meshes=flipped_meshes, input=source.name, input_sha256=source_hash, blender=bpy.app.version_string,
               panorama=[WIDTH, HEIGHT], samples=SAMPLES, quick=QUICK, grids=[], scenes={})
 coefficients = {}
+if '--deck-surface' in ARGS:
+    from bake_deck_irradiance import bake
+    bake(globals())
+    sys.exit(0)
 if SURFACE_SAMPLES:
     from probe_sampling import ProbeSampler
     sampler = ProbeSampler(ROOT / 'public/models')
