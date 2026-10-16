@@ -77,4 +77,30 @@ describe('far forest', () => {
     expect((forest.mesh.material as THREE.MeshBasicMaterial).alphaTest).toBeGreaterThan(0);
     expect((forest.mesh.material as THREE.MeshBasicMaterial).color.toArray()).toEqual([0.1, 0.2, 0.3]);
   });
+  it('gives the backing shoulders continuous depth without opening seams or moving the buried foot', () => {
+    const forest = createFarForest({ value: new THREE.Color() });
+    const position = forest.mesh.geometry.attributes.position;
+    const shoulders = new Map<string, number>();
+    for (let i = 0; i < position.count; i++) {
+      if (position.getY(i) !== 4.5) continue;
+      const x = position.getX(i),
+        z = position.getZ(i);
+      const radius = Math.hypot(x, z);
+      const angle = Math.atan2(z, x).toFixed(5);
+      // Adjacent crown owners must place their shared edge at the same radius.
+      if (shoulders.has(angle)) expect(radius).toBeCloseTo(shoulders.get(angle)!, 4);
+      shoulders.set(angle, radius);
+      expect(radius).toBeGreaterThanOrEqual(51.8 - 1e-4);
+      expect(radius).toBeLessThanOrEqual(54 + 1e-4);
+    }
+    expect(Math.min(...shoulders.values())).toBeLessThan(52);
+    expect(Math.max(...shoulders.values())).toBeGreaterThan(53.9);
+    // The band still closes the horizon, with the foot on the original circle.
+    for (let i = 0; i < position.count; i++) {
+      const radius = Math.hypot(position.getX(i), position.getZ(i));
+      if (position.getY(i) === -4 && radius > 53) expect(radius).toBeCloseTo(54, 4);
+    }
+    forest.mesh.geometry.dispose();
+    (forest.mesh.material as THREE.Material).dispose();
+  });
 });

@@ -121,6 +121,17 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   for (let j = 0; j <= SEGMENTS; j++) heights[j] = outline(j * step)[0];
   for (let j = 0; j < SEGMENTS; j++) owner[j] = outline((j + 0.5) * step)[1];
   const positions: number[] = [];
+  // A continuous radial relief shared by both owners of every segment boundary.
+  // Using the quad's owner here would split the band at overlapping crowns.
+  const relief = Array.from({ length: SEGMENTS + 1 }, (_, j) => {
+    const a = j * step;
+    let depth = 0;
+    for (const crown of crowns) {
+      const t = Math.abs(span(crown, a)) / crown.radius;
+      if (t < 1) depth = Math.max(depth, (1.4 + crown.shade * 0.8) * (1 - t * t) ** 2);
+    }
+    return depth;
+  });
   // 0 at the foot, 1 at the understory's top and above: darker under the canopy.
   const lift: number[] = [];
   // The top of the crown each quad belongs to, so every crown is lit at its top and darker below.
@@ -140,6 +151,11 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     crown = owner[Math.min(j, SEGMENTS - 1)],
   ) => {
     const a = j * step;
+    // Push the shoulder toward the clearing, tapering into the buried foot and
+    // crown tip. Preserve the original heights, frayed edge and closed horizon.
+    const rise = THREE.MathUtils.clamp((y - BASE) / (UNDERSTORY - BASE), 0, 1);
+    const tip = THREE.MathUtils.clamp((y - UNDERSTORY) / Math.max(0.1, heights[j] - UNDERSTORY), 0, 1);
+    radius -= relief[j] * rise * (1 - 0.55 * tip);
     positions.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
     crownOf.push(crown);
     volumeLight.push(1);

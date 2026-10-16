@@ -1,0 +1,43 @@
+{
+  "before": {
+    "stats": {
+      "startTime": "2026-10-16T08:38:16.847Z",
+      "duration": 48484.46,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "report": "/private/tmp/forest-relief-20261016/before.json",
+    "imageCount": 216,
+    "sourceSHA256": "1fbe2346d049c747c1fb65aca7446c1001eb4b673828f1d06a521f24d009a353"
+  },
+  "after": {
+    "stats": {
+      "startTime": "2026-10-16T08:39:06.558Z",
+      "duration": 43710.765,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "report": "/private/tmp/forest-relief-20261016/after.json",
+    "imageCount": 216,
+    "sourceSHA256": "4100fb60604a3d03bd7e4c07c45ec167fb3593e6136ad73e8b8df3e865167fad"
+  },
+  "regression": {
+    "report": "/private/tmp/forest-relief-20261016/regression.json",
+    "stats": {
+      "startTime": "2026-10-16T08:46:18.475Z",
+      "duration": 115390.989,
+      "expected": 9,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "specs": [
+      "e2e/garden-details.e2e.ts",
+      "e2e/season.e2e.ts"
+    ]
+  }
+}
