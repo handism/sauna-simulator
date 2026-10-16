@@ -3,13 +3,15 @@ import type { Season } from './season';
 
 // A band of distant forest behind the woodland (radius 10–44m), in front of the ridges (72m and
 // beyond): the sky showed between the woodland's thin trunks and tufts down to the horizon, so it
-// read as a few trees on bare hills rather than a wood. One unlit ring of crown silhouettes, like
+// read as a few trees on bare hills rather than a wood. A backing ring of crown silhouettes, like
 // the ridges (gardenDetails.ts): rounded broadleaf crowns and pointed evergreens (about a third),
 // tops 5–9m above y=0, below the ridges' crest as seen from the deck (taller, the band made the
 // skyline and its smooth domes and cones read as hills and rocky peaks), with ragged leafy outlines,
 // darker toward the foot, hazed with the same air color. Each crown has its own shade; the season changes the
-// colors (autumn reds and ochres, bare grey-brown twigs in winter among the evergreens, fresh green
+// colors (autumn reds and ochres, grey-brown crowns in winter among the evergreens, fresh green
 // in spring) and the time of day and the overcast darken them as they do the ridges.
+// Low-poly lobed volumes in front of the ring supply depth, sharing the unlit material;
+// their fixed vertex shading is a shape cue, not seasonally rebaked or dynamic lighting.
 
 export const FAR_FOREST_RADIUS = 54;
 const SEGMENTS = 1440;
@@ -128,6 +130,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   const crownOf: number[] = [];
   const depths: number[] = [];
   const sides: number[] = [];
+  const volumeLight: number[] = [];
   const at = (
     j: number,
     y: number,
@@ -139,6 +142,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     const a = j * step;
     positions.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
     crownOf.push(crown);
+    volumeLight.push(1);
     sides.push(crown >= 0 ? (span(crowns[crown], a) * (radius / FAR_FOREST_RADIUS)) / crowns[crown].radius : 0);
     depths.push((radius - 47) / 7);
     lift.push(Math.max(0, Math.min(1, (y - BASE) / (UNDERSTORY - BASE))));
@@ -167,28 +171,79 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       at(j + 1, lo, top, edgeB, FAR_FOREST_RADIUS, owner[j]);
     }
   }
-  // Staggered foreground crowns bridge the last woodland trees (44m) and the backing
-  // band (54m). Reuse its palette/material; leave gaps instead of a second continuous wall.
-  // These lower crowns cannot replace the mountain skyline. No extra draw call or texture.
+  // Replace the exposed foreground cutouts with overlapping, low-poly crown volumes.
+  // The backing band still closes the horizon. All lobes share its material and seasonal
+  // palette, and stay outside the real woodland and below the existing crown tops.
   for (const [i, crown] of crowns.entries()) {
     if (i % 3 === 0) continue;
-    const radius = 47 + crown.shade * 4;
+    const distance = 48 + crown.shade * 3;
     const top = crown.top - 1.1;
-    const halfAngle = crown.radius / radius;
-    const steps = 16;
-    for (let k = 0; k < steps; k++) {
-      const a = crown.angle - halfAngle + (2 * halfAngle * k) / steps;
-      const b = crown.angle - halfAngle + (2 * halfAngle * (k + 1)) / steps;
-      const height = (angle: number) => Math.max(1, crownHeight(crown, (angle - crown.angle) * radius) - 1.1);
-      const [ya, yb] = [height(a), height(b)];
-      const ja = a / step,
-        jb = b / step;
-      at(ja, BASE, top, ya, radius, i);
-      at(ja, ya, top, ya, radius, i);
-      at(jb, yb, top, yb, radius, i);
-      at(ja, BASE, top, ya, radius, i);
-      at(jb, yb, top, yb, radius, i);
-      at(jb, BASE, top, yb, radius, i);
+    // Extend below the terrain: exposing the ellipsoid bottoms made floating blobs.
+    const bottom = BASE;
+    const height = Math.max(1.6, top - bottom);
+    const radial = new THREE.Vector3(Math.cos(crown.angle), 0, Math.sin(crown.angle));
+    const tangent = new THREE.Vector3(-radial.z, 0, radial.x);
+    // Broad, fixed inward/upward fill makes the curved shoulders readable from the clearing.
+    const lightDirection = radial.clone().multiplyScalar(-0.55).addScaledVector(tangent, -0.3);
+    lightDirection.y = 0.78;
+    lightDirection.normalize();
+    // A leader and two offset shoulders break up a single smooth balloon/cone.
+    for (let lobe = 0; lobe < 3; lobe++) {
+      const shoulder = lobe !== 0;
+      const side = lobe === 1 ? -1 : 1;
+      const width = crown.radius * (shoulder ? 0.62 : 0.78);
+      const halfHeight = height * (shoulder ? 0.22 : 0.5);
+      const center = radial.clone().multiplyScalar(distance - (shoulder ? 0.35 : 0));
+      center.addScaledVector(tangent, shoulder ? side * crown.radius * 0.57 : 0);
+      center.y = shoulder ? bottom + height * (lobe === 1 ? 0.61 : 0.69) : bottom + halfHeight;
+      const depth = width * (0.72 + crown.pick * 0.18);
+      const rings = 6,
+        sectors = 10;
+      const vertex = (ring: number, sector: number) => {
+        const phi = (ring / rings) * Math.PI;
+        const theta = (sector / sectors) * Math.PI * 2;
+        const sin = Math.sin(phi);
+        const nx = Math.cos(theta) * sin,
+          ny = Math.cos(phi),
+          nz = Math.sin(theta) * sin;
+        const uneven = 1 + 0.1 * Math.sin(theta * 3 + crown.pick * 6 + phi * 2) * sin;
+        // Narrow the evergreen leader toward the top, retaining its rounded tip.
+        const taper = crown.evergreen ? 0.78 - 0.22 * ny : 1;
+        const x = nx * width * uneven * taper;
+        const z = nz * depth * uneven * taper;
+        const position = center.clone().addScaledVector(tangent, x).addScaledVector(radial, z);
+        position.y += ny * halfHeight;
+        positions.push(position.x, position.y, position.z);
+        crownOf.push(i);
+        const normal = tangent
+          .clone()
+          .multiplyScalar(nx / width)
+          .addScaledVector(radial, nz / depth)
+          .add(new THREE.Vector3(0, ny / halfHeight, 0))
+          .normalize();
+        volumeLight.push(0.55 + 0.75 * (0.5 + 0.5 * normal.dot(lightDirection)));
+        sides.push(0);
+        depths.push(Math.max(0, Math.min(1, (Math.hypot(position.x, position.z) - 47) / 7)));
+        lift.push(Math.max(0, Math.min(1, (position.y - BASE) / (UNDERSTORY - BASE))));
+        tops.push(top);
+        // Volumes have their own closed silhouette; the band's vertical edge discard
+        // would punch view-dependent holes through their front and back surfaces.
+        edges.push(1e4);
+      };
+      for (let ring = 0; ring < rings; ring++) {
+        for (let sector = 0; sector < sectors; sector++) {
+          if (ring > 0) {
+            vertex(ring, sector);
+            vertex(ring, sector + 1);
+            vertex(ring + 1, sector);
+          }
+          if (ring < rings - 1) {
+            vertex(ring, sector + 1);
+            vertex(ring + 1, sector + 1);
+            vertex(ring + 1, sector);
+          }
+        }
+      }
     }
   }
   const geometry = new THREE.BufferGeometry();
@@ -275,7 +330,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v6';
+  material.customProgramCacheKey = () => 'garden-far-forest-v7';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();
@@ -292,6 +347,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         tint.setHex(palette[Math.floor(crown.pick * palette.length)]);
         tint.multiplyScalar(0.86 + 0.28 * crown.shade);
       }
+      tint.multiplyScalar(volumeLight[v]);
       tint.toArray(colors, v * 3);
     }
     geometry.attributes.color.needsUpdate = true;

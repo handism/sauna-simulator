@@ -1,0 +1,865 @@
+{
+  "note": "Position-aligned controlled L* residual, not perceived flicker or device FPS. Valid captures before1, after2, before2, after3; preview and failed save excluded.",
+  "comparisons": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "pixel": {
+        "values": {
+          "before1": 0.4529,
+          "before2": 0.4531,
+          "after2": 0.453,
+          "after3": 0.4533
+        },
+        "afterOverBefore": 1.0003311258278145,
+        "beforeRepeat": 1.0004415985868844,
+        "afterRepeat": 1.0006622516556292
+      },
+      "tile": {
+        "values": {
+          "before1": 0.0491,
+          "before2": 0.0492,
+          "after2": 0.0491,
+          "after3": 0.0492
+        },
+        "afterOverBefore": 1.0,
+        "beforeRepeat": 1.0020366598778006,
+        "afterRepeat": 1.0020366598778006
+      },
+      "tileP99": {
+        "values": {
+          "before1": 0.6099,
+          "before2": 0.611,
+          "after2": 0.6096,
+          "after3": 0.6115
+        },
+        "afterOverBefore": 1.000163813580146,
+        "beforeRepeat": 1.001803574356452,
+        "afterRepeat": 1.0031167979002624
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixel": {
+        "values": {
+          "before1": 0.3612,
+          "before2": 0.3612,
+          "after2": 0.3611,
+          "after3": 0.3612
+        },
+        "afterOverBefore": 0.999861572535991,
+        "beforeRepeat": 1.0,
+        "afterRepeat": 1.0002769315978954
+      },
+      "tile": {
+        "values": {
+          "before1": 0.0351,
+          "before2": 0.0351,
+          "after2": 0.0351,
+          "after3": 0.0351
+        },
+        "afterOverBefore": 1.0,
+        "beforeRepeat": 1.0,
+        "afterRepeat": 1.0
+      },
+      "tileP99": {
+        "values": {
+          "before1": 0.5358,
+          "before2": 0.5365,
+          "after2": 0.5351,
+          "after3": 0.536
+        },
+        "afterOverBefore": 0.9988809101930429,
+        "beforeRepeat": 1.0013064576334452,
+        "afterRepeat": 1.0016819286114744
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "pixel": {
+        "values": {
+          "before1": 0.5908,
+          "before2": 0.5868,
+          "after2": 0.5882,
+          "after3": 0.5872
+        },
+        "afterOverBefore": 0.9981317934782609,
+        "beforeRepeat": 0.99322951929587,
+        "afterRepeat": 0.9982998979938799
+      },
+      "tile": {
+        "values": {
+          "before1": 0.1096,
+          "before2": 0.1089,
+          "after2": 0.1092,
+          "after3": 0.109
+        },
+        "afterOverBefore": 0.9986270022883296,
+        "beforeRepeat": 0.9936131386861313,
+        "afterRepeat": 0.9981684981684981
+      },
+      "tileP99": {
+        "values": {
+          "before1": 0.9604,
+          "before2": 0.9567,
+          "after2": 0.9588,
+          "after3": 0.9578
+        },
+        "afterOverBefore": 0.9997391894006572,
+        "beforeRepeat": 0.9961474385672636,
+        "afterRepeat": 0.9989570296203588
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixel": {
+        "values": {
+          "before1": 0.3149,
+          "before2": 0.3132,
+          "after2": 0.3129,
+          "after3": 0.314
+        },
+        "afterOverBefore": 0.9980894761980577,
+        "beforeRepeat": 0.9946014607812003,
+        "afterRepeat": 1.0035155001597955
+      },
+      "tile": {
+        "values": {
+          "before1": 0.0446,
+          "before2": 0.0445,
+          "after2": 0.0444,
+          "after3": 0.0446
+        },
+        "afterOverBefore": 0.9988776655443322,
+        "beforeRepeat": 0.9977578475336322,
+        "afterRepeat": 1.0045045045045045
+      },
+      "tileP99": {
+        "values": {
+          "before1": 0.4489,
+          "before2": 0.4497,
+          "after2": 0.4489,
+          "after3": 0.4517
+        },
+        "afterOverBefore": 1.0022256843979525,
+        "beforeRepeat": 1.0017821341055915,
+        "afterRepeat": 1.00623746936957
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "pixel": {
+        "values": {
+          "before1": 0.2602,
+          "before2": 0.2607,
+          "after2": 0.2607,
+          "after3": 0.2619
+        },
+        "afterOverBefore": 1.0032635822614706,
+        "beforeRepeat": 1.0019215987701768,
+        "afterRepeat": 1.0046029919447643
+      },
+      "tile": {
+        "values": {
+          "before1": 0.0652,
+          "before2": 0.0653,
+          "after2": 0.0653,
+          "after3": 0.0657
+        },
+        "afterOverBefore": 1.003831417624521,
+        "beforeRepeat": 1.0015337423312884,
+        "afterRepeat": 1.006125574272588
+      },
+      "tileP99": {
+        "values": {
+          "before1": 0.8208,
+          "before2": 0.8201,
+          "after2": 0.8235,
+          "after3": 0.8266
+        },
+        "afterOverBefore": 1.005606679261381,
+        "beforeRepeat": 0.9991471734892788,
+        "afterRepeat": 1.0037644201578628
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "pixel": {
+        "values": {
+          "before1": 0.246,
+          "before2": 0.2469,
+          "after2": 0.246,
+          "after3": 0.2458
+        },
+        "afterOverBefore": 0.9977683100020288,
+        "beforeRepeat": 1.0036585365853659,
+        "afterRepeat": 0.9991869918699187
+      },
+      "tile": {
+        "values": {
+          "before1": 0.0562,
+          "before2": 0.0565,
+          "after2": 0.0562,
+          "after3": 0.0561
+        },
+        "afterOverBefore": 0.9964507542147294,
+        "beforeRepeat": 1.0053380782918149,
+        "afterRepeat": 0.998220640569395
+      },
+      "tileP99": {
+        "values": {
+          "before1": 0.6765,
+          "before2": 0.6802,
+          "after2": 0.6774,
+          "after3": 0.6763
+        },
+        "afterOverBefore": 0.9977887521191124,
+        "beforeRepeat": 1.005469327420547,
+        "afterRepeat": 0.9983761440803071
+      }
+    }
+  ],
+  "repeatPixels": {
+    "before": {
+      "differentImages": 53,
+      "totalImages": 78,
+      "files": [
+        {
+          "file": "sauna-day-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-10.png",
+          "differentPixels": 5637
+        },
+        {
+          "file": "sauna-day-1.5-11.png",
+          "differentPixels": 1979
+        },
+        {
+          "file": "sauna-day-1.5-12.png",
+          "differentPixels": 688
+        },
+        {
+          "file": "sauna-day-1.5-2.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-3.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-4.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-5.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-6.png",
+          "differentPixels": 65210
+        },
+        {
+          "file": "sauna-day-1.5-7.png",
+          "differentPixels": 66715
+        },
+        {
+          "file": "sauna-day-1.5-8.png",
+          "differentPixels": 65499
+        },
+        {
+          "file": "sauna-day-1.5-9.png",
+          "differentPixels": 18594
+        },
+        {
+          "file": "sauna-evening-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-evening-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-evening-1.5-10.png",
+          "differentPixels": 188
+        },
+        {
+          "file": "sauna-evening-1.5-11.png",
+          "differentPixels": 48321
+        },
+        {
+          "file": "sauna-evening-1.5-12.png",
+          "differentPixels": 13680
+        },
+        {
+          "file": "sauna-evening-1.5-2.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-evening-1.5-3.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-evening-1.5-4.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-evening-1.5-5.png",
+          "differentPixels": 49400
+        },
+        {
+          "file": "sauna-evening-1.5-6.png",
+          "differentPixels": 13744
+        },
+        {
+          "file": "sauna-evening-1.5-7.png",
+          "differentPixels": 4214
+        },
+        {
+          "file": "sauna-evening-1.5-8.png",
+          "differentPixels": 1247
+        },
+        {
+          "file": "sauna-evening-1.5-9.png",
+          "differentPixels": 457
+        },
+        {
+          "file": "totonou-day-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "totonou-day-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "totonou-day-1.5-10.png",
+          "differentPixels": 19971
+        },
+        {
+          "file": "totonou-day-1.5-11.png",
+          "differentPixels": 5925
+        },
+        {
+          "file": "totonou-day-1.5-12.png",
+          "differentPixels": 2005
+        },
+        {
+          "file": "totonou-day-1.5-2.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "totonou-day-1.5-3.png",
+          "differentPixels": 146705
+        },
+        {
+          "file": "totonou-day-1.5-4.png",
+          "differentPixels": 45755
+        },
+        {
+          "file": "totonou-day-1.5-5.png",
+          "differentPixels": 71835
+        },
+        {
+          "file": "totonou-day-1.5-6.png",
+          "differentPixels": 267150
+        },
+        {
+          "file": "totonou-day-1.5-7.png",
+          "differentPixels": 72728
+        },
+        {
+          "file": "totonou-day-1.5-8.png",
+          "differentPixels": 72320
+        },
+        {
+          "file": "totonou-day-1.5-9.png",
+          "differentPixels": 72481
+        },
+        {
+          "file": "totonou-evening-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "totonou-evening-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "totonou-evening-1.5-10.png",
+          "differentPixels": 4384
+        },
+        {
+          "file": "totonou-evening-1.5-11.png",
+          "differentPixels": 47407
+        },
+        {
+          "file": "totonou-evening-1.5-12.png",
+          "differentPixels": 13646
+        },
+        {
+          "file": "totonou-evening-1.5-2.png",
+          "differentPixels": 146374
+        },
+        {
+          "file": "totonou-evening-1.5-3.png",
+          "differentPixels": 77643
+        },
+        {
+          "file": "totonou-evening-1.5-4.png",
+          "differentPixels": 22253
+        },
+        {
+          "file": "totonou-evening-1.5-5.png",
+          "differentPixels": 48386
+        },
+        {
+          "file": "totonou-evening-1.5-6.png",
+          "differentPixels": 14142
+        },
+        {
+          "file": "totonou-evening-1.5-7.png",
+          "differentPixels": 4256
+        },
+        {
+          "file": "totonou-evening-1.5-8.png",
+          "differentPixels": 47268
+        },
+        {
+          "file": "totonou-evening-1.5-9.png",
+          "differentPixels": 13750
+        },
+        {
+          "file": "water-day-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-day-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-day-1.5-10.png",
+          "differentPixels": 5870
+        },
+        {
+          "file": "water-day-1.5-11.png",
+          "differentPixels": 24751
+        },
+        {
+          "file": "water-day-1.5-12.png",
+          "differentPixels": 25288
+        },
+        {
+          "file": "water-day-1.5-2.png",
+          "differentPixels": 113681
+        },
+        {
+          "file": "water-day-1.5-3.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-day-1.5-4.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-day-1.5-5.png",
+          "differentPixels": 23750
+        },
+        {
+          "file": "water-day-1.5-6.png",
+          "differentPixels": 5464
+        },
+        {
+          "file": "water-day-1.5-7.png",
+          "differentPixels": 1378
+        },
+        {
+          "file": "water-day-1.5-8.png",
+          "differentPixels": 389
+        },
+        {
+          "file": "water-day-1.5-9.png",
+          "differentPixels": 25187
+        },
+        {
+          "file": "water-evening-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-evening-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-evening-1.5-10.png",
+          "differentPixels": 1349
+        },
+        {
+          "file": "water-evening-1.5-11.png",
+          "differentPixels": 402
+        },
+        {
+          "file": "water-evening-1.5-12.png",
+          "differentPixels": 119
+        },
+        {
+          "file": "water-evening-1.5-2.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-evening-1.5-3.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-evening-1.5-4.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-evening-1.5-5.png",
+          "differentPixels": 23123
+        },
+        {
+          "file": "water-evening-1.5-6.png",
+          "differentPixels": 23350
+        },
+        {
+          "file": "water-evening-1.5-7.png",
+          "differentPixels": 106617
+        },
+        {
+          "file": "water-evening-1.5-8.png",
+          "differentPixels": 22941
+        },
+        {
+          "file": "water-evening-1.5-9.png",
+          "differentPixels": 5300
+        }
+      ]
+    },
+    "after": {
+      "differentImages": 72,
+      "totalImages": 78,
+      "files": [
+        {
+          "file": "sauna-day-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-day-1.5-10.png",
+          "differentPixels": 5848
+        },
+        {
+          "file": "sauna-day-1.5-11.png",
+          "differentPixels": 63303
+        },
+        {
+          "file": "sauna-day-1.5-12.png",
+          "differentPixels": 18027
+        },
+        {
+          "file": "sauna-day-1.5-2.png",
+          "differentPixels": 1
+        },
+        {
+          "file": "sauna-day-1.5-3.png",
+          "differentPixels": 7
+        },
+        {
+          "file": "sauna-day-1.5-4.png",
+          "differentPixels": 10
+        },
+        {
+          "file": "sauna-day-1.5-5.png",
+          "differentPixels": 65512
+        },
+        {
+          "file": "sauna-day-1.5-6.png",
+          "differentPixels": 18383
+        },
+        {
+          "file": "sauna-day-1.5-7.png",
+          "differentPixels": 64899
+        },
+        {
+          "file": "sauna-day-1.5-8.png",
+          "differentPixels": 66318
+        },
+        {
+          "file": "sauna-day-1.5-9.png",
+          "differentPixels": 19170
+        },
+        {
+          "file": "sauna-evening-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-evening-1.5-1.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "sauna-evening-1.5-10.png",
+          "differentPixels": 48411
+        },
+        {
+          "file": "sauna-evening-1.5-11.png",
+          "differentPixels": 49924
+        },
+        {
+          "file": "sauna-evening-1.5-12.png",
+          "differentPixels": 49995
+        },
+        {
+          "file": "sauna-evening-1.5-2.png",
+          "differentPixels": 1
+        },
+        {
+          "file": "sauna-evening-1.5-3.png",
+          "differentPixels": 6
+        },
+        {
+          "file": "sauna-evening-1.5-4.png",
+          "differentPixels": 7
+        },
+        {
+          "file": "sauna-evening-1.5-5.png",
+          "differentPixels": 49360
+        },
+        {
+          "file": "sauna-evening-1.5-6.png",
+          "differentPixels": 13764
+        },
+        {
+          "file": "sauna-evening-1.5-7.png",
+          "differentPixels": 4225
+        },
+        {
+          "file": "sauna-evening-1.5-8.png",
+          "differentPixels": 1451
+        },
+        {
+          "file": "sauna-evening-1.5-9.png",
+          "differentPixels": 494
+        },
+        {
+          "file": "totonou-day-1.5-0.png",
+          "differentPixels": 7
+        },
+        {
+          "file": "totonou-day-1.5-1.png",
+          "differentPixels": 5
+        },
+        {
+          "file": "totonou-day-1.5-10.png",
+          "differentPixels": 5431
+        },
+        {
+          "file": "totonou-day-1.5-11.png",
+          "differentPixels": 69988
+        },
+        {
+          "file": "totonou-day-1.5-12.png",
+          "differentPixels": 71214
+        },
+        {
+          "file": "totonou-day-1.5-2.png",
+          "differentPixels": 14
+        },
+        {
+          "file": "totonou-day-1.5-3.png",
+          "differentPixels": 22
+        },
+        {
+          "file": "totonou-day-1.5-4.png",
+          "differentPixels": 22
+        },
+        {
+          "file": "totonou-day-1.5-5.png",
+          "differentPixels": 70349
+        },
+        {
+          "file": "totonou-day-1.5-6.png",
+          "differentPixels": 19517
+        },
+        {
+          "file": "totonou-day-1.5-7.png",
+          "differentPixels": 5758
+        },
+        {
+          "file": "totonou-day-1.5-8.png",
+          "differentPixels": 69875
+        },
+        {
+          "file": "totonou-day-1.5-9.png",
+          "differentPixels": 17540
+        },
+        {
+          "file": "totonou-evening-1.5-0.png",
+          "differentPixels": 7
+        },
+        {
+          "file": "totonou-evening-1.5-1.png",
+          "differentPixels": 5
+        },
+        {
+          "file": "totonou-evening-1.5-10.png",
+          "differentPixels": 61
+        },
+        {
+          "file": "totonou-evening-1.5-11.png",
+          "differentPixels": 143047
+        },
+        {
+          "file": "totonou-evening-1.5-12.png",
+          "differentPixels": 75647
+        },
+        {
+          "file": "totonou-evening-1.5-2.png",
+          "differentPixels": 13
+        },
+        {
+          "file": "totonou-evening-1.5-3.png",
+          "differentPixels": 48307
+        },
+        {
+          "file": "totonou-evening-1.5-4.png",
+          "differentPixels": 14235
+        },
+        {
+          "file": "totonou-evening-1.5-5.png",
+          "differentPixels": 4434
+        },
+        {
+          "file": "totonou-evening-1.5-6.png",
+          "differentPixels": 1417
+        },
+        {
+          "file": "totonou-evening-1.5-7.png",
+          "differentPixels": 512
+        },
+        {
+          "file": "totonou-evening-1.5-8.png",
+          "differentPixels": 206
+        },
+        {
+          "file": "totonou-evening-1.5-9.png",
+          "differentPixels": 91
+        },
+        {
+          "file": "water-day-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-day-1.5-1.png",
+          "differentPixels": 2
+        },
+        {
+          "file": "water-day-1.5-10.png",
+          "differentPixels": 41565
+        },
+        {
+          "file": "water-day-1.5-11.png",
+          "differentPixels": 26323
+        },
+        {
+          "file": "water-day-1.5-12.png",
+          "differentPixels": 6152
+        },
+        {
+          "file": "water-day-1.5-2.png",
+          "differentPixels": 4
+        },
+        {
+          "file": "water-day-1.5-3.png",
+          "differentPixels": 2
+        },
+        {
+          "file": "water-day-1.5-4.png",
+          "differentPixels": 24057
+        },
+        {
+          "file": "water-day-1.5-5.png",
+          "differentPixels": 4949
+        },
+        {
+          "file": "water-day-1.5-6.png",
+          "differentPixels": 114934
+        },
+        {
+          "file": "water-day-1.5-7.png",
+          "differentPixels": 117389
+        },
+        {
+          "file": "water-day-1.5-8.png",
+          "differentPixels": 53420
+        },
+        {
+          "file": "water-day-1.5-9.png",
+          "differentPixels": 114757
+        },
+        {
+          "file": "water-evening-1.5-0.png",
+          "differentPixels": 0
+        },
+        {
+          "file": "water-evening-1.5-1.png",
+          "differentPixels": 2
+        },
+        {
+          "file": "water-evening-1.5-10.png",
+          "differentPixels": 23304
+        },
+        {
+          "file": "water-evening-1.5-11.png",
+          "differentPixels": 5490
+        },
+        {
+          "file": "water-evening-1.5-12.png",
+          "differentPixels": 1486
+        },
+        {
+          "file": "water-evening-1.5-2.png",
+          "differentPixels": 3
+        },
+        {
+          "file": "water-evening-1.5-3.png",
+          "differentPixels": 23932
+        },
+        {
+          "file": "water-evening-1.5-4.png",
+          "differentPixels": 5640
+        },
+        {
+          "file": "water-evening-1.5-5.png",
+          "differentPixels": 1447
+        },
+        {
+          "file": "water-evening-1.5-6.png",
+          "differentPixels": 446
+        },
+        {
+          "file": "water-evening-1.5-7.png",
+          "differentPixels": 129
+        },
+        {
+          "file": "water-evening-1.5-8.png",
+          "differentPixels": 49
+        },
+        {
+          "file": "water-evening-1.5-9.png",
+          "differentPixels": 19
+        }
+      ]
+    }
+  }
+}

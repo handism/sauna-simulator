@@ -1,0 +1,624 @@
+{
+  "sourceDifferences": [
+    "src/components/3d/farForest.ts"
+  ],
+  "sources": {
+    "src/App.tsx": {
+      "before": "efc42a35579a52c2f439407d39b3df79ea718be1abf23aa7d88d81c2a3a50f6e",
+      "after": "efc42a35579a52c2f439407d39b3df79ea718be1abf23aa7d88d81c2a3a50f6e"
+    },
+    "src/main.tsx": {
+      "before": "1d140ae9171833a16ea61473f0377b24217a2b7306b20765afb614e067df2fb5",
+      "after": "1d140ae9171833a16ea61473f0377b24217a2b7306b20765afb614e067df2fb5"
+    },
+    "src/index.css": {
+      "before": "02433be09f14daf76d5d26a35e6577aef53fc4f7470f8a49eee90c3238b57eef",
+      "after": "02433be09f14daf76d5d26a35e6577aef53fc4f7470f8a49eee90c3238b57eef"
+    },
+    "src/vite-env.d.ts": {
+      "before": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+      "after": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    "src/context/SaunaContext.tsx": {
+      "before": "6af7ba57390729b1db7bdd78db12d3a49b2b7c95ef43878264f543b35f18c8b7",
+      "after": "6af7ba57390729b1db7bdd78db12d3a49b2b7c95ef43878264f543b35f18c8b7"
+    },
+    "src/context/SaunaContext.test.tsx": {
+      "before": "33855fbcc15647b07a00412c6e657a5d42b6994116893077e95140885c91954b",
+      "after": "33855fbcc15647b07a00412c6e657a5d42b6994116893077e95140885c91954b"
+    },
+    "src/tests/App.test.tsx": {
+      "before": "ef926ce759ddf998f519aa35f6329f8d6c6d0bcf0363e0777914c74611654da3",
+      "after": "ef926ce759ddf998f519aa35f6329f8d6c6d0bcf0363e0777914c74611654da3"
+    },
+    "src/utils/preferences.test.ts": {
+      "before": "1a721a46f2539cb350e2190f624dd819e7c9a2e70e790a23458f3c56fa32c98c",
+      "after": "1a721a46f2539cb350e2190f624dd819e7c9a2e70e790a23458f3c56fa32c98c"
+    },
+    "src/utils/saunaUtils.test.ts": {
+      "before": "b74932183e3cc6c7e895905fabbd6382b6f38e872ec444cbeaf79ed5d9ec6814",
+      "after": "b74932183e3cc6c7e895905fabbd6382b6f38e872ec444cbeaf79ed5d9ec6814"
+    },
+    "src/utils/preferences.ts": {
+      "before": "97cfa8ea91bc2810b37ce465a748eba7728cb2eba2f73aede474df958e94275d",
+      "after": "97cfa8ea91bc2810b37ce465a748eba7728cb2eba2f73aede474df958e94275d"
+    },
+    "src/utils/saunaUtils.ts": {
+      "before": "7854cf732e4eab7170bb9f6297caf2cdb4b2ea86b4c443d6b67336a8b5946296",
+      "after": "7854cf732e4eab7170bb9f6297caf2cdb4b2ea86b4c443d6b67336a8b5946296"
+    },
+    "src/utils/scoreColor.ts": {
+      "before": "5b8a19f70aff2445f57876073a102d3377d37852fa611b79caa1614221491237",
+      "after": "5b8a19f70aff2445f57876073a102d3377d37852fa611b79caa1614221491237"
+    },
+    "src/components/CoolingBath.test.tsx": {
+      "before": "523283eddfdabf46411f823a3f057d29f0a578786ef2a2f0fe7208c01139ff9c",
+      "after": "523283eddfdabf46411f823a3f057d29f0a578786ef2a2f0fe7208c01139ff9c"
+    },
+    "src/components/CoolingBath.tsx": {
+      "before": "e71c351f33126b260abcb3fd98bf29957d2985606919b61ced453b692c56a99b",
+      "after": "e71c351f33126b260abcb3fd98bf29957d2985606919b61ced453b692c56a99b"
+    },
+    "src/components/StageStep.tsx": {
+      "before": "57f9c8475481b41314278ca356c01c4654329e19c674f92586602faf45158177",
+      "after": "57f9c8475481b41314278ca356c01c4654329e19c674f92586602faf45158177"
+    },
+    "src/components/TotonouSpace.tsx": {
+      "before": "85717072f4804b43cc66b787b98f29631c0ddeaea6ffa8f08c8b7d590ffd34ee",
+      "after": "85717072f4804b43cc66b787b98f29631c0ddeaea6ffa8f08c8b7d590ffd34ee"
+    },
+    "src/components/StageDock.tsx": {
+      "before": "66c51d04583083198518db65b81ee6a6c42ed801015d68dcdecaf37451a386c0",
+      "after": "66c51d04583083198518db65b81ee6a6c42ed801015d68dcdecaf37451a386c0"
+    },
+    "src/components/VolumeSetting.tsx": {
+      "before": "c1a1c7d75ed5567ef38e0fc92d8d86eac8888fc5d3cbca5c248dc327e7d91b2d",
+      "after": "c1a1c7d75ed5567ef38e0fc92d8d86eac8888fc5d3cbca5c248dc327e7d91b2d"
+    },
+    "src/components/ScoreHistory.tsx": {
+      "before": "8a143b9fbe167d55b279165acb91140e138a188ebefad9786a1de9df8409fd91",
+      "after": "8a143b9fbe167d55b279165acb91140e138a188ebefad9786a1de9df8409fd91"
+    },
+    "src/components/ControlButtons.tsx": {
+      "before": "3640791cf79deaf4e0afc9ea89eee7c474e252d5eab9ba20d3d121ce0105c825",
+      "after": "3640791cf79deaf4e0afc9ea89eee7c474e252d5eab9ba20d3d121ce0105c825"
+    },
+    "src/components/SceneMode.test.tsx": {
+      "before": "9c0a5adf4a0c47af4c65af81f00426489f58f61767d6917bf6bef2c103db6e56",
+      "after": "9c0a5adf4a0c47af4c65af81f00426489f58f61767d6917bf6bef2c103db6e56"
+    },
+    "src/components/TotonouSpace.test.tsx": {
+      "before": "cb010b0a454bb9b792bb988788606ca27e3600362e715629af6dfc926f6186f7",
+      "after": "cb010b0a454bb9b792bb988788606ca27e3600362e715629af6dfc926f6186f7"
+    },
+    "src/components/SaunaRoom.test.tsx": {
+      "before": "814e0407654968a6499077ef40758c2337f572f5f64fe0059a89b1819bb7faa0",
+      "after": "814e0407654968a6499077ef40758c2337f572f5f64fe0059a89b1819bb7faa0"
+    },
+    "src/components/HeartRateRow.tsx": {
+      "before": "cd4fab53f137a18b1c1f7b298d152cb1e810ff10ccdafe60f9be412c884197ee",
+      "after": "cd4fab53f137a18b1c1f7b298d152cb1e810ff10ccdafe60f9be412c884197ee"
+    },
+    "src/components/SceneMode.tsx": {
+      "before": "e4f6f617a7da0dc8f425910bfcc073b20b173cf632e185e347f9bb16da92aab7",
+      "after": "e4f6f617a7da0dc8f425910bfcc073b20b173cf632e185e347f9bb16da92aab7"
+    },
+    "src/components/SaunaRoom.tsx": {
+      "before": "dac6630f9b25a9e81f8376c5b32432560f52cc10913c7c768de26f552cb35ce7",
+      "after": "dac6630f9b25a9e81f8376c5b32432560f52cc10913c7c768de26f552cb35ce7"
+    },
+    "src/components/CLAUDE.md": {
+      "before": "230084b498d035b205de7232532d057c903f27e35363446710f323ba315032d2",
+      "after": "230084b498d035b205de7232532d057c903f27e35363446710f323ba315032d2"
+    },
+    "src/components/ActionIcon.tsx": {
+      "before": "dbc6a941ac1e585574b083559fd8dbd7c6d2b9e1b5df0d8c4be6fa9e460c8c30",
+      "after": "dbc6a941ac1e585574b083559fd8dbd7c6d2b9e1b5df0d8c4be6fa9e460c8c30"
+    },
+    "src/components/StayTimer.tsx": {
+      "before": "7dc9b4827ec753d53755763710924455c2500f976c929aea9140199b9bbab58a",
+      "after": "7dc9b4827ec753d53755763710924455c2500f976c929aea9140199b9bbab58a"
+    },
+    "src/components/3d/farForest.test.ts": {
+      "before": "e090affbafcee85f6b16e56418467d5bb5e7a4df96d088fe5d578c9f036ff476",
+      "after": "e090affbafcee85f6b16e56418467d5bb5e7a4df96d088fe5d578c9f036ff476"
+    },
+    "src/components/3d/steam.test.ts": {
+      "before": "0b34f7c8d6a4e18c101f962b3f435bada9cddc2a016af21c8851f840ea4767d4",
+      "after": "0b34f7c8d6a4e18c101f962b3f435bada9cddc2a016af21c8851f840ea4767d4"
+    },
+    "src/components/3d/farForest.ts": {
+      "before": "846efd6125f1ed46595facd42a6dfaa366b2f8f5135d6f329cb7bd24ad171d5c",
+      "after": "1fbe2346d049c747c1fb65aca7446c1001eb4b673828f1d06a521f24d009a353"
+    },
+    "src/components/3d/warmupPrograms.test.ts": {
+      "before": "bad1154d5296a98f3767bb34ad02bf42cb3ca2c6b43e8395944a5f2862e0f09c",
+      "after": "bad1154d5296a98f3767bb34ad02bf42cb3ca2c6b43e8395944a5f2862e0f09c"
+    },
+    "src/components/3d/evergreenWoodland.ts": {
+      "before": "2fd5a78720aab0132d147762c231c31385bb0dee1db9fbd589ddffa9de08f0ea",
+      "after": "2fd5a78720aab0132d147762c231c31385bb0dee1db9fbd589ddffa9de08f0ea"
+    },
+    "src/components/3d/warmupPrograms.ts": {
+      "before": "5b45515548735e52f42cb44a50ad899b61ff28643b5d4fb4fc4bcf5e24992c10",
+      "after": "5b45515548735e52f42cb44a50ad899b61ff28643b5d4fb4fc4bcf5e24992c10"
+    },
+    "src/components/3d/SaunaScene.test.tsx": {
+      "before": "0a40539d8e82c01437f3c6ca74acba1fd524b14397bd6c30c9740474d4b56954",
+      "after": "0a40539d8e82c01437f3c6ca74acba1fd524b14397bd6c30c9740474d4b56954"
+    },
+    "src/components/3d/rain.ts": {
+      "before": "46e4fac9562b6a975b62fa753f1408b9583549bfab8c29132bd7fde1b3e912b0",
+      "after": "46e4fac9562b6a975b62fa753f1408b9583549bfab8c29132bd7fde1b3e912b0"
+    },
+    "src/components/3d/deckIrradiance.ts": {
+      "before": "a8d341158caec83f54d9e38b35e80ded209a072c529aa6624537444196567f59",
+      "after": "a8d341158caec83f54d9e38b35e80ded209a072c529aa6624537444196567f59"
+    },
+    "src/components/3d/gardenDetails.ts": {
+      "before": "cf16a938729b016f400ff9cf7209d2c415688e562d8bc0ca24d139913d623acc",
+      "after": "cf16a938729b016f400ff9cf7209d2c415688e562d8bc0ca24d139913d623acc"
+    },
+    "src/components/3d/foliage.test.ts": {
+      "before": "95214e59bfc9cf55fcfa228fa8f05e9c725ce08472939776ccb2ab26a822834e",
+      "after": "95214e59bfc9cf55fcfa228fa8f05e9c725ce08472939776ccb2ab26a822834e"
+    },
+    "src/components/3d/interiorLights.test.ts": {
+      "before": "0fb524e625932783f778596376b33989ed93cbcea291828db9a05572bcf23c21",
+      "after": "0fb524e625932783f778596376b33989ed93cbcea291828db9a05572bcf23c21"
+    },
+    "src/components/3d/season.test.ts": {
+      "before": "f8ae4a7e194f13576fb8e8d2321f55e8c46ca09ac2f909dad096093c8635ba9c",
+      "after": "f8ae4a7e194f13576fb8e8d2321f55e8c46ca09ac2f909dad096093c8635ba9c"
+    },
+    "src/components/3d/steam.ts": {
+      "before": "299ff59d9f1b9cb454b34fed24a0d1914a7f9d920b3f1378618272861af93a0f",
+      "after": "299ff59d9f1b9cb454b34fed24a0d1914a7f9d920b3f1378618272861af93a0f"
+    },
+    "src/components/3d/frameRate.test.ts": {
+      "before": "25da8673d70cfbcb25884e7f7ff31c919483a67028a8a5377fd56e7d0ed04ad5",
+      "after": "25da8673d70cfbcb25884e7f7ff31c919483a67028a8a5377fd56e7d0ed04ad5"
+    },
+    "src/components/3d/hdrOutput.test.ts": {
+      "before": "7d8d1525cd1e5b10829fc73966a24035966faf5ed606c58b1fc1ea4b0da6fef8",
+      "after": "7d8d1525cd1e5b10829fc73966a24035966faf5ed606c58b1fc1ea4b0da6fef8"
+    },
+    "src/components/3d/lookControls.ts": {
+      "before": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe",
+      "after": "7c29427ba949265fbb27497e118be32e11e515e978a6c16fa0cd6c4b7e356efe"
+    },
+    "src/components/3d/waterBottom.test.ts": {
+      "before": "98f6e41e380534a04b7a8850892c9235522a324b844da9ed77317eb7254f249e",
+      "after": "98f6e41e380534a04b7a8850892c9235522a324b844da9ed77317eb7254f249e"
+    },
+    "src/components/3d/quality.ts": {
+      "before": "74fd9de704f252220831238197ad50c998fd110e8f02d91dd740a81676b292fd",
+      "after": "74fd9de704f252220831238197ad50c998fd110e8f02d91dd740a81676b292fd"
+    },
+    "src/components/3d/woodlandCrowns.ts": {
+      "before": "37962f88faf2c75b9c3b9140dc8e2c1b076f0494aa4630fa247530a5031635ad",
+      "after": "37962f88faf2c75b9c3b9140dc8e2c1b076f0494aa4630fa247530a5031635ad"
+    },
+    "src/components/3d/reflection.test.ts": {
+      "before": "baf808025fb752790297f745b1fc31ddbde90143d3b880cf7b1bd0bdeec2e128",
+      "after": "baf808025fb752790297f745b1fc31ddbde90143d3b880cf7b1bd0bdeec2e128"
+    },
+    "src/components/3d/woodlandCrowns.test.ts": {
+      "before": "fb0ed4dfb6094676c835124244237d388d2a631a42536ae4303ac2f8288a4648",
+      "after": "fb0ed4dfb6094676c835124244237d388d2a631a42536ae4303ac2f8288a4648"
+    },
+    "src/components/3d/glossyLights.ts": {
+      "before": "3091cd1f5bc120f7fa4c5c67f80b5e6de3c1dc01cc621480bfed2fdf1555d817",
+      "after": "3091cd1f5bc120f7fa4c5c67f80b5e6de3c1dc01cc621480bfed2fdf1555d817"
+    },
+    "src/components/3d/autumnGround.ts": {
+      "before": "ced3981af402716da32057cb5970a6b3f5f56d2278fc707757f29ac2c7fb4ba1",
+      "after": "ced3981af402716da32057cb5970a6b3f5f56d2278fc707757f29ac2c7fb4ba1"
+    },
+    "src/components/3d/autumnGround.test.ts": {
+      "before": "f0cd46d0c71bc3583e0e6aa6a7e18ea56c41b6ad147f878c8b95766391f0b47b",
+      "after": "f0cd46d0c71bc3583e0e6aa6a7e18ea56c41b6ad147f878c8b95766391f0b47b"
+    },
+    "src/components/3d/hdrOutput.ts": {
+      "before": "abfe51600a17fdc92dea9e89235c6cc3c8c35f8ff6e91d012fbd95dd9500a30e",
+      "after": "abfe51600a17fdc92dea9e89235c6cc3c8c35f8ff6e91d012fbd95dd9500a30e"
+    },
+    "src/components/3d/temporalAA.ts": {
+      "before": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7",
+      "after": "28b96e5e057e379cf2ae644227214adec28d1cafb52288845f7936b4849768b7"
+    },
+    "src/components/3d/modelMaterials.ts": {
+      "before": "56ecd53a257b91dc595337556fe8ffaae6d1a25fdc22935e3f7a49cd6b8b4975",
+      "after": "56ecd53a257b91dc595337556fe8ffaae6d1a25fdc22935e3f7a49cd6b8b4975"
+    },
+    "src/components/3d/lookControls.test.ts": {
+      "before": "c393f11214417668c4493b01a616b6f17286572d7c7870d29107e3b61ae44d9b",
+      "after": "c393f11214417668c4493b01a616b6f17286572d7c7870d29107e3b61ae44d9b"
+    },
+    "src/components/3d/glass.ts": {
+      "before": "243db8db43746f8685870b75249e5f064edc6cf125c106bea2f583721e308be8",
+      "after": "243db8db43746f8685870b75249e5f064edc6cf125c106bea2f583721e308be8"
+    },
+    "src/components/3d/waterEffects.test.ts": {
+      "before": "c8dd8bbae528de9c45988775732b4a847aed1b9387f85e8876edbd09c2b51b3c",
+      "after": "c8dd8bbae528de9c45988775732b4a847aed1b9387f85e8876edbd09c2b51b3c"
+    },
+    "src/components/3d/refraction.ts": {
+      "before": "e2eb276ba24d908b47537af53f1092dbaf388dd528edecb0659fa4f34b31e3de",
+      "after": "e2eb276ba24d908b47537af53f1092dbaf388dd528edecb0659fa4f34b31e3de"
+    },
+    "src/components/3d/winterSnow.ts": {
+      "before": "fb5a917fea01159d1f4e788b13cc0663aadfb4f9c522d0d6bafa14e98ebd88e6",
+      "after": "fb5a917fea01159d1f4e788b13cc0663aadfb4f9c522d0d6bafa14e98ebd88e6"
+    },
+    "src/components/3d/waterEffects.ts": {
+      "before": "9dd09030f89e0b79cfdd31c42d18f096ca835e0e7eb6ca62cd7569657f942131",
+      "after": "9dd09030f89e0b79cfdd31c42d18f096ca835e0e7eb6ca62cd7569657f942131"
+    },
+    "src/components/3d/lighting.test.ts": {
+      "before": "8eb9d4dc8cf3cff214b60a7d389d9da29c464cce99bd5c5cd5b2ea3ab3a01436",
+      "after": "8eb9d4dc8cf3cff214b60a7d389d9da29c464cce99bd5c5cd5b2ea3ab3a01436"
+    },
+    "src/components/3d/season.ts": {
+      "before": "15b7c72a410ade6efb1fb9bfb8405d1c1622fd3c024d83ed15610a140b87e609",
+      "after": "15b7c72a410ade6efb1fb9bfb8405d1c1622fd3c024d83ed15610a140b87e609"
+    },
+    "src/components/3d/sceneWarmup.test.ts": {
+      "before": "7d18aa21caf683d0ad5a4f6664c8cf5347e7fa2b5fd380476db7ff705fc4e73c",
+      "after": "7d18aa21caf683d0ad5a4f6664c8cf5347e7fa2b5fd380476db7ff705fc4e73c"
+    },
+    "src/components/3d/shadowMask.test.ts": {
+      "before": "99785297c98b5c456ed4d79da7500a9759f6070908a70ccd7f4abd9144387183",
+      "after": "99785297c98b5c456ed4d79da7500a9759f6070908a70ccd7f4abd9144387183"
+    },
+    "src/components/3d/temporalAA.test.ts": {
+      "before": "b0d60bc5c5c439581ced7d260e6631f25a26f91fbe741d6666679fd44b1434c3",
+      "after": "b0d60bc5c5c439581ced7d260e6631f25a26f91fbe741d6666679fd44b1434c3"
+    },
+    "src/components/3d/caustics.test.ts": {
+      "before": "2c13c16139e45fe69a58d7895f2f420611bf0e1f4034431fa130cdd84ffa4308",
+      "after": "2c13c16139e45fe69a58d7895f2f420611bf0e1f4034431fa130cdd84ffa4308"
+    },
+    "src/components/3d/warmupScheduler.ts": {
+      "before": "242f51b5cf4af16b8eed2ed52423711a63b9e1484076d557f8607de5382509e1",
+      "after": "242f51b5cf4af16b8eed2ed52423711a63b9e1484076d557f8607de5382509e1"
+    },
+    "src/components/3d/foliage.ts": {
+      "before": "d900a695228c8788d37904f5ad54b9770bd4f33e8cf225f312739872ab35b1fe",
+      "after": "d900a695228c8788d37904f5ad54b9770bd4f33e8cf225f312739872ab35b1fe"
+    },
+    "src/components/3d/frameRate.ts": {
+      "before": "9d1913989f063e90b0550de6f6343dd5cfeebe822462d58e9e1e70ab9be771d3",
+      "after": "9d1913989f063e90b0550de6f6343dd5cfeebe822462d58e9e1e70ab9be771d3"
+    },
+    "src/components/3d/crownNormals.test.ts": {
+      "before": "701b332e808d420f25a3b3a4ec1607f78c0a6171f69c8afe68e24c54ad7d9c7e",
+      "after": "701b332e808d420f25a3b3a4ec1607f78c0a6171f69c8afe68e24c54ad7d9c7e"
+    },
+    "src/components/3d/rain.test.ts": {
+      "before": "c6f2830bfa0c2f9a13828c67355edcd191b7770248124f85601b68cd4beb1a2f",
+      "after": "c6f2830bfa0c2f9a13828c67355edcd191b7770248124f85601b68cd4beb1a2f"
+    },
+    "src/components/3d/planarReflection.ts": {
+      "before": "5aed09d2e14cd06c10b921ea42d35a1b31017ca34be7ac43ffc5d8774c717e65",
+      "after": "5aed09d2e14cd06c10b921ea42d35a1b31017ca34be7ac43ffc5d8774c717e65"
+    },
+    "src/components/3d/imageRamp.ts": {
+      "before": "199bcf80e5ef50f32e8643bb2f6faead7fa68dd07fee5dc59c7cc7e19ac31a67",
+      "after": "199bcf80e5ef50f32e8643bb2f6faead7fa68dd07fee5dc59c7cc7e19ac31a67"
+    },
+    "src/components/3d/refraction.test.ts": {
+      "before": "0c0ea7e75dd86a52e37ec20c1a4c4881af2fbdf04f477f3260a02eab9d04c92e",
+      "after": "0c0ea7e75dd86a52e37ec20c1a4c4881af2fbdf04f477f3260a02eab9d04c92e"
+    },
+    "src/components/3d/springFlowers.ts": {
+      "before": "e5aa3e2bd2f900a013f2303b5fb518ba4d92aba77e60f0c1129e95e2e0f7985c",
+      "after": "e5aa3e2bd2f900a013f2303b5fb518ba4d92aba77e60f0c1129e95e2e0f7985c"
+    },
+    "src/components/3d/gardenDetails.test.ts": {
+      "before": "e5214764679f4db7521ed01afcc5ec2f134ea2db058ec52a890e0a595cb08b02",
+      "after": "e5214764679f4db7521ed01afcc5ec2f134ea2db058ec52a890e0a595cb08b02"
+    },
+    "src/components/3d/sky.ts": {
+      "before": "424389b909111465a1cb83b560fe2a0250d1ce2d5be37bdb28a3acdd83618957",
+      "after": "424389b909111465a1cb83b560fe2a0250d1ce2d5be37bdb28a3acdd83618957"
+    },
+    "src/components/3d/lighting.ts": {
+      "before": "74925d2adaa4279694b2ece21e0d283784c678946f83035abe5959c2fc4554f0",
+      "after": "74925d2adaa4279694b2ece21e0d283784c678946f83035abe5959c2fc4554f0"
+    },
+    "src/components/3d/sceneAssets.ts": {
+      "before": "965ec77bb42bdc025b285f20eff2903789f338fb7aa2f338cf921f5bf4972bd2",
+      "after": "965ec77bb42bdc025b285f20eff2903789f338fb7aa2f338cf921f5bf4972bd2"
+    },
+    "src/components/3d/glass.test.ts": {
+      "before": "53f16a6dc79fe52afc70b1c419f2e04dc71bde8aec5517b3ae7871607e1f5782",
+      "after": "53f16a6dc79fe52afc70b1c419f2e04dc71bde8aec5517b3ae7871607e1f5782"
+    },
+    "src/components/3d/imageRamp.test.ts": {
+      "before": "01adff6b84743286f130b88fdffe7acc41a8bf08381291725a780647debe9cb9",
+      "after": "01adff6b84743286f130b88fdffe7acc41a8bf08381291725a780647debe9cb9"
+    },
+    "src/components/3d/springFlowers.test.ts": {
+      "before": "1c4c71c279b47340cd2eb531bad255b0cc8f849c1fb2796f5832e95b088dca2d",
+      "after": "1c4c71c279b47340cd2eb531bad255b0cc8f849c1fb2796f5832e95b088dca2d"
+    },
+    "src/components/3d/crownNormals.ts": {
+      "before": "487d2ee92e0561c3cc1cfb8d821c2736c3302ad3b7c968e516e270b7425d9393",
+      "after": "487d2ee92e0561c3cc1cfb8d821c2736c3302ad3b7c968e516e270b7425d9393"
+    },
+    "src/components/3d/irradiance.test.ts": {
+      "before": "e4a18af490077419730c87b85efbfabeea1dfbf7a8c498ca46d742599f0b5e03",
+      "after": "e4a18af490077419730c87b85efbfabeea1dfbf7a8c498ca46d742599f0b5e03"
+    },
+    "src/components/3d/rainWetness.ts": {
+      "before": "d72726ae0be8de466a9a8d67ae6c75d441a356823f7db2f7f0e4f4476921e8e7",
+      "after": "d72726ae0be8de466a9a8d67ae6c75d441a356823f7db2f7f0e4f4476921e8e7"
+    },
+    "src/components/3d/sky.test.ts": {
+      "before": "caaf67602a5264698d55ac882297ad99662b7e7e6a8fc24b63fef9bd0731a407",
+      "after": "caaf67602a5264698d55ac882297ad99662b7e7e6a8fc24b63fef9bd0731a407"
+    },
+    "src/components/3d/waterBottom.ts": {
+      "before": "3b5e9af00f30f375436ed2d77445611b6097a0b9b0d872a8adfb2d7cd5f17065",
+      "after": "3b5e9af00f30f375436ed2d77445611b6097a0b9b0d872a8adfb2d7cd5f17065"
+    },
+    "src/components/3d/surfaceDetails.ts": {
+      "before": "360380d93959ada36b16fd6e4f3662a66cdf06a90ba357be3d2390059c42cc9a",
+      "after": "360380d93959ada36b16fd6e4f3662a66cdf06a90ba357be3d2390059c42cc9a"
+    },
+    "src/components/3d/softShadows.ts": {
+      "before": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890",
+      "after": "64a6dc3c80d5228902561cf6becfc926ce5a3fbbe86b3f3df8678d50cffdb890"
+    },
+    "src/components/3d/warmupPasses.test.ts": {
+      "before": "18cf813132d959dc227a3e9241fda1f466a056d8202213bbeebba7b80a42a6a3",
+      "after": "18cf813132d959dc227a3e9241fda1f466a056d8202213bbeebba7b80a42a6a3"
+    },
+    "src/components/3d/depthPrepass.test.ts": {
+      "before": "4c7af6b71a6da42c0a8202828fdce101920a1fc7f103e8a6028899262f3427c7",
+      "after": "4c7af6b71a6da42c0a8202828fdce101920a1fc7f103e8a6028899262f3427c7"
+    },
+    "src/components/3d/softShadows.test.ts": {
+      "before": "c97516a7b770ef6d39cc5e73469df838dbce655f5a198fcf7169fd28931e8aa7",
+      "after": "c97516a7b770ef6d39cc5e73469df838dbce655f5a198fcf7169fd28931e8aa7"
+    },
+    "src/components/3d/winterSnow.test.ts": {
+      "before": "53bead0338f8e0431f73f6cd628514b2423b45d52327cbab8cc16b65e4526bd7",
+      "after": "53bead0338f8e0431f73f6cd628514b2423b45d52327cbab8cc16b65e4526bd7"
+    },
+    "src/components/3d/glossyLights.test.ts": {
+      "before": "5d115fa8ddea526b4ca8e22d296368e95c92bcb2c47cae58c2a37158f130f7e0",
+      "after": "5d115fa8ddea526b4ca8e22d296368e95c92bcb2c47cae58c2a37158f130f7e0"
+    },
+    "src/components/3d/reflection.ts": {
+      "before": "a65f2592dda0bf63081d17732fdfe1cd9ddd98164938cb17340bb2232bf81dc1",
+      "after": "a65f2592dda0bf63081d17732fdfe1cd9ddd98164938cb17340bb2232bf81dc1"
+    },
+    "src/components/3d/noiseColor.ts": {
+      "before": "c6bb54719bff5dd7bdcf222f31b7a6a5273016c91556416d20b6e747ff7f9dec",
+      "after": "c6bb54719bff5dd7bdcf222f31b7a6a5273016c91556416d20b6e747ff7f9dec"
+    },
+    "src/components/3d/noiseColor.test.ts": {
+      "before": "7357fb3452ff12d7569c03727b06ee21b4996b9fd195faa658001b2cf58e5ab6",
+      "after": "7357fb3452ff12d7569c03727b06ee21b4996b9fd195faa658001b2cf58e5ab6"
+    },
+    "src/components/3d/deckIrradiance.test.ts": {
+      "before": "6e5b814618b1028c8cdcc68bb558700fd06761da913dfa6ee543982b9a1d802c",
+      "after": "6e5b814618b1028c8cdcc68bb558700fd06761da913dfa6ee543982b9a1d802c"
+    },
+    "src/components/3d/depthPrepass.ts": {
+      "before": "519cff11b7ac8a5c149cfe88a5e0e9004770ada603d8873232e9fcc50bee4c76",
+      "after": "519cff11b7ac8a5c149cfe88a5e0e9004770ada603d8873232e9fcc50bee4c76"
+    },
+    "src/components/3d/frameMetrics.test.ts": {
+      "before": "23e9f51b43e7ffdc2bbd0e2515c7b0dc3dcb417a5626f619803eebaa7e52672a",
+      "after": "23e9f51b43e7ffdc2bbd0e2515c7b0dc3dcb417a5626f619803eebaa7e52672a"
+    },
+    "src/components/3d/dynamicResolution.test.ts": {
+      "before": "8caf048e9bc54eae84d3d23d593a6807f160c69db44d9a5e372d70b46555c576",
+      "after": "8caf048e9bc54eae84d3d23d593a6807f160c69db44d9a5e372d70b46555c576"
+    },
+    "src/components/3d/agx.test.ts": {
+      "before": "8780f2c3f0ed088f4d10b86e4c62ecd1291657df89667e3ee98ae191f5ee7aa7",
+      "after": "8780f2c3f0ed088f4d10b86e4c62ecd1291657df89667e3ee98ae191f5ee7aa7"
+    },
+    "src/components/3d/sceneWarmup.ts": {
+      "before": "04cfa73668c8fdcb4225c7ad1206d52dfd31889fbd7031f7f3db29b287ba9a58",
+      "after": "04cfa73668c8fdcb4225c7ad1206d52dfd31889fbd7031f7f3db29b287ba9a58"
+    },
+    "src/components/3d/waterLightOcclusion.ts": {
+      "before": "5c8351e36bf791301f245f76bd5fd6e22e42a44c37ede3f3302919afc3af1105",
+      "after": "5c8351e36bf791301f245f76bd5fd6e22e42a44c37ede3f3302919afc3af1105"
+    },
+    "src/components/3d/surfaceDetails.test.ts": {
+      "before": "d45646793de06a809a2b6538a9cd35dd2088aa35d7de498bb616e8d8b77ac620",
+      "after": "d45646793de06a809a2b6538a9cd35dd2088aa35d7de498bb616e8d8b77ac620"
+    },
+    "src/components/3d/frameMetrics.ts": {
+      "before": "7c6dfe830edca2e16ebd7594ef337c1fea1ecc06418b2997b4c4cad44c0037d7",
+      "after": "7c6dfe830edca2e16ebd7594ef337c1fea1ecc06418b2997b4c4cad44c0037d7"
+    },
+    "src/components/3d/warmupScheduler.test.ts": {
+      "before": "d88a9ffa3ca3cec1a5fd498a0e06cb847c05a3811a06dde72f3568be7e26b747",
+      "after": "d88a9ffa3ca3cec1a5fd498a0e06cb847c05a3811a06dde72f3568be7e26b747"
+    },
+    "src/components/3d/modelMaterials.test.ts": {
+      "before": "24a3e22d564a75d170acab5fbe7d6ff3cebf2a3147b2bd4868077d8a3071695b",
+      "after": "24a3e22d564a75d170acab5fbe7d6ff3cebf2a3147b2bd4868077d8a3071695b"
+    },
+    "src/components/3d/planarReflection.test.ts": {
+      "before": "33c23c09c3b887d10309dd6a56d3198b1f588cbccdd838f46b5b9becef78c6c2",
+      "after": "33c23c09c3b887d10309dd6a56d3198b1f588cbccdd838f46b5b9becef78c6c2"
+    },
+    "src/components/3d/leafCluster.ts": {
+      "before": "31581aff8bd4648a4afcaaf934471189e98ef6279568f156f908a50180dd1c44",
+      "after": "31581aff8bd4648a4afcaaf934471189e98ef6279568f156f908a50180dd1c44"
+    },
+    "src/components/3d/sky.json": {
+      "before": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d",
+      "after": "abff65baba348a9eddee1cd57e5951c85b20d5b1f902763bf6e4251eeb325f3d"
+    },
+    "src/components/3d/waterLightOcclusion.test.ts": {
+      "before": "c0d941c08283e8cfb038900995b012d38a44fe6b12a49a666652da70628f8064",
+      "after": "c0d941c08283e8cfb038900995b012d38a44fe6b12a49a666652da70628f8064"
+    },
+    "src/components/3d/warmupPasses.ts": {
+      "before": "6185892d64481ee4182e0e290f8c7c6f09d18b60dea32a10532913ac08beeaa8",
+      "after": "6185892d64481ee4182e0e290f8c7c6f09d18b60dea32a10532913ac08beeaa8"
+    },
+    "src/components/3d/agx.ts": {
+      "before": "e61f358b008dbe6cd1a4606545fe66ea87e18fe21b572d462990fa48ee411dbc",
+      "after": "e61f358b008dbe6cd1a4606545fe66ea87e18fe21b572d462990fa48ee411dbc"
+    },
+    "src/components/3d/irradiance.ts": {
+      "before": "0bc82fd4802fe5eefbe539bd9db589b5ec3f16bac39921db41648c09c618008d",
+      "after": "0bc82fd4802fe5eefbe539bd9db589b5ec3f16bac39921db41648c09c618008d"
+    },
+    "src/components/3d/evergreenWoodland.test.ts": {
+      "before": "0cd2d357106de5da733d67fb41a3d6dbda8067d82459609ba8b7ab674efee22d",
+      "after": "0cd2d357106de5da733d67fb41a3d6dbda8067d82459609ba8b7ab674efee22d"
+    },
+    "src/components/3d/gardenStream.ts": {
+      "before": "830b3c5056df31be8311d90814a103e35365a41754e1f490b464ef1d08f10a5a",
+      "after": "830b3c5056df31be8311d90814a103e35365a41754e1f490b464ef1d08f10a5a"
+    },
+    "src/components/3d/SaunaScene.tsx": {
+      "before": "71193eef628f27717e933508628355861b79f72a425172a216629d40a9bffeb8",
+      "after": "71193eef628f27717e933508628355861b79f72a425172a216629d40a9bffeb8"
+    },
+    "src/components/3d/CLAUDE.md": {
+      "before": "676a28804643629a219864993e58572fa3958150d657e750305e520fd94b8f26",
+      "after": "676a28804643629a219864993e58572fa3958150d657e750305e520fd94b8f26"
+    },
+    "src/components/3d/shadowMask.ts": {
+      "before": "29a5f8655708faee940919bdcf5f478af3a1ea3537749d62780ded8367ce6a23",
+      "after": "29a5f8655708faee940919bdcf5f478af3a1ea3537749d62780ded8367ce6a23"
+    },
+    "src/components/3d/interiorLights.ts": {
+      "before": "9aecde3c881e1c3f7379903c0e973cecfa698a2cb7d66e86595788131398a2f6",
+      "after": "9aecde3c881e1c3f7379903c0e973cecfa698a2cb7d66e86595788131398a2f6"
+    },
+    "src/components/3d/rainWetness.test.ts": {
+      "before": "f5066cc40995c1708bd9f22db84fe851866bb62e762e5ad8f39787d22b3fe36e",
+      "after": "f5066cc40995c1708bd9f22db84fe851866bb62e762e5ad8f39787d22b3fe36e"
+    },
+    "src/components/3d/dynamicResolution.ts": {
+      "before": "358b4bd82e57ba85a02bb6fc67a26829f8a9bf72d2a77e5da7c64d8c72f57a89",
+      "after": "358b4bd82e57ba85a02bb6fc67a26829f8a9bf72d2a77e5da7c64d8c72f57a89"
+    },
+    "src/components/3d/caustics.ts": {
+      "before": "97a63fe23a116b258d43141bba0a4df8d188f386500d2dd8c394fe4d82b8c62f",
+      "after": "97a63fe23a116b258d43141bba0a4df8d188f386500d2dd8c394fe4d82b8c62f"
+    },
+    "src/components/3d/leafCluster.test.ts": {
+      "before": "a724fe1f37204399ad040e39747e338dfc0cb6d13e6e41ce27937fc94d7c43cc",
+      "after": "a724fe1f37204399ad040e39747e338dfc0cb6d13e6e41ce27937fc94d7c43cc"
+    },
+    "src/components/3d/gardenBloom.ts": {
+      "before": "6f520adb037a66fc9dffdb13256ddf0930a61cf07be398cccbb42b5c1d852fc1",
+      "after": "6f520adb037a66fc9dffdb13256ddf0930a61cf07be398cccbb42b5c1d852fc1"
+    },
+    "src/hooks/useKeyboardShortcut.test.tsx": {
+      "before": "99ce619df8e55c60a9e5cb4b68b781b8e92dff6c16adfcf9d4f69ecb2fd8e71c",
+      "after": "99ce619df8e55c60a9e5cb4b68b781b8e92dff6c16adfcf9d4f69ecb2fd8e71c"
+    },
+    "src/hooks/useSecondTicker.test.ts": {
+      "before": "0aa971b4661a0d85c5ef1602bc9de94f6fbd39509ec1d50101a459e5db30f2b4",
+      "after": "0aa971b4661a0d85c5ef1602bc9de94f6fbd39509ec1d50101a459e5db30f2b4"
+    },
+    "src/hooks/useDismissibleDetails.ts": {
+      "before": "500a5744af10ebcac03be06cc6704b45d48170da7d00b7f2a30238666d5320b1",
+      "after": "500a5744af10ebcac03be06cc6704b45d48170da7d00b7f2a30238666d5320b1"
+    },
+    "src/hooks/spatialAudio.ts": {
+      "before": "01f402fc74f624f72319da070f93f442e627f0facb7b2267076f29bbee6c0b45",
+      "after": "01f402fc74f624f72319da070f93f442e627f0facb7b2267076f29bbee6c0b45"
+    },
+    "src/hooks/audioWorker.test.ts": {
+      "before": "5b17aec44f3aa83cffb128fa6c92b807f4128c33990a642abbe41dd8890dfe21",
+      "after": "5b17aec44f3aa83cffb128fa6c92b807f4128c33990a642abbe41dd8890dfe21"
+    },
+    "src/hooks/useAudioEngine.bench.test.ts": {
+      "before": "615cfd1f3866253f1655519cc8137c144b09248d31ffd74175abaf13d18155af",
+      "after": "615cfd1f3866253f1655519cc8137c144b09248d31ffd74175abaf13d18155af"
+    },
+    "src/hooks/audioWorker.ts": {
+      "before": "3f32cf782e44d4a57e29145d2c225a18d38c49a4d460237152a92bcb6ba70364",
+      "after": "3f32cf782e44d4a57e29145d2c225a18d38c49a4d460237152a92bcb6ba70364"
+    },
+    "src/hooks/useAudioEngine.test.ts": {
+      "before": "387c4184f4da08f8b1edd949be7848dee07e5e6000c0d02f8cfe537b5b15d4ee",
+      "after": "387c4184f4da08f8b1edd949be7848dee07e5e6000c0d02f8cfe537b5b15d4ee"
+    },
+    "src/hooks/useAudioEngine.ts": {
+      "before": "d48648cc8da8396b615ef81e286ab3e23bdaac8ba33223d6a963d29b3dc3a463",
+      "after": "d48648cc8da8396b615ef81e286ab3e23bdaac8ba33223d6a963d29b3dc3a463"
+    },
+    "src/hooks/useFullscreen.ts": {
+      "before": "5655b65b2368d685a2c84f89fea24208860e63e35cbc3933f315f53b5ceb4e49",
+      "after": "5655b65b2368d685a2c84f89fea24208860e63e35cbc3933f315f53b5ceb4e49"
+    },
+    "src/hooks/noiseWorkerClient.ts": {
+      "before": "b29e47ae1a4a783a6c092171f1dbd54c3d7389180671520f306f6ae50f7139ad",
+      "after": "b29e47ae1a4a783a6c092171f1dbd54c3d7389180671520f306f6ae50f7139ad"
+    },
+    "src/hooks/spatialAudio.test.ts": {
+      "before": "8054a52bac4e39a4aea5fe5d37dbb3861e64719cad462389694c439f319ff6b3",
+      "after": "8054a52bac4e39a4aea5fe5d37dbb3861e64719cad462389694c439f319ff6b3"
+    },
+    "src/hooks/useSecondTicker.ts": {
+      "before": "f8025f6d0eea34af6789a27fadf9f8f674332482fe72e9da94498c2a53f33084",
+      "after": "f8025f6d0eea34af6789a27fadf9f8f674332482fe72e9da94498c2a53f33084"
+    },
+    "src/hooks/useKeyboardShortcut.ts": {
+      "before": "cb425de95e113936e2d465b75d7917259e71607f50e02182336e57ebdafc7e02",
+      "after": "cb425de95e113936e2d465b75d7917259e71607f50e02182336e57ebdafc7e02"
+    },
+    "src/hooks/useSaunaSession.ts": {
+      "before": "0f3662cd803e444ff41f2f78ec50531252cd6086a70fcc5e8bf3cc7524ce154c",
+      "after": "0f3662cd803e444ff41f2f78ec50531252cd6086a70fcc5e8bf3cc7524ce154c"
+    }
+  },
+  "beforeGeometry": {
+    "triangles": 7888,
+    "attributeBytes": 1041216
+  },
+  "afterGeometry": {
+    "triangles": 27452,
+    "attributeBytes": 3623664,
+    "minRadius": 46.3029989498445,
+    "maxRadius": 54.000002340439046
+  },
+  "diagnostics": {
+    "headingSteps": 20,
+    "port": 4293,
+    "launchArgs": [
+      "--disable-audio-output"
+    ],
+    "files": {
+      "bun.lock": {
+        "before": "f68b6b8e40f8a98152d0e4a9c30e4586df4bbcf48b816ee9efc03104d53af973",
+        "after": "f68b6b8e40f8a98152d0e4a9c30e4586df4bbcf48b816ee9efc03104d53af973"
+      },
+      "package.json": {
+        "before": "9f61cc557b83976df540fae96763f778f02d77bb81177a2596ebdde3e5b5a6e6",
+        "after": "9f61cc557b83976df540fae96763f778f02d77bb81177a2596ebdde3e5b5a6e6"
+      },
+      "review.config.ts": {
+        "before": "7ea98753c886f0fdfaf4e7ae7768df7a07d35cfad118c73fb73492dfe727572b",
+        "after": "7ea98753c886f0fdfaf4e7ae7768df7a07d35cfad118c73fb73492dfe727572b"
+      },
+      "cost.config.ts": {
+        "before": "1234d270840548930d9d7b1cec264f28b2fa85990c16cdfb16d99a597b68d089",
+        "after": "1234d270840548930d9d7b1cec264f28b2fa85990c16cdfb16d99a597b68d089"
+      },
+      "e2e/forest-cost.gpu.ts": {
+        "before": "88ee7e260071265fbe3afb4fed4e57c60777dadebd4a869d6cc5d64168a24872",
+        "after": "88ee7e260071265fbe3afb4fed4e57c60777dadebd4a869d6cc5d64168a24872"
+      }
+    },
+    "costViewPatch": "--- e2e/frame-cost.gpu.ts\n+++ e2e/forest-cost.gpu.ts\n@@ -41,6 +41,8 @@\n   const scene = page.locator('.sauna-3d-canvas');\n   for (const [stage, next] of STAGES) {\n     await expect(scene).toHaveAttribute('data-stage', stage);\n+    await scene.focus();\n+    for (let i = 0; i < 20; i++) await page.keyboard.press('ArrowRight');\n     await page.getByRole('button', { name: '\u666f\u8272\u3060\u3051\u898b\u308b', exact: true }).click();\n     for (const lighting of ['day', 'evening', 'night']) {\n       await chooseSceneSetting(page, '3D\u306e\u6642\u9593\u5e2f', lighting);\n"
+  },
+  "baselineCommit": "4bbd1e077b11cc0d006baab171c37e055fb74a2c"
+}

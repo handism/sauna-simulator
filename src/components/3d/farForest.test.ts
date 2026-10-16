@@ -44,7 +44,7 @@ describe('far forest', () => {
     const position = forest.mesh.geometry.attributes.position;
     for (let i = 0; i < position.count; i += 97) {
       const radius = Math.hypot(position.getX(i), position.getZ(i));
-      expect(radius).toBeGreaterThanOrEqual(47 - 1e-4);
+      expect(radius).toBeGreaterThanOrEqual(44 - 1e-4);
       expect(radius).toBeLessThanOrEqual(FAR_FOREST_RADIUS + 1e-4);
       expect(position.getY(i)).toBeLessThan(16);
     }
@@ -52,7 +52,8 @@ describe('far forest', () => {
     // and uses finite geometry even at a crown's open ends.
     expect(Array.from(position.array).every(Number.isFinite)).toBe(true);
     const radii = Array.from({ length: position.count }, (_, i) => Math.hypot(position.getX(i), position.getZ(i)));
-    expect(radii.some((r) => r < 51)).toBe(true);
+    expect(radii.some((r) => r < 47)).toBe(true);
+    expect(Math.max(...radii.filter((r) => r < 53))).toBeGreaterThan(50);
     expect(radii.some((r) => r > 53.9)).toBe(true);
     expect(Array.from(forest.mesh.geometry.attributes.gardenCrownSide.array).every(Number.isFinite)).toBe(true);
     const color = forest.mesh.geometry.attributes.color;
