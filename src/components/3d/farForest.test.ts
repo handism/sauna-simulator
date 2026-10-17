@@ -42,7 +42,9 @@ describe('far forest', () => {
   it('stands on its ring between the woodland and the ridges, recolored by season and lit by the caller', () => {
     const forest = createFarForest({ value: new THREE.Color() });
     const position = forest.mesh.geometry.attributes.position;
-    for (let i = 0; i < position.count; i += 97) {
+    // Check every vertex: the sparse rear shoulders must not spill past the
+    // backing ring or into the real woodland between sampled vertices.
+    for (let i = 0; i < position.count; i++) {
       const radius = Math.hypot(position.getX(i), position.getZ(i));
       expect(radius).toBeGreaterThanOrEqual(44 - 1e-4);
       expect(radius).toBeLessThanOrEqual(FAR_FOREST_RADIUS + 1e-4);

@@ -1,0 +1,16 @@
+{
+  "before": {
+    "triangles": 27452,
+    "attributeBytes": 3953088,
+    "minRadius": 46.3029989498445,
+    "maxRadius": 54.000002340439046,
+    "maxHeight": 9.219615936279297
+  },
+  "after": {
+    "triangles": 30188,
+    "attributeBytes": 4347072,
+    "minRadius": 46.3029989498445,
+    "maxRadius": 54.000002340439046,
+    "maxHeight": 9.219615936279297
+  }
+}

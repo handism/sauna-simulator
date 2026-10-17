@@ -193,9 +193,12 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   // The backing band still closes the horizon. All lobes share its material and seasonal
   // palette, and stay outside the real woodland and below the existing crown tops.
   for (const [i, crown] of crowns.entries()) {
-    if (i % 3 === 0) continue;
-    const distance = 48 + crown.shade * 3;
-    const top = crown.top - 1.1;
+    // A sparse second rank fills selected gaps between the foreground volumes.
+    // Keep alternate backing crowns exposed, rather than making another solid row.
+    const backing = i % 6 === 0;
+    if (i % 3 === 0 && !backing) continue;
+    const distance = backing ? 51.2 + crown.shade * 0.5 : 48 + crown.shade * 3;
+    const top = crown.top - (backing ? 0.25 : 1.1);
     // Extend below the terrain: exposing the ellipsoid bottoms made floating blobs.
     const bottom = BASE;
     const height = Math.max(1.6, top - bottom);
@@ -209,14 +212,15 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     for (let lobe = 0; lobe < 3; lobe++) {
       const shoulder = lobe !== 0;
       const side = lobe === 1 ? -1 : 1;
-      const width = crown.radius * (shoulder ? 0.62 : 0.78);
+      const width = crown.radius * (shoulder ? 0.62 : 0.78) * (backing ? 0.88 : 1);
       const halfHeight = height * (shoulder ? 0.22 : 0.5);
       const center = radial.clone().multiplyScalar(distance - (shoulder ? 0.35 : 0));
       center.addScaledVector(tangent, shoulder ? side * crown.radius * 0.57 : 0);
       center.y = shoulder ? bottom + height * (lobe === 1 ? 0.61 : 0.69) : bottom + halfHeight;
       const depth = width * (0.72 + crown.pick * 0.18);
-      const rings = 6,
-        sectors = 10;
+      // These farther shoulders need fewer facets; share the existing material.
+      const rings = backing ? 4 : 6,
+        sectors = backing ? 8 : 10;
       const vertex = (ring: number, sector: number) => {
         const phi = (ring / rings) * Math.PI;
         const theta = (sector / sectors) * Math.PI * 2;
