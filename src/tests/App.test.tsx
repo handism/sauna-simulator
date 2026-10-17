@@ -22,9 +22,10 @@ vi.mock('../components/CoolingBath', () => ({
 }));
 
 vi.mock('../components/TotonouSpace', () => ({
-  default: ({ onNext }: any) => (
+  default: ({ onNext, onFinish }: any) => (
     <div data-testid="totonou-space">
       <button onClick={() => onNext()}>Next to Sauna</button>
+      <button onClick={() => onFinish()}>Finish</button>
     </div>
   ),
 }));
@@ -138,6 +139,29 @@ describe('App Component', () => {
     );
     expect(mockAudioEngine.playAmbient).toHaveBeenCalledWith('sauna');
   });
+
+  it('shows the running total on this device after finishing with a completed set', async () => {
+    localStorage.clear();
+    const finishOneSet = async () => {
+      const reenter = screen.queryByRole('button', { name: /もう一度入室する/ });
+      fireEvent.click(reenter ?? screen.getByRole('button', { name: '入室する' }));
+      await waitFor(() => expect(screen.getByTestId('sauna-room')).toBeInTheDocument(), { timeout: 1500 });
+      fireEvent.click(screen.getByText('Next to Water'));
+      await waitFor(() => expect(screen.getByTestId('cooling-bath')).toBeInTheDocument(), { timeout: 1500 });
+      fireEvent.click(screen.getByText('Next to Totonou'));
+      await waitFor(() => expect(screen.getByTestId('totonou-space')).toBeInTheDocument(), { timeout: 1500 });
+      fireEvent.click(screen.getByText('Finish'));
+      await waitFor(() => expect(screen.getByText('おつかれさまでした')).toBeInTheDocument(), { timeout: 1500 });
+    };
+
+    renderWithProvider(<App />);
+    await finishOneSet();
+    expect(screen.getByText('この端末での最初の記録です')).toBeInTheDocument();
+
+    await finishOneSet();
+    expect(screen.getByText('通算 2回目・累計 2セット（前回 今日）')).toBeInTheDocument();
+    localStorage.clear();
+  }, 10000);
 
   it('toggles mute correctly', async () => {
     renderWithProvider(<App />);

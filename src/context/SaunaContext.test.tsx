@@ -282,8 +282,12 @@ describe('ending a session', () => {
     vi.useFakeTimers();
     vi.setSystemTime(100_000);
     vi.mocked(useAudioEngineModule.useAudioEngine).mockReturnValue(mockAudioEngine);
+    localStorage.clear();
   });
-  afterEach(() => vi.useRealTimers());
+  afterEach(() => {
+    vi.useRealTimers();
+    localStorage.clear();
+  });
 
   it.each(['sauna', 'water'])('ends from %s without scoring an unfinished set', (stage) => {
     const { result } = renderHook(() => useSaunaContext(), { wrapper });
@@ -299,6 +303,9 @@ describe('ending a session', () => {
     });
     expect(mockAudioEngine.stopAmbient).toHaveBeenCalledTimes(1);
     expect(result.current.sessionSummary?.scores).toEqual([]);
+    // 完了したセットのない終了は通算に数えない
+    expect(result.current.sessionSummary?.totals).toBeNull();
+    expect(localStorage.getItem('sui-visit-log')).toBeNull();
     act(() => vi.advanceTimersByTime(1000));
     expect(result.current.stage).toBe('start');
     expect(result.current.sessionSummary?.seconds).toBe(stage === 'water' ? 2 : 1);
@@ -327,12 +334,20 @@ describe('ending a session', () => {
     });
     expect(mockAudioEngine.stopAmbient).toHaveBeenCalledTimes(1);
     expect(result.current.pendingStage).toBe('start');
-    expect(result.current.sessionSummary).toEqual({ scores: [95, 95], seconds: 66 });
+    expect(result.current.sessionSummary).toEqual({
+      scores: [95, 95],
+      seconds: 66,
+      totals: { visits: 1, totalSets: 2, previousAt: null },
+    });
     expect(result.current.isUiHidden).toBe(false);
     const calls = mockAudioEngine.playAmbient.mock.calls.length;
     act(() => vi.advanceTimersByTime(30_000));
     expect(result.current.stage).toBe('start');
-    expect(result.current.sessionSummary).toEqual({ scores: [95, 95], seconds: 66 });
+    expect(result.current.sessionSummary).toEqual({
+      scores: [95, 95],
+      seconds: 66,
+      totals: { visits: 1, totalSets: 2, previousAt: null },
+    });
     expect(mockAudioEngine.playAmbient).toHaveBeenCalledTimes(calls);
     act(() => result.current.dismissSummary());
     expect(result.current.sessionSummary).toBeNull();

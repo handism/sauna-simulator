@@ -14,7 +14,7 @@
 
 ### ステージ遷移フロー
 
-ステージは `start → sauna → water → totonou` の順に進み、`totonou` から `sauna` に戻るループ構造になっている。「今日はここまで」は `finishSession()` で環境音をフェードアウトし、同じ遷移タイマーで `start` の終了画面へ戻る。終了画面からは「トップに戻る」か、今のミュート状態のまま「もう一度入室する」（`handleStart(!isMuted)`）。`sessionSummary` は終了操作時のセット数・入室からの実時間を保持し、次の入室時に記録とともにリセットする。
+ステージは `start → sauna → water → totonou` の順に進み、`totonou` から `sauna` に戻るループ構造になっている。「今日はここまで」は `finishSession()` で環境音をフェードアウトし、同じ遷移タイマーで `start` の終了画面へ戻る。終了画面からは「トップに戻る」か、今のミュート状態のまま「もう一度入室する」（`handleStart(!isMuted)`）。`sessionSummary` は終了操作時のセット数・入室からの実時間を保持し、次の入室時に記録とともにリセットする。完了したセットが1つ以上ある終了だけを `src/utils/visitLog.ts`（`sui-visit-log`、直近30件と別持ちの通算）に記録し、終了画面に通算回数・累計セット・前回の日付を控えめな1行で出す（`sessionSummary.totals`）。ストレージ無効・壊れた値では記録なしとして続ける。
 
 - セッション状態と各ステージ完了時の操作（`completeSauna` など。setterは公開しない）は `src/hooks/useSaunaSession.ts` が保持し、`SaunaProvider` / `useSaunaContext`（`src/context/SaunaContext.tsx`）経由で配布する。`App.tsx` はセッション値をcontextから読み、ロウリュ通知用の `EventTarget` だけを保持する
 - ステージ遷移は `changeStage()` が単一の1秒タイマーで管理する。`pendingStage` を設定してUIと背景を暗転し、1秒後にステージ・環境音を同時に切り替えてフェードインする。遷移中の二重操作は拒否し、ステージUIには `inert` を付ける

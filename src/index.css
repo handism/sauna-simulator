@@ -654,6 +654,11 @@ h2:focus {
   font-size: 0.8rem;
   margin-bottom: 12px;
 }
+.session-summary-log {
+  margin-top: 16px;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
 .session-summary .score-history {
   justify-content: center;
   border-top: none;

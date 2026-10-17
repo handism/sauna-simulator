@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { type AmbientEnv, useAudioEngine } from './useAudioEngine';
 import { calculateTotonouScore, RESTING_HEART_RATE } from '../utils/saunaUtils';
+import { recordVisit, type VisitTotals } from '../utils/visitLog';
 
 export type { AmbientEnv };
 /** 入室前の 'start' と、環境音・3D視点を持つ3ステージ（AmbientEnv） */
@@ -38,8 +39,13 @@ export function useSaunaSession() {
   // 水風呂を出た時点で確定する、セットごとのととのい度（入室ごとにリセット）
   const [scoreHistory, setScoreHistory] = useState<readonly number[]>([]);
 
-  // 終了操作時に確定する、その日のセットごとのととのい度と入室からの実時間
-  const [sessionSummary, setSessionSummary] = useState<{ scores: readonly number[]; seconds: number } | null>(null);
+  // 終了操作時に確定する、その日のセットごとのととのい度と入室からの実時間。
+  // totals は今回を含めた通算（完了したセットがない終了は記録しないので null）
+  const [sessionSummary, setSessionSummary] = useState<{
+    scores: readonly number[];
+    seconds: number;
+    totals: VisitTotals | null;
+  } | null>(null);
   const dismissSummary = useCallback(() => setSessionSummary(null), []);
 
   const audio = useAudioEngine();
@@ -110,9 +116,13 @@ export function useSaunaSession() {
   const finishSession = useCallback(() => {
     if (stage === 'start' || !changeStage('start')) return;
     audio.stopAmbient();
+    const now = Date.now();
+    const seconds = enteredAt === null ? 0 : Math.max(0, Math.floor((now - enteredAt) / 1000));
+    const sets = scoreHistory.length;
     setSessionSummary({
       scores: scoreHistory,
-      seconds: enteredAt === null ? 0 : Math.max(0, Math.floor((Date.now() - enteredAt) / 1000)),
+      seconds,
+      totals: sets > 0 ? recordVisit({ at: now, sets, seconds }) : null,
     });
     setIsUiHidden(false);
   }, [stage, changeStage, audio, scoreHistory, enteredAt]);

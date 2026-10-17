@@ -4,6 +4,7 @@ import './index.css';
 import SceneMode from './components/SceneMode';
 import { ActionIcon } from './components/ActionIcon';
 import ScoreHistory from './components/ScoreHistory';
+import { formatPreviousVisit } from './utils/visitLog';
 import SaunaRoom from './components/SaunaRoom';
 import CoolingBath from './components/CoolingBath';
 import TotonouSpace from './components/TotonouSpace';
@@ -195,6 +196,16 @@ function App() {
                       <p className="session-summary-caption">セットごとのととのい度</p>
                       <ScoreHistory scores={sessionSummary.scores} />
                     </div>
+                  )}
+                  {/* この端末での通算。数字を競わせないよう、控えめな1行に留める */}
+                  {sessionSummary.totals && (
+                    <p className="session-summary-log">
+                      {sessionSummary.totals.visits === 1
+                        ? 'この端末での最初の記録です'
+                        : `通算 ${sessionSummary.totals.visits}回目・累計 ${sessionSummary.totals.totalSets}セット`}
+                      {sessionSummary.totals.previousAt !== null &&
+                        `（前回 ${formatPreviousVisit(sessionSummary.totals.previousAt)}）`}
+                    </p>
                   )}
                 </div>
                 {/* トップに戻るのが主操作。続けて入りたい人は入室画面を経ずに、今の音の設定のまま入り直せる */}
