@@ -9,4 +9,4 @@
 再実行：波の係数は `Blender -b blender/scene/SUI_Retreat.blend --python-exit-code 1 --python scripts/fit_water_waves.py -- <heights.npz>` の後に `python3 scripts/fit_water_waves.py <heights.npz>`。比較は `bun run test:browser:visual --reporter=json > <json>`、`python3 scripts/summarize_cycles_compare.py <json> docs/3d-qa/water-mirror/cycles`、`python3 scripts/cycles_tone_stats.py`。パス分解・レイの分類・フレーム間隔の計測は一時スクリプトで行い、リポジトリには含めていない。
 
 
-再検証（2026-09-25、製品コード `7147ccc`）：`revalidation.json` に今回の検査結果、`stability-samples.json` に305.4秒・7巡・35計測の継続検証を保存。継続検証は `bun run test:browser:soak --reporter=json > <soak-json>` で再実行でき、`stability-samples` 添付JSONに全サンプルが入る。3画質それぞれのリソース数は繰り返し間で一致し、ページエラーは0。GPU総メモリ・音声ノード・モバイル実機は対象外。画像の目視所見と残件は `docs/3d-sauna-progress.md` の再検証節を参照。
+再検証（2026-09-25、製品コード `7147ccc`）：`revalidation.json` に今回の検査結果、`stability-samples.json` に305.4秒・7巡・35計測の継続検証を保存。継続検証は `bun run test:browser:soak --reporter=json > <soak-json>` で再実行でき、`stability-samples` 添付JSONに全サンプルが入る。3画質それぞれのリソース数は繰り返し間で一致し、ページエラーは0。GPU総メモリ・音声ノード・モバイル実機は対象外。画像の目視所見と残件は `docs/3d-sauna-log.md` の再検証節を参照。
