@@ -1,0 +1,49 @@
+{
+  "candidateSha256": "74c37475fe8a7b8053751c451c8eb3417278fbc8e1faee58e49f2b0944a809eb",
+  "baselineCommit": "717cbfb",
+  "currentMatchesReviewedSource": true,
+  "costStats": {
+    "before1": {
+      "startTime": "2026-10-17T00:30:51.894Z",
+      "duration": 169575.757,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "after1": {
+      "startTime": "2026-10-17T00:33:41.903Z",
+      "duration": 167533.636,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "after2": {
+      "startTime": "2026-10-17T00:36:29.850Z",
+      "duration": 85700.881,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "before2": {
+      "startTime": "2026-10-17T00:37:55.985Z",
+      "duration": 86134.24399999999,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "limits": [
+    "Static shape cue; flat band remains",
+    "No real-time perceived flicker conclusion",
+    "No real Safari or device FPS validation",
+    "High quality cost not tested"
+  ],
+  "excludedAttempts": [
+    "Initial sandbox preview startup failure",
+    "before2 first attempt: running shell edited; final report lost; complete recapture succeeded"
+  ]
+}

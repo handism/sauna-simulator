@@ -1,0 +1,78 @@
+{
+  "stats": {
+    "startTime": "2026-10-16T09:40:52.198Z",
+    "duration": 259665.08099999998,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "reportSha256": "90d66a4d55a7c068f52da0b393db44bc3ba80d245a2ce04f213b0a26f1932c08",
+  "results": [
+    {
+      "title": "garden accents survive seasons, weather, motion preferences and stage changes",
+      "status": "passed",
+      "duration": 21479
+    },
+    {
+      "title": "repeated modes, stages and real context loss preserve the session",
+      "status": "passed",
+      "duration": 82683
+    },
+    {
+      "title": "split request without HDR renders and recovers at low quality",
+      "status": "passed",
+      "duration": 17774
+    },
+    {
+      "title": "split request without HDR renders and recovers at standard quality",
+      "status": "passed",
+      "duration": 21524
+    },
+    {
+      "title": "split request without HDR renders and recovers at high quality",
+      "status": "passed",
+      "duration": 21616
+    },
+    {
+      "title": "3D autumn persists, changes the outdoor view and restores summer without reloading models",
+      "status": "passed",
+      "duration": 12099
+    },
+    {
+      "title": "3D winter at low restores summer without reloading models",
+      "status": "passed",
+      "duration": 11727
+    },
+    {
+      "title": "3D winter at standard restores summer without reloading models",
+      "status": "passed",
+      "duration": 11914
+    },
+    {
+      "title": "3D winter at high restores summer without reloading models",
+      "status": "passed",
+      "duration": 12334
+    },
+    {
+      "title": "3D spring at low restores summer without reloading models",
+      "status": "passed",
+      "duration": 12296
+    },
+    {
+      "title": "3D spring at standard restores summer without reloading models",
+      "status": "passed",
+      "duration": 12371
+    },
+    {
+      "title": "3D spring at high restores summer without reloading models",
+      "status": "passed",
+      "duration": 12779
+    },
+    {
+      "title": "a delayed garden uses the latest spring selection without resetting the body",
+      "status": "passed",
+      "duration": 6925
+    }
+  ]
+}

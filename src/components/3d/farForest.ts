@@ -141,6 +141,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   const crownOf: number[] = [];
   const depths: number[] = [];
   const sides: number[] = [];
+  const band: number[] = [];
   const volumeLight: number[] = [];
   const at = (
     j: number,
@@ -159,6 +160,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     positions.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
     crownOf.push(crown);
     volumeLight.push(1);
+    band.push(1);
     sides.push(crown >= 0 ? (span(crowns[crown], a) * (radius / FAR_FOREST_RADIUS)) / crowns[crown].radius : 0);
     depths.push((radius - 47) / 7);
     lift.push(Math.max(0, Math.min(1, (y - BASE) / (UNDERSTORY - BASE))));
@@ -231,6 +233,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         position.y += ny * halfHeight;
         positions.push(position.x, position.y, position.z);
         crownOf.push(i);
+        band.push(0);
         const normal = tangent
           .clone()
           .multiplyScalar(nx / width)
@@ -270,6 +273,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   geometry.setAttribute('gardenCrownTop', new THREE.Float32BufferAttribute(tops, 1));
   geometry.setAttribute('gardenEdge', new THREE.Float32BufferAttribute(edges, 1));
   geometry.setAttribute('gardenCrownSide', new THREE.Float32BufferAttribute(sides, 1));
+  geometry.setAttribute('gardenBand', new THREE.Float32BufferAttribute(band, 1));
   geometry.setAttribute('gardenDepth', new THREE.Float32BufferAttribute(depths, 1));
   const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
   material.name = 'Garden far forest';
@@ -281,16 +285,17 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;',
+        '#include <common>\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;',
       )
       .replace(
         '#include <begin_vertex>',
-        '#include <begin_vertex>\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenPosition = position;',
+        '#include <begin_vertex>\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenPosition = position;',
       );
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <common>',
         `#include <common>
+        varying float vGardenBand;
         varying float vGardenSide;
         varying float vGardenDepth;
         varying float vGardenLift;
@@ -337,7 +342,22 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         float gardenSide = clamp(vGardenSide, -1.0, 1.0);
         float gardenRound = sqrt(max(0.0, 1.0 - gardenSide * gardenSide));
         float gardenShoulder = clamp(0.6 * gardenRound - 0.35 * gardenSide, -0.35, 0.7);
-        diffuseColor.rgb *= (0.64 + 0.64 * gardenClump) * (0.82 + 0.44 * gardenShoulder);
+        // The backing crowns share the world's fixed sun direction (lighting.ts), rather
+        // than every crown having its left shoulder lit. A broad upper dome and side
+        // normals imply volume without adding silhouette detail or a shadow pass.
+        vec2 gardenRadial = normalize(vGardenPosition.xz);
+        vec3 gardenInward = vec3(-gardenRadial.x, 0.0, -gardenRadial.y);
+        vec3 gardenTangent = vec3(-gardenRadial.y, 0.0, gardenRadial.x);
+        float gardenUp = smoothstep(vGardenTop - 3.2, vGardenTop + 0.4, vGardenPosition.y) * 0.8;
+        vec3 gardenNormal = normalize((gardenInward * gardenRound + gardenTangent * gardenSide)
+          * sqrt(1.0 - gardenUp * gardenUp) + vec3(0.0, gardenUp, 0.0));
+        float gardenSun = max(0.0, dot(gardenNormal, vec3(-0.556, 0.6178, 0.556)));
+        // Soft fill retains detail in the unlit crowns. Darker lateral recesses separate
+        // adjacent masses; this is a shape cue, not traced inter-tree occlusion.
+        float gardenRecess = mix(0.84, 1.0, smoothstep(0.0, 0.55, gardenRound));
+        float gardenDirectional = (0.78 + 0.66 * gardenSun) * gardenRecess;
+        diffuseColor.rgb *= (0.64 + 0.64 * gardenClump)
+          * mix(0.82 + 0.44 * gardenShoulder, gardenDirectional, vGardenBand);
         diffuseColor.rgb *= mix(0.76, 1.12, smoothstep(vGardenTop - 4.5, vGardenTop - 0.3, vGardenPosition.y));
         diffuseColor.rgb *= mix(0.62, 1.0, vGardenLift);
         // Foreground remains darker and clearer; backing crowns recede into the air.
@@ -346,7 +366,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v7';
+  material.customProgramCacheKey = () => 'garden-far-forest-v8';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();

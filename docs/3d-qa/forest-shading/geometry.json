@@ -1,0 +1,128 @@
+{
+  "spring": {
+    "position": {
+      "bytes": 988272,
+      "sha256": "d4460405aa72388a93ceb73265342e1bd1cf40c240da9b4b7ec352d23a174e80"
+    },
+    "color": {
+      "bytes": 988272,
+      "sha256": "7c707703557d337481ef1feb004848a96887c3711991971fde00c6a1b29b03da"
+    },
+    "gardenLift": {
+      "bytes": 329424,
+      "sha256": "2f93152cde89798ea65e751031b5f47b6e40d9c7e4ff161a7b09823d963bd316"
+    },
+    "gardenCrownTop": {
+      "bytes": 329424,
+      "sha256": "9842325faa748a33d75f66f10524787c9a45bb5ea57dbd8154506ed2f42bf986"
+    },
+    "gardenEdge": {
+      "bytes": 329424,
+      "sha256": "7eb83a1ecec24cc74b75bac4cd6a08287078cc23ab94bf87914d1184fec1dc44"
+    },
+    "gardenCrownSide": {
+      "bytes": 329424,
+      "sha256": "cb274b3029ae8cd3790dfd4eae3a3bd3afe9cf0a83f6cdb2cd2fcdb181947da4"
+    },
+    "gardenDepth": {
+      "bytes": 329424,
+      "sha256": "d48db21ff2ec87a12c8748c0755e7f1000279a908f0c3b82832644ae1cdcfbcc"
+    }
+  },
+  "summer": {
+    "position": {
+      "bytes": 988272,
+      "sha256": "d4460405aa72388a93ceb73265342e1bd1cf40c240da9b4b7ec352d23a174e80"
+    },
+    "color": {
+      "bytes": 988272,
+      "sha256": "40eef6ce34217d1680f23ac6871b763d0dd013bca368e14d9d3f879698e73007"
+    },
+    "gardenLift": {
+      "bytes": 329424,
+      "sha256": "2f93152cde89798ea65e751031b5f47b6e40d9c7e4ff161a7b09823d963bd316"
+    },
+    "gardenCrownTop": {
+      "bytes": 329424,
+      "sha256": "9842325faa748a33d75f66f10524787c9a45bb5ea57dbd8154506ed2f42bf986"
+    },
+    "gardenEdge": {
+      "bytes": 329424,
+      "sha256": "7eb83a1ecec24cc74b75bac4cd6a08287078cc23ab94bf87914d1184fec1dc44"
+    },
+    "gardenCrownSide": {
+      "bytes": 329424,
+      "sha256": "cb274b3029ae8cd3790dfd4eae3a3bd3afe9cf0a83f6cdb2cd2fcdb181947da4"
+    },
+    "gardenDepth": {
+      "bytes": 329424,
+      "sha256": "d48db21ff2ec87a12c8748c0755e7f1000279a908f0c3b82832644ae1cdcfbcc"
+    }
+  },
+  "autumn": {
+    "position": {
+      "bytes": 988272,
+      "sha256": "d4460405aa72388a93ceb73265342e1bd1cf40c240da9b4b7ec352d23a174e80"
+    },
+    "color": {
+      "bytes": 988272,
+      "sha256": "ad18979154dd42b42cc03d08a8f59cfb3de1f27c5f6831efbecf0149d79c8905"
+    },
+    "gardenLift": {
+      "bytes": 329424,
+      "sha256": "2f93152cde89798ea65e751031b5f47b6e40d9c7e4ff161a7b09823d963bd316"
+    },
+    "gardenCrownTop": {
+      "bytes": 329424,
+      "sha256": "9842325faa748a33d75f66f10524787c9a45bb5ea57dbd8154506ed2f42bf986"
+    },
+    "gardenEdge": {
+      "bytes": 329424,
+      "sha256": "7eb83a1ecec24cc74b75bac4cd6a08287078cc23ab94bf87914d1184fec1dc44"
+    },
+    "gardenCrownSide": {
+      "bytes": 329424,
+      "sha256": "cb274b3029ae8cd3790dfd4eae3a3bd3afe9cf0a83f6cdb2cd2fcdb181947da4"
+    },
+    "gardenDepth": {
+      "bytes": 329424,
+      "sha256": "d48db21ff2ec87a12c8748c0755e7f1000279a908f0c3b82832644ae1cdcfbcc"
+    }
+  },
+  "winter": {
+    "position": {
+      "bytes": 988272,
+      "sha256": "d4460405aa72388a93ceb73265342e1bd1cf40c240da9b4b7ec352d23a174e80"
+    },
+    "color": {
+      "bytes": 988272,
+      "sha256": "50291d373e9fbe9480be454eacf365b4e0093611f1102796f38d3111a915e8b1"
+    },
+    "gardenLift": {
+      "bytes": 329424,
+      "sha256": "2f93152cde89798ea65e751031b5f47b6e40d9c7e4ff161a7b09823d963bd316"
+    },
+    "gardenCrownTop": {
+      "bytes": 329424,
+      "sha256": "9842325faa748a33d75f66f10524787c9a45bb5ea57dbd8154506ed2f42bf986"
+    },
+    "gardenEdge": {
+      "bytes": 329424,
+      "sha256": "7eb83a1ecec24cc74b75bac4cd6a08287078cc23ab94bf87914d1184fec1dc44"
+    },
+    "gardenCrownSide": {
+      "bytes": 329424,
+      "sha256": "cb274b3029ae8cd3790dfd4eae3a3bd3afe9cf0a83f6cdb2cd2fcdb181947da4"
+    },
+    "gardenDepth": {
+      "bytes": 329424,
+      "sha256": "d48db21ff2ec87a12c8748c0755e7f1000279a908f0c3b82832644ae1cdcfbcc"
+    }
+  },
+  "band": {
+    "bytes": 329424,
+    "vertices": 82356,
+    "backingVertices": 16656,
+    "volumeVertices": 65700
+  }
+}
