@@ -12,6 +12,7 @@ import { FullscreenMenuButton, MuteButton, UiToggleButton } from './components/C
 import { useSaunaContext, type AmbientEnv } from './context/SaunaContext';
 import { useFullscreen } from './hooks/useFullscreen';
 import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
+import { useWakeLock } from './hooks/useWakeLock';
 
 // 計測用（e2e・診断スクリプト）。入室ボタンで音なしに入る。利用者向けの選択肢は出さない
 const startsMuted = () => new URLSearchParams(window.location.search).get('sound') === 'off';
@@ -65,6 +66,8 @@ function App() {
 
   const [loylyEvents] = useState(() => new EventTarget());
   const fullscreen = useFullscreen();
+  // 外気浴などで操作しない時間が続いても、入室中は画面を消さない
+  useWakeLock(stage !== 'start');
   // Space is bound by each stage to its own main action.
   useKeyboardShortcut('m', toggleMute, { enabled: stage !== 'start' });
   useKeyboardShortcut('u', toggleUiVisibility, { enabled: stage !== 'start' });
