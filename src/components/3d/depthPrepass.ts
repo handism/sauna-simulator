@@ -80,7 +80,7 @@ export function takesPrepassDepth(material: THREE.Material) {
   );
 }
 
-export function createDepthPrepass() {
+export function createDepthPrepass(waterTime = { value: 0 }) {
   const materials = new Map<string, THREE.MeshBasicMaterial>();
   const hidden = new THREE.MeshBasicMaterial({ visible: false });
   const cutouts = new Map<THREE.Material, THREE.MeshBasicMaterial>();
@@ -96,7 +96,9 @@ export function createDepthPrepass() {
     if (!materials.has(key))
       materials.set(
         key,
-        level === undefined ? depthMaterial(material.side) : refractedDepthMaterial(String(level), material.side),
+        level === undefined
+          ? depthMaterial(material.side)
+          : refractedDepthMaterial(String(level), material.side, waterTime),
       );
     return materials.get(key)!;
   };

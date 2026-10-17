@@ -304,7 +304,10 @@ function glossyOnlyGlsl() {
   const sums = GLOSSY_SOURCES.filter(([name]) => TRANSMISSION_INVISIBLE.includes(name))
     .map((source) => sourceSH(source, PROBE_POINT))
     .reduce((a, b) => a.map((scene, s) => scene.map((k, i) => k.map((c, j) => c + b[s][i][j]))));
-  const coefficient = (i: number) => `mix( ${vec3(sums[0][i])}, ${vec3(sums[1][i])}, suiIrradianceEvening )`;
+  const coefficient = (i: number) =>
+    `( (1.0 - suiIrradianceEvening) * ${vec3(sums[0][i])} * suiSeasonReflection[3]
+      + (suiIrradianceEvening - suiIrradianceNight) * ${vec3(sums[1][i])} * suiSeasonReflection[4]
+      + suiIrradianceNight * ${vec3(sums[1][i])} * suiSeasonReflection[5] )`;
   // Taken out of probes the rain dims (irradiance.ts), so it dims alike.
   return `vec3 suiGlossyOnly( vec3 n ) {
 	return suiOvercast.x * ( ${coefficient(0)} * 0.282095 +

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { WATER_BOX } from './interiorLights';
-import { WAVE_NORMAL } from './waterEffects';
+import { WAVE_NORMAL, waveNormal } from './waterEffects';
 
 // The plunge seen through its flat surface. Cycles refracts the camera rays at the water (IOR
 // 1.333), so the tub looks shallow and its inner walls nearly vanish; the browser surface is a
@@ -10,8 +10,8 @@ import { WAVE_NORMAL } from './waterEffects';
 // the point puts it at the apparent depth b' = b·cosθ1 / (n·cosθ2) below the surface (b is the
 // true depth, θ1 and θ2 the angles above and below the surface), which is b/n straight down and
 // thins toward grazing views. Only gl_Position moves: lighting, probes and shadows keep the true
-// position (the shadow passes use their own depth materials). Ripples and the rippled source
-// surface are left out.
+// position (the shadow passes use their own depth materials). A bounded first-order wave
+// correction moves the image tangentially; the mean water height remains flat.
 //
 // The view through the water is tinted as in the source: once by the transmission color of the
 // surface (its Base Color, transmission 1) and by the volume absorption (color (0.57, 0.84, 0.78),
@@ -21,7 +21,8 @@ import { WAVE_NORMAL } from './waterEffects';
 // The image is not linear in the position, so triangles in the water with long edges (the tub
 // walls reach from the floor to the coping in one triangle) are cut at the surface and on a grid
 // of axis-aligned planes. Planes cut shared edges at the same points on both sides, so the moved
-// meshes stay closed. The individual tiles are already small and are left as they are.
+// meshes stay closed. Tiles and the substrate use the same grid: their different coarse
+// triangulations otherwise intersect when the wave displaces the apparent image.
 //
 // The sides of the source water are flat and meet air (the tiles and walls sit a few mm to cm
 // behind them), so Cycles reflects most views that reach a side back into the pool: the refracted
@@ -47,7 +48,7 @@ export const WATER_IOR = 1.333;
 /** Spacing of the cutting planes, in meters. */
 export const SLICE_SPACING = 0.1;
 /** Meshes with an underwater edge longer than this are cut. */
-const LONG_EDGE = 0.3;
+const LONG_EDGE = SLICE_SPACING;
 
 /** Apparent depth below a flat surface of a point `depth` under it, seen from `height` above it at `distance` horizontally. */
 export function apparentDepth(height: number, depth: number, distance: number, ior = WATER_IOR) {
@@ -65,6 +66,54 @@ export function apparentDepth(height: number, depth: number, distance: number, i
   const cos1 = height / Math.hypot(x, height);
   const sin2 = x / Math.hypot(x, height) / ior;
   return (depth * cos1) / (ior * Math.sqrt(1 - sin2 * sin2));
+}
+
+/** Maximum apparent-image displacement, in meters. Fade to zero at the water rim. */
+export const REFRACTION_SWAY = 0.008;
+export const REFRACTION_RIM_FADE = 0.12;
+
+/** First-order Snell correction about the flat entry point. `point` may be a mirrored image.
+ * Retain the flat apparent depth; only its horizontal projection sways. */
+export function waveImageOffset(
+  camera: THREE.Vector3,
+  point: THREE.Vector3,
+  level: number,
+  time: number,
+  normalAt = waveNormal,
+) {
+  const height = camera.y - level,
+    depth = level - point.y;
+  const offset = new THREE.Vector2();
+  if (height <= 0 || depth <= 0) return offset;
+  const distance = Math.hypot(point.x - camera.x, point.z - camera.z);
+  const apparent = apparentDepth(height, depth, distance);
+  const axis = new THREE.Vector2(point.x - camera.x, point.z - camera.z).normalize();
+  const entryDistance = (distance * height) / (height + apparent);
+  const entry = new THREE.Vector2(camera.x, camera.z).addScaledVector(axis, entryDistance);
+  const edge = Math.min(
+    entry.x - WATER_VOLUME.min.x,
+    WATER_VOLUME.max.x - entry.x,
+    entry.y - WATER_VOLUME.min.z,
+    WATER_VOLUME.max.z - entry.y,
+  );
+  const fade = THREE.MathUtils.smoothstep(edge, 0, REFRACTION_RIM_FADE);
+  if (fade === 0) return offset;
+  const air = Math.hypot(height, entryDistance);
+  const water = Math.hypot(depth, distance - entryDistance);
+  const normal = normalAt(entry.x, entry.y, time);
+  const gradient = new THREE.Vector2(-normal.x / normal.y, -normal.z / normal.y);
+  const parallel = axis.clone().multiplyScalar(gradient.dot(axis));
+  const perpendicular = gradient.clone().sub(parallel);
+  const along = (height * height) / air ** 3 + (WATER_IOR * depth * depth) / water ** 3;
+  const across = 1 / air + WATER_IOR / water;
+  offset
+    .copy(parallel)
+    .divideScalar(along)
+    .addScaledVector(perpendicular, 1 / across);
+  offset.multiplyScalar((-((WATER_IOR * depth) / water - height / air) * (height + apparent)) / height);
+  // A smooth saturation bounds strong inlet slopes without a hard displacement plateau.
+  offset.multiplyScalar(fade / Math.sqrt(1 + offset.lengthSq() / REFRACTION_SWAY ** 2));
+  return offset;
 }
 
 /** The water surface's transmission color and the volume absorption per meter (Cycles). */
@@ -310,9 +359,28 @@ vSuiWaterPath = 0.0;
 		float suiSin2 = x / length( vec2( x, suiHeight ) ) / ${WATER_IOR};
 		float suiCos2 = sqrt( 1.0 - suiSin2 * suiSin2 );
 		float suiApparent = suiDepth * suiCos1 / ( ${WATER_IOR} * suiCos2 );
+		// Linearize Snell's tangential condition at the flat entry. Decompose
+		// its Jacobian along/across the viewing plane; no iterative wave solve.
+		vec2 suiAxis = (suiSeen.xz - cameraPosition.xz) / max(suiDistance, 1e-6);
+		vec2 suiEntry = cameraPosition.xz + suiAxis * x;
+		vec2 suiEdge = min(suiEntry - ${vec2(WATER_VOLUME.min)}, ${vec2(WATER_VOLUME.max)} - suiEntry);
+		float suiRim = smoothstep(0.0, ${REFRACTION_RIM_FADE.toFixed(3)}, min(suiEdge.x, suiEdge.y));
+		vec3 suiNormal = suiWaveNormal(suiEntry, suiWaterTime);
+		vec2 suiGradient = -suiNormal.xz / suiNormal.y;
+		vec2 suiParallel = suiAxis * dot(suiGradient, suiAxis);
+		float suiAir = length(vec2(x, suiHeight));
+		float suiWater = suiDepth / suiCos2;
+		float suiAlong = suiHeight * suiHeight / (suiAir * suiAir * suiAir)
+			+ ${WATER_IOR} * suiDepth * suiDepth / (suiWater * suiWater * suiWater);
+		float suiAcross = 1.0 / suiAir + ${WATER_IOR} / suiWater;
+		vec2 suiShift = -( ${WATER_IOR} * suiCos2 - suiCos1 )
+			* (suiParallel / suiAlong + (suiGradient - suiParallel) / suiAcross)
+			* (suiHeight + suiApparent) / suiHeight;
+		suiShift *= suiRim * inversesqrt(1.0 + dot(suiShift, suiShift) / ${(REFRACTION_SWAY ** 2).toFixed(8)});
 		vSuiWaterPath = suiDepth / suiCos2;
 		vSuiImage.y += suiDepth - suiApparent;
-		gl_Position = projectionMatrix * ( suiSeenView + viewMatrix * vec4( 0.0, suiDepth - suiApparent, 0.0, 0.0 ) );
+		vSuiImage.xz += suiShift;
+		gl_Position = projectionMatrix * ( suiSeenView + viewMatrix * vec4( suiShift.x, suiDepth - suiApparent, suiShift.y, 0.0 ) );
 	}
 }
 #endif
@@ -584,7 +652,7 @@ export function mayDiscardGlsl(level: string, p: string) {
  * water box, under the surface and outside the source water volume: behind a side, sideImage
  * above). There the lit pass draws as without a prepass. `level` is the define's string.
  */
-export function refractedDepthMaterial(level: string, side: THREE.Side) {
+export function refractedDepthMaterial(level: string, side: THREE.Side, waterTime = { value: 0 }) {
   const material = new THREE.MeshBasicMaterial({
     colorWrite: false,
     side,
@@ -593,6 +661,7 @@ export function refractedDepthMaterial(level: string, side: THREE.Side) {
     polygonOffsetUnits: 1,
   });
   material.onBeforeCompile = (shader) => {
+    shader.uniforms.suiWaterTime = waterTime;
     const COMMON = '#include <common>';
     const PROJECT_INCLUDE = '#include <project_vertex>';
     const CLIP = '#include <clipping_planes_fragment>';

@@ -80,7 +80,7 @@ vec3 suiDeckLight(vec3 coarse, vec3 P, vec3 N) {
   vec2 uv = (clamp(q, 0.0, 1.0) * (suiDeckResolution - 1.0) + 0.5) / suiDeckResolution;
   vec3 evening = texture(suiDeckIrradiance, vec3(uv, 0.25)).rgb;
   vec3 night = texture(suiDeckIrradiance, vec3(uv, 0.75)).rgb;
-  vec3 fine = mix(evening, night, suiIrradianceNight / suiIrradianceEvening);
+  vec3 fine = mix(evening * suiSeasonIrradiance[4], night * suiSeasonIrradiance[5], suiIrradianceNight / suiIrradianceEvening);
   // Remove only the dusk/night component already in the coarse grid; leave
   // the daytime contribution intact during automatic and manual transitions.
   // This small patch lies entirely inside the courtyard's unblended interior.
@@ -91,8 +91,8 @@ vec3 suiDeckLight(vec3 coarse, vec3 P, vec3 N) {
   vec3 bands = vec3(PI, 2.0 * PI / 3.0, PI / 4.0);
   vec3 old = vec3(0.0);
   float ew = suiIrradianceEvening - suiIrradianceNight;
-  if (ew > 0.0) old += ew * suiEvaluateSH(suiProbeCourtyard, uvw.xy, z, 7.0, slices, N, bands);
-  if (suiIrradianceNight > 0.0) old += suiIrradianceNight * suiEvaluateSH(suiProbeCourtyard, uvw.xy, z, 14.0, slices, N, bands);
+  if (ew > 0.0) old += ew * suiEvaluateSH(suiProbeCourtyard, uvw.xy, z, 7.0, slices, N, bands) * suiSeasonIrradiance[4];
+  if (suiIrradianceNight > 0.0) old += suiIrradianceNight * suiEvaluateSH(suiProbeCourtyard, uvw.xy, z, 14.0, slices, N, bands) * suiSeasonIrradiance[5];
   vec3 correction = suiOvercastLight(suiIrradianceEvening * fine - old, suiOvercast.x);
   return max(coarse + coverage * correction, vec3(0.0));
 }

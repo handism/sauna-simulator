@@ -16,6 +16,7 @@ import { roundWoodlandCrowns } from './crownNormals';
 import { splitEvergreenWoodland } from './evergreenWoodland';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
+import { updateSeasonLight } from './seasonalLight';
 import { createRain } from './rain';
 import { applyRainWetness } from './rainWetness';
 import { createFrameMetrics } from './frameMetrics';
@@ -158,9 +159,10 @@ export default function SaunaScene({
     element.appendChild(renderer.domElement);
     // Transparent surfaces blend in scene-linear light, tone mapped once (hdrOutput.ts).
     const output = createHdrOutput(renderer);
-    const prepass = createDepthPrepass();
+    const waterTime = { value: 0 };
+    const prepass = createDepthPrepass(waterTime);
     // The lit pass reads its shadows from a half-resolution mask (needs the float targets of HDR output).
-    const shadowMask = output.hdr ? createShadowMask(renderer) : null;
+    const shadowMask = output.hdr ? createShadowMask(renderer, waterTime) : null;
     // The quality drawn, which trails the chosen one while its programs compile.
     let applied = qualityRef.current;
     const masked = () => shadowMask !== null && QUALITY[applied].shadowSize > 0;
@@ -333,7 +335,7 @@ export default function SaunaScene({
         prepare(gltf.scene);
         gardenDetails.finishPreparation();
         gardenDetails.update(0, seasonRef.current, lighting.time, weatherRef.current, reducedMotion.matches);
-        const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms);
+        const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms, waterTime);
         // After every material change: the mirrored images copy the finished materials.
         const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
         setData('sideImageMeshes', String(sideImages.meshes));
@@ -381,6 +383,7 @@ export default function SaunaScene({
         };
         const drawingSize = new THREE.Vector2();
         const draw = () => {
+          updateSeasonLight(lighting.irradiance, seasonRef.current);
           setData('sideImagesShown', String(sideImages.update(camera)));
           if (mirror) {
             // What else the reflection shows changing: lighting and the quality's lights.

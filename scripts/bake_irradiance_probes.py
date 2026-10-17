@@ -88,6 +88,9 @@ from probe_sampling import fill_invalid  # shared with refill_enclosed_probes.py
 
 ROOT = Path(__file__).resolve().parents[1]
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+if '--seasonal' in ARGS and ('--out' not in ARGS or any(flag in ARGS for flag in (
+        '--quick', '--reflection', '--surface-samples', '--probe-test', '--grids', '--scenes', '--deck-surface'))):
+    raise ValueError('--seasonal requires --out and cannot combine with other bake modes')
 QUICK = '--quick' in ARGS
 REFLECTION = '--reflection' in ARGS
 SURFACE_SAMPLES = Path(ARGS[ARGS.index('--surface-samples') + 1]) if '--surface-samples' in ARGS else None
@@ -533,6 +536,11 @@ for name, lo, hi, spacing in GRIDS:
 plain_materials = add_backface_aov()
 flipped_meshes = flip_downward_meshes(bpy.data.scenes[SCENES[0][1]])
 print('IRRADIANCE flipped', flipped_meshes, flush=True)
+
+if '--seasonal' in ARGS:
+    from bake_seasonal_probes import bake
+    bake(globals())
+    sys.exit(0)
 
 
 def set_sky_gates(world, sky, disk):

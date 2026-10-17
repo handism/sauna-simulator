@@ -1,0 +1,63 @@
+{
+  "note": "Rejected coarse-tile wave prototype; successful capture execution did not imply visual acceptance. Substrate polygons appeared within tiles. Fine tile slicing resolved the inspected views. Depth/TAA variants alone did not.",
+  "captures": {
+    "sway-after1": {
+      "report_sha256": "81410ea7b3c9bf176177b9e3774b17250cd80d3e66951914a0832a99febba4d0",
+      "stats": {
+        "startTime": "2026-10-17T05:26:10.921Z",
+        "duration": 90670.446,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "diagnostic-material-ids": {
+      "report_sha256": "2484a10f3ddba05d30c696d9799a085d1f4d6b81a3351ee7827ef23d5397dc6c",
+      "stats": {
+        "startTime": "2026-10-17T05:42:22.115Z",
+        "duration": 19172.43,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "refraction_sha256": "aab2a91051ea3ce73e09f8d7cfb624ea48d174c076c5b6e50d2f31ae54aebd7b"
+    },
+    "diagnostic-tile-grid": {
+      "report_sha256": "160ac07decf2ee34dfb963848a02a38afbdd0729d4386d3adf3790c7fcd5c334",
+      "stats": {
+        "startTime": "2026-10-17T05:45:04.285Z",
+        "duration": 12635.866,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "refraction_sha256": "a98581e8eb6d5bb0e75224eb4c31a7d4b4cc864117228afafb221108ea1ca1cf"
+    },
+    "sway-final-after1": {
+      "report_sha256": "f39bfaeea7f62f3cc0225c4d263403b756886e7dafe50611706027a4d21d5418",
+      "stats": {
+        "startTime": "2026-10-17T05:45:38.775Z",
+        "duration": 91634.964,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  },
+  "capture_wrapper_recovery": {
+    "run": "sway-final-before2",
+    "shell_exit": 2,
+    "reason": "Wrapper was edited during Playwright execution; subsequent shell parsing failed after the completed report.",
+    "validation": "Final Playwright JSON parsed, expected=1/unexpected=0/flaky=0/skipped=0/errors=[], 152 PNG present. Captures relocated and outputDir rewritten separately before ABBA summary."
+  },
+  "initial_cost_start": {
+    "status": "environment blocked, not counted",
+    "message": "Process from config.webServer was not able to start. Exit code: 1",
+    "expected": 0,
+    "action": "Re-run the same command in an approved local-server runtime."
+  }
+}

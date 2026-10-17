@@ -90,3 +90,6 @@
 
 - `inspect_water_light_canopy.py -- <output.json>`（Blender、元blend、`-S "SUI • Blue hour"`）は水底の面光源を遮る天蓋の梁2本・ルーバー17本の評価済み境界をglTF座標で保存する。元blendを保存せず前後ハッシュを確認。`waterLightOcclusion.ts` の静的寸法の根拠で、面取りや柱は含まない。
 - `summarize_water_light_occlusion.py <before.json> <before-repeat.json> <after.json> <after-repeat.json> --captures <4つの保存済み撮影フォルダ> --out <記録先>` は成功した同一ブラウザー・標準DPR1の12視点×4撮影を検査し、再撮影差、変更領域のCyclesとのΔE76、画像・レポートハッシュ、比較画像を保存する。最初の撮影がブラウザー版の添付追加前の場合だけ `--baseline-browser` で同じビルドの再撮影から確認した版を渡す。失敗・skip・flaky・添付の重複／欠落は拒否し、`test_water_light_occlusion.py` で検査する。
+
+- `bake_irradiance_probes.py -- --seasonal --out <dir>` は `bake_seasonal_probes.py` で季節・グリッド・昼夕夜別のL0 RGB比を測る。元blendは保存せずハッシュ照合。室内4／中庭6／外周8／水中2点、四季・照度／反射。パノラマ64×32・64サンプル、水中照度は既存の6面球受光器256サンプル。各グリッドの最後の1点は校正から除外し、比を0.6〜1.8へ制限。元シーンの季節近似で、ブラウザの細かな雪・葉カード・庭は完全再現しない。`seasonal-light.json` を `src/components/3d/`、`seasonal-report.json` をQAの `bake.json` へ保存する。夏の細かなSH方向性／遮蔽を保持したエネルギー補正で、全面的な季節再ベイクではない。
+- `summarize_season_water.py <seasonal|sway> <前1.json> <後1.json> <後2.json> <前2.json> <out>` は完成した4件のABBA報告、入力／PNGハッシュ、寸法、位相とrAF回数、同版の再撮影差を照合する。seasonalは36静止視点／回、swayは36位相×4経路＋動作抑制8枚の152枚／回。水のROIのRGB加重lumaのフレーム差・2階差を記録するが、知覚的ちらつき・実時間FPSの判定はしない。`test_season_water_summary.py` で失敗・重複画像・寸法不一致の拒否を検査する。

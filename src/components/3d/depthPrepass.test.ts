@@ -64,7 +64,8 @@ describe('depth prepass', () => {
   });
 
   it('refracts the copies of underwater materials and writes no depth where they may discard', () => {
-    const prepass = createDepthPrepass();
+    const waterTime = { value: 2 };
+    const prepass = createDepthPrepass(waterTime);
     const geometry = new THREE.BoxGeometry();
     const underwater = standard();
     underwater.defines = { SUI_REFRACTION: '0.7650' };
@@ -76,10 +77,12 @@ describe('depth prepass', () => {
     expect(wet.colorWrite).toBe(false);
     expect(wet.customProgramCacheKey()).not.toBe(plain.customProgramCacheKey());
     const shader = {
+      uniforms: {} as Record<string, unknown>,
       vertexShader: THREE.ShaderLib.basic.vertexShader,
       fragmentShader: THREE.ShaderLib.basic.fragmentShader,
     } as THREE.WebGLProgramParametersWithUniforms;
     wet.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    expect(shader.uniforms.suiWaterTime).toBe(waterTime);
     // Only the vertex stage takes the define: the lit fragment chunks it guards need the lit shader.
     expect(shader.vertexShader.startsWith('#define SUI_REFRACTION 0.7650\n')).toBe(true);
     expect(shader.fragmentShader).not.toContain('#define SUI_REFRACTION');

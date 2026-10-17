@@ -35,6 +35,26 @@ export function waveHeight(x: number, z: number, t = 0) {
   );
 }
 
+/** Analytic CPU counterpart of WAVE_NORMAL, for the refraction reference tests. */
+export function waveNormal(x: number, z: number, t = 0) {
+  const dx = x - WAVES.center[0],
+    dz = z - WAVES.center[1];
+  const r = Math.max(Math.hypot(dx, dz), 1e-4);
+  const phase = WAVES.ring.number * r - waveSpeed(WAVES.ring.number) * t;
+  const slope =
+    WAVES.ring.amplitude *
+    Math.exp(-WAVES.ring.decay * r) *
+    (WAVES.ring.number * Math.cos(phase) - WAVES.ring.decay * Math.sin(phase));
+  const plane =
+    WAVES.plane.amplitude *
+    Math.cos(WAVES.plane.vector[0] * x + WAVES.plane.vector[1] * z - waveSpeed(Math.hypot(...WAVES.plane.vector)) * t);
+  return new THREE.Vector3(
+    (-slope * dx) / r - plane * WAVES.plane.vector[0],
+    1,
+    (-slope * dz) / r - plane * WAVES.plane.vector[1],
+  ).normalize();
+}
+
 const f = (v: number) => v.toFixed(6);
 /** The surface normal of WAVES at world (x, z) and time t, in GLSL (also used by refraction.ts). */
 export const WAVE_NORMAL = /* glsl */ `
@@ -124,9 +144,9 @@ export function createWaterEffects(
   definition: WaterDefinition,
   probes: IrradianceUniforms,
   mirror: PlanarReflectionUniforms,
+  time = { value: 0 },
 ) {
   const group = new THREE.Group();
-  const time = { value: 0 };
   const rain = { value: 0 };
   const vertexShader = `varying vec2 vUv;
     void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;

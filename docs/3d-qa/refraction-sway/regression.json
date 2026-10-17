@@ -1,0 +1,131 @@
+{
+  "report_sha256": "a7d8e9575d778343f6c63ac3def717a4f5ac2c7816a5c015651d5ddce81f3671",
+  "stats": {
+    "startTime": "2026-10-17T05:50:33.440Z",
+    "duration": 290572.43700000003,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "garden accents survive seasons, weather, motion preferences and stage changes",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 21902
+        }
+      ]
+    },
+    {
+      "title": "repeated modes, stages and real context loss preserve the session",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 83833
+        }
+      ]
+    },
+    {
+      "title": "split request without HDR renders and recovers at low quality",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 27003
+        }
+      ]
+    },
+    {
+      "title": "split request without HDR renders and recovers at standard quality",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 33775
+        }
+      ]
+    },
+    {
+      "title": "split request without HDR renders and recovers at high quality",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 22564
+        }
+      ]
+    },
+    {
+      "title": "3D autumn persists, changes the outdoor view and restores summer without reloading models",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11774
+        }
+      ]
+    },
+    {
+      "title": "3D winter at low restores summer without reloading models",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 18788
+        }
+      ]
+    },
+    {
+      "title": "3D winter at standard restores summer without reloading models",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12030
+        }
+      ]
+    },
+    {
+      "title": "3D winter at high restores summer without reloading models",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12327
+        }
+      ]
+    },
+    {
+      "title": "3D spring at low restores summer without reloading models",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12234
+        }
+      ]
+    },
+    {
+      "title": "3D spring at standard restores summer without reloading models",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12253
+        }
+      ]
+    },
+    {
+      "title": "3D spring at high restores summer without reloading models",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12963
+        }
+      ]
+    },
+    {
+      "title": "a delayed garden uses the latest spring selection without resetting the body",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 7035
+        }
+      ]
+    }
+  ],
+  "runtime_manifest": "../seasonal-light/variants.json after"
+}

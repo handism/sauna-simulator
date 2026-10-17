@@ -294,7 +294,7 @@ export function takesShadowMask(material: THREE.Material) {
 
 export type MaskPass = 'main' | 'mirror';
 
-export function createShadowMask(renderer: THREE.WebGLRenderer) {
+export function createShadowMask(renderer: THREE.WebGLRenderer, waterTime = { value: 0 }) {
   // One target per pass, so the mirror's smaller one is not reallocated every frame.
   const targets = new Map<MaskPass, THREE.WebGLRenderTarget>();
   const targetFor = (pass: MaskPass) => {
@@ -327,7 +327,11 @@ export function createShadowMask(renderer: THREE.WebGLRenderer) {
     const level = defines?.SUI_REFRACTION === undefined ? undefined : String(defines.SUI_REFRACTION);
     const waterBottom = level !== undefined && defines?.SUI_WATER_BOTTOM !== undefined;
     const key = `${material.side}|${level ?? ''}|${waterBottom}`;
-    if (!materials.has(key)) materials.set(key, maskMaterial(material.side, level, waterBottom));
+    if (!materials.has(key)) {
+      const mask = maskMaterial(material.side, level, waterBottom);
+      if (level !== undefined) mask.uniforms.suiWaterTime = waterTime;
+      materials.set(key, mask);
+    }
     return materials.get(key)!;
   };
   const hidden = new THREE.MeshBasicMaterial({ visible: false });

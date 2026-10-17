@@ -77,3 +77,8 @@
 - `frame-cost.ts` の `cut-canopy` は水底の面光源の天蓋遮蔽だけを検証ブラウザ内で外す。`FRAME_COST_VARIANTS=warmup,product,cut-canopy,product` で通常描画で挟んで費用を調べる。GLSLの置換件数を検査し、製品の設定や描画コードには診断スイッチを置かない。
 
 - 遠景の横方向の制御見回しは `SHIMMER_HEADING_STEPS=20 SHIMMER_FIXED=1 SHIMMER_RATIOS=1.5` を `resolution-shimmer.visual.ts` に渡す。ステージごとに初期視点から右へ20キー分（約91.7°）向き、撮影後に戻す。`SHIMMER_FIXED=1` は入室前から画質・固定解像度を指定し、最大倍率のまま時刻を固定して70フレーム整定する（動的解像度の段変更は検査しない）。添付の `headingSteps`・`fixedResolution` で条件を区別する。前後とも同じ検証コードで撮影し、既定視点の過去記録と直接比較しない。
+
+- `season-light.visual.ts` は標準DPR1・固定解像度・動作抑制で3ステージ×四季×昼夕夜の36 PNGを撮り、モデル／プローブ／季節補正ソースのハッシュと同一canvas継続を確認する。季節補正だけの独立ビルドと基準をABBAで比較し、水底の像の揺らぎと混同しない。
+- `refraction-sway.visual.ts` は季節補正あり・像の揺らぎなしの独立ビルドを基準に、標準DPR1・固定解像度・TAAあり、昼夕×正面／見下ろしで36位相を1/60秒刻み・各2 rAFで撮る。`refraction-frame-control.ts` が撮影中の実アプリrAFを保留し、明示的なstepで同じ時刻を渡す。動作抑制を各経路2枚含め152 PNG／回。実時間の動画やFPSではない。`summarize_season_water.py` へ4報告をABBAで渡して位相・入力・再撮影差を照合する。
+
+- `season-water-cost.gpu.ts` は季節補正と水越しの像の揺らぎの結合版用。冬・標準DPR1、3ステージ×昼夕夜、水風呂は右10回・下32回の見下ろし。`FRAME_COST_REPEAT=3 FRAME_COST_VARIANTS=warmup,product` と `product` のABBAで測り、ANGLE Metalのtimerではなく描画を発行したフレーム間隔をrepeatで割った値を比較する。撮影・Blender・別GPU検証と同時に実行しない。

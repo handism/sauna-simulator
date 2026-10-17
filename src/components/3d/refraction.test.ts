@@ -124,9 +124,21 @@ describe('refraction', () => {
 
     const dry = wall().translate(-2, 0, 0);
     expect(sliceUnderwater(dry, new THREE.Matrix4(), LEVEL)).toEqual({ triangles: 0, materials: new Set() });
-    // Small tiles are drawn refracted without cutting.
+    // Tile-sized quads also need the substrate grid for the nonlinear wave image.
     const tile = new THREE.PlaneGeometry(0.19, 0.19).rotateX(-Math.PI / 2).translate(1, 0.2, -2);
-    expect(sliceUnderwater(tile, new THREE.Matrix4(), LEVEL)).toEqual({ triangles: 0, materials: new Set([0]) });
+    const tileArea = area(tile, new THREE.Matrix4());
+    const cutTile = sliceUnderwater(tile, new THREE.Matrix4(), LEVEL);
+    expect(cutTile.materials).toEqual(new Set([0]));
+    expect(cutTile.triangles).toBeGreaterThan(0);
+    expect(area(tile, new THREE.Matrix4())).toBeCloseTo(tileArea, 7);
+    const p = tile.getAttribute('position');
+    const ix = tile.index!;
+    for (let i = 0; i < ix.count; i += 3) {
+      const points = [0, 1, 2].map((k) => new THREE.Vector3().fromBufferAttribute(p, ix.getX(i + k)));
+      const box = new THREE.Box3().setFromPoints(points);
+      expect(box.max.x - box.min.x).toBeLessThanOrEqual(SLICE_SPACING + 1e-6);
+      expect(box.max.z - box.min.z).toBeLessThanOrEqual(SLICE_SPACING + 1e-6);
+    }
   });
 
   it('marks the materials of meshes under the water', () => {

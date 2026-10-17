@@ -104,6 +104,16 @@ test('capture all seated views for manual geometry and lighting review', async (
           await Promise.all(
             [
               'src/components/3d/farForest.ts',
+              'src/components/3d/refraction.ts',
+              'src/components/3d/waterEffects.ts',
+              'src/components/3d/seasonalLight.ts',
+              'src/components/3d/seasonal-light.json',
+              'src/components/3d/irradiance.ts',
+              'src/components/3d/waterBottom.ts',
+              'src/components/3d/deckIrradiance.ts',
+              'src/components/3d/depthPrepass.ts',
+              'src/components/3d/shadowMask.ts',
+              'src/components/3d/SaunaScene.tsx',
               'src/components/3d/gardenDetails.ts',
               'src/components/3d/woodlandCrowns.ts',
               'src/components/3d/modelMaterials.ts',

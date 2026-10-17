@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 // Patches lights_fragment_begin first (suiWorldPosition, suiInterior, suiUnderwater).
 import './interiorLights';
+import { createSeasonLightUniforms } from './seasonalLight';
 
 // Diffuse light that the browser does not draw itself, baked from the source Cycles scenes by
 // scripts/bake_irradiance_probes.py: the sky, the area lights without a browser counterpart
@@ -40,6 +41,7 @@ export interface IrradianceHeader {
 
 export function createIrradianceUniforms() {
   return {
+    ...createSeasonLightUniforms(),
     // Irradiance and reflection (reflection.ts) of one grid share a texture: a fragment shader
     // has 16 texture units, and the seven shadow maps and material maps need most of them.
     suiProbeRoom: { value: null as THREE.Data3DTexture | null },
@@ -202,6 +204,12 @@ export function applyIrradiance(root: THREE.Object3D, uniforms: IrradianceUnifor
 export const IRRADIANCE_PARS = /* glsl */ `
 #ifdef SUI_IRRADIANCE
 #define SUI_REFLECTION_KIND ${(TEXELS * SCENES.length).toFixed(1)}
+uniform vec3 suiSeasonIrradiance[12];
+uniform vec3 suiSeasonReflection[12];
+vec3 suiSeasonGain(int grid, int scene, float kind) {
+  int i = grid * 3 + scene;
+  return kind < 0.5 ? suiSeasonIrradiance[i] : suiSeasonReflection[i];
+}
 uniform highp sampler3D suiProbeRoom;
 uniform highp sampler3D suiProbeCourtyard;
 uniform highp sampler3D suiProbeOuter;
@@ -231,7 +239,7 @@ vec3 suiEvaluateSH( const in highp sampler3D atlas, const in vec2 uv, const in f
 // Sampled OFFSET probe spacings off the surface along N (half, as three's probe grid does, except
 // in the water, whose probes are all valid and whose lower layer is the floor's own irradiance);
 // D is the direction the coefficients are evaluated in.
-vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 hi, const in vec3 res, const in vec3 P, const in vec3 N, const in float offset, const in vec3 D, const in vec3 band, const in float kind ) {
+vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 hi, const in vec3 res, const in vec3 P, const in vec3 N, const in float offset, const in vec3 D, const in vec3 band, const in float kind, const in int grid ) {
 	vec3 uvw = clamp( ( P + N * offset * ( hi - lo ) / ( res - 1.0 ) - lo ) / ( hi - lo ), 0.0, 1.0 );
 	uvw = ( uvw * ( res - 1.0 ) + 0.5 ) / res;
 	float slices = res.z + 2.0;
@@ -239,9 +247,9 @@ vec3 suiGridSH( const in highp sampler3D atlas, const in vec3 lo, const in vec3 
 	vec3 result = vec3( 0.0 );
 	// At most two scenes have a weight (lighting.ts sceneWeights).
 	float evening = suiIrradianceEvening - suiIrradianceNight;
-	if ( suiIrradianceEvening < 1.0 ) result += ( 1.0 - suiIrradianceEvening ) * suiEvaluateSH( atlas, uvw.xy, z, kind, slices, D, band );
-	if ( evening > 0.0 ) result += evening * suiEvaluateSH( atlas, uvw.xy, z, kind + ${TEXELS.toFixed(1)}, slices, D, band );
-	if ( suiIrradianceNight > 0.0 ) result += suiIrradianceNight * suiEvaluateSH( atlas, uvw.xy, z, kind + ${(2 * TEXELS).toFixed(1)}, slices, D, band );
+	if ( suiIrradianceEvening < 1.0 ) result += ( 1.0 - suiIrradianceEvening ) * suiEvaluateSH( atlas, uvw.xy, z, kind, slices, D, band ) * suiSeasonGain(grid, 0, kind);
+	if ( evening > 0.0 ) result += evening * suiEvaluateSH( atlas, uvw.xy, z, kind + ${TEXELS.toFixed(1)}, slices, D, band ) * suiSeasonGain(grid, 1, kind);
+	if ( suiIrradianceNight > 0.0 ) result += suiIrradianceNight * suiEvaluateSH( atlas, uvw.xy, z, kind + ${(2 * TEXELS).toFixed(1)}, slices, D, band ) * suiSeasonGain(grid, 2, kind);
 	return result;
 }
 
@@ -250,15 +258,15 @@ vec3 suiOvercastLight( const in vec3 light, const in float scale ) {
 }
 
 vec3 suiProbes( const in vec3 P, const in vec3 N, const in vec3 D, const in vec3 band, const in bool interior, const in bool underwater, const in float kind ) {
-	if ( interior ) return suiOvercastLight( suiGridSH( suiProbeRoom, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N, 0.5, D, band, kind ), suiOvercast.y );
-	if ( underwater ) return suiOvercastLight( suiGridSH( suiProbeWater, suiIrradianceMin[ 3 ], suiIrradianceMax[ 3 ], suiIrradianceRes[ 3 ], P, N, 0.0, D, band, kind ), suiOvercast.x );
+	if ( interior ) return suiOvercastLight( suiGridSH( suiProbeRoom, suiIrradianceMin[ 0 ], suiIrradianceMax[ 0 ], suiIrradianceRes[ 0 ], P, N, 0.5, D, band, kind, 0 ), suiOvercast.y );
+	if ( underwater ) return suiOvercastLight( suiGridSH( suiProbeWater, suiIrradianceMin[ 3 ], suiIrradianceMax[ 3 ], suiIrradianceRes[ 3 ], P, N, 0.0, D, band, kind, 3 ), suiOvercast.x );
 	vec3 lo = suiIrradianceMin[ 1 ];
 	vec3 hi = suiIrradianceMax[ 1 ];
 	vec2 inside = min( P.xz - lo.xz, hi.xz - P.xz );
 	float weight = smoothstep( 0.0, ${COURTYARD_BLEND.toFixed(1)}, min( inside.x, inside.y ) ) * ( 1.0 - smoothstep( hi.y, hi.y + ${COURTYARD_BLEND.toFixed(1)}, P.y ) );
 	vec3 result = vec3( 0.0 );
-	if ( weight > 0.0 ) result += weight * suiGridSH( suiProbeCourtyard, lo, hi, suiIrradianceRes[ 1 ], P, N, 0.5, D, band, kind );
-	if ( weight < 1.0 ) result += ( 1.0 - weight ) * suiGridSH( suiProbeOuter, suiIrradianceMin[ 2 ], suiIrradianceMax[ 2 ], suiIrradianceRes[ 2 ], P, N, 0.5, D, band, kind );
+	if ( weight > 0.0 ) result += weight * suiGridSH( suiProbeCourtyard, lo, hi, suiIrradianceRes[ 1 ], P, N, 0.5, D, band, kind, 1 );
+	if ( weight < 1.0 ) result += ( 1.0 - weight ) * suiGridSH( suiProbeOuter, suiIrradianceMin[ 2 ], suiIrradianceMax[ 2 ], suiIrradianceRes[ 2 ], P, N, 0.5, D, band, kind, 2 );
 	return suiOvercastLight( result, suiOvercast.x );
 }
 

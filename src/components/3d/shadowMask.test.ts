@@ -83,7 +83,8 @@ describe('shadow mask', () => {
   });
 
   it('refracts the copies of underwater materials and writes nothing where they may discard', () => {
-    const mask = createShadowMask(fakeRenderer().renderer as unknown as THREE.WebGLRenderer);
+    const waterTime = { value: 2 };
+    const mask = createShadowMask(fakeRenderer().renderer as unknown as THREE.WebGLRenderer, waterTime);
     const geometry = new THREE.BoxGeometry();
     const underwater = standard();
     underwater.defines = { SUI_REFRACTION: '0.7650' };
@@ -93,6 +94,8 @@ describe('shadow mask', () => {
     expect(mask.add(mesh)).toBe(1);
     expect(underwater.defines.SUI_SHADOW_MASK).toBe('');
     const [dry, wet, bottom] = (mesh.children[0] as THREE.Mesh).material as THREE.ShaderMaterial[];
+    expect(wet.uniforms.suiWaterTime).toBe(waterTime);
+    expect(bottom.uniforms.suiWaterTime).toBe(waterTime);
     expect(dry.defines).toEqual({});
     expect(dry.fragmentShader).not.toMatch(/discard;/);
     // The vertex stage's project_vertex refracts; the floor's shadow coordinates follow its paths.
