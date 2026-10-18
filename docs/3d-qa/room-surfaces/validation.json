@@ -1,0 +1,246 @@
+{
+  "baseline": "5fd2052",
+  "browser": "155.0.8059.80",
+  "inputs": {
+    "src/components/3d/roomIrradiance.ts": "a191323163a3c38864b70efe9a196c6073053bffdd9aa364976db8c1f97fd824",
+    "scripts/bake_room_direct.py": "bcb66dfabc490d1a71f742ec0291c6ae583415d7679206212064482512e9cbc7",
+    "e2e/room-surfaces.visual.ts": "927a8aad69646ab0e8b98401cd0d7a94fe52265522adc3d38a3f0cad5bfa16aa",
+    "e2e/room-surfaces.gpu.ts": "453b2f0a98a9fe343262674ed79accd29e64612d63d63c959d4024e1c8cc23e9",
+    "public/models/room-irradiance.json": "ad5007ccdcbac1aa0c169336a4025466f7f3b216c9ee3677fffbbbbaaca2c331",
+    "public/models/room-irradiance.bin": "a5b0de10aa22837d666223122b16e923eb9790d96312264442979e6555cb3e4b",
+    "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd"
+  },
+  "reports": {
+    "capture": {
+      "report_sha256": "ed772ff6efa89a0c494b14fb871cb59a5446dc5fc06a5fa40922209235ca4818",
+      "stats": {
+        "startTime": "2026-10-18T15:35:16.910Z",
+        "duration": 178600.32,
+        "expected": 4,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "title": "room surfaces before-1",
+          "status": "passed",
+          "duration_ms": 44067
+        },
+        {
+          "title": "room surfaces after-1",
+          "status": "passed",
+          "duration_ms": 43897
+        },
+        {
+          "title": "room surfaces after-2",
+          "status": "passed",
+          "duration_ms": 43968
+        },
+        {
+          "title": "room surfaces before-2",
+          "status": "passed",
+          "duration_ms": 45207
+        }
+      ]
+    },
+    "regression": {
+      "report_sha256": "0b0947ae4ccc9b34bdd1c9466ac881a19855dbdff58d7bf074762333aef352a7",
+      "stats": {
+        "startTime": "2026-10-18T15:47:43.808Z",
+        "duration": 278353.004,
+        "expected": 13,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "title": "garden accents survive seasons, weather, motion preferences and stage changes",
+          "status": "passed",
+          "duration_ms": 21656
+        },
+        {
+          "title": "repeated modes, stages and real context loss preserve the session",
+          "status": "passed",
+          "duration_ms": 85643
+        },
+        {
+          "title": "split request without HDR renders and recovers at low quality",
+          "status": "passed",
+          "duration_ms": 20378
+        },
+        {
+          "title": "split request without HDR renders and recovers at standard quality",
+          "status": "passed",
+          "duration_ms": 25763
+        },
+        {
+          "title": "split request without HDR renders and recovers at high quality",
+          "status": "passed",
+          "duration_ms": 22538
+        },
+        {
+          "title": "3D autumn persists, changes the outdoor view and restores summer without reloading models",
+          "status": "passed",
+          "duration_ms": 12866
+        },
+        {
+          "title": "3D winter at low restores summer without reloading models",
+          "status": "passed",
+          "duration_ms": 14694
+        },
+        {
+          "title": "3D winter at standard restores summer without reloading models",
+          "status": "passed",
+          "duration_ms": 12665
+        },
+        {
+          "title": "3D winter at high restores summer without reloading models",
+          "status": "passed",
+          "duration_ms": 13597
+        },
+        {
+          "title": "3D spring at low restores summer without reloading models",
+          "status": "passed",
+          "duration_ms": 12755
+        },
+        {
+          "title": "3D spring at standard restores summer without reloading models",
+          "status": "passed",
+          "duration_ms": 13051
+        },
+        {
+          "title": "3D spring at high restores summer without reloading models",
+          "status": "passed",
+          "duration_ms": 13782
+        },
+        {
+          "title": "a delayed garden uses the latest spring selection without resetting the body",
+          "status": "passed",
+          "duration_ms": 7224
+        }
+      ]
+    },
+    "survey": {
+      "report_sha256": "359fee3b125ff80f8f7acffa8981cc34b01c7b6b52bf1edcb159962d2f68fb5e",
+      "stats": {
+        "startTime": "2026-10-18T15:52:22.599Z",
+        "duration": 47221.475,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "title": "capture all seated views for manual geometry and lighting review",
+          "status": "passed",
+          "duration_ms": 45741
+        }
+      ]
+    },
+    "cost_before1": {
+      "report_sha256": "8648403a0eb7a924a613932b03b37e76656c7970f7421014fb111cb2308d6a78",
+      "stats": {
+        "startTime": "2026-10-18T15:38:47.659Z",
+        "duration": 149589.933,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "title": "room light cost warmup",
+          "status": "passed",
+          "duration_ms": 74291
+        },
+        {
+          "title": "room light cost product",
+          "status": "passed",
+          "duration_ms": 73816
+        }
+      ]
+    },
+    "cost_after1": {
+      "report_sha256": "866b16b315be019e74e94199660398f11eb6f94191cf62ae7457cffca2dbf239",
+      "stats": {
+        "startTime": "2026-10-18T15:41:17.632Z",
+        "duration": 149559.685,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "title": "room light cost warmup",
+          "status": "passed",
+          "duration_ms": 73912
+        },
+        {
+          "title": "room light cost product",
+          "status": "passed",
+          "duration_ms": 74162
+        }
+      ]
+    },
+    "cost_after2": {
+      "report_sha256": "3fb94fba9796849b22874ad60b511756db213f376c2f528f22d4e17c753799d6",
+      "stats": {
+        "startTime": "2026-10-18T15:43:47.575Z",
+        "duration": 75401.26199999999,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "title": "room light cost product",
+          "status": "passed",
+          "duration_ms": 73972
+        }
+      ]
+    },
+    "cost_before2": {
+      "report_sha256": "b6df86b1b3644a71a9b0001a958c62d3a002a85f3f8e95def9d45b89b377d2d3",
+      "stats": {
+        "startTime": "2026-10-18T15:45:03.357Z",
+        "duration": 75601.347,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "title": "room light cost product",
+          "status": "passed",
+          "duration_ms": 74174
+        }
+      ]
+    }
+  },
+  "gates": {
+    "typecheck": "passed",
+    "unit_tests": 436,
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed; existing 850kB warning",
+    "diff_check": "passed",
+    "python_compile": "passed"
+  },
+  "review": {
+    "static": "day/night before-after sheets and evening/night target-view originals with Cycles references",
+    "surround": "216-view overview plus sauna-night sheet reviewed for large gaps/blackouts; not every original at full resolution"
+  },
+  "limits": [
+    "all ordinary browser regressions not rerun",
+    "full-quality/season/weather surround and continuous motion not verified",
+    "real Safari and mobile not verified",
+    "frame intervals are not pure GPU time or device FPS"
+  ]
+}
