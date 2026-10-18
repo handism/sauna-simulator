@@ -59,6 +59,7 @@
 - `App` が所有する `EventTarget` に `SaunaRoom.onLoyly` から押下を通知。音は従来の `audio.playLoyly()` で一度だけ再生。3Dはロード完了後の通知だけを消費し、過去の通知は保存しない。
 - 見回しはPointer Events／矢印キー。3DはUI外で入力を受け、UI復帰・モード切り替えは常に残す。モデル失敗・30秒タイムアウト・WebGLコンテキスト喪失・シェーダーリンク失敗時は3Dを解放し2D表示を継続。
 - Blender元データは `blender/` に置くがGit管理外。元blendは加工済みで、上書き保存するスクリプトがある（実行前に複製する。各加工と加工前の版は `scripts/CLAUDE.md`）。追跡する書き出し処理は `scripts/export_web_glb.py`、配信物は `public/models/`、書き出しレポート（配信しない）は `docs/3d-export/`。QA記録 `docs/3d-qa/` はREADME・JSONのみGit管理し、画像（jpg/png）はローカルに置く（履歴の肥大を避けるため）。入力を保存しない。現在の状態・未完了事項・再実行方法は `docs/3d-sauna-progress.md`（短く保ち、状態が変わったら書き換える）、日付ごとの作業・検証の記録は `docs/3d-sauna-log.md` の末尾に追記する。
+- ストーブ・桶・柄杓は書き出し時に `scripts/refine_loyly_props.py` で元の76部品を置換する（元blendは保存しない）。黒い鉄の石かご・大小の割石、18枚の板からなる内壁付きの木桶、くぼみと太さの変化を持つ木製柄杓。水面は下げた1枚の半透明面で、既存の反射プローブによる近似。中心・蒸気・音源の座標は維持する。追加5材質は既存の照明・影・解放経路を使う。生成物の限定範囲確認・比較・負荷の再実行は `docs/3d-qa/loyly-props/README.md`。
 - `bunx tsc -b` / `bun run test` / `bun run lint` / `bun run format:check` / `bun run build` を検証する。ESLintはTS/TSXも対象（react-hooks・react-refreshルールを含む）。既存テストの段階的移行のため `no-explicit-any` は無効。
 - 3Dの詳細は作業対象ディレクトリの CLAUDE.md にある：描画・材質・照明は `src/components/3d/CLAUDE.md`、GLB書き出し・シーン定義は `scripts/CLAUDE.md`、実ブラウザ検証（`bun run test:browser` / `:soak` / `:visual` / `:network`）は `e2e/CLAUDE.md`。3D表示の失敗・読み込み期限・外気浴背景の契約は `src/components/CLAUDE.md`。
 

@@ -28,23 +28,23 @@
       "tolerance": 1.5
     }
   },
-  "inputBytes": 29427816,
-  "inputSha256": "cd9bed0266d920ca73a4b91d1ec053f7a043cb7c012d76b30e59f40d3f89599a",
+  "inputBytes": 30185744,
+  "inputSha256": "99235e49774a0ccb7fba403e77ce06d4bc7896f19cd584fa6ee1ee4904c30784",
   "files": {
     "sauna.glb": {
-      "outputBytes": 2390472,
-      "outputSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
-      "nodes": 66,
-      "triangles": 107552,
+      "outputBytes": 2501888,
+      "outputSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+      "nodes": 71,
+      "triangles": 115618,
       "verification": {
-        "compressedViews": 309,
-        "exactViews": 100,
-        "filteredViews": 209,
+        "compressedViews": 332,
+        "exactViews": 108,
+        "filteredViews": 224,
         "imageViews": 6,
         "bits": {
           "POSITION": {
-            "14": 38,
-            "15": 2,
+            "14": 41,
+            "15": 4,
             "16": 6,
             "17": 12,
             "18": 13,
@@ -53,25 +53,25 @@
           },
           "NORMAL": {
             "8": 2,
-            "9": 1,
-            "10": 70
+            "9": 2,
+            "10": 73
           },
           "TEXCOORD_0": {
             "8": 1,
             "12": 1,
-            "13": 12,
-            "14": 35,
+            "13": 13,
+            "14": 39,
             "15": 8,
             "16": 1
           },
           "TEXCOORD_1": {
-            "14": 4,
+            "14": 5,
             "16": 1
           }
         },
         "maxError": {
           "POSITION": 0.00009961624975405074,
-          "NORMAL": 0.09449311055734992,
+          "NORMAL": 0.09637248461499086,
           "TEXCOORD_0": 0.0001220703125,
           "TEXCOORD_1": 0.00012195110321044922
         },
@@ -89,69 +89,69 @@
             },
             {
               "accessor": 7,
-              "count": 22988,
+              "count": 6336,
+              "maxAngleDegrees": 0.8233794945972925,
+              "beforeBytes": 31473,
+              "afterBytes": 12581
+            },
+            {
+              "accessor": 12,
+              "count": 1536,
+              "maxAngleDegrees": 0.6365935759640523,
+              "beforeBytes": 8274,
+              "afterBytes": 2934
+            },
+            {
+              "accessor": 16,
+              "count": 19116,
+              "maxAngleDegrees": 1.0601116926153682,
+              "beforeBytes": 82566,
+              "afterBytes": 38330
+            },
+            {
+              "accessor": 21,
+              "count": 2672,
+              "maxAngleDegrees": 0.8756955019860277,
+              "beforeBytes": 13771,
+              "afterBytes": 5094
+            },
+            {
+              "accessor": 26,
+              "count": 48,
+              "maxAngleDegrees": 0,
+              "beforeBytes": 28,
+              "afterBytes": 26
+            },
+            {
+              "accessor": 30,
+              "count": 19544,
               "maxAngleDegrees": 1.1789567584473613,
-              "beforeBytes": 89258,
-              "afterBytes": 31764
+              "beforeBytes": 76193,
+              "afterBytes": 27284
             },
             {
-              "accessor": 13,
+              "accessor": 36,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 18,
+              "accessor": 41,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 23,
+              "accessor": 46,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 28,
-              "count": 76,
-              "maxAngleDegrees": 0.4847159025375624,
-              "beforeBytes": 235,
-              "afterBytes": 89
-            },
-            {
-              "accessor": 33,
-              "count": 76,
-              "maxAngleDegrees": 0.4847159025375624,
-              "beforeBytes": 235,
-              "afterBytes": 89
-            },
-            {
-              "accessor": 38,
-              "count": 76,
-              "maxAngleDegrees": 0.4847159025375624,
-              "beforeBytes": 235,
-              "afterBytes": 89
-            },
-            {
-              "accessor": 42,
-              "count": 76,
-              "maxAngleDegrees": 0.4847159025375624,
-              "beforeBytes": 235,
-              "afterBytes": 89
-            },
-            {
-              "accessor": 47,
-              "count": 76,
-              "maxAngleDegrees": 0.4847159025375624,
-              "beforeBytes": 235,
-              "afterBytes": 89
-            },
-            {
-              "accessor": 52,
+              "accessor": 51,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
@@ -165,434 +165,469 @@
               "afterBytes": 89
             },
             {
-              "accessor": 60,
+              "accessor": 61,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 64,
+              "accessor": 65,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 69,
+              "accessor": 70,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 73,
+              "accessor": 75,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 78,
+              "accessor": 79,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 82,
+              "accessor": 83,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 86,
+              "accessor": 87,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 91,
+              "accessor": 92,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 95,
+              "accessor": 96,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 99,
+              "accessor": 101,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 104,
+              "accessor": 105,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 108,
+              "accessor": 109,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 112,
+              "accessor": 114,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 116,
+              "accessor": 118,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 121,
+              "accessor": 122,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 126,
+              "accessor": 127,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 130,
+              "accessor": 131,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 134,
+              "accessor": 135,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 138,
+              "accessor": 139,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 142,
+              "accessor": 144,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 146,
+              "accessor": 149,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 150,
+              "accessor": 153,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 155,
+              "accessor": 157,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 159,
+              "accessor": 161,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 164,
+              "accessor": 165,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 168,
+              "accessor": 169,
               "count": 76,
               "maxAngleDegrees": 0.4847159025375624,
               "beforeBytes": 235,
               "afterBytes": 89
             },
             {
-              "accessor": 172,
-              "count": 24647,
-              "maxAngleDegrees": 1.0102194981071786,
-              "beforeBytes": 72556,
-              "afterBytes": 25410
+              "accessor": 173,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
             },
             {
-              "accessor": 177,
+              "accessor": 178,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 182,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 187,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 191,
+              "count": 76,
+              "maxAngleDegrees": 0.4847159025375624,
+              "beforeBytes": 235,
+              "afterBytes": 89
+            },
+            {
+              "accessor": 195,
+              "count": 17444,
+              "maxAngleDegrees": 0.9299142292984727,
+              "beforeBytes": 44761,
+              "afterBytes": 14206
+            },
+            {
+              "accessor": 200,
               "count": 5778,
               "maxAngleDegrees": 0.25031328153215354,
               "beforeBytes": 14253,
               "afterBytes": 4122
             },
             {
-              "accessor": 182,
-              "count": 12839,
+              "accessor": 205,
+              "count": 12422,
               "maxAngleDegrees": 0.8030137850348932,
-              "beforeBytes": 36126,
-              "afterBytes": 10836
+              "beforeBytes": 34830,
+              "afterBytes": 10377
             },
             {
-              "accessor": 188,
+              "accessor": 211,
               "count": 1022,
               "maxAngleDegrees": 0.5522577286980167,
               "beforeBytes": 3122,
               "afterBytes": 1029
             },
             {
-              "accessor": 193,
+              "accessor": 216,
               "count": 244,
               "maxAngleDegrees": 0.41413609330012313,
               "beforeBytes": 1054,
               "afterBytes": 436
             },
             {
-              "accessor": 198,
+              "accessor": 221,
               "count": 100,
               "maxAngleDegrees": 0.6600803327099565,
               "beforeBytes": 332,
               "afterBytes": 140
             },
             {
-              "accessor": 202,
+              "accessor": 225,
               "count": 141,
               "maxAngleDegrees": 0.05638652824499495,
               "beforeBytes": 452,
               "afterBytes": 175
             },
             {
-              "accessor": 206,
+              "accessor": 229,
               "count": 5700,
               "maxAngleDegrees": 1.0181916424827633,
               "beforeBytes": 28626,
               "afterBytes": 11448
             },
             {
-              "accessor": 210,
+              "accessor": 233,
               "count": 2054,
               "maxAngleDegrees": 0.6365935759640523,
               "beforeBytes": 2172,
               "afterBytes": 772
             },
             {
-              "accessor": 214,
+              "accessor": 237,
               "count": 288,
               "maxAngleDegrees": 0.3316905581668425,
               "beforeBytes": 835,
               "afterBytes": 286
             },
             {
-              "accessor": 219,
+              "accessor": 242,
               "count": 15094,
               "maxAngleDegrees": 0.41244900532232015,
               "beforeBytes": 42980,
               "afterBytes": 12858
             },
             {
-              "accessor": 223,
+              "accessor": 246,
               "count": 1870,
               "maxAngleDegrees": 0.8984164156910349,
               "beforeBytes": 7924,
               "afterBytes": 3158
             },
             {
-              "accessor": 228,
+              "accessor": 251,
               "count": 761,
               "maxAngleDegrees": 0.4246907596015953,
               "beforeBytes": 2375,
               "afterBytes": 881
             },
             {
-              "accessor": 233,
+              "accessor": 256,
               "count": 24,
               "maxAngleDegrees": 0,
               "beforeBytes": 127,
               "afterBytes": 71
             },
             {
-              "accessor": 237,
+              "accessor": 260,
               "count": 18330,
               "maxAngleDegrees": 1.2163294997798866,
               "beforeBytes": 87295,
               "afterBytes": 26709
             },
             {
-              "accessor": 241,
+              "accessor": 264,
               "count": 5682,
               "maxAngleDegrees": 0.8205920079544993,
               "beforeBytes": 13837,
               "afterBytes": 6406
             },
             {
-              "accessor": 244,
+              "accessor": 267,
               "count": 1185,
               "maxAngleDegrees": 1.1360730396011403,
               "beforeBytes": 4696,
               "afterBytes": 1859
             },
             {
-              "accessor": 247,
+              "accessor": 270,
               "count": 256,
               "maxAngleDegrees": 0.8123026770336336,
               "beforeBytes": 1075,
               "afterBytes": 538
             },
             {
-              "accessor": 250,
+              "accessor": 273,
               "count": 376,
               "maxAngleDegrees": 0.4131354427080581,
               "beforeBytes": 1027,
               "afterBytes": 409
             },
             {
-              "accessor": 253,
+              "accessor": 276,
               "count": 948,
               "maxAngleDegrees": 0.7123345435527771,
               "beforeBytes": 1624,
               "afterBytes": 747
             },
             {
-              "accessor": 256,
+              "accessor": 279,
               "count": 948,
               "maxAngleDegrees": 0.7637911135103772,
               "beforeBytes": 1612,
               "afterBytes": 740
             },
             {
-              "accessor": 258,
+              "accessor": 281,
               "count": 1064,
               "maxAngleDegrees": 0.7637911135103772,
               "beforeBytes": 1886,
               "afterBytes": 831
             },
             {
-              "accessor": 261,
+              "accessor": 284,
               "count": 880,
               "maxAngleDegrees": 0.7637911135103772,
               "beforeBytes": 1550,
               "afterBytes": 694
             },
             {
-              "accessor": 264,
+              "accessor": 287,
               "count": 1396,
               "maxAngleDegrees": 1.0295021961951567,
               "beforeBytes": 6606,
               "afterBytes": 2772
             },
             {
-              "accessor": 269,
+              "accessor": 292,
               "count": 4862,
               "maxAngleDegrees": 1.008489122886408,
               "beforeBytes": 17491,
               "afterBytes": 9768
             },
             {
-              "accessor": 272,
+              "accessor": 295,
               "count": 433,
               "maxAngleDegrees": 0.9111455349197036,
               "beforeBytes": 1802,
               "afterBytes": 839
             },
             {
-              "accessor": 276,
+              "accessor": 299,
               "count": 1434,
               "maxAngleDegrees": 0.8851148381654219,
               "beforeBytes": 6943,
               "afterBytes": 2895
             },
             {
-              "accessor": 281,
+              "accessor": 304,
               "count": 282,
               "maxAngleDegrees": 0.847226169767229,
               "beforeBytes": 639,
               "afterBytes": 284
             },
             {
-              "accessor": 284,
+              "accessor": 307,
               "count": 351,
               "maxAngleDegrees": 0.9252471547193354,
               "beforeBytes": 800,
               "afterBytes": 353
             },
             {
-              "accessor": 287,
+              "accessor": 310,
               "count": 333,
               "maxAngleDegrees": 1.0382299010632121,
               "beforeBytes": 768,
               "afterBytes": 335
             },
             {
-              "accessor": 290,
+              "accessor": 313,
               "count": 324,
               "maxAngleDegrees": 0.9642253548237064,
               "beforeBytes": 754,
               "afterBytes": 323
             },
             {
-              "accessor": 293,
+              "accessor": 316,
               "count": 282,
               "maxAngleDegrees": 1.0851692609216905,
               "beforeBytes": 642,
               "afterBytes": 290
             },
             {
-              "accessor": 296,
+              "accessor": 319,
               "count": 1050,
               "maxAngleDegrees": 0.9926634058923262,
               "beforeBytes": 4326,
               "afterBytes": 2040
             },
             {
-              "accessor": 299,
+              "accessor": 322,
               "count": 2376,
               "maxAngleDegrees": 0.7775527074060659,
               "beforeBytes": 8723,
               "afterBytes": 4787
             },
             {
-              "accessor": 303,
+              "accessor": 326,
               "count": 717,
               "maxAngleDegrees": 1.015814314164338,
               "beforeBytes": 2880,
               "afterBytes": 1377
             },
             {
-              "accessor": 306,
+              "accessor": 329,
               "count": 402,
               "maxAngleDegrees": 0.6591544569005096,
               "beforeBytes": 2141,

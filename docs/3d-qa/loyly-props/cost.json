@@ -1,0 +1,5760 @@
+{
+  "scope": "draw-issued rAF interval / repeat; not pure GPU time or device FPS",
+  "report_sha256": "94cba4c302d68bc440b98959194831f8e9bdae6d47b838bfc86d08f9213a29ca",
+  "results": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "before_ms": [
+        9.91625,
+        9.95775
+      ],
+      "after_ms": [
+        9.915999999999999,
+        9.91625
+      ],
+      "ratio": 0.9978992653718424,
+      "delta_ms": -0.020875000000001975
+    },
+    {
+      "stage": "sauna",
+      "lighting": "night",
+      "before_ms": [
+        14.460294117647061,
+        14.492028985507243
+      ],
+      "after_ms": [
+        14.310869565217388,
+        14.310869565217388
+      ],
+      "ratio": 0.9885817807592955,
+      "delta_ms": -0.16529198635976527
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "before_ms": [
+        12.499367088607581,
+        12.552215189873417
+      ],
+      "after_ms": [
+        12.552215189873417,
+        12.499367088607581
+      ],
+      "ratio": 1.0,
+      "delta_ms": 0.0
+    },
+    {
+      "stage": "water",
+      "lighting": "night",
+      "before_ms": [
+        15.25576923076923,
+        15.25615384615384
+      ],
+      "after_ms": [
+        15.25615384615384,
+        15.25538461538462
+      ],
+      "ratio": 0.9999873945872361,
+      "delta_ms": -0.00019230769230382805
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "before_ms": [
+        9.052500000000013,
+        9.0527272727273
+      ],
+      "after_ms": [
+        9.014545454545475,
+        9.014772727272728
+      ],
+      "ratio": 0.9958073384130641,
+      "delta_ms": -0.03795454545455357
+    },
+    {
+      "stage": "totonou",
+      "lighting": "night",
+      "before_ms": [
+        12.766666666666657,
+        12.766666666666705
+      ],
+      "after_ms": [
+        12.820192307692336,
+        12.766666666666657
+      ],
+      "ratio": 1.0020963044788107,
+      "delta_ms": 0.026762820512816532
+    }
+  ],
+  "runs": [
+    {
+      "index": 1,
+      "variant": "original",
+      "browser": "155.0.8059.80",
+      "quality": "standard",
+      "repeat": 4,
+      "inputHashes": {
+        "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+        "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/loyly-props.gpu.ts": "a0824d07edce17a63c7797ae601a80d28ba0793a9a3a7312dbe25114b0c1d494",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3",
+        "e2e/gpu-memory.ts": "b9d7cd64a9acb0cbf4c2c0628b50b235e36c0b776e5c95bab69e4827168f721f"
+      },
+      "dpr": 1,
+      "modelSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "modelBytes": 2390472,
+      "originalSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "candidateSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 101,
+          "gpuMs": {
+            "p10": 114.239749,
+            "median": 114.948375,
+            "p90": 116.055791
+          },
+          "intervalMeanMs": 9.91625,
+          "imageSha256": "640fb3396199050060c3b1797efb4a392ada8529110d1d5223849b4b09b403f2",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56165695,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 493,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "94",
+            "mirrorTriangles": "821041",
+            "mirrorSize": "600x400",
+            "drawCalls": "147",
+            "triangles": "957127",
+            "loadMs": "3995",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "141",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4520",
+            "frameMeanMs": "9.91",
+            "frameMaxMs": "83.30"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 69,
+          "gpuMs": {
+            "p10": 178.656666,
+            "median": 180.196583,
+            "p90": 181.86675
+          },
+          "intervalMeanMs": 14.460294117647061,
+          "imageSha256": "111c8623ac3ff281399ac332fbbd6c6dbc11f63e0d50b54760311981e9249edf",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56200255,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 495,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "94",
+            "mirrorTriangles": "821041",
+            "mirrorSize": "600x400",
+            "drawCalls": "148",
+            "triangles": "957607",
+            "loadMs": "3995",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "142",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4520",
+            "frameMeanMs": "9.91",
+            "frameMaxMs": "83.30"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "frames": 80,
+          "gpuMs": {
+            "p10": 141.225833,
+            "median": 141.854833,
+            "p90": 142.616958
+          },
+          "intervalMeanMs": 12.499367088607581,
+          "imageSha256": "50da264cd56dd64b56af2a8ec9821b6383f91fd26647dd08e3d8377ef3d6ea1e",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "70",
+            "mirrorTriangles": "817775",
+            "mirrorSize": "600x400",
+            "drawCalls": "158",
+            "triangles": "1040159",
+            "loadMs": "3995",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4520",
+            "frameMeanMs": "26.20",
+            "frameMaxMs": "2433.20"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "frames": 66,
+          "gpuMs": {
+            "p10": 174.725208,
+            "median": 175.713166,
+            "p90": 176.789958
+          },
+          "intervalMeanMs": 15.25576923076923,
+          "imageSha256": "26ba11c3e9797049badc9ea48102e2d96f25861ad3ef4e33332ac2da4c7d9afb",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "71",
+            "mirrorTriangles": "818255",
+            "mirrorSize": "600x400",
+            "drawCalls": "159",
+            "triangles": "1040639",
+            "loadMs": "3995",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4520",
+            "frameMeanMs": "26.20",
+            "frameMaxMs": "2433.20"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "frames": 111,
+          "gpuMs": {
+            "p10": 106.451166,
+            "median": 108.468041,
+            "p90": 109.996458
+          },
+          "intervalMeanMs": 9.052500000000013,
+          "imageSha256": "404976735883489ccacd5bcefdaa15a52b67cf06f3b63dd6a1230adbc18e4115",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "100",
+            "triangles": "794021",
+            "loadMs": "3995",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4520",
+            "frameMeanMs": "24.35",
+            "frameMaxMs": "2283.30"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "frames": 79,
+          "gpuMs": {
+            "p10": 159.769374,
+            "median": 161.274166,
+            "p90": 162.529249
+          },
+          "intervalMeanMs": 12.766666666666657,
+          "imageSha256": "fe5100402e38c04c2779220532091849d5eb3c8be061f6ac89144f3c8dd185c5",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "101",
+            "triangles": "794501",
+            "loadMs": "3995",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4520",
+            "frameMeanMs": "24.35",
+            "frameMaxMs": "2283.30"
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "variant": "candidate",
+      "browser": "155.0.8059.80",
+      "quality": "standard",
+      "repeat": 4,
+      "inputHashes": {
+        "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+        "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/loyly-props.gpu.ts": "a0824d07edce17a63c7797ae601a80d28ba0793a9a3a7312dbe25114b0c1d494",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3",
+        "e2e/gpu-memory.ts": "b9d7cd64a9acb0cbf4c2c0628b50b235e36c0b776e5c95bab69e4827168f721f"
+      },
+      "dpr": 1,
+      "modelSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+      "modelBytes": 2501888,
+      "originalSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "candidateSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 101,
+          "gpuMs": {
+            "p10": 113.581666,
+            "median": 114.249958,
+            "p90": 115.057375
+          },
+          "intervalMeanMs": 9.915999999999999,
+          "imageSha256": "128b1fd2602de462919c2fc4b876b72874ab69a26cae43a892f9be7c2637c23a",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56592986,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 516,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "98",
+            "mirrorTriangles": "829061",
+            "mirrorSize": "600x400",
+            "drawCalls": "153",
+            "triangles": "965239",
+            "loadMs": "4023",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "146",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4497",
+            "frameMeanMs": "9.91",
+            "frameMaxMs": "83.30"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 70,
+          "gpuMs": {
+            "p10": 172.333916,
+            "median": 173.140041,
+            "p90": 175.339249
+          },
+          "intervalMeanMs": 14.310869565217388,
+          "imageSha256": "3e7ace3e9f510a062820020c37317487edfac170bf4f0fc0e21d6d08b891026c",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56627546,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 518,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "98",
+            "mirrorTriangles": "829061",
+            "mirrorSize": "600x400",
+            "drawCalls": "154",
+            "triangles": "965719",
+            "loadMs": "4023",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "147",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4497",
+            "frameMeanMs": "9.91",
+            "frameMaxMs": "83.30"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "frames": 80,
+          "gpuMs": {
+            "p10": 140.801124,
+            "median": 141.672333,
+            "p90": 142.701749
+          },
+          "intervalMeanMs": 12.552215189873417,
+          "imageSha256": "50da264cd56dd64b56af2a8ec9821b6383f91fd26647dd08e3d8377ef3d6ea1e",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "71",
+            "mirrorTriangles": "813335",
+            "mirrorSize": "600x400",
+            "drawCalls": "160",
+            "triangles": "1037255",
+            "loadMs": "4023",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4497",
+            "frameMeanMs": "26.48",
+            "frameMaxMs": "2483.30"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "frames": 66,
+          "gpuMs": {
+            "p10": 175.527791,
+            "median": 176.352041,
+            "p90": 177.25175
+          },
+          "intervalMeanMs": 15.25615384615384,
+          "imageSha256": "26ba11c3e9797049badc9ea48102e2d96f25861ad3ef4e33332ac2da4c7d9afb",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "72",
+            "mirrorTriangles": "813815",
+            "mirrorSize": "600x400",
+            "drawCalls": "161",
+            "triangles": "1037735",
+            "loadMs": "4023",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4497",
+            "frameMeanMs": "26.48",
+            "frameMaxMs": "2483.30"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "frames": 111,
+          "gpuMs": {
+            "p10": 105.854791,
+            "median": 107.962374,
+            "p90": 109.491208
+          },
+          "intervalMeanMs": 9.014545454545475,
+          "imageSha256": "404976735883489ccacd5bcefdaa15a52b67cf06f3b63dd6a1230adbc18e4115",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "100",
+            "triangles": "785837",
+            "loadMs": "4023",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4497",
+            "frameMeanMs": "23.24",
+            "frameMaxMs": "2216.60"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "frames": 79,
+          "gpuMs": {
+            "p10": 158.974583,
+            "median": 161.29425,
+            "p90": 163.101124
+          },
+          "intervalMeanMs": 12.820192307692336,
+          "imageSha256": "fe5100402e38c04c2779220532091849d5eb3c8be061f6ac89144f3c8dd185c5",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "101",
+            "triangles": "786317",
+            "loadMs": "4023",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4497",
+            "frameMeanMs": "23.24",
+            "frameMaxMs": "2216.60"
+          }
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "variant": "candidate",
+      "browser": "155.0.8059.80",
+      "quality": "standard",
+      "repeat": 4,
+      "inputHashes": {
+        "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+        "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/loyly-props.gpu.ts": "a0824d07edce17a63c7797ae601a80d28ba0793a9a3a7312dbe25114b0c1d494",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3",
+        "e2e/gpu-memory.ts": "b9d7cd64a9acb0cbf4c2c0628b50b235e36c0b776e5c95bab69e4827168f721f"
+      },
+      "dpr": 1,
+      "modelSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+      "modelBytes": 2501888,
+      "originalSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "candidateSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 101,
+          "gpuMs": {
+            "p10": 113.474291,
+            "median": 114.3275,
+            "p90": 115.677708
+          },
+          "intervalMeanMs": 9.91625,
+          "imageSha256": "128b1fd2602de462919c2fc4b876b72874ab69a26cae43a892f9be7c2637c23a",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56592986,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 516,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "98",
+            "mirrorTriangles": "829061",
+            "mirrorSize": "600x400",
+            "drawCalls": "153",
+            "triangles": "965239",
+            "loadMs": "4096",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "146",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4559",
+            "frameMeanMs": "9.91",
+            "frameMaxMs": "83.40"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 70,
+          "gpuMs": {
+            "p10": 172.245875,
+            "median": 173.500791,
+            "p90": 175.791458
+          },
+          "intervalMeanMs": 14.310869565217388,
+          "imageSha256": "3e7ace3e9f510a062820020c37317487edfac170bf4f0fc0e21d6d08b891026c",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56627546,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 518,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "98",
+            "mirrorTriangles": "829061",
+            "mirrorSize": "600x400",
+            "drawCalls": "154",
+            "triangles": "965719",
+            "loadMs": "4096",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "147",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4559",
+            "frameMeanMs": "9.91",
+            "frameMaxMs": "83.40"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "frames": 80,
+          "gpuMs": {
+            "p10": 140.690208,
+            "median": 141.48525,
+            "p90": 142.665833
+          },
+          "intervalMeanMs": 12.499367088607581,
+          "imageSha256": "50da264cd56dd64b56af2a8ec9821b6383f91fd26647dd08e3d8377ef3d6ea1e",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "71",
+            "mirrorTriangles": "813335",
+            "mirrorSize": "600x400",
+            "drawCalls": "160",
+            "triangles": "1037255",
+            "loadMs": "4096",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4559",
+            "frameMeanMs": "25.93",
+            "frameMaxMs": "2316.60"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "frames": 66,
+          "gpuMs": {
+            "p10": 174.048541,
+            "median": 175.089208,
+            "p90": 176.166791
+          },
+          "intervalMeanMs": 15.25538461538462,
+          "imageSha256": "26ba11c3e9797049badc9ea48102e2d96f25861ad3ef4e33332ac2da4c7d9afb",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "72",
+            "mirrorTriangles": "813815",
+            "mirrorSize": "600x400",
+            "drawCalls": "161",
+            "triangles": "1037735",
+            "loadMs": "4096",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4559",
+            "frameMeanMs": "25.93",
+            "frameMaxMs": "2316.60"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "frames": 111,
+          "gpuMs": {
+            "p10": 105.453874,
+            "median": 107.070749,
+            "p90": 109.132124
+          },
+          "intervalMeanMs": 9.014772727272728,
+          "imageSha256": "404976735883489ccacd5bcefdaa15a52b67cf06f3b63dd6a1230adbc18e4115",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "100",
+            "triangles": "785837",
+            "loadMs": "4096",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4559",
+            "frameMeanMs": "24.54",
+            "frameMaxMs": "2399.90"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "frames": 79,
+          "gpuMs": {
+            "p10": 159.23425,
+            "median": 161.582291,
+            "p90": 162.89375
+          },
+          "intervalMeanMs": 12.766666666666657,
+          "imageSha256": "fe5100402e38c04c2779220532091849d5eb3c8be061f6ac89144f3c8dd185c5",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56651738,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 521,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "109",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "109",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "50",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "125",
+            "shadowMaskMeshes": "122",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "101",
+            "triangles": "786317",
+            "loadMs": "4096",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "156",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4559",
+            "frameMeanMs": "24.54",
+            "frameMaxMs": "2399.90"
+          }
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "variant": "original",
+      "browser": "155.0.8059.80",
+      "quality": "standard",
+      "repeat": 4,
+      "inputHashes": {
+        "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+        "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1",
+        "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+        "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+        "e2e/loyly-props.gpu.ts": "a0824d07edce17a63c7797ae601a80d28ba0793a9a3a7312dbe25114b0c1d494",
+        "e2e/gpu-timer.ts": "cca7e1b918112c7c15f67f131c603e7c3b34b1d7c658fb76caffff117ff809c3",
+        "e2e/gpu-memory.ts": "b9d7cd64a9acb0cbf4c2c0628b50b235e36c0b776e5c95bab69e4827168f721f"
+      },
+      "dpr": 1,
+      "modelSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "modelBytes": 2390472,
+      "originalSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+      "candidateSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+      "requests": 1,
+      "errors": [],
+      "rows": [
+        {
+          "stage": "sauna",
+          "lighting": "day",
+          "frames": 101,
+          "gpuMs": {
+            "p10": 113.850333,
+            "median": 114.736541,
+            "p90": 115.967874
+          },
+          "intervalMeanMs": 9.95775,
+          "imageSha256": "640fb3396199050060c3b1797efb4a392ada8529110d1d5223849b4b09b403f2",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56165695,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 493,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "94",
+            "mirrorTriangles": "821041",
+            "mirrorSize": "600x400",
+            "drawCalls": "147",
+            "triangles": "957127",
+            "loadMs": "4114",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "141",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4595",
+            "frameMeanMs": "9.81",
+            "frameMaxMs": "83.30"
+          }
+        },
+        {
+          "stage": "sauna",
+          "lighting": "night",
+          "frames": 70,
+          "gpuMs": {
+            "p10": 177.986958,
+            "median": 179.276666,
+            "p90": 180.868499
+          },
+          "intervalMeanMs": 14.492028985507243,
+          "imageSha256": "111c8623ac3ff281399ac332fbbd6c6dbc11f63e0d50b54760311981e9249edf",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101331280,
+              "buffer": 56200255,
+              "renderbuffer": 57644720
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 495,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "sauna",
+            "sideImagesShown": "20",
+            "mirrorCalls": "94",
+            "mirrorTriangles": "821041",
+            "mirrorSize": "600x400",
+            "drawCalls": "148",
+            "triangles": "957607",
+            "loadMs": "4114",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "142",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4595",
+            "frameMeanMs": "9.81",
+            "frameMaxMs": "83.30"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "day",
+          "frames": 80,
+          "gpuMs": {
+            "p10": 141.159958,
+            "median": 141.857374,
+            "p90": 143.29425
+          },
+          "intervalMeanMs": 12.552215189873417,
+          "imageSha256": "50da264cd56dd64b56af2a8ec9821b6383f91fd26647dd08e3d8377ef3d6ea1e",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "70",
+            "mirrorTriangles": "817775",
+            "mirrorSize": "600x400",
+            "drawCalls": "158",
+            "triangles": "1040159",
+            "loadMs": "4114",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4595",
+            "frameMeanMs": "27.31",
+            "frameMaxMs": "2533.20"
+          }
+        },
+        {
+          "stage": "water",
+          "lighting": "night",
+          "frames": 66,
+          "gpuMs": {
+            "p10": 174.486749,
+            "median": 175.316499,
+            "p90": 176.584041
+          },
+          "intervalMeanMs": 15.25615384615384,
+          "imageSha256": "26ba11c3e9797049badc9ea48102e2d96f25861ad3ef4e33332ac2da4c7d9afb",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "water",
+            "sideImagesShown": "32",
+            "mirrorCalls": "71",
+            "mirrorTriangles": "818255",
+            "mirrorSize": "600x400",
+            "drawCalls": "159",
+            "triangles": "1040639",
+            "loadMs": "4114",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4595",
+            "frameMeanMs": "27.31",
+            "frameMaxMs": "2533.20"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "day",
+          "frames": 111,
+          "gpuMs": {
+            "p10": 105.835041,
+            "median": 107.303375,
+            "p90": 109.28175
+          },
+          "intervalMeanMs": 9.0527272727273,
+          "imageSha256": "404976735883489ccacd5bcefdaa15a52b67cf06f3b63dd6a1230adbc18e4115",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "100",
+            "triangles": "794021",
+            "loadMs": "4114",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "day",
+            "timeOfDay": "0.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4595",
+            "frameMeanMs": "23.33",
+            "frameMaxMs": "2216.60"
+          }
+        },
+        {
+          "stage": "totonou",
+          "lighting": "night",
+          "frames": 79,
+          "gpuMs": {
+            "p10": 157.407291,
+            "median": 160.982708,
+            "p90": 162.391375
+          },
+          "intervalMeanMs": 12.766666666666705,
+          "imageSha256": "fe5100402e38c04c2779220532091849d5eb3c8be061f6ac89144f3c8dd185c5",
+          "memory": {
+            "id": 0,
+            "connected": true,
+            "lost": false,
+            "bytes": {
+              "texture": 101675600,
+              "buffer": 56224447,
+              "renderbuffer": 57730800
+            },
+            "objects": {
+              "texture": 40,
+              "buffer": 498,
+              "renderbuffer": 8
+            },
+            "drawingBufferBytes": 3840000,
+            "unknownFormats": [],
+            "largest": [
+              {
+                "kind": "renderbuffer",
+                "bytes": 30720000,
+                "allocations": [
+                  "4 samples 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 15360000,
+                "allocations": [
+                  "4 samples 1200x800 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 7680000,
+                "allocations": [
+                  "texImage2D 1200x800 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8c43"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 5592404,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 11 levels 0x8058"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 4194304,
+                "allocations": [
+                  "texStorage2D 1x1024x1024 1 levels 0x81a6"
+                ]
+              },
+              {
+                "kind": "renderbuffer",
+                "bytes": 3840000,
+                "allocations": [
+                  "2 samples 600x400 0x881a"
+                ]
+              },
+              {
+                "kind": "texture",
+                "bytes": 3840000,
+                "allocations": [
+                  "texImage2D 600x400 0x8814"
+                ]
+              }
+            ]
+          },
+          "metrics": {
+            "resolution": "fixed",
+            "frameRate": "full",
+            "camera": "stage",
+            "warmup": "off",
+            "temporal": "on",
+            "quality": "standard",
+            "pixelRatio": "1",
+            "irradianceProbes": "4916",
+            "tuckedGrass": "5",
+            "meadowBlades": "21138",
+            "deckIrradianceTriangles": "12",
+            "roomIrradianceTriangles": "192",
+            "forestFloorMaterials": "2",
+            "wetMaterials": "44",
+            "refractionMaterials": "4",
+            "refractionTriangles": "19054",
+            "causticMaterials": "2",
+            "glassMeshes": "3",
+            "irradianceMaterials": "104",
+            "deckIrradianceMaterials": "1",
+            "roomIrradianceMaterials": "3",
+            "reflectionMaterials": "104",
+            "waterBottomMaterials": "4",
+            "foliageMaterials": "34",
+            "noiseColorMaterials": "5",
+            "imageRampMaterials": "48",
+            "leafClusterMaterials": "10",
+            "sideImageMeshes": "32",
+            "prepassMeshes": "121",
+            "shadowMaskMeshes": "118",
+            "sideImageTriangles": "174984",
+            "stage": "totonou",
+            "sideImagesShown": "0",
+            "mirrorCalls": "0",
+            "mirrorTriangles": "0",
+            "mirrorSize": "600x400",
+            "drawCalls": "101",
+            "triangles": "794501",
+            "loadMs": "4114",
+            "garden": "ready",
+            "season": "summer",
+            "seasonMaterials": "22",
+            "springFlowers": "0",
+            "snowMaterials": "61",
+            "autumnGroundMaterials": "2",
+            "winterHiddenLeaves": "0",
+            "lighting": "night",
+            "timeOfDay": "2.000",
+            "weather": "clear",
+            "rain": "0.000",
+            "snow": "0.000",
+            "gardenDetails": "ready",
+            "textures": "36",
+            "geometries": "151",
+            "roundedCrownCards": "38492",
+            "evergreenTrees": "59",
+            "gardenMs": "4595",
+            "frameMeanMs": "23.33",
+            "frameMaxMs": "2216.60"
+          }
+        }
+      ]
+    }
+  ]
+}

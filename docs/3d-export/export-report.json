@@ -64,6 +64,39 @@
       "procedural_nodes": 0
     },
     {
+      "name": "Loyly | blackened iron",
+      "images": [],
+      "procedural_nodes": 0
+    },
+    {
+      "name": "Loyly | brushed iron bands",
+      "images": [],
+      "procedural_nodes": 0
+    },
+    {
+      "name": "Loyly | cedar grain",
+      "images": [
+        "cleanwood_Diffuse.jpg",
+        "cleanwood_Rough.jpg",
+        "cleanwood_nor_gl.jpg"
+      ],
+      "procedural_nodes": 6
+    },
+    {
+      "name": "Loyly | recessed pail water",
+      "images": [],
+      "procedural_nodes": 0
+    },
+    {
+      "name": "Loyly | split olivine",
+      "images": [
+        "stone_Diffuse.jpg",
+        "stone_Rough.jpg",
+        "stone_nor_gl.jpg"
+      ],
+      "procedural_nodes": 6
+    },
+    {
       "name": "Tree bark",
       "images": [],
       "procedural_nodes": 3
@@ -7887,6 +7920,16 @@
   ],
   "roughness_mean": [
     {
+      "material": "Loyly | cedar grain",
+      "unlinked": 0.5,
+      "mean": 0.6263178561767757
+    },
+    {
+      "material": "Loyly | split olivine",
+      "unlinked": 0.5,
+      "mean": 0.789056594388249
+    },
+    {
       "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
       "unlinked": 0.5,
       "mean": 0.789056594388249
@@ -8118,6 +8161,86 @@
     }
   ],
   "image_ramp": [
+    {
+      "material": "Loyly | cedar grain",
+      "image": "cleanwood_Diffuse.jpg",
+      "luminance": [
+        0.2126,
+        0.7152,
+        0.0722
+      ],
+      "stops": [
+        [
+          0.05000000074505806,
+          0.09359999746084213,
+          0.0473099984228611,
+          0.020579999312758446
+        ],
+        [
+          0.5799999833106995,
+          0.36719998717308044,
+          0.24069999158382416,
+          0.11759999394416809
+        ]
+      ],
+      "random": [
+        [
+          0.0,
+          0.7200000286102295,
+          0.7200000286102295,
+          0.7200000286102295
+        ],
+        [
+          1.0,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ]
+      ],
+      "mix": null,
+      "wet_mask_omitted": null,
+      "in_glb": true
+    },
+    {
+      "material": "Loyly | split olivine",
+      "image": "stone_Diffuse.jpg",
+      "luminance": [
+        0.2126,
+        0.7152,
+        0.0722
+      ],
+      "stops": [
+        [
+          0.05000000074505806,
+          0.009743332862854004,
+          0.011060000397264957,
+          0.011850000359117985
+        ],
+        [
+          0.5799999833106995,
+          0.07461667060852051,
+          0.08470000326633453,
+          0.09075000137090683
+        ]
+      ],
+      "random": [
+        [
+          0.0,
+          0.7200000286102295,
+          0.7200000286102295,
+          0.7200000286102295
+        ],
+        [
+          1.0,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ]
+      ],
+      "mix": null,
+      "wet_mask_omitted": null,
+      "in_glb": true
+    },
     {
       "material": "V10 | submerged light / V9 | quiet honed stone / V2 | mineral c",
       "image": "stone_Diffuse.jpg",
@@ -10195,6 +10318,292 @@
       "in_glb": true
     }
   ],
+  "loyly_props": {
+    "removed": [
+      "Torus",
+      "Torus.001",
+      "Heater inner vessel",
+      "Heater vertical cage",
+      "Heater vertical cage.001",
+      "Heater vertical cage.002",
+      "Heater vertical cage.003",
+      "Heater vertical cage.004",
+      "Heater vertical cage.005",
+      "Heater vertical cage.006",
+      "Heater vertical cage.007",
+      "Heater vertical cage.008",
+      "Heater vertical cage.009",
+      "Heater vertical cage.010",
+      "Heater vertical cage.011",
+      "Heater vertical cage.012",
+      "Heater vertical cage.013",
+      "Heater vertical cage.014",
+      "Heater vertical cage.015",
+      "Heater vertical cage.016",
+      "Heater vertical cage.017",
+      "Heater vertical cage.018",
+      "Heater vertical cage.019",
+      "Heater vertical cage.020",
+      "Heater vertical cage.021",
+      "Heater vertical cage.022",
+      "Heater vertical cage.023",
+      "Heater vertical cage.024",
+      "Heater vertical cage.025",
+      "Heater vertical cage.026",
+      "Heater vertical cage.027",
+      "Olivine sauna stone",
+      "Olivine sauna stone.001",
+      "Olivine sauna stone.002",
+      "Olivine sauna stone.003",
+      "Olivine sauna stone.004",
+      "Olivine sauna stone.005",
+      "Olivine sauna stone.006",
+      "Olivine sauna stone.007",
+      "Olivine sauna stone.008",
+      "Olivine sauna stone.009",
+      "Olivine sauna stone.010",
+      "Olivine sauna stone.011",
+      "Olivine sauna stone.012",
+      "Olivine sauna stone.013",
+      "Olivine sauna stone.014",
+      "Olivine sauna stone.015",
+      "Olivine sauna stone.016",
+      "Olivine sauna stone.017",
+      "Olivine sauna stone.018",
+      "Olivine sauna stone.019",
+      "Olivine sauna stone.020",
+      "Olivine sauna stone.021",
+      "Olivine sauna stone.022",
+      "Olivine sauna stone.023",
+      "Olivine sauna stone.024",
+      "Olivine sauna stone.025",
+      "Olivine sauna stone.026",
+      "Olivine sauna stone.027",
+      "Olivine sauna stone.028",
+      "Olivine sauna stone.029",
+      "Olivine sauna stone.030",
+      "Olivine sauna stone.031",
+      "Olivine sauna stone.032",
+      "Olivine sauna stone.033",
+      "Olivine sauna stone.034",
+      "Olivine sauna stone.035",
+      "Olivine sauna stone.036",
+      "Olivine sauna stone.037",
+      "Olivine sauna stone.038",
+      "Olivine sauna stone.039",
+      "Olivine sauna stone.040",
+      "Olivine sauna stone.041",
+      "Cedar water pail",
+      "Dark pail interior",
+      "Ladle handle"
+    ],
+    "created": [
+      "Loyly heater foot",
+      "Loyly heater lower shield",
+      "Loyly heater lower collar",
+      "Loyly heater upper collar",
+      "Loyly heater basket collar",
+      "Loyly heater rib 00",
+      "Loyly heater rib 01",
+      "Loyly heater rib 02",
+      "Loyly heater rib 03",
+      "Loyly heater rib 04",
+      "Loyly heater rib 05",
+      "Loyly heater rib 06",
+      "Loyly heater rib 07",
+      "Loyly heater rib 08",
+      "Loyly heater rib 09",
+      "Loyly heater rib 10",
+      "Loyly heater rib 11",
+      "Loyly heater rib 12",
+      "Loyly heater rib 13",
+      "Loyly heater rib 14",
+      "Loyly heater rib 15",
+      "Loyly heater rib 16",
+      "Loyly heater rib 17",
+      "Loyly heater rib 18",
+      "Loyly heater rib 19",
+      "Loyly heater rib 20",
+      "Loyly heater rib 21",
+      "Loyly heater rib 22",
+      "Loyly heater rib 23",
+      "Loyly olivine 0-0",
+      "Loyly olivine 0-1",
+      "Loyly olivine 0-2",
+      "Loyly olivine 0-3",
+      "Loyly olivine 0-4",
+      "Loyly olivine 0-5",
+      "Loyly olivine 0-6",
+      "Loyly olivine 0-7",
+      "Loyly olivine 0-8",
+      "Loyly olivine 0-9",
+      "Loyly olivine core 0",
+      "Loyly olivine 1-0",
+      "Loyly olivine 1-1",
+      "Loyly olivine 1-2",
+      "Loyly olivine 1-3",
+      "Loyly olivine 1-4",
+      "Loyly olivine 1-5",
+      "Loyly olivine 1-6",
+      "Loyly olivine 1-7",
+      "Loyly olivine 1-8",
+      "Loyly olivine 1-9",
+      "Loyly olivine core 1",
+      "Loyly olivine 2-0",
+      "Loyly olivine 2-1",
+      "Loyly olivine 2-2",
+      "Loyly olivine 2-3",
+      "Loyly olivine 2-4",
+      "Loyly olivine 2-5",
+      "Loyly olivine 2-6",
+      "Loyly olivine 2-7",
+      "Loyly olivine 2-8",
+      "Loyly olivine 2-9",
+      "Loyly olivine core 2",
+      "Loyly olivine 3-0",
+      "Loyly olivine 3-1",
+      "Loyly olivine 3-2",
+      "Loyly olivine 3-3",
+      "Loyly olivine 3-4",
+      "Loyly olivine 3-5",
+      "Loyly olivine 3-6",
+      "Loyly olivine 3-7",
+      "Loyly olivine core 3",
+      "Loyly cedar stave 00",
+      "Loyly cedar stave 01",
+      "Loyly cedar stave 02",
+      "Loyly cedar stave 03",
+      "Loyly cedar stave 04",
+      "Loyly cedar stave 05",
+      "Loyly cedar stave 06",
+      "Loyly cedar stave 07",
+      "Loyly cedar stave 08",
+      "Loyly cedar stave 09",
+      "Loyly cedar stave 10",
+      "Loyly cedar stave 11",
+      "Loyly cedar stave 12",
+      "Loyly cedar stave 13",
+      "Loyly cedar stave 14",
+      "Loyly cedar stave 15",
+      "Loyly cedar stave 16",
+      "Loyly cedar stave 17",
+      "Loyly pail bottom",
+      "Loyly pail hoop",
+      "Loyly pail hoop.001",
+      "Loyly pail water",
+      "Loyly ladle bowl",
+      "Loyly ladle shaped handle"
+    ],
+    "seed": 1927,
+    "heater_center": [
+      -1.25,
+      1.28,
+      0
+    ],
+    "pail_center": [
+      -2.1,
+      1.74,
+      0
+    ],
+    "water": "alpha-blended recessed surface with reflection probes; no refraction or simulation",
+    "preserve_geometry": [
+      "Loyly heater foot",
+      "Loyly heater lower shield",
+      "Loyly heater lower collar",
+      "Loyly heater upper collar",
+      "Loyly heater basket collar",
+      "Loyly heater rib 00",
+      "Loyly heater rib 01",
+      "Loyly heater rib 02",
+      "Loyly heater rib 03",
+      "Loyly heater rib 04",
+      "Loyly heater rib 05",
+      "Loyly heater rib 06",
+      "Loyly heater rib 07",
+      "Loyly heater rib 08",
+      "Loyly heater rib 09",
+      "Loyly heater rib 10",
+      "Loyly heater rib 11",
+      "Loyly heater rib 12",
+      "Loyly heater rib 13",
+      "Loyly heater rib 14",
+      "Loyly heater rib 15",
+      "Loyly heater rib 16",
+      "Loyly heater rib 17",
+      "Loyly heater rib 18",
+      "Loyly heater rib 19",
+      "Loyly heater rib 20",
+      "Loyly heater rib 21",
+      "Loyly heater rib 22",
+      "Loyly heater rib 23",
+      "Loyly olivine 0-0",
+      "Loyly olivine 0-1",
+      "Loyly olivine 0-2",
+      "Loyly olivine 0-3",
+      "Loyly olivine 0-4",
+      "Loyly olivine 0-5",
+      "Loyly olivine 0-6",
+      "Loyly olivine 0-7",
+      "Loyly olivine 0-8",
+      "Loyly olivine 0-9",
+      "Loyly olivine core 0",
+      "Loyly olivine 1-0",
+      "Loyly olivine 1-1",
+      "Loyly olivine 1-2",
+      "Loyly olivine 1-3",
+      "Loyly olivine 1-4",
+      "Loyly olivine 1-5",
+      "Loyly olivine 1-6",
+      "Loyly olivine 1-7",
+      "Loyly olivine 1-8",
+      "Loyly olivine 1-9",
+      "Loyly olivine core 1",
+      "Loyly olivine 2-0",
+      "Loyly olivine 2-1",
+      "Loyly olivine 2-2",
+      "Loyly olivine 2-3",
+      "Loyly olivine 2-4",
+      "Loyly olivine 2-5",
+      "Loyly olivine 2-6",
+      "Loyly olivine 2-7",
+      "Loyly olivine 2-8",
+      "Loyly olivine 2-9",
+      "Loyly olivine core 2",
+      "Loyly olivine 3-0",
+      "Loyly olivine 3-1",
+      "Loyly olivine 3-2",
+      "Loyly olivine 3-3",
+      "Loyly olivine 3-4",
+      "Loyly olivine 3-5",
+      "Loyly olivine 3-6",
+      "Loyly olivine 3-7",
+      "Loyly olivine core 3",
+      "Loyly cedar stave 00",
+      "Loyly cedar stave 01",
+      "Loyly cedar stave 02",
+      "Loyly cedar stave 03",
+      "Loyly cedar stave 04",
+      "Loyly cedar stave 05",
+      "Loyly cedar stave 06",
+      "Loyly cedar stave 07",
+      "Loyly cedar stave 08",
+      "Loyly cedar stave 09",
+      "Loyly cedar stave 10",
+      "Loyly cedar stave 11",
+      "Loyly cedar stave 12",
+      "Loyly cedar stave 13",
+      "Loyly cedar stave 14",
+      "Loyly cedar stave 15",
+      "Loyly cedar stave 16",
+      "Loyly cedar stave 17",
+      "Loyly pail bottom",
+      "Loyly pail hoop",
+      "Loyly pail hoop.001",
+      "Loyly pail water",
+      "Loyly ladle bowl",
+      "Loyly ladle shaped handle"
+    ]
+  },
   "leaf_cluster_leaves": 20,
   "bark_curves": [
     {
@@ -10379,11 +10788,11 @@
       "triangles": 916
     }
   ],
-  "image_ramp_objects": 753,
-  "export_objects_before_join": 4009,
-  "triangles": 553056,
-  "export_meshes": 73,
-  "image_ramp_meshes": 45,
+  "image_ramp_objects": 772,
+  "export_objects_before_join": 4028,
+  "triangles": 561122,
+  "export_meshes": 78,
+  "image_ramp_meshes": 47,
   "export_settings": {
     "export_format": "GLB",
     "export_yup": true,
@@ -10426,23 +10835,23 @@
         "tolerance": 1.5
       }
     },
-    "inputBytes": 29427816,
-    "inputSha256": "cd9bed0266d920ca73a4b91d1ec053f7a043cb7c012d76b30e59f40d3f89599a",
+    "inputBytes": 30185744,
+    "inputSha256": "99235e49774a0ccb7fba403e77ce06d4bc7896f19cd584fa6ee1ee4904c30784",
     "files": {
       "sauna.glb": {
-        "outputBytes": 2390472,
-        "outputSha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
-        "nodes": 66,
-        "triangles": 107552,
+        "outputBytes": 2501888,
+        "outputSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+        "nodes": 71,
+        "triangles": 115618,
         "verification": {
-          "compressedViews": 309,
-          "exactViews": 100,
-          "filteredViews": 209,
+          "compressedViews": 332,
+          "exactViews": 108,
+          "filteredViews": 224,
           "imageViews": 6,
           "bits": {
             "POSITION": {
-              "14": 38,
-              "15": 2,
+              "14": 41,
+              "15": 4,
               "16": 6,
               "17": 12,
               "18": 13,
@@ -10451,25 +10860,25 @@
             },
             "NORMAL": {
               "8": 2,
-              "9": 1,
-              "10": 70
+              "9": 2,
+              "10": 73
             },
             "TEXCOORD_0": {
               "8": 1,
               "12": 1,
-              "13": 12,
-              "14": 35,
+              "13": 13,
+              "14": 39,
               "15": 8,
               "16": 1
             },
             "TEXCOORD_1": {
-              "14": 4,
+              "14": 5,
               "16": 1
             }
           },
           "maxError": {
             "POSITION": 9.961624975405074e-05,
-            "NORMAL": 0.09449311055734992,
+            "NORMAL": 0.09637248461499086,
             "TEXCOORD_0": 0.0001220703125,
             "TEXCOORD_1": 0.00012195110321044922
           },
@@ -10487,69 +10896,69 @@
               },
               {
                 "accessor": 7,
-                "count": 22988,
+                "count": 6336,
+                "maxAngleDegrees": 0.8233794945972925,
+                "beforeBytes": 31473,
+                "afterBytes": 12581
+              },
+              {
+                "accessor": 12,
+                "count": 1536,
+                "maxAngleDegrees": 0.6365935759640523,
+                "beforeBytes": 8274,
+                "afterBytes": 2934
+              },
+              {
+                "accessor": 16,
+                "count": 19116,
+                "maxAngleDegrees": 1.0601116926153682,
+                "beforeBytes": 82566,
+                "afterBytes": 38330
+              },
+              {
+                "accessor": 21,
+                "count": 2672,
+                "maxAngleDegrees": 0.8756955019860277,
+                "beforeBytes": 13771,
+                "afterBytes": 5094
+              },
+              {
+                "accessor": 26,
+                "count": 48,
+                "maxAngleDegrees": 0,
+                "beforeBytes": 28,
+                "afterBytes": 26
+              },
+              {
+                "accessor": 30,
+                "count": 19544,
                 "maxAngleDegrees": 1.1789567584473613,
-                "beforeBytes": 89258,
-                "afterBytes": 31764
+                "beforeBytes": 76193,
+                "afterBytes": 27284
               },
               {
-                "accessor": 13,
+                "accessor": 36,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 18,
+                "accessor": 41,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 23,
+                "accessor": 46,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 28,
-                "count": 76,
-                "maxAngleDegrees": 0.4847159025375624,
-                "beforeBytes": 235,
-                "afterBytes": 89
-              },
-              {
-                "accessor": 33,
-                "count": 76,
-                "maxAngleDegrees": 0.4847159025375624,
-                "beforeBytes": 235,
-                "afterBytes": 89
-              },
-              {
-                "accessor": 38,
-                "count": 76,
-                "maxAngleDegrees": 0.4847159025375624,
-                "beforeBytes": 235,
-                "afterBytes": 89
-              },
-              {
-                "accessor": 42,
-                "count": 76,
-                "maxAngleDegrees": 0.4847159025375624,
-                "beforeBytes": 235,
-                "afterBytes": 89
-              },
-              {
-                "accessor": 47,
-                "count": 76,
-                "maxAngleDegrees": 0.4847159025375624,
-                "beforeBytes": 235,
-                "afterBytes": 89
-              },
-              {
-                "accessor": 52,
+                "accessor": 51,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
@@ -10563,434 +10972,469 @@
                 "afterBytes": 89
               },
               {
-                "accessor": 60,
+                "accessor": 61,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 64,
+                "accessor": 65,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 69,
+                "accessor": 70,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 73,
+                "accessor": 75,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 78,
+                "accessor": 79,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 82,
+                "accessor": 83,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 86,
+                "accessor": 87,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 91,
+                "accessor": 92,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 95,
+                "accessor": 96,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 99,
+                "accessor": 101,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 104,
+                "accessor": 105,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 108,
+                "accessor": 109,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 112,
+                "accessor": 114,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 116,
+                "accessor": 118,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 121,
+                "accessor": 122,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 126,
+                "accessor": 127,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 130,
+                "accessor": 131,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 134,
+                "accessor": 135,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 138,
+                "accessor": 139,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 142,
+                "accessor": 144,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 146,
+                "accessor": 149,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 150,
+                "accessor": 153,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 155,
+                "accessor": 157,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 159,
+                "accessor": 161,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 164,
+                "accessor": 165,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 168,
+                "accessor": 169,
                 "count": 76,
                 "maxAngleDegrees": 0.4847159025375624,
                 "beforeBytes": 235,
                 "afterBytes": 89
               },
               {
-                "accessor": 172,
-                "count": 24647,
-                "maxAngleDegrees": 1.0102194981071786,
-                "beforeBytes": 72556,
-                "afterBytes": 25410
+                "accessor": 173,
+                "count": 76,
+                "maxAngleDegrees": 0.4847159025375624,
+                "beforeBytes": 235,
+                "afterBytes": 89
               },
               {
-                "accessor": 177,
+                "accessor": 178,
+                "count": 76,
+                "maxAngleDegrees": 0.4847159025375624,
+                "beforeBytes": 235,
+                "afterBytes": 89
+              },
+              {
+                "accessor": 182,
+                "count": 76,
+                "maxAngleDegrees": 0.4847159025375624,
+                "beforeBytes": 235,
+                "afterBytes": 89
+              },
+              {
+                "accessor": 187,
+                "count": 76,
+                "maxAngleDegrees": 0.4847159025375624,
+                "beforeBytes": 235,
+                "afterBytes": 89
+              },
+              {
+                "accessor": 191,
+                "count": 76,
+                "maxAngleDegrees": 0.4847159025375624,
+                "beforeBytes": 235,
+                "afterBytes": 89
+              },
+              {
+                "accessor": 195,
+                "count": 17444,
+                "maxAngleDegrees": 0.9299142292984727,
+                "beforeBytes": 44761,
+                "afterBytes": 14206
+              },
+              {
+                "accessor": 200,
                 "count": 5778,
                 "maxAngleDegrees": 0.25031328153215354,
                 "beforeBytes": 14253,
                 "afterBytes": 4122
               },
               {
-                "accessor": 182,
-                "count": 12839,
+                "accessor": 205,
+                "count": 12422,
                 "maxAngleDegrees": 0.8030137850348932,
-                "beforeBytes": 36126,
-                "afterBytes": 10836
+                "beforeBytes": 34830,
+                "afterBytes": 10377
               },
               {
-                "accessor": 188,
+                "accessor": 211,
                 "count": 1022,
                 "maxAngleDegrees": 0.5522577286980167,
                 "beforeBytes": 3122,
                 "afterBytes": 1029
               },
               {
-                "accessor": 193,
+                "accessor": 216,
                 "count": 244,
                 "maxAngleDegrees": 0.41413609330012313,
                 "beforeBytes": 1054,
                 "afterBytes": 436
               },
               {
-                "accessor": 198,
+                "accessor": 221,
                 "count": 100,
                 "maxAngleDegrees": 0.6600803327099565,
                 "beforeBytes": 332,
                 "afterBytes": 140
               },
               {
-                "accessor": 202,
+                "accessor": 225,
                 "count": 141,
                 "maxAngleDegrees": 0.05638652824499495,
                 "beforeBytes": 452,
                 "afterBytes": 175
               },
               {
-                "accessor": 206,
+                "accessor": 229,
                 "count": 5700,
                 "maxAngleDegrees": 1.0181916424827633,
                 "beforeBytes": 28626,
                 "afterBytes": 11448
               },
               {
-                "accessor": 210,
+                "accessor": 233,
                 "count": 2054,
                 "maxAngleDegrees": 0.6365935759640523,
                 "beforeBytes": 2172,
                 "afterBytes": 772
               },
               {
-                "accessor": 214,
+                "accessor": 237,
                 "count": 288,
                 "maxAngleDegrees": 0.3316905581668425,
                 "beforeBytes": 835,
                 "afterBytes": 286
               },
               {
-                "accessor": 219,
+                "accessor": 242,
                 "count": 15094,
                 "maxAngleDegrees": 0.41244900532232015,
                 "beforeBytes": 42980,
                 "afterBytes": 12858
               },
               {
-                "accessor": 223,
+                "accessor": 246,
                 "count": 1870,
                 "maxAngleDegrees": 0.8984164156910349,
                 "beforeBytes": 7924,
                 "afterBytes": 3158
               },
               {
-                "accessor": 228,
+                "accessor": 251,
                 "count": 761,
                 "maxAngleDegrees": 0.4246907596015953,
                 "beforeBytes": 2375,
                 "afterBytes": 881
               },
               {
-                "accessor": 233,
+                "accessor": 256,
                 "count": 24,
                 "maxAngleDegrees": 0,
                 "beforeBytes": 127,
                 "afterBytes": 71
               },
               {
-                "accessor": 237,
+                "accessor": 260,
                 "count": 18330,
                 "maxAngleDegrees": 1.2163294997798866,
                 "beforeBytes": 87295,
                 "afterBytes": 26709
               },
               {
-                "accessor": 241,
+                "accessor": 264,
                 "count": 5682,
                 "maxAngleDegrees": 0.8205920079544993,
                 "beforeBytes": 13837,
                 "afterBytes": 6406
               },
               {
-                "accessor": 244,
+                "accessor": 267,
                 "count": 1185,
                 "maxAngleDegrees": 1.1360730396011403,
                 "beforeBytes": 4696,
                 "afterBytes": 1859
               },
               {
-                "accessor": 247,
+                "accessor": 270,
                 "count": 256,
                 "maxAngleDegrees": 0.8123026770336336,
                 "beforeBytes": 1075,
                 "afterBytes": 538
               },
               {
-                "accessor": 250,
+                "accessor": 273,
                 "count": 376,
                 "maxAngleDegrees": 0.4131354427080581,
                 "beforeBytes": 1027,
                 "afterBytes": 409
               },
               {
-                "accessor": 253,
+                "accessor": 276,
                 "count": 948,
                 "maxAngleDegrees": 0.7123345435527771,
                 "beforeBytes": 1624,
                 "afterBytes": 747
               },
               {
-                "accessor": 256,
+                "accessor": 279,
                 "count": 948,
                 "maxAngleDegrees": 0.7637911135103772,
                 "beforeBytes": 1612,
                 "afterBytes": 740
               },
               {
-                "accessor": 258,
+                "accessor": 281,
                 "count": 1064,
                 "maxAngleDegrees": 0.7637911135103772,
                 "beforeBytes": 1886,
                 "afterBytes": 831
               },
               {
-                "accessor": 261,
+                "accessor": 284,
                 "count": 880,
                 "maxAngleDegrees": 0.7637911135103772,
                 "beforeBytes": 1550,
                 "afterBytes": 694
               },
               {
-                "accessor": 264,
+                "accessor": 287,
                 "count": 1396,
                 "maxAngleDegrees": 1.0295021961951567,
                 "beforeBytes": 6606,
                 "afterBytes": 2772
               },
               {
-                "accessor": 269,
+                "accessor": 292,
                 "count": 4862,
                 "maxAngleDegrees": 1.008489122886408,
                 "beforeBytes": 17491,
                 "afterBytes": 9768
               },
               {
-                "accessor": 272,
+                "accessor": 295,
                 "count": 433,
                 "maxAngleDegrees": 0.9111455349197036,
                 "beforeBytes": 1802,
                 "afterBytes": 839
               },
               {
-                "accessor": 276,
+                "accessor": 299,
                 "count": 1434,
                 "maxAngleDegrees": 0.8851148381654219,
                 "beforeBytes": 6943,
                 "afterBytes": 2895
               },
               {
-                "accessor": 281,
+                "accessor": 304,
                 "count": 282,
                 "maxAngleDegrees": 0.847226169767229,
                 "beforeBytes": 639,
                 "afterBytes": 284
               },
               {
-                "accessor": 284,
+                "accessor": 307,
                 "count": 351,
                 "maxAngleDegrees": 0.9252471547193354,
                 "beforeBytes": 800,
                 "afterBytes": 353
               },
               {
-                "accessor": 287,
+                "accessor": 310,
                 "count": 333,
                 "maxAngleDegrees": 1.0382299010632121,
                 "beforeBytes": 768,
                 "afterBytes": 335
               },
               {
-                "accessor": 290,
+                "accessor": 313,
                 "count": 324,
                 "maxAngleDegrees": 0.9642253548237064,
                 "beforeBytes": 754,
                 "afterBytes": 323
               },
               {
-                "accessor": 293,
+                "accessor": 316,
                 "count": 282,
                 "maxAngleDegrees": 1.0851692609216905,
                 "beforeBytes": 642,
                 "afterBytes": 290
               },
               {
-                "accessor": 296,
+                "accessor": 319,
                 "count": 1050,
                 "maxAngleDegrees": 0.9926634058923262,
                 "beforeBytes": 4326,
                 "afterBytes": 2040
               },
               {
-                "accessor": 299,
+                "accessor": 322,
                 "count": 2376,
                 "maxAngleDegrees": 0.7775527074060659,
                 "beforeBytes": 8723,
                 "afterBytes": 4787
               },
               {
-                "accessor": 303,
+                "accessor": 326,
                 "count": 717,
                 "maxAngleDegrees": 1.015814314164338,
                 "beforeBytes": 2880,
                 "afterBytes": 1377
               },
               {
-                "accessor": 306,
+                "accessor": 329,
                 "count": 402,
                 "maxAngleDegrees": 0.6591544569005096,
                 "beforeBytes": 2141,
@@ -11030,8 +11474,8 @@
       }
     }
   },
-  "output_bytes": 2390472,
-  "output_sha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+  "output_bytes": 2501888,
+  "output_sha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
   "garden_output_bytes": 5979340,
   "garden_output_sha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
   "scene_definition_sha256": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1"

@@ -145,6 +145,12 @@ def base_color_image_ramp(m, principled):
     return {'image': image.image.name, 'luminance': LUMA, 'stops': linear_ramp(ramp), 'random': linear_ramp(tint),
             'mix': mix}, wet
 
+import sys
+sys.path.insert(0, str(ROOT / 'scripts'))
+from refine_loyly_props import refine_loyly_props
+report['loyly_props'] = refine_loyly_props()
+prop_names = set(report['loyly_props']['preserve_geometry'])
+
 # Rebuild materials into the subset glTF can represent. Keep source UVs and packed images.
 for m in bpy.data.materials:
     if not m.use_nodes:
@@ -185,7 +191,7 @@ for m in bpy.data.materials:
     nodes.clear()
     p = nodes.new('ShaderNodeBsdfPrincipled')
     p.inputs['Base Color'].default_value = color
-    p.inputs['Roughness'].default_value = max(.3,roughness)
+    p.inputs['Roughness'].default_value = roughness if m.name == 'Loyly | recessed pail water' else max(.3,roughness)
     p.inputs['Metallic'].default_value = metallic
     # Exported as KHR_materials_specular (factor = 2 x level) when it differs from 0.5.
     p.inputs['Specular IOR Level'].default_value = specular
@@ -205,6 +211,9 @@ for m in bpy.data.materials:
     if 'glass' in m.name.lower() or m.name == 'V4 | clear spring water':
         p.inputs['Base Color'].default_value=(.5,.7,.7,1)
         p.inputs['Alpha'].default_value=.12 if 'glass' in m.name.lower() else .55
+        m.surface_render_method='DITHERED'
+    if m.name == 'Loyly | recessed pail water':
+        p.inputs['Alpha'].default_value=.38
         m.surface_render_method='DITHERED'
     if 'LED' in m.name:
         p.inputs['Emission Color'].default_value=(1,.45,.12,1)
@@ -391,7 +400,7 @@ for o in list(bpy.context.scene.objects):
         report['pillow_topology'].append({'object': o.name, 'boundary_edges_before': before,
                                          'boundary_edges_after_weld': 0, 'weld_distance_m': 1e-6})
     for mod in list(o.modifiers):
-        if mod.type=='BEVEL': mod.segments=1
+        if mod.type=='BEVEL' and o.name not in prop_names: mod.segments=1
         if mod.type=='SUBSURF': o.modifiers.remove(mod)
     o.hide_set(False)
     o.hide_viewport=False
@@ -405,7 +414,7 @@ for o in list(bpy.context.scene.objects):
     # V6 woodland crowns have about 4,000 leaves; 175 of them read as bare branches.
     style = 'outline' if near_maple else 'cluster' if 'V6 clustered tree leaves' in o.name else 'diamond'
     sampled = foliage and len(o.data.polygons) > 500 and sample_whole_leaves(o, leaves, style)
-    if len(o.data.polygons) > 500 and not sampled and o.name not in text_names:
+    if len(o.data.polygons) > 500 and not sampled and o.name not in text_names and o.name not in prop_names:
         mod=o.modifiers.new('Web reduction','DECIMATE'); mod.ratio=min(1, 350/len(o.data.polygons))
     selected.append(o)
 bpy.ops.object.select_all(action='SELECT')

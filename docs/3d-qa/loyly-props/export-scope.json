@@ -1,0 +1,37 @@
+{
+  "before": {
+    "sha256": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+    "bytes": 2390472,
+    "triangles": 107552
+  },
+  "after": {
+    "sha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+    "bytes": 2501888,
+    "triangles": 115618
+  },
+  "unchangedMaterialGroups": 69,
+  "packedImagesUnchanged": true,
+  "scope": "decoded geometry and node transforms outside the three shared edited materials; source exporter verifies blend hash",
+  "props": [
+    {
+      "name": "Loyly | blackened iron",
+      "triangles": 3744
+    },
+    {
+      "name": "Loyly | brushed iron bands",
+      "triangles": 1536
+    },
+    {
+      "name": "Loyly | split olivine",
+      "triangles": 9020
+    },
+    {
+      "name": "Loyly | cedar grain",
+      "triangles": 1904
+    },
+    {
+      "name": "Loyly | recessed pail water",
+      "triangles": 46
+    }
+  ]
+}

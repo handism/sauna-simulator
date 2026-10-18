@@ -1,0 +1,98 @@
+{
+  "stats": {
+    "startTime": "2026-10-18T23:24:58.810Z",
+    "duration": 310588.46599999996,
+    "expected": 14,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "file": "frame-rate.e2e.ts",
+      "title": "a still view draws every other frame, a turn and the steam every frame",
+      "status": "passed",
+      "duration_ms": 16891
+    },
+    {
+      "file": "frame-rate.e2e.ts",
+      "title": "?frameRate=full draws every frame of a still view",
+      "status": "passed",
+      "duration_ms": 10519
+    },
+    {
+      "file": "scene-lifecycle.e2e.ts",
+      "title": "repeated modes, stages and real context loss preserve the session",
+      "status": "passed",
+      "duration_ms": 92684
+    },
+    {
+      "file": "scene-lifecycle.e2e.ts",
+      "title": "switching to 2D during a pending model request allows a clean retry",
+      "status": "passed",
+      "duration_ms": 7335
+    },
+    {
+      "file": "scene-lifecycle.e2e.ts",
+      "title": "a real 30-second load timeout falls back and permits retry",
+      "status": "passed",
+      "duration_ms": 37009
+    },
+    {
+      "file": "scene-lifecycle.e2e.ts",
+      "title": "corrupt meshopt data falls back to 2D and a fresh model can recover",
+      "status": "passed",
+      "duration_ms": 8294
+    },
+    {
+      "file": "scene-lifecycle.e2e.ts",
+      "title": "a failed garden request keeps the ready 3D scene",
+      "status": "passed",
+      "duration_ms": 17092
+    },
+    {
+      "file": "scene-no-hdr.e2e.ts",
+      "title": "split request without HDR renders and recovers at low quality",
+      "status": "passed",
+      "duration_ms": 18463
+    },
+    {
+      "file": "scene-no-hdr.e2e.ts",
+      "title": "split request without HDR renders and recovers at standard quality",
+      "status": "passed",
+      "duration_ms": 22453
+    },
+    {
+      "file": "scene-no-hdr.e2e.ts",
+      "title": "split request without HDR renders and recovers at high quality",
+      "status": "passed",
+      "duration_ms": 22383
+    },
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during initial off rendering preserves 2D and retry",
+      "status": "passed",
+      "duration_ms": 12257
+    },
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during later off rendering preserves 2D and retry",
+      "status": "passed",
+      "duration_ms": 14721
+    },
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during initial split rendering preserves 2D and retry",
+      "status": "passed",
+      "duration_ms": 13031
+    },
+    {
+      "file": "scene-shader.e2e.ts",
+      "title": "shader link failure during later split rendering preserves 2D and retry",
+      "status": "passed",
+      "duration_ms": 15702
+    }
+  ],
+  "report_sha256": "14153c7f56210a78aa631f4d9643794d48ac4f70304adfd53ca5a2764af3f41a",
+  "model_sha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7"
+}

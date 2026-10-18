@@ -1,0 +1,37 @@
+{
+  "gates": {
+    "typecheck": "passed",
+    "unit_tests": 436,
+    "lint": "passed",
+    "format_check": "passed",
+    "build": "passed",
+    "diff_check": "passed",
+    "python_syntax": "passed"
+  },
+  "browser_regressions": 14,
+  "visual_abba_captures": 48,
+  "cost_runs_including_warmup": 5,
+  "entry_js_kb": 230.92,
+  "lazy_3d_js_kb": 890.14,
+  "existing_lazy_3d_warning_kb": 850,
+  "inputs": {
+    "public/models/sauna.glb": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+    "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+    "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1",
+    "scripts/refine_loyly_props.py": "8f9fd5e42e8dc26f418fc7e59dcaa30b7d6e65d8871abecd3b41262b4e51e1e0",
+    "scripts/export_web_glb.py": "a443ae20cebfc2029350d1193c2719faf0df0201255616be21fea385fc7d8720",
+    "e2e/loyly-props.visual.ts": "ae687afc3badb2052620adc76f4223e77c83d3fb67896e1396df223ca02a0a2d",
+    "e2e/loyly-props.gpu.ts": "a0824d07edce17a63c7797ae601a80d28ba0793a9a3a7312dbe25114b0c1d494"
+  },
+  "not_verified": [
+    "real Safari",
+    "mobile hardware",
+    "continuous motion",
+    "real audio",
+    "all browser regression cases",
+    "all quality/season/weather combinations"
+  ],
+  "survey_captures": 216,
+  "survey_report_sha256": "e887afe10e84f621e355471ea1f61085f2b5f657be4ea180e252b996b0f6a004",
+  "survey_review": "reduced overview and sauna night sheet; not all full-resolution frames"
+}
