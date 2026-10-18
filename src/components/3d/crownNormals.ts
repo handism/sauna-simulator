@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { trunkBases, trunkFinder, WOODLAND_CARD } from './evergreenWoodland';
+import type { CrownFootprint } from './forestFloor';
 
 /** Share of a card's shading normal taken from its crown's rounded shape (the rest is the card's own). */
 export const CROWN_NORMAL_WEIGHT = 0.9;
@@ -17,6 +18,45 @@ if (!THREE.ShaderChunk.normal_fragment_begin.includes('SUI_CROWN_NORMAL'))
     `#ifdef SUI_CROWN_NORMAL\n\tnormal = normalize( vNormal );\n#endif\n${NORMAL_BEGIN}`,
   );
 
+/**
+ * Each tree's own leaf color, as a multiplier by its trunk's position: brightness 0.84–1.12 and a
+ * shift between a warmer and a bluer green. Every crown of the woodland had the same green and read
+ * as one flat wall; neighbors now differ a little, as trees of one kind do in age, light and health.
+ */
+export function crownTint(x: number, z: number): [number, number, number] {
+  const hash = (seed: number) => {
+    const v = Math.sin(Math.round(x * 10) * 12.9898 + Math.round(z * 10) * 78.233 + seed) * 43758.5453;
+    return v - Math.floor(v);
+  };
+  const brightness = 0.84 + 0.28 * hash(1.7);
+  const hue = hash(5.3);
+  return [brightness * (1.08 + (0.9 - 1.08) * hue), brightness, brightness * (0.8 + (1.1 - 0.8) * hue)];
+}
+
+/**
+ * The shade inside a crown, by the vertex's place in it (its ellipsoid radius `r`, 0 at the center,
+ * and height `up`, −1 at the bottom to 1 at the top): the inner and lower leaves see less of the sky.
+ * The baked probes hold the crowns as they were (scattered cards), so they do not darken the inside.
+ */
+export function crownShade(r: number, up: number) {
+  const outer = Math.min(1, Math.max(0, (r - 0.25) / 0.7));
+  const below = Math.min(1, Math.max(0, -up));
+  return (0.6 + 0.4 * outer * outer * (3 - 2 * outer)) * (1 - 0.18 * below);
+}
+
+// SUI_CROWN_TINT multiplies the base color by the vertex attribute `suiCrownTint`. Not vertex colors:
+// a material with vertexColors leaves the depth prepass and the shadow mask's cut-out copies
+// (depthPrepass.ts cutoutOf), which made the woodland about a third slower to draw.
+const TINT_CHUNKS: [keyof typeof THREE.ShaderChunk, string][] = [
+  ['color_pars_vertex', 'attribute vec3 suiCrownTint;\nvarying vec3 vSuiCrownTint;'],
+  ['color_vertex', 'vSuiCrownTint = suiCrownTint;'],
+  ['color_pars_fragment', 'varying vec3 vSuiCrownTint;'],
+  ['color_fragment', 'diffuseColor.rgb *= vSuiCrownTint;'],
+];
+for (const [chunk, code] of TINT_CHUNKS)
+  if (!THREE.ShaderChunk[chunk].includes('SUI_CROWN_TINT'))
+    THREE.ShaderChunk[chunk] += `\n#ifdef SUI_CROWN_TINT\n\t${code}\n#endif\n`;
+
 /** GLSL condition for turning a two-sided normal to the viewer, which crown normals skip. */
 export const TURNS_TO_VIEWER = 'defined( DOUBLE_SIDED ) && ! defined( SUI_CROWN_NORMAL )';
 
@@ -32,12 +72,15 @@ interface Crown {
  * speckle of light and dark tufts on bare branches. Each card goes to its tree (the nearest trunk,
  * as for the evergreens) and its normals lean outward from that crown's center, scaled by the
  * crown's extents: the sunlit side of a crown is light, the far side and the underside dark, as a
- * leafy mass shades. Call before splitEvergreenWoodland (which copies the define to its clones) and the
- * model preparation. Returns the number of cards rounded.
+ * leafy mass shades. The cards' `suiCrownTint` attribute carries each tree's tint (`crownTint`) and the shade
+ * inside its crown (`crownShade`). Call before splitEvergreenWoodland (which copies the define to its
+ * clones) and the model preparation. Returns the number of cards rounded; `footprints` receives each
+ * crown's place across the ground (forestFloor.ts).
  */
-export function roundWoodlandCrowns(root: THREE.Object3D) {
+export function roundWoodlandCrowns(root: THREE.Object3D, footprints?: CrownFootprint[]) {
   root.updateMatrixWorld(true);
-  const nearestTrunk = trunkFinder(trunkBases(root));
+  const bases = trunkBases(root);
+  const nearestTrunk = trunkFinder(bases);
   const meshes: THREE.Mesh[] = [];
   root.traverse((object) => {
     if (
@@ -83,7 +126,9 @@ export function roundWoodlandCrowns(root: THREE.Object3D) {
     const extent = crown.max.clone().sub(crown.min).multiplyScalar(0.5);
     extent.set(Math.max(extent.x, MIN_EXTENT), Math.max(extent.y, MIN_EXTENT), Math.max(extent.z, MIN_EXTENT));
     // The mean of the cards: the crowns are denser where the branches carry more of them.
-    shapes.set(tree, { center: crown.sum.divideScalar(crown.count), extent });
+    const center = crown.sum.divideScalar(crown.count);
+    shapes.set(tree, { center, extent });
+    footprints?.push({ x: center.x, z: center.z, rx: extent.x, rz: extent.z });
   }
   const outward = new THREE.Vector3();
   const card = new THREE.Vector3();
@@ -95,6 +140,7 @@ export function roundWoodlandCrowns(root: THREE.Object3D) {
     const index = geometry.index!;
     const position = geometry.attributes.position;
     const normal = geometry.attributes.normal as THREE.BufferAttribute;
+    const color = new THREE.BufferAttribute(new Float32Array(position.count * 3).fill(1), 3);
     toWorld.getNormalMatrix(mesh.matrixWorld);
     toLocal.copy(toWorld).invert();
     const done = new Uint8Array(position.count);
@@ -115,6 +161,9 @@ export function roundWoodlandCrowns(root: THREE.Object3D) {
         const { center, extent } = shape;
         // The gradient of the crown's ellipsoid at the vertex.
         p.fromBufferAttribute(position, vertex).applyMatrix4(mesh.matrixWorld).sub(center);
+        const [r, g, b] = crownTint(bases[tree].x, bases[tree].y);
+        const shade = crownShade(Math.hypot(p.x / extent.x, p.y / extent.y, p.z / extent.z), p.y / extent.y);
+        color.setXYZ(vertex, r * shade, g * shade, b * shade);
         outward.set(p.x / extent.x ** 2, p.y / extent.y ** 2, p.z / extent.z ** 2);
         if (outward.lengthSq() < 1e-12) outward.set(0, 1, 0);
         outward.normalize();
@@ -126,8 +175,9 @@ export function roundWoodlandCrowns(root: THREE.Object3D) {
       if (shape) rounded++;
     });
     normal.needsUpdate = true;
+    geometry.setAttribute('suiCrownTint', color);
     const material = mesh.material as THREE.MeshStandardMaterial;
-    material.defines = { ...material.defines, SUI_CROWN_NORMAL: '' };
+    material.defines = { ...material.defines, SUI_CROWN_NORMAL: '', SUI_CROWN_TINT: '' };
     material.needsUpdate = true;
   });
   return rounded;

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { meadowBlades, meadowGrid } from './meadowGrass';
 import { createFarForest } from './farForest';
 import { gardenBloomGeometry } from './gardenBloom';
 import { createGardenStream, streamSection } from './gardenStream';
@@ -250,7 +251,7 @@ export function addGardenDetails(root: THREE.Object3D) {
     }
   });
   // An incomplete or substitute model must not receive floating decorations.
-  if (!terrain.length) return { tuckedGrass: 0, finishPreparation() {}, update() {} };
+  if (!terrain.length) return { tuckedGrass: 0, meadowBlades: 0, finishPreparation() {}, update() {} };
   const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
   const ground = (x: number, z: number) => {
     ray.ray.origin.set(x, 25, z);
@@ -659,6 +660,25 @@ export function addGardenDetails(root: THREE.Object3D) {
     if (mat === flower) flowers.push(mesh);
     group.add(mesh);
   }
+  // Short blades over the open meadow (meadowGrass.ts), kept off everything else standing on the
+  // ground, the accents above included. Before the contact shade, which lies on the ground itself.
+  root.updateMatrixWorld(true);
+  const solids: THREE.Mesh[] = [];
+  root.traverse((object) => {
+    if (!(object instanceof THREE.Mesh) || terrain.includes(object)) return;
+    const materials = Array.isArray(object.material) ? object.material : [object.material];
+    if (materials.every((value) => !/leaf|foliage|fern|grass|flower/i.test(value.name))) solids.push(object);
+  });
+  const meadowMaterial = material('Garden meadow blade foliage', 0x819455);
+  meadowMaterial.side = THREE.DoubleSide;
+  meadowMaterial.vertexColors = true;
+  // Up-leaning normals as written on either face (crownNormals.ts), not turned to the viewer.
+  meadowMaterial.defines = { SUI_CROWN_NORMAL: '' };
+  const meadowCells = meadowGrid(terrain, solids);
+  const meadow = meadowBlades(meadowCells, seeded(0x3ead0));
+  const meadowMesh = new THREE.Mesh(meadow.geometry, meadowMaterial);
+  meadowMesh.name = 'Garden meadow blades';
+  group.add(meadowMesh);
   // Contact shade: a disc or rounded rectangle per accent laid on the terrain, black with the depth
   // falling to zero at the rim (vertex alpha), so rocks, shrubs and lanterns do not seem to float.
   // Without baked occlusion under the browser-built accents, their base met the lit ground with no
@@ -826,9 +846,11 @@ export function addGardenDetails(root: THREE.Object3D) {
     group,
     /** The source's grass clumps moved out of their boulders (tuckGrassBehindBoulders). */
     tuckedGrass,
+    /** Short blades on the meadow (meadowGrass.ts). */
+    meadowBlades: meadow.blades,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
     finishPreparation() {
-      for (const mesh of [...hills, farForest.mesh, stream, shade, pool, ...movingGrass, ...lamps])
+      for (const mesh of [...hills, farForest.mesh, stream, shade, pool, ...movingGrass, ...lamps, meadowMesh])
         mesh.castShadow = false;
       for (const mesh of [...hills, farForest.mesh, shade, pool]) mesh.receiveShadow = false;
       for (const butterfly of butterflies)
@@ -857,6 +879,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       poolMaterial.color.copy(lampMaterial.emissive).multiplyScalar(evening * POOL_RADIANCE);
       pool.visible = evening > 0;
       grass.color.setHex(season === 'autumn' ? 0xad955d : season === 'winter' ? 0x827c63 : 0x819455);
+      meadowMaterial.color.copy(grass.color);
       flower.color.setHex(season === 'spring' ? 0xe8c6cd : season === 'autumn' ? 0xcba657 : 0xc8c1df);
       for (const mesh of flowers) mesh.visible = season !== 'winter';
       hazeColor.value.copy(airDay).lerp(airEvening, Math.min(1, timeOfDay));

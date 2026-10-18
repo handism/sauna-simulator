@@ -13,6 +13,7 @@ import { createWaterEffects } from './waterEffects';
 import { createSteam, LIFETIME_SECONDS } from './steam';
 import { addGardenDetails } from './gardenDetails';
 import { roundWoodlandCrowns } from './crownNormals';
+import { createForestFloor, type CrownFootprint } from './forestFloor';
 import { splitEvergreenWoodland } from './evergreenWoodland';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
@@ -178,6 +179,7 @@ export default function SaunaScene({
     let mirror: PlanarReflection | null = null;
     const mirrorState = [0, 0, 0, 0, 0, 0];
     const seasonColors = createSeasonColors();
+    const forestFloor = createForestFloor();
     // Follows the rain's weight: the surfaces dry as it eases off (rainWetness.ts).
     const wetness = { value: 0 };
     let gardenAdded = 0;
@@ -323,6 +325,8 @@ export default function SaunaScene({
         const prepare = (root: THREE.Object3D) => {
           count('deckIrradianceTriangles', isolateDeckReceivers(root));
           const stats = prepareModel(root);
+          // Before the seasons: the autumn leaves lie on the forest floor too.
+          count('forestFloorMaterials', forestFloor.apply(root));
           seasonColors.add(root, seasonRef.current);
           count('wetMaterials', applyRainWetness(root, wetness));
           const refraction = applyRefraction(root, definition.water.center[1]);
@@ -340,6 +344,7 @@ export default function SaunaScene({
         addSpringFlowers(gltf.scene);
         const gardenDetails = addGardenDetails(gltf.scene);
         setData('tuckedGrass', String(gardenDetails.tuckedGrass));
+        setData('meadowBlades', String(gardenDetails.meadowBlades));
         prepare(gltf.scene);
         gardenDetails.finishPreparation();
         gardenDetails.update(0, seasonRef.current, lighting.time, weatherRef.current, reducedMotion.matches);
@@ -602,7 +607,9 @@ export default function SaunaScene({
               return;
             }
             gardenScenes.push(woodland);
-            setData('roundedCrownCards', String(roundWoodlandCrowns(woodland)));
+            const crowns: CrownFootprint[] = [];
+            setData('roundedCrownCards', String(roundWoodlandCrowns(woodland, crowns)));
+            forestFloor.update(crowns);
             setData('evergreenTrees', String(splitEvergreenWoodland(woodland)));
             if (prepare(woodland)) throw Error('Garden under water');
             count('prepassMeshes', prepass.add(woodland));
@@ -735,6 +742,7 @@ export default function SaunaScene({
       disposeTree(scene);
       for (const garden of gardenScenes) if (!garden.parent) disposeTree(garden);
       releaseProbes();
+      forestFloor.dispose();
       mirror?.dispose();
       output.dispose();
       prepass.dispose();

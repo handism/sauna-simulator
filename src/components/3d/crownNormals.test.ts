@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { CROWN_NORMAL_WEIGHT, roundWoodlandCrowns } from './crownNormals';
+import { CROWN_NORMAL_WEIGHT, crownShade, crownTint, roundWoodlandCrowns } from './crownNormals';
+import type { CrownFootprint } from './forestFloor';
 import { splitEvergreenWoodland } from './evergreenWoodland';
 
 /** Upright leaf cards facing +z or -z, on a ring around (x, 0) at 3–3.2m. */
@@ -82,5 +83,41 @@ describe('woodland crown normals', () => {
   it('rounds no card of a woodland without trunks', () => {
     const { root } = woodland(false);
     expect(roundWoodlandCrowns(root)).toBe(0);
+  });
+
+  it('colors each tree by its trunk and darkens the inside of its crown', () => {
+    const { root, leaves } = woodland();
+    const footprints: CrownFootprint[] = [];
+    roundWoodlandCrowns(root, footprints);
+    expect(footprints).toHaveLength(1);
+    expect(footprints[0].x).toBeCloseTo(0.1, 1);
+    expect(footprints[0].rx).toBeGreaterThan(1.4);
+    const material = leaves.material as THREE.MeshStandardMaterial;
+    // Not vertex colors, which would take the cards out of the depth prepass (depthPrepass.ts).
+    expect(material.vertexColors).toBe(false);
+    expect(material.defines?.SUI_CROWN_TINT).toBe('');
+    const color = leaves.geometry.attributes.suiCrownTint;
+    const [r, g, b] = crownTint(0, 0);
+    // Every ring card sits on the crown's rim, where the shade is least.
+    const shade = color.getY(0) / g;
+    expect(shade).toBeGreaterThan(0.75);
+    expect(color.getX(0) / shade).toBeCloseTo(r, 5);
+    expect(color.getZ(0) / shade).toBeCloseTo(b, 5);
+    // Cards with no tree keep white.
+    expect([color.getX(12 * 4), color.getY(12 * 4), color.getZ(12 * 4)]).toEqual([1, 1, 1]);
+  });
+
+  it('varies the tint within a modest range and shades the center and underside most', () => {
+    for (let x = -40; x <= 40; x += 7.3) {
+      const [r, g, b] = crownTint(x, x * 0.7);
+      expect(g).toBeGreaterThanOrEqual(0.84);
+      expect(g).toBeLessThanOrEqual(1.12);
+      expect(r / g).toBeGreaterThanOrEqual(0.9 - 1e-9);
+      expect(b / g).toBeLessThanOrEqual(1.1 + 1e-9);
+    }
+    expect(crownTint(3, 4)).toEqual(crownTint(3.01, 4.01));
+    expect(crownShade(0, 0)).toBeCloseTo(0.6);
+    expect(crownShade(1, 0)).toBeCloseTo(1);
+    expect(crownShade(1, -1)).toBeLessThan(crownShade(1, 1));
   });
 });
