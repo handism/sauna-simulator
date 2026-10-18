@@ -1,0 +1,143 @@
+{
+  "version": 3,
+  "width": 44,
+  "height": 34,
+  "scenes": [
+    "day",
+    "evening",
+    "night"
+  ],
+  "surfaces": [
+    {
+      "name": "floor",
+      "min": [
+        -6.025,
+        -4.48
+      ],
+      "max": [
+        -0.65,
+        -2.48
+      ],
+      "level": 0.1,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "width": 44,
+      "height": 17
+    },
+    {
+      "name": "rear-wall",
+      "min": [
+        -6.025,
+        0.1
+      ],
+      "max": [
+        -0.65,
+        2.6
+      ],
+      "level": -4.5125,
+      "normal": [
+        0,
+        0,
+        1
+      ],
+      "width": 44,
+      "height": 21
+    },
+    {
+      "name": "upper-bench",
+      "min": [
+        -6.01,
+        -4.108
+      ],
+      "max": [
+        -1.19,
+        -3.172
+      ],
+      "level": 1.035,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "width": 40,
+      "height": 9
+    },
+    {
+      "name": "lower-bench",
+      "min": [
+        -6.01,
+        -3.028
+      ],
+      "max": [
+        -1.19,
+        -2.512
+      ],
+      "level": 0.565,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "width": 40,
+      "height": 6
+    },
+    {
+      "name": "left-wall",
+      "min": [
+        -4.45,
+        0.1
+      ],
+      "max": [
+        -0.3,
+        3.25
+      ],
+      "level": -6.0925,
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "width": 35,
+      "height": 27
+    },
+    {
+      "name": "ceiling",
+      "min": [
+        -6.05,
+        -4.45
+      ],
+      "max": [
+        -0.65,
+        -0.35
+      ],
+      "level": 3.285,
+      "normal": [
+        0,
+        -1,
+        0
+      ],
+      "width": 44,
+      "height": 34
+    }
+  ],
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "bin_sha256": "a5b0de10aa22837d666223122b16e923eb9790d96312264442979e6555cb3e4b",
+  "direct_samples": 1024,
+  "direct_lights": [
+    "Warm under-bench wash",
+    "Warm under-bench wash.001",
+    "Sauna ceiling soft amber",
+    "Sauna wall wash",
+    "Steam soft backlight",
+    "V7 concealed backrest wash"
+  ],
+  "direct_method": "source area quadrature with static opaque shadow visibility; 2mm normal offset",
+  "base_bin_sha256": "06c31089a2a69b586bd387f4312a75d03cffe978e66d82edefb82631ccc10a08",
+  "extension_method": "direct only on new surfaces; existing indirect SH retained; original 8 layers preserved with padding",
+  "scripts_sha256": {
+    "bake_room_direct.py": "bcb66dfabc490d1a71f742ec0291c6ae583415d7679206212064482512e9cbc7"
+  }
+}

@@ -70,13 +70,25 @@ const deckHeader = {
   scenes: ['evening', 'night'],
 };
 const roomHeader = {
-  version: 2,
+  version: 3,
   width: 2,
   height: 2,
   scenes: ['day', 'evening', 'night'],
   surfaces: [
     { name: 'floor', min: [-6, -4.48], max: [-0.65, -2.48], level: 0.1, normal: [0, 1, 0], width: 2, height: 2 },
     { name: 'rear-wall', min: [-6, 0.1], max: [-0.65, 2.6], level: -4.5125, normal: [0, 0, 1], width: 2, height: 2 },
+    { name: 'upper-bench', min: [-6, -4.1], max: [-1.2, -3.17], level: 1.035, normal: [0, 1, 0], width: 2, height: 2 },
+    { name: 'lower-bench', min: [-6, -3.03], max: [-1.2, -2.51], level: 0.565, normal: [0, 1, 0], width: 2, height: 2 },
+    { name: 'left-wall', min: [-4.45, 0.1], max: [-0.3, 3.25], level: -6.0925, normal: [1, 0, 0], width: 2, height: 2 },
+    {
+      name: 'ceiling',
+      min: [-6.05, -4.45],
+      max: [-0.65, -0.35],
+      level: 3.285,
+      normal: [0, -1, 0],
+      width: 2,
+      height: 2,
+    },
   ],
 };
 
@@ -165,7 +177,7 @@ beforeEach(() => {
             arrayBuffer: async () =>
               new ArrayBuffer(
                 url.endsWith('room-irradiance.bin')
-                  ? roomHeader.width * roomHeader.height * 8 * 8
+                  ? roomHeader.width * roomHeader.height * 12 * 8
                   : url.endsWith('deck-irradiance.bin')
                     ? 64
                     : /(irradiance|reflection)\.bin$/.test(url)

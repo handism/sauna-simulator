@@ -45,7 +45,7 @@ def summarize(report_path, captures, output):
             assert im.size == (1280, 800)
             m = s['metrics']
             assert m['quality'] == 'standard' and m['pixelRatio'] == '1' and m['garden'] == 'ready'
-            assert m['roomIrradianceMaterials'] == '2'
+            assert m['roomIrradianceMaterials'] in ('2', '3')
             row.append(np.array(im, dtype=np.int16))
             hashes[f"{r['run']}/{s['file']}"] = hashlib.sha256(path.read_bytes()).hexdigest()
         images.append(row)

@@ -1,5 +1,7 @@
 # 実ブラウザ検証（e2e）
 
+- `room-surfaces.visual.ts` は同一最終ビルドで `SUI_ROOM_EXTENSION` だけを無効→有効→有効→無効にし、着座正面・ベンチ・左壁・天井×昼夕夜の48 PNGを撮る。従来の床／背面壁の補正は対照でも維持し、GLB・プローブ・ソース／追加データのハッシュを照合する。`summarize_room_surfaces.py` が再撮影差と変更を分離する。`room-surfaces.gpu.ts` は旧版の隔離コピーにも同じファイルを置き、4視点×昼夜を3回反復描画、予備実行後の製品値をABBAで比較する。`summarize_room_surfaces_cost.py` は各版のソース／データ一致とGLB・間接プローブの版間一致を要求する。静止画・フレーム間隔であり、連続視聴・純GPU時間・実機FPSの確認ではない。
+
 - `scene-survey.visual.ts` はページ・コンソールのerrorを失敗扱いとし、公開モデル群のハッシュに加えて `farForest.ts`・`gardenDetails.ts`・`woodlandCrowns.ts`・`modelMaterials.ts`・`crownNormals.ts`・`leafCluster.ts` のソースSHA-256を添付する。全周216条件の撮影成功と、一覧・原寸の目視確認範囲は分けて記録する（`docs/3d-qa/forest-depth/survey/`）。
 
 - `deck-light.visual.ts` は同一ビルドの局所照度置換を無効→有効→有効→無効の順に撮る。対照は検証ブラウザ内の `SUI_DECK_IRRADIANCE` 定義だけを外し、三角形の分離・データ取得は共通。標準DPR1、3ステージ×昼夕夜（外気浴はCyclesの07視点）、各70フレーム整定で36枚。材質・三角形の適用数、console/page error、ブラウザー・入力ハッシュを記録する。`summarize_deck_light.py` で成功4件・条件・再撮影差・前後差を確認する。三角形分離を含む全変更の費用は独立した旧版ビルドとの比較で測る。

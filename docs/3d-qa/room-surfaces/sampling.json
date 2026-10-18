@@ -1,0 +1,43 @@
+{
+  "samples": [
+    256,
+    1024
+  ],
+  "adopted_samples": 1024,
+  "inputs": [
+    "1e4ceffc9956060866aeae2bc5513196cd3acdb8848cb5415dd2f8c69605d3ac",
+    "a5b0de10aa22837d666223122b16e923eb9790d96312264442979e6555cb3e4b"
+  ],
+  "base_layers_preserved": true,
+  "rows": [
+    {
+      "surface": "upper-bench",
+      "mean_absolute_difference": 0.012349898926913738,
+      "mean_1024": 2.377009153366089,
+      "p99_absolute_difference": 0.03515625,
+      "max_absolute_difference": 0.03515625
+    },
+    {
+      "surface": "lower-bench",
+      "mean_absolute_difference": 0.010805257596075535,
+      "mean_1024": 2.6270151138305664,
+      "p99_absolute_difference": 0.05078125,
+      "max_absolute_difference": 0.060546875
+    },
+    {
+      "surface": "left-wall",
+      "mean_absolute_difference": 0.009233029559254646,
+      "mean_1024": 0.8262456059455872,
+      "p99_absolute_difference": 0.12628906965255737,
+      "max_absolute_difference": 0.3935546875
+    },
+    {
+      "surface": "ceiling",
+      "mean_absolute_difference": 0.0028147140983492136,
+      "mean_1024": 0.16068503260612488,
+      "p99_absolute_difference": 0.05046752840280533,
+      "max_absolute_difference": 0.3994140625
+    }
+  ],
+  "scope": "quadrature sensitivity of added direct irradiance; two sample counts do not establish full convergence or image fidelity"
+}

@@ -51,7 +51,7 @@ for (const [run, enabled] of [
       await page.getByRole('button', { name: '入室する', exact: true }).click();
       const scene = page.locator('.sauna-3d-canvas');
       await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-      await expect(scene).toHaveAttribute('data-room-irradiance-materials', '2');
+      await expect(scene).toHaveAttribute('data-room-irradiance-materials', '3');
       await expect(scene).toHaveAttribute('data-room-irradiance-triangles', /[1-9]\d*/);
       for (const lighting of ['day', 'evening', 'night']) {
         await chooseSceneSetting(page, '3Dの時間帯', lighting);

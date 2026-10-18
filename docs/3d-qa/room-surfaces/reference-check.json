@@ -1,0 +1,226 @@
+{
+  "references": {
+    "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+    "blender": "4.5.11 LTS",
+    "views": {
+      "bench": [
+        [
+          -3.2,
+          1.65,
+          -2.78
+        ],
+        [
+          -3.6,
+          0.65,
+          -4.5
+        ]
+      ],
+      "left": [
+        [
+          -3.2,
+          1.65,
+          -2.78
+        ],
+        [
+          -6.09,
+          1.6,
+          -2.8
+        ]
+      ],
+      "ceiling": [
+        [
+          -3.2,
+          1.65,
+          -2.78
+        ],
+        [
+          -3.3,
+          3.285,
+          -3.4
+        ]
+      ]
+    },
+    "fov": 58,
+    "samples": 128,
+    "size": [
+      640,
+      400
+    ],
+    "captures": [
+      {
+        "view": "bench",
+        "lighting": "day",
+        "file": "bench-day.png",
+        "sha256": "ee760c5f0abcffb250cadcf258fb8b61d7d0f1d24f98b1e7290262c756ed55b3"
+      },
+      {
+        "view": "bench",
+        "lighting": "evening",
+        "file": "bench-evening.png",
+        "sha256": "3dc63a2981050cdedcc00026b9debe9ab8a5e8c06285d21af5a00f583ebd823d"
+      },
+      {
+        "view": "bench",
+        "lighting": "night",
+        "file": "bench-night.png",
+        "sha256": "cc3d84ab644a7d3c85ec00315167fef6fbb67dcfe03df63343c7c866b20e463d"
+      },
+      {
+        "view": "left",
+        "lighting": "day",
+        "file": "left-day.png",
+        "sha256": "3dc2bb6372890ab5e1d1d05dc8e26b8c5a8a9e4c19bdac0a627a55ec2a9768ba"
+      },
+      {
+        "view": "left",
+        "lighting": "evening",
+        "file": "left-evening.png",
+        "sha256": "6214bad42f09238e13a691352712c5a003e788323eb7fe36853bc8da73fc2863"
+      },
+      {
+        "view": "left",
+        "lighting": "night",
+        "file": "left-night.png",
+        "sha256": "b42c5d2c847604027028331289bf69f032263196108d65eddfc80e875ba4d91a"
+      },
+      {
+        "view": "ceiling",
+        "lighting": "day",
+        "file": "ceiling-day.png",
+        "sha256": "60c54fdeb55cc782d1d2209d2bafea226a32deb5fbbb84bf241819812f73eae7"
+      },
+      {
+        "view": "ceiling",
+        "lighting": "evening",
+        "file": "ceiling-evening.png",
+        "sha256": "55f6e1cbc626a084783a8e9a4dfb48cc603aca044e6dcd7789778377d940596f"
+      },
+      {
+        "view": "ceiling",
+        "lighting": "night",
+        "file": "ceiling-night.png",
+        "sha256": "2109bf8724607de82a50601fe44088b74f076191ca4a9218695114ced2514781"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "view": "bench",
+      "lighting": "day",
+      "changed_pixels": 0,
+      "region": "whole frame; daytime correction disabled",
+      "before_deltaE": 8.15724549884661,
+      "after_deltaE": 8.15724549884661,
+      "reference_sha256": "ee760c5f0abcffb250cadcf258fb8b61d7d0f1d24f98b1e7290262c756ed55b3",
+      "browser_sha256": [
+        "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9",
+        "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9"
+      ]
+    },
+    {
+      "view": "bench",
+      "lighting": "evening",
+      "changed_pixels": 81868,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 5.497376564077912,
+      "after_deltaE": 4.828370828236064,
+      "reference_sha256": "3dc63a2981050cdedcc00026b9debe9ab8a5e8c06285d21af5a00f583ebd823d",
+      "browser_sha256": [
+        "259907252d302d98d182a09964736e4f43b29e5945969946005a0d879e1843aa",
+        "3248579db5cb539ac77a656ea2dd6c72a11d23112991b612088fc9c4f1861796"
+      ]
+    },
+    {
+      "view": "bench",
+      "lighting": "night",
+      "changed_pixels": 82153,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 6.036170039882065,
+      "after_deltaE": 5.288493902621797,
+      "reference_sha256": "cc3d84ab644a7d3c85ec00315167fef6fbb67dcfe03df63343c7c866b20e463d",
+      "browser_sha256": [
+        "7c7df4422b437bc14ad7a0fead45ccd8e28bd702e9b7e5fa7ea1515dd397f4e7",
+        "678293c951fa71cb866a469a3927b1f5b4d1ab498587bd62defa6a1e946ebc4b"
+      ]
+    },
+    {
+      "view": "left",
+      "lighting": "day",
+      "changed_pixels": 0,
+      "region": "whole frame; daytime correction disabled",
+      "before_deltaE": 5.73089770889946,
+      "after_deltaE": 5.73089770889946,
+      "reference_sha256": "3dc2bb6372890ab5e1d1d05dc8e26b8c5a8a9e4c19bdac0a627a55ec2a9768ba",
+      "browser_sha256": [
+        "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a",
+        "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a"
+      ]
+    },
+    {
+      "view": "left",
+      "lighting": "evening",
+      "changed_pixels": 158402,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 4.613147166787868,
+      "after_deltaE": 3.630891384466494,
+      "reference_sha256": "6214bad42f09238e13a691352712c5a003e788323eb7fe36853bc8da73fc2863",
+      "browser_sha256": [
+        "791f9590e26a58ceb5be3c0521cffe44d91ce8b9863437ee739174a265e14354",
+        "82ff35d3f2510bd9d31013d0ea76c88c157b3aac89bd2ce8641f3b633e7f7e04"
+      ]
+    },
+    {
+      "view": "left",
+      "lighting": "night",
+      "changed_pixels": 162754,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 4.635829204242684,
+      "after_deltaE": 3.6926229175939365,
+      "reference_sha256": "b42c5d2c847604027028331289bf69f032263196108d65eddfc80e875ba4d91a",
+      "browser_sha256": [
+        "35989fe043e87c86e50fad5d32f58927ee89db184898c6acadc1df7acfc96e05",
+        "d881279582f694db1c2f7e6c3eb665b9ab154ad542279e0814ff3388ba285294"
+      ]
+    },
+    {
+      "view": "ceiling",
+      "lighting": "day",
+      "changed_pixels": 0,
+      "region": "whole frame; daytime correction disabled",
+      "before_deltaE": 6.032784087510315,
+      "after_deltaE": 6.032784087510315,
+      "reference_sha256": "60c54fdeb55cc782d1d2209d2bafea226a32deb5fbbb84bf241819812f73eae7",
+      "browser_sha256": [
+        "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae",
+        "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae"
+      ]
+    },
+    {
+      "view": "ceiling",
+      "lighting": "evening",
+      "changed_pixels": 214387,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 8.630030738077002,
+      "after_deltaE": 3.6679479021951726,
+      "reference_sha256": "55f6e1cbc626a084783a8e9a4dfb48cc603aca044e6dcd7789778377d940596f",
+      "browser_sha256": [
+        "0e6ce9a7eb70a7838056dc9d000a7e9cb5dc8bbc0e210ea49f882e615665cb9d",
+        "10ffabbb82b06f1c8f9892d257c43599914a20cbc26f15d0a08fa0c90b0eaf2e"
+      ]
+    },
+    {
+      "view": "ceiling",
+      "lighting": "night",
+      "changed_pixels": 215201,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 9.241041057781068,
+      "after_deltaE": 3.937892659597877,
+      "reference_sha256": "2109bf8724607de82a50601fe44088b74f076191ca4a9218695114ced2514781",
+      "browser_sha256": [
+        "2b586b23826740f20d99daf99440efac7261ebb1317c473ba0433fbe89bf0648",
+        "28d7dc0388351b3cd4d954dd6eb2cc7be0ce06083da29c71c79988c0ccf68eba"
+      ]
+    }
+  ],
+  "scope": "local changed pixels, >1 RGB level after 2x box downsampling; source geometry/material differences remain; not overall image-quality improvement"
+}
