@@ -29,9 +29,15 @@ describe('rain-wet surfaces', () => {
     const deck = mesh('V7 | locally damp ash.012');
     const stone = mesh('V2 | pale mineral paving');
     const moss = mesh('V9 | layered living moss');
-    const others = ['V10 | submerged light / Teal glazed pool tile', 'Low iron architectural glass', 'V3 | fern 2'].map(
-      mesh,
-    );
+    const others = [
+      'V10 | submerged light / Teal glazed pool tile',
+      'Low iron architectural glass',
+      'V3 | fern 2',
+      'Warm limestone plaster',
+      'Unbleached linen',
+      'Tree bark',
+      'Fine garden gravel',
+    ].map(mesh);
     root.add(deck, stone, moss, ...others);
     expect(applyRainWetness(root, { value: 0 })).toBe(3);
     const defines = (object: THREE.Mesh) => (object.material as THREE.MeshStandardMaterial).defines ?? {};

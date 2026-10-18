@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export type SurfaceDetail = 'deck' | 'stone' | 'ground';
+export type SurfaceDetail = 'deck' | 'stone' | 'ground' | 'plaster' | 'linen' | 'bark' | 'gravel';
 
 // Keep indoor timber, pool tiles, glass and the submerged stone/light materials out.
 export function surfaceDetailOf(name: string): SurfaceDetail | null {
@@ -9,6 +9,11 @@ export function surfaceDetailOf(name: string): SurfaceDetail | null {
     return 'stone';
   // The rolling moss terrain and the forest floor around it; the moss garden by the opening keeps its flat color.
   if (['V9 | layered living moss', 'V3 | moss and woodland earth'].includes(name)) return 'ground';
+  // Materials whose source FBM noise ramps were flattened to their mean color at export (`procedural_flat_color`).
+  if (name === 'Warm limestone plaster') return 'plaster';
+  if (name === 'Unbleached linen') return 'linen';
+  if (name === 'Tree bark') return 'bark';
+  if (name === 'Fine garden gravel') return 'gravel';
   return null;
 }
 
@@ -86,6 +91,58 @@ const GROUND = /* glsl */ `
   float suiSurfaceRoughness = (suiDry - suiLush) * 0.05;
   float suiSurfaceHeight = suiTuft * 0.004 + suiBlade * 0.0006;
 `;
+// Warm limestone plaster (courtyard walls and tea cups): broad trowel clouds + fine mineral grain
+// matching the source 2-layer FBM (scale 8 color/bump and scale 75 fine bump), balanced around the mean.
+const PLASTER = /* glsl */ `
+  vec3 suiSurfaceP = vSuiSurfacePosition;
+  float suiTrowel = suiSurfaceFilteredNoise(suiSurfaceP * 1.6) * 0.65
+    + suiSurfaceFilteredNoise(suiSurfaceP * 4.8 + 2.3) * 0.35;
+  float suiLimeGrain = suiSurfaceFilteredNoise(suiSurfaceP * 58.0);
+  float suiPlasterVar = (suiTrowel - 0.5) * 0.36 + (suiLimeGrain - 0.5) * 0.14;
+  diffuseColor.rgb *= 1.0 + vec3(suiPlasterVar * 1.02, suiPlasterVar * 1.0, suiPlasterVar * 0.96);
+  float suiSurfaceRoughness = (0.5 - suiTrowel) * 0.08 + (suiLimeGrain - 0.5) * 0.06;
+  float suiSurfaceHeight = suiTrowel * 0.0022 + suiLimeGrain * 0.00045;
+`;
+// Unbleached linen (sauna plaque and thermometer numerals): fine woven cross-threads and slub
+// variation around the exported ramp midpoint.
+const LINEN = /* glsl */ `
+  vec3 suiSurfaceP = vSuiSurfacePosition;
+  float suiWeft = suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 160.0, suiSurfaceP.y * 42.0, suiSurfaceP.z * 160.0));
+  float suiWarp = suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 42.0, suiSurfaceP.y * 160.0, suiSurfaceP.z * 42.0 + 5.7));
+  float suiSlub = suiSurfaceFilteredNoise(suiSurfaceP * 28.0);
+  float suiLinenVar = (suiWeft + suiWarp - 1.0) * 0.18 + (suiSlub - 0.5) * 0.22;
+  diffuseColor.rgb *= 1.0 + suiLinenVar;
+  float suiSurfaceRoughness = (0.5 - suiSlub) * 0.05;
+  float suiSurfaceHeight = (suiWeft + suiWarp) * 0.00028 + suiSlub * 0.00035;
+`;
+// Tree bark (overhead boughs and woodland trunks): elongated vertical ridges and coarse fissures
+// that fade cleanly to the mean on distant branches so crown shimmer does not increase.
+const BARK = /* glsl */ `
+  vec3 suiSurfaceP = vSuiSurfacePosition;
+  float suiBarkWarp = suiSurfaceFilteredNoise(suiSurfaceP * 2.4);
+  vec3 suiBarkCoord = vec3(
+    suiSurfaceP.x * 14.0 + (suiBarkWarp - 0.5) * 1.8,
+    suiSurfaceP.y * 3.8,
+    suiSurfaceP.z * 14.0 - (suiBarkWarp - 0.5) * 1.8
+  );
+  float suiFurrow = suiSurfaceFilteredNoise(suiBarkCoord);
+  float suiFlake = suiSurfaceFilteredNoise(suiBarkCoord * 3.2 + 4.1);
+  float suiBarkVar = (suiFurrow - 0.5) * 0.52 + (suiFlake - 0.5) * 0.22;
+  diffuseColor.rgb *= 1.0 + vec3(suiBarkVar * 1.06, suiBarkVar * 0.98, suiBarkVar * 0.88);
+  float suiSurfaceRoughness = (0.5 - suiFurrow) * 0.08;
+  float suiSurfaceHeight = suiFurrow * 0.0032 + suiFlake * 0.0009;
+`;
+// Fine garden gravel: multi-scale mineral pebbles and fine grit around the ramp mean.
+const GRAVEL = /* glsl */ `
+  vec3 suiSurfaceP = vSuiSurfacePosition;
+  float suiPatch = suiSurfaceFilteredNoise(suiSurfaceP * 2.8);
+  float suiPebble = suiSurfaceFilteredNoise(suiSurfaceP * 32.0) * 0.65
+    + suiSurfaceFilteredNoise(suiSurfaceP * 78.0 + 3.7) * 0.35;
+  float suiGravelVar = (suiPatch - 0.5) * 0.24 + (suiPebble - 0.5) * 0.46;
+  diffuseColor.rgb *= 1.0 + vec3(suiGravelVar * 1.04, suiGravelVar * 1.0, suiGravelVar * 0.94);
+  float suiSurfaceRoughness = (suiPebble - 0.5) * 0.12;
+  float suiSurfaceHeight = suiPebble * 0.0018 + suiPatch * 0.0008;
+`;
 const BUMP = /* glsl */ `
   // Surface-gradient bump in view space, layered over the existing normal map.
   vec3 suiDx = dFdx(-vViewPosition), suiDy = dFdy(-vViewPosition);
@@ -94,6 +151,16 @@ const BUMP = /* glsl */ `
   vec3 suiGradient = sign(suiDet) * (dFdx(suiSurfaceHeight) * suiRx + dFdy(suiSurfaceHeight) * suiRy);
   normal = normalize(max(abs(suiDet), 1e-10) * normal - suiGradient);
 `;
+
+const DETAILS: Record<SurfaceDetail, string> = {
+  deck: DECK,
+  stone: STONE,
+  ground: GROUND,
+  plaster: PLASTER,
+  linen: LINEN,
+  bark: BARK,
+  gravel: GRAVEL,
+};
 
 export function patchSurfaceDetailShader(
   shader: { vertexShader: string; fragmentShader: string },
@@ -118,7 +185,7 @@ export function patchSurfaceDetailShader(
     // Runs after the image ramp, before winter snow overwrites color/roughness.
     .replace(
       ROUGHNESS,
-      `${{ deck: DECK, stone: STONE, ground: GROUND }[kind]}\n${ROUGHNESS}\nroughnessFactor = clamp(roughnessFactor + suiSurfaceRoughness, 0.32, 1.0);`,
+      `${DETAILS[kind]}\n${ROUGHNESS}\nroughnessFactor = clamp(roughnessFactor + suiSurfaceRoughness, 0.32, 1.0);`,
     )
     .replace(NORMAL, `${NORMAL}\n${BUMP}`);
 }

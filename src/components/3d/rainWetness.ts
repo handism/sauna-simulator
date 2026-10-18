@@ -11,8 +11,15 @@ import { surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 // vertical faces about half (the water runs off) and faces turned down a little. Nothing under
 // the sauna room's roof (as for the falling rain) or below the plunge's surface gets wet.
 
+export type WetSurface = Extract<SurfaceDetail, 'deck' | 'stone' | 'ground'>;
+
+function wetSurfaceOf(name: string): WetSurface | null {
+  const kind = surfaceDetailOf(name);
+  return kind === 'deck' || kind === 'stone' || kind === 'ground' ? kind : null;
+}
+
 /** Darkening at full wetness and roughness of the water film, per surface. */
-export const WETNESS: Record<SurfaceDetail, { darken: number; roughness: number }> = {
+export const WETNESS: Record<WetSurface, { darken: number; roughness: number }> = {
   // Weathered ash soaks up water and darkens strongly. The probe only holds a blurred sky, so a
   // smoother film turned the whole deck an even grey sheen instead of reflecting its surroundings.
   deck: { darken: 0.5, roughness: 0.4 },
@@ -79,11 +86,11 @@ export function patchRainWetnessShader(shader: { vertexShader: string; fragmentS
 
 /** Lets the outdoor deck, stone and ground materials under `root` get wet by `amount` (0–1). */
 export function applyRainWetness(root: THREE.Object3D, amount: { value: number }): number {
-  const materials = new Map<THREE.MeshStandardMaterial, SurfaceDetail>();
+  const materials = new Map<THREE.MeshStandardMaterial, WetSurface>();
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
     for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
-      const kind = surfaceDetailOf(material.name);
+      const kind = wetSurfaceOf(material.name);
       if (kind && material instanceof THREE.MeshStandardMaterial && material.defines?.SUI_WET_DARKEN === undefined)
         materials.set(material, kind);
     }
