@@ -42,10 +42,14 @@
   --text-shadow-soft: 0 2px 8px #0009;
   --text-shadow-heading: 0 2px 12px #000, 0 1px 4px #000;
   --text-shadow-status: 0 1px 5px #000;
+  /* アイコン下の短い名前は小さく細いため、明るい空や窓の前でも縁が溶けないよう影を近くに重ねる */
+  --text-shadow-label: 0 0 3px #000, 0 0 8px #000c, 0 1px 12px #0009;
   /* 外気浴の呼吸ガイド。円は吸う（苔）と吐く（木）で色味を変え、文字はぼかした影で読ませる */
   /* 円の内側は塗りつぶさず、文字の周りだけをぼかして暗くする（景色を円盤で塞がない） */
   --breath-bg: radial-gradient(closest-side, #0e181459, #0e181400 75%);
   --text-shadow-breath: 0 0 12px #000c, 0 1px 3px #000;
+  /* 呼吸リングの細い線を明るい空の上でも追えるよう、線に沿ってだけ暗く縁取る */
+  --breath-ring-shadow: drop-shadow(0 0 2px #000a) drop-shadow(0 0 6px #0006);
   --breath-inhale-border: #c4d4bb80;
   --breath-inhale-glow: #b3c3a918;
   --breath-exhale-border: #cfbda966;
@@ -309,7 +313,7 @@ body {
   white-space: nowrap;
   color: var(--ink-strong);
   /* Over the bright 3D sky with no scrim behind the toolbar. */
-  text-shadow: var(--text-shadow-heading);
+  text-shadow: var(--text-shadow-label);
   pointer-events: none;
 }
 .ui-hidden .app-toolbar .icon-btn::after {
@@ -1140,6 +1144,7 @@ h2:focus {
   height: calc(100% + 2px);
   transform: rotate(-90deg);
   pointer-events: none;
+  filter: var(--breath-ring-shadow);
 }
 .breathing-ring circle {
   fill: none;

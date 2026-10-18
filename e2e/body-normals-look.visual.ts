@@ -67,7 +67,7 @@ for (const view of ['condensation', 'water'] as const) {
         definition.views.sauna = camera;
         await route.fulfill({ json: definition });
       });
-    await page.goto('?sound=off&quality&view=3d&resolution=fixed&frameRate=full');
+    await page.goto('?sound=off&camera=review&quality&view=3d&resolution=fixed&frameRate=full');
     await page.getByRole('button', { name: '入室する', exact: true }).click();
     const scene = page.locator('.sauna-3d-canvas');
     const canvas = scene.locator('canvas');

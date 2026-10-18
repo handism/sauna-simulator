@@ -41,7 +41,7 @@ for (const [run, enabled] of [
       definition.views.totonou = { position: camera.position, target: camera.target, fov: camera.fov };
       await route.fulfill({ json: definition });
     });
-    await page.goto('?sound=off&quality=standard&view=3d&frameRate=full&resolution=fixed');
+    await page.goto('?sound=off&camera=review&quality=standard&view=3d&frameRate=full&resolution=fixed');
     await page.getByRole('button', { name: '入室する', exact: true }).click();
     const scene = page.locator('.sauna-3d-canvas');
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });

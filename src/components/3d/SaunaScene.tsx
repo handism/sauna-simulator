@@ -62,6 +62,12 @@ const STAGES: AmbientEnv[] = ['sauna', 'water', 'totonou'];
 
 const STAGE_LABELS: Record<AmbientEnv, string> = { sauna: 'サウナ', water: '水風呂', totonou: '外気浴' };
 
+// The scene's views are the Cycles review cameras. Entering a stage looks this much lower (radians)
+// so its subject clears the stage dock along the bottom of the screen: the stove, the water around
+// the seat, and in the rest area the scenery below the pergola beam that crossed the stage heading.
+// ?camera=review keeps the review cameras as they are, for the captures paired with Cycles renders.
+const STAGE_PITCH: Record<AmbientEnv, number> = { sauna: -0.18, water: -0.24, totonou: -0.18 };
+
 export default function SaunaScene({
   quality,
   audio,
@@ -207,6 +213,8 @@ export default function SaunaScene({
     // cost measurements and tests that drive the animation frames themselves.
     const frameRate = query.get('frameRate') === 'full' ? null : createFrameRate();
     setData('frameRate', frameRate ? 'auto' : 'full');
+    const reviewCamera = query.get('camera') === 'review';
+    setData('camera', reviewCamera ? 'review' : 'stage');
     // ?temporal=off draws each frame on its own (temporalAA.ts), for comparisons.
     const temporal = query.get('temporal') !== 'off';
     // ?warmup=split spreads the first draws of the heavy programs over frames, drawing only into
@@ -423,6 +431,7 @@ export default function SaunaScene({
           const view = definition.views[next];
           camera.position.fromArray(view.position);
           camera.lookAt(new THREE.Vector3().fromArray(view.target));
+          if (!reviewCamera) camera.rotation.x += STAGE_PITCH[next];
           camera.fov = view.fov;
           camera.updateProjectionMatrix();
         };
