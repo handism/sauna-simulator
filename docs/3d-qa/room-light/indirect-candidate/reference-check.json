@@ -1,0 +1,77 @@
+{
+  "references": {
+    "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+    "blender": "4.5.11 LTS",
+    "camera": {
+      "position": [
+        -3.2,
+        1.65,
+        -2.78
+      ],
+      "target": [
+        -3.6,
+        0.65,
+        -4.5
+      ],
+      "fov": 58
+    },
+    "samples": 128,
+    "size": [
+      640,
+      400
+    ],
+    "captures": [
+      {
+        "lighting": "day",
+        "file": "rear-day.png",
+        "sha256": "b550eaf1d01708631fd932f91c6b320bbd613d184df7f2758e28ecad66c18f12"
+      },
+      {
+        "lighting": "evening",
+        "file": "rear-evening.png",
+        "sha256": "f51c357cda23a2d4bd72dc97f609fe8081ed266ae51363a1b9165e4779f6f2a5"
+      },
+      {
+        "lighting": "night",
+        "file": "rear-night.png",
+        "sha256": "f21635021cbc69f69cc9bbfa0cb014eaa23f22bed49723cc0264a19a234149fb"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "lighting": "day",
+      "changed_pixels": 29584,
+      "before_deltaE": 10.248605425805675,
+      "after_deltaE": 10.595939191347078,
+      "reference_sha256": "b550eaf1d01708631fd932f91c6b320bbd613d184df7f2758e28ecad66c18f12",
+      "browser_sha256": [
+        "c58b05957f4a9e323069d5865c1d05daf2ffd771ed8219fc84cb04563f42f15b",
+        "60e6f8cfacc77a48b7d8736fabfdb9483bc476f7689845b3517d3fc882a325c1"
+      ]
+    },
+    {
+      "lighting": "evening",
+      "changed_pixels": 37810,
+      "before_deltaE": 12.802666679962837,
+      "after_deltaE": 13.524928949811523,
+      "reference_sha256": "f51c357cda23a2d4bd72dc97f609fe8081ed266ae51363a1b9165e4779f6f2a5",
+      "browser_sha256": [
+        "0e1e404fdfc27c845e1d3091081b00f98821f9d02e7c6557b709ca4e93e7db5c",
+        "1acb1adc07d66b1ba0f6697c21dda0d8272216bc53a7d415dd664b29fcdcd61a"
+      ]
+    },
+    {
+      "lighting": "night",
+      "changed_pixels": 39407,
+      "before_deltaE": 13.56280347439191,
+      "after_deltaE": 14.286520842460748,
+      "reference_sha256": "f21635021cbc69f69cc9bbfa0cb014eaa23f22bed49723cc0264a19a234149fb",
+      "browser_sha256": [
+        "69758b15cd474e6b6b1d5269d6cefbca87eec18da6765b990dfc0d52ced08d21",
+        "f2aeb6b6b85cd03d429be032dc0c1ef9b57210667df429eac5b1d91d118173ee"
+      ]
+    }
+  ],
+  "scope": "local changed pixels, >1 RGB level after 2x box downsampling; source geometry/material differences remain; not overall image-quality improvement"
+}

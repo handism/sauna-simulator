@@ -1,0 +1,109 @@
+{
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "samples": [
+    {
+      "label": "floor-back",
+      "position": [
+        -4.35,
+        0.1,
+        -4.0
+      ],
+      "normal": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "label": "floor-front",
+      "position": [
+        -4.35,
+        0.1,
+        -3.3
+      ],
+      "normal": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "label": "floor-step",
+      "position": [
+        -2.45,
+        0.1,
+        -2.8
+      ],
+      "normal": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "label": "floor-bearer",
+      "position": [
+        -3.6,
+        0.1,
+        -3.0
+      ],
+      "normal": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "label": "wall-low",
+      "position": [
+        -4.35,
+        0.3,
+        -4.5125
+      ],
+      "normal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "label": "wall-mid",
+      "position": [
+        -4.35,
+        1.1,
+        -4.5125
+      ],
+      "normal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "label": "wall-high",
+      "position": [
+        -4.35,
+        2.2,
+        -4.5125
+      ],
+      "normal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "label": "wall-backrest",
+      "position": [
+        -2.45,
+        1.35,
+        -4.5125
+      ],
+      "normal": [
+        0,
+        0,
+        1
+      ]
+    }
+  ]
+}

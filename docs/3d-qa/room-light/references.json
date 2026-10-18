@@ -1,0 +1,39 @@
+{
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "blender": "4.5.11 LTS",
+  "camera": {
+    "position": [
+      -3.2,
+      1.65,
+      -2.78
+    ],
+    "target": [
+      -3.6,
+      0.65,
+      -4.5
+    ],
+    "fov": 58
+  },
+  "samples": 128,
+  "size": [
+    640,
+    400
+  ],
+  "captures": [
+    {
+      "lighting": "day",
+      "file": "rear-day.png",
+      "sha256": "b550eaf1d01708631fd932f91c6b320bbd613d184df7f2758e28ecad66c18f12"
+    },
+    {
+      "lighting": "evening",
+      "file": "rear-evening.png",
+      "sha256": "f51c357cda23a2d4bd72dc97f609fe8081ed266ae51363a1b9165e4779f6f2a5"
+    },
+    {
+      "lighting": "night",
+      "file": "rear-night.png",
+      "sha256": "f21635021cbc69f69cc9bbfa0cb014eaa23f22bed49723cc0264a19a234149fb"
+    }
+  ]
+}

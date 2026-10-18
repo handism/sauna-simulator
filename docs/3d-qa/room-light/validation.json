@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-18",
+  "baseline_commit": "07932a0921c21d08d3d3f5d8a874f34a17c3ecc6",
+  "source_blend_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "unchanged": {
+    "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+    "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+    "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+    "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+    "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1"
+  },
+  "inputs": {
+    "src/components/3d/roomIrradiance.ts": "8968e8dcddeaacf13460236e184156ec44840b0745375ee9e354b207ddcd4b17",
+    "src/components/3d/SaunaScene.tsx": "9de562689fa0a9b1281463030f358076eee6311733b7eb2c614846a234073ec9",
+    "src/components/3d/sceneAssets.ts": "f47196f76643c640f8c8a33dc11571016eb0e5d16eb1ff6c8371862aa149b919",
+    "public/models/room-irradiance.json": "3f9f499664ac8ef269501dd7531da866c6931c35aa01353d4660ed4e2fb1a3ba",
+    "public/models/room-irradiance.bin": "06c31089a2a69b586bd387f4312a75d03cffe978e66d82edefb82631ccc10a08",
+    "scripts/bake_room_irradiance.py": "c1d3c539c2da56808bba7173c8aa264006c1f58272ba75d5814bca6be0036e73",
+    "scripts/bake_room_direct.py": "9a7d80c455c66ff4d3b1cfb4148d6fca4f057a030e818e835c7aeba85142b215",
+    "scripts/blender_room_light_reference.py": "8bc73a6b36f461f02ad204b02e33fefb79a79eaf35c6d7663295d0c56d576ee9",
+    "scripts/check_room_irradiance.py": "e6f8a3fc344c974c231d012e57fb1ea09437aea0221e1ac4dae5df035f58b334",
+    "scripts/summarize_room_light.py": "ce5da7faffef70731e75ab7417cb237bcffec67e28c8029151d9b7bec1cd33db",
+    "scripts/compare_room_reference.py": "edca5811dc370090023bb1344718f598c4249379c3e162aef5704b704a6f1e8f",
+    "scripts/summarize_room_cost.py": "071cebdeb0bbfc61e145d7546fdc54a8419ae1acf388080f6a9547e8feacb1a2",
+    "e2e/room-light.visual.ts": "01c0679abb3ceada70d098b4eed58b148315d29603076b683b3e467883ad098a",
+    "e2e/room-light.gpu.ts": "68ae479d5370c51b78e3a0ea0463fb5edf55bfdba6e6a289489496dbbac04ff5"
+  },
+  "gates": {
+    "typecheck": "bunx tsc -b: passed",
+    "unit": "429 passed, 69 files",
+    "lint": "passed",
+    "format": "passed",
+    "build": "passed; existing 850kB warning remains",
+    "diff_check": "passed",
+    "python_compile": "passed"
+  },
+  "bundles": {
+    "entry_js_kb": 230.92,
+    "entry_js_gzip_kb": 73.8,
+    "lazy_3d_kb": 880.53,
+    "lazy_3d_gzip_kb": 242.18
+  },
+  "browser_validation": "browser-validation.json",
+  "cost": "cost.json",
+  "reference": "reference-check.json",
+  "limits": [
+    "dusk/night floor and rear wall only",
+    "daytime correction disabled",
+    "static opaque direct-light occlusion approximation",
+    "not all intermediate times or all quality/season/weather full views",
+    "not real Safari/mobile, continuous flicker, pure GPU time or device FPS"
+  ]
+}

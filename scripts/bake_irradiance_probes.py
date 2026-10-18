@@ -89,7 +89,7 @@ from probe_sampling import fill_invalid  # shared with refill_enclosed_probes.py
 ROOT = Path(__file__).resolve().parents[1]
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 if '--seasonal' in ARGS and ('--out' not in ARGS or any(flag in ARGS for flag in (
-        '--quick', '--reflection', '--surface-samples', '--probe-test', '--grids', '--scenes', '--deck-surface'))):
+        '--quick', '--reflection', '--surface-samples', '--probe-test', '--grids', '--scenes', '--deck-surface', '--room-surface'))):
     raise ValueError('--seasonal requires --out and cannot combine with other bake modes')
 QUICK = '--quick' in ARGS
 REFLECTION = '--reflection' in ARGS
@@ -564,6 +564,12 @@ def restore_sky_gates(world, old):
 report = dict(mode=NAME, plain_materials=plain_materials, flipped_meshes=flipped_meshes, input=source.name, input_sha256=source_hash, blender=bpy.app.version_string,
               panorama=[WIDTH, HEIGHT], samples=SAMPLES, quick=QUICK, grids=[], scenes={})
 coefficients = {}
+if '--room-surface' in ARGS:
+    if '--out' not in ARGS or any(flag in ARGS for flag in ('--quick', '--reflection', '--surface-samples', '--probe-test', '--grids', '--scenes', '--deck-surface')):
+        raise ValueError('--room-surface requires --out and cannot combine with other bake modes')
+    from bake_room_irradiance import bake
+    bake(globals())
+    sys.exit(0)
 if '--deck-surface' in ARGS:
     from bake_deck_irradiance import bake
     bake(globals())

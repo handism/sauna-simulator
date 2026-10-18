@@ -2,6 +2,7 @@ import type { AmbientEnv } from '../../hooks/useAudioEngine';
 import type { IrradianceHeader } from './irradiance';
 import type { WaterDefinition } from './waterEffects';
 import type { DeckIrradianceHeader } from './deckIrradiance';
+import type { RoomIrradianceHeader } from './roomIrradiance';
 
 /** public/models/sauna.scene.json, written by scripts/export_web_glb.py. */
 export interface SceneDefinition {
@@ -38,6 +39,8 @@ export async function fetchSceneAssets(get: ReturnType<typeof createModelFetch>)
     reflectionBuffer,
     deckHeader,
     deckBuffer,
+    roomHeader,
+    roomBuffer,
   ]: [
     SceneDefinition,
     ArrayBuffer,
@@ -46,6 +49,8 @@ export async function fetchSceneAssets(get: ReturnType<typeof createModelFetch>)
     IrradianceHeader,
     ArrayBuffer,
     DeckIrradianceHeader,
+    ArrayBuffer,
+    RoomIrradianceHeader,
     ArrayBuffer,
   ] = await Promise.all([
     get('sauna.scene.json').then((r) => r.json()),
@@ -56,8 +61,17 @@ export async function fetchSceneAssets(get: ReturnType<typeof createModelFetch>)
     get('reflection.bin').then((r) => r.arrayBuffer()),
     get('deck-irradiance.json').then((r) => r.json()),
     get('deck-irradiance.bin').then((r) => r.arrayBuffer()),
+    get('room-irradiance.json').then((r) => r.json()),
+    get('room-irradiance.bin').then((r) => r.arrayBuffer()),
   ]);
   const irradiance: ProbeData = { header: irradianceHeader, buffer: irradianceBuffer };
   const reflection: ProbeData = { header: reflectionHeader, buffer: reflectionBuffer };
-  return { definition, model, irradiance, reflection, deck: { header: deckHeader, buffer: deckBuffer } };
+  return {
+    definition,
+    model,
+    irradiance,
+    reflection,
+    deck: { header: deckHeader, buffer: deckBuffer },
+    room: { header: roomHeader, buffer: roomBuffer },
+  };
 }

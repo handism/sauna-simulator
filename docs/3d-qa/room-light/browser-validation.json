@@ -1,0 +1,136 @@
+{
+  "capture": {
+    "sha256": "433e88f33c79197836b5d2068597f2240bd3ab238a6b380e5372e67499f81b9b",
+    "stats": {
+      "startTime": "2026-10-18T08:47:48.683Z",
+      "duration": 135383.103,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "room light before-1",
+        "status": "passed",
+        "duration_ms": 33380
+      },
+      {
+        "title": "room light after-1",
+        "status": "passed",
+        "duration_ms": 34213
+      },
+      {
+        "title": "room light after-2",
+        "status": "passed",
+        "duration_ms": 33150
+      },
+      {
+        "title": "room light before-2",
+        "status": "passed",
+        "duration_ms": 33171
+      }
+    ]
+  },
+  "survey-cycles": {
+    "sha256": "a5f893ec0aff0880bf746abb929e124f6d17082fe93ae9c845c904536eb46006",
+    "stats": {
+      "startTime": "2026-10-18T08:50:05.529Z",
+      "duration": 92678.151,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "capture the Cycles review cameras in the browser scene",
+        "status": "passed",
+        "duration_ms": 50157
+      },
+      {
+        "title": "capture all seated views for manual geometry and lighting review",
+        "status": "passed",
+        "duration_ms": 41065
+      }
+    ]
+  },
+  "regression": {
+    "sha256": "a385f8ac250a09e46c1053df87766a97b48c6ac8fc7cd489cb4ad42635b82511",
+    "stats": {
+      "startTime": "2026-10-18T08:51:42.834Z",
+      "duration": 272972.786,
+      "expected": 13,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "garden accents survive seasons, weather, motion preferences and stage changes",
+        "status": "passed",
+        "duration_ms": 21804
+      },
+      {
+        "title": "repeated modes, stages and real context loss preserve the session",
+        "status": "passed",
+        "duration_ms": 87264
+      },
+      {
+        "title": "split request without HDR renders and recovers at low quality",
+        "status": "passed",
+        "duration_ms": 19321
+      },
+      {
+        "title": "split request without HDR renders and recovers at standard quality",
+        "status": "passed",
+        "duration_ms": 23693
+      },
+      {
+        "title": "split request without HDR renders and recovers at high quality",
+        "status": "passed",
+        "duration_ms": 23088
+      },
+      {
+        "title": "3D autumn persists, changes the outdoor view and restores summer without reloading models",
+        "status": "passed",
+        "duration_ms": 12220
+      },
+      {
+        "title": "3D winter at low restores summer without reloading models",
+        "status": "passed",
+        "duration_ms": 13145
+      },
+      {
+        "title": "3D winter at standard restores summer without reloading models",
+        "status": "passed",
+        "duration_ms": 12192
+      },
+      {
+        "title": "3D winter at high restores summer without reloading models",
+        "status": "passed",
+        "duration_ms": 12748
+      },
+      {
+        "title": "3D spring at low restores summer without reloading models",
+        "status": "passed",
+        "duration_ms": 12610
+      },
+      {
+        "title": "3D spring at standard restores summer without reloading models",
+        "status": "passed",
+        "duration_ms": 12801
+      },
+      {
+        "title": "3D spring at high restores summer without reloading models",
+        "status": "passed",
+        "duration_ms": 13226
+      },
+      {
+        "title": "a delayed garden uses the latest spring selection without resetting the body",
+        "status": "passed",
+        "duration_ms": 7135
+      }
+    ]
+  }
+}

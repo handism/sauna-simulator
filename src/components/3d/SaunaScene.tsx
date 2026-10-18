@@ -26,6 +26,7 @@ import { attachLookControls } from './lookControls';
 import { disposeTree, prepareModel } from './modelMaterials';
 import { applyIrradiance, createProbeTextures } from './irradiance';
 import { createDeckIrradiance, isolateDeckReceivers } from './deckIrradiance';
+import { createRoomIrradiance, isolateRoomReceivers } from './roomIrradiance';
 import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
@@ -300,7 +301,7 @@ export default function SaunaScene({
     async function load() {
       try {
         const get = createModelFetch(abort.signal);
-        const { definition, model, irradiance, reflection, deck } = await fetchSceneAssets(get);
+        const { definition, model, irradiance, reflection, deck, room } = await fetchSceneAssets(get);
         if (disposed || failed) return;
         // Throws on a layout mismatch before the model is parsed.
         const probes = createProbeTextures(irradiance, reflection);
@@ -309,6 +310,12 @@ export default function SaunaScene({
         releaseProbes = () => {
           probes.dispose();
           deckLight.dispose();
+        };
+        const roomLight = createRoomIrradiance(room.header, room.buffer);
+        releaseProbes = () => {
+          probes.dispose();
+          deckLight.dispose();
+          roomLight.dispose();
         };
         probes.apply(lighting.irradiance);
         setData('irradianceProbes', String(probes.probes));
@@ -325,6 +332,7 @@ export default function SaunaScene({
         };
         const prepare = (root: THREE.Object3D) => {
           count('deckIrradianceTriangles', isolateDeckReceivers(root));
+          count('roomIrradianceTriangles', isolateRoomReceivers(root));
           const stats = prepareModel(root);
           // Before the seasons: the autumn leaves lie on the forest floor too.
           count('forestFloorMaterials', forestFloor.apply(root));
@@ -337,6 +345,7 @@ export default function SaunaScene({
           count('glassMeshes', applyGlass(root, lighting.irradiance));
           count('irradianceMaterials', applyIrradiance(root, lighting.irradiance));
           count('deckIrradianceMaterials', deckLight.apply(root));
+          count('roomIrradianceMaterials', roomLight.apply(root));
           count('reflectionMaterials', applyReflection(root, lighting.irradiance));
           count('waterBottomMaterials', applyWaterBottom(root));
           for (const [key, value] of Object.entries(stats)) count(key, value);
@@ -721,6 +730,13 @@ export default function SaunaScene({
           setData('geometries', String(renderer.info.memory.geometries));
         });
       } catch {
+        // Construction can fail after earlier probe textures have been allocated.
+        // Release them now; owner teardown must not dispose the same textures twice.
+        if (!disposed) {
+          const release = releaseProbes;
+          releaseProbes = () => {};
+          release();
+        }
         fail();
       }
     }

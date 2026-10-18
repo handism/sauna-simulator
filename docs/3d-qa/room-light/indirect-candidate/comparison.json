@@ -1,0 +1,286 @@
+{
+  "browser": "155.0.8059.80",
+  "inputs": {
+    "src/components/3d/roomIrradiance.ts": "639cce32839d33a629a5bd7af1fc85d7bcd5b14a81c65ba83b957b3751c7bbe1",
+    "public/models/room-irradiance.json": "23e56897604586e61da0f0e4262299a39b308fc9d69333d4fa3baf970b9daafa",
+    "public/models/room-irradiance.bin": "25d6642e57b02811e950551694cd1ed68a9d6d2d7e8281a2219c4513af1c0d35",
+    "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd"
+  },
+  "report_sha256": "9fd0d45031d5111681248e12c0e18360c51c883da10d5db98563e2fbdcf2f1ce",
+  "captures": {
+    "before-1/seated-day.png": "ea1fb9a71bfb3a0e70b0ae2ee37c842b9ff9fbbee12396fc1f95a0b6d4dce0e0",
+    "before-1/seated-evening.png": "1d5397b58fa4b380ffbbe53d9ad8e34da3010abd9a2c67aa7eb0ec52ecaffde8",
+    "before-1/seated-night.png": "795bd348db03b0ab1dc2c65ac36b3c38e6056b2547356182789989a704b2ea3d",
+    "before-1/rear-day.png": "c58b05957f4a9e323069d5865c1d05daf2ffd771ed8219fc84cb04563f42f15b",
+    "before-1/rear-evening.png": "0e1e404fdfc27c845e1d3091081b00f98821f9d02e7c6557b709ca4e93e7db5c",
+    "before-1/rear-night.png": "69758b15cd474e6b6b1d5269d6cefbca87eec18da6765b990dfc0d52ced08d21",
+    "before-1/review-day.png": "b5078edd984128b2fca9600537c7d9e21160f25fd08e32a03cceb83bc4b1738d",
+    "before-1/review-evening.png": "1c4736fddfdb5adf5bc123e114297b356f08646859e7ab6e96585bf0f64f267f",
+    "before-1/review-night.png": "b396e306f05c9c7a4c22ba3896f8699e3608b0cc1179d5fd5a9945813422cfb2",
+    "after-1/seated-day.png": "3f69426b0f09a3cac311ff631bcc1b6fb623b603b47a2469395dda70df158c85",
+    "after-1/seated-evening.png": "cef0d856e79ad5d9f009076971ca4c55ec2aa1eb84660def84d948965c9aedfe",
+    "after-1/seated-night.png": "12777c633653c8739c79a2d2cdd6fd3d1b977e904a2651887d1f079a7575d99e",
+    "after-1/rear-day.png": "60e6f8cfacc77a48b7d8736fabfdb9483bc476f7689845b3517d3fc882a325c1",
+    "after-1/rear-evening.png": "1acb1adc07d66b1ba0f6697c21dda0d8272216bc53a7d415dd664b29fcdcd61a",
+    "after-1/rear-night.png": "f2aeb6b6b85cd03d429be032dc0c1ef9b57210667df429eac5b1d91d118173ee",
+    "after-1/review-day.png": "4f8d36bc3c2f72b876434c22565cac4f34439526bedde67f6e79fc96199bc510",
+    "after-1/review-evening.png": "88cfaddf05b104a82386d2ccd8d60429e418435768dc20e630bb82a6116e9665",
+    "after-1/review-night.png": "fe399b3ff3fc0ff3f106b40a494d31cdddd5f3be14ef10abffe350eb9f0c9bb0",
+    "after-2/seated-day.png": "3f69426b0f09a3cac311ff631bcc1b6fb623b603b47a2469395dda70df158c85",
+    "after-2/seated-evening.png": "cef0d856e79ad5d9f009076971ca4c55ec2aa1eb84660def84d948965c9aedfe",
+    "after-2/seated-night.png": "12777c633653c8739c79a2d2cdd6fd3d1b977e904a2651887d1f079a7575d99e",
+    "after-2/rear-day.png": "60e6f8cfacc77a48b7d8736fabfdb9483bc476f7689845b3517d3fc882a325c1",
+    "after-2/rear-evening.png": "1acb1adc07d66b1ba0f6697c21dda0d8272216bc53a7d415dd664b29fcdcd61a",
+    "after-2/rear-night.png": "f2aeb6b6b85cd03d429be032dc0c1ef9b57210667df429eac5b1d91d118173ee",
+    "after-2/review-day.png": "4f8d36bc3c2f72b876434c22565cac4f34439526bedde67f6e79fc96199bc510",
+    "after-2/review-evening.png": "88cfaddf05b104a82386d2ccd8d60429e418435768dc20e630bb82a6116e9665",
+    "after-2/review-night.png": "fe399b3ff3fc0ff3f106b40a494d31cdddd5f3be14ef10abffe350eb9f0c9bb0",
+    "before-2/seated-day.png": "ea1fb9a71bfb3a0e70b0ae2ee37c842b9ff9fbbee12396fc1f95a0b6d4dce0e0",
+    "before-2/seated-evening.png": "1d5397b58fa4b380ffbbe53d9ad8e34da3010abd9a2c67aa7eb0ec52ecaffde8",
+    "before-2/seated-night.png": "795bd348db03b0ab1dc2c65ac36b3c38e6056b2547356182789989a704b2ea3d",
+    "before-2/rear-day.png": "c58b05957f4a9e323069d5865c1d05daf2ffd771ed8219fc84cb04563f42f15b",
+    "before-2/rear-evening.png": "0e1e404fdfc27c845e1d3091081b00f98821f9d02e7c6557b709ca4e93e7db5c",
+    "before-2/rear-night.png": "69758b15cd474e6b6b1d5269d6cefbca87eec18da6765b990dfc0d52ced08d21",
+    "before-2/review-day.png": "9fdd55eb52fc1d3c60fe1f6b06e189b20750853703ec3487e63efde75f31db62",
+    "before-2/review-evening.png": "84e36959af89765789e7edeb6d35a4aef4b9c2755fd72721f96ecea38ab12cb4",
+    "before-2/review-night.png": "b799be05c36f340d15fff7add1415e706240a562dd680b78d64ab74d4e53cb94"
+  },
+  "views": [
+    {
+      "view": "seated",
+      "lighting": "day",
+      "before_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 262,
+          "max_channel": 1,
+          "mean_channel": 0.00012890625
+        },
+        {
+          "changed_pixels": 262,
+          "max_channel": 1,
+          "mean_channel": 0.00012890625
+        }
+      ]
+    },
+    {
+      "view": "seated",
+      "lighting": "evening",
+      "before_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 73,
+          "max_channel": 1,
+          "mean_channel": 2.4739583333333333e-05
+        },
+        {
+          "changed_pixels": 73,
+          "max_channel": 1,
+          "mean_channel": 2.4739583333333333e-05
+        }
+      ]
+    },
+    {
+      "view": "seated",
+      "lighting": "night",
+      "before_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 49,
+          "max_channel": 1,
+          "mean_channel": 1.66015625e-05
+        },
+        {
+          "changed_pixels": 49,
+          "max_channel": 1,
+          "mean_channel": 1.66015625e-05
+        }
+      ]
+    },
+    {
+      "view": "rear",
+      "lighting": "day",
+      "before_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 237794,
+          "max_channel": 16,
+          "mean_channel": 0.261177734375
+        },
+        {
+          "changed_pixels": 237794,
+          "max_channel": 16,
+          "mean_channel": 0.261177734375
+        }
+      ]
+    },
+    {
+      "view": "rear",
+      "lighting": "evening",
+      "before_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 229709,
+          "max_channel": 20,
+          "mean_channel": 0.33065625
+        },
+        {
+          "changed_pixels": 229709,
+          "max_channel": 20,
+          "mean_channel": 0.33065625
+        }
+      ]
+    },
+    {
+      "view": "rear",
+      "lighting": "night",
+      "before_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 231191,
+          "max_channel": 22,
+          "mean_channel": 0.3662470703125
+        },
+        {
+          "changed_pixels": 231191,
+          "max_channel": 22,
+          "mean_channel": 0.3662470703125
+        }
+      ]
+    },
+    {
+      "view": "review",
+      "lighting": "day",
+      "before_recapture": {
+        "changed_pixels": 1,
+        "max_channel": 7,
+        "mean_channel": 4.231770833333333e-06
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 95132,
+          "max_channel": 13,
+          "mean_channel": 0.06743424479166667
+        },
+        {
+          "changed_pixels": 95133,
+          "max_channel": 13,
+          "mean_channel": 0.0674384765625
+        }
+      ]
+    },
+    {
+      "view": "review",
+      "lighting": "evening",
+      "before_recapture": {
+        "changed_pixels": 1,
+        "max_channel": 3,
+        "mean_channel": 2.2786458333333335e-06
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 90427,
+          "max_channel": 19,
+          "mean_channel": 0.07584830729166667
+        },
+        {
+          "changed_pixels": 90428,
+          "max_channel": 19,
+          "mean_channel": 0.0758505859375
+        }
+      ]
+    },
+    {
+      "view": "review",
+      "lighting": "night",
+      "before_recapture": {
+        "changed_pixels": 1,
+        "max_channel": 2,
+        "mean_channel": 1.953125e-06
+      },
+      "after_recapture": {
+        "changed_pixels": 0,
+        "max_channel": 0,
+        "mean_channel": 0.0
+      },
+      "changes": [
+        {
+          "changed_pixels": 91948,
+          "max_channel": 21,
+          "mean_channel": 0.08245052083333333
+        },
+        {
+          "changed_pixels": 91949,
+          "max_channel": 21,
+          "mean_channel": 0.08245247395833333
+        }
+      ]
+    }
+  ],
+  "scope": "same-build shader ablation; standard DPR1 static views; not device FPS or continuous-motion approval"
+}

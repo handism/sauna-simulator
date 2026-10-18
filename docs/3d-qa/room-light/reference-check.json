@@ -1,0 +1,80 @@
+{
+  "references": {
+    "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+    "blender": "4.5.11 LTS",
+    "camera": {
+      "position": [
+        -3.2,
+        1.65,
+        -2.78
+      ],
+      "target": [
+        -3.6,
+        0.65,
+        -4.5
+      ],
+      "fov": 58
+    },
+    "samples": 128,
+    "size": [
+      640,
+      400
+    ],
+    "captures": [
+      {
+        "lighting": "day",
+        "file": "rear-day.png",
+        "sha256": "b550eaf1d01708631fd932f91c6b320bbd613d184df7f2758e28ecad66c18f12"
+      },
+      {
+        "lighting": "evening",
+        "file": "rear-evening.png",
+        "sha256": "f51c357cda23a2d4bd72dc97f609fe8081ed266ae51363a1b9165e4779f6f2a5"
+      },
+      {
+        "lighting": "night",
+        "file": "rear-night.png",
+        "sha256": "f21635021cbc69f69cc9bbfa0cb014eaa23f22bed49723cc0264a19a234149fb"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "lighting": "day",
+      "changed_pixels": 0,
+      "region": "whole frame; daytime correction disabled",
+      "before_deltaE": 8.15762916653407,
+      "after_deltaE": 8.15762916653407,
+      "reference_sha256": "b550eaf1d01708631fd932f91c6b320bbd613d184df7f2758e28ecad66c18f12",
+      "browser_sha256": [
+        "c58b05957f4a9e323069d5865c1d05daf2ffd771ed8219fc84cb04563f42f15b",
+        "5eb7c98682b1f4707f8557e5b384914434b6264ad153938ae9747a6c8171edb1"
+      ]
+    },
+    {
+      "lighting": "evening",
+      "changed_pixels": 62184,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 11.202510682154406,
+      "after_deltaE": 9.807423373865566,
+      "reference_sha256": "f51c357cda23a2d4bd72dc97f609fe8081ed266ae51363a1b9165e4779f6f2a5",
+      "browser_sha256": [
+        "0e1e404fdfc27c845e1d3091081b00f98821f9d02e7c6557b709ca4e93e7db5c",
+        "f97b921a58f75ad3f07a6b950dc1b2c86c0b9ab05e79e22cfe0391436ed9a630"
+      ]
+    },
+    {
+      "lighting": "night",
+      "changed_pixels": 63447,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 11.682994248475197,
+      "after_deltaE": 10.073113509812432,
+      "reference_sha256": "f21635021cbc69f69cc9bbfa0cb014eaa23f22bed49723cc0264a19a234149fb",
+      "browser_sha256": [
+        "69758b15cd474e6b6b1d5269d6cefbca87eec18da6765b990dfc0d52ced08d21",
+        "2fd7999eb1bcd9564d1e9d1e0b4d1d402ed0dee61b630c061c2c4612ff4c7981"
+      ]
+    }
+  ],
+  "scope": "local changed pixels, >1 RGB level after 2x box downsampling; source geometry/material differences remain; not overall image-quality improvement"
+}
