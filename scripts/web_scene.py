@@ -17,6 +17,11 @@ def write_definition(out, reports=None):
             'water': view((1.18, 2.7, 1.12), (1.18, -3.5, 1.35), 68),
             'totonou': view((4.86, 1.79, 1.48), (4.2, -6.2, 2.3), 65),
         },
+        # Lower bench: seat top .565m, eye 1.085m above it. Keep the review
+        # anchors above unchanged for existing Cycles comparisons.
+        'stageViews': {
+            'sauna': view((-3.2, 2.78, 1.65), (-.95, .65, 1.4), 65),
+        },
         'stove': web((-1.25, 1.28, 1.12)),
         'water': {'center': web((1.18, 2.5, .765)), 'size': [2.65, 3.17],
                   'inlet': web((1.18, 4.12, .79)), 'spout': web((1.18, 4.12, 1.12))},

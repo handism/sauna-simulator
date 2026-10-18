@@ -137,7 +137,7 @@ test('the 3D scene and its regeneration add no audio nodes', async ({ page }, in
   for (const pose of poses) {
     // AudioParam values are single precision.
     expect(pose.panners).toEqual([definition.stove, definition.water.spout].map((p: number[]) => p.map(Math.fround)));
-    expect(pose.listener.some((value) => value !== 0)).toBe(true);
+    expect(pose.listener).toEqual(definition.stageViews.sauna.position.map(Math.fround));
   }
   expect(errors).toEqual([]);
 });

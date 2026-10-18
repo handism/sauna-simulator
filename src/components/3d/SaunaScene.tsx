@@ -63,7 +63,8 @@ const STAGES: AmbientEnv[] = ['sauna', 'water', 'totonou'];
 
 const STAGE_LABELS: Record<AmbientEnv, string> = { sauna: 'サウナ', water: '水風呂', totonou: '外気浴' };
 
-// The scene's views are the Cycles review cameras. Entering a stage looks this much lower (radians)
+// stageViews overrides the review anchors with seated product positions where provided.
+// Entering a stage looks this much lower (radians)
 // so its subject clears the stage dock along the bottom of the screen: the stove, the water around
 // the seat, and in the rest area the scenery below the pergola beam that crossed the stage heading.
 // ?camera=review keeps the review cameras as they are, for the captures paired with Cycles renders.
@@ -433,7 +434,7 @@ export default function SaunaScene({
           return stats;
         };
         const placeCamera = (next: AmbientEnv) => {
-          const view = definition.views[next];
+          const view = (!reviewCamera && definition.stageViews?.[next]) || definition.views[next];
           camera.position.fromArray(view.position);
           camera.lookAt(new THREE.Vector3().fromArray(view.target));
           if (!reviewCamera) camera.rotation.x += STAGE_PITCH[next];

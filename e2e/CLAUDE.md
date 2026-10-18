@@ -6,7 +6,7 @@
 
 - 静止画検証のブラウザは `VISUAL_BROWSER=webkit bun run test:browser:visual ...` でWebKitへ切り替えられる。省略時は既存のGoogle Chrome。WebKitは実Safariの検証とは分ける。高画質の全周ABBAは `SURROUND_QUALITY=high` を併用し、集計にも `--quality high` を渡す。
 
-- `sauna.scene.json` の `views` を差し替えてCyclesのカメラで撮るテスト（`cycles-compare`・`body-normals*`・`capture-stability`・`deck-light`・`scene-gpu-time`・`sun-shadow`）は `?camera=review` で開く。付けないとアプリの初期視点の俯角（`SaunaScene.tsx` の `STAGE_PITCH`）が足される。既定視点を撮る・測るテストの画像と費用は2026-10-18から俯角付きの視点で、それ以前の記録と直接比べない。矢印キーで下限まで下げてから上げる撮影（`stage-compare` など）は俯仰が絶対値になるため影響しない。
+- `sauna.scene.json` の `views` を差し替えてCyclesのカメラで撮るテスト（`cycles-compare`・`body-normals*`・`capture-stability`・`deck-light`・`scene-gpu-time`・`sun-shadow`）は `?camera=review` で開く。付けないと `stageViews` の着座位置（現在サウナのみ）とアプリの初期視点の俯角（`SaunaScene.tsx` の `STAGE_PITCH`）が足される。既定視点を撮る・測るテストの画像と費用は2026-10-18から俯角付き、サウナは下段の新しい着座位置で、それ以前の記録と直接比べない。矢印キーで下限まで下げてから上げる撮影（`stage-compare` など）は俯仰が絶対値になるため影響しない。
 - 入室ボタンは「入室する」1つで音ありになる。計測・撮影は `?sound=off` で同じボタンからミュートのまま入る（従来の「音なしで入室する」と同じ状態）。画質の選択は利用者向けメニューにないため、画質を選ぶ・保存値（`sui-quality`）を使うテストと診断は `?quality` を付けて開く（`settings-controls.ts` の `chooseSceneSetting(page, '3Dの画質', …)` はこの選択肢を操作する）。
 - 実ブラウザ回帰検証は `bun run test:browser`。本番ビルドを生成し、専用の127.0.0.1:4175でプレビュー、インストール済みGoogle Chromeをheadless起動する。`e2e/*.e2e.ts` はVitestと分離し、型検査・Lintの対象に含める。5回の2D/3D切り替え、ステージ一巡、`WEBGL_lose_context`による喪失後の2D継続と再試行、取得保留中の解除、実時間30秒のタイムアウト、キーボードショートカット（クリック後のボタン上の`Space`、遷移中の無視）と全画面切り替えを確認する。`test-results/` はGit管理外。長時間・実機タッチ・音の実聴を検証するものではない。
 - `scene-warmup.e2e.ts` は試験の初回描画の分割（`?warmup=split`）で、温め中の画質変更（やり直して新しい画質で準備完了）、庭の温め中のリサイズ（canvasの寸法は温め後まで変えない）とステージ変更（やり直して水風呂で準備完了）、本体の温め中の2D切り替えと庭の温め中の実コンテキスト喪失（2Dで継続し再試行で復帰）、30秒期限の超過（2Dへ戻り再試行で準備完了）を確かめる。時間帯は本体／庭それぞれの温め中に2回選び、両操作後も同じ準備段階にいること、完了後と水風呂への移動後に最後の選択と時間値が反映されること、同一canvas・GLB各1取得・ミュートの維持を確認する（動作抑制あり、初回表示の画素比較や自動時間帯の検証ではない）。検証ブラウザ内で `readPixels` を150ms（期限のテストは1秒）待たせ、キャッシュが温まっていても各ステップで処理を返させる（読み込み時間の計測ではない）。後回しの描画状態の有無は `scripts/diagnose_compile_batches.mjs` の条件 `w` で測る。
@@ -83,3 +83,5 @@
 - `refraction-sway.visual.ts` は季節補正あり・像の揺らぎなしの独立ビルドを基準に、標準DPR1・固定解像度・TAAあり、昼夕×正面／見下ろしで36位相を1/60秒刻み・各2 rAFで撮る。`refraction-frame-control.ts` が撮影中の実アプリrAFを保留し、明示的なstepで同じ時刻を渡す。動作抑制を各経路2枚含め152 PNG／回。実時間の動画やFPSではない。`summarize_season_water.py` へ4報告をABBAで渡して位相・入力・再撮影差を照合する。
 
 - `season-water-cost.gpu.ts` は季節補正と水越しの像の揺らぎの結合版用。冬・標準DPR1、3ステージ×昼夕夜、水風呂は右10回・下32回の見下ろし。`FRAME_COST_REPEAT=3 FRAME_COST_VARIANTS=warmup,product` と `product` のABBAで測り、ANGLE Metalのtimerではなく描画を発行したフレーム間隔をrepeatで割った値を比較する。撮影・Blender・別GPU検証と同時に実行しない。
+
+- `sauna-seat.visual.ts` は `stageViews` なし／ありのサウナを、1280×800・390×844・844×390の昼夕夜で撮る。変更後はロウリュ、水平8方向、ステージ一巡後も撮影し、同一canvasとエラーなしを検査する。標準・DPR1・動作抑制の静止画で、実機や連続動作の評価ではない。記録は `docs/3d-qa/sauna-seat/`。

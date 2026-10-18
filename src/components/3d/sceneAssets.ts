@@ -6,6 +6,7 @@ import type { DeckIrradianceHeader } from './deckIrradiance';
 /** public/models/sauna.scene.json, written by scripts/export_web_glb.py. */
 export interface SceneDefinition {
   views: Record<AmbientEnv, { position: number[]; target: number[]; fov: number }>;
+  stageViews?: Partial<SceneDefinition['views']>;
   stove: number[];
   water: WaterDefinition;
 }

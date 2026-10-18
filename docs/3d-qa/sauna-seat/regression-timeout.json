@@ -1,0 +1,36 @@
+{
+  "stats": {
+    "startTime": "2026-10-18T03:20:38.427Z",
+    "duration": 117844.49500000001,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "the 3D scene and its regeneration add no audio nodes",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "timedOut",
+          "duration": 95689,
+          "errors": [
+            "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "narrow controls, keyboard look and resize preserve the loaded scene",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 14503,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

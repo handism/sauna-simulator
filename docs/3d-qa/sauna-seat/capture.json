@@ -1,0 +1,230 @@
+{
+  "stats": {
+    "startTime": "2026-10-18T03:18:49.875Z",
+    "duration": 70692.69,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "captures": [
+    {
+      "file": "before-desktop-day.png",
+      "sha256": "5af971b090712eb56e773b8330ec559b229a526ab700aa69f1ea766ecec7be4f"
+    },
+    {
+      "file": "before-desktop-evening.png",
+      "sha256": "62a52ef0e0d15f291d80b04454f77ab75815dc51db0a069e42c2c948e13f4a9a"
+    },
+    {
+      "file": "before-desktop-night.png",
+      "sha256": "4224fa2eafe1a386b8714045929f959eac419ed825332da79800605f279c5d6d"
+    },
+    {
+      "file": "before-landscape-day.png",
+      "sha256": "438d946615f77615810763257d23b02895114f6fc191e617bdfe44f51233888f"
+    },
+    {
+      "file": "before-landscape-evening.png",
+      "sha256": "986ac385762103ba5e7f6493f943d2f0b14d7cecfaede0af70cc25bd1d26fc21"
+    },
+    {
+      "file": "before-landscape-night.png",
+      "sha256": "20a54a0a4860ee81856a742c2bfd4d3426b34e6552a9575734a95cefccb8527a"
+    },
+    {
+      "file": "before-portrait-day.png",
+      "sha256": "0c457095fce3a67a9d6de272bc58b3f0b989b010187799e0dffe0378d5ae4b58"
+    },
+    {
+      "file": "before-portrait-evening.png",
+      "sha256": "72367e9087dc4e6110808b3d845d329cd9012857e554aa27f444bb51ca33a53a"
+    },
+    {
+      "file": "before-portrait-night.png",
+      "sha256": "5cf524e387fba38abe0ce17510a41552a35c361bd6d530015f6a20029e1bb006"
+    },
+    {
+      "file": "after-desktop-day.png",
+      "sha256": "03cd23a508f8fe7c37a3007fff38876b181dbdd7dcd5b017d1f101916693b7b5"
+    },
+    {
+      "file": "after-desktop-evening.png",
+      "sha256": "3a97b86ac86f9cd9449ad5c12f921e1b892552614a464cdbeb1c620542048acc"
+    },
+    {
+      "file": "after-desktop-loyly.png",
+      "sha256": "0a968bbd07a95595b9dd7e675dfc8960939c736ba0173598b9dce39c4d5c84d5"
+    },
+    {
+      "file": "after-desktop-night.png",
+      "sha256": "eca195adb488fb2d2554b586ba4ab776d87d9d0cbe730448ac171f92442dff16"
+    },
+    {
+      "file": "after-landscape-day.png",
+      "sha256": "b122f5aef08e26bbf7986788f383d7d5a5227a48b33f2dc9aaa9c15c640a03cf"
+    },
+    {
+      "file": "after-landscape-evening.png",
+      "sha256": "0d4782991dc6e9e766690c0c0fada93515b1acc72e0507ec1f393377f6d98305"
+    },
+    {
+      "file": "after-landscape-loyly.png",
+      "sha256": "d0b28bd7c0336292217b1f392157074aee7442715db56e99a93d2b9ef95c472c"
+    },
+    {
+      "file": "after-landscape-night.png",
+      "sha256": "59025665f47e9b64ba898249fcf603120f3f354fbdeeca82fea61d6b2f2ec988"
+    },
+    {
+      "file": "after-look-0.png",
+      "sha256": "8416cf78d0cfd2105515f29174fa237076496bd5103bc1d033049090dc95d62b"
+    },
+    {
+      "file": "after-look-1.png",
+      "sha256": "2731c2b6a7a8df7a8a49d98b91b756d4a9d92722275537f6db885552335ada24"
+    },
+    {
+      "file": "after-look-2.png",
+      "sha256": "c3670b622760c38960f31bf1402b71f6c92a0e148ff70789ea9e774b1cb5f207"
+    },
+    {
+      "file": "after-look-3.png",
+      "sha256": "e06dca2265cdab40ae6ac8cfdd9a9d652489432af4c93a5a88e5a85f600206fa"
+    },
+    {
+      "file": "after-look-4.png",
+      "sha256": "f29bb6a73ed1bc533c97e386a904a8821a71de554de585e50b96d6cf460036b2"
+    },
+    {
+      "file": "after-look-5.png",
+      "sha256": "4351a224d5c6287c89f95edb33949b1f6470f53cdf28741aeb5cb509a6c8ff9b"
+    },
+    {
+      "file": "after-look-6.png",
+      "sha256": "6c5f921367133dcd2d26ecdc8545b33b2173e24700347243cd093a10d7483ca2"
+    },
+    {
+      "file": "after-look-7.png",
+      "sha256": "3b9cf0fbd37afa83b52e7b3da47e4561cc20d64eb08f6e7cd5f72093bbf08ac9"
+    },
+    {
+      "file": "after-portrait-day.png",
+      "sha256": "87303be7d26ccea9b90868ba8bc19db2a3bd642bfee1d175813bd4be44a790ef"
+    },
+    {
+      "file": "after-portrait-evening.png",
+      "sha256": "b3fb7f935c9e40a8367cd90ad1d035795d59119706259d72b49e258204b6e5e8"
+    },
+    {
+      "file": "after-portrait-loyly.png",
+      "sha256": "cad97bc58bf471e2572ab8d1cd19fe7857eb9473a715e14b00ed3df01d0c5f08"
+    },
+    {
+      "file": "after-portrait-night.png",
+      "sha256": "b9cef735f081496fa495b9e1e12ddea97c565954a474f38f8a8f5a649330b87e"
+    },
+    {
+      "file": "after-returned.png",
+      "sha256": "8d27909c38162c1545b43e97c5cec6c892dfc16a7f3ad7e37fc14536bd373fbc"
+    }
+  ],
+  "inputs": {
+    "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1",
+    "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+    "src/components/3d/SaunaScene.tsx": "8a2e6b20d924008998af3884ea77832e05810551ec40ba212b287a048f5a63c6",
+    "e2e/sauna-seat.visual.ts": "4cf510cb7ea260d45dca537ca458eacdaada0c7e577dcce739e351b9e3a32da8"
+  },
+  "runs": [
+    {
+      "variant": "before",
+      "browser": "155.0.8059.80",
+      "captures": [
+        "before-desktop-day.png",
+        "before-desktop-evening.png",
+        "before-desktop-night.png",
+        "before-portrait-day.png",
+        "before-portrait-evening.png",
+        "before-portrait-night.png",
+        "before-landscape-day.png",
+        "before-landscape-evening.png",
+        "before-landscape-night.png"
+      ],
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "browser": "155.0.8059.80",
+      "captures": [
+        "after-desktop-day.png",
+        "after-desktop-evening.png",
+        "after-desktop-night.png",
+        "after-desktop-loyly.png",
+        "after-portrait-day.png",
+        "after-portrait-evening.png",
+        "after-portrait-night.png",
+        "after-portrait-loyly.png",
+        "after-landscape-day.png",
+        "after-landscape-evening.png",
+        "after-landscape-night.png",
+        "after-landscape-loyly.png",
+        "after-look-0.png",
+        "after-look-1.png",
+        "after-look-2.png",
+        "after-look-3.png",
+        "after-look-4.png",
+        "after-look-5.png",
+        "after-look-6.png",
+        "after-look-7.png",
+        "after-returned.png"
+      ],
+      "errors": []
+    }
+  ],
+  "seat": {
+    "before": {
+      "view": {
+        "position": [
+          -4.9,
+          2.12,
+          -3.65
+        ],
+        "target": [
+          -1.25,
+          1.1,
+          -1.28
+        ],
+        "fov": 65
+      },
+      "horizontalDistanceToStove": 4.351942095203015
+    },
+    "after": {
+      "view": {
+        "position": [
+          -3.2,
+          1.65,
+          -2.78
+        ],
+        "target": [
+          -0.95,
+          1.4,
+          -0.65
+        ],
+        "fov": 65
+      },
+      "horizontalDistanceToStove": 2.4601829200285086
+    },
+    "lowerBench": {
+      "x": [
+        -6.01,
+        -1.19
+      ],
+      "z": [
+        -3.028,
+        -2.512
+      ],
+      "seatTopY": 0.565,
+      "eyeAboveSeat": 1.085
+    }
+  }
+}
