@@ -964,9 +964,9 @@ h2:focus {
 /* Screen-space effects are replaced by world-space effects when 3D is ready. */
 /* ロウリュの蒸気。--steam-x / --steam-y は背景画像の中心からのずれ（画像の辺に対する割合）で、
    正方形の背景を cover で敷くと画像の1辺は画面の長辺になるため、長辺を掛けて画面座標にする。
-   ひとつの要素に濃さの違う塊を重ね、立ちのぼる湯気の量感を出す */
+   本体と ::before / ::after の3層で立ちのぼる速さ・揺れ・広がりを分け、ストーブの暖色光を足元に添える */
 .sauna-steam-particle {
-  --steam-size: 220px;
+  --steam-size: 240px;
   --steam-side: max(100vw, 100dvh);
   position: absolute;
   left: max(-60px, calc(50% + var(--sauna-bg-shift, 0px) + var(--steam-x) * var(--steam-side) - var(--steam-size) / 2));
@@ -974,14 +974,41 @@ h2:focus {
   width: var(--steam-size);
   height: var(--steam-size);
   background:
-    radial-gradient(circle at 50% 60%, #ffffff5c 0%, transparent 45%),
-    radial-gradient(circle at 32% 40%, #ffffff3d 0%, transparent 40%),
-    radial-gradient(circle at 68% 35%, #ffffff33 0%, transparent 42%);
+    radial-gradient(
+      ellipse 52% 44% at 50% 72%,
+      color-mix(in srgb, var(--wood-light) 48%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(circle at 48% 56%, #ffffff66 0%, transparent 48%),
+    radial-gradient(circle at 32% 40%, #ffffff42 0%, transparent 42%),
+    radial-gradient(circle at 68% 36%, #ffffff38 0%, transparent 44%);
   border-radius: 50%;
-  filter: blur(6px);
-  animation: steam-rise 4s ease-out forwards;
+  filter: blur(8px);
+  animation: steam-rise 4s cubic-bezier(0.22, 0.68, 0.36, 1) forwards;
   pointer-events: none;
   z-index: 5;
+}
+.sauna-steam-particle::before,
+.sauna-steam-particle::after {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.sauna-steam-particle::before {
+  background:
+    radial-gradient(ellipse 46% 54% at 38% 58%, #fff6eb59 0%, transparent 55%),
+    radial-gradient(circle at 64% 34%, #ffffff45 0%, transparent 48%);
+  filter: blur(10px);
+  animation: steam-wisp-left 4s ease-out forwards;
+}
+.sauna-steam-particle::after {
+  background:
+    radial-gradient(ellipse 50% 45% at 62% 52%, #ffffff4d 0%, transparent 52%),
+    radial-gradient(circle at 36% 28%, #fff8f038 0%, transparent 46%);
+  filter: blur(12px);
+  animation: steam-wisp-right 4s ease-out forwards;
 }
 /* 縦長の画面では、ストーブが下部の操作パネルに隠れる。パネルの上端から立ちのぼらせる（--steam-floor） */
 @media (orientation: portrait) {
@@ -994,14 +1021,44 @@ h2:focus {
 }
 @keyframes steam-rise {
   0% {
-    transform: translateY(0) scale(0.8);
+    transform: translateY(10px) scale(0.65, 0.55);
     opacity: 0;
   }
-  15% {
+  14% {
     opacity: 1;
   }
+  55% {
+    transform: translateY(-24vh) translateX(10px) scale(1.9, 2.15);
+    opacity: 0.78;
+  }
   100% {
-    transform: translateY(-45vh) scale(3);
+    transform: translateY(-48vh) translateX(-8px) scale(3.2, 2.8);
+    opacity: 0;
+  }
+}
+@keyframes steam-wisp-left {
+  0% {
+    transform: translate(0, 8px) scale(0.6) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-34px, -18vh) scale(1.45, 1.25) rotate(-18deg);
+    opacity: 0;
+  }
+}
+@keyframes steam-wisp-right {
+  0% {
+    transform: translate(0, 14px) scale(0.55) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(42px, -26vh) scale(1.55, 1.35) rotate(22deg);
     opacity: 0;
   }
 }
