@@ -46,7 +46,10 @@ describe('meadow grass', () => {
 
   it('thins out with distance to none', () => {
     expect(meadowDensity(0)).toBeGreaterThan(30);
+    expect(meadowDensity(7)).toBe(meadowDensity(0));
+    expect(meadowDensity(9)).toBeLessThan(meadowDensity(7));
     expect(meadowDensity(12)).toBeLessThan(meadowDensity(9));
+    expect(meadowDensity(16)).toBe(0);
     expect(meadowDensity(18)).toBe(0);
     expect(meadowDensity(30)).toBe(0);
   });
@@ -68,7 +71,7 @@ describe('meadow grass', () => {
     }
     expect(low).toBeCloseTo(0.48, 5);
     expect(high).toBeLessThan(0.5 + 0.32);
-    expect(far).toBeLessThan(18.5);
+    expect(far).toBeLessThan(16.5);
     const normal = geometry.attributes.normal;
     for (let v = 0; v < normal.count; v += 97) expect(normal.getY(v)).toBeGreaterThan(0.9);
   });

@@ -14,8 +14,8 @@ export const MEADOW_EXTENT = 16;
 export const MEADOW_MATERIAL = 'V9 | layered living moss';
 /** Tufts per square meter near the deck, and the distances (m) over which they thin out to none. */
 const DENSITY = 36;
-const THIN_FROM = 10;
-const THIN_TO = 18;
+const THIN_FROM = 7;
+const THIN_TO = 16;
 /** Surfaces this far above the ground (m) keep the blades out; higher ones (roofs, crowns) do not. */
 const CLEARANCE = 0.45;
 
@@ -145,9 +145,14 @@ export function meadowBlades(grid: MeadowGrid, random: () => number) {
       if (!grid.open[k]) continue;
       const cx = (i + 0.5) * MEADOW_CELL - MEADOW_EXTENT;
       const cz = (j + 0.5) * MEADOW_CELL - MEADOW_EXTENT;
-      const expected = meadowDensity(Math.hypot(cx, cz)) * cellArea;
+      const distance = Math.hypot(cx, cz);
+      const expected = meadowDensity(distance) * cellArea;
       let tufts = Math.floor(expected);
       if (random() < expected - tufts) tufts++;
+      const lod = Math.min(1, Math.max(0, (distance - THIN_FROM) / (THIN_TO - THIN_FROM)));
+      const minBlades = Math.round(4 - 2 * lod);
+      const bladeSpan = Math.round(5 - 2 * lod);
+      const widthScale = 1 + 0.35 * lod;
       for (let t = 0; t < tufts; t++) {
         const tx = cx + (random() - 0.5) * MEADOW_CELL;
         const tz = cz + (random() - 0.5) * MEADOW_CELL;
@@ -155,7 +160,7 @@ export function meadowBlades(grid: MeadowGrid, random: () => number) {
         const tuftHeight = 0.1 + random() * 0.18;
         const tuftTint = 0.8 + random() * 0.35;
         const dry = random() < 0.18 ? 1 : 0;
-        const count = 4 + Math.floor(random() * 5);
+        const count = minBlades + Math.floor(random() * bladeSpan);
         for (let n = 0; n < count; n++) {
           const a = random() * Math.PI * 2;
           const r = Math.sqrt(random()) * 0.06;
@@ -164,7 +169,7 @@ export function meadowBlades(grid: MeadowGrid, random: () => number) {
           const h = tuftHeight * (0.6 + random() * 0.55);
           const lean = random() * Math.PI * 2;
           const bend = h * (0.15 + random() * 0.45);
-          const width = 0.005 + random() * 0.006;
+          const width = (0.005 + random() * 0.006) * widthScale;
           const tint = tuftTint * (0.85 + random() * 0.3);
           along.set(Math.cos(lean), 0, Math.sin(lean));
           across.set(-along.z, 0, along.x);

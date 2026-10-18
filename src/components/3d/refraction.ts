@@ -479,6 +479,19 @@ function split(polygon: Polygon, corners: THREE.Vector3[], axis: 'x' | 'y' | 'z'
 }
 
 /**
+ * Whether a triangle below the water's bottom (the floor tiles and substrate slabs) faces away from
+ * the water: its vertical sides and underside are buried in the grout slab and foundation and can
+ * never be seen from above the surface, so they need neither grid subdivision nor side-image copies.
+ */
+function isBuriedFloor(corners: THREE.Vector3[]) {
+  if (Math.max(corners[0].y, corners[1].y, corners[2].y) >= WATER_VOLUME.min.y) return false;
+  const ny =
+    (corners[1].z - corners[0].z) * (corners[2].x - corners[0].x) -
+    (corners[1].x - corners[0].x) * (corners[2].z - corners[0].z);
+  return ny <= 1e-9;
+}
+
+/**
  * Cuts the triangles of `geometry` (world transform `matrix`) that reach under the water at the
  * surface and on the slicing grid. Returns the number of triangles added and the material indices
  * (0 without groups) that have triangles under the water.
@@ -503,6 +516,7 @@ export function sliceUnderwater(geometry: THREE.BufferGeometry, matrix: THREE.Ma
     for (let t = group.start; t < Math.min(group.start + group.count, index.length); t += 3)
       if (inWater(t)) {
         wet.add(group.materialIndex ?? 0);
+        if (isBuriedFloor([world[index[t]], world[index[t + 1]], world[index[t + 2]]])) continue;
         for (let e = 0; e < 3; e++)
           if (world[index[t + e]].distanceTo(world[index[t + ((e + 1) % 3)]]) > LONG_EDGE) long = true;
       }
@@ -543,11 +557,11 @@ export function sliceUnderwater(geometry: THREE.BufferGeometry, matrix: THREE.Ma
     const start = next.length;
     for (let t = group.start; t < Math.min(group.start + group.count, index.length); t += 3) {
       const source = [index[t], index[t + 1], index[t + 2]];
-      if (!inWater(t)) {
+      const corners = source.map((i) => world[i]);
+      if (!inWater(t) || isBuriedFloor(corners)) {
         next.push(...source);
         continue;
       }
-      const corners = source.map((i) => world[i]);
       let pieces: Polygon[] = [[new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 1)]];
       pieces = pieces.flatMap((p) => split(p, corners, 'y', level));
       const cut = (axis: 'x' | 'y' | 'z', from: number, to: number) => {
@@ -563,7 +577,7 @@ export function sliceUnderwater(geometry: THREE.BufferGeometry, matrix: THREE.Ma
       const over = pieces.filter((p) => !under.includes(p));
       pieces = under;
       cut('x', lo.x, hi.x);
-      cut('y', lo.y, hi.y);
+      if (hi.y - lo.y > SLICE_SPACING) cut('y', lo.y, hi.y);
       cut('z', lo.z, hi.z);
       pieces.push(...over);
       if (pieces.length === 1 && pieces[0].length === 3) {
@@ -746,7 +760,7 @@ function underwaterPart(geometry: THREE.BufferGeometry, matrix: THREE.Matrix4, l
         corners.forEach((c, e) => c.fromBufferAttribute(position, ids[e]).applyMatrix4(matrix));
         triangle.setFromPoints(corners);
         // Wholly under the surface: the slicing cut every wet triangle there.
-        if (triangle.intersectsBox(region) && triangle.max.y <= level + 1e-6) {
+        if (triangle.intersectsBox(region) && triangle.max.y <= level + 1e-6 && !isBuriedFloor(corners)) {
           parts.under.push(...ids);
           wall = corners.some((c) => beyond(c) > 0 && beyond(c) <= SIDE_WALL_LAYER);
         }

@@ -139,6 +139,12 @@ describe('refraction', () => {
       expect(box.max.x - box.min.x).toBeLessThanOrEqual(SLICE_SPACING + 1e-6);
       expect(box.max.z - box.min.z).toBeLessThanOrEqual(SLICE_SPACING + 1e-6);
     }
+    // Downward-facing undersides of floor tiles below WATER_VOLUME.min.y are not subdivided or mirrored.
+    const underside = new THREE.PlaneGeometry(0.19, 0.19).rotateX(Math.PI / 2).translate(1, 0.19, -2);
+    expect(sliceUnderwater(underside, new THREE.Matrix4(), LEVEL)).toEqual({
+      triangles: 0,
+      materials: new Set([0]),
+    });
   });
 
   it('marks the materials of meshes under the water', () => {
