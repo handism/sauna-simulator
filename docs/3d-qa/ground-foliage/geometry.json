@@ -1,0 +1,29 @@
+{
+  "gardenHash": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+  "fern": [
+    {
+      "material": "V3 | fern 0",
+      "shaped": true,
+      "vertices": 35580,
+      "triangles": 17790,
+      "maxShift": 0.06658476455657374,
+      "invalidNormals": 0
+    },
+    {
+      "material": "V3 | fern 1",
+      "shaped": true,
+      "vertices": 35356,
+      "triangles": 17678,
+      "maxShift": 0.06664697291955109,
+      "invalidNormals": 0
+    },
+    {
+      "material": "V3 | fern 2",
+      "shaped": true,
+      "vertices": 35048,
+      "triangles": 17524,
+      "maxShift": 0.06619212820718245,
+      "invalidNormals": 0
+    }
+  ]
+}

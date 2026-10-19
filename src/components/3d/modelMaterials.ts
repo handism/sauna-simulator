@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { shapeFernLeaflets } from './fernShape';
 import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
 import { INTERIOR_BOX } from './interiorLights';
@@ -60,10 +61,24 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       const excluded = INTERIOR_BOX.clone().expandByScalar(0.15).applyMatrix4(object.matrixWorld.clone().invert());
       broadenWoodlandCards(object.geometry, excluded);
     }
+    if (materials.every((material) => /^V3 \| fern [0-2]$/.test(material.name))) {
+      shapeFernLeaflets(object.geometry);
+    }
     for (const material of materials) {
       if (isFoliageMaterial(material)) foliage.add(material);
       const noise = noiseColorOf(material);
-      if (noise) noiseColors.set(material as THREE.MeshStandardMaterial, noise);
+      if (noise) {
+        const fern = /^V3 \| fern [0-2]$/.test(material.name);
+        noiseColors.set(
+          material as THREE.MeshStandardMaterial,
+          fern
+            ? {
+                ...noise,
+                stops: noise.stops.map(([at, r, g, b]) => [at, r * 0.85, g * 0.85, b * 0.85]),
+              }
+            : noise,
+        );
+      }
       const detail = surfaceDetailOf(material.name);
       if (detail && material instanceof THREE.MeshStandardMaterial) surfaces.set(material, detail);
       const ramp = imageRampOf(material);

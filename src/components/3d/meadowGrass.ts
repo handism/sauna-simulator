@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 // The meadow around the deck was the moss terrain's smooth surface alone: color patches but no
-// height, so a few meters out it read as a painted slope. Short blades (6–31cm) in small tufts stand
+// height, so a few meters out it read as a painted slope. Short bent blades in small tufts stand
 // on it near the deck, thinning with distance, in one static mesh (no draw per tuft, no per-frame
 // work, no shadow cast). Placing tens of thousands of tufts by raycasting the terrain took too long,
 // so the terrain's triangles are drawn once into a height grid, and every other solid surface near
@@ -118,7 +118,7 @@ export function meadowGrid(terrain: THREE.Mesh[], solids: THREE.Mesh[]): MeadowG
   return { size, height, open };
 }
 
-/** Tufts per square meter at distance `d` (m) from the origin. */
+/** Upper bound of tufts per square meter at distance `d` (m), before local patch thinning. */
 export function meadowDensity(d: number) {
   const t = Math.min(1, Math.max(0, (d - THIN_FROM) / (THIN_TO - THIN_FROM)));
   return DENSITY * (1 - t) * (1 - t);
@@ -146,7 +146,8 @@ export function meadowBlades(grid: MeadowGrid, random: () => number) {
       const cx = (i + 0.5) * MEADOW_CELL - MEADOW_EXTENT;
       const cz = (j + 0.5) * MEADOW_CELL - MEADOW_EXTENT;
       const distance = Math.hypot(cx, cz);
-      const expected = meadowDensity(distance) * cellArea;
+      const patch = 0.72 + 0.28 * Math.sin(cx * 1.7 + Math.sin(cz * 0.9)) * Math.sin(cz * 1.3);
+      const expected = meadowDensity(distance) * cellArea * patch;
       let tufts = Math.floor(expected);
       if (random() < expected - tufts) tufts++;
       const lod = Math.min(1, Math.max(0, (distance - THIN_FROM) / (THIN_TO - THIN_FROM)));
@@ -157,9 +158,9 @@ export function meadowBlades(grid: MeadowGrid, random: () => number) {
         const tx = cx + (random() - 0.5) * MEADOW_CELL;
         const tz = cz + (random() - 0.5) * MEADOW_CELL;
         const y = grid.height[k];
-        const tuftHeight = 0.1 + random() * 0.18;
-        const tuftTint = 0.8 + random() * 0.35;
-        const dry = random() < 0.18 ? 1 : 0;
+        const tuftHeight = 0.08 + random() * 0.13;
+        const tuftTint = 0.7 + random() * 0.22;
+        const dry = random() < 0.07 ? 1 : 0;
         const count = minBlades + Math.floor(random() * bladeSpan);
         for (let n = 0; n < count; n++) {
           const a = random() * Math.PI * 2;
@@ -170,7 +171,7 @@ export function meadowBlades(grid: MeadowGrid, random: () => number) {
           const lean = random() * Math.PI * 2;
           const bend = h * (0.15 + random() * 0.45);
           const width = (0.005 + random() * 0.006) * widthScale;
-          const tint = tuftTint * (0.85 + random() * 0.3);
+          const tint = tuftTint * (0.9 + random() * 0.18);
           along.set(Math.cos(lean), 0, Math.sin(lean));
           across.set(-along.z, 0, along.x);
           const point = (s: number, side: number) => {
@@ -186,8 +187,8 @@ export function meadowBlades(grid: MeadowGrid, random: () => number) {
           face.copy(along).multiplyScalar(-0.3).add(up).normalize();
           const shade = (s: number) => {
             // Darker at the root, where the neighboring blades shade it; dry blades are straw.
-            const light = tint * (0.45 + 0.55 * s);
-            return dry ? [light * 1.35, light * 1.2, light * 0.7] : [light, light, light * 0.9];
+            const light = tint * (0.48 + 0.38 * s);
+            return dry ? [light * 1.12, light * 1.05, light * 0.78] : [light, light, light * 0.9];
           };
           const levels = [0, 0, 0.55, 0.55, 1];
           for (const v of [0, 1, 3, 0, 3, 2, 2, 3, 4]) {
