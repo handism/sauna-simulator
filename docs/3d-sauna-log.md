@@ -2947,3 +2947,8 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 +- 負荷測定（変更前HEADとのABBA比較）では、ベンチ・左壁の反復描画間隔比は約1.02〜1.07倍。
 +- 型検査・437単体テスト・Lint・整形・本番ビルドすべて成功。記録は [room-surfaces](3d-qa/room-surfaces/README.md)。
 +
+
+## 2026-10-19 — 水風呂の注水口と落水
+
+- 注水の表現がチープという指摘に対応。従来は縦の平面1枚に正弦の縞を描き、縁石を貫通して立っていた（元blendの `V4 flowing spring ribbon` もほぼ真下に落ちて縁石を貫通する形）。`waterSpout.ts` を追加し、`Spillway fixture` の箱の底の前面から縁石の上へ10cm張り出す青銅の樋（元の `Blackened bronze` を共用）と、樋の上を流れて縁から放物線で落ちる水膜（Fresnel反射・流れの時刻で伸びる筋・下部の泡と裂け目・太い縁）、着水点の泡と56粒の水滴（主カメラのみ、動作抑制で非表示）に置き換えた。着水は元の波の中心から2cm以内。屈折によるゆがみは描かない近似。GLB・プローブ・シーン定義は変更なし。
+- 正面・横・遠景×昼夕夜を撮影して目視。型検査・440単体テスト・Lint・整形・ビルドが成功。通常ブラウザ回帰は75成功・4失敗：`audio-nodes` の3D再生成は変更前 `c018ad1` のworktreeでも同じくタイムアウト（既存）、`scene-lifecycle`・`scene-warmup` 2件は単独再実行で成功（`scene-warmup:124` は変更後のビルドで3回連続成功）。GPU時間・実機は未計測。3Dチャンク895.21→905.48kB（gzip 246.51→250.12kB）、2D入口は不変。
