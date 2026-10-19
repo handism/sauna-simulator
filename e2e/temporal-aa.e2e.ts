@@ -36,12 +36,12 @@ async function differingShare(page: Page, a: Buffer, b: Buffer, levels: number) 
   );
 }
 
-async function enter(page: Page, query: string) {
+async function enter(page: Page, query: string, quality: 'standard' | 'high' = 'standard') {
   await page.goto(`?sound=off&quality&view=3d&frameRate=full&resolution=fixed${query}`);
   await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
-  await chooseSceneSetting(page, '3Dの画質', 'standard');
+  await chooseSceneSetting(page, '3Dの画質', quality);
   await chooseSceneSetting(page, '3Dの時間帯', 'day');
   await expect(scene).toHaveAttribute('data-lighting', 'day');
   return scene;
@@ -63,36 +63,75 @@ async function capture(page: Page, scene: Locator) {
   }
   const turning = await canvas.screenshot({ style: rendererCaptureStyle });
   await page.mouse.up();
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        let remaining = 70;
+        const next = () => (--remaining > 0 ? requestAnimationFrame(next) : resolve());
+        requestAnimationFrame(next);
+      }),
+  );
+  const settled = await canvas.screenshot({ style: rendererCaptureStyle });
   await page.getByRole('button', { name: '操作を表示', exact: true }).click();
-  return { still, turning };
+  return { still, turning, settled };
 }
 
-test('the temporal blend keeps still views and changes only frames while turning', async ({ page, browser }) => {
-  test.setTimeout(120_000);
-  const errors: string[] = [];
-  page.on('pageerror', (error) => errors.push(error.message));
-  const scene = await enter(page, '');
-  await expect(scene).toHaveAttribute('data-temporal', 'on');
-  const blended = await capture(page, scene);
-  await chooseSceneSetting(page, '3Dの画質', 'low');
-  await expect(scene).toHaveAttribute('data-temporal', 'off');
-  await chooseSceneSetting(page, '3Dの画質', 'standard');
-  await expect(scene).toHaveAttribute('data-temporal', 'on');
+for (const quality of ['standard', 'high'] as const) {
+  test.describe(`temporal ${quality}`, () => {
+    test.use({ deviceScaleFactor: quality === 'high' ? 2 : 1.5 });
+    test('the temporal blend keeps still views and changes only frames while turning', async ({
+      page,
+      browser,
+    }, info) => {
+      test.setTimeout(120_000);
+      const errors: string[] = [];
+      page.on('pageerror', (error) => errors.push(error.message));
+      const scene = await enter(page, '', quality);
+      await expect(scene).toHaveAttribute('data-temporal', 'on');
+      const blended = await capture(page, scene);
+      await chooseSceneSetting(page, '3Dの画質', 'low');
+      await expect(scene).toHaveAttribute('data-temporal', 'off');
+      await chooseSceneSetting(page, '3Dの画質', quality);
+      await expect(scene).toHaveAttribute('data-temporal', 'on');
 
-  const other = await browser.newPage({
-    viewport: { width: 1200, height: 800 },
-    deviceScaleFactor: 1.5,
-    reducedMotion: 'reduce',
+      const other = await browser.newPage({
+        viewport: { width: 1200, height: 800 },
+        deviceScaleFactor: quality === 'high' ? 2 : 1.5,
+        reducedMotion: 'reduce',
+      });
+      other.on('pageerror', (error) => errors.push(error.message));
+      const plain = await enter(other, '&temporal=off', quality);
+      await expect(plain).toHaveAttribute('data-temporal', 'off');
+      const single = await capture(other, plain);
+      await other.close();
+
+      const staticShare = await differingShare(page, blended.still, single.still, STILL_LEVELS);
+      expect(staticShare).toBeLessThan(STILL_SHARE);
+      // After a turn the history must disappear, restoring sharp edges without a lasting trail.
+      const settledShare = await differingShare(page, blended.settled, single.settled, STILL_LEVELS);
+      expect(settledShare).toBeLessThan(STILL_SHARE);
+      // Turning, the history softens the popping leaves (about half the tile residual,
+      // docs/3d-qa/temporal-aa/), so a few percent of the pixels differ.
+      const turningShare = await differingShare(page, blended.turning, single.turning, 2);
+      expect(turningShare).toBeGreaterThan(0.01);
+      expect(errors).toEqual([]);
+      await info.attach('temporal-validation', {
+        contentType: 'application/json',
+        body: JSON.stringify({
+          quality,
+          browser: browser.version(),
+          staticShare,
+          settledShare,
+          turningShare,
+          errors,
+        }),
+      });
+      for (const [variant, captures] of [
+        ['temporal', blended],
+        ['off', single],
+      ] as const)
+        for (const [name, body] of Object.entries(captures))
+          await info.attach(`${variant}-${name}`, { body, contentType: 'image/png' });
+    });
   });
-  other.on('pageerror', (error) => errors.push(error.message));
-  const plain = await enter(other, '&temporal=off');
-  await expect(plain).toHaveAttribute('data-temporal', 'off');
-  const single = await capture(other, plain);
-  await other.close();
-
-  expect(await differingShare(page, blended.still, single.still, STILL_LEVELS)).toBeLessThan(STILL_SHARE);
-  // Turning, the history softens the popping leaves (about half the tile residual,
-  // docs/3d-qa/temporal-aa/), so a few percent of the pixels differ.
-  expect(await differingShare(page, blended.turning, single.turning, 2)).toBeGreaterThan(0.01);
-  expect(errors).toEqual([]);
-});
+}

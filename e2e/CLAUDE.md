@@ -87,3 +87,5 @@
 - `season-water-cost.gpu.ts` は季節補正と水越しの像の揺らぎの結合版用。冬・標準DPR1、3ステージ×昼夕夜、水風呂は右10回・下32回の見下ろし。`FRAME_COST_REPEAT=3 FRAME_COST_VARIANTS=warmup,product` と `product` のABBAで測り、ANGLE Metalのtimerではなく描画を発行したフレーム間隔をrepeatで割った値を比較する。撮影・Blender・別GPU検証と同時に実行しない。
 
 - `sauna-seat.visual.ts` は `stageViews` なし／ありのサウナを、1280×800・390×844・844×390の昼夕夜で撮る。変更後はロウリュ、水平8方向、ステージ一巡後も撮影し、同一canvasとエラーなしを検査する。標準・DPR1・動作抑制の静止画で、実機や連続動作の評価ではない。記録は `docs/3d-qa/sauna-seat/`。
+
+- 葉・細い縁の履歴制限幅の前後比較は `SHIMMER_ABBA=1 SHIMMER_FIXED=1 SHIMMER_CONTROLLED=1 SHIMMER_QUERY='&camera=review' SHIMMER_RATIOS=1.5` の `resolution-shimmer.visual.ts`。高画質は `SHIMMER_QUALITY=high SHIMMER_RATIOS=2`。`refraction-frame-control.ts` で撮影中の実アプリrAFを保留し、1 CSS pxごとに正確に2フレーム進める。同一ビルドのシェーダーだけを旧制限幅へ戻した対照とABBA比較する。各回の画像を保存してから次の実行へ進み、`summarize_temporal_variance.py <report.json> <captures-root> <out>` で入力・フレーム数・静止差・再撮影差・残差・勾配を集計する。`temporal-variance.gpu.ts` は微小な往復入力と反復描画3回でTAAを継続して動かし、実際のTAA描画回数も検査する。集計は同スクリプトの `--cost`（capturesは `-`）。知覚的ちらつき・残像、純GPU時間、実機FPSとは分ける。

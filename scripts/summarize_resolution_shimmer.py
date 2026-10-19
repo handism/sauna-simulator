@@ -18,6 +18,8 @@ leave a larger residual. Writes <out dir>/shimmer.json and, for local review onl
 --baseline <shimmer.json> adds each sequence's ratio to the same sequence of another run (e.g. the
 same speed with ?temporal=off). --baseline-ratio R compares every sequence with the baseline's
 sequence of the same view at step R instead (e.g. another build's 1.25 against this one's 1.5).
+Use SHIMMER_QUERY='&camera=review' with current builds: their default seated position and initial
+pitch differ from scene.views, which is the geometry used for reprojection here.
 """
 
 import argparse
@@ -38,7 +40,7 @@ TILE = {'standard': 12, 'high': 16}
 SCENE = Path(__file__).resolve().parent.parent / 'public/models/sauna.scene.json'
 
 
-def samples(report_path):
+def samples(report_path, run=None):
     text = Path(report_path).read_text()
     report = json.loads(text[0 if text.startswith('{') else text.index('\n{') + 1:])
 
@@ -52,7 +54,8 @@ def samples(report_path):
         for child in suite.get('suites', []):
             yield from walk(child)
 
-    found = [body for suite in report['suites'] for body in walk(suite)]
+    found = [body for suite in report['suites'] for body in walk(suite)
+             if run is None or body.get('run') == run]
     if len(found) != 1:
         raise SystemExit(f'{len(found)} resolution-shimmer attachments')
     return found[0]
@@ -119,12 +122,13 @@ def main():
     parser.add_argument('report')
     parser.add_argument('captures')
     parser.add_argument('out')
+    parser.add_argument('--run', help='select a named capture from a same-build ABBA report')
     parser.add_argument('--baseline', help="another run's shimmer.json: each sequence's ratio to it")
     parser.add_argument('--baseline-ratio', type=float, help="the baseline's step to compare with (default: the same)")
     args = parser.parse_args()
     captures, out = Path(args.captures), Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    body = samples(args.report)
+    body = samples(args.report, args.run)
     yaw = body['yawPerStep']
     quality = body.get('quality', 'standard')
     size = TILE[quality]

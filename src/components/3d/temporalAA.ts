@@ -39,6 +39,9 @@ uniform mat4 reprojection;
 uniform vec2 texel;
 uniform float historyWeight;
 varying vec2 vUv;
+// A small allowance for subpixel leaves/edges which alternate across the variance boundary.
+// Keep the box bounded and the current pixel inside it; stationary views still converge exactly.
+const float historySigma = 1.25;
 const ivec2 taps[5] = ivec2[5]( ivec2( 0 ), ivec2( -1, 0 ), ivec2( 1, 0 ), ivec2( 0, -1 ), ivec2( 0, 1 ) );
 // Beyond the half float range (inf) a pixel would turn NaN below and spread through the history.
 vec3 finite( vec3 c ) {
@@ -99,7 +102,7 @@ void main() {
 		m2 += s * s;
 	}
 	vec3 mean = m1 / 5.0;
-	vec3 sigma = sqrt( max( m2 / 5.0 - mean * mean, 0.0 ) );
+	vec3 sigma = historySigma * sqrt( max( m2 / 5.0 - mean * mean, 0.0 ) );
 	// Where this pixel's far point was in the previous frame.
 	vec4 clip = reprojection * vec4( vUv * 2.0 - 1.0, 1.0, 1.0 );
 	vec2 uv = clip.xy / clip.w * 0.5 + 0.5;

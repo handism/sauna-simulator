@@ -1,0 +1,29 @@
+{
+  "stats": {
+    "startTime": "2026-10-19T05:02:12.763Z",
+    "duration": 256495.426,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "temporal": [
+    {
+      "quality": "standard",
+      "browser": "155.0.8059.80",
+      "staticShare": 0,
+      "settledShare": 0,
+      "turningShare": 0.11855046296296297,
+      "errors": []
+    },
+    {
+      "quality": "high",
+      "browser": "155.0.8059.80",
+      "staticShare": 0,
+      "settledShare": 1.3020833333333333e-06,
+      "turningShare": 0.09315052083333333,
+      "errors": []
+    }
+  ],
+  "reportSHA256": "7b06f5af25329b1215e0519e63c65c2bbcf6630be59cd1794613aa1e46bb8598"
+}

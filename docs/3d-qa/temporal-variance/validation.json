@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-19",
+  "head": "1954f0fd1518ff4922e7c31d9475245128b0426e",
+  "scope": "Small temporal variance-bound change; controlled residuals, not perceptual flicker or device FPS.",
+  "reports": {
+    "standard": {
+      "startTime": "2026-10-19T05:06:52.527Z",
+      "duration": 265031.946,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "high": {
+      "startTime": "2026-10-19T05:11:18.291Z",
+      "duration": 339699.388,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "cost": {
+      "startTime": "2026-10-19T05:16:59.125Z",
+      "duration": 303068.963,
+      "expected": 5,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "regression": {
+    "stats": {
+      "startTime": "2026-10-19T05:02:12.763Z",
+      "duration": 256495.426,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "temporal": [
+      {
+        "quality": "standard",
+        "browser": "155.0.8059.80",
+        "staticShare": 0,
+        "settledShare": 0,
+        "turningShare": 0.11855046296296297,
+        "errors": []
+      },
+      {
+        "quality": "high",
+        "browser": "155.0.8059.80",
+        "staticShare": 0,
+        "settledShare": 1.3020833333333333e-06,
+        "turningShare": 0.09315052083333333,
+        "errors": []
+      }
+    ],
+    "reportSHA256": "7b06f5af25329b1215e0519e63c65c2bbcf6630be59cd1794613aa1e46bb8598"
+  },
+  "gates": {
+    "typecheck": "passed",
+    "unitTests": 440,
+    "lint": "passed",
+    "formatCheck": "passed",
+    "build": "passed",
+    "pythonSyntax": "passed",
+    "diffCheck": "passed"
+  },
+  "inputs": {
+    "src/components/3d/temporalAA.ts": "a0357227ccdaa8e4b2c8df24e556a328d8aeebdf0d6cf83aed53d7d3cf270402",
+    "e2e/temporal-aa.e2e.ts": "72034ce160c70d8ff96778262010cd852ab4e8f2e3f4bb24b0adda7b06178474",
+    "e2e/resolution-shimmer.visual.ts": "d858368e85168a8a5abd1041a5a11dd177bdd2071cd28e103e9ea5b50a04e45a",
+    "e2e/temporal-variance-controls.ts": "bc4f7c04aee3d56a295a78aedd21b8e33cf614a609ba8b3dcff318b587cc654d",
+    "e2e/temporal-variance.gpu.ts": "7ed25a61a48ca96c197fbd64fdec89808e0de2787b6d4ce9eb8601197d7200ab",
+    "e2e/refraction-frame-control.ts": "c4c0ca48b7cf740423783d8345afc9481a12adefd4df35b13d93e74d0f04846a",
+    "scripts/summarize_resolution_shimmer.py": "91281382209050ce93cca6fbbf4c20b05e23042f28042212c0606323b70a3c34",
+    "scripts/summarize_temporal_variance.py": "96871f89c55a3861f6e9b80036f8e706be2d2dbea14068ce74ec76cac8889286",
+    "bun.lock": "f68b6b8e40f8a98152d0e4a9c30e4586df4bbcf48b816ee9efc03104d53af973",
+    "public/models/CREDITS.md": "c2ea788205936aba0fc2009bc20d83053531e89216a521986f98addbbd57cdb4",
+    "public/models/deck-irradiance.bin": "3fad6ed06fb3f30e147eebe9961561a14050eebdb6ecea70674f3c21ee9f143f",
+    "public/models/deck-irradiance.json": "51059c573abaa80dc883d6918767c0e70bccaf9dac14e6f47914b892aec74070",
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+    "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+    "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+    "public/models/room-irradiance.bin": "a5b0de10aa22837d666223122b16e923eb9790d96312264442979e6555cb3e4b",
+    "public/models/room-irradiance.json": "ad5007ccdcbac1aa0c169336a4025466f7f3b216c9ee3677fffbbbbaaca2c331",
+    "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+    "public/models/sauna.glb": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+    "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1"
+  },
+  "limitations": [
+    "Review cameras, summer clear day/evening, reduced motion and fixed DPR only for image comparison.",
+    "Cost measured only at standard DPR1.5; intervals are not pure GPU time.",
+    "No full browser suite, real Safari/mobile, continuous perceptual motion/ghosting, other seasons/weather or lower dynamic-resolution steps."
+  ]
+}
