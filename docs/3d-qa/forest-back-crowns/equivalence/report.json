@@ -1,0 +1,129 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node/25.8.2/bin/node",
+      "/Users/mac/git/sauna-simulator/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "playwright.forest.config.ts",
+      "e2e/forest-back-crowns.visual.ts",
+      "--grep",
+      "after1",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/mac/git/sauna-simulator/playwright.forest.config.ts",
+    "rootDir": "/Users/mac/git/sauna-simulator/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/mac/git/sauna-simulator/test-results/visual",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/mac/git/sauna-simulator/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/resolution-shimmer.visual.ts",
+          "**/forest-back-crowns.visual.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "bun run preview -- --outDir '/private/tmp/forest-back-crowns/before-dist' --host 127.0.0.1 --port 4175 --strictPort",
+      "url": "http://127.0.0.1:4175/sauna-simulator/",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "forest-back-crowns.visual.ts",
+      "file": "forest-back-crowns.visual.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "far crowns after1",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11222,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T07:46:29.737Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "far-crowns",
+                      "contentType": "application/json",
+                      "body": "eyJydW4iOiJhZnRlcjEiLCJiYXNlbGluZSI6dHJ1ZSwiZm9yZXN0QnVpbGQiOnsiYmFzZWxpbmUiOnRydWUsImJ1bmRsZSI6IlNhdW5hU2NlbmUtQ1JIZzNrbzcuanMiLCJidW5kbGVIYXNoIjoiYjhkYzc3ZDg2YzUzZTNkMzhkNWIyNjA0YzIxMDcwN2NlYzdlMTY3NjFlYjJhZDc5ZmUzYWYyMGUyZTE5N2Q4OCIsInNvdXJjZUhhc2giOiI1ZWM5OGRkMTUzZjI5NTY2OGFmMzZkM2YzYmM4OTM2YTBhZWJlZWMwYjI0MjQ4MDRkNmI1NjM2MTE2YWY1YTZiIn0sImJyb3dzZXIiOiIxNTUuMC44MDU5LjgwIiwiY29udHJvbHMiOjAsImNhcHR1cmVzIjpbeyJzdGFnZSI6InRvdG9ub3UiLCJsaWdodGluZyI6ImRheSIsImhlYWRpbmciOjIwLCJmaWxlIjoidG90b25vdS1kYXktMjAucG5nIiwibWV0cmljcyI6eyJyZXNvbHV0aW9uIjoiZml4ZWQiLCJmcmFtZVJhdGUiOiJmdWxsIiwiY2FtZXJhIjoic3RhZ2UiLCJ3YXJtdXAiOiJvZmYiLCJ0ZW1wb3JhbCI6Im9uIiwicXVhbGl0eSI6InN0YW5kYXJkIiwicGl4ZWxSYXRpbyI6IjEiLCJpcnJhZGlhbmNlUHJvYmVzIjoiNDkxNiIsInNwb3V0VHJvdWdoIjoiMSIsInR1Y2tlZEdyYXNzIjoiNSIsIm1lYWRvd0JsYWRlcyI6IjIxMTM4IiwiZGVja0lycmFkaWFuY2VUcmlhbmdsZXMiOiIxMiIsInJvb21JcnJhZGlhbmNlVHJpYW5nbGVzIjoiMjkyOCIsImZvcmVzdEZsb29yTWF0ZXJpYWxzIjoiMiIsIndldE1hdGVyaWFscyI6IjQ0IiwicmVmcmFjdGlvbk1hdGVyaWFscyI6IjQiLCJyZWZyYWN0aW9uVHJpYW5nbGVzIjoiMTkwNTQiLCJjYXVzdGljTWF0ZXJpYWxzIjoiMiIsImdsYXNzTWVzaGVzIjoiMyIsImlycmFkaWFuY2VNYXRlcmlhbHMiOiIxMDkiLCJkZWNrSXJyYWRpYW5jZU1hdGVyaWFscyI6IjEiLCJyb29tSXJyYWRpYW5jZU1hdGVyaWFscyI6IjMiLCJyZWZsZWN0aW9uTWF0ZXJpYWxzIjoiMTA5Iiwid2F0ZXJCb3R0b21NYXRlcmlhbHMiOiI0IiwiZm9saWFnZU1hdGVyaWFscyI6IjM0Iiwibm9pc2VDb2xvck1hdGVyaWFscyI6IjUiLCJpbWFnZVJhbXBNYXRlcmlhbHMiOiI1MCIsImxlYWZDbHVzdGVyTWF0ZXJpYWxzIjoiMTAiLCJzaWRlSW1hZ2VNZXNoZXMiOiIzMiIsInByZXBhc3NNZXNoZXMiOiIxMjYiLCJzaGFkb3dNYXNrTWVzaGVzIjoiMTIzIiwic2lkZUltYWdlVHJpYW5nbGVzIjoiMTc0OTg0Iiwic3RhZ2UiOiJ0b3Rvbm91Iiwic2lkZUltYWdlc1Nob3duIjoiMjAiLCJtaXJyb3JDYWxscyI6Ijg5IiwibWlycm9yVHJpYW5nbGVzIjoiODMxMjI5IiwibWlycm9yU2l6ZSI6IjY0MHg0MDAiLCJkcmF3Q2FsbHMiOiIxNTEiLCJ0cmlhbmdsZXMiOiIxMDUzNjUxIiwibG9hZE1zIjoiNDA1NyIsImdhcmRlbiI6InJlYWR5Iiwic2Vhc29uIjoic3VtbWVyIiwic2Vhc29uTWF0ZXJpYWxzIjoiMjIiLCJzcHJpbmdGbG93ZXJzIjoiMCIsInNub3dNYXRlcmlhbHMiOiI2MSIsImF1dHVtbkdyb3VuZE1hdGVyaWFscyI6IjIiLCJ3aW50ZXJIaWRkZW5MZWF2ZXMiOiIwIiwibGlnaHRpbmciOiJkYXkiLCJ0aW1lT2ZEYXkiOiIwLjAwMCIsIndlYXRoZXIiOiJjbGVhciIsInJhaW4iOiIwLjAwMCIsInNub3ciOiIwLjAwMCIsImdhcmRlbkRldGFpbHMiOiJyZWFkeSIsInRleHR1cmVzIjoiMzYiLCJnZW9tZXRyaWVzIjoiMTY2Iiwicm91bmRlZENyb3duQ2FyZHMiOiIzODQ5MiIsImV2ZXJncmVlblRyZWVzIjoiNTkiLCJnYXJkZW5NcyI6IjQ0NjkifX1dLCJlcnJvcnMiOltdLCJpbnB1dHMiOnsic3JjL2NvbXBvbmVudHMvM2QvZmFyRm9yZXN0LnRzIjoiNWVjOThkZDE1M2YyOTU2NjhhZjM2ZDNmM2JjODkzNmEwYWViZWVjMGIyNDI0ODA0ZDZiNTYzNjExNmFmNWE2YiIsInNyYy9jb21wb25lbnRzLzNkL2dhcmRlbkRldGFpbHMudHMiOiIzMDFmMDE0ZjQ0MjdkYmFjZTIxN2NhOTlhMWNkMTQzZTZjMmRlNDk3ZjU3YjRjY2Y4M2RhMDU1OThkNDgyZTMxIiwic3JjL2NvbXBvbmVudHMvM2QvdGVtcG9yYWxBQS50cyI6ImEwMzU3MjI3Y2NkYWE4ZTRiMmM4ZGYyNGU1NTZhMzI4ZDhhZWViZGYwZDZjZjgzYWVkNTNkN2QzY2YyNzA0MDIiLCJwdWJsaWMvbW9kZWxzL3NhdW5hLmdsYiI6IjlmYTVlMjEzZWY1ZGM5ZjdlZGE4ZWJlNDBlZDU4OTNhYjdjOThiN2JlZjE1ZWIzYzgyYjI0OWYzMWU5YjkwZTciLCJwdWJsaWMvbW9kZWxzL3NhdW5hLWdhcmRlbi5nbGIiOiJjN2VjNGIxMTZiMDQxMDIxOTYxODQzNWQxZjMwMmVlMjU0ZTc0MmQ5MTg3ZjYwYzkxZWE3YTdmODI4OWUyNzNkIiwicHVibGljL21vZGVscy9pcnJhZGlhbmNlLmJpbiI6IjdkNjkxY2E2YmNjODkzMjUyZjQ1ZTFlODZhNWZhNjY0YWQzNTY1NjZjYzVlYjNmN2VmODdkYzExOWVhMGUxY2QiLCJwdWJsaWMvbW9kZWxzL3JlZmxlY3Rpb24uYmluIjoiOTY5YjRjNGI4MzIwNDM5OTZlZWI0NzEzMjc3ODhkZmVkODY3ZDgwOGFkMWNmZDFlYjBjODMyZTE3MWUxYzQwZCJ9fQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "993950732ca7a48aff28-e127c4d5f756be2039a1",
+          "file": "forest-back-crowns.visual.ts",
+          "line": 13,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T07:46:29.017Z",
+    "duration": 12659.527,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

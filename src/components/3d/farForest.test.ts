@@ -105,4 +105,31 @@ describe('far forest', () => {
     forest.mesh.geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });
+  it('closes the added far crowns without holes, within a small geometry budget', () => {
+    const forest = createFarForest({ value: new THREE.Color() });
+    const { position, gardenEdge, gardenBand } = forest.mesh.geometry.attributes;
+    const edges = new Map<string, number>();
+    let triangles = 0;
+    const point = (i: number) =>
+      [position.getX(i), position.getY(i), position.getZ(i)].map((v) => v.toFixed(4)).join(',');
+    for (let i = 0; i < position.count; i += 3) {
+      if (gardenEdge.getX(i) !== 2e4) continue;
+      triangles++;
+      const vertices = [0, 1, 2].map((n) => {
+        expect(gardenBand.getX(i + n)).toBe(0);
+        return point(i + n);
+      });
+      expect(new Set(vertices).size).toBe(3);
+      for (let n = 0; n < 3; n++) {
+        const key = [vertices[n], vertices[(n + 1) % 3]].sort().join('|');
+        edges.set(key, (edges.get(key) ?? 0) + 1);
+      }
+    }
+    expect(triangles).toBeGreaterThan(0);
+    expect(triangles).toBeLessThan(3000);
+    expect(position.count / 3).toBeLessThan(35000);
+    expect([...edges.values()].every((count) => count === 2)).toBe(true);
+    forest.mesh.geometry.dispose();
+    (forest.mesh.material as THREE.Material).dispose();
+  });
 });

@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-19",
+  "head": "17e77d74fee033df483210b74b02e57e068e535f",
+  "beforeSourceHash": "5ec98dd153f295668af36d3f3bc8936a0aebeec0b2424804d6b5636116af5a6b",
+  "sourceAndAssetHashes": {
+    "src/components/3d/farForest.ts": "4190dde8d64b74958d3788dc2287e4ba247121197f4ded267813f966116984d7",
+    "src/components/3d/farForest.test.ts": "5f0a8c38413293b93e2d7e7b7339c16138df8057ad89043332d83994731f014b",
+    "src/components/3d/temporalAA.ts": "a0357227ccdaa8e4b2c8df24e556a328d8aeebdf0d6cf83aed53d7d3cf270402",
+    "src/components/3d/gardenDetails.ts": "301f014f4427dbace217ca99a1cd143e6c2de497f57b4ccf83da05598d482e31",
+    "e2e/forest-build.ts": "1e4f7c5001634b6cf404fcacd6c7bddb723a5e8f5811c4f1aa312a4b01acf903",
+    "e2e/forest-back-crowns-controls.ts": "5b9712e110a23b0ab6e21bcd68754f64df08c1ebb20688f77744bff9ac301ed5",
+    "e2e/forest-back-crowns.visual.ts": "67f21fb0a103fc8cd75dd15ba6a4d9b010cd94abad3178eb2167a20cd3901d53",
+    "e2e/forest-back-crowns.gpu.ts": "6a971854acb9525bf01f35d55db9c4bf76a0d3a6db0d490ed2e3d6033e525417",
+    "e2e/resolution-shimmer.visual.ts": "e04029e4ca504fd47376ea101b31abe3d7d7fa298f598116f7118a8bfbd2e4f1",
+    "playwright.forest.config.ts": "9874b4674040f3eaa08c78a926acc8d62a669aec9be56a41fd3b65dadba2950a",
+    "scripts/summarize_forest_back_crowns.py": "8b8a55c4adb3854831916149da1555b169377ccbce93f2e94657a5fb1ce0d1ab",
+    "bun.lock": "f68b6b8e40f8a98152d0e4a9c30e4586df4bbcf48b816ee9efc03104d53af973",
+    "public/models/CREDITS.md": "c2ea788205936aba0fc2009bc20d83053531e89216a521986f98addbbd57cdb4",
+    "public/models/deck-irradiance.bin": "3fad6ed06fb3f30e147eebe9961561a14050eebdb6ecea70674f3c21ee9f143f",
+    "public/models/deck-irradiance.json": "51059c573abaa80dc883d6918767c0e70bccaf9dac14e6f47914b892aec74070",
+    "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+    "public/models/irradiance.json": "fa8113ead3bea00c5169fc13ebb47656e103dbcc069a14310be19df629554550",
+    "public/models/reflection.bin": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+    "public/models/reflection.json": "f10238743bdc3515cf5a3ab5fb42a65e5efb1757b6d2bb7af57dd4d6d64f5384",
+    "public/models/room-irradiance.bin": "a5b0de10aa22837d666223122b16e923eb9790d96312264442979e6555cb3e4b",
+    "public/models/room-irradiance.json": "ad5007ccdcbac1aa0c169336a4025466f7f3b216c9ee3677fffbbbbaaca2c331",
+    "public/models/sauna-garden.glb": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+    "public/models/sauna.glb": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+    "public/models/sauna.scene.json": "2aec2ea0862054694b4be8a54214cfa92f77593455b0f4950464ec1d37d8dea1"
+  },
+  "gates": {
+    "typecheck": "passed",
+    "unitTests": 441,
+    "lint": "passed",
+    "formatCheck": "passed",
+    "build": "passed",
+    "pythonSyntax": "passed",
+    "diffCheck": "passed"
+  },
+  "reports": {
+    "static": {
+      "startTime": "2026-10-19T08:48:53.220Z",
+      "duration": 213984.807,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "motionCases": 4,
+    "costCasesIncludingWarmups": 6,
+    "regressionCases": 13
+  },
+  "actualBundleVerification": true,
+  "allPublishedModelsByteIdentical": true,
+  "temporalAAUnchanged": true,
+  "limitations": [
+    "Local far-crown improvement; backing band remains approximate.",
+    "Static 3 headings, summer day/evening/night plus autumn/winter day; not full surround.",
+    "Motion standard DPR1.5, reduced motion, review cameras, one heading. Indoor sauna is occluded.",
+    "Cost standard DPR1, six static views, repeated callback intervals; not GPU time or device FPS.",
+    "No real Safari/mobile, high-quality full coverage, continuous perceptual flicker/ghosting, full browser suite."
+  ]
+}

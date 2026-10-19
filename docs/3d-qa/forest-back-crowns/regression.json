@@ -1,0 +1,160 @@
+{
+  "garden": {
+    "stats": {
+      "startTime": "2026-10-19T07:57:11.711Z",
+      "duration": 116098.777,
+      "expected": 9,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "reportSHA256": "556510c893c2b85c1e107e981ee654a1bfab502a97138783c814cbfdff12d5ec",
+    "localReport": "/private/tmp/forest-back-crowns/regression-garden.json",
+    "cases": [
+      {
+        "title": "garden-details.e2e.ts / garden accents survive seasons, weather, motion preferences and stage changes",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 21385
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / 3D autumn persists, changes the outdoor view and restores summer without reloading models",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 12158
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / 3D winter at low restores summer without reloading models",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 11995
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / 3D winter at standard restores summer without reloading models",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 12105
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / 3D winter at high restores summer without reloading models",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 12504
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / 3D spring at low restores summer without reloading models",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 12210
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / 3D spring at standard restores summer without reloading models",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 12490
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / 3D spring at high restores summer without reloading models",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 13039
+          }
+        ]
+      },
+      {
+        "title": "season.e2e.ts / a delayed garden uses the latest spring selection without resetting the body",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 6664
+          }
+        ]
+      }
+    ]
+  },
+  "recovery": {
+    "stats": {
+      "startTime": "2026-10-19T07:59:08.175Z",
+      "duration": 150070.44100000002,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "reportSHA256": "16654464b2c04cf7afc5f46a28e4c83f59a8ebaa166cdf36a3ce552c91191b4b",
+    "localReport": "/private/tmp/forest-back-crowns/regression-recovery.json",
+    "cases": [
+      {
+        "title": "scene-lifecycle.e2e.ts / repeated modes, stages and real context loss preserve the session",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 85833
+          }
+        ]
+      },
+      {
+        "title": "scene-no-hdr.e2e.ts / split request without HDR renders and recovers at low quality",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 18065
+          }
+        ]
+      },
+      {
+        "title": "scene-no-hdr.e2e.ts / split request without HDR renders and recovers at standard quality",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 22392
+          }
+        ]
+      },
+      {
+        "title": "scene-no-hdr.e2e.ts / split request without HDR renders and recovers at high quality",
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "duration": 22255
+          }
+        ]
+      }
+    ]
+  }
+}

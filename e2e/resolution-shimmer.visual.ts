@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 import { controlFrames, holdRatio } from './resolution-control';
 import { rendererCaptureStyle } from './scene-capture';
 import { restoreTemporalVariance } from './temporal-variance-controls';
+import { verifyForestBuild } from './forest-build';
 import { installRefractionClock, type RefractionClock } from './refraction-frame-control';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -53,6 +54,7 @@ for (const run of runs) {
     const canvas = scene.locator('canvas');
     await expect(scene).toHaveAttribute('data-load-ms', /\d+/, { timeout: 30_000 });
     await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 30_000 });
+    const forestBuild = process.env.FOREST_REVIEW === 'visual' ? await verifyForestBuild(page) : undefined;
     await chooseSceneSetting(page, '3Dの画質', QUALITY);
     // Applied once its programs have compiled.
     await expect(scene).toHaveAttribute('data-quality', QUALITY);
@@ -143,6 +145,7 @@ for (const run of runs) {
       body: JSON.stringify(
         {
           browser: browser.version(),
+          forestBuild,
           run,
           controls,
           query: process.env.SHIMMER_QUERY ?? '',

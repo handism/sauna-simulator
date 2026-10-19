@@ -1,0 +1,747 @@
+{
+  "note": "Controlled rotation-compensated residual; not perceptual flicker or FPS.",
+  "reports": {
+    "before1": "72c9a80be114313067a8513eda98a7a24b6c8358fc5118c55c0b345aa7867eeb",
+    "after1": "be96bf65fefa4aa07cb93edd268f9654de8e364541cabaf4d006a9305fbdfc4f",
+    "after2": "d1cdddf7df50584ad57632b9d064e3d993177bb024b26fdd64b1ccbf9dee72b4",
+    "before2": "fe25ff680bcd8c231fc8ba648ca29af16a38a9eb37ee8225a5c0b1dc363dcf8e"
+  },
+  "inputs": {
+    "before1": {
+      "baseline": true,
+      "bundle": "SaunaScene-CRHg3ko7.js",
+      "bundleHash": "b8dc77d86c53e3d38d5b2604c210707cec7e16761eb2ad79fe3af20e2e197d88",
+      "sourceHash": "5ec98dd153f295668af36d3f3bc8936a0aebeec0b2424804d6b5636116af5a6b"
+    },
+    "after1": {
+      "baseline": false,
+      "bundle": "SaunaScene-DD1gS0pS.js",
+      "bundleHash": "2d36bcd84ca180cf413dfb09f8855528b9feb521cdb59d4a57907a3955543f69",
+      "sourceHash": "4190dde8d64b74958d3788dc2287e4ba247121197f4ded267813f966116984d7"
+    },
+    "after2": {
+      "baseline": false,
+      "bundle": "SaunaScene-DD1gS0pS.js",
+      "bundleHash": "2d36bcd84ca180cf413dfb09f8855528b9feb521cdb59d4a57907a3955543f69",
+      "sourceHash": "4190dde8d64b74958d3788dc2287e4ba247121197f4ded267813f966116984d7"
+    },
+    "before2": {
+      "baseline": true,
+      "bundle": "SaunaScene-CRHg3ko7.js",
+      "bundleHash": "b8dc77d86c53e3d38d5b2604c210707cec7e16761eb2ad79fe3af20e2e197d88",
+      "sourceHash": "5ec98dd153f295668af36d3f3bc8936a0aebeec0b2424804d6b5636116af5a6b"
+    }
+  },
+  "comparisons": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "pair": [
+        "before1",
+        "after1"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pair": [
+        "before1",
+        "after1"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "pair": [
+        "before1",
+        "after1"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pair": [
+        "before1",
+        "after1"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "pair": [
+        "before1",
+        "after1"
+      ],
+      "relative": {
+        "pixel": 0.9996948428440647,
+        "tile": 1.0,
+        "tileP99": 0.9994704324801412
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "pair": [
+        "before1",
+        "after1"
+      ],
+      "relative": {
+        "pixel": 0.9992992291520674,
+        "tile": 1.0,
+        "tileP99": 0.9996557659208262
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "pair": [
+        "before2",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pair": [
+        "before2",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "pair": [
+        "before2",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pair": [
+        "before2",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "pair": [
+        "before2",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 0.9996948428440647,
+        "tile": 1.0,
+        "tileP99": 0.9994704324801412
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "pair": [
+        "before2",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 0.9992992291520674,
+        "tile": 1.0,
+        "tileP99": 0.9996557659208262
+      }
+    }
+  ],
+  "replay": [
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "pair": [
+        "before1",
+        "before2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pair": [
+        "before1",
+        "before2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "pair": [
+        "before1",
+        "before2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pair": [
+        "before1",
+        "before2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "pair": [
+        "before1",
+        "before2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "pair": [
+        "before1",
+        "before2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "day",
+      "pair": [
+        "after1",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "sauna",
+      "lighting": "evening",
+      "pair": [
+        "after1",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "day",
+      "pair": [
+        "after1",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "totonou",
+      "lighting": "evening",
+      "pair": [
+        "after1",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "day",
+      "pair": [
+        "after1",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    },
+    {
+      "stage": "water",
+      "lighting": "evening",
+      "pair": [
+        "after1",
+        "after2"
+      ],
+      "relative": {
+        "pixel": 1.0,
+        "tile": 1.0,
+        "tileP99": 1.0
+      }
+    }
+  ],
+  "visibleChange": [
+    {
+      "file": "sauna-day-1.5-12.png",
+      "stage": "sauna",
+      "lighting": "day",
+      "pixelsOver1": 0
+    },
+    {
+      "file": "totonou-evening-1.5-12.png",
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixelsOver1": 3371
+    },
+    {
+      "file": "water-day-1.5-0.png",
+      "stage": "water",
+      "lighting": "day",
+      "pixelsOver1": 7986
+    },
+    {
+      "file": "sauna-evening-1.5-12.png",
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixelsOver1": 0
+    },
+    {
+      "file": "water-evening-1.5-0.png",
+      "stage": "water",
+      "lighting": "evening",
+      "pixelsOver1": 7549
+    },
+    {
+      "file": "totonou-day-1.5-12.png",
+      "stage": "totonou",
+      "lighting": "day",
+      "pixelsOver1": 3904
+    },
+    {
+      "file": "water-day-1.5-12.png",
+      "stage": "water",
+      "lighting": "day",
+      "pixelsOver1": 9965
+    },
+    {
+      "file": "totonou-day-1.5-0.png",
+      "stage": "totonou",
+      "lighting": "day",
+      "pixelsOver1": 2469
+    },
+    {
+      "file": "sauna-day-1.5-0.png",
+      "stage": "sauna",
+      "lighting": "day",
+      "pixelsOver1": 0
+    },
+    {
+      "file": "sauna-evening-1.5-0.png",
+      "stage": "sauna",
+      "lighting": "evening",
+      "pixelsOver1": 0
+    },
+    {
+      "file": "totonou-evening-1.5-0.png",
+      "stage": "totonou",
+      "lighting": "evening",
+      "pixelsOver1": 1953
+    },
+    {
+      "file": "water-evening-1.5-12.png",
+      "stage": "water",
+      "lighting": "evening",
+      "pixelsOver1": 9178
+    }
+  ],
+  "pngSHA256": {
+    "before1": {
+      "sauna-day-1.5-12.png": "711483e52fbd315b9f988c4becdfd08c0ddad243a4d73db50fd2414d23d92a0c",
+      "sauna-day-1.5-10.png": "aa1b9541d168bb8df2881c7ab0689173088ea935c3f5f9274dd17b4bf8c4a61b",
+      "sauna-day-1.5-11.png": "a023396aeb2b03864d7bb40c8eb5cfeb24686fc2dd4ac2be8e1a7de604628159",
+      "totonou-evening-1.5-11.png": "457e069914c6fe637c2f119f3222571a0d6cd2f847d975c94d2a38fc7cc9871b",
+      "totonou-evening-1.5-10.png": "e8c1a30a0b89e966a102a9f2830aa552dc0fc238913b62eb5d6ab07c5d8a216a",
+      "totonou-evening-1.5-12.png": "041e82e1249f08b087cbbcc7c1560c9a6233851e8eddae96eb3e436da1fbd649",
+      "water-day-1.5-0.png": "aa322f034284b404f9220718e3586bcb6c8bfbe053c7f49b1665f92b90738477",
+      "totonou-day-1.5-11.png": "363812942f34e07c1631c857332a542e5055fcd8631e29c206c86ca1064ec825",
+      "sauna-evening-1.5-12.png": "29153b0cec68974e0c4c3479c308ca450ff3eebb056e220765d5d92c9faecbed",
+      "water-evening-1.5-0.png": "4d9678d289a84044891926e39f27fc4d4018c1e856560f313b484c1dd8fca602",
+      "water-evening-1.5-1.png": "002e7fcdc1801b6cd5b2e736ecb93c8a4d9feefdcea0739d4de4446243868184",
+      "totonou-day-1.5-10.png": "392777f4d5af43e1ef2a8d38f1477efb422357bc13c23b4c3ee32abb68261e52",
+      "water-day-1.5-1.png": "ffedf681d19cc4ba35d66df96b1acb015a6e0115f1388d89ffcb1b22dccf203c",
+      "water-day-1.5-3.png": "0aa259de967c5a5f248fc23ec6dae7ad96a400d7e58f7c5629c5305e6d9cfef3",
+      "totonou-day-1.5-9.png": "4b5a152a1839ec8c98cc08638be425250a100de5d5d93dbf11dd9c600052ef50",
+      "totonou-day-1.5-12.png": "a094e49465020a2349810bf4c59d0c8de0c00f08f741d46bfb7369b8efab2d8d",
+      "sauna-evening-1.5-11.png": "ce6558d68679667d6b20f84af6735e487c82dafecc904eb0f99288a2aff6ef7b",
+      "water-evening-1.5-3.png": "16ebfb2b5fbea9ff9e3b332c9a4d02f9befcc117fc39debc401d1494cdcd954e",
+      "sauna-day-1.5-8.png": "346df14bf3243db990a772e792a4c64a55fca6bd3e623b3ca0518cc87ea79fe0",
+      "sauna-day-1.5-9.png": "d7a21b9f0ca61f35a2f75549c8c77767990053b3b6483948cd638a64ff640ecf",
+      "water-evening-1.5-2.png": "51ff964d4dd3484fa1b1856a7fb48a9ee613e6cfd1bbccd669fb68b43c55aec4",
+      "sauna-evening-1.5-10.png": "c4ee1df0aa9587b2724f2a2f39ba75f68a00e6dbf6bbdaddff03dfde24756d2b",
+      "totonou-day-1.5-8.png": "d1d113c73bc98c5bf0a704c061395505f74272db3570582a238667e9254a4a47",
+      "water-day-1.5-2.png": "e325060f726c996ff59866b86817378eaf8390425de08530a425ec119f25f90b",
+      "water-day-1.5-6.png": "72c3ff251731f733637a2436db34f715a63231a61c2114e621f9e5a165170eef",
+      "sauna-evening-1.5-9.png": "55f2eaf4f869d9ed8f9b8ea760faea4af6721f61fb072654e4af528569b475f8",
+      "totonou-evening-1.5-9.png": "935d74a146ad604ab8703faabd35b6dacd022cb2cf4adc86d7307570a678a5b8",
+      "water-evening-1.5-6.png": "d463bd2a3579417b65d05532fefc94330deca444e68945d3a7a438ac48f4323e",
+      "water-evening-1.5-7.png": "9b0a69395d41e2a9274b750576b8a493fbd51747f206f3028d0b280e76831907",
+      "totonou-evening-1.5-8.png": "c8f42eea0919cb0329e6430aa08409c8d3081927f64124aca3475bf354e31798",
+      "sauna-evening-1.5-8.png": "cfaf238c96e38286ccedc17cc357bd41a89f96a404f0088f015c82dfbdb9cd7a",
+      "water-day-1.5-7.png": "7b49f6cb3c6d041d03b1cce48f829640db764d606f2f3a362122cd49bad789d7",
+      "water-day-1.5-5.png": "c5d0768be7a72e8b4715def47ce1b6a60b91ba274c1c287e17a3d65a1a083228",
+      "water-evening-1.5-5.png": "51a2a244551593250fd200f9ddf62c7036fc7fe12ff1637e66091052d5500a79",
+      "water-evening-1.5-4.png": "d3eadfc1c5fe38e786e49aa02b1eb7604bfae786ffac9a7838523f33dc193999",
+      "water-day-1.5-4.png": "a1c6c9877cbe4c848000267f6b070784805ce1176c023fad2c2554366bfa1533",
+      "water-day-1.5-9.png": "d47872a06f6587b4881ca0b9e43531fe4ed0ddc312350e2f2fdabcbf70eb7c3f",
+      "sauna-evening-1.5-6.png": "8469796c6bc3b8dbb0d64fa953fd6b80ca390e9967dee7ab2d490099a1077c81",
+      "totonou-day-1.5-3.png": "dac96c4db7a0d1113b4cd00fba48e9c8e2c4cc4835f4342b82caf45626182ec0",
+      "totonou-evening-1.5-6.png": "36ea0625bfd940d7518ec9ffedc3b4251dde2a4684c7d02d9974ae5b6b01949f",
+      "water-evening-1.5-9.png": "8066364fa84f44d9a671131e41e6ff718c8e9ca67b959b64b5a996e827f20d2e",
+      "sauna-day-1.5-2.png": "aca956a002738d417b96bc9bb58fe99be39b744da7d2175ba6f35e63e5ee187a",
+      "sauna-day-1.5-3.png": "06dd38f5f1fc23383673b606714b7fe041f49e88951cabd8d4c1a897cadff734",
+      "water-evening-1.5-8.png": "3f1f4c6acf81ba13cdad483f93aa4d373399f6d709112a3c256b116160b4c171",
+      "water-day-1.5-12.png": "7b5cd414ea2525b907bcf00bb8699c08e724eaa7576ca522141286af70b084a9",
+      "totonou-evening-1.5-7.png": "3b847d33673e7f433dff8e111f169ae6ed406449a95fd170f8fff804d01cd398",
+      "totonou-day-1.5-2.png": "3ca83f6793e3c79b93de6625049cc4fc45be17fd3e75875d61b06a795e052bf3",
+      "sauna-evening-1.5-7.png": "2ab819ff7f116bec318320da91f5dfb38875b545530a1fc4b149ff2bd0218498",
+      "water-day-1.5-8.png": "4c6f2a44f1c52e8d4f082012ce92edc885cedae737f71b31a3bba952dcd0701a",
+      "sauna-evening-1.5-5.png": "e64ddcf4ff1771591ca533d2ad474842d9c32c4ae5ede1b9b636669431224ebb",
+      "totonou-day-1.5-0.png": "7184c22c7016094a07fa9957bf26ce3b44d24160716c8b8d8ba66c4e20bfc033",
+      "totonou-evening-1.5-5.png": "0cd356b7272524e4cbd67a43d23fc2612f804a593640b17ceff3183760a087e9",
+      "water-day-1.5-10.png": "6be1e9fd52c17bd7fb7e396bee13094cfc77744a1cd0dfdd66c7ffe54ce53262",
+      "sauna-day-1.5-1.png": "c004b760a97544423c4d90620fd667c913da69c970e03945a820a2d9e2c8edd5",
+      "sauna-day-1.5-0.png": "33786cc6e35881ee194154e6d3717f3bfa948a8b00c12a44c1907e8e05d0c539",
+      "water-day-1.5-11.png": "016b9ad9604e7cc1c75441f6e115296122b68f8fe8648dca4d0eb39cda677c77",
+      "totonou-evening-1.5-4.png": "793db3d431128b029ce896d73e2ab701700d9f9bc7ff37c645e3734296980843",
+      "totonou-day-1.5-1.png": "f9489328eb1ddca3bbcf7f3bf83eecf4ccab294362ffb14ad37b80145c8ec627",
+      "sauna-evening-1.5-4.png": "a47bd808f7739e101065e7a10c608df1b78ffc04ebbed0aaaaed707f03a94be2",
+      "totonou-day-1.5-5.png": "c65db6d05c24096da6a8ac37537e6c11e45f5c8b73d240f813e8b17250dc92d6",
+      "sauna-evening-1.5-0.png": "2d6c7ad0d58760542b6dd5033da2bcec1e385da3f62f90ba74cbe206929cec3f",
+      "totonou-evening-1.5-0.png": "0fd730b4ccd1657f2c6ee7d8c7af071d3897c1b32c7609501572303ff86b4014",
+      "sauna-day-1.5-4.png": "c9e2756705b6682176c49b1087261cb6e412fa4a5af65f0f808944759314be6a",
+      "sauna-day-1.5-5.png": "0f798b547104cc9057ec5bc1fdf7d5d7dae3eb9eda4b4b14fbb506471e7c7f0f",
+      "totonou-evening-1.5-1.png": "a2c4f7ff2a565fd42773468fd583cbc427c394433dff65c8b0508a53a4495986",
+      "sauna-evening-1.5-1.png": "85a01119d67cc825698a8f70210671437cb40a0bb8cb6af625e1c9a40b3d2b42",
+      "totonou-day-1.5-4.png": "6f5c3bbf030f5f703cab7dfdd078e5e6be39bdac01ce760c1285471bb0935a61",
+      "totonou-day-1.5-6.png": "da512d3b91da4459501d1887bbe525e4856f0a95f6bdf075b6f582a9c606677e",
+      "sauna-evening-1.5-3.png": "becc518b77468be0c5cd7623b93b688f7eb9b57931ee58c07c2e0a3dac373ecc",
+      "totonou-evening-1.5-3.png": "7bdee86851240d6a614cd40343712d397f6cb9d0f5046e1b3a691d76611f946f",
+      "sauna-day-1.5-7.png": "806c45307b5c7100cbc67b434d661755cf9e92b639963ae82221a5b54d088a84",
+      "sauna-day-1.5-6.png": "b56d30d17e158a77e788bce8ab28dcca420495a2e1bae7f7451dd265789a1515",
+      "totonou-evening-1.5-2.png": "678117efe2fac2b6ed3f50b19f25945fe7fcf53f1d9dc8b63d8a0770d419a78e",
+      "sauna-evening-1.5-2.png": "1d3966413eaae3eef14089ddb6be33608068c96492c903578968b5a2b027dbba",
+      "totonou-day-1.5-7.png": "613bbf8e6cd2a2560edd070b6b84c565b00ac0d4c911ae24320dda7e5cdb144f",
+      "water-evening-1.5-11.png": "a1c3531e9022eae545ce39bc3f6212e84a2f8cf367b5bea772103478325cb6c9",
+      "water-evening-1.5-10.png": "3c1f25857f6fbe6bc713b4727324541678e0a298024f3b804b43b8d34f860d89",
+      "water-evening-1.5-12.png": "4d72262470a6c9c0424592d19fb3dabb722115b5e0be18b96cb92b536d9738db"
+    },
+    "after1": {
+      "sauna-day-1.5-12.png": "711483e52fbd315b9f988c4becdfd08c0ddad243a4d73db50fd2414d23d92a0c",
+      "sauna-day-1.5-10.png": "aa1b9541d168bb8df2881c7ab0689173088ea935c3f5f9274dd17b4bf8c4a61b",
+      "sauna-day-1.5-11.png": "a023396aeb2b03864d7bb40c8eb5cfeb24686fc2dd4ac2be8e1a7de604628159",
+      "totonou-evening-1.5-11.png": "7f73f367859384a21658cb013af133dddc94d52e9d48f96c3260b43d81f7841f",
+      "totonou-evening-1.5-10.png": "530ff5df911b8cf01d5ca29d907093172e14bfbf3064b6d5cf5430225ec4d9a5",
+      "totonou-evening-1.5-12.png": "93f90466564f254a40536fc47d0e52ec1d29f9b135d70b789b57b3022c88f904",
+      "water-day-1.5-0.png": "f97a8e78ee31484b76cbbdff0b392ff40322a7537affb573c3faea54e0d15f99",
+      "totonou-day-1.5-11.png": "f7f706282c2653e2146c0dd5ff900e9d5c1edc0e81ce8e6b250a1a867ab2cfaa",
+      "sauna-evening-1.5-12.png": "29153b0cec68974e0c4c3479c308ca450ff3eebb056e220765d5d92c9faecbed",
+      "water-evening-1.5-0.png": "b4180ad87ea55edd61060b3a6661d5850e5e131d4821ba0c83d1f699d140e394",
+      "water-evening-1.5-1.png": "e456d347645cb4c488b736b5b902ea6d3aa9bd665ab7a984950340aeb0a944c3",
+      "totonou-day-1.5-10.png": "ed7a3481a8c902b8361e65b26c595408dc356fe5d009bc47ed78e176c5dcfbb9",
+      "water-day-1.5-1.png": "4176f29f52a3f50318f0c310f9da908acefe54e4fd14980bcbad2092f55c1b40",
+      "water-day-1.5-3.png": "023019815c1294b0583a65b1ee3bce03ec6ef8c2aad6ba6fcd400a1183f191a1",
+      "totonou-day-1.5-9.png": "3922cebff78d1c50d0aafda7cac4c9d49a5b515d8ff57728a8a2b17de192b75c",
+      "totonou-day-1.5-12.png": "65b5072d240bee14209afdcaebb139a350b01336e598f4a3a65b8123f6ce41c1",
+      "sauna-evening-1.5-11.png": "ce6558d68679667d6b20f84af6735e487c82dafecc904eb0f99288a2aff6ef7b",
+      "water-evening-1.5-3.png": "c502e4613eb3916427a6af9cc15c928507ce358719dec07eec9c6a53eefc7e4e",
+      "sauna-day-1.5-8.png": "346df14bf3243db990a772e792a4c64a55fca6bd3e623b3ca0518cc87ea79fe0",
+      "sauna-day-1.5-9.png": "d7a21b9f0ca61f35a2f75549c8c77767990053b3b6483948cd638a64ff640ecf",
+      "water-evening-1.5-2.png": "f26a15cdd6389d3e8ff34103d86559d6e34ed45df73cce128c0fc3a1a10652fe",
+      "sauna-evening-1.5-10.png": "c4ee1df0aa9587b2724f2a2f39ba75f68a00e6dbf6bbdaddff03dfde24756d2b",
+      "totonou-day-1.5-8.png": "ad083ba35e57d971158d8ee410dfa177e9cb0bf2195cb1a35e6c476b6c71e124",
+      "water-day-1.5-2.png": "ff5618817a5e208c3aa91849cab04f81db121ca5cb20c51226b3fb33a0c1c5eb",
+      "water-day-1.5-6.png": "98e82222fd8a8b4685fac6183534eb5acfb35435b0d218c93009464a550d45d0",
+      "sauna-evening-1.5-9.png": "55f2eaf4f869d9ed8f9b8ea760faea4af6721f61fb072654e4af528569b475f8",
+      "totonou-evening-1.5-9.png": "7bf8b1d37df43cdd2d41b48cd8f7b086896fa5ff60514e07ae24c5b3a35c9436",
+      "water-evening-1.5-6.png": "ecda1ebb0cfe2d65d07240de32204eff54be12820def54bf8d23449ba5e25d26",
+      "water-evening-1.5-7.png": "ee11490e77ebe196eedea65b664a8592c6c1650cd43d61ed1d5cc817bd7d918c",
+      "totonou-evening-1.5-8.png": "547a40d798457815cf4d9bbc437b1bdccc6e90e16e50f1c8f40723ad6cbbcb4c",
+      "sauna-evening-1.5-8.png": "cfaf238c96e38286ccedc17cc357bd41a89f96a404f0088f015c82dfbdb9cd7a",
+      "water-day-1.5-7.png": "2e8b73c071837c35c3be1135326e0fea6183a781bebaabb8b2aaed00b70cd7a8",
+      "water-day-1.5-5.png": "9b9cb3593fa96f2a4b850e757752b87fbcfec2f290d871ad31dc0934123bf74d",
+      "water-evening-1.5-5.png": "9705165eb883f300f0998b13fb3f8c5f1d5eae0a26870ea167e842c08a0fd98b",
+      "water-evening-1.5-4.png": "083d6b8c07a7ba16d190b3b4afc751c4ac6927b36b75eb5d332ddac4a415fd3b",
+      "water-day-1.5-4.png": "be088be26edc28dd74076174fe542ef3e01ff3d8ea34d3e1718632d55715e90a",
+      "water-day-1.5-9.png": "bcf0711956b0de0998d9d049b5900d5612156a39d7a1605e2cebddb2b7873773",
+      "sauna-evening-1.5-6.png": "8469796c6bc3b8dbb0d64fa953fd6b80ca390e9967dee7ab2d490099a1077c81",
+      "totonou-day-1.5-3.png": "ec9d051d4e48fc3c236d57b7168eca183d00125cd7230c53d70c2674fc35f08a",
+      "totonou-evening-1.5-6.png": "b00d9e6fcf2db4c514fb00de3a0c58f8e23ec0a0a46c57eae12b7bac549a3218",
+      "water-evening-1.5-9.png": "ca59b2eee73b8bb2d0ff0cd8179040cabfdf63d482df096612dbc8d6e4edc83d",
+      "sauna-day-1.5-2.png": "aca956a002738d417b96bc9bb58fe99be39b744da7d2175ba6f35e63e5ee187a",
+      "sauna-day-1.5-3.png": "06dd38f5f1fc23383673b606714b7fe041f49e88951cabd8d4c1a897cadff734",
+      "water-evening-1.5-8.png": "c45e5c5bf4fb04106f73a988d2819ba1a5af21f65ea8c144dcaf0c31cf4aa50f",
+      "water-day-1.5-12.png": "af92e46bad8e1d681d179f7a3482e544b4c59399c54b2eb697a98816c0529d54",
+      "totonou-evening-1.5-7.png": "a43d6e7506ab7ef638790ef2ed1e65f206e5ec0250b4d5e6da049ea4f1363b23",
+      "totonou-day-1.5-2.png": "7b8ec0f0788c6c66f3c9623de66c0771cebcb521ee242a0801bb3e4b623cf177",
+      "sauna-evening-1.5-7.png": "2ab819ff7f116bec318320da91f5dfb38875b545530a1fc4b149ff2bd0218498",
+      "water-day-1.5-8.png": "aaa91e68b872c26e3d01d03043b86b75ef1e174ddcf035399240a3ab90382c32",
+      "sauna-evening-1.5-5.png": "e64ddcf4ff1771591ca533d2ad474842d9c32c4ae5ede1b9b636669431224ebb",
+      "totonou-day-1.5-0.png": "e253008addfca5cce3d36cb0445b4fdc4dba4a21b72cd8cad08819e0d2df38e4",
+      "totonou-evening-1.5-5.png": "cc0a6b07cc599d25324f03f5dbe379d19217d0094d7a4691ab6c77d7f8f216fc",
+      "water-day-1.5-10.png": "cf18dcac8b2ef804475f2d3b48a957c33e00a62a3b269bbcbdbb1ed9010b8fd3",
+      "sauna-day-1.5-1.png": "c004b760a97544423c4d90620fd667c913da69c970e03945a820a2d9e2c8edd5",
+      "sauna-day-1.5-0.png": "33786cc6e35881ee194154e6d3717f3bfa948a8b00c12a44c1907e8e05d0c539",
+      "water-day-1.5-11.png": "251848ec73d9533a6d373385af822add6917752afa7d80f77e9764838a884ead",
+      "totonou-evening-1.5-4.png": "928e2ad6bbd6106f4da3c6b7ffddd32e649c0ca9c80cde1fc4d419687b26eca0",
+      "totonou-day-1.5-1.png": "5203087e1295ba5f42aa089e43972dc7a98b7d90ed229c6c2168fc1c405d355e",
+      "sauna-evening-1.5-4.png": "a47bd808f7739e101065e7a10c608df1b78ffc04ebbed0aaaaed707f03a94be2",
+      "totonou-day-1.5-5.png": "1d33fde8eabeae24b94e9f28a1d5849bce7ea9ab01b1d7691df5688b5bed963c",
+      "sauna-evening-1.5-0.png": "2d6c7ad0d58760542b6dd5033da2bcec1e385da3f62f90ba74cbe206929cec3f",
+      "totonou-evening-1.5-0.png": "6235c038d49ed7c0a585f89b63a2ba93863eed629857bf628dfc7cdf6d861019",
+      "sauna-day-1.5-4.png": "c9e2756705b6682176c49b1087261cb6e412fa4a5af65f0f808944759314be6a",
+      "sauna-day-1.5-5.png": "0f798b547104cc9057ec5bc1fdf7d5d7dae3eb9eda4b4b14fbb506471e7c7f0f",
+      "totonou-evening-1.5-1.png": "2c3338fe37a6253b3992db35aa1c26b11e2f03158cc65716b80463ed753cc064",
+      "sauna-evening-1.5-1.png": "85a01119d67cc825698a8f70210671437cb40a0bb8cb6af625e1c9a40b3d2b42",
+      "totonou-day-1.5-4.png": "792caac0a6992ef439d33026f5b7fc5e5098255962e29bd971f1915dab1ae578",
+      "totonou-day-1.5-6.png": "a855c971ab295072fbe5f9bcd33f3e8b8b1fceabd9f8fd7d4177488653113633",
+      "sauna-evening-1.5-3.png": "becc518b77468be0c5cd7623b93b688f7eb9b57931ee58c07c2e0a3dac373ecc",
+      "totonou-evening-1.5-3.png": "3ae2a370452cb04978c1d24a8c405f0fe9256950ea5bc86ac04f33b6e614f580",
+      "sauna-day-1.5-7.png": "806c45307b5c7100cbc67b434d661755cf9e92b639963ae82221a5b54d088a84",
+      "sauna-day-1.5-6.png": "b56d30d17e158a77e788bce8ab28dcca420495a2e1bae7f7451dd265789a1515",
+      "totonou-evening-1.5-2.png": "c1e07be872c0b7d6b52e33cd1ac25ccb2259489e95b1452775274c32d0aef0f1",
+      "sauna-evening-1.5-2.png": "1d3966413eaae3eef14089ddb6be33608068c96492c903578968b5a2b027dbba",
+      "totonou-day-1.5-7.png": "03dd35e0dd4ec63ccdeb68ab56791eaed422ad7f8e526b4c1389c74de985c218",
+      "water-evening-1.5-11.png": "6810e53aa3859b9b8a4620670d3efa27be522b4f56bb337053b204048603a694",
+      "water-evening-1.5-10.png": "aef1bbb458d4760210b48f57f0817d7b749d4a48d584fda7d2c8003436e9f618",
+      "water-evening-1.5-12.png": "67cdec6c8da70ddb771a196db577ec322baab74988f50fe207caff5ac1d34ed0"
+    },
+    "after2": {
+      "sauna-day-1.5-12.png": "711483e52fbd315b9f988c4becdfd08c0ddad243a4d73db50fd2414d23d92a0c",
+      "sauna-day-1.5-10.png": "aa1b9541d168bb8df2881c7ab0689173088ea935c3f5f9274dd17b4bf8c4a61b",
+      "sauna-day-1.5-11.png": "a023396aeb2b03864d7bb40c8eb5cfeb24686fc2dd4ac2be8e1a7de604628159",
+      "totonou-evening-1.5-11.png": "7f73f367859384a21658cb013af133dddc94d52e9d48f96c3260b43d81f7841f",
+      "totonou-evening-1.5-10.png": "530ff5df911b8cf01d5ca29d907093172e14bfbf3064b6d5cf5430225ec4d9a5",
+      "totonou-evening-1.5-12.png": "93f90466564f254a40536fc47d0e52ec1d29f9b135d70b789b57b3022c88f904",
+      "water-day-1.5-0.png": "f97a8e78ee31484b76cbbdff0b392ff40322a7537affb573c3faea54e0d15f99",
+      "totonou-day-1.5-11.png": "f7f706282c2653e2146c0dd5ff900e9d5c1edc0e81ce8e6b250a1a867ab2cfaa",
+      "sauna-evening-1.5-12.png": "29153b0cec68974e0c4c3479c308ca450ff3eebb056e220765d5d92c9faecbed",
+      "water-evening-1.5-0.png": "b4180ad87ea55edd61060b3a6661d5850e5e131d4821ba0c83d1f699d140e394",
+      "water-evening-1.5-1.png": "e456d347645cb4c488b736b5b902ea6d3aa9bd665ab7a984950340aeb0a944c3",
+      "totonou-day-1.5-10.png": "ed7a3481a8c902b8361e65b26c595408dc356fe5d009bc47ed78e176c5dcfbb9",
+      "water-day-1.5-1.png": "4176f29f52a3f50318f0c310f9da908acefe54e4fd14980bcbad2092f55c1b40",
+      "water-day-1.5-3.png": "023019815c1294b0583a65b1ee3bce03ec6ef8c2aad6ba6fcd400a1183f191a1",
+      "totonou-day-1.5-9.png": "3922cebff78d1c50d0aafda7cac4c9d49a5b515d8ff57728a8a2b17de192b75c",
+      "totonou-day-1.5-12.png": "65b5072d240bee14209afdcaebb139a350b01336e598f4a3a65b8123f6ce41c1",
+      "sauna-evening-1.5-11.png": "ce6558d68679667d6b20f84af6735e487c82dafecc904eb0f99288a2aff6ef7b",
+      "water-evening-1.5-3.png": "c502e4613eb3916427a6af9cc15c928507ce358719dec07eec9c6a53eefc7e4e",
+      "sauna-day-1.5-8.png": "346df14bf3243db990a772e792a4c64a55fca6bd3e623b3ca0518cc87ea79fe0",
+      "sauna-day-1.5-9.png": "d7a21b9f0ca61f35a2f75549c8c77767990053b3b6483948cd638a64ff640ecf",
+      "water-evening-1.5-2.png": "f26a15cdd6389d3e8ff34103d86559d6e34ed45df73cce128c0fc3a1a10652fe",
+      "sauna-evening-1.5-10.png": "c4ee1df0aa9587b2724f2a2f39ba75f68a00e6dbf6bbdaddff03dfde24756d2b",
+      "totonou-day-1.5-8.png": "ad083ba35e57d971158d8ee410dfa177e9cb0bf2195cb1a35e6c476b6c71e124",
+      "water-day-1.5-2.png": "ff5618817a5e208c3aa91849cab04f81db121ca5cb20c51226b3fb33a0c1c5eb",
+      "water-day-1.5-6.png": "98e82222fd8a8b4685fac6183534eb5acfb35435b0d218c93009464a550d45d0",
+      "sauna-evening-1.5-9.png": "55f2eaf4f869d9ed8f9b8ea760faea4af6721f61fb072654e4af528569b475f8",
+      "totonou-evening-1.5-9.png": "7bf8b1d37df43cdd2d41b48cd8f7b086896fa5ff60514e07ae24c5b3a35c9436",
+      "water-evening-1.5-6.png": "ecda1ebb0cfe2d65d07240de32204eff54be12820def54bf8d23449ba5e25d26",
+      "water-evening-1.5-7.png": "ee11490e77ebe196eedea65b664a8592c6c1650cd43d61ed1d5cc817bd7d918c",
+      "totonou-evening-1.5-8.png": "547a40d798457815cf4d9bbc437b1bdccc6e90e16e50f1c8f40723ad6cbbcb4c",
+      "sauna-evening-1.5-8.png": "cfaf238c96e38286ccedc17cc357bd41a89f96a404f0088f015c82dfbdb9cd7a",
+      "water-day-1.5-7.png": "2e8b73c071837c35c3be1135326e0fea6183a781bebaabb8b2aaed00b70cd7a8",
+      "water-day-1.5-5.png": "9b9cb3593fa96f2a4b850e757752b87fbcfec2f290d871ad31dc0934123bf74d",
+      "water-evening-1.5-5.png": "9705165eb883f300f0998b13fb3f8c5f1d5eae0a26870ea167e842c08a0fd98b",
+      "water-evening-1.5-4.png": "083d6b8c07a7ba16d190b3b4afc751c4ac6927b36b75eb5d332ddac4a415fd3b",
+      "water-day-1.5-4.png": "be088be26edc28dd74076174fe542ef3e01ff3d8ea34d3e1718632d55715e90a",
+      "water-day-1.5-9.png": "bcf0711956b0de0998d9d049b5900d5612156a39d7a1605e2cebddb2b7873773",
+      "sauna-evening-1.5-6.png": "8469796c6bc3b8dbb0d64fa953fd6b80ca390e9967dee7ab2d490099a1077c81",
+      "totonou-day-1.5-3.png": "ec9d051d4e48fc3c236d57b7168eca183d00125cd7230c53d70c2674fc35f08a",
+      "totonou-evening-1.5-6.png": "b00d9e6fcf2db4c514fb00de3a0c58f8e23ec0a0a46c57eae12b7bac549a3218",
+      "water-evening-1.5-9.png": "ca59b2eee73b8bb2d0ff0cd8179040cabfdf63d482df096612dbc8d6e4edc83d",
+      "sauna-day-1.5-2.png": "aca956a002738d417b96bc9bb58fe99be39b744da7d2175ba6f35e63e5ee187a",
+      "sauna-day-1.5-3.png": "06dd38f5f1fc23383673b606714b7fe041f49e88951cabd8d4c1a897cadff734",
+      "water-evening-1.5-8.png": "c45e5c5bf4fb04106f73a988d2819ba1a5af21f65ea8c144dcaf0c31cf4aa50f",
+      "water-day-1.5-12.png": "af92e46bad8e1d681d179f7a3482e544b4c59399c54b2eb697a98816c0529d54",
+      "totonou-evening-1.5-7.png": "a43d6e7506ab7ef638790ef2ed1e65f206e5ec0250b4d5e6da049ea4f1363b23",
+      "totonou-day-1.5-2.png": "7b8ec0f0788c6c66f3c9623de66c0771cebcb521ee242a0801bb3e4b623cf177",
+      "sauna-evening-1.5-7.png": "2ab819ff7f116bec318320da91f5dfb38875b545530a1fc4b149ff2bd0218498",
+      "water-day-1.5-8.png": "aaa91e68b872c26e3d01d03043b86b75ef1e174ddcf035399240a3ab90382c32",
+      "sauna-evening-1.5-5.png": "e64ddcf4ff1771591ca533d2ad474842d9c32c4ae5ede1b9b636669431224ebb",
+      "totonou-day-1.5-0.png": "e253008addfca5cce3d36cb0445b4fdc4dba4a21b72cd8cad08819e0d2df38e4",
+      "totonou-evening-1.5-5.png": "cc0a6b07cc599d25324f03f5dbe379d19217d0094d7a4691ab6c77d7f8f216fc",
+      "water-day-1.5-10.png": "cf18dcac8b2ef804475f2d3b48a957c33e00a62a3b269bbcbdbb1ed9010b8fd3",
+      "sauna-day-1.5-1.png": "c004b760a97544423c4d90620fd667c913da69c970e03945a820a2d9e2c8edd5",
+      "sauna-day-1.5-0.png": "33786cc6e35881ee194154e6d3717f3bfa948a8b00c12a44c1907e8e05d0c539",
+      "water-day-1.5-11.png": "251848ec73d9533a6d373385af822add6917752afa7d80f77e9764838a884ead",
+      "totonou-evening-1.5-4.png": "928e2ad6bbd6106f4da3c6b7ffddd32e649c0ca9c80cde1fc4d419687b26eca0",
+      "totonou-day-1.5-1.png": "5203087e1295ba5f42aa089e43972dc7a98b7d90ed229c6c2168fc1c405d355e",
+      "sauna-evening-1.5-4.png": "a47bd808f7739e101065e7a10c608df1b78ffc04ebbed0aaaaed707f03a94be2",
+      "totonou-day-1.5-5.png": "1d33fde8eabeae24b94e9f28a1d5849bce7ea9ab01b1d7691df5688b5bed963c",
+      "sauna-evening-1.5-0.png": "2d6c7ad0d58760542b6dd5033da2bcec1e385da3f62f90ba74cbe206929cec3f",
+      "totonou-evening-1.5-0.png": "6235c038d49ed7c0a585f89b63a2ba93863eed629857bf628dfc7cdf6d861019",
+      "sauna-day-1.5-4.png": "c9e2756705b6682176c49b1087261cb6e412fa4a5af65f0f808944759314be6a",
+      "sauna-day-1.5-5.png": "0f798b547104cc9057ec5bc1fdf7d5d7dae3eb9eda4b4b14fbb506471e7c7f0f",
+      "totonou-evening-1.5-1.png": "2c3338fe37a6253b3992db35aa1c26b11e2f03158cc65716b80463ed753cc064",
+      "sauna-evening-1.5-1.png": "85a01119d67cc825698a8f70210671437cb40a0bb8cb6af625e1c9a40b3d2b42",
+      "totonou-day-1.5-4.png": "792caac0a6992ef439d33026f5b7fc5e5098255962e29bd971f1915dab1ae578",
+      "totonou-day-1.5-6.png": "a855c971ab295072fbe5f9bcd33f3e8b8b1fceabd9f8fd7d4177488653113633",
+      "sauna-evening-1.5-3.png": "becc518b77468be0c5cd7623b93b688f7eb9b57931ee58c07c2e0a3dac373ecc",
+      "totonou-evening-1.5-3.png": "3ae2a370452cb04978c1d24a8c405f0fe9256950ea5bc86ac04f33b6e614f580",
+      "sauna-day-1.5-7.png": "806c45307b5c7100cbc67b434d661755cf9e92b639963ae82221a5b54d088a84",
+      "sauna-day-1.5-6.png": "b56d30d17e158a77e788bce8ab28dcca420495a2e1bae7f7451dd265789a1515",
+      "totonou-evening-1.5-2.png": "c1e07be872c0b7d6b52e33cd1ac25ccb2259489e95b1452775274c32d0aef0f1",
+      "sauna-evening-1.5-2.png": "1d3966413eaae3eef14089ddb6be33608068c96492c903578968b5a2b027dbba",
+      "totonou-day-1.5-7.png": "03dd35e0dd4ec63ccdeb68ab56791eaed422ad7f8e526b4c1389c74de985c218",
+      "water-evening-1.5-11.png": "6810e53aa3859b9b8a4620670d3efa27be522b4f56bb337053b204048603a694",
+      "water-evening-1.5-10.png": "aef1bbb458d4760210b48f57f0817d7b749d4a48d584fda7d2c8003436e9f618",
+      "water-evening-1.5-12.png": "67cdec6c8da70ddb771a196db577ec322baab74988f50fe207caff5ac1d34ed0"
+    },
+    "before2": {
+      "sauna-day-1.5-12.png": "711483e52fbd315b9f988c4becdfd08c0ddad243a4d73db50fd2414d23d92a0c",
+      "sauna-day-1.5-10.png": "aa1b9541d168bb8df2881c7ab0689173088ea935c3f5f9274dd17b4bf8c4a61b",
+      "sauna-day-1.5-11.png": "a023396aeb2b03864d7bb40c8eb5cfeb24686fc2dd4ac2be8e1a7de604628159",
+      "totonou-evening-1.5-11.png": "457e069914c6fe637c2f119f3222571a0d6cd2f847d975c94d2a38fc7cc9871b",
+      "totonou-evening-1.5-10.png": "e8c1a30a0b89e966a102a9f2830aa552dc0fc238913b62eb5d6ab07c5d8a216a",
+      "totonou-evening-1.5-12.png": "041e82e1249f08b087cbbcc7c1560c9a6233851e8eddae96eb3e436da1fbd649",
+      "water-day-1.5-0.png": "aa322f034284b404f9220718e3586bcb6c8bfbe053c7f49b1665f92b90738477",
+      "totonou-day-1.5-11.png": "363812942f34e07c1631c857332a542e5055fcd8631e29c206c86ca1064ec825",
+      "sauna-evening-1.5-12.png": "29153b0cec68974e0c4c3479c308ca450ff3eebb056e220765d5d92c9faecbed",
+      "water-evening-1.5-0.png": "4d9678d289a84044891926e39f27fc4d4018c1e856560f313b484c1dd8fca602",
+      "water-evening-1.5-1.png": "002e7fcdc1801b6cd5b2e736ecb93c8a4d9feefdcea0739d4de4446243868184",
+      "totonou-day-1.5-10.png": "392777f4d5af43e1ef2a8d38f1477efb422357bc13c23b4c3ee32abb68261e52",
+      "water-day-1.5-1.png": "ffedf681d19cc4ba35d66df96b1acb015a6e0115f1388d89ffcb1b22dccf203c",
+      "water-day-1.5-3.png": "0aa259de967c5a5f248fc23ec6dae7ad96a400d7e58f7c5629c5305e6d9cfef3",
+      "totonou-day-1.5-9.png": "4b5a152a1839ec8c98cc08638be425250a100de5d5d93dbf11dd9c600052ef50",
+      "totonou-day-1.5-12.png": "a094e49465020a2349810bf4c59d0c8de0c00f08f741d46bfb7369b8efab2d8d",
+      "sauna-evening-1.5-11.png": "ce6558d68679667d6b20f84af6735e487c82dafecc904eb0f99288a2aff6ef7b",
+      "water-evening-1.5-3.png": "16ebfb2b5fbea9ff9e3b332c9a4d02f9befcc117fc39debc401d1494cdcd954e",
+      "sauna-day-1.5-8.png": "346df14bf3243db990a772e792a4c64a55fca6bd3e623b3ca0518cc87ea79fe0",
+      "sauna-day-1.5-9.png": "d7a21b9f0ca61f35a2f75549c8c77767990053b3b6483948cd638a64ff640ecf",
+      "water-evening-1.5-2.png": "51ff964d4dd3484fa1b1856a7fb48a9ee613e6cfd1bbccd669fb68b43c55aec4",
+      "sauna-evening-1.5-10.png": "c4ee1df0aa9587b2724f2a2f39ba75f68a00e6dbf6bbdaddff03dfde24756d2b",
+      "totonou-day-1.5-8.png": "d1d113c73bc98c5bf0a704c061395505f74272db3570582a238667e9254a4a47",
+      "water-day-1.5-2.png": "e325060f726c996ff59866b86817378eaf8390425de08530a425ec119f25f90b",
+      "water-day-1.5-6.png": "72c3ff251731f733637a2436db34f715a63231a61c2114e621f9e5a165170eef",
+      "sauna-evening-1.5-9.png": "55f2eaf4f869d9ed8f9b8ea760faea4af6721f61fb072654e4af528569b475f8",
+      "totonou-evening-1.5-9.png": "935d74a146ad604ab8703faabd35b6dacd022cb2cf4adc86d7307570a678a5b8",
+      "water-evening-1.5-6.png": "d463bd2a3579417b65d05532fefc94330deca444e68945d3a7a438ac48f4323e",
+      "water-evening-1.5-7.png": "9b0a69395d41e2a9274b750576b8a493fbd51747f206f3028d0b280e76831907",
+      "totonou-evening-1.5-8.png": "c8f42eea0919cb0329e6430aa08409c8d3081927f64124aca3475bf354e31798",
+      "sauna-evening-1.5-8.png": "cfaf238c96e38286ccedc17cc357bd41a89f96a404f0088f015c82dfbdb9cd7a",
+      "water-day-1.5-7.png": "7b49f6cb3c6d041d03b1cce48f829640db764d606f2f3a362122cd49bad789d7",
+      "water-day-1.5-5.png": "c5d0768be7a72e8b4715def47ce1b6a60b91ba274c1c287e17a3d65a1a083228",
+      "water-evening-1.5-5.png": "51a2a244551593250fd200f9ddf62c7036fc7fe12ff1637e66091052d5500a79",
+      "water-evening-1.5-4.png": "d3eadfc1c5fe38e786e49aa02b1eb7604bfae786ffac9a7838523f33dc193999",
+      "water-day-1.5-4.png": "a1c6c9877cbe4c848000267f6b070784805ce1176c023fad2c2554366bfa1533",
+      "water-day-1.5-9.png": "d47872a06f6587b4881ca0b9e43531fe4ed0ddc312350e2f2fdabcbf70eb7c3f",
+      "sauna-evening-1.5-6.png": "8469796c6bc3b8dbb0d64fa953fd6b80ca390e9967dee7ab2d490099a1077c81",
+      "totonou-day-1.5-3.png": "dac96c4db7a0d1113b4cd00fba48e9c8e2c4cc4835f4342b82caf45626182ec0",
+      "totonou-evening-1.5-6.png": "36ea0625bfd940d7518ec9ffedc3b4251dde2a4684c7d02d9974ae5b6b01949f",
+      "water-evening-1.5-9.png": "8066364fa84f44d9a671131e41e6ff718c8e9ca67b959b64b5a996e827f20d2e",
+      "sauna-day-1.5-2.png": "aca956a002738d417b96bc9bb58fe99be39b744da7d2175ba6f35e63e5ee187a",
+      "sauna-day-1.5-3.png": "06dd38f5f1fc23383673b606714b7fe041f49e88951cabd8d4c1a897cadff734",
+      "water-evening-1.5-8.png": "3f1f4c6acf81ba13cdad483f93aa4d373399f6d709112a3c256b116160b4c171",
+      "water-day-1.5-12.png": "7b5cd414ea2525b907bcf00bb8699c08e724eaa7576ca522141286af70b084a9",
+      "totonou-evening-1.5-7.png": "3b847d33673e7f433dff8e111f169ae6ed406449a95fd170f8fff804d01cd398",
+      "totonou-day-1.5-2.png": "3ca83f6793e3c79b93de6625049cc4fc45be17fd3e75875d61b06a795e052bf3",
+      "sauna-evening-1.5-7.png": "2ab819ff7f116bec318320da91f5dfb38875b545530a1fc4b149ff2bd0218498",
+      "water-day-1.5-8.png": "4c6f2a44f1c52e8d4f082012ce92edc885cedae737f71b31a3bba952dcd0701a",
+      "sauna-evening-1.5-5.png": "e64ddcf4ff1771591ca533d2ad474842d9c32c4ae5ede1b9b636669431224ebb",
+      "totonou-day-1.5-0.png": "7184c22c7016094a07fa9957bf26ce3b44d24160716c8b8d8ba66c4e20bfc033",
+      "totonou-evening-1.5-5.png": "0cd356b7272524e4cbd67a43d23fc2612f804a593640b17ceff3183760a087e9",
+      "water-day-1.5-10.png": "6be1e9fd52c17bd7fb7e396bee13094cfc77744a1cd0dfdd66c7ffe54ce53262",
+      "sauna-day-1.5-1.png": "c004b760a97544423c4d90620fd667c913da69c970e03945a820a2d9e2c8edd5",
+      "sauna-day-1.5-0.png": "33786cc6e35881ee194154e6d3717f3bfa948a8b00c12a44c1907e8e05d0c539",
+      "water-day-1.5-11.png": "016b9ad9604e7cc1c75441f6e115296122b68f8fe8648dca4d0eb39cda677c77",
+      "totonou-evening-1.5-4.png": "793db3d431128b029ce896d73e2ab701700d9f9bc7ff37c645e3734296980843",
+      "totonou-day-1.5-1.png": "f9489328eb1ddca3bbcf7f3bf83eecf4ccab294362ffb14ad37b80145c8ec627",
+      "sauna-evening-1.5-4.png": "a47bd808f7739e101065e7a10c608df1b78ffc04ebbed0aaaaed707f03a94be2",
+      "totonou-day-1.5-5.png": "c65db6d05c24096da6a8ac37537e6c11e45f5c8b73d240f813e8b17250dc92d6",
+      "sauna-evening-1.5-0.png": "2d6c7ad0d58760542b6dd5033da2bcec1e385da3f62f90ba74cbe206929cec3f",
+      "totonou-evening-1.5-0.png": "0fd730b4ccd1657f2c6ee7d8c7af071d3897c1b32c7609501572303ff86b4014",
+      "sauna-day-1.5-4.png": "c9e2756705b6682176c49b1087261cb6e412fa4a5af65f0f808944759314be6a",
+      "sauna-day-1.5-5.png": "0f798b547104cc9057ec5bc1fdf7d5d7dae3eb9eda4b4b14fbb506471e7c7f0f",
+      "totonou-evening-1.5-1.png": "a2c4f7ff2a565fd42773468fd583cbc427c394433dff65c8b0508a53a4495986",
+      "sauna-evening-1.5-1.png": "85a01119d67cc825698a8f70210671437cb40a0bb8cb6af625e1c9a40b3d2b42",
+      "totonou-day-1.5-4.png": "6f5c3bbf030f5f703cab7dfdd078e5e6be39bdac01ce760c1285471bb0935a61",
+      "totonou-day-1.5-6.png": "da512d3b91da4459501d1887bbe525e4856f0a95f6bdf075b6f582a9c606677e",
+      "sauna-evening-1.5-3.png": "becc518b77468be0c5cd7623b93b688f7eb9b57931ee58c07c2e0a3dac373ecc",
+      "totonou-evening-1.5-3.png": "7bdee86851240d6a614cd40343712d397f6cb9d0f5046e1b3a691d76611f946f",
+      "sauna-day-1.5-7.png": "806c45307b5c7100cbc67b434d661755cf9e92b639963ae82221a5b54d088a84",
+      "sauna-day-1.5-6.png": "b56d30d17e158a77e788bce8ab28dcca420495a2e1bae7f7451dd265789a1515",
+      "totonou-evening-1.5-2.png": "678117efe2fac2b6ed3f50b19f25945fe7fcf53f1d9dc8b63d8a0770d419a78e",
+      "sauna-evening-1.5-2.png": "1d3966413eaae3eef14089ddb6be33608068c96492c903578968b5a2b027dbba",
+      "totonou-day-1.5-7.png": "613bbf8e6cd2a2560edd070b6b84c565b00ac0d4c911ae24320dda7e5cdb144f",
+      "water-evening-1.5-11.png": "a1c3531e9022eae545ce39bc3f6212e84a2f8cf367b5bea772103478325cb6c9",
+      "water-evening-1.5-10.png": "3c1f25857f6fbe6bc713b4727324541678e0a298024f3b804b43b8d34f860d89",
+      "water-evening-1.5-12.png": "4d72262470a6c9c0424592d19fb3dabb722115b5e0be18b96cb92b536d9738db"
+    }
+  }
+}

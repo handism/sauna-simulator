@@ -194,11 +194,12 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   // palette, and stay outside the real woodland and below the existing crown tops.
   for (const [i, crown] of crowns.entries()) {
     // A sparse second rank fills selected gaps between the foreground volumes.
-    // Keep alternate backing crowns exposed, rather than making another solid row.
+    // The remaining exposed cutouts get a smaller, farther crown: their lit shoulders
+    // overlap the backing sheet instead of leaving a row of flat silhouettes.
     const backing = i % 6 === 0;
-    if (i % 3 === 0 && !backing) continue;
-    const distance = backing ? 51.2 + crown.shade * 0.5 : 48 + crown.shade * 3;
-    const top = crown.top - (backing ? 0.25 : 1.1);
+    const far = i % 6 === 3;
+    const distance = far ? 51.9 + crown.shade * 0.2 : backing ? 51.2 + crown.shade * 0.5 : 48 + crown.shade * 3;
+    const top = crown.top - (far ? 0.1 : backing ? 0.25 : 1.1);
     // Extend below the terrain: exposing the ellipsoid bottoms made floating blobs.
     const bottom = BASE;
     const height = Math.max(1.6, top - bottom);
@@ -208,19 +209,21 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     const lightDirection = radial.clone().multiplyScalar(-0.55).addScaledVector(tangent, -0.3);
     lightDirection.y = 0.78;
     lightDirection.normalize();
+    // The far rank meets the band, whose approximate shading uses this fixed world sun.
+    if (far) lightDirection.set(-0.556, 0.6178, 0.556).normalize();
     // A leader and two offset shoulders break up a single smooth balloon/cone.
     for (let lobe = 0; lobe < 3; lobe++) {
       const shoulder = lobe !== 0;
       const side = lobe === 1 ? -1 : 1;
-      const width = crown.radius * (shoulder ? 0.62 : 0.78) * (backing ? 0.88 : 1);
+      const width = crown.radius * (shoulder ? 0.62 : 0.78) * (far ? 0.76 : backing ? 0.88 : 1);
       const halfHeight = height * (shoulder ? 0.22 : 0.5);
       const center = radial.clone().multiplyScalar(distance - (shoulder ? 0.35 : 0));
       center.addScaledVector(tangent, shoulder ? side * crown.radius * 0.57 : 0);
       center.y = shoulder ? bottom + height * (lobe === 1 ? 0.61 : 0.69) : bottom + halfHeight;
       const depth = width * (0.72 + crown.pick * 0.18);
       // These farther shoulders need fewer facets; share the existing material.
-      const rings = backing ? 4 : 6,
-        sectors = backing ? 8 : 10;
+      const rings = backing || far ? 4 : 6,
+        sectors = backing || far ? 8 : 10;
       const vertex = (ring: number, sector: number) => {
         const phi = (ring / rings) * Math.PI;
         const theta = (sector / sectors) * Math.PI * 2;
@@ -244,14 +247,19 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
           .addScaledVector(radial, nz / depth)
           .add(new THREE.Vector3(0, ny / halfHeight, 0))
           .normalize();
-        volumeLight.push(0.55 + 0.75 * (0.5 + 0.5 * normal.dot(lightDirection)));
+        volumeLight.push(
+          far
+            ? 0.78 + 0.66 * Math.max(0, normal.dot(lightDirection))
+            : 0.55 + 0.75 * (0.5 + 0.5 * normal.dot(lightDirection)),
+        );
         sides.push(0);
         depths.push(Math.max(0, Math.min(1, (Math.hypot(position.x, position.z) - 47) / 7)));
         lift.push(Math.max(0, Math.min(1, (position.y - BASE) / (UNDERSTORY - BASE))));
         tops.push(top);
         // Volumes have their own closed silhouette; the band's vertical edge discard
         // would punch view-dependent holes through their front and back surfaces.
-        edges.push(1e4);
+        // The larger sentinel also lets QA omit just this rank in a same-build control.
+        edges.push(far ? 2e4 : 1e4);
       };
       for (let ring = 0; ring < rings; ring++) {
         for (let sector = 0; sector < sectors; sector++) {
@@ -322,6 +330,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       .replace(
         '#include <clipping_planes_fragment>',
         `#include <clipping_planes_fragment>
+        // SUI_FAR_CROWN_CONTROL
         // Ragged foliage along the outline: the smooth domes and cones read as hills and rocky
         // peaks. Leafy masses (about 0.45m and 0.2m) cut up to ${FRAY.toFixed(1)}m into the crowns, gone
         // where they would be finer than a pixel.
@@ -370,7 +379,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v8';
+  material.customProgramCacheKey = () => 'garden-far-forest-v9';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();

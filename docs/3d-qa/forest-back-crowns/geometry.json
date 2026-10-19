@@ -1,0 +1,14 @@
+{
+  "before": {
+    "crowns": 110,
+    "triangles": 30188,
+    "attributeBytes": 4347072,
+    "farTriangles": 0
+  },
+  "after": {
+    "crowns": 110,
+    "triangles": 32780,
+    "attributeBytes": 4720320,
+    "farTriangles": 2592
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node/25.8.2/bin/node",
+      "/Users/mac/git/sauna-simulator/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "playwright.visual.config.ts",
+      "e2e/forest-back-crowns.visual.ts",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/mac/git/sauna-simulator/playwright.visual.config.ts",
+    "rootDir": "/Users/mac/git/sauna-simulator/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/mac/git/sauna-simulator/test-results/visual",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/mac/git/sauna-simulator/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.visual.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "forest-back-crowns.visual.ts",
+      "file": "forest-back-crowns.visual.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "far crowns before1",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11240,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T07:19:18.226Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "far-crowns",
+                      "contentType": "application/json",
+                      "body": "eyJydW4iOiJiZWZvcmUxIiwiYnJvd3NlciI6IjE1NS4wLjgwNTkuODAiLCJjb250cm9scyI6MSwiY2FwdHVyZXMiOlt7InN0YWdlIjoidG90b25vdSIsImxpZ2h0aW5nIjoiZGF5IiwiaGVhZGluZyI6MjAsImZpbGUiOiJ0b3Rvbm91LWRheS0yMC5wbmciLCJtZXRyaWNzIjp7InJlc29sdXRpb24iOiJmaXhlZCIsImZyYW1lUmF0ZSI6ImZ1bGwiLCJjYW1lcmEiOiJzdGFnZSIsIndhcm11cCI6Im9mZiIsInRlbXBvcmFsIjoib24iLCJxdWFsaXR5Ijoic3RhbmRhcmQiLCJwaXhlbFJhdGlvIjoiMSIsImlycmFkaWFuY2VQcm9iZXMiOiI0OTE2Iiwic3BvdXRUcm91Z2giOiIxIiwidHVja2VkR3Jhc3MiOiI1IiwibWVhZG93QmxhZGVzIjoiMjExMzgiLCJkZWNrSXJyYWRpYW5jZVRyaWFuZ2xlcyI6IjEyIiwicm9vbUlycmFkaWFuY2VUcmlhbmdsZXMiOiIyOTI4IiwiZm9yZXN0Rmxvb3JNYXRlcmlhbHMiOiIyIiwid2V0TWF0ZXJpYWxzIjoiNDQiLCJyZWZyYWN0aW9uTWF0ZXJpYWxzIjoiNCIsInJlZnJhY3Rpb25UcmlhbmdsZXMiOiIxOTA1NCIsImNhdXN0aWNNYXRlcmlhbHMiOiIyIiwiZ2xhc3NNZXNoZXMiOiIzIiwiaXJyYWRpYW5jZU1hdGVyaWFscyI6IjEwOSIsImRlY2tJcnJhZGlhbmNlTWF0ZXJpYWxzIjoiMSIsInJvb21JcnJhZGlhbmNlTWF0ZXJpYWxzIjoiMyIsInJlZmxlY3Rpb25NYXRlcmlhbHMiOiIxMDkiLCJ3YXRlckJvdHRvbU1hdGVyaWFscyI6IjQiLCJmb2xpYWdlTWF0ZXJpYWxzIjoiMzQiLCJub2lzZUNvbG9yTWF0ZXJpYWxzIjoiNSIsImltYWdlUmFtcE1hdGVyaWFscyI6IjUwIiwibGVhZkNsdXN0ZXJNYXRlcmlhbHMiOiIxMCIsInNpZGVJbWFnZU1lc2hlcyI6IjMyIiwicHJlcGFzc01lc2hlcyI6IjEyNiIsInNoYWRvd01hc2tNZXNoZXMiOiIxMjMiLCJzaWRlSW1hZ2VUcmlhbmdsZXMiOiIxNzQ5ODQiLCJzdGFnZSI6InRvdG9ub3UiLCJzaWRlSW1hZ2VzU2hvd24iOiIyMCIsIm1pcnJvckNhbGxzIjoiODkiLCJtaXJyb3JUcmlhbmdsZXMiOiI4MzM4MjEiLCJtaXJyb3JTaXplIjoiNjQweDQwMCIsImRyYXdDYWxscyI6IjE1MSIsInRyaWFuZ2xlcyI6IjEwNTYyNDMiLCJsb2FkTXMiOiI0MTU2IiwiZ2FyZGVuIjoicmVhZHkiLCJzZWFzb24iOiJzdW1tZXIiLCJzZWFzb25NYXRlcmlhbHMiOiIyMiIsInNwcmluZ0Zsb3dlcnMiOiIwIiwic25vd01hdGVyaWFscyI6IjYxIiwiYXV0dW1uR3JvdW5kTWF0ZXJpYWxzIjoiMiIsIndpbnRlckhpZGRlbkxlYXZlcyI6IjAiLCJsaWdodGluZyI6ImRheSIsInRpbWVPZkRheSI6IjAuMDAwIiwid2VhdGhlciI6ImNsZWFyIiwicmFpbiI6IjAuMDAwIiwic25vdyI6IjAuMDAwIiwiZ2FyZGVuRGV0YWlscyI6InJlYWR5IiwidGV4dHVyZXMiOiIzNiIsImdlb21ldHJpZXMiOiIxNjYiLCJyb3VuZGVkQ3Jvd25DYXJkcyI6IjM4NDkyIiwiZXZlcmdyZWVuVHJlZXMiOiI1OSIsImdhcmRlbk1zIjoiNDU3OSJ9fV0sImVycm9ycyI6W10sImlucHV0cyI6eyJzcmMvY29tcG9uZW50cy8zZC9mYXJGb3Jlc3QudHMiOiI0MTkwZGRlOGQ2NGI3NDk1OGQzNzg4ZGMyMjg3ZTRiYTI0NzEyMTE5N2Y0ZGVkMjY3ODEzZjk2NjExNjk4NGQ3Iiwic3JjL2NvbXBvbmVudHMvM2QvZ2FyZGVuRGV0YWlscy50cyI6IjMwMWYwMTRmNDQyN2RiYWNlMjE3Y2E5OWExY2QxNDNlNmMyZGU0OTdmNTdiNGNjZjgzZGEwNTU5OGQ0ODJlMzEiLCJzcmMvY29tcG9uZW50cy8zZC90ZW1wb3JhbEFBLnRzIjoiYTAzNTcyMjdjY2RhYThlNGIyYzhkZjI0ZTU1NmEzMjhkOGFlZWJkZjBkNmNmODNhZWQ1M2Q3ZDNjZjI3MDQwMiIsInB1YmxpYy9tb2RlbHMvc2F1bmEuZ2xiIjoiOWZhNWUyMTNlZjVkYzlmN2VkYThlYmU0MGVkNTg5M2FiN2M5OGI3YmVmMTVlYjNjODJiMjQ5ZjMxZTliOTBlNyIsInB1YmxpYy9tb2RlbHMvc2F1bmEtZ2FyZGVuLmdsYiI6ImM3ZWM0YjExNmIwNDEwMjE5NjE4NDM1ZDFmMzAyZWUyNTRlNzQyZDkxODdmNjBjOTFlYTdhN2Y4Mjg5ZTI3M2QiLCJwdWJsaWMvbW9kZWxzL2lycmFkaWFuY2UuYmluIjoiN2Q2OTFjYTZiY2M4OTMyNTJmNDVlMWU4NmE1ZmE2NjRhZDM1NjU2NmNjNWViM2Y3ZWY4N2RjMTE5ZWEwZTFjZCIsInB1YmxpYy9tb2RlbHMvcmVmbGVjdGlvbi5iaW4iOiI5NjliNGM0YjgzMjA0Mzk5NmVlYjQ3MTMyNzc4OGRmZWQ4NjdkODA4YWQxY2ZkMWViMGM4MzJlMTcxZTFjNDBkIn19"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "993950732ca7a48aff28-5e93567956fe80cfac9e",
+          "file": "forest-back-crowns.visual.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "far crowns after1",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11157,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T07:19:29.841Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "far-crowns",
+                      "contentType": "application/json",
+                      "body": "eyJydW4iOiJhZnRlcjEiLCJicm93c2VyIjoiMTU1LjAuODA1OS44MCIsImNvbnRyb2xzIjowLCJjYXB0dXJlcyI6W3sic3RhZ2UiOiJ0b3Rvbm91IiwibGlnaHRpbmciOiJkYXkiLCJoZWFkaW5nIjoyMCwiZmlsZSI6InRvdG9ub3UtZGF5LTIwLnBuZyIsIm1ldHJpY3MiOnsicmVzb2x1dGlvbiI6ImZpeGVkIiwiZnJhbWVSYXRlIjoiZnVsbCIsImNhbWVyYSI6InN0YWdlIiwid2FybXVwIjoib2ZmIiwidGVtcG9yYWwiOiJvbiIsInF1YWxpdHkiOiJzdGFuZGFyZCIsInBpeGVsUmF0aW8iOiIxIiwiaXJyYWRpYW5jZVByb2JlcyI6IjQ5MTYiLCJzcG91dFRyb3VnaCI6IjEiLCJ0dWNrZWRHcmFzcyI6IjUiLCJtZWFkb3dCbGFkZXMiOiIyMTEzOCIsImRlY2tJcnJhZGlhbmNlVHJpYW5nbGVzIjoiMTIiLCJyb29tSXJyYWRpYW5jZVRyaWFuZ2xlcyI6IjI5MjgiLCJmb3Jlc3RGbG9vck1hdGVyaWFscyI6IjIiLCJ3ZXRNYXRlcmlhbHMiOiI0NCIsInJlZnJhY3Rpb25NYXRlcmlhbHMiOiI0IiwicmVmcmFjdGlvblRyaWFuZ2xlcyI6IjE5MDU0IiwiY2F1c3RpY01hdGVyaWFscyI6IjIiLCJnbGFzc01lc2hlcyI6IjMiLCJpcnJhZGlhbmNlTWF0ZXJpYWxzIjoiMTA5IiwiZGVja0lycmFkaWFuY2VNYXRlcmlhbHMiOiIxIiwicm9vbUlycmFkaWFuY2VNYXRlcmlhbHMiOiIzIiwicmVmbGVjdGlvbk1hdGVyaWFscyI6IjEwOSIsIndhdGVyQm90dG9tTWF0ZXJpYWxzIjoiNCIsImZvbGlhZ2VNYXRlcmlhbHMiOiIzNCIsIm5vaXNlQ29sb3JNYXRlcmlhbHMiOiI1IiwiaW1hZ2VSYW1wTWF0ZXJpYWxzIjoiNTAiLCJsZWFmQ2x1c3Rlck1hdGVyaWFscyI6IjEwIiwic2lkZUltYWdlTWVzaGVzIjoiMzIiLCJwcmVwYXNzTWVzaGVzIjoiMTI2Iiwic2hhZG93TWFza01lc2hlcyI6IjEyMyIsInNpZGVJbWFnZVRyaWFuZ2xlcyI6IjE3NDk4NCIsInN0YWdlIjoidG90b25vdSIsInNpZGVJbWFnZXNTaG93biI6IjIwIiwibWlycm9yQ2FsbHMiOiI4OSIsIm1pcnJvclRyaWFuZ2xlcyI6IjgzMzgyMSIsIm1pcnJvclNpemUiOiI2NDB4NDAwIiwiZHJhd0NhbGxzIjoiMTUxIiwidHJpYW5nbGVzIjoiMTA1NjI0MyIsImxvYWRNcyI6IjQxMTgiLCJnYXJkZW4iOiJyZWFkeSIsInNlYXNvbiI6InN1bW1lciIsInNlYXNvbk1hdGVyaWFscyI6IjIyIiwic3ByaW5nRmxvd2VycyI6IjAiLCJzbm93TWF0ZXJpYWxzIjoiNjEiLCJhdXR1bW5Hcm91bmRNYXRlcmlhbHMiOiIyIiwid2ludGVySGlkZGVuTGVhdmVzIjoiMCIsImxpZ2h0aW5nIjoiZGF5IiwidGltZU9mRGF5IjoiMC4wMDAiLCJ3ZWF0aGVyIjoiY2xlYXIiLCJyYWluIjoiMC4wMDAiLCJzbm93IjoiMC4wMDAiLCJnYXJkZW5EZXRhaWxzIjoicmVhZHkiLCJ0ZXh0dXJlcyI6IjM2IiwiZ2VvbWV0cmllcyI6IjE2NiIsInJvdW5kZWRDcm93bkNhcmRzIjoiMzg0OTIiLCJldmVyZ3JlZW5UcmVlcyI6IjU5IiwiZ2FyZGVuTXMiOiI0NTExIn19XSwiZXJyb3JzIjpbXSwiaW5wdXRzIjp7InNyYy9jb21wb25lbnRzLzNkL2ZhckZvcmVzdC50cyI6IjQxOTBkZGU4ZDY0Yjc0OTU4ZDM3ODhkYzIyODdlNGJhMjQ3MTIxMTk3ZjRkZWQyNjc4MTNmOTY2MTE2OTg0ZDciLCJzcmMvY29tcG9uZW50cy8zZC9nYXJkZW5EZXRhaWxzLnRzIjoiMzAxZjAxNGY0NDI3ZGJhY2UyMTdjYTk5YTFjZDE0M2U2YzJkZTQ5N2Y1N2I0Y2NmODNkYTA1NTk4ZDQ4MmUzMSIsInNyYy9jb21wb25lbnRzLzNkL3RlbXBvcmFsQUEudHMiOiJhMDM1NzIyN2NjZGFhOGU0YjJjOGRmMjRlNTU2YTMyOGQ4YWVlYmRmMGQ2Y2Y4M2FlZDUzZDdkM2NmMjcwNDAyIiwicHVibGljL21vZGVscy9zYXVuYS5nbGIiOiI5ZmE1ZTIxM2VmNWRjOWY3ZWRhOGViZTQwZWQ1ODkzYWI3Yzk4YjdiZWYxNWViM2M4MmIyNDlmMzFlOWI5MGU3IiwicHVibGljL21vZGVscy9zYXVuYS1nYXJkZW4uZ2xiIjoiYzdlYzRiMTE2YjA0MTAyMTk2MTg0MzVkMWYzMDJlZTI1NGU3NDJkOTE4N2Y2MGM5MWVhN2E3ZjgyODllMjczZCIsInB1YmxpYy9tb2RlbHMvaXJyYWRpYW5jZS5iaW4iOiI3ZDY5MWNhNmJjYzg5MzI1MmY0NWUxZTg2YTVmYTY2NGFkMzU2NTY2Y2M1ZWIzZjdlZjg3ZGMxMTllYTBlMWNkIiwicHVibGljL21vZGVscy9yZWZsZWN0aW9uLmJpbiI6Ijk2OWI0YzRiODMyMDQzOTk2ZWViNDcxMzI3Nzg4ZGZlZDg2N2Q4MDhhZDFjZmQxZWIwYzgzMmUxNzFlMWM0MGQifX0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "993950732ca7a48aff28-e127c4d5f756be2039a1",
+          "file": "forest-back-crowns.visual.ts",
+          "line": 11,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T07:19:17.470Z",
+    "duration": 23888.488,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

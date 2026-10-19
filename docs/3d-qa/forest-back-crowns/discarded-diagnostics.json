@@ -1,0 +1,26 @@
+[
+  {
+    "path": "/private/tmp/forest-back-crowns/preliminary-focus",
+    "reason": "Settings menu retained focus; heading labels were incorrect.",
+    "reportSHA256": {
+      "report.json": "18a6a6920a57efd11ca7d558a129dcce78517fc0ed7e06f0e47d360367abbe60"
+    }
+  },
+  {
+    "path": "/private/tmp/forest-back-crowns/preliminary-server-equivalence",
+    "reason": "Inherited webServer array served the candidate instead of original build.",
+    "reportSHA256": {
+      "report.json": "d4e1c0bd829dd63ce57964ca384a209be8f150ffb4875b6d6fa99c5810d30379"
+    }
+  },
+  {
+    "path": "/private/tmp/forest-back-crowns/preliminary-server-motion",
+    "reason": "Inherited webServer array served the candidate for all conditions.",
+    "reportSHA256": {
+      "after2/report.json": "9f41bdc4214a7eafe55b763ad6c47b7a82ac1a8a96622d434085ec32487edf84",
+      "before1/report.json": "b7eb538c072e6db88aa0bf71fa49c7f78904984dd2d3c50d702493d7b0802483",
+      "after1/report.json": "d4566c7f852a7cfd3bf17d7daff042e867bd502719354858572237f5ed2230b6",
+      "before2/report.json": "7552654a65a183c8715a252fe4c1f6e9802e5f03c8b1627393a2dbaf7f100765"
+    }
+  }
+]
