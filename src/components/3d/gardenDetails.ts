@@ -7,7 +7,7 @@ import { createGardenStream, streamSection } from './gardenStream';
 import type { Season } from './season';
 
 /** A deterministic generator in [0, 1), so every load builds the same garden. */
-function seeded(seed: number) {
+export function seeded(seed: number) {
   let state = seed >>> 0;
   return () => {
     state = (state + 0x6d2b79f5) >>> 0;

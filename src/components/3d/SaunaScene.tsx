@@ -10,6 +10,7 @@ import './agx';
 import { createLighting, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
+import { addSpoutTrough } from './waterSpout';
 import { createSteam, LIFETIME_SECONDS } from './steam';
 import { addGardenDetails } from './gardenDetails';
 import { roundWoodlandCrowns } from './crownNormals';
@@ -352,6 +353,7 @@ export default function SaunaScene({
           return refraction.triangles;
         };
         addSpringFlowers(gltf.scene);
+        setData('spoutTrough', String(addSpoutTrough(gltf.scene, definition.water.spout[0])));
         const gardenDetails = addGardenDetails(gltf.scene);
         setData('tuckedGrass', String(gardenDetails.tuckedGrass));
         setData('meadowBlades', String(gardenDetails.meadowBlades));
@@ -367,6 +369,8 @@ export default function SaunaScene({
         setData('sideImageTriangles', String(sideImages.triangles));
         camera.layers.enable(SIDE_IMAGE_LAYER);
         scene.add(gltf.scene);
+        // Like the steam: the foam and drops at the spout would redraw the mirror every frame.
+        for (const object of waterEffects.mainOnly) object.layers.set(STEAM_LAYER);
         scene.add(waterEffects.group);
         // Seen only in the water's mirror, like the source's glossy-only area lights.
         const glossyLights = createGlossyLights();

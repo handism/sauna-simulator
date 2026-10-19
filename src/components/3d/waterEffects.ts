@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { IRRADIANCE_PARS, type IrradianceUniforms } from './irradiance';
 import { REFLECTION_PARS } from './reflection';
 import type { PlanarReflectionUniforms } from './planarReflection';
+import { createSpoutWater } from './waterSpout';
 
 export interface WaterDefinition {
   center: number[];
@@ -148,8 +149,6 @@ export function createWaterEffects(
 ) {
   const group = new THREE.Group();
   const rain = { value: 0 };
-  const vertexShader = `varying vec2 vUv;
-    void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
   // The source water is clear (transmission 1, IOR 1.333, absorption density 0.12), so the teal
   // tiles below stay visible. Only the Fresnel reflection is blended over: the mirror image, or
   // the reflection probes (roughness 0.018 of the source) when there is none.
@@ -200,36 +199,21 @@ export function createWaterEffects(
   surface.position.fromArray(definition.center);
   surface.updateMatrixWorld();
   group.add(surface);
-  const flow = new THREE.ShaderMaterial({
-    uniforms: { time },
-    vertexShader,
-    fragmentShader: `uniform float time; varying vec2 vUv;
-      void main() {
-        float streak = 0.5 + 0.5 * sin(vUv.x * 110.0 + sin(vUv.y * 14.0 + time * 5.0));
-        float edge = smoothstep(0.0, 0.08, vUv.x) * smoothstep(0.0, 0.08, 1.0-vUv.x);
-        gl_FragColor = vec4(vec3(0.62, 0.83, 0.84), (0.13 + streak * 0.15) * edge);
-        #include <tonemapping_fragment>
-        #include <colorspace_fragment>
-      }`,
-    transparent: true,
-    depthWrite: false,
-    side: THREE.DoubleSide,
-  });
-  const height = definition.spout[1] - definition.inlet[1];
-  const cascade = new THREE.Mesh(new THREE.PlaneGeometry(0.46, height), flow);
-  cascade.position.fromArray(definition.inlet);
-  cascade.position.y += height / 2;
-  cascade.position.z += 0.015;
-  group.add(cascade);
+  // The spout's falling sheet, its foam and drops (waterSpout.ts).
+  const spout = createSpoutWater(definition.spout[0], definition.center[1], probes, time);
+  group.add(spout.sheet, ...spout.mainOnly);
   return {
     group,
     surface,
+    /** The foam and drops at the spout's foot, for the main camera only. */
+    mainOnly: spout.mainOnly,
     /** The waves' time in seconds (0 with reduced motion), shared with the underwater views. */
     time,
     /** `rainAmount` is the rain's share (lighting.ts), which sets the rings of its drops. */
     update: (seconds: number, reducedMotion: boolean, rainAmount = 0) => {
       time.value = reducedMotion ? 0 : seconds;
       rain.value = rainAmount;
+      spout.update(reducedMotion);
     },
   };
 }
