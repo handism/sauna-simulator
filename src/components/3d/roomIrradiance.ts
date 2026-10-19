@@ -52,17 +52,31 @@ export function isolateRoomReceivers(root: THREE.Object3D) {
       const receiver = (floor ? [0] : [1, 2, 3, 4, 5]).some((plane) =>
         points.every((p) => {
           if (plane === 0)
-            return Math.abs(p.y - 0.1) < 0.002 && p.x >= -6.2 && p.x <= -0.5 && p.z >= -4.71 && p.z <= -0.29;
+            return (
+              p.x >= -6.2 &&
+              p.x <= -0.5 &&
+              p.z >= -4.71 &&
+              p.z <= -0.29 &&
+              ((p.y >= 0.065 && p.y <= 0.105) ||
+                (p.x >= -6.02 &&
+                  p.x <= -1.18 &&
+                  ((p.y >= 0.7 && p.y <= 0.98 && p.z >= -4.23 && p.z <= -3.21) ||
+                    (p.y >= 0.23 && p.y <= 0.51 && p.z >= -3.19 && p.z <= -2.55))))
+            );
           if (p.x < -6.23 || p.x > -0.46 || p.z < -4.59 || p.z > -0.2 || p.y < 0.06 || p.y > 3.36) return false;
-          if (plane === 1) return Math.abs(p.z + 4.5125) < 0.002;
-          if (plane === 4) return Math.abs(p.x + 6.0925) < 0.002;
-          if (plane === 5) return Math.abs(p.y - 3.285) < 0.002;
+          if (plane === 1)
+            return (
+              Math.abs(p.z + 4.5145) < 0.004 ||
+              (p.x >= -6.06 && p.x <= -1.14 && p.y >= 1.28 && p.y <= 1.94 && p.z >= -4.5 && p.z <= -4.35)
+            );
+          if (plane === 4) return Math.abs(p.x + 6.0945) < 0.004;
+          if (plane === 5) return Math.abs(p.y - 3.2875) < 0.004;
           return (
             p.x >= -6.02 &&
             p.x <= -1.18 &&
             (plane === 2
-              ? Math.abs(p.y - 1.035) < 0.002 && p.z >= -4.12 && p.z <= -3.16
-              : Math.abs(p.y - 0.565) < 0.002 && p.z >= -3.04 && p.z <= -2.5)
+              ? p.y >= 0.963 && p.y <= 1.037 && p.z >= -4.12 && p.z <= -3.16
+              : p.y >= 0.493 && p.y <= 0.567 && p.z >= -3.04 && p.z <= -2.5)
           );
         }),
       );
@@ -97,30 +111,25 @@ uniform vec4 suiRoomBounds[6];
 uniform vec2 suiRoomResolution[6];
 uniform float suiRoomLevels[6];
 uniform vec2 suiRoomAtlasSize;
+vec2 suiRoomUV(int plane, vec2 point) {
+  vec4 bounds = suiRoomBounds[plane];
+  vec2 q = clamp((point - bounds.xy) / (bounds.zw - bounds.xy), 0.0, 1.0);
+  return (q * (suiRoomResolution[plane] - 1.0) + 0.5) / suiRoomAtlasSize;
+}
+#ifndef SUI_ROOM_EXTENSION
 vec4 suiRoomCoordinates(vec3 P, vec3 N) {
   int plane = -1;
   vec2 point = P.xz;
   float facing = N.y;
   if (abs(P.y - suiRoomLevels[0]) < 0.008 && N.y > 0.9) plane = 0;
   else if (abs(P.z - suiRoomLevels[1]) < 0.008 && N.z > 0.9) { plane = 1; point = P.xy; facing = N.z; }
-#ifdef SUI_ROOM_EXTENSION
-  else if (abs(P.y - suiRoomLevels[2]) < 0.008 && N.y > 0.9) plane = 2;
-  else if (abs(P.y - suiRoomLevels[3]) < 0.008 && N.y > 0.9) plane = 3;
-  else if (abs(P.x - suiRoomLevels[4]) < 0.008 && N.x > 0.9) { plane = 4; point = P.zy; facing = N.x; }
-  else if (abs(P.y - suiRoomLevels[5]) < 0.008 && N.y < -0.9) { plane = 5; facing = -N.y; }
-#endif
   if (plane < 0) return vec4(0.0);
   vec4 bounds = suiRoomBounds[plane];
-  vec2 q = (point - bounds.xy) / (bounds.zw - bounds.xy);
   vec2 edge = min(point - bounds.xy, bounds.zw - point);
   float coverage = smoothstep(0.0, 0.15, min(edge.x, edge.y));
-  coverage *= smoothstep(0.9, 0.99, facing);
-  // Daytime image agreement did not improve. Keep that lighting and blend in
-  // the validated dusk/night correction with the existing lighting transition.
-  coverage *= suiIrradianceEvening;
+  coverage *= smoothstep(0.9, 0.99, facing) * suiIrradianceEvening;
   if (coverage == 0.0) return vec4(0.0);
-  vec2 uv = (clamp(q, 0.0, 1.0) * (suiRoomResolution[plane] - 1.0) + 0.5) / suiRoomAtlasSize;
-  return vec4(uv, float(plane), coverage);
+  return vec4(suiRoomUV(plane, point), float(plane), coverage);
 }
 vec4 suiRoomDirectSample(vec3 P, vec3 N) {
   vec4 q = suiRoomCoordinates(P, N);
@@ -130,9 +139,6 @@ vec4 suiRoomDirectSample(vec3 P, vec3 N) {
 vec3 suiRoomLight(vec3 P, vec3 N, bool interior, bool underwater, vec3 direct) {
   vec4 q = suiRoomCoordinates(P, N);
   if (q.w == 0.0) return suiIrradiance(P, N, interior, underwater);
-  // New receivers replace only direct light. Retain their existing directional
-  // indirect probes; the original floor/wall keep their validated local bake.
-  if (q.z >= 2.0) return suiIrradiance(P, N, interior, underwater) + direct;
   int plane = int(q.z);
   float coverage = q.w;
   vec2 uv = q.xy;
@@ -146,15 +152,126 @@ vec3 suiRoomLight(vec3 P, vec3 N, bool interior, bool underwater, vec3 direct) {
       valid += weight * sampleValue.a;
     }
   }
-  // RGB is premultiplied by sample validity. Fade invalid/embedded samples to
-  // the existing probes instead of leaking light from inside a bench bearer.
   float remaining = 1.0 - coverage * valid;
   vec3 result = coverage * suiOvercastLight(fine, suiOvercast.y) + direct;
-  // The fully covered interior needs only the local sample. Read the seven
-  // coarse SH texels only at the fade/normal boundaries or an invalid sample.
   if (remaining > 0.0) result += remaining * suiIrradiance(P, N, interior, underwater);
   return max(result, vec3(0.0));
 }
+#else
+float suiRoomRearWallY(float y) {
+  if (y <= 1.31) return min(y, 1.225);
+  if (y <= 1.61) return 1.475;
+  if (y <= 1.84) return 1.725;
+  return max(y, 1.975);
+}
+vec4 suiRoomDirectSample(vec3 P, vec3 N) {
+  // Upper and lower bench slats: replace flat-top direct light, add warm gap fill on bevels/sides, occlude underside.
+  if (P.x >= -6.02 && P.x <= -1.18) {
+    int benchPlane = -1;
+    if (abs(P.y - 1.00) < 0.038 && P.z >= -4.12 && P.z <= -3.16) benchPlane = 2;
+    else if (abs(P.y - 0.53) < 0.038 && P.z >= -3.04 && P.z <= -2.50) benchPlane = 3;
+    if (benchPlane >= 2) {
+      vec2 uv = suiRoomUV(benchPlane, P.xz);
+      vec3 direct = texture(suiRoomIrradiance, vec3(uv, (6.5 + float(benchPlane)) / 12.0)).rgb;
+      float top = smoothstep(0.70, 0.96, N.y);
+      // Warm fill only inside the gaps between slats, not on the open front nosing.
+      float front = benchPlane == 2 ? smoothstep(-3.24, -3.19, P.z) : smoothstep(-2.58, -2.53, P.z);
+      float sideFill = 0.18 * (1.0 - top) * (1.0 - front) * smoothstep(-0.35, 0.20, N.y);
+      float underOcc = 0.65 * smoothstep(-0.20, -0.65, N.y);
+      return vec4((top + sideFill) * direct, max(top, underOcc));
+    }
+    // Under-bench light-shielding lips and bearers: partially occluded by the bench overhang above.
+    if ((P.y >= 0.70 && P.y <= 0.98 && P.z >= -4.23 && P.z <= -3.21) ||
+        (P.y >= 0.23 && P.y <= 0.51 && P.z >= -3.19 && P.z <= -2.55)) {
+      return vec4(0.0, 0.0, 0.0, N.z < -0.5 ? 0.0 : 0.32);
+    }
+  }
+  // Left wall and ceiling planks + 4mm bevel grooves.
+  if (abs(P.x - suiRoomLevels[4]) < 0.008 && N.x > 0.0) {
+    vec2 uv = suiRoomUV(4, P.zy);
+    vec3 direct = texture(suiRoomIrradiance, vec3(uv, 10.5 / 12.0)).rgb;
+    return vec4(clamp(N.x, 0.0, 1.0) * direct, 1.0);
+  }
+  if (abs(P.y - suiRoomLevels[5]) < 0.008 && N.y < 0.0) {
+    vec2 uv = suiRoomUV(5, P.xz);
+    vec3 direct = texture(suiRoomIrradiance, vec3(uv, 11.5 / 12.0)).rgb;
+    return vec4(clamp(-N.y, 0.0, 1.0) * direct, 1.0);
+  }
+  // Floor planks + 4mm bevels across full room floor (including right glass edge and front floor).
+  if (abs(P.y - 0.085) < 0.025 && N.y > 0.0) {
+    vec2 uv = suiRoomUV(0, P.xz);
+    vec4 s = texture(suiRoomIrradiance, vec3(uv, 6.5 / 12.0));
+    float underBench = smoothstep(-2.38, -2.58, P.z);
+    float facing = clamp(N.y, 0.0, 1.0);
+    return vec4(underBench * facing * s.rgb, mix(0.28, s.a, underBench));
+  }
+  // Rear wall planks + 4mm grooves, and Cedar backrest slats/posts.
+  if (abs(P.z - suiRoomLevels[1]) < 0.008 && N.z > 0.0) {
+    float slot = smoothstep(1.43, 1.47, P.y) * smoothstep(1.60, 1.53, P.y) * step(P.x, -1.14) * step(-6.06, P.x);
+    float yDirect = P.y > 0.98 && P.y < 1.24 ? mix(P.y, 1.04, smoothstep(1.25, 1.15, P.y)) : suiRoomRearWallY(P.y);
+    vec2 uv = suiRoomUV(1, vec2(P.x, yDirect));
+    vec4 s = texture(suiRoomIrradiance, vec3(uv, 7.5 / 12.0));
+    // Above the baked range (y <= 2.6m) fall back to the original six-light direct term.
+    float highFade = smoothstep(2.62, 2.45, P.y);
+    float benchBounce = 1.0 + 0.32 * smoothstep(0.75, 1.00, P.y) * smoothstep(1.25, 1.10, P.y);
+    float keep = (1.0 - slot) * highFade;
+    return vec4(keep * clamp(N.z, 0.0, 1.0) * benchBounce * s.rgb, keep * s.a);
+  }
+  if (P.x >= -6.06 && P.x <= -1.14 && P.y >= 1.28 && P.y <= 1.94 && P.z >= -4.505 && P.z <= -4.35 && N.z > 0.0) {
+    vec2 uv = suiRoomUV(1, vec2(P.x, 2.10));
+    vec3 direct = texture(suiRoomIrradiance, vec3(uv, 7.5 / 12.0)).rgb;
+    return vec4(0.24 * clamp(N.z, 0.0, 1.0) * direct, 0.0);
+  }
+  return vec4(0.0);
+}
+vec3 suiRoomSampleIndirect(int plane, vec2 uv, out float valid) {
+  vec3 fine = vec3(0.0);
+  valid = 0.0;
+  for (int scene = 0; scene < 3; scene++) {
+    float weight = scene == 0 ? 1.0 - suiIrradianceEvening : (scene == 1 ? suiIrradianceEvening - suiIrradianceNight : suiIrradianceNight);
+    if (weight > 0.0) {
+      vec4 sampleValue = texture(suiRoomIrradiance, vec3(uv, (float(scene * 2 + plane) + 0.5) / 12.0));
+      fine += weight * sampleValue.rgb * suiSeasonIrradiance[scene];
+      valid += weight * sampleValue.a;
+    }
+  }
+  return suiOvercastLight(fine, suiOvercast.y);
+}
+vec3 suiRoomLight(vec3 P, vec3 N, bool interior, bool underwater, vec3 direct) {
+  // Floor planks + bevels.
+  if (abs(P.y - 0.085) < 0.025 && N.y > 0.0) {
+    float underBench = smoothstep(-2.38, -2.58, P.z);
+    if (underBench > 0.0) {
+      float valid;
+      vec3 fine = suiRoomSampleIndirect(0, suiRoomUV(0, P.xz), valid);
+      float w = underBench * valid;
+      float facing = clamp(N.y, 0.0, 1.0);
+      vec3 result = w * facing * fine + direct;
+      if (w < 1.0) result += (1.0 - w) * facing * suiIrradiance(P, N, interior, underwater);
+      return max(result, vec3(0.0));
+    }
+    return max(clamp(N.y, 0.0, 1.0) * suiIrradiance(P, N, interior, underwater) + direct, vec3(0.0));
+  }
+  // Rear wall planks + 4mm grooves.
+  if (abs(P.z - suiRoomLevels[1]) < 0.008 && N.z > 0.0) {
+    float valid;
+    vec3 fine = suiRoomSampleIndirect(1, suiRoomUV(1, vec2(P.x, suiRoomRearWallY(P.y))), valid);
+    float highWeight = smoothstep(2.62, 2.45, P.y) * valid;
+    float facing = clamp(N.z, 0.0, 1.0);
+    vec3 result = highWeight * facing * fine + direct;
+    if (highWeight < 1.0) result += (1.0 - highWeight) * facing * suiIrradiance(P, N, interior, underwater);
+    return max(result, vec3(0.0));
+  }
+  // Left wall and ceiling planks + 4mm grooves: attenuate indirect inside recessed grooves.
+  if (abs(P.x - suiRoomLevels[4]) < 0.008 && N.x > 0.0) {
+    return max(clamp(N.x, 0.25, 1.0) * suiIrradiance(P, N, interior, underwater) + direct, vec3(0.0));
+  }
+  if (abs(P.y - suiRoomLevels[5]) < 0.008 && N.y < 0.0) {
+    return max(clamp(-N.y, 0.25, 1.0) * suiIrradiance(P, N, interior, underwater) + direct, vec3(0.0));
+  }
+  return max(suiIrradiance(P, N, interior, underwater) + direct, vec3(0.0));
+}
+#endif
 #endif
 `;
 if (!THREE.ShaderChunk.lights_pars_begin.includes('uniform highp sampler3D suiRoomIrradiance')) {

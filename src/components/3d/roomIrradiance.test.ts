@@ -108,6 +108,41 @@ describe('room surface irradiance', () => {
     expect(receiver.geometry.index!.count + geometry.index!.count).toBe(18);
     expect(isolateRoomReceivers(root)).toBe(0);
   });
+  it('includes bench slat sides/undersides, shielding lips and the backrest, but not outdoor boards', () => {
+    const cedar = [
+      // Upper bench slat vertical side (y 0.965..1.03) and underside.
+      [-4, 0.97, -3.5, -3, 0.97, -3.5, -4, 1.03, -3.5],
+      [-4, 0.965, -3.6, -3, 0.965, -3.6, -4, 0.965, -3.5],
+      // Lower bench front nosing.
+      [-4, 0.5, -2.51, -3, 0.5, -2.51, -4, 0.56, -2.51],
+      // Backrest slat in front of the rear wall.
+      [-4, 1.3, -4.4, -3, 1.3, -4.4, -4, 1.4, -4.4],
+      // Same height as the upper bench, but outside the room.
+      [0, 1.0, 2, 1, 1.0, 2, 0, 1.0, 3],
+    ];
+    const floor = [
+      // Light-shielding lip under the upper bench.
+      [-4, 0.75, -3.3, -3, 0.75, -3.3, -4, 0.9, -3.3],
+      // Floor near the right glass edge, in front of the benches.
+      [-1.0, 0.085, -1.0, -0.6, 0.085, -1.0, -1.0, 0.085, -0.5],
+    ];
+    const root = new THREE.Group();
+    for (const [name, tris] of [
+      ['V2 | warm open-grain timber', cedar],
+      ['V2 | outdoor ash / grain & wear', floor],
+    ] as const) {
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(tris.flat(), 3));
+      geometry.setIndex(Array.from({ length: tris.length * 3 }, (_, i) => i));
+      const material = new THREE.MeshStandardMaterial();
+      material.name = name;
+      root.add(new THREE.Mesh(geometry, material));
+    }
+    expect(isolateRoomReceivers(root)).toBe(6);
+    const [cedarMesh, floorMesh] = root.children as THREE.Mesh[];
+    expect(Array.from(cedarMesh.geometry.index!.array)).toEqual([12, 13, 14]);
+    expect(floorMesh.geometry.index!.count).toBe(0);
+  });
   it('chains material hooks without changing the shared lighting uniforms', () => {
     const root = new THREE.Group(),
       material = new THREE.MeshStandardMaterial();

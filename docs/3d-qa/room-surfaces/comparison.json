@@ -1,62 +1,62 @@
 {
   "browser": "155.0.8059.80",
   "inputs": {
-    "src/components/3d/roomIrradiance.ts": "a191323163a3c38864b70efe9a196c6073053bffdd9aa364976db8c1f97fd824",
+    "src/components/3d/roomIrradiance.ts": "5a7477e7fb563df47ce00695c88e0ab533448b4a071210894996068d79c2e80e",
     "public/models/room-irradiance.json": "ad5007ccdcbac1aa0c169336a4025466f7f3b216c9ee3677fffbbbbaaca2c331",
     "public/models/room-irradiance.bin": "a5b0de10aa22837d666223122b16e923eb9790d96312264442979e6555cb3e4b",
-    "public/models/sauna.glb": "468de5d2f9770aebab04096e777ebf6906c727f062cd2e979aeb0b9ce3814436",
+    "public/models/sauna.glb": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
     "public/models/irradiance.bin": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd"
   },
-  "report_sha256": "ed772ff6efa89a0c494b14fb871cb59a5446dc5fc06a5fa40922209235ca4818",
+  "report_sha256": "74b8905376b7ab1c7bbaba2ce8f764e7bb0d5dd8c40a62e041c2bb2444f2bd7b",
   "captures": {
-    "before-1/seated-day.png": "d4be3f72c41dd219154af429489ca8e92938ba12c9113bc41dfb554a44025bc7",
-    "before-1/seated-evening.png": "0b6241e56c9ee1eb0af0b4146e5e243b93923d32e53a56ec3439cbbc0df3141d",
-    "before-1/seated-night.png": "657a6008897da52446caeab153d6d2f85a0aef9f248dc48513beafca86edc5a5",
-    "before-1/bench-day.png": "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9",
-    "before-1/bench-evening.png": "259907252d302d98d182a09964736e4f43b29e5945969946005a0d879e1843aa",
-    "before-1/bench-night.png": "7c7df4422b437bc14ad7a0fead45ccd8e28bd702e9b7e5fa7ea1515dd397f4e7",
-    "before-1/left-day.png": "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a",
-    "before-1/left-evening.png": "791f9590e26a58ceb5be3c0521cffe44d91ce8b9863437ee739174a265e14354",
-    "before-1/left-night.png": "35989fe043e87c86e50fad5d32f58927ee89db184898c6acadc1df7acfc96e05",
-    "before-1/ceiling-day.png": "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae",
-    "before-1/ceiling-evening.png": "0e6ce9a7eb70a7838056dc9d000a7e9cb5dc8bbc0e210ea49f882e615665cb9d",
-    "before-1/ceiling-night.png": "2b586b23826740f20d99daf99440efac7261ebb1317c473ba0433fbe89bf0648",
-    "after-1/seated-day.png": "d4be3f72c41dd219154af429489ca8e92938ba12c9113bc41dfb554a44025bc7",
-    "after-1/seated-evening.png": "a9f887e59bf7c230d7b4c191dc9d3b926abbe3711f88fcbae7ae803d86b1cd6c",
-    "after-1/seated-night.png": "e95d81e103ff9f0b2689847273937cf1ccc780836c72642a0c6a394f37142d8e",
-    "after-1/bench-day.png": "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9",
-    "after-1/bench-evening.png": "3248579db5cb539ac77a656ea2dd6c72a11d23112991b612088fc9c4f1861796",
-    "after-1/bench-night.png": "678293c951fa71cb866a469a3927b1f5b4d1ab498587bd62defa6a1e946ebc4b",
-    "after-1/left-day.png": "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a",
-    "after-1/left-evening.png": "82ff35d3f2510bd9d31013d0ea76c88c157b3aac89bd2ce8641f3b633e7f7e04",
-    "after-1/left-night.png": "d881279582f694db1c2f7e6c3eb665b9ab154ad542279e0814ff3388ba285294",
-    "after-1/ceiling-day.png": "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae",
-    "after-1/ceiling-evening.png": "10ffabbb82b06f1c8f9892d257c43599914a20cbc26f15d0a08fa0c90b0eaf2e",
-    "after-1/ceiling-night.png": "28d7dc0388351b3cd4d954dd6eb2cc7be0ce06083da29c71c79988c0ccf68eba",
-    "after-2/seated-day.png": "d4be3f72c41dd219154af429489ca8e92938ba12c9113bc41dfb554a44025bc7",
-    "after-2/seated-evening.png": "a9f887e59bf7c230d7b4c191dc9d3b926abbe3711f88fcbae7ae803d86b1cd6c",
-    "after-2/seated-night.png": "e95d81e103ff9f0b2689847273937cf1ccc780836c72642a0c6a394f37142d8e",
-    "after-2/bench-day.png": "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9",
-    "after-2/bench-evening.png": "3248579db5cb539ac77a656ea2dd6c72a11d23112991b612088fc9c4f1861796",
-    "after-2/bench-night.png": "678293c951fa71cb866a469a3927b1f5b4d1ab498587bd62defa6a1e946ebc4b",
-    "after-2/left-day.png": "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a",
-    "after-2/left-evening.png": "82ff35d3f2510bd9d31013d0ea76c88c157b3aac89bd2ce8641f3b633e7f7e04",
-    "after-2/left-night.png": "d881279582f694db1c2f7e6c3eb665b9ab154ad542279e0814ff3388ba285294",
-    "after-2/ceiling-day.png": "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae",
-    "after-2/ceiling-evening.png": "10ffabbb82b06f1c8f9892d257c43599914a20cbc26f15d0a08fa0c90b0eaf2e",
-    "after-2/ceiling-night.png": "28d7dc0388351b3cd4d954dd6eb2cc7be0ce06083da29c71c79988c0ccf68eba",
-    "before-2/seated-day.png": "d4be3f72c41dd219154af429489ca8e92938ba12c9113bc41dfb554a44025bc7",
-    "before-2/seated-evening.png": "0b6241e56c9ee1eb0af0b4146e5e243b93923d32e53a56ec3439cbbc0df3141d",
-    "before-2/seated-night.png": "657a6008897da52446caeab153d6d2f85a0aef9f248dc48513beafca86edc5a5",
-    "before-2/bench-day.png": "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9",
-    "before-2/bench-evening.png": "259907252d302d98d182a09964736e4f43b29e5945969946005a0d879e1843aa",
-    "before-2/bench-night.png": "7c7df4422b437bc14ad7a0fead45ccd8e28bd702e9b7e5fa7ea1515dd397f4e7",
-    "before-2/left-day.png": "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a",
-    "before-2/left-evening.png": "791f9590e26a58ceb5be3c0521cffe44d91ce8b9863437ee739174a265e14354",
-    "before-2/left-night.png": "35989fe043e87c86e50fad5d32f58927ee89db184898c6acadc1df7acfc96e05",
-    "before-2/ceiling-day.png": "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae",
-    "before-2/ceiling-evening.png": "0e6ce9a7eb70a7838056dc9d000a7e9cb5dc8bbc0e210ea49f882e615665cb9d",
-    "before-2/ceiling-night.png": "2b586b23826740f20d99daf99440efac7261ebb1317c473ba0433fbe89bf0648"
+    "before-1/seated-day.png": "2f44252fe6d8b497b26874f85e3185e206e9a7089ba9a60baa1b72f731281c34",
+    "before-1/seated-evening.png": "08a835fd41d3c0159721bed002533fae8311b75fa87772a1068154412a7aaad0",
+    "before-1/seated-night.png": "fee4616c5481c2a75526cfd4ca7eeaa90ddbecbad5bc5705cd7da354c83e4d55",
+    "before-1/bench-day.png": "f025087841c58a81292bcc2d789f10b73c8de75a3b36d84052dcda61cb6d5956",
+    "before-1/bench-evening.png": "5af1d81673c6b43ffe42fa1b02fc19b746f8fa0f0a693f5a88a87ccb79ab7b6e",
+    "before-1/bench-night.png": "e708e332083ee9068086151310479c132c945991312636d1d93216f05938b739",
+    "before-1/left-day.png": "43efb7e1d9d60eca0e49732e08492a384a695559758a8a5185a6cdeb9b67deb3",
+    "before-1/left-evening.png": "8636e6046706011dc4f6f28f8c4767f7bb642bf337d7dcb6de7d4da197e9ad14",
+    "before-1/left-night.png": "4f5fcaf79399b1259b0b9f64478a5f8e76ed6346c619d50e96114ef7d8673c40",
+    "before-1/ceiling-day.png": "b6c5f2ffa7387e0c5bc9129a7ab95d93d193af4452a0f385bc1399e2d2180da3",
+    "before-1/ceiling-evening.png": "bf8b97e2077a3b1aee78f25edb889fb199e4bac1a0b224c120d21975e6f70d8e",
+    "before-1/ceiling-night.png": "09aa4c183913fc473fb834fb4ad30d6732dccc203df20402e44873b888dadbc1",
+    "after-1/seated-day.png": "0c2f7f689d442cd4e0b9771140face3de0fbb3037d170e11a77037ff8df5237e",
+    "after-1/seated-evening.png": "8deae14767f6d8d89b362f80c79b9a14e14dc9a176989a72ae2f4e7bc20f591a",
+    "after-1/seated-night.png": "7b88242f4f97517f610cfaa5190ec52154cafbf4da4ec887d6eaed9270a8871b",
+    "after-1/bench-day.png": "b7f3fad3dcc94a73a5834b494da2752351197b4b3eb509e9ee7e89af804872db",
+    "after-1/bench-evening.png": "71308cba14ee4ab666306bbc1aeeb044902543a65afda84723907338aba782e1",
+    "after-1/bench-night.png": "d84ac113d75a205a82123c18c362a9ed37dbe1b0880e8be09f2b40d1e573d4ce",
+    "after-1/left-day.png": "6441b0bbfe2bd108fc745368c4d888998a99cc9b416355ae60c86a13d2dbd4dc",
+    "after-1/left-evening.png": "d1134c21bfaeb4d7d7b6d25116eebe9977fc0e16e934e508cfd7c9f1929c8d33",
+    "after-1/left-night.png": "2fadd9aa8663018b8d74701e65d85fd1c1ece3c672909c267756b41f1f9c9323",
+    "after-1/ceiling-day.png": "9cc73cd99e642864547064ad62b157e853c4254bd6ad81b5278e05a1d114a53e",
+    "after-1/ceiling-evening.png": "e74fe49ec997f32569b032d1c8e2a27a54bb127fd5b12a97b4df1af7aeac5666",
+    "after-1/ceiling-night.png": "c298b3115772e13d10932b25d1981df2d38d6f8fd54fe0471f4d3457da5df6af",
+    "after-2/seated-day.png": "0c2f7f689d442cd4e0b9771140face3de0fbb3037d170e11a77037ff8df5237e",
+    "after-2/seated-evening.png": "8deae14767f6d8d89b362f80c79b9a14e14dc9a176989a72ae2f4e7bc20f591a",
+    "after-2/seated-night.png": "7b88242f4f97517f610cfaa5190ec52154cafbf4da4ec887d6eaed9270a8871b",
+    "after-2/bench-day.png": "b7f3fad3dcc94a73a5834b494da2752351197b4b3eb509e9ee7e89af804872db",
+    "after-2/bench-evening.png": "71308cba14ee4ab666306bbc1aeeb044902543a65afda84723907338aba782e1",
+    "after-2/bench-night.png": "d84ac113d75a205a82123c18c362a9ed37dbe1b0880e8be09f2b40d1e573d4ce",
+    "after-2/left-day.png": "6441b0bbfe2bd108fc745368c4d888998a99cc9b416355ae60c86a13d2dbd4dc",
+    "after-2/left-evening.png": "d1134c21bfaeb4d7d7b6d25116eebe9977fc0e16e934e508cfd7c9f1929c8d33",
+    "after-2/left-night.png": "2fadd9aa8663018b8d74701e65d85fd1c1ece3c672909c267756b41f1f9c9323",
+    "after-2/ceiling-day.png": "f277b87ea970a83b14d9d77e2af9be25b63644495584804b88d4456345862b83",
+    "after-2/ceiling-evening.png": "98daf63a0c2821ea31c0feb6b1fad447ac02fa32c26673f0e552ebefb62b58c6",
+    "after-2/ceiling-night.png": "9b63754615a52998b84cc5b37877bc98952e0f8a362cdf42510aa5fb3176a1f8",
+    "before-2/seated-day.png": "2f44252fe6d8b497b26874f85e3185e206e9a7089ba9a60baa1b72f731281c34",
+    "before-2/seated-evening.png": "08a835fd41d3c0159721bed002533fae8311b75fa87772a1068154412a7aaad0",
+    "before-2/seated-night.png": "fee4616c5481c2a75526cfd4ca7eeaa90ddbecbad5bc5705cd7da354c83e4d55",
+    "before-2/bench-day.png": "f025087841c58a81292bcc2d789f10b73c8de75a3b36d84052dcda61cb6d5956",
+    "before-2/bench-evening.png": "5af1d81673c6b43ffe42fa1b02fc19b746f8fa0f0a693f5a88a87ccb79ab7b6e",
+    "before-2/bench-night.png": "e708e332083ee9068086151310479c132c945991312636d1d93216f05938b739",
+    "before-2/left-day.png": "43efb7e1d9d60eca0e49732e08492a384a695559758a8a5185a6cdeb9b67deb3",
+    "before-2/left-evening.png": "8636e6046706011dc4f6f28f8c4767f7bb642bf337d7dcb6de7d4da197e9ad14",
+    "before-2/left-night.png": "4f5fcaf79399b1259b0b9f64478a5f8e76ed6346c619d50e96114ef7d8673c40",
+    "before-2/ceiling-day.png": "b6c5f2ffa7387e0c5bc9129a7ab95d93d193af4452a0f385bc1399e2d2180da3",
+    "before-2/ceiling-evening.png": "bf8b97e2077a3b1aee78f25edb889fb199e4bac1a0b224c120d21975e6f70d8e",
+    "before-2/ceiling-night.png": "09aa4c183913fc473fb834fb4ad30d6732dccc203df20402e44873b888dadbc1"
   },
   "views": [
     {
@@ -74,14 +74,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 193495,
+          "max_channel": 22,
+          "mean_channel": 1.4553889973958334
         },
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 193495,
+          "max_channel": 22,
+          "mean_channel": 1.4553889973958334
         }
       ]
     },
@@ -100,14 +100,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 27969,
-          "max_channel": 12,
-          "mean_channel": 0.11003157552083333
+          "changed_pixels": 193400,
+          "max_channel": 25,
+          "mean_channel": 1.8518186848958333
         },
         {
-          "changed_pixels": 27969,
-          "max_channel": 12,
-          "mean_channel": 0.11003157552083333
+          "changed_pixels": 193400,
+          "max_channel": 25,
+          "mean_channel": 1.8518186848958333
         }
       ]
     },
@@ -126,14 +126,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 28020,
-          "max_channel": 11,
-          "mean_channel": 0.11958528645833333
+          "changed_pixels": 193398,
+          "max_channel": 28,
+          "mean_channel": 2.119240234375
         },
         {
-          "changed_pixels": 28020,
-          "max_channel": 11,
-          "mean_channel": 0.11958528645833333
+          "changed_pixels": 193398,
+          "max_channel": 28,
+          "mean_channel": 2.119240234375
         }
       ]
     },
@@ -152,14 +152,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 984406,
+          "max_channel": 74,
+          "mean_channel": 6.6547978515625
         },
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 984406,
+          "max_channel": 74,
+          "mean_channel": 6.6547978515625
         }
       ]
     },
@@ -178,14 +178,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 343406,
-          "max_channel": 12,
-          "mean_channel": 2.0286634114583335
+          "changed_pixels": 950185,
+          "max_channel": 128,
+          "mean_channel": 9.571361328125
         },
         {
-          "changed_pixels": 343406,
-          "max_channel": 12,
-          "mean_channel": 2.0286634114583335
+          "changed_pixels": 950185,
+          "max_channel": 128,
+          "mean_channel": 9.571361328125
         }
       ]
     },
@@ -204,14 +204,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 343920,
-          "max_channel": 14,
-          "mean_channel": 2.1717080078125
+          "changed_pixels": 950297,
+          "max_channel": 146,
+          "mean_channel": 10.623982747395834
         },
         {
-          "changed_pixels": 343920,
-          "max_channel": 14,
-          "mean_channel": 2.1717080078125
+          "changed_pixels": 950297,
+          "max_channel": 146,
+          "mean_channel": 10.623982747395834
         }
       ]
     },
@@ -230,14 +230,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 946381,
+          "max_channel": 90,
+          "mean_channel": 3.4344993489583335
         },
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 946381,
+          "max_channel": 90,
+          "mean_channel": 3.4344993489583335
         }
       ]
     },
@@ -256,14 +256,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 726467,
-          "max_channel": 68,
-          "mean_channel": 2.58885546875
+          "changed_pixels": 925350,
+          "max_channel": 123,
+          "mean_channel": 4.267210286458333
         },
         {
-          "changed_pixels": 726467,
-          "max_channel": 68,
-          "mean_channel": 2.58885546875
+          "changed_pixels": 925350,
+          "max_channel": 123,
+          "mean_channel": 4.267210286458333
         }
       ]
     },
@@ -282,14 +282,14 @@
       },
       "changes": [
         {
-          "changed_pixels": 731819,
-          "max_channel": 72,
-          "mean_channel": 2.9919319661458332
+          "changed_pixels": 930413,
+          "max_channel": 120,
+          "mean_channel": 4.901463541666667
         },
         {
-          "changed_pixels": 731819,
-          "max_channel": 72,
-          "mean_channel": 2.9919319661458332
+          "changed_pixels": 930413,
+          "max_channel": 120,
+          "mean_channel": 4.901463541666667
         }
       ]
     },
@@ -302,20 +302,20 @@
         "mean_channel": 0.0
       },
       "after_recapture": {
-        "changed_pixels": 0,
-        "max_channel": 0,
-        "mean_channel": 0.0
+        "changed_pixels": 3,
+        "max_channel": 9,
+        "mean_channel": 1.595052083333333e-05
       },
       "changes": [
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 921540,
+          "max_channel": 67,
+          "mean_channel": 4.529676432291667
         },
         {
-          "changed_pixels": 0,
-          "max_channel": 0,
-          "mean_channel": 0.0
+          "changed_pixels": 921543,
+          "max_channel": 67,
+          "mean_channel": 4.5296923828125
         }
       ]
     },
@@ -328,20 +328,20 @@
         "mean_channel": 0.0
       },
       "after_recapture": {
-        "changed_pixels": 0,
-        "max_channel": 0,
-        "mean_channel": 0.0
+        "changed_pixels": 3,
+        "max_channel": 11,
+        "mean_channel": 1.9856770833333332e-05
       },
       "changes": [
         {
-          "changed_pixels": 858369,
-          "max_channel": 42,
-          "mean_channel": 4.986526041666667
+          "changed_pixels": 921588,
+          "max_channel": 79,
+          "mean_channel": 5.637876627604166
         },
         {
-          "changed_pixels": 858369,
-          "max_channel": 42,
-          "mean_channel": 4.986526041666667
+          "changed_pixels": 921591,
+          "max_channel": 79,
+          "mean_channel": 5.637896484375
         }
       ]
     },
@@ -354,20 +354,20 @@
         "mean_channel": 0.0
       },
       "after_recapture": {
-        "changed_pixels": 0,
-        "max_channel": 0,
-        "mean_channel": 0.0
+        "changed_pixels": 3,
+        "max_channel": 12,
+        "mean_channel": 2.3111979166666666e-05
       },
       "changes": [
         {
-          "changed_pixels": 858631,
-          "max_channel": 47,
-          "mean_channel": 5.64937890625
+          "changed_pixels": 921709,
+          "max_channel": 87,
+          "mean_channel": 6.382450520833333
         },
         {
-          "changed_pixels": 858631,
-          "max_channel": 47,
-          "mean_channel": 5.64937890625
+          "changed_pixels": 921712,
+          "max_channel": 87,
+          "mean_channel": 6.3824736328125
         }
       ]
     }

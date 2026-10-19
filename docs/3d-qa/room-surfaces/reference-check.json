@@ -107,118 +107,118 @@
     {
       "view": "bench",
       "lighting": "day",
-      "changed_pixels": 0,
-      "region": "whole frame; daytime correction disabled",
-      "before_deltaE": 8.15724549884661,
-      "after_deltaE": 8.15724549884661,
+      "changed_pixels": 242389,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 8.233055035847034,
+      "after_deltaE": 5.746130775537088,
       "reference_sha256": "ee760c5f0abcffb250cadcf258fb8b61d7d0f1d24f98b1e7290262c756ed55b3",
       "browser_sha256": [
-        "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9",
-        "fc19ed3342c0e97b7d9cb6fc7e98b4a6bb720731ebc4b4c3258f9c7ffcddf3e9"
+        "f025087841c58a81292bcc2d789f10b73c8de75a3b36d84052dcda61cb6d5956",
+        "b7f3fad3dcc94a73a5834b494da2752351197b4b3eb509e9ee7e89af804872db"
       ]
     },
     {
       "view": "bench",
       "lighting": "evening",
-      "changed_pixels": 81868,
+      "changed_pixels": 237531,
       "region": "changed pixels >1 RGB level",
-      "before_deltaE": 5.497376564077912,
-      "after_deltaE": 4.828370828236064,
+      "before_deltaE": 7.401102194037962,
+      "after_deltaE": 5.771104391048506,
       "reference_sha256": "3dc63a2981050cdedcc00026b9debe9ab8a5e8c06285d21af5a00f583ebd823d",
       "browser_sha256": [
-        "259907252d302d98d182a09964736e4f43b29e5945969946005a0d879e1843aa",
-        "3248579db5cb539ac77a656ea2dd6c72a11d23112991b612088fc9c4f1861796"
+        "5af1d81673c6b43ffe42fa1b02fc19b746f8fa0f0a693f5a88a87ccb79ab7b6e",
+        "71308cba14ee4ab666306bbc1aeeb044902543a65afda84723907338aba782e1"
       ]
     },
     {
       "view": "bench",
       "lighting": "night",
-      "changed_pixels": 82153,
+      "changed_pixels": 237676,
       "region": "changed pixels >1 RGB level",
-      "before_deltaE": 6.036170039882065,
-      "after_deltaE": 5.288493902621797,
+      "before_deltaE": 7.646059880202393,
+      "after_deltaE": 6.0705573033442635,
       "reference_sha256": "cc3d84ab644a7d3c85ec00315167fef6fbb67dcfe03df63343c7c866b20e463d",
       "browser_sha256": [
-        "7c7df4422b437bc14ad7a0fead45ccd8e28bd702e9b7e5fa7ea1515dd397f4e7",
-        "678293c951fa71cb866a469a3927b1f5b4d1ab498587bd62defa6a1e946ebc4b"
+        "e708e332083ee9068086151310479c132c945991312636d1d93216f05938b739",
+        "d84ac113d75a205a82123c18c362a9ed37dbe1b0880e8be09f2b40d1e573d4ce"
       ]
     },
     {
       "view": "left",
       "lighting": "day",
-      "changed_pixels": 0,
-      "region": "whole frame; daytime correction disabled",
-      "before_deltaE": 5.73089770889946,
-      "after_deltaE": 5.73089770889946,
+      "changed_pixels": 212578,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 5.664123272561015,
+      "after_deltaE": 4.470194414478775,
       "reference_sha256": "3dc2bb6372890ab5e1d1d05dc8e26b8c5a8a9e4c19bdac0a627a55ec2a9768ba",
       "browser_sha256": [
-        "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a",
-        "b2466cd2b2420129e875d5016ffd71704caf67c697ac8c7a0e08015123bf243a"
+        "43efb7e1d9d60eca0e49732e08492a384a695559758a8a5185a6cdeb9b67deb3",
+        "6441b0bbfe2bd108fc745368c4d888998a99cc9b416355ae60c86a13d2dbd4dc"
       ]
     },
     {
       "view": "left",
       "lighting": "evening",
-      "changed_pixels": 158402,
+      "changed_pixels": 213417,
       "region": "changed pixels >1 RGB level",
-      "before_deltaE": 4.613147166787868,
-      "after_deltaE": 3.630891384466494,
+      "before_deltaE": 5.149733217992784,
+      "after_deltaE": 4.1792195880638685,
       "reference_sha256": "6214bad42f09238e13a691352712c5a003e788323eb7fe36853bc8da73fc2863",
       "browser_sha256": [
-        "791f9590e26a58ceb5be3c0521cffe44d91ce8b9863437ee739174a265e14354",
-        "82ff35d3f2510bd9d31013d0ea76c88c157b3aac89bd2ce8641f3b633e7f7e04"
+        "8636e6046706011dc4f6f28f8c4767f7bb642bf337d7dcb6de7d4da197e9ad14",
+        "d1134c21bfaeb4d7d7b6d25116eebe9977fc0e16e934e508cfd7c9f1929c8d33"
       ]
     },
     {
       "view": "left",
       "lighting": "night",
-      "changed_pixels": 162754,
+      "changed_pixels": 217284,
       "region": "changed pixels >1 RGB level",
-      "before_deltaE": 4.635829204242684,
-      "after_deltaE": 3.6926229175939365,
+      "before_deltaE": 5.2130162985129,
+      "after_deltaE": 4.264533314270558,
       "reference_sha256": "b42c5d2c847604027028331289bf69f032263196108d65eddfc80e875ba4d91a",
       "browser_sha256": [
-        "35989fe043e87c86e50fad5d32f58927ee89db184898c6acadc1df7acfc96e05",
-        "d881279582f694db1c2f7e6c3eb665b9ab154ad542279e0814ff3388ba285294"
+        "4f5fcaf79399b1259b0b9f64478a5f8e76ed6346c619d50e96114ef7d8673c40",
+        "2fadd9aa8663018b8d74701e65d85fd1c1ece3c672909c267756b41f1f9c9323"
       ]
     },
     {
       "view": "ceiling",
       "lighting": "day",
-      "changed_pixels": 0,
-      "region": "whole frame; daytime correction disabled",
-      "before_deltaE": 6.032784087510315,
-      "after_deltaE": 6.032784087510315,
+      "changed_pixels": 231149,
+      "region": "changed pixels >1 RGB level",
+      "before_deltaE": 6.168667936826501,
+      "after_deltaE": 3.071252397390772,
       "reference_sha256": "60c54fdeb55cc782d1d2209d2bafea226a32deb5fbbb84bf241819812f73eae7",
       "browser_sha256": [
-        "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae",
-        "48ca63dbcf06c992f492c94cba5c6277a3c4a33a548b92d21ac1bcaf27705dae"
+        "b6c5f2ffa7387e0c5bc9129a7ab95d93d193af4452a0f385bc1399e2d2180da3",
+        "9cc73cd99e642864547064ad62b157e853c4254bd6ad81b5278e05a1d114a53e"
       ]
     },
     {
       "view": "ceiling",
       "lighting": "evening",
-      "changed_pixels": 214387,
+      "changed_pixels": 232000,
       "region": "changed pixels >1 RGB level",
-      "before_deltaE": 8.630030738077002,
-      "after_deltaE": 3.6679479021951726,
+      "before_deltaE": 8.583374089658086,
+      "after_deltaE": 3.5474651162859443,
       "reference_sha256": "55f6e1cbc626a084783a8e9a4dfb48cc603aca044e6dcd7789778377d940596f",
       "browser_sha256": [
-        "0e6ce9a7eb70a7838056dc9d000a7e9cb5dc8bbc0e210ea49f882e615665cb9d",
-        "10ffabbb82b06f1c8f9892d257c43599914a20cbc26f15d0a08fa0c90b0eaf2e"
+        "bf8b97e2077a3b1aee78f25edb889fb199e4bac1a0b224c120d21975e6f70d8e",
+        "e74fe49ec997f32569b032d1c8e2a27a54bb127fd5b12a97b4df1af7aeac5666"
       ]
     },
     {
       "view": "ceiling",
       "lighting": "night",
-      "changed_pixels": 215201,
+      "changed_pixels": 232609,
       "region": "changed pixels >1 RGB level",
-      "before_deltaE": 9.241041057781068,
-      "after_deltaE": 3.937892659597877,
+      "before_deltaE": 9.205954365908271,
+      "after_deltaE": 3.8232276642978658,
       "reference_sha256": "2109bf8724607de82a50601fe44088b74f076191ca4a9218695114ced2514781",
       "browser_sha256": [
-        "2b586b23826740f20d99daf99440efac7261ebb1317c473ba0433fbe89bf0648",
-        "28d7dc0388351b3cd4d954dd6eb2cc7be0ce06083da29c71c79988c0ccf68eba"
+        "09aa4c183913fc473fb834fb4ad30d6732dccc203df20402e44873b888dadbc1",
+        "c298b3115772e13d10932b25d1981df2d38d6f8fd54fe0471f4d3457da5df6af"
       ]
     }
   ],
