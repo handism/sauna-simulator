@@ -1,17 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
   <defs>
-    <linearGradient id="saunaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#e56b3e" />
-      <stop offset="100%" stop-color="#fca35d" />
+    <!-- Background Gradient: 深いストーンと森の静寂を思わせるチャコールグリーン -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c2621" />
+      <stop offset="100%" stop-color="#0d1410" />
+    </linearGradient>
+
+    <!-- Main Steam Gradient: サウナの熱気（ヒノキ・アンバー）から澄んだ蒸気・気体（Water）へ -->
+    <linearGradient id="steamMain" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ddc2a3" />
+      <stop offset="45%" stop-color="#f5e1cb" />
+      <stop offset="100%" stop-color="#bbcfd0" />
+    </linearGradient>
+
+    <!-- Secondary Steam Gradient: 木肌（Wood Deep）から穏やかな自然（Moss）へ -->
+    <linearGradient id="steamSub" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#cfb296" />
+      <stop offset="50%" stop-color="#ebd8bf" />
+      <stop offset="100%" stop-color="#c5d5bb" />
+    </linearGradient>
+
+    <!-- Sauna Stone Gradient: 重厚で滑らかなサウナストーン（Zen Pebble） -->
+    <linearGradient id="stoneGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#3b4d42" />
+      <stop offset="100%" stop-color="#1b241f" />
     </linearGradient>
   </defs>
-  <rect width="120" height="120" rx="28" fill="url(#saunaGrad)" />
-  
-  <!-- Steam lines -->
-  <path d="M 35 65 C 20 45, 50 30, 35 15" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" />
-  <path d="M 60 60 C 45 40, 75 25, 60 10" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" />
-  <path d="M 85 65 C 70 45, 100 30, 85 15" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" />
 
-  <!-- Tub / Bowl -->
-  <path d="M 20 75 A 40 25 0 0 0 100 75 Z" fill="#ffffff" />
+  <!-- Squircle Base with subtle inner highlight -->
+  <rect width="120" height="120" rx="30" fill="url(#bgGrad)" />
+  <rect x="1.5" y="1.5" width="117" height="117" rx="28.5" stroke="rgba(255, 255, 255, 0.09)" stroke-width="2.5" fill="none" />
+
+  <!-- Sauna Stone (Zen Pebble Base) -->
+  <ellipse cx="60" cy="95" rx="31" ry="10.5" fill="url(#stoneGrad)" stroke="rgba(255, 255, 255, 0.13)" stroke-width="1.5" />
+
+  <!-- Left Main Steam Plume (Löyly) -->
+  <path d="M 49 84 C 42 68, 64 58, 54.5 40 C 49 30, 58.5 20.5, 54.5 16"
+        stroke="url(#steamMain)" stroke-width="9.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+
+  <!-- Right Secondary Steam Plume -->
+  <path d="M 71 84 C 77.5 71, 62 60.5, 69.5 45.5 C 75 34, 68.5 27, 70.5 22.5"
+        stroke="url(#steamSub)" stroke-width="7.4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
 </svg>
