@@ -1,0 +1,161 @@
+{
+ "shimmerTileRatioToBefore": {
+  "leafArea1.3": {
+   "sauna-day": 0.908,
+   "sauna-evening": 0.8288,
+   "totonou-day": 0.8671,
+   "totonou-evening": 0.7715,
+   "water-day": 0.8603,
+   "water-evening": 0.7996
+  },
+  "fill0.25_1to3": {
+   "sauna-day": 0.955,
+   "sauna-evening": 0.9007,
+   "totonou-day": 0.9287,
+   "totonou-evening": 0.8491,
+   "water-day": 0.919,
+   "water-evening": 0.8708
+  },
+  "fill0.25_0.8to2.5": {
+   "sauna-day": 0.9509,
+   "sauna-evening": 0.8973,
+   "totonou-day": 0.9287,
+   "totonou-evening": 0.8491,
+   "water-day": 0.919,
+   "water-evening": 0.8708
+  },
+  "fill0.32_1to3_adopted": {
+   "sauna-day": 0.9325,
+   "sauna-evening": 0.8767,
+   "totonou-day": 0.8979,
+   "totonou-evening": 0.7883,
+   "water-day": 0.8907,
+   "water-evening": 0.8196
+  },
+  "leafArea1.3+fill0.25_1to3": {
+   "sauna-day": 0.8875,
+   "sauna-evening": 0.7911,
+   "totonou-day": 0.8331,
+   "totonou-evening": 0.696,
+   "water-day": 0.8239,
+   "water-evening": 0.7416
+  },
+  "B3_clampedAtZero_rejected": {
+   "sauna-day": 0.9836,
+   "sauna-evening": 0.9589,
+   "totonou-day": 0.9579,
+   "totonou-evening": 0.8868,
+   "water-day": 0.9595,
+   "water-evening": 0.9176
+  },
+  "product": {
+   "sauna-day": 0.9325,
+   "sauna-evening": 0.8767,
+   "totonou-day": 0.8979,
+   "totonou-evening": 0.7883,
+   "water-day": 0.8907,
+   "water-evening": 0.8196
+  }
+ },
+ "frameIntervalMs": {
+  "sauna-day": {
+   "before": [
+    10.06,
+    11.11
+   ],
+   "after": [
+    9.66,
+    9.62
+   ],
+   "ratio": 0.911
+  },
+  "sauna-evening": {
+   "before": [
+    12.94,
+    12.94
+   ],
+   "after": [
+    12.13,
+    12.07
+   ],
+   "ratio": 0.935
+  },
+  "sauna-night": {
+   "before": [
+    13.83,
+    13.89
+   ],
+   "after": [
+    13.02,
+    12.89
+   ],
+   "ratio": 0.935
+  },
+  "water-day": {
+   "before": [
+    12.89,
+    12.94
+   ],
+   "after": [
+    12.29,
+    12.35
+   ],
+   "ratio": 0.954
+  },
+  "water-evening": {
+   "before": [
+    14.69,
+    14.69
+   ],
+   "after": [
+    13.75,
+    13.77
+   ],
+   "ratio": 0.937
+  },
+  "water-night": {
+   "before": [
+    15.26,
+    15.37
+   ],
+   "after": [
+    14.28,
+    14.43
+   ],
+   "ratio": 0.937
+  },
+  "totonou-day": {
+   "before": [
+    8.85,
+    8.85
+   ],
+   "after": [
+    8.05,
+    8.1
+   ],
+   "ratio": 0.912
+  },
+  "totonou-evening": {
+   "before": [
+    11.9,
+    11.85
+   ],
+   "after": [
+    10.67,
+    10.67
+   ],
+   "ratio": 0.898
+  },
+  "totonou-night": {
+   "before": [
+    12.53,
+    12.58
+   ],
+   "after": [
+    11.4,
+    11.35
+   ],
+   "ratio": 0.906
+  }
+ }
+}
