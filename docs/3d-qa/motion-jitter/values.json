@@ -1,0 +1,50 @@
+{
+ "off2": {
+  "sauna-day": 1.0,
+  "sauna-evening": 1.0,
+  "totonou-day": 1.0,
+  "totonou-evening": 1.0,
+  "water-day": 1.0,
+  "water-evening": 1.0
+ },
+ "on1": {
+  "sauna-day": 1.1677,
+  "sauna-evening": 1.1815,
+  "totonou-day": 1.1361,
+  "totonou-evening": 1.0881,
+  "water-day": 1.1012,
+  "water-evening": 1.0624
+ },
+ "on2": {
+  "sauna-day": 1.1677,
+  "sauna-evening": 1.1815,
+  "totonou-day": 1.1361,
+  "totonou-evening": 1.0881,
+  "water-day": 1.1012,
+  "water-evening": 1.0624
+ },
+ "half": {
+  "sauna-day": 1.0511,
+  "sauna-evening": 1.0514,
+  "totonou-day": 1.0357,
+  "totonou-evening": 1.0147,
+  "water-day": 1.0223,
+  "water-evening": 1.0045
+ },
+ "f1on": {
+  "sauna-day": 1.2917,
+  "sauna-evening": 1.3885,
+  "totonou-day": 1.2806,
+  "totonou-evening": 1.2788,
+  "water-day": 1.3422,
+  "water-evening": 1.3599
+ },
+ "f1all": {
+  "sauna-day": 0.9781,
+  "sauna-evening": 1.1367,
+  "totonou-day": 0.9208,
+  "totonou-evening": 0.9602,
+  "water-day": 1.0353,
+  "water-evening": 1.0556
+ }
+}
