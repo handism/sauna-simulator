@@ -4,6 +4,7 @@ import {
   ALPHA_TEST,
   LEAF_CLUSTER_SIZE,
   LEAF_COVERAGE_GLSL,
+  LEAF_FAR_FILL,
   LEAF_FAR_RAMP,
   applyLeafCluster,
   createLeafClusterTexture,
@@ -123,12 +124,15 @@ describe('woodland leaf cluster cards', () => {
     expect(calls).toEqual(['earlier']);
     expect(shader.fragmentShader).not.toContain(ALPHA_TEST);
     expect(shader.fragmentShader).toContain('diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );');
-    // Defined before main, centred on the cutoff, widened to LEAF_FAR_RAMP past two texels per pixel.
+    // Defined before main, centred on the cutoff, widened to LEAF_FAR_RAMP past two texels per pixel,
+    // the cutoff lowered by LEAF_FAR_FILL past four.
     expect(shader.fragmentShader.indexOf(LEAF_COVERAGE_GLSL)).toBeLessThan(
       shader.fragmentShader.indexOf('void main() {'),
     );
     expect(LEAF_COVERAGE_GLSL).toContain('0.20 * smoothstep( 1.0, 2.0, footprint )');
-    expect(LEAF_COVERAGE_GLSL).toContain('smoothstep( 0.5 - ramp, 0.5 + ramp, alpha )');
+    expect(LEAF_COVERAGE_GLSL).toContain('float cutoff = 0.5 - 0.14 * smoothstep( 1.5, 4.0, footprint );');
+    expect(LEAF_COVERAGE_GLSL).toContain('smoothstep( cutoff - ramp, cutoff + ramp, alpha )');
+    expect(LEAF_FAR_FILL).toBe(0.14);
     expect(LEAF_FAR_RAMP).toBe(0.2);
     expect(material.customProgramCacheKey()).toBe('earlier|leaf-cluster');
   });

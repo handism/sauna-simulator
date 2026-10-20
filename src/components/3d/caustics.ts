@@ -13,6 +13,11 @@ import { FBM_GLSL } from './noiseColor';
 
 const PREFIX = 'V10 | submerged light';
 export const CAUSTIC_COLOR = [0.46, 0.77, 0.66] as const;
+/**
+ * Not in the source: the scale of the drawn caustics. At the source's strength the bright net over
+ * the whole floor read as a lit swimming pool; the strength itself stays the source's (caustics.e2e.ts).
+ */
+export const CAUSTIC_VIEW_SCALE = 0.6;
 
 const COMMON_INCLUDE = '#include <common>';
 const MAIN = 'void main() {';
@@ -201,7 +206,7 @@ float sui_caustic_strength( vec3 p, float footprint ) {
 const FRAGMENT = /* glsl */ `
 	vec3 suiCausticPoint = vec3( vSuiCausticPosition.x, - vSuiCausticPosition.z, vSuiCausticPosition.y );
 	float suiCausticFootprint = max( length( dFdx( suiCausticPoint ) ), length( dFdy( suiCausticPoint ) ) );
-	totalEmissiveRadiance += vec3( ${CAUSTIC_COLOR.map((c) => c.toFixed(2)).join(', ')} ) * sui_caustic_strength( suiCausticPoint, suiCausticFootprint );`;
+	totalEmissiveRadiance += vec3( ${CAUSTIC_COLOR.map((c) => (c * CAUSTIC_VIEW_SCALE).toFixed(3)).join(', ')} ) * sui_caustic_strength( suiCausticPoint, suiCausticFootprint );`;
 
 export const isCausticMaterial = (material: THREE.Material): material is THREE.MeshStandardMaterial =>
   material instanceof THREE.MeshStandardMaterial && material.name.startsWith(PREFIX);

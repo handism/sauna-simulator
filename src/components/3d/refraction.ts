@@ -120,6 +120,16 @@ export function waveImageOffset(
 export const WATER_TINT = [0.93, 0.985, 0.975] as const;
 export const WATER_ABSORPTION = [0.57, 0.84, 0.78].map((c) => 0.12 * (1 - c));
 
+/**
+ * Not in the source: the source water is nearly clear (a meter takes 5% of the red), so the plunge
+ * read as a lit swimming pool with no depth. The view through it also loses this much per meter
+ * (deeper water turns darker and greener) and gains light scattered by the water, from the
+ * brightness of what is seen (`scatter` per meter towards `color` times its luminance), which
+ * softens the tiles and their joints with the length of the path. Only the view: the light paths
+ * (waterBottom.ts) keep the source's absorption.
+ */
+export const VIEW_DEPTH = { absorption: [1.1, 0.45, 0.5], scatter: 0.2, color: [0.26, 0.62, 0.56] } as const;
+
 /** Linear transmittance of the view through the surface and `path` meters of water. */
 export const waterTransmittance = (path: number) =>
   WATER_TINT.map((tint, i) => tint * Math.exp(-WATER_ABSORPTION[i] * path));
@@ -452,7 +462,11 @@ const tint = (level: string) => /* glsl */ `
 ${VIEW_TINT}
 #ifdef SUI_REFRACTION
 if ( cameraPosition.y > ${level} && suiWorldPosition.y < ${level} && ${inBox('suiWorldPosition')} )
-	gl_FragColor.rgb *= ${glslVec3(WATER_TINT)} * exp( - ${glslVec3(WATER_ABSORPTION)} * vSuiWaterPath );
+{
+	float suiViewLuminance = dot( gl_FragColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
+	gl_FragColor.rgb = gl_FragColor.rgb * ${glslVec3(WATER_TINT)} * exp( - ${glslVec3(WATER_ABSORPTION.map((a, i) => a + VIEW_DEPTH.absorption[i]))} * vSuiWaterPath )
+		+ ( 1.0 - exp( - ${VIEW_DEPTH.scatter.toFixed(3)} * vSuiWaterPath ) ) * suiViewLuminance * ${glslVec3(VIEW_DEPTH.color)};
+}
 gl_FragColor.a *= suiSideWeight;
 #endif
 `;

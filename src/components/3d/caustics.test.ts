@@ -25,7 +25,7 @@ describe('caustics', () => {
     expect(shader.vertexShader).toContain('vSuiCausticPosition = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;');
     const fragment = shader.fragmentShader;
     expect(fragment).toContain('vec3( vSuiCausticPosition.x, - vSuiCausticPosition.z, vSuiCausticPosition.y )');
-    expect(fragment.indexOf('totalEmissiveRadiance += vec3( 0.46, 0.77, 0.66 )')).toBeGreaterThan(
+    expect(fragment.indexOf('totalEmissiveRadiance += vec3( 0.276, 0.462, 0.396 )')).toBeGreaterThan(
       fragment.indexOf('#include <emissivemap_fragment>'),
     );
     expect(fragment.indexOf('float sui_caustic_strength(')).toBeLessThan(fragment.indexOf('void main() {'));

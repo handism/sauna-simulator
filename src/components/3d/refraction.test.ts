@@ -18,6 +18,8 @@ import {
   waterAirReflectance,
   WATER_IOR,
   WATER_VOLUME,
+  VIEW_DEPTH,
+  WATER_ABSORPTION,
   waterTransmittance,
 } from './refraction';
 
@@ -179,6 +181,9 @@ describe('refraction', () => {
     expect(dry.defines?.SUI_REFRACTION).toBeUndefined();
     expect(THREE.ShaderChunk.project_vertex).toContain('#ifdef SUI_REFRACTION');
     expect(THREE.ShaderChunk.opaque_fragment).toContain('vSuiWaterPath');
+    // The view's extra depth absorption and the light scattered by the water (VIEW_DEPTH).
+    expect(THREE.ShaderChunk.opaque_fragment).toContain(`- ${VIEW_DEPTH.scatter.toFixed(3)} * vSuiWaterPath`);
+    expect(THREE.ShaderChunk.opaque_fragment).toContain((WATER_ABSORPTION[0] + VIEW_DEPTH.absorption[0]).toFixed(5));
   });
 
   it('preserves normalized interleaved int8 normals through transformed underwater cuts', () => {

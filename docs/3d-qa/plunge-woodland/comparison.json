@@ -1,0 +1,285 @@
+{
+ "test": "e2e/plunge-woodland.visual.ts",
+ "order": [
+  "before1",
+  "after1",
+  "after2",
+  "before2"
+ ],
+ "browser": "155.0.8059.85",
+ "bundles": {
+  "before1": "SaunaScene-CuFvDG0y.js",
+  "after1": "SaunaScene-BCKtoCRO.js",
+  "after2": "SaunaScene-BCKtoCRO.js",
+  "before2": "SaunaScene-CuFvDG0y.js"
+ },
+ "errors": {
+  "before1": [],
+  "after1": [],
+  "after2": [],
+  "before2": []
+ },
+ "note": "changed = pixels whose largest RGB channel differs by more than 1 (or 8) levels; retake = same build, same count above 1 level",
+ "captures": [
+  {
+   "file": "totonou-autumn-woods.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 11.91,
+   "changedPercentAbove8": 9.54,
+   "sha256": {
+    "before1": "2d8440a3ee2f86ab8c77ad251d28d398a4352b4af82866a69837ccbba57f5fec",
+    "after1": "b3d95bdafa6068d7ce1815ce7d7c404f6c844d5d1b74ce2587d600408591570c",
+    "after2": "b3d95bdafa6068d7ce1815ce7d7c404f6c844d5d1b74ce2587d600408591570c",
+    "before2": "2d8440a3ee2f86ab8c77ad251d28d398a4352b4af82866a69837ccbba57f5fec"
+   }
+  },
+  {
+   "file": "totonou-day-woods-right.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 7.61,
+   "changedPercentAbove8": 5.2,
+   "sha256": {
+    "before1": "906054a880511879f5d2c17661b7e06b637c21ecf6d24d8acf2aa3fb2ad772ba",
+    "after1": "1c32c8078ff506991f2510fabe637203d2556668cbfc68d46c69f4f36bf6b181",
+    "after2": "1c32c8078ff506991f2510fabe637203d2556668cbfc68d46c69f4f36bf6b181",
+    "before2": "906054a880511879f5d2c17661b7e06b637c21ecf6d24d8acf2aa3fb2ad772ba"
+   }
+  },
+  {
+   "file": "totonou-day-woods.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 11.66,
+   "changedPercentAbove8": 8.91,
+   "sha256": {
+    "before1": "5b0fb7461d9e93160809a65e52d41a176d21943f6d5fb0197924d5ed6d1d5cdd",
+    "after1": "db33be9846c967742285787072853c82013ea69dd94e656890be828e4e107402",
+    "after2": "db33be9846c967742285787072853c82013ea69dd94e656890be828e4e107402",
+    "before2": "5b0fb7461d9e93160809a65e52d41a176d21943f6d5fb0197924d5ed6d1d5cdd"
+   }
+  },
+  {
+   "file": "totonou-day.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 12.12,
+   "changedPercentAbove8": 9.25,
+   "sha256": {
+    "before1": "0f31af8ff9891add447fcebc7d98c0e36680c48d81f633d34789766b08cabd19",
+    "after1": "8e30bf7d14f83197c2e78d60a1199110209f0380965d0e801f072899cbf005b6",
+    "after2": "8e30bf7d14f83197c2e78d60a1199110209f0380965d0e801f072899cbf005b6",
+    "before2": "0f31af8ff9891add447fcebc7d98c0e36680c48d81f633d34789766b08cabd19"
+   }
+  },
+  {
+   "file": "totonou-evening-woods-right.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 7.35,
+   "changedPercentAbove8": 4.43,
+   "sha256": {
+    "before1": "c35d850e3430fb0453e4cb26ff503b37f7f18cb1cedf2bc554bfef05bc61c74a",
+    "after1": "c749ed7753f0debf0aed9a3650ceb8ce95d85483c202d4f292b860e6e1a6d103",
+    "after2": "c749ed7753f0debf0aed9a3650ceb8ce95d85483c202d4f292b860e6e1a6d103",
+    "before2": "c35d850e3430fb0453e4cb26ff503b37f7f18cb1cedf2bc554bfef05bc61c74a"
+   }
+  },
+  {
+   "file": "totonou-evening-woods.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 11.32,
+   "changedPercentAbove8": 7.05,
+   "sha256": {
+    "before1": "5326a37494019bda5d76327d3ca4faa43440b4651a93ff3cb8e958331ca840e5",
+    "after1": "28b0ef6bd08585d7a72248b89a57ccbd1a1a6ea3d297f2d85e3aaa61813e772b",
+    "after2": "28b0ef6bd08585d7a72248b89a57ccbd1a1a6ea3d297f2d85e3aaa61813e772b",
+    "before2": "5326a37494019bda5d76327d3ca4faa43440b4651a93ff3cb8e958331ca840e5"
+   }
+  },
+  {
+   "file": "totonou-evening.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 11.76,
+   "changedPercentAbove8": 7.31,
+   "sha256": {
+    "before1": "6a879cc2bb3888bc73f844a5ab318d125ea9a4029324cc8ea964f2ad54f18338",
+    "after1": "28a506c3cc613b671d1f918c8a39e7ad4ce72a5bb4ce3c2e68002c36bae09cc3",
+    "after2": "28a506c3cc613b671d1f918c8a39e7ad4ce72a5bb4ce3c2e68002c36bae09cc3",
+    "before2": "6a879cc2bb3888bc73f844a5ab318d125ea9a4029324cc8ea964f2ad54f18338"
+   }
+  },
+  {
+   "file": "totonou-night-woods-right.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 6.94,
+   "changedPercentAbove8": 4.1,
+   "sha256": {
+    "before1": "da64fae69895f571495c92fbd6370a2d3806536740a123d7109d44499632faa2",
+    "after1": "c797b08e0be5d1062ab0a748bb6a49db01e0d4224fec0276d8fea621eeba5e53",
+    "after2": "c797b08e0be5d1062ab0a748bb6a49db01e0d4224fec0276d8fea621eeba5e53",
+    "before2": "da64fae69895f571495c92fbd6370a2d3806536740a123d7109d44499632faa2"
+   }
+  },
+  {
+   "file": "totonou-night-woods.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 10.34,
+   "changedPercentAbove8": 5.92,
+   "sha256": {
+    "before1": "04e345bda962fd884b5d394b7e87dcc903b9f5476799495127f33e5d6fa1e29a",
+    "after1": "bdd23ba3043ea87dfbdfff67c7e5c4ed9fedb38559da650c1524061ebf903576",
+    "after2": "bdd23ba3043ea87dfbdfff67c7e5c4ed9fedb38559da650c1524061ebf903576",
+    "before2": "04e345bda962fd884b5d394b7e87dcc903b9f5476799495127f33e5d6fa1e29a"
+   }
+  },
+  {
+   "file": "totonou-night.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 10.73,
+   "changedPercentAbove8": 6.13,
+   "sha256": {
+    "before1": "1f77df85471501543fc9b47dc759ef1c83878a0d0ced65c74c12a4f45f3089be",
+    "after1": "82897b952b53cd036acca2f6280c44641b85506abb221e11209d686acdfdc7c1",
+    "after2": "82897b952b53cd036acca2f6280c44641b85506abb221e11209d686acdfdc7c1",
+    "before2": "1f77df85471501543fc9b47dc759ef1c83878a0d0ced65c74c12a4f45f3089be"
+   }
+  },
+  {
+   "file": "totonou-winter-woods.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 4.1,
+   "changedPercentAbove8": 3.35,
+   "sha256": {
+    "before1": "5b38a66f5398de3b86b04d367582185e65047b593e48e2f9cb2a253a6a7017e2",
+    "after1": "dc8855c875d7019345c2b09d440434601d8eed39c8af9bc8c4d08bc8b260ab42",
+    "after2": "dc8855c875d7019345c2b09d440434601d8eed39c8af9bc8c4d08bc8b260ab42",
+    "before2": "5b38a66f5398de3b86b04d367582185e65047b593e48e2f9cb2a253a6a7017e2"
+   }
+  },
+  {
+   "file": "water-day-along.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 73.45,
+   "changedPercentAbove8": 66.63,
+   "sha256": {
+    "before1": "90b797fdc8e7291f680ef71995f32d683a58ae5f05b93eec2f2f87705b337b08",
+    "after1": "e1e8a52140629836588dbbdd3802844aeab6d99aab70728dc0eb28108efe7353",
+    "after2": "e1e8a52140629836588dbbdd3802844aeab6d99aab70728dc0eb28108efe7353",
+    "before2": "90b797fdc8e7291f680ef71995f32d683a58ae5f05b93eec2f2f87705b337b08"
+   }
+  },
+  {
+   "file": "water-day-down.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 77.55,
+   "changedPercentAbove8": 72.7,
+   "sha256": {
+    "before1": "ac150c8898f04033552f85822be0c3f97d52fc35696d859857afeb956ed6a354",
+    "after1": "a9225b7eea5d06329946be106bbf5a45190bb676da227bade96d1fc9fb1fda4b",
+    "after2": "a9225b7eea5d06329946be106bbf5a45190bb676da227bade96d1fc9fb1fda4b",
+    "before2": "ac150c8898f04033552f85822be0c3f97d52fc35696d859857afeb956ed6a354"
+   }
+  },
+  {
+   "file": "water-day.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 59.37,
+   "changedPercentAbove8": 53.67,
+   "sha256": {
+    "before1": "c8df8eb42668a656a1637a634fee1fb4074b3756c37a8ae61d207f2896632a3e",
+    "after1": "2a40455691d15098b4388b2a65f9d655d366276d711c2e5edb2fe8fb8e050e35",
+    "after2": "2a40455691d15098b4388b2a65f9d655d366276d711c2e5edb2fe8fb8e050e35",
+    "before2": "c8df8eb42668a656a1637a634fee1fb4074b3756c37a8ae61d207f2896632a3e"
+   }
+  },
+  {
+   "file": "water-evening-along.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 72.88,
+   "changedPercentAbove8": 45.56,
+   "sha256": {
+    "before1": "6e89a794d6350532bf971ff2f854865d7aef0bac9c9f4f6364574704818803f2",
+    "after1": "a52d83bf63672c82a549cf5ffe2c78d04d317195d2b06a6a7466f35bcccf1202",
+    "after2": "a52d83bf63672c82a549cf5ffe2c78d04d317195d2b06a6a7466f35bcccf1202",
+    "before2": "6e89a794d6350532bf971ff2f854865d7aef0bac9c9f4f6364574704818803f2"
+   }
+  },
+  {
+   "file": "water-evening-down.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 76.78,
+   "changedPercentAbove8": 49.66,
+   "sha256": {
+    "before1": "838af8b1b169988800fcc7b1990f394e65285b636c26af9c2c6006e5df6b67e0",
+    "after1": "2016f7703a18ab093f3093c7b2108e048d3c76b7b827a98cddc3e6ca759d9e86",
+    "after2": "2016f7703a18ab093f3093c7b2108e048d3c76b7b827a98cddc3e6ca759d9e86",
+    "before2": "838af8b1b169988800fcc7b1990f394e65285b636c26af9c2c6006e5df6b67e0"
+   }
+  },
+  {
+   "file": "water-evening.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 58.09,
+   "changedPercentAbove8": 33.85,
+   "sha256": {
+    "before1": "6ae7909d7c9dae190edb14e76a2f6d6590ba5a664d8d30decaed8c6926458389",
+    "after1": "83d441088e2945efc81351af0c99462c9c892fa1afa96ebf20d3d96ca45683b3",
+    "after2": "83d441088e2945efc81351af0c99462c9c892fa1afa96ebf20d3d96ca45683b3",
+    "before2": "6ae7909d7c9dae190edb14e76a2f6d6590ba5a664d8d30decaed8c6926458389"
+   }
+  },
+  {
+   "file": "water-night-along.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 70.33,
+   "changedPercentAbove8": 46.66,
+   "sha256": {
+    "before1": "5aea6c4ccc86634245543be138282d6c7cef61be44c6563824d03062c7b266dd",
+    "after1": "263b156a8c17f22143e5bd7f7383c709d6cc34d0547901d3118e041e158beaf5",
+    "after2": "263b156a8c17f22143e5bd7f7383c709d6cc34d0547901d3118e041e158beaf5",
+    "before2": "5aea6c4ccc86634245543be138282d6c7cef61be44c6563824d03062c7b266dd"
+   }
+  },
+  {
+   "file": "water-night-down.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 74.01,
+   "changedPercentAbove8": 50.75,
+   "sha256": {
+    "before1": "7e17c634076b10667f4f7be259f858f1898ba7f5a24d154f7d601bbd726f6be2",
+    "after1": "17155f3a7fd13b111eff57d4f601f9bc4945da1c8c66ffb51d42e562ea698c2e",
+    "after2": "17155f3a7fd13b111eff57d4f601f9bc4945da1c8c66ffb51d42e562ea698c2e",
+    "before2": "7e17c634076b10667f4f7be259f858f1898ba7f5a24d154f7d601bbd726f6be2"
+   }
+  },
+  {
+   "file": "water-night.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 55.27,
+   "changedPercentAbove8": 35.74,
+   "sha256": {
+    "before1": "f6cb17251919ab0cfa883c4fa915e25662b6d7f16305af9d22d24aacd52caf8f",
+    "after1": "5f8ff2c1e0986a7077f32962fcd7bf274c441d25adc1f3c60e326f99d0f467d5",
+    "after2": "5f8ff2c1e0986a7077f32962fcd7bf274c441d25adc1f3c60e326f99d0f467d5",
+    "before2": "f6cb17251919ab0cfa883c4fa915e25662b6d7f16305af9d22d24aacd52caf8f"
+   }
+  }
+ ]
+}

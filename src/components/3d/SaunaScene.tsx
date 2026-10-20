@@ -32,6 +32,7 @@ import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
 import { applyCaustics } from './caustics';
+import { applyPoolTiles } from './poolTiles';
 import { applyWaterBottom } from './waterBottom';
 import { createHdrOutput, createRenderer, type RenderStats } from './hdrOutput';
 import { createDepthPrepass } from './depthPrepass';
@@ -356,6 +357,7 @@ export default function SaunaScene({
           count('refractionMaterials', refraction.materials);
           count('refractionTriangles', refraction.triangles);
           count('causticMaterials', applyCaustics(root));
+          count('poolTileMaterials', applyPoolTiles(root));
           count('glassMeshes', applyGlass(root, lighting.irradiance));
           count('irradianceMaterials', applyIrradiance(root, lighting.irradiance));
           count('deckIrradianceMaterials', deckLight.apply(root));

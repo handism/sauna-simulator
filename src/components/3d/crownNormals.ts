@@ -41,7 +41,7 @@ export function crownTint(x: number, z: number): [number, number, number] {
 export function crownShade(r: number, up: number) {
   const outer = Math.min(1, Math.max(0, (r - 0.25) / 0.7));
   const below = Math.min(1, Math.max(0, -up));
-  return (0.6 + 0.4 * outer * outer * (3 - 2 * outer)) * (1 - 0.18 * below);
+  return (0.7 + 0.3 * outer * outer * (3 - 2 * outer)) * (1 - 0.14 * below);
 }
 
 // SUI_CROWN_TINT multiplies the base color by the vertex attribute `suiCrownTint`. Not vertex colors:

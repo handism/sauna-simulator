@@ -3007,3 +3007,9 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 改善候補1・2への承認に基づく。雨のデッキ・石は暗くなって艶が出るだけで周りが映らなかった（プローブはL2）。`rainWetness.ts` に、雨の間だけ描くデッキ上面の高さ（0.075m、近クリップ0.085m、標準で描画バッファの0.25倍）の鏡像を足し、平らな上面のプローブ反射を置き換える。水膜は入射面に沿った7点のぼけた像、ノイズで選んだ水たまりは鋭い像と雨粒の波紋。飛び石上面・室内の受光面はテクスチャユニット16を超えてリンクに失敗したため対象外。
 - サウナ室の床はUVが一定の一枚板で板も溝もなかった。`surfaceDetails.ts` の `SUI_ROOM_FLOOR` で14.5cm幅の板・5mmの溝・ずらした継ぎ目を描き、ストーブと桶の足元に接地の陰を付けた。
 - `wet-contact.visual.ts` で変更前distとABBA撮影（84 PNG、再撮影差0〜2画素）。水たまりの色×0.6は染みに見えたため×0.85にした。雨の静止視点のフレーム間隔は1.00〜1.02倍。型検査・453単体テスト・Lint・整形・ビルド、`scene-lifecycle`・`scene-no-hdr`・`season`・`garden-details` の31回帰が成功。遅延3Dチャンク920.75kB（gzip 255.49kB）。見回し中の鏡像の費用・全通常ブラウザ回帰・実機は未実行。記録は [wet-deck](3d-qa/wet-deck/README.md)。
+
+## 2026-10-20 — 水風呂の水深・タイルと中景の樹冠
+
+- 改善候補3・4への承認に基づく。水風呂は元の水がほぼ透明で、全タイル同じ明るい青緑のためプールに見えた。`refraction.ts` の `VIEW_DEPTH`（視線だけの吸収と散乱）、新規 `poolTiles.ts`（13×16枚の格子でタイルごとのむら・縁の釉だまり・まだら・壁際の陰）、`CAUSTIC_VIEW_SCALE` 0.6を足した。最初の弱い設定では差が分からず、2段階で強めた。
+- 林の樹冠は10〜20m先で暗い葉の点のレースに見えた。`leafCluster.ts` で1画素が1.5→4テクセルを覆うにつれ被覆の閾値を最大0.14下げ（`LEAF_FAR_FILL`）、`crownShade` を中心0.7・下面×0.86に明るくした。
+- `plunge-woodland.visual.ts` で `bdb2e0a` のdistとABBA撮影（80 PNG、再撮影差0画素）。晴れの静止視点のフレーム間隔は0.966〜1.006倍。型検査・456単体テスト・Lint・整形・ビルド、`caustics`・`garden-details`・`season`・`scene-no-hdr` の28回帰が成功。遅延3Dチャンク924.26kB（gzip 256.65kB）。見回し中のちらつき・実機・全通常ブラウザ回帰は未実行。記録は [plunge-woodland](3d-qa/plunge-woodland/README.md)。

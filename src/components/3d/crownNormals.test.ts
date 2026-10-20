@@ -116,7 +116,7 @@ describe('woodland crown normals', () => {
       expect(b / g).toBeLessThanOrEqual(1.1 + 1e-9);
     }
     expect(crownTint(3, 4)).toEqual(crownTint(3.01, 4.01));
-    expect(crownShade(0, 0)).toBeCloseTo(0.6);
+    expect(crownShade(0, 0)).toBeCloseTo(0.7);
     expect(crownShade(1, 0)).toBeCloseTo(1);
     expect(crownShade(1, -1)).toBeLessThan(crownShade(1, 1));
   });

@@ -156,19 +156,26 @@ export function createLeafClusterTexture(cluster: LeafCluster): THREE.DataTextur
 
 /** The half width of the cutoff's ramp once a pixel spans two texels (`suiLeafCoverage`). */
 export const LEAF_FAR_RAMP = 0.2;
+/**
+ * How far the cutoff drops once a pixel spans four texels (`suiLeafCoverage`): a distant card covers
+ * more of its samples, so a crown reads as a leafy mass instead of a lace of separate dark leaves.
+ */
+export const LEAF_FAR_FILL = 0.14;
 
 // The share of the MSAA samples a card covers, from the alpha map's (rescaled) coverage. Up close,
 // the cutoff softened over a pixel, as three's alphatest_fragment does for alpha to coverage. Once
 // a pixel spans more than a texel, the leaves are under a pixel and that ramp turned whole pixels
 // on and off as the view moved (docs/3d-qa/leaf-shimmer); a wider ramp, centred on the cutoff,
 // fades them over part of the samples instead. The mean coverage itself would thin the crowns:
-// overlapping cards with the same alpha cover the same samples.
+// overlapping cards with the same alpha cover the same samples. Further still, the cutoff drops so
+// the distant crowns fill in (the leaves seen against the sky were separate dark specks).
 export const LEAF_COVERAGE_GLSL = /* glsl */ `
 float suiLeafCoverage( float alpha, vec2 uv ) {
 	vec2 texels = uv * ${LEAF_CLUSTER_SIZE.toFixed(1)};
 	float footprint = max( length( dFdx( texels ) ), length( dFdy( texels ) ) );
 	float ramp = max( fwidth( alpha ), ${LEAF_FAR_RAMP.toFixed(2)} * smoothstep( 1.0, 2.0, footprint ) );
-	return smoothstep( ${CUTOFF.toFixed(1)} - ramp, ${CUTOFF.toFixed(1)} + ramp, alpha );
+	float cutoff = ${CUTOFF.toFixed(1)} - ${LEAF_FAR_FILL.toFixed(2)} * smoothstep( 1.5, 4.0, footprint );
+	return smoothstep( cutoff - ramp, cutoff + ramp, alpha );
 }
 `;
 
