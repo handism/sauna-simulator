@@ -7,7 +7,7 @@ import type { AmbientEnv, AudioEngine, Weather } from '../../hooks/useAudioEngin
 import { QUALITY, type QualityMode } from './quality';
 // Replaces three's AgX curve with Blender's before any material compiles.
 import './agx';
-import { createLighting, timeOfDay, type LightingMode } from './lighting';
+import { createLighting, sceneWeights, timeOfDay, type LightingMode } from './lighting';
 import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { addSpoutTrough } from './waterSpout';
@@ -31,7 +31,7 @@ import { createRoomIrradiance, isolateRoomReceivers } from './roomIrradiance';
 import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
-import { applyCaustics } from './caustics';
+import { applyCaustics, causticLight } from './caustics';
 import { applyPoolTiles } from './poolTiles';
 import { applyWaterBottom } from './waterBottom';
 import { createHdrOutput, createRenderer, type RenderStats } from './hdrOutput';
@@ -195,6 +195,8 @@ export default function SaunaScene({
     const forestFloor = createForestFloor();
     // Follows the rain's weight: the surfaces dry as it eases off (rainWetness.ts).
     const wetness = { value: 0 };
+    // The caustics under the water fade with the sun: by dusk, at night and under an overcast.
+    const caustics = { value: 1 };
     let gardenAdded = 0;
     let qualityIndex = 0;
     const steam = createSteam();
@@ -356,7 +358,7 @@ export default function SaunaScene({
           const refraction = applyRefraction(root, definition.water.center[1]);
           count('refractionMaterials', refraction.materials);
           count('refractionTriangles', refraction.triangles);
-          count('causticMaterials', applyCaustics(root));
+          count('causticMaterials', applyCaustics(root, caustics));
           count('poolTileMaterials', applyPoolTiles(root));
           count('glassMeshes', applyGlass(root, lighting.irradiance));
           count('irradianceMaterials', applyIrradiance(root, lighting.irradiance));
@@ -748,6 +750,7 @@ export default function SaunaScene({
           setData('weather', weatherRef.current);
           setData('rain', lighting.rain.toFixed(3));
           wetness.value = lighting.rain;
+          caustics.value = causticLight(sceneWeights(lighting.time), lighting.clouds);
           setData('snow', lighting.snow.toFixed(3));
           gardenDetails.update(
             now / 1000,

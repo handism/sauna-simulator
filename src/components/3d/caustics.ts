@@ -18,6 +18,21 @@ export const CAUSTIC_COLOR = [0.46, 0.77, 0.66] as const;
  * the whole floor read as a lit swimming pool; the strength itself stays the source's (caustics.e2e.ts).
  */
 export const CAUSTIC_VIEW_SCALE = 0.6;
+/**
+ * Not in the source: the share of the caustics kept in the Daylight, Blue hour and Night scenes. The
+ * source's emission is the same at every hour, and with the dusk's and the night's brighter exposure
+ * the net glowed brighter than by day, though nothing that low (no sun, a faint moon) throws a net
+ * of light through the water.
+ */
+export const CAUSTIC_SCENES = [1, 0.22, 0.06];
+/** Not in the source: the share kept under an overcast (rain, snow): the sky alone throws no sharp net. */
+export const CAUSTIC_OVERCAST = 0.3;
+
+/** The scale of the drawn caustics at scene weights (lighting.ts sceneWeights) and an overcast share. */
+export function causticLight(weights: readonly number[], clouds: number): number {
+  const scene = weights.reduce((sum, w, i) => sum + w * CAUSTIC_SCENES[i], 0);
+  return scene * THREE.MathUtils.lerp(1, CAUSTIC_OVERCAST, THREE.MathUtils.clamp(clouds, 0, 1));
+}
 
 const COMMON_INCLUDE = '#include <common>';
 const MAIN = 'void main() {';
@@ -206,15 +221,19 @@ float sui_caustic_strength( vec3 p, float footprint ) {
 const FRAGMENT = /* glsl */ `
 	vec3 suiCausticPoint = vec3( vSuiCausticPosition.x, - vSuiCausticPosition.z, vSuiCausticPosition.y );
 	float suiCausticFootprint = max( length( dFdx( suiCausticPoint ) ), length( dFdy( suiCausticPoint ) ) );
-	totalEmissiveRadiance += vec3( ${CAUSTIC_COLOR.map((c) => (c * CAUSTIC_VIEW_SCALE).toFixed(3)).join(', ')} ) * sui_caustic_strength( suiCausticPoint, suiCausticFootprint );`;
+	totalEmissiveRadiance += vec3( ${CAUSTIC_COLOR.map((c) => (c * CAUSTIC_VIEW_SCALE).toFixed(3)).join(', ')} ) * ( suiCausticLight * sui_caustic_strength( suiCausticPoint, suiCausticFootprint ) );`;
 
 export const isCausticMaterial = (material: THREE.Material): material is THREE.MeshStandardMaterial =>
   material instanceof THREE.MeshStandardMaterial && material.name.startsWith(PREFIX);
 
-/** `cells` (causticCells()) replaces the hashes of the Voronoi cells. */
+/**
+ * `cells` (causticCells()) replaces the hashes of the Voronoi cells; `light` (causticLight()) scales
+ * the drawn caustics, 1 when it is not given.
+ */
 export function patchCausticShader(
   shader: { vertexShader: string; fragmentShader: string; uniforms?: Record<string, THREE.IUniform> },
   cells?: THREE.Data3DTexture,
+  light?: THREE.IUniform<number>,
 ) {
   const { vertexShader, fragmentShader } = shader;
   if (
@@ -235,14 +254,20 @@ export function patchCausticShader(
   shader.fragmentShader = fragmentShader
     .replace(
       MAIN,
-      `varying vec3 vSuiCausticPosition;\n${cells ? '#define SUI_CAUSTIC_CELLS\n' : ''}${fbm}${CAUSTIC_GLSL}\n${MAIN}`,
+      `varying vec3 vSuiCausticPosition;\nuniform float suiCausticLight;\n${cells ? '#define SUI_CAUSTIC_CELLS\n' : ''}${fbm}${CAUSTIC_GLSL}\n${MAIN}`,
     )
     .replace(EMISSIVE_INCLUDE, `${EMISSIVE_INCLUDE}${FRAGMENT}`);
-  if (cells && shader.uniforms) shader.uniforms.suiCausticCells = { value: cells };
+  if (shader.uniforms) {
+    if (cells) shader.uniforms.suiCausticCells = { value: cells };
+    shader.uniforms.suiCausticLight = light ?? { value: 1 };
+  }
 }
 
-/** Adds the source's fake caustics to the submerged materials (composes with earlier hooks). */
-export function applyCaustics(root: THREE.Object3D): number {
+/**
+ * Adds the source's fake caustics to the submerged materials (composes with earlier hooks); `light`
+ * is shared with the scene, which sets it from the time of day and the weather (causticLight()).
+ */
+export function applyCaustics(root: THREE.Object3D, light: THREE.IUniform<number> = { value: 1 }): number {
   const materials = new Set<THREE.MeshStandardMaterial>();
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
@@ -258,7 +283,7 @@ export function applyCaustics(root: THREE.Object3D): number {
     const previousKey = material.customProgramCacheKey;
     material.onBeforeCompile = (shader, renderer) => {
       previous.call(material, shader, renderer);
-      patchCausticShader(shader, cells);
+      patchCausticShader(shader, cells, light);
     };
     material.customProgramCacheKey = () => `${previousKey.call(material)}|caustics`;
     material.needsUpdate = true;

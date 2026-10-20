@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { CELLS, applyCaustics, causticCells, isCausticMaterial, patchCausticShader } from './caustics';
+import {
+  CAUSTIC_OVERCAST,
+  CAUSTIC_SCENES,
+  CELLS,
+  applyCaustics,
+  causticCells,
+  causticLight,
+  isCausticMaterial,
+  patchCausticShader,
+} from './caustics';
+import { sceneWeights } from './lighting';
 import { patchNoiseColorShader } from './noiseColor';
 
 const named = (name: string) => Object.assign(new THREE.MeshStandardMaterial(), { name });
@@ -25,6 +35,8 @@ describe('caustics', () => {
     expect(shader.vertexShader).toContain('vSuiCausticPosition = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;');
     const fragment = shader.fragmentShader;
     expect(fragment).toContain('vec3( vSuiCausticPosition.x, - vSuiCausticPosition.z, vSuiCausticPosition.y )');
+    expect(fragment).toContain('uniform float suiCausticLight;');
+    expect(fragment).toContain('* ( suiCausticLight * sui_caustic_strength(');
     expect(fragment.indexOf('totalEmissiveRadiance += vec3( 0.276, 0.462, 0.396 )')).toBeGreaterThan(
       fragment.indexOf('#include <emissivemap_fragment>'),
     );
@@ -66,10 +78,31 @@ describe('caustics', () => {
     expect(calls).toEqual(['earlier']);
     expect(shader.fragmentShader).toContain('sui_caustic_strength');
     expect(tile.customProgramCacheKey()).toContain('|caustics');
+    expect(shader.uniforms.suiCausticLight.value).toBe(1);
     const cells = shader.uniforms.suiCausticCells.value as THREE.Texture;
     let freed = 0;
     cells.addEventListener('dispose', () => freed++);
     tile.dispose();
     expect(freed).toBe(1);
+  });
+
+  it('shares the scene light with every material', () => {
+    const light = { value: 0.5 };
+    const tile = named('V10 | submerged light / Teal glazed pool tile');
+    applyCaustics(new THREE.Mesh(new THREE.BoxGeometry(), tile), light);
+    const shader = { ...physical(), uniforms: {} } as unknown as THREE.WebGLProgramParametersWithUniforms;
+    tile.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    expect(shader.uniforms.suiCausticLight).toBe(light);
+  });
+
+  it('fades the caustics with the sun and under an overcast', () => {
+    expect(causticLight(sceneWeights(0), 0)).toBe(1);
+    expect(causticLight(sceneWeights(1), 0)).toBeCloseTo(CAUSTIC_SCENES[1]);
+    expect(causticLight(sceneWeights(2), 0)).toBeCloseTo(CAUSTIC_SCENES[2]);
+    expect(causticLight(sceneWeights(0.5), 0)).toBeCloseTo((1 + CAUSTIC_SCENES[1]) / 2);
+    expect(causticLight(sceneWeights(0), 1)).toBeCloseTo(CAUSTIC_OVERCAST);
+    expect(causticLight(sceneWeights(0), 2)).toBeCloseTo(CAUSTIC_OVERCAST);
+    // Dimmer at every later hour than by day, though the exposure opens.
+    for (const time of [0.25, 0.5, 1, 1.5, 2]) expect(causticLight(sceneWeights(time), 0)).toBeLessThan(1);
   });
 });

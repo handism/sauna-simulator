@@ -3013,3 +3013,8 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 改善候補3・4への承認に基づく。水風呂は元の水がほぼ透明で、全タイル同じ明るい青緑のためプールに見えた。`refraction.ts` の `VIEW_DEPTH`（視線だけの吸収と散乱）、新規 `poolTiles.ts`（13×16枚の格子でタイルごとのむら・縁の釉だまり・まだら・壁際の陰）、`CAUSTIC_VIEW_SCALE` 0.6を足した。最初の弱い設定では差が分からず、2段階で強めた。
 - 林の樹冠は10〜20m先で暗い葉の点のレースに見えた。`leafCluster.ts` で1画素が1.5→4テクセルを覆うにつれ被覆の閾値を最大0.14下げ（`LEAF_FAR_FILL`）、`crownShade` を中心0.7・下面×0.86に明るくした。
 - `plunge-woodland.visual.ts` で `bdb2e0a` のdistとABBA撮影（80 PNG、再撮影差0画素）。晴れの静止視点のフレーム間隔は0.966〜1.006倍。型検査・456単体テスト・Lint・整形・ビルド、`caustics`・`garden-details`・`season`・`scene-no-hdr` の28回帰が成功。遅延3Dチャンク924.26kB（gzip 256.65kB）。見回し中のちらつき・実機・全通常ブラウザ回帰は未実行。記録は [plunge-woodland](3d-qa/plunge-woodland/README.md)。
+
+## 2026-10-20 — 時間帯・天気による水底の網目の減光
+
+- 改善候補1への承認に基づく。疑似コースティクス（元の発光）は時間帯によらず一定で、夕夜は露出が開く分だけ昼より明るい網目がタイル模様のように見えていた。`caustics.ts` の `causticLight()` で昼1・夕0.22・夜0.06、曇天（雨・雪）で0.3倍にし、共有uniform `suiCausticLight` で渡す。Blender照合の強さの関数は変えていない。
+- `plunge-woodland.visual.ts` で変更前distとABBA撮影（80 PNG、再撮影差0画素）。昼は変化0、夕は7〜14%・夜は10〜17%の画素が8階調超で変化。外気浴は0〜0.4%。型検査・461単体テスト・Lint・整形・ビルド、`caustics`・`scene-no-hdr`・`scene-lifecycle` の24回帰が成功。遅延3Dチャンク925.08kB（gzip 約253.8kB）。雨雪の水風呂の撮影・費用計測・実機は未実行。寝椅子灯の水底の像（Cyclesにもある）は変更していない。記録は [caustic-light](3d-qa/caustic-light/README.md)。
