@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { SMALL_LEAF, shapeCanopyLeaves } from './canopyLeafShape';
 import { shapeFernLeaflets } from './fernShape';
+import { tiltMapleLeaves } from './mapleLeafTilt';
 import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
 import { INTERIOR_BOX } from './interiorLights';
@@ -36,6 +37,7 @@ export interface PreparedModelStats {
   noiseColorMaterials: number;
   imageRampMaterials: number;
   leafClusterMaterials: number;
+  tiltedMapleLeaves: number;
 }
 
 /**
@@ -49,6 +51,7 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   const surfaces = new Map<THREE.MeshStandardMaterial, SurfaceDetail>();
   const leafClusters = new Map<number, THREE.DataTexture>();
   let leafClusterMaterials = 0;
+  let tiltedMapleLeaves = 0;
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
     const materials = Array.isArray(object.material) ? object.material : [object.material];
@@ -67,6 +70,10 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
     }
     if (materials.every((material) => /^V5 forest leaf \d+$/.test(material.name))) {
       shapeCanopyLeaves(object.geometry);
+    }
+    // The garden's near maples (V11). The body's V7 maple behind the wall has no level lobed leaves.
+    if (materials.every((material) => /^V11 \| maple leaf \d+$/.test(material.name))) {
+      tiltedMapleLeaves += tiltMapleLeaves(object.geometry);
     }
     // The garden's fine canopy behind the building: the lighter outline for 78k small leaves.
     if (materials.every((material) => /^Forest leaf tone \d+$/.test(material.name))) {
@@ -116,5 +123,6 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
     noiseColorMaterials: noiseColors.size,
     imageRampMaterials: imageRamps.size,
     leafClusterMaterials,
+    tiltedMapleLeaves,
   };
 }

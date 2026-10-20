@@ -3037,3 +3037,10 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 利用者の依頼に基づく。季節・天気の全周撮影（6条件×216枚、`scene-survey.visual.ts` に `SURVEY_SEASON`・`SURVEY_WEATHER` を追加）の目視で、夕夜の水風呂の見下ろしに縁の硬い灰色の板が浮いていた。低画質（鏡像なし）で消えることから、水面の鏡像に写る光沢専用の面光源 `V7 water reflection soft strip` と特定。Cycles参照にも同じ形で写る元シーンの再現。
 - `glossyLights.ts` の `SOFT_GLOSSY` を長方形へ一般化し（短い辺の半分を単位に、長い方向の余りの箱からの角の丸い距離）、V7に `core 0.7, falloff 0.25, reach 1.6`（中心1.26倍）。最初の `core 0.5, falloff 0.3` は中心1.62倍で夜に光の玉として浮いたため採らなかった。
 - 全周撮影の前後比較（HEAD `84fee52`、夏・晴れ216枚）で、3D描画の変化は水風呂の見下ろし20枚だけ（昼0.01〜5.7%、夕夜1.7〜9.2%）。`plunge-woodland.visual.ts` のABBA（再撮影差0画素）。型検査・462単体テスト・Lint・整形・ビルド、`caustics`・`scene-no-hdr`・`scene-lifecycle` の24回帰が成功。遅延3Dチャンク926.42kB（gzip 257.42kB）。費用計測・見回し中・実機は未実行。昼の水底の白い円（V9）は変えていない。記録は [water-strip-glow](3d-qa/water-strip-glow/README.md)。
+
+## 2026-10-20 — 庭のモミジの葉の傾き
+
+- 利用者の「続き」の依頼に基づく。全周撮影の目視で、正面のモミジ（庭GLBの `V11 maple`）の樹冠が細い横線と空の透けたレースに見えた（秋に目立つ）。5裂の葉（11頂点・10三角形）は裂片が約45°折れているが、葉全体の面積重み付きの法線は真上で、目の高さから真横に見えていた。
+- 新規 `mapleLeafTilt.ts` で、水平な5裂の葉だけを読み込み時に重心を通る水平な軸のまわりに0.35〜1.1rad回す（軸の向きと角度は重心のハッシュ）。庭の3体で2,112枚。小さな四角形の葉と本体の `V7 lobed maple leaves`（当てはまる葉がなく、撮影で0枚）は対象外。
+- 最初の版は面ごとの法線で水平を判定したため1枚も当たらず、撮影の画像が変更前と同一だった（`data-tilted-maple-leaves` 0で判明）。
+- `plunge-woodland.visual.ts` でHEAD（`8526ac3`）のdistとABBA撮影（80 PNG、再撮影差0画素）。8階調超の変化は外気浴1.7〜2.4%、水風呂の既定視点2.0〜2.4%、冬0%。秋・夏の全周撮影（各216枚）でエラー0件。型検査・464単体テスト・Lint・整形・ビルド、`season`・`garden-details` の9回帰が成功。遅延3Dチャンク928.13kB（gzip 257.85kB）。見回し中・実機・費用は未確認。記録は [maple-leaf-tilt](3d-qa/maple-leaf-tilt/README.md)。
