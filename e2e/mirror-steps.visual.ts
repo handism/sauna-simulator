@@ -47,8 +47,7 @@ function installGate() {
   document.addEventListener(
     'click',
     (event) => {
-      if ((event.target as Element).closest('button')?.textContent?.includes('音なしで入室する'))
-        state.entered = Date.now();
+      if ((event.target as Element).closest('button')?.textContent?.includes('入室する')) state.entered = Date.now();
     },
     true,
   );

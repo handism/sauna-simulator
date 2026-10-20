@@ -84,7 +84,7 @@ for (const { stage, minute, from } of conditions) {
         'click',
         (event) => {
           const button = (event.target as Element).closest('button');
-          if (button?.textContent?.includes('音なしで入室する')) clock.entered = Date.now();
+          if (button?.textContent?.includes('入室する')) clock.entered = Date.now();
         },
         true,
       );
