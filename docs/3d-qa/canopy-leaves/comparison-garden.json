@@ -1,0 +1,145 @@
+{
+ "date": "2026-10-20",
+ "before": "730af0a production build (V5 already shaped)",
+ "after": "working tree: garden Fine canopy SMALL_LEAF + woodland card leaf mask",
+ "stats": {
+  "startTime": "2026-10-20T02:33:28.239Z",
+  "duration": 200589.585,
+  "expected": 4,
+  "skipped": 0,
+  "unexpected": 0,
+  "flaky": 0
+ },
+ "pixelsOver1Level": {
+  "totonou-autumn-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 9115
+  },
+  "totonou-day-back-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 221833
+  },
+  "totonou-day-back-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 147017
+  },
+  "totonou-day-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 172342
+  },
+  "totonou-day-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 9039
+  },
+  "totonou-evening-back-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 133046
+  },
+  "totonou-evening-back-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 128771
+  },
+  "totonou-evening-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 130853
+  },
+  "totonou-evening-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 8792
+  },
+  "totonou-night-back-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 132253
+  },
+  "totonou-night-back-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 123945
+  },
+  "totonou-night-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 116238
+  },
+  "totonou-night-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 8546
+  },
+  "totonou-spring-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 9127
+  },
+  "water-day-back-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 62349
+  },
+  "water-day-back-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 56492
+  },
+  "water-day-mid.png": {
+   "beforeRepeat": 1,
+   "afterRepeat": 0,
+   "change": 130653
+  },
+  "water-day-up.png": {
+   "beforeRepeat": 1,
+   "afterRepeat": 0,
+   "change": 20573
+  },
+  "water-evening-back-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 48723
+  },
+  "water-evening-back-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 48415
+  },
+  "water-evening-mid.png": {
+   "beforeRepeat": 1,
+   "afterRepeat": 0,
+   "change": 106949
+  },
+  "water-evening-up.png": {
+   "beforeRepeat": 1,
+   "afterRepeat": 0,
+   "change": 20065
+  },
+  "water-night-back-mid.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 46424
+  },
+  "water-night-back-up.png": {
+   "beforeRepeat": 0,
+   "afterRepeat": 0,
+   "change": 48092
+  },
+  "water-night-mid.png": {
+   "beforeRepeat": 1,
+   "afterRepeat": 0,
+   "change": 93563
+  },
+  "water-night-up.png": {
+   "beforeRepeat": 1,
+   "afterRepeat": 0,
+   "change": 19272
+  }
+ }
+}

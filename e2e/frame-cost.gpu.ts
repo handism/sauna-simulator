@@ -42,6 +42,12 @@ async function eachView(page: Page, measure: (stage: string, lighting: string) =
   for (const [stage, next] of STAGES) {
     await expect(scene).toHaveAttribute('data-stage', stage);
     await page.getByRole('button', { name: '景色だけ見る', exact: true }).click();
+    // FRAME_COST_KEYS=ArrowLeft*39,ArrowUp*12 turns each stage's view before measuring.
+    for (const step of process.env.FRAME_COST_KEYS?.split(',').filter(Boolean) ?? []) {
+      const [key, times] = step.split('*');
+      await scene.focus();
+      for (let i = 0; i < Number(times ?? 1); i++) await page.keyboard.press(key);
+    }
     for (const lighting of ['day', 'evening', 'night']) {
       await chooseSceneSetting(page, '3Dの時間帯', lighting);
       await expect(scene).toHaveAttribute('data-lighting', lighting);

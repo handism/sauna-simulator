@@ -2986,3 +2986,11 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 1,920→15,360三角形、√葉面積9.5〜20.3cm、水平投影+1.5%、法線の異常0（`geometry.json`）。
 - `canopy-leaves.visual.ts` で `c460edf` の製品ビルドとABBA比較（Chrome 155・標準DPR1・動作抑制・固定解像度、水風呂・外気浴×昼夕夜×見上げ2段＋外気浴の春秋、計56 PNG）。同方式の再撮影差は0画素。主要画像の目視で菱形の並びが解消し、欠け・発光がないことを確認。
 - 型検査・446単体テスト・Lint・整形・ビルド、`garden-details`・`season`・`scene-lifecycle`・`scene-no-hdr` の31回帰が成功。遅延3Dチャンク909.85kB（gzip 251.62kB、850kB警告は継続）。GPU時間・見回し中のちらつき・高画質・実機は未確認。林のカード（`leafCluster.ts`）の菱形マスクは未対応。記録は [canopy-leaves](3d-qa/canopy-leaves/README.md)。
+
+## 2026-10-20 — 庭の葉と林のカードの形
+
+- 水風呂から背後を向いて見上げたとき、壁の上の葉が菱形に並んで見えるという指摘に対応。正体は庭GLBの `Fine canopy leaves`（`Forest leaf tone 0〜3`、77,760枚の2三角形の菱形）。`canopyLeafShape.ts` に軽い輪郭 `SMALL_LEAF`（6頂点・4三角形、折りなし）を加え、`prepareModel()` で加工する。V5の結果は変更前と一致。加工はbunで約77ms。林のカードのマスク（`leafCluster.ts`）も20枚の菱形から、大きさ・向きの違う卵形の20枚へ変更（しきい値以上の被覆0.4355→0.4385、毎フレームの負荷は不変）。
+- 155,520→311,040三角形、水平投影+0.17%、法線の異常0（`garden-geometry.json`）。
+- `canopy-leaves.visual.ts` に背後の見上げを足し（1回26枚）、`730af0a` の製品ビルドとABBA比較（104 PNG、再撮影差0〜1画素）。壁の上の葉の菱形の並びが解消したことを目視。
+- `frame-cost.gpu.ts` に `FRAME_COST_KEYS` を追加し、HEADのworktreeと交互に3組を計測：既定視点+1.0〜3.3%、背後の見上げで最大+11%（外気浴の夜7.80→8.68ms）。
+- 型検査・448単体テスト・Lint・整形・ビルド、31回帰が成功。遅延3Dチャンク911.33kB（gzip 252.50kB）。見回し中のちらつき・高画質・実機は未確認。記録は [canopy-leaves](3d-qa/canopy-leaves/README.md)。

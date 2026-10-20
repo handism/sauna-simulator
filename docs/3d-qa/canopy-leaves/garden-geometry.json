@@ -1,0 +1,50 @@
+{
+  "model": "public/models/sauna-garden.glb",
+  "modelSha256": "c7ec4b116b0410219618435d1f302ee254e742d9187f60c91ea7a7f8289e273d",
+  "mesh": "Fine canopy leaves web leaves",
+  "materials": "Forest leaf tone 0–3",
+  "outline": "SMALL_LEAF (6 vertices, 4 triangles)",
+  "leaves": 77760,
+  "vertices": [
+    311040,
+    466560
+  ],
+  "triangles": [
+    155520,
+    311040
+  ],
+  "surfaceAreaM2": [
+    823.83,
+    825.96
+  ],
+  "horizontalProjectionM2": [
+    688.79,
+    689.99
+  ],
+  "sqrtLeafAreaCm": {
+    "before": {
+      "min": 5.1,
+      "p5": 6,
+      "p50": 10,
+      "p95": 13.9,
+      "max": 15.4
+    },
+    "after": {
+      "min": 3.1,
+      "p5": 5.1,
+      "p50": 9.4,
+      "p95": 15.6,
+      "max": 19.1
+    }
+  },
+  "nonUnitNormals": 0,
+  "shapeMsBun": 76.9,
+  "woodlandCardMask": {
+    "leaves": 20,
+    "size": 64,
+    "shareAboveCutoff": {
+      "before": 0.4355,
+      "after": 0.4385
+    }
+  }
+}

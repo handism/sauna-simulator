@@ -1,6 +1,13 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { CANOPY_LEAF_TRIANGLES, CANOPY_LEAF_VERTICES, shapeCanopyLeaves } from './canopyLeafShape';
+import {
+  CANOPY_LEAF_TRIANGLES,
+  CANOPY_LEAF_VERTICES,
+  SMALL_LEAF,
+  leafTriangles,
+  leafVertices,
+  shapeCanopyLeaves,
+} from './canopyLeafShape';
 
 // Exported canopy diamonds: four free vertices, two triangles around the long diagonal 0–2.
 const diamonds = (centers: number[][]) => {
@@ -63,6 +70,26 @@ describe('overhead canopy leaf shaping', () => {
       const n = new THREE.Vector3().fromBufferAttribute(normal, v);
       expect(n.length()).toBeCloseTo(1);
       // The source faces point down (−y); the shaped leaves keep that winding.
+      expect(n.y).toBeLessThan(0);
+    }
+  });
+
+  it("gives the garden's small leaves a lighter unfolded outline with the same mean area", () => {
+    const geometry = diamonds(centers);
+    const sourceArea = triangleArea(geometry, 0, 2);
+    shapeCanopyLeaves(geometry, SMALL_LEAF);
+    expect([leafVertices(SMALL_LEAF), leafTriangles(SMALL_LEAF)]).toEqual([6, 4]);
+    expect(geometry.attributes.position.count).toBe(centers.length * 6);
+    expect(geometry.index!.count).toBe(centers.length * 4 * 3);
+    const areas = centers.map((_, leaf) => triangleArea(geometry, leaf * 4, 4));
+    const mean = areas.reduce((sum, area) => sum + area, 0) / areas.length;
+    expect(mean / sourceArea).toBeGreaterThan(0.9);
+    expect(mean / sourceArea).toBeLessThan(1.1);
+    expect(Math.max(...areas) / Math.min(...areas)).toBeGreaterThan(2.5);
+    const normal = geometry.attributes.normal;
+    for (let v = 0; v < normal.count; v++) {
+      const n = new THREE.Vector3().fromBufferAttribute(normal, v);
+      expect(n.length()).toBeCloseTo(1);
       expect(n.y).toBeLessThan(0);
     }
   });

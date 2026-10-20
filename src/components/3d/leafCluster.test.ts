@@ -38,6 +38,40 @@ describe('woodland leaf cluster cards', () => {
     }
   });
 
+  it('draws ovate leaves of varied size rather than equal diamonds', () => {
+    const coverage = leafClusterCoverage(20);
+    const size = LEAF_CLUSTER_SIZE;
+    // Label the texels above the cutoff into connected leaves (touching leaves merge).
+    const label = new Int32Array(coverage.length).fill(-1);
+    const areas: number[] = [];
+    for (let start = 0; start < coverage.length; start++) {
+      if (coverage[start] < 0.5 || label[start] >= 0) continue;
+      const stack = [start];
+      label[start] = areas.length;
+      let area = 0;
+      while (stack.length) {
+        const texel = stack.pop()!;
+        area++;
+        const [x, y] = [texel % size, Math.floor(texel / size)];
+        for (const [dx, dy] of [
+          [1, 0],
+          [-1, 0],
+          [0, 1],
+          [0, -1],
+        ]) {
+          const [nx, ny] = [x + dx, y + dy];
+          const next = ny * size + nx;
+          if (nx < 0 || ny < 0 || nx >= size || ny >= size || coverage[next] < 0.5 || label[next] >= 0) continue;
+          label[next] = areas.length;
+          stack.push(next);
+        }
+      }
+      areas.push(area);
+    }
+    expect(areas.length).toBeGreaterThan(5);
+    expect(Math.max(...areas) / Math.min(...areas)).toBeGreaterThan(2);
+  });
+
   it('keeps the alpha-tested coverage in the mip levels that distant cards sample', () => {
     const levels = leafClusterMips(leafClusterCoverage(20), LEAF_CLUSTER_SIZE);
     expect(levels.map((level) => level.length)).toEqual([4096, 1024, 256, 64, 16, 4, 1]);

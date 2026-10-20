@@ -26,22 +26,57 @@ function random(seed: number) {
   };
 }
 
-// Coverage in [0, 1] per texel: rotated diamond leaves on a jittered grid, antialiased
-// by supersampling. Deterministic, so every load draws the same crowns.
+// Half widths (relative to the widest) along the leaf from the stalk to the tip: the
+// ovate outline of the near canopy leaves (canopyLeafShape.ts), area 1.27 × length × widest.
+const OUTLINE = [
+  [0, 0],
+  [0.16, 0.62],
+  [0.38, 1],
+  [0.62, 0.86],
+  [0.84, 0.48],
+  [1, 0],
+] as const;
+const OUTLINE_AREA = OUTLINE.slice(1).reduce((sum, [t, w], i) => sum + (t - OUTLINE[i][0]) * (w + OUTLINE[i][1]), 0);
+// Length over full width, and the leaf area per card share: overlaps take a little, so
+// the leaves cover about the same share above the cutoff as the earlier diamonds (0.44).
+const LEAF_ASPECT = 2.2;
+const LEAF_AREA = 0.9;
+
+const halfWidth = (t: number) => {
+  if (t <= 0 || t >= 1) return 0;
+  let i = 1;
+  while (OUTLINE[i][0] < t) i++;
+  const [t0, w0] = OUTLINE[i - 1];
+  const [t1, w1] = OUTLINE[i];
+  return w0 + ((w1 - w0) * (t - t0)) / (t1 - t0);
+};
+
+// Coverage in [0, 1] per texel: ovate leaves of varied size and any direction on a jittered
+// grid, antialiased by supersampling. Deterministic, so every load draws the same crowns.
 export function leafClusterCoverage(leaves: number, size = LEAF_CLUSTER_SIZE): Float32Array {
   const next = random(leaves);
-  // Each diamond (half-diagonal r) covers 2r^2 = 1 / (2 * leaves) of the card.
-  const r = Math.sqrt(1 / (4 * leaves));
   const columns = Math.ceil(Math.sqrt(leaves));
   const rows = Math.ceil(leaves / columns);
   const shapes = Array.from({ length: leaves }, (_, index) => {
     const column = index % columns;
     const row = Math.floor(index / columns);
-    // Keep whole leaves inside the card; a rotated diamond never extends past r.
-    const x = r + ((column + next()) / columns) * (1 - 2 * r);
-    const y = r + ((row + next()) / rows) * (1 - 2 * r);
-    const angle = (next() * Math.PI) / 2;
-    return { x, y, cos: Math.cos(angle), sin: Math.sin(angle) };
+    // Each leaf takes 1 / (2 * leaves) of the card on average, its area scaled 0.5–1.5.
+    const area = (LEAF_AREA * (0.5 + next())) / (2 * leaves);
+    const widest = Math.sqrt(area / (2 * LEAF_ASPECT * OUTLINE_AREA));
+    const length = 2 * LEAF_ASPECT * widest;
+    const angle = next() * 2 * Math.PI;
+    const [cos, sin] = [Math.cos(angle), Math.sin(angle)];
+    // Keep whole leaves inside the card: clamp the jittered grid position by the rotated
+    // outline's extent.
+    const extent = (x: number, y: number) =>
+      Math.max(
+        ...OUTLINE.flatMap(([t, w]) => [1, -1].map((sign) => Math.abs((t - 0.5) * length * x + sign * w * widest * y))),
+      );
+    // One texel clear of the border, as the diamonds were.
+    const [rx, ry] = [extent(cos, -sin) + 1 / size, extent(sin, cos) + 1 / size];
+    const x = THREE.MathUtils.clamp((column + next()) / columns, rx, 1 - rx);
+    const y = THREE.MathUtils.clamp((row + next()) / rows, ry, 1 - ry);
+    return { x, y, cos, sin, length, widest };
   });
   const coverage = new Float32Array(size * size);
   for (let py = 0; py < size; py++) {
@@ -52,10 +87,11 @@ export function leafClusterCoverage(leaves: number, size = LEAF_CLUSTER_SIZE): F
           const u = (px + (sx + 0.5) / SUPERSAMPLE) / size;
           const v = (py + (sy + 0.5) / SUPERSAMPLE) / size;
           if (
-            shapes.some(({ x, y, cos, sin }) => {
+            shapes.some(({ x, y, cos, sin, length, widest }) => {
               const du = u - x,
                 dv = v - y;
-              return Math.abs(du * cos + dv * sin) + Math.abs(dv * cos - du * sin) <= r;
+              const along = (du * cos + dv * sin) / length + 0.5;
+              return Math.abs(dv * cos - du * sin) <= widest * halfWidth(along);
             })
           )
             hits++;

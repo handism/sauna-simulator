@@ -12,6 +12,7 @@ const VIEWS = [
   ['mid', 20],
   ['up', 30],
 ] as const;
+const BACK_STEPS = 39;
 for (const run of baseline ? ['before1', 'after1', 'after2', 'before2'] : ['after1']) {
   test(`canopy leaves ${run}`, async ({ page, browser }, info) => {
     test.setTimeout(300_000);
@@ -63,6 +64,11 @@ for (const run of baseline ? ['before1', 'after1', 'after2', 'before2'] : ['afte
       for (let i = 0; i < 32; i++) await page.keyboard.press('ArrowDown');
       for (let i = 0; i < steps; i++) await page.keyboard.press('ArrowUp');
     };
+    // 39 steps of 0.08 rad turn the view about half a turn, to the garden canopy behind.
+    const turn = async (key: 'ArrowLeft' | 'ArrowRight') => {
+      await scene.focus();
+      for (let i = 0; i < BACK_STEPS; i++) await page.keyboard.press(key);
+    };
     await page.getByRole('button', { name: '水風呂へ', exact: true }).click();
     for (const [stage, next] of [
       ['water', '外気浴へ'],
@@ -76,6 +82,12 @@ for (const run of baseline ? ['before1', 'after1', 'after2', 'before2'] : ['afte
           await look(steps);
           await capture(`${stage}-${light}-${view}.png`);
         }
+        await turn('ArrowLeft');
+        for (const [view, steps] of VIEWS) {
+          await look(steps);
+          await capture(`${stage}-${light}-back-${view}.png`);
+        }
+        await turn('ArrowRight');
       }
       await chooseSceneSetting(page, '3Dの時間帯', 'day');
       if (stage === 'totonou') {

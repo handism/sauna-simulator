@@ -1,0 +1,244 @@
+{
+ "date": "2026-10-20",
+ "method": "e2e/frame-cost.gpu.ts FRAME_COST_REPEAT=3, standard DPR1 1200x800 fixed resolution, HEAD 730af0a worktree (before) and working tree (after) alternated 3 pairs; intervalMs.mean (frame interval / repeat). back = FRAME_COST_KEYS=ArrowLeft*39,ArrowUp*12. 5.56 ms = display interval / 3 (capped).",
+ "views": {
+  "default": {
+   "sauna-day": {
+    "before": [
+     13.745,
+     13.831,
+     13.831
+    ],
+    "after": [
+     13.918,
+     14.066,
+     13.976
+    ],
+    "ratio": 1.013
+   },
+   "sauna-evening": {
+    "before": [
+     17.867,
+     17.867,
+     17.942
+    ],
+    "after": [
+     18.036,
+     18.441,
+     18.364
+    ],
+    "ratio": 1.022
+   },
+   "sauna-night": {
+    "before": [
+     19.081,
+     19.28,
+     19.323
+    ],
+    "after": [
+     19.525,
+     19.525,
+     19.734
+    ],
+    "ratio": 1.019
+   },
+   "water-day": {
+    "before": [
+     17.397,
+     17.397,
+     17.543
+    ],
+    "after": [
+     17.867,
+     17.868,
+     18.018
+    ],
+    "ratio": 1.027
+   },
+   "water-evening": {
+    "before": [
+     20.427,
+     20.427,
+     20.341
+    ],
+    "after": [
+     20.659,
+     20.745,
+     20.832
+    ],
+    "ratio": 1.017
+   },
+   "water-night": {
+    "before": [
+     21.675,
+     21.504,
+     21.583
+    ],
+    "after": [
+     21.766,
+     21.857,
+     21.766
+    ],
+    "ratio": 1.01
+   },
+   "totonou-day": {
+    "before": [
+     11.962,
+     11.904,
+     11.805
+    ],
+    "after": [
+     12.242,
+     12.243,
+     12.232
+    ],
+    "ratio": 1.029
+   },
+   "totonou-evening": {
+    "before": [
+     15.93,
+     15.93,
+     15.806
+    ],
+    "after": [
+     16.527,
+     16.255,
+     16.46
+    ],
+    "ratio": 1.033
+   },
+   "totonou-night": {
+    "before": [
+     16.951,
+     16.951,
+     16.877
+    ],
+    "after": [
+     17.47,
+     17.471,
+     17.397
+    ],
+    "ratio": 1.031
+   }
+  },
+  "back": {
+   "sauna-day": {
+    "before": [
+     7.998,
+     8.013,
+     7.998
+    ],
+    "after": [
+     8.062,
+     8.096,
+     8.096
+    ],
+    "ratio": 1.01
+   },
+   "sauna-evening": {
+    "before": [
+     7.856,
+     7.903,
+     7.856
+    ],
+    "after": [
+     7.965,
+     7.95,
+     7.999
+    ],
+    "ratio": 1.013
+   },
+   "sauna-night": {
+    "before": [
+     8.047,
+     8.032,
+     8.047
+    ],
+    "after": [
+     8.111,
+     8.096,
+     8.111
+    ],
+    "ratio": 1.008
+   },
+   "water-day": {
+    "before": [
+     5.555,
+     5.555,
+     5.555
+    ],
+    "after": [
+     5.555,
+     5.555,
+     5.555
+    ],
+    "ratio": 1.0
+   },
+   "water-evening": {
+    "before": [
+     6.233,
+     6.259,
+     6.233
+    ],
+    "after": [
+     6.633,
+     6.606,
+     6.606
+    ],
+    "ratio": 1.06
+   },
+   "water-night": {
+    "before": [
+     6.445,
+     6.414,
+     6.418
+    ],
+    "after": [
+     6.908,
+     6.879,
+     6.915
+    ],
+    "ratio": 1.074
+   },
+   "totonou-day": {
+    "before": [
+     5.747,
+     5.748,
+     5.772
+    ],
+    "after": [
+     6.119,
+     6.147,
+     6.121
+    ],
+    "ratio": 1.065
+   },
+   "totonou-evening": {
+    "before": [
+     7.459,
+     7.418,
+     7.428
+    ],
+    "after": [
+     8.247,
+     8.264,
+     8.264
+    ],
+    "ratio": 1.111
+   },
+   "totonou-night": {
+    "before": [
+     7.81,
+     7.81,
+     7.777
+    ],
+    "after": [
+     8.642,
+     8.714,
+     8.699
+    ],
+    "ratio": 1.114
+   }
+  }
+ }
+}

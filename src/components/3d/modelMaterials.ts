@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { shapeCanopyLeaves } from './canopyLeafShape';
+import { SMALL_LEAF, shapeCanopyLeaves } from './canopyLeafShape';
 import { shapeFernLeaflets } from './fernShape';
 import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
@@ -67,6 +67,10 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
     }
     if (materials.every((material) => /^V5 forest leaf \d+$/.test(material.name))) {
       shapeCanopyLeaves(object.geometry);
+    }
+    // The garden's fine canopy behind the building: the lighter outline for 78k small leaves.
+    if (materials.every((material) => /^Forest leaf tone \d+$/.test(material.name))) {
+      shapeCanopyLeaves(object.geometry, SMALL_LEAF);
     }
     for (const material of materials) {
       if (isFoliageMaterial(material)) foliage.add(material);
