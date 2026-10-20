@@ -93,3 +93,5 @@
 - `forest-back-crowns.visual.ts` は標準DPR1の3ステージ×昼夕夜×3水平方位と秋冬の昼を、同一ビルドで追加18樹冠だけ省略した対照とABBA比較する（116 PNG）。時間帯選択後のフォーカスを見回し面へ戻し、方位間の画像差も検査する。`forest-build.ts` が実際に読み込んだJSのURLとHTTP応答ハッシュを検査する。`playwright.forest.config.ts` は `FOREST_REVIEW=visual` で撮影、それ以外で負荷。`FOREST_BASELINE_DIST` で旧distを指定し、同じ親の `farForest.before.ts` と配信物を照合する。`defineConfig(base, overrides)` はwebServerを配列として追加するため、この設定は単一オブジェクトでwebServerを置き換える。`forest-back-crowns.gpu.ts` は旧形状を含む実ビルドとのABBAで、標準DPR1・水平右20キー分・3ステージ昼夜・描画3回反復を測る。画像解析と同時実行しない。集計は `scripts/summarize_forest_back_crowns.py`（静止画、`--motion`、`--cost`）。静止画の差・制御見回し・描画間隔・知覚的合否は分ける。
 
 - `ground-foliage.visual.ts` は `FOLIAGE_BASELINE_DIST` の変更前distと配信distをABBAで比較する。HTMLと動的JSを各ビルドから配信し、実際のJS応答ハッシュを照合する。標準DPR1・動作抑制・固定解像度で3ステージ×昼夕夜×初期／見下ろしの18枚、外気浴の春秋冬と縦横2サイズを各回撮影する（計92 PNG）。`FOLIAGE_QUICK=1` は外気浴昼2視点の前後だけ。静止画と形状数の比較で、動作時のちらつき・GPU時間・実機FPSの検査ではない。
+
+- `canopy-leaves.visual.ts` は `CANOPY_BASELINE_DIST` の変更前distと配信distをABBAで比較する（HTML・動的JSを各ビルドから配信し、応答ハッシュを照合）。標準DPR1・動作抑制・固定解像度で、水風呂・外気浴×昼夕夜×見上げ2段（下限から矢印20回・30回＝約0.35rad・上限）と外気浴の春秋の上限を撮る（1回14枚）。静止画の比較で、見回し中のちらつき・GPU時間の検査ではない。

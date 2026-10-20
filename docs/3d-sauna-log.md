@@ -2979,3 +2979,10 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - `meadowGrass.ts` の草に数m周期の密度の斑（×0.44〜1）を付け、草丈・先端の明るさ・枯れ色の割合（18%→7%）を抑えた。21,138→15,009枚、外気浴昼の主描画は786,545→768,158三角形、描画回数・テクスチャ・ジオメトリ数は同じ（形状数の診断で、速度の結果ではない）。
 - `ground-foliage.visual.ts` で `b8bed72` の製品ビルドとABBA比較（標準DPR1・動作抑制・固定解像度、計92 PNG）。同方式の再撮影差は0〜1画素。代表画像の目視で草の明るい線が減り、シダの縁に陰影が付くことを確認。
 - 型検査・443単体テスト・Lint・整形・ビルドが成功。`garden-details`・`season`・`scene-lifecycle`・`scene-no-hdr` の31回帰が成功。2D入口JS 230.92kB（gzip 73.80kB）、遅延3Dチャンク907.32kB（gzip 250.78kB、850kB警告は継続）。連続見回しのちらつき・実機・実Safari・高画質・GPU時間は未確認。記録は [ground-foliage](3d-qa/ground-foliage/README.md)。
+
+## 2026-10-20 — 頭上の葉の形と大きさ
+
+- 見上げたときの葉が同じ大きさの菱形に並んで見えるという指摘に対応。`canopyLeafShape.ts` を追加し、本体GLBの `V5 forest leaf 0〜3`（960枚、全枚数√面積15.7cmの菱形）を、読み込み時に元の中点・面の向きのまま先の尖った卵形（14頂点・16三角形）へ置き換える。面積0.36〜1.64倍（平均は同じ）、縦横比・面内の向き・付け根の端・浅い折り・先端の垂れを位置から決める。折りが深い最初の候補（幅の0.2〜0.4倍）は日なたの葉がさや状に見えたため0.08〜0.18倍にした。GLB・プローブ・材質・描画パスは変更なし。
+- 1,920→15,360三角形、√葉面積9.5〜20.3cm、水平投影+1.5%、法線の異常0（`geometry.json`）。
+- `canopy-leaves.visual.ts` で `c460edf` の製品ビルドとABBA比較（Chrome 155・標準DPR1・動作抑制・固定解像度、水風呂・外気浴×昼夕夜×見上げ2段＋外気浴の春秋、計56 PNG）。同方式の再撮影差は0画素。主要画像の目視で菱形の並びが解消し、欠け・発光がないことを確認。
+- 型検査・446単体テスト・Lint・整形・ビルド、`garden-details`・`season`・`scene-lifecycle`・`scene-no-hdr` の31回帰が成功。遅延3Dチャンク909.85kB（gzip 251.62kB、850kB警告は継続）。GPU時間・見回し中のちらつき・高画質・実機は未確認。林のカード（`leafCluster.ts`）の菱形マスクは未対応。記録は [canopy-leaves](3d-qa/canopy-leaves/README.md)。

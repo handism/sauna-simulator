@@ -1,0 +1,138 @@
+{
+  "stats": {
+    "startTime": "2026-10-19T23:57:19.706Z",
+    "duration": 122887.393,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "runs": {
+    "before1": {
+      "browser": "155.0.8059.80",
+      "bundle": "SaunaScene-BS6uyBI0.js",
+      "loaded": {
+        "assets/index-D_yoOtyQ.js": "18880e6a23630738c19e5179a4edb32dcd097365c47dcacfbd2ced950dea7eaa",
+        "assets/audioWorker-BQlOmTJi.js": "c07c9ac02060a27338fcc218bc2b82c020c9b799839012bae369e3b96db22748",
+        "assets/SaunaScene-BS6uyBI0.js": "1d521597ca20e9b30cc0bd4727f8c1073b62013e857a1562205bac25177cc874"
+      },
+      "errors": []
+    },
+    "after1": {
+      "browser": "155.0.8059.80",
+      "bundle": "SaunaScene-DEHzPDoR.js",
+      "loaded": {
+        "assets/index-BnMeDNE2.js": "ecdfa3466a5e14b461ef9d4be18feba1b2254c5912cec0aef19a042b89a6b8e2",
+        "assets/audioWorker-BQlOmTJi.js": "c07c9ac02060a27338fcc218bc2b82c020c9b799839012bae369e3b96db22748",
+        "assets/SaunaScene-DEHzPDoR.js": "457f7efb7e8036a56ecbfdc4ddd64db16752145abb214247435614e9a7c6965b"
+      },
+      "errors": []
+    },
+    "after2": {
+      "browser": "155.0.8059.80",
+      "bundle": "SaunaScene-DEHzPDoR.js",
+      "loaded": {
+        "assets/index-BnMeDNE2.js": "ecdfa3466a5e14b461ef9d4be18feba1b2254c5912cec0aef19a042b89a6b8e2",
+        "assets/audioWorker-BQlOmTJi.js": "c07c9ac02060a27338fcc218bc2b82c020c9b799839012bae369e3b96db22748",
+        "assets/SaunaScene-DEHzPDoR.js": "457f7efb7e8036a56ecbfdc4ddd64db16752145abb214247435614e9a7c6965b"
+      },
+      "errors": []
+    },
+    "before2": {
+      "browser": "155.0.8059.80",
+      "bundle": "SaunaScene-BS6uyBI0.js",
+      "loaded": {
+        "assets/index-D_yoOtyQ.js": "18880e6a23630738c19e5179a4edb32dcd097365c47dcacfbd2ced950dea7eaa",
+        "assets/audioWorker-BQlOmTJi.js": "c07c9ac02060a27338fcc218bc2b82c020c9b799839012bae369e3b96db22748",
+        "assets/SaunaScene-BS6uyBI0.js": "1d521597ca20e9b30cc0bd4727f8c1073b62013e857a1562205bac25177cc874"
+      },
+      "errors": []
+    }
+  },
+  "pixelsOver1RgbStep": [
+    {
+      "file": "totonou-autumn-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 28717
+    },
+    {
+      "file": "totonou-day-mid.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 162
+    },
+    {
+      "file": "totonou-day-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 27671
+    },
+    {
+      "file": "totonou-evening-mid.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 152
+    },
+    {
+      "file": "totonou-evening-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 25180
+    },
+    {
+      "file": "totonou-night-mid.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 77
+    },
+    {
+      "file": "totonou-night-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 18740
+    },
+    {
+      "file": "totonou-spring-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 30871
+    },
+    {
+      "file": "water-day-mid.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 2990
+    },
+    {
+      "file": "water-day-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 67581
+    },
+    {
+      "file": "water-evening-mid.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 1989
+    },
+    {
+      "file": "water-evening-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 58229
+    },
+    {
+      "file": "water-night-mid.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 1432
+    },
+    {
+      "file": "water-night-up.png",
+      "retakeBefore": 0,
+      "retakeAfter": 0,
+      "changed": 45170
+    }
+  ]
+}

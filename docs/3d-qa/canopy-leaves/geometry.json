@@ -1,0 +1,47 @@
+{
+  "model": "public/models/sauna.glb",
+  "modelSha256": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7",
+  "mesh": "V5 light filtering canopy web leaves",
+  "materials": [
+    "V5 forest leaf 0",
+    "V5 forest leaf 1",
+    "V5 forest leaf 2",
+    "V5 forest leaf 3"
+  ],
+  "leaves": 960,
+  "vertices": [
+    3840,
+    13440
+  ],
+  "triangles": [
+    1920,
+    15360
+  ],
+  "surfaceAreaM2": [
+    23.609,
+    24.257
+  ],
+  "horizontalProjectionM2": [
+    23.04,
+    23.384
+  ],
+  "sqrtLeafAreaCm": {
+    "before": {
+      "min": 15.7,
+      "p5": 15.7,
+      "p50": 15.7,
+      "p95": 15.7,
+      "max": 15.7
+    },
+    "after": {
+      "min": 9.5,
+      "p5": 10.3,
+      "p50": 16,
+      "p95": 19.8,
+      "max": 20.3
+    }
+  },
+  "nonUnitNormals": 0,
+  "normalsAgainstSourceFace": 0,
+  "shapeMsBun": 14.1
+}
