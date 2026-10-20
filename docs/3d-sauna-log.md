@@ -3017,4 +3017,10 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 ## 2026-10-20 — 時間帯・天気による水底の網目の減光
 
 - 改善候補1への承認に基づく。疑似コースティクス（元の発光）は時間帯によらず一定で、夕夜は露出が開く分だけ昼より明るい網目がタイル模様のように見えていた。`caustics.ts` の `causticLight()` で昼1・夕0.22・夜0.06、曇天（雨・雪）で0.3倍にし、共有uniform `suiCausticLight` で渡す。Blender照合の強さの関数は変えていない。
-- `plunge-woodland.visual.ts` で変更前distとABBA撮影（80 PNG、再撮影差0画素）。昼は変化0、夕は7〜14%・夜は10〜17%の画素が8階調超で変化。外気浴は0〜0.4%。型検査・461単体テスト・Lint・整形・ビルド、`caustics`・`scene-no-hdr`・`scene-lifecycle` の24回帰が成功。遅延3Dチャンク925.08kB（gzip 約253.8kB）。雨雪の水風呂の撮影・費用計測・実機は未実行。寝椅子灯の水底の像（Cyclesにもある）は変更していない。記録は [caustic-light](3d-qa/caustic-light/README.md)。
+- `plunge-woodland.visual.ts` で変更前distとABBA撮影（80 PNG、再撮影差0画素）。昼は変化0、夕は7〜14%・夜は10〜17%の画素が8階調超で変化。外気浴は0〜0.4%。型検査・459単体テスト・Lint・整形・ビルド、`caustics`・`scene-no-hdr`・`scene-lifecycle` の24回帰が成功。遅延3Dチャンク925.08kB（gzip 256.90kB）。雨雪の水風呂の撮影・費用計測・実機は未実行。寝椅子灯の水底の像（Cyclesにもある）は変更していない。記録は [caustic-light](3d-qa/caustic-light/README.md)。
+
+## 2026-10-20 — 水面に映る寝椅子灯の像のぼかし
+
+- 利用者の依頼に基づく。夕夜の水風呂に、輪郭のくっきりしたクリーム色の像が切り絵のように載っていた。最初は水底の部分反射（`waterBottom.ts`）が正体と見てその縁と縁石の切れ目をぼかしたが、像はほぼ変わらなかった。その経路の寝椅子灯を0にしても像が残ったため、正体は水面の鏡像に写る光沢専用の面光源（`glossyLights.ts`）と分かり、水底の変更は取り消した。
+- `glossyLights.ts` の `SOFT_GLOSSY`：`V10 lounge dusk fill` の円盤を半径の1.8倍まで描き、0.6倍の内側は一定、その外は0.25倍ごとに1/eで落とす。電力は元のまま（1.29倍）。縁石など遮蔽物の輪郭は鋭いまま。
+- `plunge-woodland.visual.ts` でHEAD（`4f08d22`）のdistとABBA撮影（80 PNG、再撮影差0画素）。8階調超の変化は水風呂の昼1.3〜2.5%（昼の弱い同じ灯りの淡い像）、夕夜1.9〜3.8%、外気浴0%。型検査・460単体テスト・Lint・整形・ビルド、`caustics`・`scene-no-hdr`・`scene-lifecycle` の24回帰が成功。遅延3Dチャンク925.90kB（gzip 257.20kB）。費用計測・見回し中・実機は未実行。Cycles参照との差はこの分広がる。記録は [lounge-glow](3d-qa/lounge-glow/README.md)。

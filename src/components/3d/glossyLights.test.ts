@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { GLOSSY_SOURCES, areaRadiance, createGlossyLights, sourceArea } from './glossyLights';
+import {
+  GLOSSY_SOURCES,
+  SOFT_GLOSSY,
+  areaRadiance,
+  createGlossyLights,
+  softProfile,
+  softScale,
+  sourceArea,
+} from './glossyLights';
 import { MIRROR_LAYER } from './planarReflection';
 
 describe('glossy-only area lights', () => {
@@ -25,7 +33,7 @@ describe('glossy-only area lights', () => {
       c = new THREE.Vector3(),
       normal = new THREE.Vector3();
     let triangle = 0;
-    for (const [, size, color, dayWatts, eveningWatts, center, , direction] of GLOSSY_SOURCES) {
+    for (const [name, size, color, dayWatts, eveningWatts, center, , direction] of GLOSSY_SOURCES) {
       const area = sourceArea(size);
       let summed = 0;
       const centroid = new THREE.Vector3();
@@ -42,12 +50,45 @@ describe('glossy-only area lights', () => {
         expect(day.getX(3 * triangle)).toBeCloseTo(areaRadiance(dayWatts, color, area)[0], 4);
         expect(evening.getZ(3 * triangle + 2)).toBeCloseTo(areaRadiance(eveningWatts, color, area)[2], 4);
       }
-      expect(summed).toBeCloseTo(area, 5);
+      // A blurred disk is drawn out to its reach.
+      expect(summed).toBeCloseTo(area * (SOFT_GLOSSY[name]?.reach ?? 1) ** 2, 5);
       expect(centroid.divideScalar(3 * count).distanceTo(new THREE.Vector3().fromArray(center))).toBeLessThan(1e-4);
     }
     expect(triangle * 3).toBe(position.count);
     update(0.25);
     expect(mesh.material.uniforms.evening.value).toBe(0.25);
+  });
+
+  it('blurs the lounge dusk fill keeping its power', () => {
+    const soft = SOFT_GLOSSY['V10 lounge dusk fill'];
+    expect(softProfile(soft, soft.core * 0.9)).toBe(1);
+    expect(softProfile(soft, soft.core + soft.falloff)).toBeCloseTo(Math.exp(-1), 6);
+    expect(softProfile(soft, soft.reach * 0.999)).toBeLessThan(0.01);
+    expect(softProfile(soft, soft.reach)).toBe(0);
+    // The profile times the scale integrates to the unit disk's area.
+    const steps = 4000;
+    let power = 0;
+    for (let i = 0; i < steps; i++) {
+      const r = ((i + 0.5) / steps) * soft.reach;
+      power += 2 * Math.PI * r * softProfile(soft, r) * softScale(soft) * (soft.reach / steps);
+    }
+    expect(power).toBeCloseTo(Math.PI, 3);
+    // Brighter than the sharp disk at its center, to keep the power.
+    expect(softScale(soft)).toBeGreaterThan(1);
+    const { mesh } = createGlossyLights();
+    const softness = mesh.geometry.attributes.softness;
+    const local = mesh.geometry.attributes.local;
+    let blurred = 0;
+    for (let i = 0; i < softness.count; i++) {
+      if (softness.getY(i) === 0) {
+        expect(softness.getZ(i)).toBe(1);
+        continue;
+      }
+      blurred++;
+      expect(softness.getZ(i)).toBeCloseTo(softScale(soft), 6);
+      expect(Math.hypot(local.getX(i), local.getY(i))).toBeLessThan(soft.reach * 1.01);
+    }
+    expect(blurred).toBe(3 * 32);
   });
 
   it('lies on a layer the mirror camera renders and the main camera does not', () => {

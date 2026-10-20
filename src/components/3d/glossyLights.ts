@@ -105,22 +105,52 @@ export const areaRadiance = (watts: number, color: readonly number[], area: numb
 
 const DISK_SEGMENTS = 32;
 
+/**
+ * Not in the source: disks whose mirrored image is blurred. The lounge dusk fill (a 2 m disk) lay on
+ * the dusk and night water as a sharp cream shape, which read as a cutout. Its radiance is full
+ * inside `core` (relative to the radius), falls by e every `falloff` beyond it and is drawn out to
+ * `reach` (under 1% there), scaled so the disk emits the source's power.
+ */
+export const SOFT_GLOSSY: Record<string, { core: number; falloff: number; reach: number }> = {
+  'V10 lounge dusk fill': { core: 0.6, falloff: 0.25, reach: 1.8 },
+};
+/** The blurred profile at `r` (relative to the radius), before the scale that keeps the power. */
+export const softProfile = ({ core, falloff, reach }: { core: number; falloff: number; reach: number }, r: number) =>
+  r < reach ? Math.exp(-Math.max(0, r - core) / falloff) : 0;
+/** The scale that keeps a blurred disk's power: its profile integrated over the plane, per unit disk. */
+export function softScale(soft: { core: number; falloff: number; reach: number }) {
+  const steps = 2000;
+  let sum = 0;
+  for (let i = 0; i < steps; i++) {
+    const r = ((i + 0.5) / steps) * soft.reach;
+    sum += 2 * r * softProfile(soft, r) * (soft.reach / steps);
+  }
+  return 1 / sum;
+}
+
 export function createGlossyLights() {
   const positions: number[] = [];
   const day: number[] = [];
   const evening: number[] = [];
   const sunlit: number[] = [];
+  // The point in the light's plane relative to its radius, and core, falloff and scale (0, 0, 1 when sharp).
+  const local: number[] = [];
+  const softness: number[] = [];
   const basis = new THREE.Matrix4();
   const x = new THREE.Vector3(),
     y = new THREE.Vector3(),
     n = new THREE.Vector3();
   for (const [name, size, color, dayWatts, eveningWatts, position, axis, direction] of GLOSSY_SOURCES) {
+    const soft = SOFT_GLOSSY[name];
+    const blur = soft ? [soft.core, soft.falloff, softScale(soft)] : [0, 0, 1];
     // The polygon keeps the disk's area, so it emits the same power.
     const shape =
       size.length === 2
         ? new THREE.PlaneGeometry(size[0], size[1])
         : new THREE.CircleGeometry(
-            (size[0] / 2) * Math.sqrt((2 * Math.PI) / (DISK_SEGMENTS * Math.sin((2 * Math.PI) / DISK_SEGMENTS))),
+            (size[0] / 2) *
+              (soft?.reach ?? 1) *
+              Math.sqrt((2 * Math.PI) / (DISK_SEGMENTS * Math.sin((2 * Math.PI) / DISK_SEGMENTS))),
             DISK_SEGMENTS,
           );
     // The geometry's front (+Z) faces where the light shines.
@@ -128,7 +158,10 @@ export function createGlossyLights() {
     x.fromArray(axis).normalize();
     y.crossVectors(n, x);
     basis.makeBasis(x, y, n).setPosition(position[0], position[1], position[2]);
-    const flat = shape.toNonIndexed().applyMatrix4(basis);
+    const flat = shape.toNonIndexed();
+    const plane = flat.attributes.position;
+    for (let i = 0; i < plane.count; i++) local.push(plane.getX(i) / (size[0] / 2), plane.getY(i) / (size[0] / 2));
+    flat.applyMatrix4(basis);
     shape.dispose();
     const area = sourceArea(size);
     const radiance = [areaRadiance(dayWatts, color, area), areaRadiance(eveningWatts, color, area)];
@@ -138,6 +171,7 @@ export function createGlossyLights() {
       day.push(...radiance[0]);
       evening.push(...radiance[1]);
       sunlit.push(name === 'V9 lounge patch of sunlight' ? 1 : 0);
+      softness.push(...blur);
     }
     flat.dispose();
   }
@@ -147,20 +181,26 @@ export function createGlossyLights() {
   geometry.setAttribute('eveningRadiance', new THREE.Float32BufferAttribute(evening, 3));
   // The sunlight patch (V9), which the rain's overcast puts out.
   geometry.setAttribute('sunlit', new THREE.Float32BufferAttribute(sunlit, 1));
+  geometry.setAttribute('local', new THREE.Float32BufferAttribute(local, 2));
+  geometry.setAttribute('softness', new THREE.Float32BufferAttribute(softness, 3));
   const amount = { value: 0 };
   const sunlight = { value: 1 };
   const material = new THREE.ShaderMaterial({
     uniforms: { evening: amount, sunlight },
     vertexShader: `attribute vec3 dayRadiance; attribute vec3 eveningRadiance; attribute float sunlit;
+      attribute vec2 local; attribute vec3 softness;
       uniform float evening; uniform float sunlight;
-      varying vec3 vRadiance;
+      varying vec3 vRadiance; varying vec2 vLocal; varying vec3 vSoftness;
       void main() {
         vRadiance = mix(dayRadiance * mix(1.0, sunlight, sunlit), eveningRadiance, evening);
+        vLocal = local;
+        vSoftness = softness;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }`,
-    fragmentShader: `varying vec3 vRadiance;
+    fragmentShader: `varying vec3 vRadiance; varying vec2 vLocal; varying vec3 vSoftness;
       void main() {
-        gl_FragColor = vec4(vRadiance, 1.0);
+        float soft = vSoftness.y > 0.0 ? exp(-max(0.0, length(vLocal) - vSoftness.x) / vSoftness.y) : 1.0;
+        gl_FragColor = vec4(vRadiance * soft * vSoftness.z, 1.0);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
