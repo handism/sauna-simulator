@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { CROWN_NORMAL_WEIGHT, crownShade, crownTint, roundWoodlandCrowns } from './crownNormals';
+import {
+  CROWN_NORMAL_WEIGHT,
+  WOODLAND_ALBEDO,
+  WOODLAND_ROUGHNESS,
+  crownShade,
+  crownTint,
+  roundWoodlandCrowns,
+} from './crownNormals';
 import type { CrownFootprint } from './forestFloor';
 import { splitEvergreenWoodland } from './evergreenWoodland';
 
@@ -77,6 +84,21 @@ describe('woodland crown normals', () => {
     root.traverse((object) => {
       if (object instanceof THREE.Mesh && /leaf/.test((object.material as THREE.Material).name))
         expect((object.material as THREE.MeshStandardMaterial).defines?.SUI_CROWN_NORMAL).toBe('');
+    });
+  });
+
+  it('lightens and roughens the summer leaves once, before the evergreens copy them', () => {
+    const { root, leaves } = woodland();
+    const material = leaves.material as THREE.MeshStandardMaterial;
+    const before = material.color.clone();
+    roundWoodlandCrowns(root);
+    expect(material.color.g).toBeCloseTo(before.g * WOODLAND_ALBEDO, 6);
+    expect(material.color.r / material.color.g).toBeCloseTo(before.r / before.g, 6);
+    expect(material.roughness).toBe(WOODLAND_ROUGHNESS);
+    splitEvergreenWoodland(root);
+    root.traverse((object) => {
+      if (object instanceof THREE.Mesh && /leaf/.test((object.material as THREE.Material).name))
+        expect((object.material as THREE.MeshStandardMaterial).roughness).toBe(WOODLAND_ROUGHNESS);
     });
   });
 

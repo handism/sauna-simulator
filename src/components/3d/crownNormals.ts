@@ -4,6 +4,14 @@ import type { CrownFootprint } from './forestFloor';
 
 /** Share of a card's shading normal taken from its crown's rounded shape (the rest is the card's own). */
 export const CROWN_NORMAL_WEIGHT = 0.9;
+/**
+ * Not in the source: the woodland leaves' summer color scale and roughness. The source's cards are
+ * a dark green (linear green 0.065–0.157, under half the maple's) with a glossy roughness of 0.54;
+ * without the light a canopy scatters through its leaves, the crowns read as dark specks under a
+ * blue-grey sheen of the sky even on their sunlit tops. The spring and autumn colors are their own.
+ */
+export const WOODLAND_ALBEDO = 1.7;
+export const WOODLAND_ROUGHNESS = 0.8;
 /** Least half extent of a crown (m), so a narrow crown does not shade like a blade. */
 const MIN_EXTENT = 0.6;
 
@@ -177,6 +185,9 @@ export function roundWoodlandCrowns(root: THREE.Object3D, footprints?: CrownFoot
     normal.needsUpdate = true;
     geometry.setAttribute('suiCrownTint', color);
     const material = mesh.material as THREE.MeshStandardMaterial;
+    // Before the evergreens copy it and the seasons keep it as the summer color.
+    material.color.multiplyScalar(WOODLAND_ALBEDO);
+    material.roughness = WOODLAND_ROUGHNESS;
     material.defines = { ...material.defines, SUI_CROWN_NORMAL: '', SUI_CROWN_TINT: '' };
     material.needsUpdate = true;
   });
