@@ -360,6 +360,7 @@ export default function SaunaScene({
         prepare(gltf.scene);
         gardenDetails.finishPreparation();
         gardenDetails.update(0, seasonRef.current, lighting.time, weatherRef.current, reducedMotion.matches);
+        lighting.irradiance.suiAirColor.value.copy(gardenDetails.airColor);
         const waterEffects = createWaterEffects(definition.water, lighting.irradiance, mirrorUniforms, waterTime);
         // After every material change: the mirrored images copy the finished materials.
         const sideImages = addSideImages(gltf.scene, definition.water.center[1], waterEffects.time);
@@ -718,6 +719,7 @@ export default function SaunaScene({
             lighting.clouds,
             lighting.overcast,
           );
+          lighting.irradiance.suiAirColor.value.copy(gardenDetails.airColor);
           mirrorState[5] = reducedMotion.matches ? 0 : Math.floor(now / 125);
           setData('gardenDetails', 'ready');
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);

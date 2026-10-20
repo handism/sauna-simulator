@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { Season } from './season';
+import { AIR_GLSL } from './aerialPerspective';
 
 // A band of distant forest behind the woodland (radius 10–44m), in front of the ridges (72m and
 // beyond): the sky showed between the woodland's thin trunks and tufts down to the horizon, so it
@@ -297,8 +298,9 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;',
+        '#include <common>\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;\nvarying float vGardenAir;',
       )
+      .replace('#include <project_vertex>', '#include <project_vertex>\nvGardenAir = length(mvPosition.xyz);')
       .replace(
         '#include <begin_vertex>',
         '#include <begin_vertex>\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenPosition = position;',
@@ -314,7 +316,9 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         varying float vGardenTop;
         varying float vGardenEdge;
         varying vec3 vGardenPosition;
+        varying float vGardenAir;
         uniform vec3 gardenHazeColor;
+        ${AIR_GLSL}
         float gardenForestHash(vec2 p) {
           vec3 q = fract(p.xyx * 0.1031);
           q += dot(q, q.yzx + 33.33);
@@ -375,11 +379,14 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb *= mix(0.62, 1.0, vGardenLift);
         // Foreground remains darker and clearer; backing crowns recede into the air.
         diffuseColor.rgb *= mix(0.72, 1.0, vGardenDepth);
-        float haze = mix(0.025, 0.08, vGardenDepth) + mix(0.04, 0.14, vGardenDepth) * (1.0 - smoothstep(0.0, 9.0, vGardenPosition.y));
+        // The same air as the lit woodland in front (aerialPerspective.ts), and mist at the foot.
+        float haze = suiAirAmount(vGardenAir);
+        // SUI_FAR_AIR_CONTROL
+        haze += mix(0.04, 0.14, vGardenDepth) * (1.0 - smoothstep(0.0, 9.0, vGardenPosition.y));
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v9';
+  material.customProgramCacheKey = () => 'garden-far-forest-v10';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();

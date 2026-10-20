@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 // Patches lights_fragment_begin first (suiWorldPosition, suiInterior, suiUnderwater).
 import './interiorLights';
+import { createAirUniforms } from './aerialPerspective';
 import { createSeasonLightUniforms } from './seasonalLight';
 
 // Diffuse light that the browser does not draw itself, baked from the source Cycles scenes by
@@ -42,6 +43,7 @@ export interface IrradianceHeader {
 export function createIrradianceUniforms() {
   return {
     ...createSeasonLightUniforms(),
+    ...createAirUniforms(),
     // Irradiance and reflection (reflection.ts) of one grid share a texture: a fragment shader
     // has 16 texture units, and the seven shadow maps and material maps need most of them.
     suiProbeRoom: { value: null as THREE.Data3DTexture | null },

@@ -251,7 +251,8 @@ export function addGardenDetails(root: THREE.Object3D) {
     }
   });
   // An incomplete or substitute model must not receive floating decorations.
-  if (!terrain.length) return { tuckedGrass: 0, meadowBlades: 0, finishPreparation() {}, update() {} };
+  if (!terrain.length)
+    return { tuckedGrass: 0, meadowBlades: 0, airColor: new THREE.Color(), finishPreparation() {}, update() {} };
   const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
   const ground = (x: number, z: number) => {
     ray.ray.origin.set(x, 25, z);
@@ -848,6 +849,8 @@ export function addGardenDetails(root: THREE.Object3D) {
     tuckedGrass,
     /** Short blades on the meadow (meadowGrass.ts). */
     meadowBlades: meadow.blades,
+    /** The air's color by time and weather (set by update), for the lit surfaces too (aerialPerspective.ts). */
+    airColor: hazeColor.value,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
     finishPreparation() {
       for (const mesh of [...hills, farForest.mesh, stream, shade, pool, ...movingGrass, ...lamps, meadowMesh])
