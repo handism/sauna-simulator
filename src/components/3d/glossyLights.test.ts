@@ -5,8 +5,11 @@ import {
   SOFT_GLOSSY,
   areaRadiance,
   createGlossyLights,
+  softDistance,
+  softInner,
   softProfile,
   softScale,
+  softUnit,
   sourceArea,
 } from './glossyLights';
 import { MIRROR_LAYER } from './planarReflection';
@@ -50,8 +53,10 @@ describe('glossy-only area lights', () => {
         expect(day.getX(3 * triangle)).toBeCloseTo(areaRadiance(dayWatts, color, area)[0], 4);
         expect(evening.getZ(3 * triangle + 2)).toBeCloseTo(areaRadiance(eveningWatts, color, area)[2], 4);
       }
-      // A blurred disk is drawn out to its reach.
-      expect(summed).toBeCloseTo(area * (SOFT_GLOSSY[name]?.reach ?? 1) ** 2, 5);
+      // A blurred light is drawn out to its reach: a disk scaled, a rectangle grown on each side.
+      const reach = SOFT_GLOSSY[name]?.reach ?? 1;
+      const grow = 2 * softUnit(size) * (reach - 1);
+      expect(summed).toBeCloseTo(size.length === 2 ? (size[0] + grow) * (size[1] + grow) : area * reach ** 2, 5);
       expect(centroid.divideScalar(3 * count).distanceTo(new THREE.Vector3().fromArray(center))).toBeLessThan(1e-4);
     }
     expect(triangle * 3).toBe(position.count);
@@ -78,17 +83,57 @@ describe('glossy-only area lights', () => {
     const { mesh } = createGlossyLights();
     const softness = mesh.geometry.attributes.softness;
     const local = mesh.geometry.attributes.local;
+    const boxes = mesh.geometry.attributes.inner;
     let blurred = 0;
     for (let i = 0; i < softness.count; i++) {
       if (softness.getY(i) === 0) {
         expect(softness.getZ(i)).toBe(1);
         continue;
       }
+      // The water strip, a rectangle, is checked below.
+      if (boxes.getX(i) !== 0) continue;
       blurred++;
       expect(softness.getZ(i)).toBeCloseTo(softScale(soft), 6);
       expect(Math.hypot(local.getX(i), local.getY(i))).toBeLessThan(soft.reach * 1.01);
     }
     expect(blurred).toBe(3 * 32);
+  });
+
+  it('blurs the water strip from a rounded rectangle keeping its power', () => {
+    const size = [2.2, 1.6];
+    const soft = SOFT_GLOSSY['V7 water reflection soft strip'];
+    const inner = softInner(size);
+    expect(softUnit(size)).toBeCloseTo(0.8, 6);
+    expect(inner[0]).toBeCloseTo(0.375, 6);
+    expect(inner[1]).toBe(0);
+    // Full inside the inset rectangle, falling beyond it along both axes alike.
+    expect(softProfile(soft, softDistance(inner, inner[0] + soft.core * 0.9, 0))).toBe(1);
+    expect(softProfile(soft, softDistance(inner, 0, soft.core + soft.falloff))).toBeCloseTo(Math.exp(-1), 6);
+    // The profile times the scale integrates to the sharp rectangle's area (in units), on a grid.
+    const steps = 800;
+    const half = inner.map((h) => h + soft.reach);
+    let power = 0;
+    for (let i = 0; i < steps; i++) {
+      for (let j = 0; j < steps; j++) {
+        const x = ((i + 0.5) / steps) * half[0];
+        const y = ((j + 0.5) / steps) * half[1];
+        power += softProfile(soft, softDistance(inner, x, y));
+      }
+    }
+    power *= ((4 * half[0] * half[1]) / steps ** 2) * softScale(soft, size);
+    expect(power).toBeCloseTo((2.2 * 1.6) / 0.8 ** 2, 2);
+    const { mesh } = createGlossyLights();
+    const softness = mesh.geometry.attributes.softness;
+    const boxes = mesh.geometry.attributes.inner;
+    let strip = 0;
+    for (let i = 0; i < softness.count; i++) {
+      if (softness.getY(i) === 0 || boxes.getX(i) === 0) continue;
+      strip++;
+      expect(boxes.getX(i)).toBeCloseTo(0.375, 6);
+      expect(softness.getZ(i)).toBeCloseTo(softScale(soft, size), 6);
+      expect(softness.getW(i)).toBeCloseTo(soft.reach, 6);
+    }
+    expect(strip).toBe(6);
   });
 
   it('lies on a layer the mirror camera renders and the main camera does not', () => {

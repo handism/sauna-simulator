@@ -23,6 +23,11 @@ test('capture all seated views for manual geometry and lighting review', async (
   await expect(scene).toHaveAttribute('data-garden', 'ready', { timeout: 20_000 });
   const original = await canvas.elementHandle();
   await chooseSceneSetting(page, '3Dの画質', 'standard');
+  // Optional season/weather passes; the defaults keep the summer/clear survey.
+  const season = process.env.SURVEY_SEASON ?? 'summer';
+  const weather = process.env.SURVEY_WEATHER ?? 'clear';
+  if (season !== 'summer') await chooseSceneSetting(page, '3Dの季節', season);
+  if (weather !== 'clear') await chooseSceneSetting(page, '天気', weather);
   const press = async (key: string, count: number) => {
     await scene.focus();
     for (let n = 0; n < count; n++) await page.keyboard.press(key);
@@ -97,6 +102,8 @@ test('capture all seated views for manual geometry and lighting review', async (
         viewport: page.viewportSize(),
         deviceScaleFactor: 1,
         quality: 'standard',
+        season,
+        weather,
         reducedMotion: true,
         muted: true,
         hashes,

@@ -3031,3 +3031,9 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 林のカードだけ影を受けない一時ビルドでも見え方はほぼ同じで、影は主因ではなかった。元の葉の色はリニアの緑0.065〜0.157（モミジの半分以下）、粗さ0.54。光沢を抑えた案（粗さ0.8）で青みが減り、色を1.7倍にした案で日なたが緑の塊として読めた。
 - `crownNormals.ts` の `WOODLAND_ALBEDO`（1.7）・`WOODLAND_ROUGHNESS`（0.8）として、`roundWoodlandCrowns()` で常緑の分割・季節色の登録より前に適用する。
 - `plunge-woodland.visual.ts` でHEAD（`341a885`）のdistとABBA撮影（80 PNG、再撮影差0画素）。8階調超の変化は外気浴の昼5〜7%・夕4〜5%・夜1〜2%・秋5%・冬2%、水風呂の既定視点1〜6%。型検査・461単体テスト・Lint・整形・ビルド、`season`・`garden-details` の9回帰が成功。遅延3Dチャンク925.95kB（gzip 257.23kB）。空を背にした輪郭の粒・奥の帯の平面感は残る。費用は材質の値だけで変わらない見込み（未計測）。見回し中・実機は未確認。記録は [woodland-albedo](3d-qa/woodland-albedo/README.md)。
+
+## 2026-10-20 — 水面に映るV7の帯のぼかし
+
+- 利用者の依頼に基づく。季節・天気の全周撮影（6条件×216枚、`scene-survey.visual.ts` に `SURVEY_SEASON`・`SURVEY_WEATHER` を追加）の目視で、夕夜の水風呂の見下ろしに縁の硬い灰色の板が浮いていた。低画質（鏡像なし）で消えることから、水面の鏡像に写る光沢専用の面光源 `V7 water reflection soft strip` と特定。Cycles参照にも同じ形で写る元シーンの再現。
+- `glossyLights.ts` の `SOFT_GLOSSY` を長方形へ一般化し（短い辺の半分を単位に、長い方向の余りの箱からの角の丸い距離）、V7に `core 0.7, falloff 0.25, reach 1.6`（中心1.26倍）。最初の `core 0.5, falloff 0.3` は中心1.62倍で夜に光の玉として浮いたため採らなかった。
+- 全周撮影の前後比較（HEAD `84fee52`、夏・晴れ216枚）で、3D描画の変化は水風呂の見下ろし20枚だけ（昼0.01〜5.7%、夕夜1.7〜9.2%）。`plunge-woodland.visual.ts` のABBA（再撮影差0画素）。型検査・462単体テスト・Lint・整形・ビルド、`caustics`・`scene-no-hdr`・`scene-lifecycle` の24回帰が成功。遅延3Dチャンク926.42kB（gzip 257.42kB）。費用計測・見回し中・実機は未実行。昼の水底の白い円（V9）は変えていない。記録は [water-strip-glow](3d-qa/water-strip-glow/README.md)。
