@@ -7,6 +7,20 @@ export const CROWN_FILL_COPIES = 1;
  * beside them (same UVs and normals, so each copy is lit like its card), without new draws.
  * Only four-vertex islands are eligible; shared/continuous meshes are left untouched.
  */
+/** The shortest axis-aligned shift that takes `bounds` clear of `excluded` (zero when apart). */
+function clearance(bounds: THREE.Box3, excluded: THREE.Box3, out: THREE.Vector3) {
+  out.set(0, 0, 0);
+  if (!excluded.intersectsBox(bounds)) return out;
+  let best = Infinity;
+  for (const axis of ['x', 'y', 'z'] as const)
+    for (const shift of [excluded.max[axis] - bounds.min[axis], excluded.min[axis] - bounds.max[axis]])
+      if (Math.abs(shift) < best) {
+        best = Math.abs(shift);
+        out.set(0, 0, 0)[axis] = shift + Math.sign(shift) * 1e-3;
+      }
+  return out;
+}
+
 export function broadenWoodlandCards(geometry: THREE.BufferGeometry, excluded?: THREE.Box3) {
   if (geometry.userData.suiBroadenedCrowns) return;
   const position = geometry.getAttribute('position');
@@ -48,6 +62,7 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry, excluded?: 
   const inward = new THREE.Vector3();
   const scatter = new THREE.Vector3();
   const copyBounds = new THREE.Box3();
+  const shift = new THREE.Vector3();
   const shadingNormal = geometry.getAttribute('normal');
   const shortAxis = new THREE.Vector3();
   const longAxis = new THREE.Vector3();
@@ -100,6 +115,19 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry, excluded?: 
       point.multiplyScalar(scale).add(center);
       position.setXYZ(i, point.x, point.y, point.z);
     }
+    // A few exported cards at the eaves already dip through the roof into the room: move
+    // those (and the copies anchored on them) out by the shallowest side.
+    if (excluded) {
+      copyBounds.makeEmpty();
+      for (const i of vertices) copyBounds.expandByPoint(point.fromBufferAttribute(position, i));
+      if (clearance(copyBounds, excluded, shift).lengthSq()) {
+        for (const i of vertices) {
+          point.fromBufferAttribute(position, i).add(shift);
+          position.setXYZ(i, point.x, point.y, point.z);
+        }
+        center.add(shift);
+      }
+    }
     a.fromBufferAttribute(position, vertices[0]);
     b.fromBufferAttribute(position, vertices[1]);
     c.fromBufferAttribute(position, vertices[2]);
@@ -149,6 +177,11 @@ export function broadenWoodlandCards(geometry: THREE.BufferGeometry, excluded?: 
           point.add(center).add(scatter);
           copies.push(point.x, point.y, point.z);
         }
+        // The old scatter can still reach in from a card at the eaves.
+        copyBounds.makeEmpty();
+        for (let k = start; k < copies.length; k += 3) copyBounds.expandByPoint(point.fromArray(copies, k));
+        clearance(copyBounds, excluded, shift);
+        for (let k = start; k < copies.length; k += 3) point.fromArray(copies, k).add(shift).toArray(copies, k);
       }
     }
   }

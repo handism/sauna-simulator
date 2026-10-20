@@ -113,6 +113,8 @@ describe('woodland crown cards', () => {
     const bounds = new THREE.Box3();
     for (let i = 4; i < 8; i++)
       bounds.expandByPoint(new THREE.Vector3().fromBufferAttribute(inward.attributes.position, i));
+    // Clear of the card itself (x ≥ 2.81 after broadening), which would otherwise be moved out.
+    bounds.max.x = Math.min(bounds.max.x, 2.7);
     const protectedCard = make(1);
     broadenWoodlandCards(protectedCard, bounds);
     const oldScatter = make(0); // No normal direction: the original random placement.
@@ -122,6 +124,21 @@ describe('woodland crown cards', () => {
     );
     expect(Array.from(inward.attributes.position.array)).not.toEqual(Array.from(oldScatter.attributes.position.array));
     for (const geometry of [inward, protectedCard, oldScatter]) geometry.dispose();
+  });
+
+  it('moves cards that already reach into the protected room out of it, with their copies', () => {
+    // A card at the eaves dipping 0.3 below the room's top.
+    const geometry = new THREE.PlaneGeometry(1, 1).translate(0, 3.2, 0);
+    const room = new THREE.Box3(new THREE.Vector3(-3, 0, -3), new THREE.Vector3(3, 3, 3));
+    broadenWoodlandCards(geometry, room);
+    const p = geometry.attributes.position;
+    expect(p.count).toBe(8);
+    for (let card = 0; card < 2; card++) {
+      const bounds = new THREE.Box3();
+      for (let i = 4 * card; i < 4 * card + 4; i++) bounds.expandByPoint(new THREE.Vector3().fromBufferAttribute(p, i));
+      expect(room.intersectsBox(bounds)).toBe(false);
+    }
+    geometry.dispose();
   });
 
   it('leaves continuous meshes intact', () => {
