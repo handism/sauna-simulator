@@ -94,6 +94,8 @@ export function isolateRoomReceivers(root: THREE.Object3D) {
     geometry.setIndex(kept);
     const material = (mesh.material as THREE.MeshStandardMaterial).clone();
     material.userData.suiRoomReceiver = true;
+    // Boards, seams and contact shadows on the floor (surfaceDetails.ts).
+    if (floor) material.defines = { ...material.defines, SUI_ROOM_FLOOR: '' };
     const receiver = new THREE.Mesh(receiverGeometry, material);
     receiver.name = floor ? 'Sauna floor irradiance receiver' : 'Sauna cedar irradiance receiver';
     receiver.castShadow = mesh.castShadow;

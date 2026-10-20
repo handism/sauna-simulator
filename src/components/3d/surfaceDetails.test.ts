@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { applySurfaceDetails, patchSurfaceDetailShader, surfaceDetailOf } from './surfaceDetails';
+import { applySurfaceDetails, patchSurfaceDetailShader, ROOM_FLOOR, surfaceDetailOf } from './surfaceDetails';
 import { applyWinterSnow } from './winterSnow';
 
 describe('deck, stone and procedural flat-color surface details', () => {
@@ -52,6 +52,23 @@ describe('deck, stone and procedural flat-color surface details', () => {
       material.dispose();
     },
   );
+
+  it('lays the room floor boards and contact shadows only under SUI_ROOM_FLOOR', () => {
+    const shader = {
+      vertexShader: THREE.ShaderLib.standard.vertexShader,
+      fragmentShader: THREE.ShaderLib.standard.fragmentShader,
+    };
+    patchSurfaceDetailShader(shader, 'deck');
+    const fragment = shader.fragmentShader;
+    const boards = fragment.indexOf('#ifdef SUI_ROOM_FLOOR');
+    expect(boards).toBeGreaterThan(-1);
+    // Before the grain reads the board's seed, inside the define.
+    expect(boards).toBeLessThan(fragment.indexOf('float suiBend'));
+    expect(fragment.indexOf('suiBoardSeed = suiSurfaceHash')).toBeGreaterThan(boards);
+    expect(fragment.indexOf('suiBoardSeed = suiSurfaceHash')).toBeLessThan(fragment.indexOf('#endif', boards));
+    for (const { center } of [ROOM_FLOOR.stove, ROOM_FLOOR.pail])
+      expect(fragment).toContain(`vec2(${center[0].toFixed(4)}, ${center[1].toFixed(4)})`);
+  });
 
   it('rejects incompatible shader chunks', () => {
     expect(() => patchSurfaceDetailShader({ vertexShader: '', fragmentShader: '' }, 'deck')).toThrow('shader chunks');

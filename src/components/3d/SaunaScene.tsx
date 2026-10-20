@@ -20,7 +20,7 @@ import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
 import { updateSeasonLight } from './seasonalLight';
 import { createRain } from './rain';
-import { applyRainWetness } from './rainWetness';
+import { applyRainWetness, DECK_LEVEL, deckMirrorSurface } from './rainWetness';
 import { createFrameMetrics } from './frameMetrics';
 import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
 import { attachLookControls } from './lookControls';
@@ -71,6 +71,9 @@ const STAGE_LABELS: Record<AmbientEnv, string> = { sauna: 'サウナ', water: '�
 // the seat, and in the rest area the scenery below the pergola beam that crossed the stage heading.
 // ?camera=review keeps the review cameras as they are, for the captures paired with Cycles renders.
 const STAGE_PITCH: Record<AmbientEnv, number> = { sauna: -0.18, water: -0.24, totonou: -0.18 };
+// The deck's mirror (rainWetness.ts) at this fraction of the water's (quality.ts): the wet film
+// blurs it, and the puddles are small.
+const DECK_MIRROR_SCALE = 0.5;
 
 export default function SaunaScene({
   quality,
@@ -181,6 +184,12 @@ export default function SaunaScene({
     const mirrorUniforms = createMirrorUniforms();
     let mirror: PlanarReflection | null = null;
     const mirrorState = [0, 0, 0, 0, 0, 0];
+    // The deck's mirror for the wet deck and stones, drawn while it rains (rainWetness.ts). Its
+    // image keeps the moving grass and stream still (no motion key): the film blurs it anyway.
+    const deckMirrorUniforms = createMirrorUniforms();
+    let deckMirror: PlanarReflection | null = null;
+    const deckMirrorState = [0, 0, 0, 0, 0];
+    const deckSurface = deckMirrorSurface();
     const seasonColors = createSeasonColors();
     const forestFloor = createForestFloor();
     // Follows the rain's weight: the surfaces dry as it eases off (rainWetness.ts).
@@ -244,6 +253,7 @@ export default function SaunaScene({
       lighting.setShadowSize(preset.shadowSize);
       lighting.setDuskLights(preset.duskLights);
       mirror?.setScale(preset.mirror);
+      deckMirror?.setScale(preset.mirror * DECK_MIRROR_SCALE);
       output.setTemporal(temporal && preset.temporal);
       setData('temporal', output.hdr && temporal && preset.temporal ? 'on' : 'off');
       qualityIndex++;
@@ -338,7 +348,10 @@ export default function SaunaScene({
           // Before the seasons: the autumn leaves lie on the forest floor too.
           count('forestFloorMaterials', forestFloor.apply(root));
           seasonColors.add(root, seasonRef.current);
-          count('wetMaterials', applyRainWetness(root, wetness));
+          count(
+            'wetMaterials',
+            applyRainWetness(root, wetness, output.hdr ? { uniforms: deckMirrorUniforms, time: waterTime } : undefined),
+          );
           const refraction = applyRefraction(root, definition.water.center[1]);
           count('refractionMaterials', refraction.materials);
           count('refractionTriangles', refraction.triangles);
@@ -388,6 +401,19 @@ export default function SaunaScene({
             },
           );
           mirror.setScale(QUALITY[applied].mirror);
+          // Clipped just above the deck's top (and the paving's, 3 mm higher), which lie in the plane.
+          deckMirror = createPlanarReflection(
+            renderer,
+            DECK_LEVEL,
+            deckMirrorUniforms,
+            (view, width, height) => {
+              if (!masked()) return () => {};
+              shadowMask!.render(scene, view, width, height, 'mirror');
+              return () => shadowMask!.end();
+            },
+            DECK_LEVEL + 0.01,
+          );
+          deckMirror.setScale(QUALITY[applied].mirror * DECK_MIRROR_SCALE);
         }
         const forward = new THREE.Vector3();
         const upVector = new THREE.Vector3();
@@ -437,6 +463,17 @@ export default function SaunaScene({
             setData('mirrorCalls', String(reflected.calls));
             setData('mirrorTriangles', String(reflected.triangles));
             setData('mirrorSize', mirror.size);
+          }
+          if (deckMirror) {
+            if (lighting.rain > 0.001) {
+              for (let i = 0; i < deckMirrorState.length; i++) deckMirrorState[i] = mirrorState[i];
+              const reflected = deckMirror.render(scene, camera, deckSurface, deckMirrorState);
+              setData('deckMirrorCalls', String(reflected.calls));
+            } else {
+              deckMirrorUniforms.suiMirrorAmount.value = 0;
+              setData('deckMirrorCalls', '0');
+            }
+            setData('deckMirrorSize', lighting.rain > 0.001 ? deckMirror.size : '0x0');
           }
           // The shadows at half resolution (shadowMask.ts), read by the lit pass.
           if (masked()) {
@@ -767,6 +804,8 @@ export default function SaunaScene({
       releaseProbes();
       forestFloor.dispose();
       mirror?.dispose();
+      deckMirror?.dispose();
+      deckSurface.geometry.dispose();
       output.dispose();
       prepass.dispose();
       shadowMask?.dispose();

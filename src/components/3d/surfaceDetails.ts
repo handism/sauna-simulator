@@ -44,12 +44,54 @@ float suiSurfaceFilteredNoise(vec3 p) {
   return mix(suiSurfaceNoise(p), 0.5, smoothstep(0.35, 1.2, footprint));
 }
 `;
+// The sauna room's floor (SUI_ROOM_FLOOR, roomIrradiance.ts) is one exported slab with constant
+// texture coordinates, so neither boards nor seams showed. Lay boards along world Z like the deck
+// outside, with staggered end joints and dark box-filtered seams that fade to their mean coverage
+// once narrower than a pixel. Contact shadows darken the floor at the stove's and the pail's feet
+// (refine_loyly_props.py keeps their centers): no baked occlusion reaches there, as the room's fine
+// irradiance covers only the floor under the benches, and they stood on the floor without one.
+export const ROOM_FLOOR = {
+  minX: -6.17,
+  board: 0.145,
+  length: 2.4,
+  seam: 0.005,
+  stove: { center: [-1.25, -1.28], radius: 0.39, reach: 0.42, depth: 0.7 },
+  pail: { center: [-2.1, -1.74], radius: 0.2, reach: 0.15, depth: 0.55 },
+} as const;
+const g = (value: number) => value.toFixed(4);
+interface Contact {
+  center: readonly [number, number];
+  radius: number;
+  reach: number;
+  depth: number;
+}
+const contact = ({ center, radius, reach, depth }: Contact) =>
+  `${g(depth)} * pow2(1.0 - smoothstep(-0.04, ${g(reach)}, length(suiSurfaceP.xz - vec2(${g(center[0])}, ${g(center[1])})) - ${g(radius)}))`;
+const ROOM_BOARDS = /* glsl */ `
+  float suiSeam = 0.0;
+  float suiContact = 0.0;
+  #ifdef SUI_ROOM_FLOOR
+  if (abs(suiSurfaceP.y - 0.1) < 0.004 && vSuiSurfaceUp > 0.9) {
+    float suiAcross = (suiSurfaceP.x - ${g(ROOM_FLOOR.minX)}) / ${g(ROOM_FLOOR.board)};
+    float suiBoard = floor(suiAcross);
+    float suiAlong = suiSurfaceP.z / ${g(ROOM_FLOOR.length)} + suiSurfaceHash(vec3(suiBoard, 3.1, 7.7));
+    suiBoardSeed = suiSurfaceHash(vec3(suiBoard, floor(suiAlong), 1.3));
+    vec2 suiSeamDistance = (0.5 - abs(fract(vec2(suiAcross, suiAlong)) - 0.5)) * vec2(${g(ROOM_FLOOR.board)}, ${g(ROOM_FLOOR.length)});
+    vec2 suiPixel = max(fwidth(suiSurfaceP.xz), vec2(1e-5));
+    vec2 suiSeams = clamp((${g(ROOM_FLOOR.seam / 2)} + suiPixel * 0.5 - suiSeamDistance) / suiPixel, 0.0, 1.0)
+      * min(vec2(1.0), ${g(ROOM_FLOOR.seam)} / suiPixel);
+    suiSeam = max(suiSeams.x, suiSeams.y);
+    suiContact = max(${contact(ROOM_FLOOR.stove)}, ${contact(ROOM_FLOOR.pail)});
+  }
+  #endif
+`;
 const DECK = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;
   float suiBoardSeed = 0.5;
   #ifdef USE_COLOR
     suiBoardSeed = vColor.r;
   #endif
+  ${ROOM_BOARDS}
   // Deck planks run along world Z. Limit to their top near ground level;
   // the same exported ash material also appears on posts and overhead timber.
   float suiDeckTop = 1.0 - smoothstep(0.25, 0.45, abs(suiSurfaceP.y));
@@ -58,8 +100,9 @@ const DECK = /* glsl */ `
   float suiFiber = suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 390.0 + suiBend * 5.0, suiSurfaceP.z * 4.5, suiBoardSeed * 23.0));
   float suiDetail = (suiGrain - 0.5) * 0.30 + (suiFiber - 0.5) * 0.10;
   diffuseColor.rgb *= 1.0 + suiDeckTop * (suiDetail + (suiBoardSeed - 0.5) * 0.14);
-  float suiSurfaceRoughness = suiDeckTop * ((0.5 - suiGrain) * 0.12);
-  float suiSurfaceHeight = suiDeckTop * (suiGrain * 0.00022 + suiFiber * 0.00006);
+  diffuseColor.rgb *= (1.0 - 0.65 * suiSeam) * (1.0 - suiContact);
+  float suiSurfaceRoughness = suiDeckTop * ((0.5 - suiGrain) * 0.12) + suiSeam * 0.15;
+  float suiSurfaceHeight = suiDeckTop * (suiGrain * 0.00022 + suiFiber * 0.00006) - suiSeam * 0.002;
 `;
 const STONE = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;

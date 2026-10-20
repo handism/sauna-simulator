@@ -67,6 +67,9 @@ describe('room surface irradiance', () => {
     expect(receiver.geometry.getAttribute('position')).toBe(geometry.getAttribute('position'));
     expect(Array.from(receiver.geometry.index!.array)).toEqual([0, 1, 2]);
     expect(receiver.castShadow && receiver.receiveShadow).toBe(true);
+    // The floor's boards and contact shadows (surfaceDetails.ts); not the outdoor deck.
+    expect(receiver.material.defines?.SUI_ROOM_FLOOR).toBe('');
+    expect(material.defines?.SUI_ROOM_FLOOR).toBeUndefined();
     expect(isolateRoomReceivers(root)).toBe(0);
     const light = createRoomIrradiance(header, buffer());
     applyIrradiance(root, createIrradianceUniforms());

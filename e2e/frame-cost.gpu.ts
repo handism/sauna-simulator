@@ -26,6 +26,9 @@ const STAGES = [
 ] as const;
 
 async function enter(page: Page) {
+  // FRAME_COST_WEATHER=rain measures with the saved weather (the wet deck's mirror draws while it rains).
+  const weather = process.env.FRAME_COST_WEATHER;
+  if (weather) await page.addInitScript((value) => localStorage.setItem('sui-weather', value), weather);
   // At the set ratio: dynamic resolution would step down from it in the slower views.
   await page.goto(`?sound=off&quality&view=3d&frameRate=full&resolution=fixed${process.env.FRAME_COST_QUERY ?? ''}`);
   await page.getByRole('button', { name: '入室する', exact: true }).click();

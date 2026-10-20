@@ -110,6 +110,9 @@ export function createPlanarReflection(
   uniforms: PlanarReflectionUniforms,
   // Draws what the mirrored view needs before it (the shadow mask) and returns what ends it.
   beforeDraw: (camera: THREE.Camera, width: number, height: number) => () => void = () => () => {},
+  // Height of the near plane: above `level` when the mirroring surface is part of the scene (the
+  // deck's planks lie in their mirror's plane) rather than a surface hidden while drawing.
+  clip = level,
 ) {
   // Two samples: the leaf cards' alpha to coverage (leafCluster.ts) needs some to keep soft
   // edges in the reflection (none cuts them hard), and two keep it close to four at half the
@@ -127,7 +130,7 @@ export function createPlanarReflection(
   const matrix = new THREE.Matrix4();
   const crop = new THREE.Matrix4();
   const plane = new THREE.Vector4();
-  const worldPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -level);
+  const worldPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -clip);
   const corners = [new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4()];
   const size = new THREE.Vector2();
   const pixel = new Uint16Array(4);
@@ -158,7 +161,7 @@ export function createPlanarReflection(
       frustum.setFromProjectionMatrix(matrix);
       if (
         scale <= 0 ||
-        view.matrixWorld.elements[13] <= level + 0.01 ||
+        view.matrixWorld.elements[13] <= clip + 0.01 ||
         !frustum.intersectsBox(bounds.setFromObject(surface))
       ) {
         drawn = [];

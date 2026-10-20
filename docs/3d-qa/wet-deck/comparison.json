@@ -1,0 +1,365 @@
+{
+ "test": "e2e/wet-contact.visual.ts",
+ "order": [
+  "before1",
+  "after1",
+  "after2",
+  "before2"
+ ],
+ "browser": "155.0.8059.85",
+ "bundles": {
+  "before1": "SaunaScene-Blid4VxX.js",
+  "after1": "SaunaScene-CuFvDG0y.js",
+  "after2": "SaunaScene-CuFvDG0y.js",
+  "before2": "SaunaScene-Blid4VxX.js"
+ },
+ "errors": {
+  "before1": [],
+  "after1": [],
+  "after2": [],
+  "before2": []
+ },
+ "note": "changed = pixels whose largest RGB channel differs by more than 1 (or 8) levels; retake = same build, same count above 1 level",
+ "captures": [
+  {
+   "file": "sauna-day-clear.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 10.18,
+   "changedPercentAbove8": 2.01,
+   "sha256": {
+    "before1": "232946e696d1c44e8a56a7f1471379a0049fbbefa8cbcd1524681be8b0f9eac7",
+    "after1": "0aa05ded1ea6060d58d09111067f92cb6be7fbbf51bc6c93bb724cf1cbf6551e",
+    "after2": "0aa05ded1ea6060d58d09111067f92cb6be7fbbf51bc6c93bb724cf1cbf6551e",
+    "before2": "232946e696d1c44e8a56a7f1471379a0049fbbefa8cbcd1524681be8b0f9eac7"
+   }
+  },
+  {
+   "file": "sauna-day-floor.png",
+   "retakeBefore": 1,
+   "retakeAfter": 0,
+   "changedPercent": 24.81,
+   "changedPercentAbove8": 4.0,
+   "sha256": {
+    "before1": "9adbc058c786eaa70ae36fc47dd5439225c876845fbb50e4525d7cc193512032",
+    "after1": "77484a179bedf76baac613cce1a4729f9940acb2a67e9bcc701c55d9c23e5f42",
+    "after2": "77484a179bedf76baac613cce1a4729f9940acb2a67e9bcc701c55d9c23e5f42",
+    "before2": "63301beaa0d8fd0b4155c0e155fb1bc565d2746deb3f6db03a96d7065f08bcec"
+   }
+  },
+  {
+   "file": "sauna-day-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 21.56,
+   "changedPercentAbove8": 9.06,
+   "sha256": {
+    "before1": "2cd5908835c9c540ba6626f2b4d40763e0e9ed050b65c9045f687908ed510c9b",
+    "after1": "2d3fbe3068c4db62f9fe15de46d7e53c6706cefda2f40ab875393ec726b65c8f",
+    "after2": "089ce790da3ec29a688869c217979c09cd0e30aacd045cc67423c7973d5b9f77",
+    "before2": "2cd5908835c9c540ba6626f2b4d40763e0e9ed050b65c9045f687908ed510c9b"
+   }
+  },
+  {
+   "file": "sauna-evening-clear.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 10.54,
+   "changedPercentAbove8": 2.31,
+   "sha256": {
+    "before1": "4c3f111d20864c49a5f40e071690589702c5d18d7b619529f31d8d6e8ff5ca0b",
+    "after1": "1baaf3de62adc5a9abf4e65e4c6fd12b9ede8215729f89568b269b62180c2503",
+    "after2": "1baaf3de62adc5a9abf4e65e4c6fd12b9ede8215729f89568b269b62180c2503",
+    "before2": "4c3f111d20864c49a5f40e071690589702c5d18d7b619529f31d8d6e8ff5ca0b"
+   }
+  },
+  {
+   "file": "sauna-evening-floor.png",
+   "retakeBefore": 1,
+   "retakeAfter": 0,
+   "changedPercent": 25.46,
+   "changedPercentAbove8": 4.68,
+   "sha256": {
+    "before1": "c847f4c28eb8fa30a96214520ecf91dee13f5eec6ffb3baeaaddd0c1b21512d8",
+    "after1": "b4551c63d382696fbe1a03518f5a00e1bdeeb9b7012e1573f6ee853eb545bbe7",
+    "after2": "b4551c63d382696fbe1a03518f5a00e1bdeeb9b7012e1573f6ee853eb545bbe7",
+    "before2": "1e443e80573b3171e67a100d3e7e19733b9b15ac4db36fd2127a8a2fab0394ef"
+   }
+  },
+  {
+   "file": "sauna-evening-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 21.26,
+   "changedPercentAbove8": 10.53,
+   "sha256": {
+    "before1": "ec572c2894bb3390a1c2217858ac1d3d27c47991036ffcda1353f5cf75121142",
+    "after1": "65de96b1ccdd9e78daadb7f584f6625e26e86a917f8a23e3618e9e780b61789d",
+    "after2": "d07d457b1da2edab02029b437547348b791330a410a87888c8822ac0409ef358",
+    "before2": "ec572c2894bb3390a1c2217858ac1d3d27c47991036ffcda1353f5cf75121142"
+   }
+  },
+  {
+   "file": "sauna-night-clear.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 10.82,
+   "changedPercentAbove8": 2.58,
+   "sha256": {
+    "before1": "e60c4459d371d7da5875337a9f50aa09fdd60d966c08dcb3d1549ba61e05c997",
+    "after1": "61ff29837c5965ddbb91230d7bd70717ed8fde6a7e60a71c043bc4a456fdeebd",
+    "after2": "61ff29837c5965ddbb91230d7bd70717ed8fde6a7e60a71c043bc4a456fdeebd",
+    "before2": "e60c4459d371d7da5875337a9f50aa09fdd60d966c08dcb3d1549ba61e05c997"
+   }
+  },
+  {
+   "file": "sauna-night-floor.png",
+   "retakeBefore": 1,
+   "retakeAfter": 0,
+   "changedPercent": 26.05,
+   "changedPercentAbove8": 5.2,
+   "sha256": {
+    "before1": "270c47a9b5d0084231533cdb27795e4921e3ad5d509cf269e8277366dc357ee9",
+    "after1": "2099dfb897c68123377703a67e3873e900b09833da169e51a5572d35f6aa1d21",
+    "after2": "2099dfb897c68123377703a67e3873e900b09833da169e51a5572d35f6aa1d21",
+    "before2": "e8eb7aae751d35ee283c77c7717c2043b208e8b556ee316558c233550788aad2"
+   }
+  },
+  {
+   "file": "sauna-night-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 20.1,
+   "changedPercentAbove8": 2.83,
+   "sha256": {
+    "before1": "92c9166e15e6833573f840e2a85a9992bc83334085b5341db07b7d0762d83cb0",
+    "after1": "796fae7befddf4d50fbdcfeccd3a514f7d0636c05e070d343d41039f9c7c6cd7",
+    "after2": "965aa396e829ff174213a3e1d1eb3a4367256185875533331714bba2c6955b17",
+    "before2": "92c9166e15e6833573f840e2a85a9992bc83334085b5341db07b7d0762d83cb0"
+   }
+  },
+  {
+   "file": "totonou-day-rain-deck.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 24.18,
+   "changedPercentAbove8": 15.96,
+   "sha256": {
+    "before1": "67d2460a90c77b7ad112eddae82abc4ce5a72d7e9035620dfc69b389041c4a4d",
+    "after1": "00e0d535c122a2182287b3cb3f4e53a73f210ade26b339fe4cfef58437770ec0",
+    "after2": "cbc20bff7f31557b3161618c35406c9720d2976815206a37c7e472316b850f82",
+    "before2": "67d2460a90c77b7ad112eddae82abc4ce5a72d7e9035620dfc69b389041c4a4d"
+   }
+  },
+  {
+   "file": "totonou-day-rain-side.png",
+   "retakeBefore": 2,
+   "retakeAfter": 0,
+   "changedPercent": 24.18,
+   "changedPercentAbove8": 16.73,
+   "sha256": {
+    "before1": "2e49805f4c581a2d097902c50df150d63ea6b0ce10c71b78643509e479a6b2b7",
+    "after1": "6f59e29c7cb0808ac429f0d35b36585176a362342993810fc0aa5d1b93d7679c",
+    "after2": "3dae815e6af6d43f280e05397717010e459d8e199ed835563e21a80202bcf690",
+    "before2": "b7da309beefa2b4be299c719130d22405221c22e1ea9d80f4ed5917bd7fe11cb"
+   }
+  },
+  {
+   "file": "totonou-day-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 23.88,
+   "changedPercentAbove8": 17.05,
+   "sha256": {
+    "before1": "80e1b7badb0ac09b2f98022c8d93e2ca392ed7ca63ad09c0f7ab3c3203c86d75",
+    "after1": "d1db2212fc26708f73d869e6c45cef2588f4e7c700327059af536a8836620a48",
+    "after2": "74603e4b6c4e7981b6c6cb44972d9a528646cbc3f570d237e6c048170e5c43f2",
+    "before2": "80e1b7badb0ac09b2f98022c8d93e2ca392ed7ca63ad09c0f7ab3c3203c86d75"
+   }
+  },
+  {
+   "file": "totonou-evening-rain-deck.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 27.44,
+   "changedPercentAbove8": 19.77,
+   "sha256": {
+    "before1": "4c30187ebc03abd288e83a65c1c5665b191ea249c9def180428ba461290b4b37",
+    "after1": "eaccaecbe5e7bee8d65e78025e82bf2d1385bf50de057c7e7c31d7acadd94f60",
+    "after2": "dd0d9cacfa951c0542097ace12b9ae5ccc74327298cc795c0ef83869a9e08849",
+    "before2": "4c30187ebc03abd288e83a65c1c5665b191ea249c9def180428ba461290b4b37"
+   }
+  },
+  {
+   "file": "totonou-evening-rain-side.png",
+   "retakeBefore": 2,
+   "retakeAfter": 0,
+   "changedPercent": 23.91,
+   "changedPercentAbove8": 16.08,
+   "sha256": {
+    "before1": "281bf1768dde438786a1943cee8a299f60243d0c39ec29e591b061df24d2c888",
+    "after1": "ac705a2fbadc529c0b31e3474b4749688352bdb9633abeb33f6b202cdf6c04cf",
+    "after2": "d98a50955f7bbf125f35787d683d31abdbd015e42d15a7e826c9e5300c8702b9",
+    "before2": "c13d73ec3c5a910827343275e323d1b595fad2e590bf6638accdbc50d9794582"
+   }
+  },
+  {
+   "file": "totonou-evening-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 24.16,
+   "changedPercentAbove8": 20.29,
+   "sha256": {
+    "before1": "afcf27cee4d846b3e5da13625dca2d49dc5c085c2e494f502071b0ca940fb11d",
+    "after1": "78b6b1d4d18815704b796b0a0cd41417be1f65d7e2c6891e8313e09b26729d6a",
+    "after2": "991b392e729136bcbada622500d2a25d37f1078443cf401fe6395f33250edde4",
+    "before2": "afcf27cee4d846b3e5da13625dca2d49dc5c085c2e494f502071b0ca940fb11d"
+   }
+  },
+  {
+   "file": "totonou-night-rain-deck.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 25.06,
+   "changedPercentAbove8": 4.6,
+   "sha256": {
+    "before1": "c8f65b87b434004051286ae677eb76a37e8d32dbce13e17186dc3642cac8666f",
+    "after1": "69e8ae8422a822aee46f0c63a9ecdb968f25499a2c3654d40dca5342919769c5",
+    "after2": "fe77fd3ee6837d9a3e986e611813c885dea54b089b2e666340dcc79a67e60a99",
+    "before2": "c8f65b87b434004051286ae677eb76a37e8d32dbce13e17186dc3642cac8666f"
+   }
+  },
+  {
+   "file": "totonou-night-rain-side.png",
+   "retakeBefore": 2,
+   "retakeAfter": 0,
+   "changedPercent": 22.53,
+   "changedPercentAbove8": 5.28,
+   "sha256": {
+    "before1": "a4548b0829f59d4b16e9b89f9a74d753bd06afca2c078d3f04149121a3a4f870",
+    "after1": "ab95d9a9e7023755a5b574328bfc9b815a24bec773b4af1d482d8f70011033a7",
+    "after2": "eabf78ff7d1c4d80f70dc4d153dcca51887b98d27de8fb5c8e84b81355ed4b6e",
+    "before2": "4119b3b931548b46ab195b408650876b6c3e2ee86b4ffa24841933a6a452aac3"
+   }
+  },
+  {
+   "file": "totonou-night-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 22.08,
+   "changedPercentAbove8": 2.95,
+   "sha256": {
+    "before1": "ee4ab79e0915ec47fa12823ba7a8500b08ca095ae2d9059be132504911bfa303",
+    "after1": "4942c4eff78242ddc03a0ac5403d23381860a3408322e01b6b11c33243299da5",
+    "after2": "9a4922d373695b10c7bda313d9b20b11c360cffee4adcf46a73cf526f55cf3cf",
+    "before2": "ee4ab79e0915ec47fa12823ba7a8500b08ca095ae2d9059be132504911bfa303"
+   }
+  },
+  {
+   "file": "water-day-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 0.0,
+   "changedPercentAbove8": 0.0,
+   "sha256": {
+    "before1": "1f9970e2d9e6b5c233d180a295bd1f246e23e864fe0c07c23f8fb62bb17644b7",
+    "after1": "1f9970e2d9e6b5c233d180a295bd1f246e23e864fe0c07c23f8fb62bb17644b7",
+    "after2": "1f9970e2d9e6b5c233d180a295bd1f246e23e864fe0c07c23f8fb62bb17644b7",
+    "before2": "1f9970e2d9e6b5c233d180a295bd1f246e23e864fe0c07c23f8fb62bb17644b7"
+   }
+  },
+  {
+   "file": "water-evening-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 0.0,
+   "changedPercentAbove8": 0.0,
+   "sha256": {
+    "before1": "1f59dbff0ca81b03a4bdb90eea5c182661c8e2070f9afad1a8c5344c473fe718",
+    "after1": "1f59dbff0ca81b03a4bdb90eea5c182661c8e2070f9afad1a8c5344c473fe718",
+    "after2": "1f59dbff0ca81b03a4bdb90eea5c182661c8e2070f9afad1a8c5344c473fe718",
+    "before2": "1f59dbff0ca81b03a4bdb90eea5c182661c8e2070f9afad1a8c5344c473fe718"
+   }
+  },
+  {
+   "file": "water-night-rain.png",
+   "retakeBefore": 0,
+   "retakeAfter": 0,
+   "changedPercent": 0.0,
+   "changedPercentAbove8": 0.0,
+   "sha256": {
+    "before1": "7187d4481a88e788802c552a3fa5285f255640c586f988a8e30b744ac101d566",
+    "after1": "7187d4481a88e788802c552a3fa5285f255640c586f988a8e30b744ac101d566",
+    "after2": "7187d4481a88e788802c552a3fa5285f255640c586f988a8e30b744ac101d566",
+    "before2": "7187d4481a88e788802c552a3fa5285f255640c586f988a8e30b744ac101d566"
+   }
+  }
+ ],
+ "metrics": {
+  "after1": {
+   "totonou-day-rain.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "96",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "103"
+   },
+   "totonou-day-rain-deck.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "104",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "103"
+   },
+   "totonou-day-rain-side.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "126",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "159"
+   },
+   "totonou-evening-rain.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "97",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "104"
+   },
+   "totonou-evening-rain-deck.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "105",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "104"
+   },
+   "totonou-evening-rain-side.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "127",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "160"
+   },
+   "totonou-night-rain.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "97",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "104"
+   },
+   "totonou-night-rain-deck.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "105",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "104"
+   },
+   "totonou-night-rain-side.png": {
+    "wetMaterials": "44",
+    "deckMirrorCalls": "127",
+    "deckMirrorSize": "320x200",
+    "rain": "1.000",
+    "drawCalls": "160"
+   }
+  }
+ }
+}
