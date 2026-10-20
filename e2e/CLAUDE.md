@@ -99,3 +99,5 @@
 - `wet-contact.visual.ts` は `WET_BASELINE_DIST` の変更前distと配信distをABBAで比較する（HTML・動的JSを各ビルドから配信し応答ハッシュを照合）。標準DPR1・動作抑制・固定解像度で、サウナの晴れ・雨と足元の見下ろし、水風呂の雨、外気浴の雨（入室視点・デッキの見下ろし・右へ12回）を昼夕夜で撮る（1回21枚、`WET_QUICK=1` は昼夜のサウナと外気浴だけ）。シェーダーのリンク失敗はシーンが2Dへ戻すだけでログを出さないため、検証ブラウザでシェーダー・プログラムのログをconsole errorに出す。静止画の比較で、見回し中の鏡像の更新・ちらつき・費用の検査ではない。`frame-cost.gpu.ts` は `FRAME_COST_WEATHER=rain` で保存済みの天気を雨にして測る。
 
 - `plunge-woodland.visual.ts` は `POOL_BASELINE_DIST` の変更前distと配信distをABBAで比較する（`wet-contact.visual.ts` と同じ配信・ログ出力）。標準DPR1・動作抑制・固定解像度で、水風呂の入室視点・見下ろし・左へ8回、外気浴の入室視点・少し上・右へ14回を昼夕夜で、外気浴の秋冬の林を撮る（1回20枚、`POOL_QUICK=1` は昼だけ）。静止画の比較で、見回し中のちらつき・費用の検査ではない。
+
+- `forest-leaf-masses.visual.ts` は奥の森の変更の静止画を、3ステージ×昼夕夜×水平3方位（右0／20／60キー）と外気浴の春秋冬の昼で撮る（30枚）。`FOREST_RUN` が回のラベル、before系は `FOREST_BASELINE_DIST` の旧distを配信し `forest-build.ts` で応答ハッシュを照合する（`playwright.forest.config.ts` の `FOREST_REVIEW=visual`）。各回の画像を保存してから次の回を撮る。静止画の比較で、見回しのちらつき・費用は `resolution-shimmer.visual.ts`・`forest-back-crowns.gpu.ts` で測る。

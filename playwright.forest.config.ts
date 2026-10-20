@@ -11,7 +11,12 @@ const quote = (value: string) => `'${value.replaceAll("'", "'\\''")}'`;
 export default defineConfig({
   ...base,
   testMatch: review
-    ? ['**/resolution-shimmer.visual.ts', '**/forest-back-crowns.visual.ts', '**/forest-air.visual.ts']
+    ? [
+        '**/resolution-shimmer.visual.ts',
+        '**/forest-back-crowns.visual.ts',
+        '**/forest-air.visual.ts',
+        '**/forest-leaf-masses.visual.ts',
+      ]
     : '**/forest-back-crowns.gpu.ts',
   webServer: {
     ...(Array.isArray(base.webServer) ? base.webServer[0] : base.webServer),

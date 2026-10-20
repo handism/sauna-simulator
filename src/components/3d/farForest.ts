@@ -466,6 +466,28 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb *= mix(0.62, 1.0, vGardenLift);
         // Foreground remains darker and clearer; backing crowns recede into the air.
         diffuseColor.rgb *= mix(0.72, 1.0, vGardenDepth);
+        // Leaf masses (about 0.9m) over every crown, each lighter on its upper side with dark gaps
+        // between: smooth shading alone read as a painted backdrop beside the speckled woodland.
+        // Gone where a mass would be under about four pixels.
+        float gardenLeafDetail = 1.0 - smoothstep(0.12, 0.3, gardenFootprint);
+        vec2 gardenLeafP = gardenArc / 0.9;
+        vec2 gardenLeafCell = floor(gardenLeafP);
+        float gardenLeafNear = 8.0;
+        vec2 gardenLeafOffset = vec2(0.0);
+        for (int i = -1; i <= 1; i++) {
+          for (int j = -1; j <= 1; j++) {
+            vec2 c = gardenLeafCell + vec2(i, j);
+            vec2 d = gardenLeafP - c - vec2(gardenForestHash(c), gardenForestHash(c + 17.0));
+            float r = dot(d, d);
+            if (r < gardenLeafNear) {
+              gardenLeafNear = r;
+              gardenLeafOffset = d;
+            }
+          }
+        }
+        float gardenLeaf = (1.0 - smoothstep(0.35, 0.8, sqrt(gardenLeafNear)))
+          * (0.75 + 0.5 * clamp(gardenLeafOffset.y * 1.4 + 0.5, 0.0, 1.0));
+        diffuseColor.rgb *= mix(1.0, 0.42 + 0.95 * gardenLeaf, gardenLeafDetail);
         // The same air as the lit woodland in front (aerialPerspective.ts), and mist at the foot.
         float haze = suiAirAmount(vGardenAir);
         // SUI_FAR_AIR_CONTROL
@@ -473,7 +495,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v10';
+  material.customProgramCacheKey = () => 'garden-far-forest-v11';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();
