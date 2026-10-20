@@ -55,7 +55,7 @@ describe('far forest', () => {
     expect(Array.from(position.array).every(Number.isFinite)).toBe(true);
     const radii = Array.from({ length: position.count }, (_, i) => Math.hypot(position.getX(i), position.getZ(i)));
     expect(radii.some((r) => r < 47)).toBe(true);
-    expect(Math.max(...radii.filter((r) => r < 53))).toBeGreaterThan(50);
+    expect(radii.filter((r) => r < 53).reduce((a, b) => Math.max(a, b), 0)).toBeGreaterThan(50);
     expect(radii.some((r) => r > 53.9)).toBe(true);
     expect(Array.from(forest.mesh.geometry.attributes.gardenCrownSide.array).every(Number.isFinite)).toBe(true);
     const color = forest.mesh.geometry.attributes.color;
@@ -105,19 +105,29 @@ describe('far forest', () => {
     forest.mesh.geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });
-  it('closes the added far crowns without holes, within a small geometry budget', () => {
+  it('closes every crown volume without holes, below its crown top, within a geometry budget', () => {
     const forest = createFarForest({ value: new THREE.Color() });
-    const { position, gardenEdge, gardenBand } = forest.mesh.geometry.attributes;
+    const { geometry } = forest.mesh;
+    const { position, gardenEdge, gardenBand, gardenCrownTop } = geometry.attributes;
+    const index = geometry.index!;
     const edges = new Map<string, number>();
-    let triangles = 0;
+    let far = 0;
+    let volumes = 0;
+    // Rounded, with -0 as 0 (a pole on the x axis comes out as either).
     const point = (i: number) =>
-      [position.getX(i), position.getY(i), position.getZ(i)].map((v) => v.toFixed(4)).join(',');
-    for (let i = 0; i < position.count; i += 3) {
-      if (gardenEdge.getX(i) !== 2e4) continue;
-      triangles++;
-      const vertices = [0, 1, 2].map((n) => {
-        expect(gardenBand.getX(i + n)).toBe(0);
-        return point(i + n);
+      [position.getX(i), position.getY(i), position.getZ(i)]
+        .map((v) => (v + 0).toFixed(4).replace(/^-(0\.0+)$/, '$1'))
+        .join(',');
+    for (let t = 0; t < index.count; t += 3) {
+      const corners = [0, 1, 2].map((n) => index.getX(t + n));
+      if (gardenBand.getX(corners[0]) !== 0) continue;
+      volumes++;
+      if (gardenEdge.getX(corners[0]) === 2e4) far++;
+      const vertices = corners.map((i) => {
+        expect(gardenBand.getX(i)).toBe(0);
+        // The leaders, shoulders and foliage clumps stay under the crown's top.
+        expect(position.getY(i)).toBeLessThanOrEqual(gardenCrownTop.getX(i) + 1e-4);
+        return point(i);
       });
       expect(new Set(vertices).size).toBe(3);
       for (let n = 0; n < 3; n++) {
@@ -125,11 +135,19 @@ describe('far forest', () => {
         edges.set(key, (edges.get(key) ?? 0) + 1);
       }
     }
-    expect(triangles).toBeGreaterThan(0);
-    expect(triangles).toBeLessThan(3000);
-    expect(position.count / 3).toBeLessThan(35000);
+    // Closed: every edge of the volumes (leaders, shoulders, clumps) shared by two of their triangles.
     expect([...edges.values()].every((count) => count === 2)).toBe(true);
-    forest.mesh.geometry.dispose();
+    // The far rank: three lobes and four clumps a crown.
+    expect(far).toBeGreaterThan(0);
+    expect(far).toBeLessThan(8000);
+    // About 58,600 triangles of clumps over the 32,780 of the band and lobes; the shared vertices
+    // keep the attributes and the 32-bit index near the earlier non-indexed arrays (5.3 against 4.7 MB).
+    expect(volumes).toBeGreaterThan(70000);
+    expect(index.count / 3).toBeLessThan(95000);
+    let bytes = index.array.byteLength;
+    for (const attribute of Object.values(geometry.attributes)) bytes += attribute.array.byteLength;
+    expect(bytes).toBeLessThan(5.5e6);
+    geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });
 });

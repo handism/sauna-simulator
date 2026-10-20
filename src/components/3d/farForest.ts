@@ -21,6 +21,14 @@ const BASE = -4;
 const UNDERSTORY = 4.5;
 /** How deep (m) the ragged foliage cuts into the outline. */
 const FRAY = 1.2;
+/** Darker cores under the foliage clumps, which take the light. */
+const CORE_SHADE = 0.74;
+/** Foliage clumps per crown of each rank, and their facets (36 triangles each). */
+const CLUMPS = { front: 10, backing: 6, far: 4 };
+const CLUMP_RINGS = 5;
+const CLUMP_SECTORS = 8;
+/** The scene's fixed sun (lighting.ts), as the band's shading uses. */
+const sun = new THREE.Vector3(-0.556, 0.6178, 0.556).normalize();
 
 interface Crown {
   /** Angle (rad), half width (m), top (m above y=0) and per-crown shade and pick in [0, 1). */
@@ -122,6 +130,9 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   for (let j = 0; j <= SEGMENTS; j++) heights[j] = outline(j * step)[0];
   for (let j = 0; j < SEGMENTS; j++) owner[j] = outline((j + 0.5) * step)[1];
   const positions: number[] = [];
+  // Indexed: the volumes' facets share their vertices (the band's quads do not).
+  const indices: number[] = [];
+  let vertices = 0;
   // A continuous radial relief shared by both owners of every segment boundary.
   // Using the quad's owner here would split the band at overlapping crowns.
   const relief = Array.from({ length: SEGMENTS + 1 }, (_, j) => {
@@ -159,6 +170,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     const tip = THREE.MathUtils.clamp((y - UNDERSTORY) / Math.max(0.1, heights[j] - UNDERSTORY), 0, 1);
     radius -= relief[j] * rise * (1 - 0.55 * tip);
     positions.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
+    indices.push(vertices++);
     crownOf.push(crown);
     volumeLight.push(1);
     band.push(1);
@@ -212,19 +224,19 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     lightDirection.normalize();
     // The far rank meets the band, whose approximate shading uses this fixed world sun.
     if (far) lightDirection.set(-0.556, 0.6178, 0.556).normalize();
-    // A leader and two offset shoulders break up a single smooth balloon/cone.
-    for (let lobe = 0; lobe < 3; lobe++) {
-      const shoulder = lobe !== 0;
-      const side = lobe === 1 ? -1 : 1;
-      const width = crown.radius * (shoulder ? 0.62 : 0.78) * (far ? 0.76 : backing ? 0.88 : 1);
-      const halfHeight = height * (shoulder ? 0.22 : 0.5);
-      const center = radial.clone().multiplyScalar(distance - (shoulder ? 0.35 : 0));
-      center.addScaledVector(tangent, shoulder ? side * crown.radius * 0.57 : 0);
-      center.y = shoulder ? bottom + height * (lobe === 1 ? 0.61 : 0.69) : bottom + halfHeight;
-      const depth = width * (0.72 + crown.pick * 0.18);
-      // These farther shoulders need fewer facets; share the existing material.
-      const rings = backing || far ? 4 : 6,
-        sectors = backing || far ? 8 : 10;
+    const edge = far ? 2e4 : 1e4;
+    const scale = far ? 0.76 : backing ? 0.88 : 1;
+    // One closed, low-poly ellipsoid: `light` shades each vertex from its normal.
+    const ellipsoid = (
+      center: THREE.Vector3,
+      width: number,
+      halfHeight: number,
+      depth: number,
+      rings: number,
+      sectors: number,
+      light: (normal: THREE.Vector3) => number,
+      taper: (ny: number) => number,
+    ) => {
       const vertex = (ring: number, sector: number) => {
         const phi = (ring / rings) * Math.PI;
         const theta = (sector / sectors) * Math.PI * 2;
@@ -233,10 +245,8 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
           ny = Math.cos(phi),
           nz = Math.sin(theta) * sin;
         const uneven = 1 + 0.1 * Math.sin(theta * 3 + crown.pick * 6 + phi * 2) * sin;
-        // Narrow the evergreen leader toward the top, retaining its rounded tip.
-        const taper = crown.evergreen ? 0.78 - 0.22 * ny : 1;
-        const x = nx * width * uneven * taper;
-        const z = nz * depth * uneven * taper;
+        const x = nx * width * uneven * taper(ny);
+        const z = nz * depth * uneven * taper(ny);
         const position = center.clone().addScaledVector(tangent, x).addScaledVector(radial, z);
         position.y += ny * halfHeight;
         positions.push(position.x, position.y, position.z);
@@ -248,38 +258,115 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
           .addScaledVector(radial, nz / depth)
           .add(new THREE.Vector3(0, ny / halfHeight, 0))
           .normalize();
-        volumeLight.push(
-          far
-            ? 0.78 + 0.66 * Math.max(0, normal.dot(lightDirection))
-            : 0.55 + 0.75 * (0.5 + 0.5 * normal.dot(lightDirection)),
-        );
+        volumeLight.push(light(normal));
         sides.push(0);
         depths.push(Math.max(0, Math.min(1, (Math.hypot(position.x, position.z) - 47) / 7)));
         lift.push(Math.max(0, Math.min(1, (position.y - BASE) / (UNDERSTORY - BASE))));
         tops.push(top);
         // Volumes have their own closed silhouette; the band's vertical edge discard
         // would punch view-dependent holes through their front and back surfaces.
-        // The larger sentinel also lets QA omit just this rank in a same-build control.
-        edges.push(far ? 2e4 : 1e4);
+        // The larger sentinel also lets QA omit just the far rank in a same-build control.
+        edges.push(edge);
       };
+      const first = vertices;
+      for (let ring = 0; ring <= rings; ring++) for (let sector = 0; sector <= sectors; sector++) vertex(ring, sector);
+      vertices += (rings + 1) * (sectors + 1);
+      const at = (ring: number, sector: number) => first + ring * (sectors + 1) + sector;
       for (let ring = 0; ring < rings; ring++) {
         for (let sector = 0; sector < sectors; sector++) {
-          if (ring > 0) {
-            vertex(ring, sector);
-            vertex(ring, sector + 1);
-            vertex(ring + 1, sector);
-          }
-          if (ring < rings - 1) {
-            vertex(ring, sector + 1);
-            vertex(ring + 1, sector + 1);
-            vertex(ring + 1, sector);
-          }
+          // The poles' rings are points: one triangle there.
+          if (ring > 0) indices.push(at(ring, sector), at(ring, sector + 1), at(ring + 1, sector));
+          if (ring < rings - 1) indices.push(at(ring, sector + 1), at(ring + 1, sector + 1), at(ring + 1, sector));
         }
       }
+    };
+    const lobeLight = (normal: THREE.Vector3) =>
+      CORE_SHADE *
+      (far
+        ? 0.78 + 0.66 * Math.max(0, normal.dot(lightDirection))
+        : 0.55 + 0.75 * (0.5 + 0.5 * normal.dot(lightDirection)));
+    // Narrow the evergreen leader toward the top, retaining its rounded tip.
+    const lobeTaper = (ny: number) => (crown.evergreen ? 0.78 - 0.22 * ny : 1);
+    // A leader and two offset shoulders break up a single smooth balloon/cone.
+    for (let lobe = 0; lobe < 3; lobe++) {
+      const shoulder = lobe !== 0;
+      const side = lobe === 1 ? -1 : 1;
+      const width = crown.radius * (shoulder ? 0.62 : 0.78) * scale;
+      // The broadleaf leader stops under the clumps, which make the top of the outline.
+      const leader = shoulder || crown.evergreen ? height : height - crown.radius * scale * 0.5;
+      const halfHeight = leader * (shoulder ? 0.22 : 0.5);
+      const center = radial.clone().multiplyScalar(distance - (shoulder ? 0.35 : 0));
+      center.addScaledVector(tangent, shoulder ? side * crown.radius * 0.57 : 0);
+      center.y = shoulder
+        ? bottom + height * (lobe === 1 ? 0.61 : 0.69) - (crown.evergreen ? 0 : crown.radius * scale * 0.4)
+        : bottom + halfHeight;
+      const depth = width * (0.72 + crown.pick * 0.18);
+      // These farther shoulders need fewer facets; share the existing material.
+      ellipsoid(
+        center,
+        width,
+        halfHeight,
+        depth,
+        backing || far ? 4 : 6,
+        backing || far ? 8 : 10,
+        lobeLight,
+        lobeTaper,
+      );
+    }
+    // Clumps of foliage over the side facing the clearing: each lit on top by the world's sun and
+    // shaded beneath, so the crown reads as a cluster of leafy masses with a bumpy outline instead
+    // of one smooth spire (docs/3d-qa/forest-clumps/).
+    const random = seeded(0xc1a0 + i * 7919);
+    const clumps = far ? CLUMPS.far : backing ? CLUMPS.backing : CLUMPS.front;
+    const inward = radial.clone().negate();
+    for (let k = 0; k < clumps; k++) {
+      const u = (k + random()) / clumps;
+      // Across the facing half, from one side to the other; the evergreens' tiers out at the
+      // edges, left and right in turn, so they step the outline.
+      const across = crown.evergreen ? (k % 2 ? 1 : -1) * (0.55 + 0.4 * random()) : (random() * 2 - 1) * 0.95;
+      let center: THREE.Vector3;
+      let size: number;
+      if (crown.evergreen) {
+        // Tiers narrowing toward the leader.
+        const fall = u * crown.radius * 2.2;
+        const reach = crown.radius * scale * (0.35 + 0.8 * (fall / (crown.radius * 2.2)));
+        size = crown.radius * scale * (0.3 + 0.22 * (fall / (crown.radius * 2.2))) * (0.85 + 0.3 * random());
+        center = radial
+          .clone()
+          .multiplyScalar(distance)
+          .addScaledVector(tangent, across * reach)
+          .addScaledVector(inward, Math.sqrt(1 - across * across) * reach * 0.7);
+        center.y = top - 0.35 - fall;
+      } else {
+        // Over a dome: up to about 70 degrees above the crown's equator.
+        const elevation = (u * 0.85 - 0.1) * (Math.PI / 2);
+        const reach = crown.radius * scale * 0.95;
+        size = crown.radius * scale * (0.28 + 0.12 * random());
+        const around = tangent
+          .clone()
+          .multiplyScalar(across)
+          .addScaledVector(inward, Math.sqrt(1 - across * across));
+        center = radial
+          .clone()
+          .multiplyScalar(distance)
+          .addScaledVector(around, Math.cos(elevation) * reach);
+        center.y = top - crown.radius * scale * 0.95 + Math.sin(elevation) * reach * 0.9;
+      }
+      // Below the crown's top and over the understory.
+      // Its half height (0.85) at the most uneven (1.1).
+      center.y = Math.min(center.y, top - size * 0.94);
+      const lower = THREE.MathUtils.clamp((top - center.y) / (crown.radius * 2.5), 0, 1);
+      // Seen from below, mostly their sides: a little over the darker core, brighter up top and on
+      // the sun's side, darker beneath, and each clump its own shade so neighbours part.
+      const own = 0.88 + 0.24 * random();
+      const clumpLight = (normal: THREE.Vector3) =>
+        (0.86 + 0.45 * normal.y + 0.3 * Math.max(0, normal.dot(sun))) * (1 - 0.15 * lower) * own;
+      ellipsoid(center, size, size * 0.85, size * 0.9, CLUMP_RINGS, CLUMP_SECTORS, clumpLight, () => 1);
     }
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setIndex(indices);
   const colors = new Float32Array(positions.length);
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   geometry.setAttribute('gardenLift', new THREE.Float32BufferAttribute(lift, 1));

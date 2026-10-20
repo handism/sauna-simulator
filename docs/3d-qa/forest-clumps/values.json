@@ -1,0 +1,314 @@
+{
+ "frameIntervalMs": {
+  "none-sauna-day": {
+   "before": [
+    9.55,
+    9.55
+   ],
+   "after": [
+    9.63,
+    9.62
+   ],
+   "ratio": 1.008,
+   "triangles": [
+    "1118404",
+    "1177028"
+   ]
+  },
+  "none-sauna-evening": {
+   "before": [
+    12.06,
+    11.96
+   ],
+   "after": [
+    12.07,
+    12.07
+   ],
+   "ratio": 1.005,
+   "triangles": [
+    "1118884",
+    "1177508"
+   ]
+  },
+  "none-sauna-night": {
+   "before": [
+    12.94,
+    12.84
+   ],
+   "after": [
+    12.96,
+    12.89
+   ],
+   "ratio": 1.003,
+   "triangles": [
+    "1118884",
+    "1177508"
+   ]
+  },
+  "none-water-day": {
+   "before": [
+    12.18,
+    12.13
+   ],
+   "after": [
+    12.17,
+    12.12
+   ],
+   "ratio": 0.999,
+   "triangles": [
+    "1190420",
+    "1249044"
+   ]
+  },
+  "none-water-evening": {
+   "before": [
+    13.69,
+    13.63
+   ],
+   "after": [
+    13.66,
+    13.66
+   ],
+   "ratio": 1.0,
+   "triangles": [
+    "1190900",
+    "1249524"
+   ]
+  },
+  "none-water-night": {
+   "before": [
+    14.18,
+    14.12
+   ],
+   "after": [
+    14.12,
+    14.07
+   ],
+   "ratio": 0.996,
+   "triangles": [
+    "1190900",
+    "1249524"
+   ]
+  },
+  "none-totonou-day": {
+   "before": [
+    8.01,
+    8.08
+   ],
+   "after": [
+    8.05,
+    8.03
+   ],
+   "ratio": 0.999,
+   "triangles": [
+    "936850",
+    "995474"
+   ]
+  },
+  "none-totonou-evening": {
+   "before": [
+    10.62,
+    10.58
+   ],
+   "after": [
+    10.67,
+    10.62
+   ],
+   "ratio": 1.004,
+   "triangles": [
+    "937330",
+    "995954"
+   ]
+  },
+  "none-totonou-night": {
+   "before": [
+    11.3,
+    11.3
+   ],
+   "after": [
+    11.3,
+    11.3
+   ],
+   "ratio": 1.0,
+   "triangles": [
+    "937330",
+    "995954"
+   ]
+  },
+  "right-sauna-day": {
+   "before": [
+    7.45,
+    7.46
+   ],
+   "after": [
+    7.43,
+    7.46
+   ],
+   "ratio": 0.999,
+   "triangles": [
+    "914110",
+    "972734"
+   ]
+  },
+  "right-sauna-evening": {
+   "before": [
+    6.88,
+    6.88
+   ],
+   "after": [
+    6.88,
+    6.91
+   ],
+   "ratio": 1.002,
+   "triangles": [
+    "914590",
+    "973214"
+   ]
+  },
+  "right-sauna-night": {
+   "before": [
+    7.22,
+    7.22
+   ],
+   "after": [
+    7.22,
+    7.22
+   ],
+   "ratio": 1.001,
+   "triangles": [
+    "914590",
+    "973214"
+   ]
+  },
+  "right-water-day": {
+   "before": [
+    11.75,
+    11.75
+   ],
+   "after": [
+    11.75,
+    11.7
+   ],
+   "ratio": 0.998,
+   "triangles": [
+    "1146608",
+    "1205232"
+   ]
+  },
+  "right-water-evening": {
+   "before": [
+    12.36,
+    12.35
+   ],
+   "after": [
+    12.36,
+    12.35
+   ],
+   "ratio": 1.0,
+   "triangles": [
+    "1146608",
+    "1205232"
+   ]
+  },
+  "right-water-night": {
+   "before": [
+    12.65,
+    12.65
+   ],
+   "after": [
+    12.65,
+    12.65
+   ],
+   "ratio": 1.0,
+   "triangles": [
+    "1146608",
+    "1205232"
+   ]
+  },
+  "right-totonou-day": {
+   "before": [
+    8.23,
+    8.18
+   ],
+   "after": [
+    8.2,
+    8.2
+   ],
+   "ratio": 0.999,
+   "triangles": [
+    "1206772",
+    "1265396"
+   ]
+  },
+  "right-totonou-evening": {
+   "before": [
+    8.0,
+    8.0
+   ],
+   "after": [
+    8.0,
+    8.03
+   ],
+   "ratio": 1.002,
+   "triangles": [
+    "1207252",
+    "1265876"
+   ]
+  },
+  "right-totonou-night": {
+   "before": [
+    8.28,
+    8.28
+   ],
+   "after": [
+    8.28,
+    8.3
+   ],
+   "ratio": 1.001,
+   "triangles": [
+    "1207252",
+    "1265876"
+   ]
+  }
+ },
+ "shimmerRight60Review": {
+  "sauna-day": {
+   "pixel": 1.0,
+   "tile": 1.0,
+   "tileP99": 1.0
+  },
+  "sauna-evening": {
+   "pixel": 1.0,
+   "tile": 1.0,
+   "tileP99": 1.0
+  },
+  "totonou-day": {
+   "pixel": 1.0003,
+   "tile": 1.0,
+   "tileP99": 1.0
+  },
+  "totonou-evening": {
+   "pixel": 1.0008,
+   "tile": 1.0,
+   "tileP99": 1.0
+  },
+  "water-day": {
+   "pixel": 1.0,
+   "tile": 0.9986,
+   "tileP99": 0.9996
+  },
+  "water-evening": {
+   "pixel": 0.9985,
+   "tile": 0.9955,
+   "tileP99": 0.9841
+  }
+ },
+ "geometry": {
+  "trianglesBefore": 32780,
+  "trianglesAfter": 91404,
+  "vertices": 87978,
+  "bytesBefore": 4720320,
+  "bytesAfter": 5319792,
+  "index": "Uint32"
+ }
+}
