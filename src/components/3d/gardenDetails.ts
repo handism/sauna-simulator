@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
-import { meadowBlades, meadowGrid } from './meadowGrass';
+import { meadowBlades, meadowGrid, meadowTufts, TUFT_CELL, TUFT_EXTENT } from './meadowGrass';
 import { createFarForest } from './farForest';
 import { gardenBloomGeometry } from './gardenBloom';
 import { createGardenStream, streamSection } from './gardenStream';
@@ -253,7 +253,14 @@ export function addGardenDetails(root: THREE.Object3D) {
   });
   // An incomplete or substitute model must not receive floating decorations.
   if (!terrain.length)
-    return { tuckedGrass: 0, meadowBlades: 0, airColor: new THREE.Color(), finishPreparation() {}, update() {} };
+    return {
+      tuckedGrass: 0,
+      meadowBlades: 0,
+      meadowTufts: 0,
+      airColor: new THREE.Color(),
+      finishPreparation() {},
+      update() {},
+    };
   const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
   const ground = (x: number, z: number) => {
     ray.ray.origin.set(x, 25, z);
@@ -684,6 +691,12 @@ export function addGardenDetails(root: THREE.Object3D) {
   const meadowMesh = new THREE.Mesh(meadow.geometry, meadowMaterial);
   meadowMesh.name = 'Garden meadow blades';
   group.add(meadowMesh);
+  // Taller wild tufts out in the meadow, on a coarser grid of their own. Hidden in winter: poking
+  // through the snow they dotted the white field with dark clumps.
+  const tufts = meadowTufts(meadowGrid(terrain, solids, TUFT_EXTENT, TUFT_CELL), seeded(0x7f75));
+  const tuftMesh = new THREE.Mesh(tufts.geometry, meadowMaterial);
+  tuftMesh.name = 'Garden meadow tufts';
+  group.add(tuftMesh);
   // Contact shade: a disc or rounded rectangle per accent laid on the terrain, black with the depth
   // falling to zero at the rim (vertex alpha), so rocks, shrubs and lanterns do not seem to float.
   // Without baked occlusion under the browser-built accents, their base met the lit ground with no
@@ -839,11 +852,23 @@ export function addGardenDetails(root: THREE.Object3D) {
     tuckedGrass,
     /** Short blades on the meadow (meadowGrass.ts). */
     meadowBlades: meadow.blades,
+    /** Taller wild tufts out in the meadow (meadowGrass.ts). */
+    meadowTufts: tufts.blades,
     /** The air's color by time and weather (set by update), for the lit surfaces too (aerialPerspective.ts). */
     airColor: hazeColor.value,
     /** Call after the generic model preparation, which otherwise enables every shadow. */
     finishPreparation() {
-      for (const mesh of [...hills, farForest.mesh, stream, shade, pool, ...movingGrass, ...lamps, meadowMesh])
+      for (const mesh of [
+        ...hills,
+        farForest.mesh,
+        stream,
+        shade,
+        pool,
+        ...movingGrass,
+        ...lamps,
+        meadowMesh,
+        tuftMesh,
+      ])
         mesh.castShadow = false;
       for (const mesh of [...hills, farForest.mesh, shade, pool]) mesh.receiveShadow = false;
       for (const butterfly of butterflies)
@@ -875,6 +900,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       meadowMaterial.color.copy(grass.color);
       flower.color.setHex(season === 'spring' ? 0xe8c6cd : season === 'autumn' ? 0xcba657 : 0xc8c1df);
       for (const mesh of flowers) mesh.visible = season !== 'winter';
+      tuftMesh.visible = season !== 'winter';
       hazeColor.value.copy(airDay).lerp(airEvening, Math.min(1, timeOfDay));
       hazeColor.value.lerp(airNight, Math.max(0, Math.min(1, timeOfDay - 1)));
       // The clear air's colors are far brighter than the overcast at night (a blue band under the

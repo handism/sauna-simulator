@@ -374,6 +374,7 @@ export default function SaunaScene({
         const gardenDetails = addGardenDetails(gltf.scene);
         setData('tuckedGrass', String(gardenDetails.tuckedGrass));
         setData('meadowBlades', String(gardenDetails.meadowBlades));
+        setData('meadowTufts', String(gardenDetails.meadowTufts));
         prepare(gltf.scene);
         gardenDetails.finishPreparation();
         gardenDetails.update(0, seasonRef.current, lighting.time, weatherRef.current, reducedMotion.matches);

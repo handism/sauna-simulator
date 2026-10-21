@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { INTERIOR_BOX, WATER_BOX } from './interiorLights';
 
 export type SurfaceDetail = 'deck' | 'stone' | 'ground' | 'plaster' | 'linen' | 'bark' | 'gravel';
 
@@ -43,6 +44,11 @@ float suiSurfaceFilteredNoise(vec3 p) {
   float footprint = max(length(dFdx(p)), length(dFdy(p)));
   return mix(suiSurfaceNoise(p), 0.5, smoothstep(0.35, 1.2, footprint));
 }
+// Spots where the noise passes a threshold, fading to their mean coverage once subpixel.
+float suiSurfaceMask(vec3 p, float from, float to, float coverage) {
+  float footprint = max(length(dFdx(p)), length(dFdy(p)));
+  return mix(smoothstep(from, to, suiSurfaceNoise(p)), coverage, smoothstep(0.35, 1.2, footprint));
+}
 `;
 // The sauna room's floor (SUI_ROOM_FLOOR, roomIrradiance.ts) is one exported slab with constant
 // texture coordinates, so neither boards nor seams showed. Lay boards along world Z like the deck
@@ -59,6 +65,17 @@ export const ROOM_FLOOR = {
   pail: { center: [-2.1, -1.74], radius: 0.2, reach: 0.15, depth: 0.55 },
 } as const;
 const g = (value: number) => value.toFixed(4);
+const vec3 = (v: THREE.Vector3) => `vec3(${g(v.x)}, ${g(v.y)}, ${g(v.z)})`;
+/**
+ * Where the charcoal stone grows no moss: the sauna room, the deck (its stone side table), the
+ * plunge and its rim, and up high.
+ */
+export const MOSS_FREE = {
+  indoor: INTERIOR_BOX.clone().expandByScalar(0.05),
+  deck: new THREE.Box3(new THREE.Vector3(-7, -1, -6), new THREE.Vector3(8, 1.5, 2.5)),
+  plunge: WATER_BOX.clone().expandByVector(new THREE.Vector3(0.6, 0.5, 0.6)),
+  above: 1.2,
+} as const;
 interface Contact {
   center: readonly [number, number];
   radius: number;
@@ -104,14 +121,47 @@ const DECK = /* glsl */ `
   float suiSurfaceRoughness = suiDeckTop * ((0.5 - suiGrain) * 0.12) + suiSeam * 0.15;
   float suiSurfaceHeight = suiDeckTop * (suiGrain * 0.00022 + suiFiber * 0.00006) - suiSeam * 0.002;
 `;
+// Every stone read as the same flat light gray: smooth, CG-clean boulders and pavers. Each stone
+// takes its own warmer or cooler tone (a field broader than most stones), mottling at a few
+// centimeters to decimeters, dark mineral grains that fade to their mean coverage once subpixel,
+// and a darker underside (the smooth irradiance probes light it as if the ground were not there).
+// The outdoor charcoal stones (SUI_STONE_MOSS: boulders, stepping stones, the stream's rocks) grow
+// moss on their shoulders, less on walked flat tops and none indoors or in the plunge, and pale
+// lichen spots.
 const STONE = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;
-  float suiMineral = suiSurfaceFilteredNoise(suiSurfaceP * 9.0);
+  float suiTone = suiSurfaceNoise(suiSurfaceP * 0.9 + 4.7);
+  float suiMottle = suiSurfaceFilteredNoise(suiSurfaceP * 3.5 + 1.3) * 0.6 + suiSurfaceFilteredNoise(suiSurfaceP * 9.0) * 0.4;
   float suiPores = suiSurfaceFilteredNoise(suiSurfaceP * 110.0);
-  float suiDetail = (suiMineral - 0.5) * 0.12 + (suiPores - 0.5) * 0.18;
-  diffuseColor.rgb *= 1.0 + suiDetail;
+  float suiSpeck = suiSurfaceMask(suiSurfaceP * 38.0, 0.7, 0.8, 0.1);
+  vec3 suiStoneTint = mix(vec3(1.07, 1.0, 0.9), vec3(0.92, 0.98, 1.07), suiTone);
+  float suiDetail = (suiMottle - 0.5) * 0.4 + (suiPores - 0.5) * 0.18;
+  float suiUnder = 1.0 - smoothstep(-0.6, 0.15, vSuiSurfaceUp);
+  diffuseColor.rgb *= suiStoneTint * (1.0 + suiDetail) * (1.0 - 0.4 * suiSpeck) * (1.0 - 0.35 * suiUnder);
   float suiSurfaceRoughness = (suiPores - 0.5) * 0.14;
-  float suiSurfaceHeight = suiMineral * 0.0007 + suiPores * 0.00045;
+  float suiSurfaceHeight = suiMottle * 0.0012 + suiPores * 0.00045 - suiSpeck * 0.0002;
+  #ifdef SUI_STONE_MOSS
+  bool suiIndoor = all(greaterThan(suiSurfaceP, ${vec3(MOSS_FREE.indoor.min)}))
+    && all(lessThan(suiSurfaceP, ${vec3(MOSS_FREE.indoor.max)}));
+  bool suiPlunge = all(greaterThan(suiSurfaceP, ${vec3(MOSS_FREE.plunge.min)}))
+    && all(lessThan(suiSurfaceP, ${vec3(MOSS_FREE.plunge.max)}));
+  bool suiOnDeck = all(greaterThan(suiSurfaceP, ${vec3(MOSS_FREE.deck.min)}))
+    && all(lessThan(suiSurfaceP, ${vec3(MOSS_FREE.deck.max)}));
+  if (!suiIndoor && !suiPlunge && !suiOnDeck && suiSurfaceP.y < ${g(MOSS_FREE.above)}) {
+    // Shoulders and sides more than crowns, walked flat tops least.
+    float suiShoulder = smoothstep(0.05, 0.45, vSuiSurfaceUp) * (1.0 - 0.85 * smoothstep(0.88, 0.99, vSuiSurfaceUp));
+    float suiMossField = suiSurfaceNoise(suiSurfaceP * 1.7 + 7.1) * 0.6 + suiSurfaceFilteredNoise(suiSurfaceP * 6.0) * 0.25
+      + suiSurfaceFilteredNoise(suiSurfaceP * 19.0 + 3.3) * 0.15;
+    float suiMoss = smoothstep(0.56, 0.72, suiMossField * 0.85 + suiShoulder * 0.2) * suiShoulder;
+    float suiMossFine = suiSurfaceFilteredNoise(suiSurfaceP * 70.0);
+    vec3 suiMossColor = vec3(0.048, 0.075, 0.028) * (0.75 + 0.5 * suiMossFine) * (0.85 + 0.3 * suiTone);
+    float suiLichen = suiSurfaceMask(suiSurfaceP * 26.0 + 2.9, 0.74, 0.8, 0.06) * smoothstep(-0.3, 0.2, vSuiSurfaceUp);
+    diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.42, 0.42, 0.33), suiLichen * 0.4 * (1.0 - suiMoss));
+    diffuseColor.rgb = mix(diffuseColor.rgb, suiMossColor, suiMoss);
+    suiSurfaceRoughness += suiMoss * 0.25;
+    suiSurfaceHeight += suiMoss * suiMossFine * 0.001;
+  }
+  #endif
 `;
 // The source moss noise repeats every meter or so and averages to one flat green beyond a few
 // meters. Broad patches keep the meadow readable at mid distance: drier yellow-green and lusher
@@ -130,7 +180,14 @@ const GROUND = /* glsl */ `
   vec3 suiGroundTint = mix(vec3(1.0), vec3(1.7, 1.42, 0.72), suiDry * 0.85);
   suiGroundTint = mix(suiGroundTint, vec3(0.6, 0.76, 0.72), suiLush * 0.85);
   suiGroundTint = mix(suiGroundTint, vec3(1.15, 0.85, 0.62), suiSlope * 0.7);
-  diffuseColor.rgb *= suiGroundTint * (1.0 + (suiTuft - 0.5) * 0.45 + (suiBlade - 0.5) * 0.3);
+  // Past the blades the meadow was a smooth lawn: clumps of grass with darker gaps between them
+  // (decimeters to a meter, so they survive at mid distance), and, seen at a grazing angle, the
+  // lighter sides and tips of the blades instead of the shaded ground between them.
+  float suiClump = suiSurfaceFilteredNoise(vec3(suiSurfaceP.xz * 2.6, 5.3)) * 0.55
+    + suiSurfaceFilteredNoise(vec3(suiSurfaceP.xz * 0.95, 8.9)) * 0.45;
+  float suiGrazing = 1.0 - smoothstep(0.05, 0.4, normalize(cameraPosition - suiSurfaceP).y);
+  suiGroundTint *= mix(vec3(1.0), vec3(1.2, 1.18, 0.86), suiGrazing * (0.3 + 0.25 * suiDry));
+  diffuseColor.rgb *= suiGroundTint * (1.0 + (suiTuft - 0.5) * 0.45 + (suiBlade - 0.5) * 0.3 + (suiClump - 0.5) * 0.55);
   float suiSurfaceRoughness = (suiDry - suiLush) * 0.05;
   float suiSurfaceHeight = suiTuft * 0.004 + suiBlade * 0.0006;
 `;
@@ -233,7 +290,12 @@ export function patchSurfaceDetailShader(
     .replace(NORMAL, `${NORMAL}\n${BUMP}`);
 }
 
+/** The stone materials that grow moss outdoors (not the pale pavers or the plunge's rim). */
+export const MOSSY_STONE = /charcoal stone$/;
+
 export function applySurfaceDetails(material: THREE.MeshStandardMaterial, kind: SurfaceDetail) {
+  if (kind === 'stone' && MOSSY_STONE.test(material.name))
+    material.defines = { ...material.defines, SUI_STONE_MOSS: '' };
   const previous = material.onBeforeCompile;
   const previousKey = material.customProgramCacheKey;
   material.onBeforeCompile = (shader, renderer) => {

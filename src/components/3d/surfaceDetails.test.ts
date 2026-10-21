@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { applySurfaceDetails, patchSurfaceDetailShader, ROOM_FLOOR, surfaceDetailOf } from './surfaceDetails';
+import {
+  applySurfaceDetails,
+  MOSS_FREE,
+  patchSurfaceDetailShader,
+  ROOM_FLOOR,
+  surfaceDetailOf,
+} from './surfaceDetails';
 import { applyWinterSnow } from './winterSnow';
 
 describe('deck, stone and procedural flat-color surface details', () => {
@@ -68,6 +74,32 @@ describe('deck, stone and procedural flat-color surface details', () => {
     expect(fragment.indexOf('suiBoardSeed = suiSurfaceHash')).toBeLessThan(fragment.indexOf('#endif', boards));
     for (const { center } of [ROOM_FLOOR.stove, ROOM_FLOOR.pail])
       expect(fragment).toContain(`vec2(${center[0].toFixed(4)}, ${center[1].toFixed(4)})`);
+  });
+
+  it('grows moss only on the charcoal stones, outside the room, deck and plunge', () => {
+    const named = (name: string) => {
+      const material = new THREE.MeshStandardMaterial({ name });
+      applySurfaceDetails(material, 'stone');
+      return material.defines ?? {};
+    };
+    expect(named('V2 | mineral charcoal stone')).toHaveProperty('SUI_STONE_MOSS');
+    expect(named('Garden mineral charcoal stone')).toHaveProperty('SUI_STONE_MOSS');
+    expect(named('V2 | pale mineral paving')).not.toHaveProperty('SUI_STONE_MOSS');
+    const shader = {
+      vertexShader: THREE.ShaderLib.standard.vertexShader,
+      fragmentShader: THREE.ShaderLib.standard.fragmentShader,
+    };
+    patchSurfaceDetailShader(shader, 'stone');
+    const moss = shader.fragmentShader.indexOf('#ifdef SUI_STONE_MOSS');
+    expect(moss).toBeGreaterThan(-1);
+    expect(shader.fragmentShader.indexOf('suiMossColor')).toBeGreaterThan(moss);
+    for (const box of [MOSS_FREE.indoor, MOSS_FREE.deck, MOSS_FREE.plunge])
+      expect(shader.fragmentShader).toContain(
+        `vec3(${box.min.x.toFixed(4)}, ${box.min.y.toFixed(4)}, ${box.min.z.toFixed(4)})`,
+      );
+    // The table on the deck and the plunge's rim stay bare.
+    expect(MOSS_FREE.deck.containsPoint(new THREE.Vector3(4.9, 0.45, 0))).toBe(true);
+    expect(MOSS_FREE.plunge.containsPoint(new THREE.Vector3(1.2, 1.0, -0.5))).toBe(true);
   });
 
   it('rejects incompatible shader chunks', () => {

@@ -1,0 +1,236 @@
+{
+ "date": "2026-10-21",
+ "baseline": "20ced81",
+ "browser": "Chrome 155.0.8059.85",
+ "viewport": "1280x800 DPR1 standard, reduced motion, fixed resolution",
+ "bundles": {
+  "before": "SaunaScene-iVvYexRi.js",
+  "after": "SaunaScene-DvZ2P7kF.js"
+ },
+ "meadowTufts": 14113,
+ "stills": {
+  "totonou-autumn-front": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 2.77
+  },
+  "totonou-day-down": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 3.86
+  },
+  "totonou-day-front": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 3.01
+  },
+  "totonou-day-left": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 1.91
+  },
+  "totonou-day-right": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 2.85
+  },
+  "totonou-evening-down": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 2.26
+  },
+  "totonou-evening-front": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 1.66
+  },
+  "totonou-evening-left": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 0.9
+  },
+  "totonou-evening-right": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 1.95
+  },
+  "totonou-rain-front": {
+   "repeatBeforePx": 4,
+   "repeatAfterPx": 25,
+   "changedOver8Percent": 1.71
+  },
+  "totonou-winter-front": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 0.53
+  },
+  "water-day-front": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 0.53
+  },
+  "water-evening-front": {
+   "repeatBeforePx": 0,
+   "repeatAfterPx": 0,
+   "changedOver8Percent": 0.15
+  }
+ },
+ "cost": {
+  "method": "frame-cost.gpu.ts FRAME_COST_REPEAT=3 product, before1/after1/after2/before2, mean interval / 3, 1200x800 DPR1 standard",
+  "views": {
+   "sauna-day": {
+    "msPerFrame": {
+     "before1": 3.23,
+     "after1": 3.32,
+     "after2": 3.32,
+     "before2": 3.28
+    },
+    "ratio": 1.019,
+    "drawCalls": [
+     153,
+     154
+    ],
+    "triangles": [
+     1177028,
+     1219367
+    ]
+   },
+   "sauna-evening": {
+    "msPerFrame": {
+     "before1": 4.08,
+     "after1": 4.18,
+     "after2": 4.18,
+     "before2": 4.08
+    },
+    "ratio": 1.024,
+    "drawCalls": [
+     154,
+     155
+    ],
+    "triangles": [
+     1177508,
+     1219847
+    ]
+   },
+   "sauna-night": {
+    "msPerFrame": {
+     "before1": 4.36,
+     "after1": 4.47,
+     "after2": 4.56,
+     "before2": 4.38
+    },
+    "ratio": 1.034,
+    "drawCalls": [
+     154,
+     155
+    ],
+    "triangles": [
+     1177508,
+     1219847
+    ]
+   },
+   "water-day": {
+    "msPerFrame": {
+     "before1": 4.12,
+     "after1": 4.12,
+     "after2": 4.18,
+     "before2": 4.12
+    },
+    "ratio": 1.008,
+    "drawCalls": [
+     160,
+     161
+    ],
+    "triangles": [
+     1249044,
+     1291383
+    ]
+   },
+   "water-evening": {
+    "msPerFrame": {
+     "before1": 4.61,
+     "after1": 4.64,
+     "after2": 4.72,
+     "before2": 4.61
+    },
+    "ratio": 1.015,
+    "drawCalls": [
+     161,
+     162
+    ],
+    "triangles": [
+     1249524,
+     1291863
+    ]
+   },
+   "water-night": {
+    "msPerFrame": {
+     "before1": 4.79,
+     "after1": 4.83,
+     "after2": 4.83,
+     "before2": 4.78
+    },
+    "ratio": 1.01,
+    "drawCalls": [
+     161,
+     162
+    ],
+    "triangles": [
+     1249524,
+     1291863
+    ]
+   },
+   "totonou-day": {
+    "msPerFrame": {
+     "before1": 2.71,
+     "after1": 2.78,
+     "after2": 2.8,
+     "before2": 2.72
+    },
+    "ratio": 1.027,
+    "drawCalls": [
+     100,
+     101
+    ],
+    "triangles": [
+     995474,
+     1037813
+    ]
+   },
+   "totonou-evening": {
+    "msPerFrame": {
+     "before1": 3.57,
+     "after1": 3.64,
+     "after2": 3.66,
+     "before2": 3.57
+    },
+    "ratio": 1.023,
+    "drawCalls": [
+     101,
+     102
+    ],
+    "triangles": [
+     995954,
+     1038293
+    ]
+   },
+   "totonou-night": {
+    "msPerFrame": {
+     "before1": 3.78,
+     "after1": 3.87,
+     "after2": 3.9,
+     "before2": 3.8
+    },
+    "ratio": 1.024,
+    "drawCalls": [
+     101,
+     102
+    ],
+    "triangles": [
+     995954,
+     1038293
+    ]
+   }
+  }
+ }
+}

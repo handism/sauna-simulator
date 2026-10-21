@@ -1,6 +1,17 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { MEADOW_CELL, MEADOW_EXTENT, MEADOW_MATERIAL, meadowBlades, meadowDensity, meadowGrid } from './meadowGrass';
+import {
+  MEADOW_CELL,
+  MEADOW_EXTENT,
+  MEADOW_MATERIAL,
+  meadowBlades,
+  meadowDensity,
+  meadowGrid,
+  meadowTufts,
+  TUFT_CELL,
+  TUFT_EXTENT,
+  tuftDensity,
+} from './meadowGrass';
 
 const plane = (name: string, size: number, y = 0, x = 0, z = 0) => {
   const mesh = new THREE.Mesh(
@@ -79,5 +90,50 @@ describe('meadow grass', () => {
   it('places nothing where no cell is open', () => {
     const grid = meadowGrid([plane('Fine garden gravel', 40)], []);
     expect(meadowBlades(grid, seeded()).blades).toBe(0);
+  });
+
+  it('stands taller wild tufts in patches out in the meadow, past the short blades', () => {
+    const ground = plane(MEADOW_MATERIAL, 90, 0.2);
+    const grid = meadowGrid([ground], [], TUFT_EXTENT, TUFT_CELL);
+    expect(grid.size).toBe((2 * TUFT_EXTENT) / TUFT_CELL);
+    expect(grid.open[Math.floor(grid.size / 2) * grid.size + grid.size - 4]).toBe(1);
+    expect(tuftDensity(5, 0)).toBe(0);
+    expect(tuftDensity(0, 41)).toBe(0);
+    // Patches: dense in some places, a sparse scatter in others.
+    const samples = Array.from({ length: 400 }, (_, i) => tuftDensity(20 + (i % 20), 2 + Math.floor(i / 20)));
+    expect(Math.max(...samples)).toBeGreaterThan(2);
+    expect(Math.min(...samples)).toBeLessThan(0.2);
+    const { geometry, blades } = meadowTufts(grid, seeded());
+    const position = geometry.attributes.position;
+    expect(blades).toBeGreaterThan(1000);
+    expect(position.count).toBe(blades * 9);
+    let near = Infinity,
+      far = 0,
+      high = -Infinity;
+    for (let v = 0; v < position.count; v++) {
+      const d = Math.hypot(position.getX(v), position.getZ(v));
+      near = Math.min(near, d);
+      far = Math.max(far, d);
+      high = Math.max(high, position.getY(v));
+    }
+    expect(near).toBeGreaterThan(10.5);
+    expect(far).toBeLessThan(40.5);
+    expect(high).toBeGreaterThan(0.2 + 0.3);
+    expect(high).toBeLessThan(0.2 + 0.8);
+  });
+
+  it('widens far tuft blades to keep about a pixel wide', () => {
+    const grid = meadowGrid([plane(MEADOW_MATERIAL, 90, 0)], [], TUFT_EXTENT, TUFT_CELL);
+    const position = meadowTufts(grid, seeded()).geometry.attributes.position;
+    const base = new THREE.Vector3(),
+      side = new THREE.Vector3();
+    // Each blade's first two vertices are the root's corners: its full width.
+    for (let v = 0; v < position.count; v += 9 * 53) {
+      base.fromBufferAttribute(position, v);
+      side.fromBufferAttribute(position, v + 1);
+      // The width follows the tuft's cell center, up to half a meter from the blade's root.
+      const d = Math.hypot(base.x, base.z) - 0.5;
+      expect(base.distanceTo(side)).toBeGreaterThan(d * 0.0016 * 0.8 * 2);
+    }
   });
 });
