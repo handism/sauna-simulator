@@ -1,0 +1,758 @@
+{
+ "note": "ABBA against the pre-change build (farForest.ts at 7878920, everything else the same). still: CIELAB dE76 over the whole 1280x800 DPR1 frame (forest-leaf-masses.visual.ts); motion: controlled rotation-compensated L* residual at DPR1.5 with the review camera, heading 0 and right 60 keys (resolution-shimmer.visual.ts), ratio to the paired run; cost: frame interval / 3 repeats, standard DPR1, right 20 keys (forest-back-crowns.gpu.ts), two ABBA rounds.",
+ "browser": "155.0.8059.85",
+ "inputs": {
+  "before1": {
+   "baseline": true,
+   "bundle": "SaunaScene-DUit4x7n.js",
+   "bundleHash": "353e7e2a87ff495a1e0cb5f9fea5b9bbd6b7520ef1212d6d6b8c59a19dbcc274",
+   "sourceHash": "8f53b9775d4513de02be5173aa2e024ebf204b7aaebb36650bbe27fb47c328c8"
+  },
+  "after1": {
+   "baseline": false,
+   "bundle": "SaunaScene-pOAVE29B.js",
+   "bundleHash": "6c86c5efb817534e736ce781447fb03d628ea43ccf45a583e2c5691aa1b232ff",
+   "sourceHash": "2a42d5b024e5c1387982f6cde876c4004197ff4875b65352a73847ebc3e4281e"
+  },
+  "after2": {
+   "baseline": false,
+   "bundle": "SaunaScene-pOAVE29B.js",
+   "bundleHash": "6c86c5efb817534e736ce781447fb03d628ea43ccf45a583e2c5691aa1b232ff",
+   "sourceHash": "2a42d5b024e5c1387982f6cde876c4004197ff4875b65352a73847ebc3e4281e"
+  },
+  "before2": {
+   "baseline": true,
+   "bundle": "SaunaScene-DUit4x7n.js",
+   "bundleHash": "353e7e2a87ff495a1e0cb5f9fea5b9bbd6b7520ef1212d6d6b8c59a19dbcc274",
+   "sourceHash": "8f53b9775d4513de02be5173aa2e024ebf204b7aaebb36650bbe27fb47c328c8"
+  }
+ },
+ "still": {
+  "sauna-day-0.png": {
+   "retakeMaxBefore": 7.031,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0104,
+   "maxDeltaE": 43.4
+  },
+  "sauna-day-20.png": {
+   "retakeMaxBefore": 12.539,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0058,
+   "maxDeltaE": 49.6
+  },
+  "sauna-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0005,
+   "maxDeltaE": 33.8
+  },
+  "sauna-evening-0.png": {
+   "retakeMaxBefore": 5.198,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0065,
+   "maxDeltaE": 52.1
+  },
+  "sauna-evening-20.png": {
+   "retakeMaxBefore": 4.937,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0042,
+   "maxDeltaE": 69.2
+  },
+  "sauna-evening-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0004,
+   "maxDeltaE": 27.6
+  },
+  "sauna-night-0.png": {
+   "retakeMaxBefore": 3.697,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0054,
+   "maxDeltaE": 33.3
+  },
+  "sauna-night-20.png": {
+   "retakeMaxBefore": 2.519,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0036,
+   "maxDeltaE": 37.0
+  },
+  "sauna-night-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0004,
+   "maxDeltaE": 20.8
+  },
+  "totonou-autumn-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0088,
+   "maxDeltaE": 43.6
+  },
+  "totonou-day-0.png": {
+   "retakeMaxBefore": 12.521,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.008,
+   "maxDeltaE": 42.0
+  },
+  "totonou-day-20.png": {
+   "retakeMaxBefore": 4.764,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0084,
+   "maxDeltaE": 46.5
+  },
+  "totonou-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0082,
+   "maxDeltaE": 44.2
+  },
+  "totonou-evening-0.png": {
+   "retakeMaxBefore": 2.73,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0058,
+   "maxDeltaE": 52.5
+  },
+  "totonou-evening-20.png": {
+   "retakeMaxBefore": 1.613,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0051,
+   "maxDeltaE": 67.6
+  },
+  "totonou-evening-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0057,
+   "maxDeltaE": 55.1
+  },
+  "totonou-night-0.png": {
+   "retakeMaxBefore": 0.974,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0048,
+   "maxDeltaE": 33.7
+  },
+  "totonou-night-20.png": {
+   "retakeMaxBefore": 1.704,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.004,
+   "maxDeltaE": 38.3
+  },
+  "totonou-night-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0044,
+   "maxDeltaE": 36.0
+  },
+  "totonou-spring-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0092,
+   "maxDeltaE": 41.5
+  },
+  "totonou-winter-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0077,
+   "maxDeltaE": 46.4
+  },
+  "water-day-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0097,
+   "maxDeltaE": 42.2
+  },
+  "water-day-20.png": {
+   "retakeMaxBefore": 1.291,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0058,
+   "maxDeltaE": 51.5
+  },
+  "water-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0111,
+   "maxDeltaE": 43.8
+  },
+  "water-evening-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.007,
+   "maxDeltaE": 64.7
+  },
+  "water-evening-20.png": {
+   "retakeMaxBefore": 1.999,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0032,
+   "maxDeltaE": 66.1
+  },
+  "water-evening-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0078,
+   "maxDeltaE": 55.0
+  },
+  "water-night-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.006,
+   "maxDeltaE": 37.3
+  },
+  "water-night-20.png": {
+   "retakeMaxBefore": 1.562,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0025,
+   "maxDeltaE": 34.5
+  },
+  "water-night-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0063,
+   "maxDeltaE": 35.7
+  }
+ },
+ "motion": {
+  "heading0": {
+   "after1-vs-before1": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 0.9994,
+      "tile": 1.0,
+      "tileP99": 1.002
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 0.9972,
+      "tile": 0.9961,
+      "tileP99": 0.9959
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 0.9981,
+      "tile": 0.9982,
+      "tileP99": 1.0009
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 0.9955,
+      "tile": 0.9948,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 0.9977,
+      "tile": 0.9977,
+      "tileP99": 0.9986
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 0.9951,
+      "tile": 0.9946,
+      "tileP99": 0.9984
+     }
+    }
+   ],
+   "after2-vs-before2": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 0.9994,
+      "tile": 1.0,
+      "tileP99": 1.002
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 0.9972,
+      "tile": 0.9961,
+      "tileP99": 0.9959
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 0.9981,
+      "tile": 0.9982,
+      "tileP99": 1.0009
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 0.9955,
+      "tile": 0.9948,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 0.9977,
+      "tile": 0.9977,
+      "tileP99": 0.9986
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 0.9951,
+      "tile": 0.9946,
+      "tileP99": 0.9984
+     }
+    }
+   ],
+   "before2-vs-before1": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    }
+   ],
+   "after2-vs-after1": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    }
+   ]
+  },
+  "heading60": {
+   "after1-vs-before1": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0011,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0023,
+      "tile": 1.0052,
+      "tileP99": 1.0019
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0009,
+      "tile": 1.0014,
+      "tileP99": 1.0013
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0007,
+      "tile": 1.0,
+      "tileP99": 1.0056
+     }
+    }
+   ],
+   "after2-vs-before2": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0011,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0023,
+      "tile": 1.0052,
+      "tileP99": 1.0019
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0009,
+      "tile": 1.0014,
+      "tileP99": 1.0013
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0007,
+      "tile": 1.0,
+      "tileP99": 1.0056
+     }
+    }
+   ],
+   "before2-vs-before1": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    }
+   ],
+   "after2-vs-after1": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0,
+      "tile": 1.0,
+      "tileP99": 1.0
+     }
+    }
+   ]
+  }
+ },
+ "cost": {
+  "sauna-day": {
+   "beforeMs": [
+    7.435,
+    7.477,
+    7.477,
+    7.477
+   ],
+   "afterMs": [
+    7.477,
+    7.476,
+    7.477,
+    7.477
+   ],
+   "ratio": 1.0014
+  },
+  "sauna-night": {
+   "beforeMs": [
+    7.649,
+    7.649,
+    7.666,
+    7.649
+   ],
+   "afterMs": [
+    7.649,
+    7.649,
+    7.666,
+    7.622
+   ],
+   "ratio": 0.9991
+  },
+  "water-day": {
+   "beforeMs": [
+    12.277,
+    12.208,
+    12.208,
+    12.277
+   ],
+   "afterMs": [
+    12.208,
+    12.195,
+    12.277,
+    12.277
+   ],
+   "ratio": 0.9997
+  },
+  "water-night": {
+   "beforeMs": [
+    12.749,
+    12.749,
+    12.749,
+    12.749
+   ],
+   "afterMs": [
+    12.749,
+    12.82,
+    12.749,
+    12.678
+   ],
+   "ratio": 1.0
+  },
+  "totonou-day": {
+   "beforeMs": [
+    8.13,
+    8.13,
+    8.085,
+    8.085
+   ],
+   "afterMs": [
+    8.13,
+    8.085,
+    8.13,
+    8.13
+   ],
+   "ratio": 1.0014
+  },
+  "totonou-night": {
+   "beforeMs": [
+    8.547,
+    8.547,
+    8.547,
+    8.546
+   ],
+   "afterMs": [
+    8.546,
+    8.547,
+    8.546,
+    8.547
+   ],
+   "ratio": 1.0
+  }
+ }
+}

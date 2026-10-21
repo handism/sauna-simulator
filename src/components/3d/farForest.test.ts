@@ -146,8 +146,41 @@ describe('far forest', () => {
     expect(index.count / 3).toBeLessThan(95000);
     let bytes = index.array.byteLength;
     for (const attribute of Object.values(geometry.attributes)) bytes += attribute.array.byteLength;
-    expect(bytes).toBeLessThan(5.5e6);
+    // Plus the volumes' 8-bit normals for their frayed outline (240 KB).
+    expect(bytes).toBeLessThan(5.65e6);
     geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
+  });
+  it("raises the front volumes to their crowns' tips and gives only the volumes normals to fray", () => {
+    const forest = createFarForest({ value: new THREE.Color() });
+    const { gardenBand, gardenEdge, gardenCrownTop, gardenNormal } = forest.mesh.geometry.attributes;
+    const tips = farForestCrowns().map((crown) => crown.top);
+    let front = 0;
+    for (let i = 0; i < gardenBand.count; i++) {
+      const length = Math.hypot(gardenNormal.getX(i), gardenNormal.getY(i), gardenNormal.getZ(i));
+      if (gardenBand.getX(i) === 1) {
+        // The band frays by its outline's height instead.
+        expect(length).toBe(0);
+        continue;
+      }
+      expect(length).toBeGreaterThan(0.98);
+      expect(length).toBeLessThan(1.02);
+      if (gardenEdge.getX(i) !== 1e4) continue;
+      // The front rank (not the backing one, 0.25m under): close enough under a tip to hide the band's.
+      const drop = Math.min(...tips.map((tip) => Math.abs(tip - gardenCrownTop.getX(i))));
+      if (drop < 0.22) front++;
+      expect(drop < 0.2 + 1e-4 || Math.abs(drop - 0.25) < 1e-4).toBe(true);
+    }
+    expect(front).toBeGreaterThan(0);
+    const shader = {
+      uniforms: {},
+      vertexShader: THREE.ShaderLib.basic.vertexShader,
+      fragmentShader: THREE.ShaderLib.basic.fragmentShader,
+    };
+    (forest.mesh.material as THREE.MeshBasicMaterial).onBeforeCompile(shader as any, undefined as any);
+    expect(shader.vertexShader).toContain('vGardenNormal = gardenNormal;');
+    expect(shader.fragmentShader).toContain('normalize(cameraPosition - vGardenPosition)');
+    forest.mesh.geometry.dispose();
+    (forest.mesh.material as THREE.MeshBasicMaterial).dispose();
   });
 });

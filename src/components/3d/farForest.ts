@@ -27,6 +27,14 @@ const CORE_SHADE = 0.74;
 const CLUMPS = { front: 10, backing: 6, far: 4 };
 const CLUMP_RINGS = 5;
 const CLUMP_SECTORS = 8;
+/** How far (m) a front crown's volume stays under its crown's top. */
+const FRONT_DROP = 0.2;
+/**
+ * The volumes' leafy outline: along a volume's silhouette (where its surface turns from the view),
+ * leaf masses of about 0.4m and 0.17m cut in up to this share of the turn, so the clumps read as
+ * foliage instead of smooth balls; gone where the masses would be finer than a pixel.
+ */
+const VOLUME_FRAY = 0.8;
 /** The scene's fixed sun (lighting.ts), as the band's shading uses. */
 const sun = new THREE.Vector3(-0.556, 0.6178, 0.556).normalize();
 
@@ -155,6 +163,8 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   const sides: number[] = [];
   const band: number[] = [];
   const volumeLight: number[] = [];
+  // The volumes' outward normals (the band has none: its outline frays by height).
+  const normals: number[] = [];
   const at = (
     j: number,
     y: number,
@@ -173,6 +183,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     indices.push(vertices++);
     crownOf.push(crown);
     volumeLight.push(1);
+    normals.push(0, 0, 0);
     band.push(1);
     sides.push(crown >= 0 ? (span(crowns[crown], a) * (radius / FAR_FOREST_RADIUS)) / crowns[crown].radius : 0);
     depths.push((radius - 47) / 7);
@@ -212,7 +223,10 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     const backing = i % 6 === 0;
     const far = i % 6 === 3;
     const distance = far ? 51.9 + crown.shade * 0.2 : backing ? 51.2 + crown.shade * 0.5 : 48 + crown.shade * 3;
-    const top = crown.top - (far ? 0.1 : backing ? 0.25 : 1.1);
+    // The front volumes once stopped 1.1m short of the band behind: its crown tips then stood over them
+    // alone, cut by the fray into stalks and knobs like chimney pots (docs/3d-qa/forest-outline/).
+    // Rising to the tips, the nearer volumes hide them.
+    const top = crown.top - (far ? 0.1 : backing ? 0.25 : FRONT_DROP);
     // Extend below the terrain: exposing the ellipsoid bottoms made floating blobs.
     const bottom = BASE;
     const height = Math.max(1.6, top - bottom);
@@ -259,6 +273,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
           .add(new THREE.Vector3(0, ny / halfHeight, 0))
           .normalize();
         volumeLight.push(light(normal));
+        normals.push(Math.round(normal.x * 127), Math.round(normal.y * 127), Math.round(normal.z * 127));
         sides.push(0);
         depths.push(Math.max(0, Math.min(1, (Math.hypot(position.x, position.z) - 47) / 7)));
         lift.push(Math.max(0, Math.min(1, (position.y - BASE) / (UNDERSTORY - BASE))));
@@ -285,8 +300,10 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       (far
         ? 0.78 + 0.66 * Math.max(0, normal.dot(lightDirection))
         : 0.55 + 0.75 * (0.5 + 0.5 * normal.dot(lightDirection)));
-    // Narrow the evergreen leader toward the top, retaining its rounded tip.
-    const lobeTaper = (ny: number) => (crown.evergreen ? 0.78 - 0.22 * ny : 1);
+    // Narrow the evergreen leader toward the top. Its upper half closes as a cone, to the spire the band
+    // behind once showed over it (a rounded tip read as a broadleaf's).
+    const lobeTaper = (ny: number) =>
+      crown.evergreen ? (0.78 - 0.22 * ny) * (ny > 0 ? Math.sqrt((1 - ny) / (1 + ny)) : 1) : 1;
     // A leader and two offset shoulders break up a single smooth balloon/cone.
     for (let lobe = 0; lobe < 3; lobe++) {
       const shoulder = lobe !== 0;
@@ -375,6 +392,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   geometry.setAttribute('gardenCrownSide', new THREE.Float32BufferAttribute(sides, 1));
   geometry.setAttribute('gardenBand', new THREE.Float32BufferAttribute(band, 1));
   geometry.setAttribute('gardenDepth', new THREE.Float32BufferAttribute(depths, 1));
+  geometry.setAttribute('gardenNormal', new THREE.BufferAttribute(new Int8Array(normals), 3, true));
   const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
   material.name = 'Garden far forest';
   // The shader frays the outline with discard; an alpha test (never failed: the alpha is 1) keeps the
@@ -385,12 +403,12 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;\nvarying float vGardenAir;',
+        '#include <common>\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nattribute vec3 gardenNormal;\nvarying vec3 vGardenNormal;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;\nvarying float vGardenAir;',
       )
       .replace('#include <project_vertex>', '#include <project_vertex>\nvGardenAir = length(mvPosition.xyz);')
       .replace(
         '#include <begin_vertex>',
-        '#include <begin_vertex>\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenPosition = position;',
+        '#include <begin_vertex>\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenNormal = gardenNormal;\nvGardenPosition = position;',
       );
     shader.fragmentShader = shader.fragmentShader
       .replace(
@@ -402,6 +420,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         varying float vGardenLift;
         varying float vGardenTop;
         varying float vGardenEdge;
+        varying vec3 vGardenNormal;
         varying vec3 vGardenPosition;
         varying float vGardenAir;
         uniform vec3 gardenHazeColor;
@@ -428,7 +447,15 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         vec2 gardenEdgeArc = vec2(atan(vGardenPosition.z, vGardenPosition.x) * ${FAR_FOREST_RADIUS.toFixed(1)}, vGardenPosition.y);
         float gardenFine = 1.0 - smoothstep(0.08, 0.2, max(length(dFdx(gardenEdgeArc)), length(dFdy(gardenEdgeArc))));
         float gardenRag = gardenForestNoise(gardenEdgeArc * 2.2) * 0.65 + mix(0.5, gardenForestNoise(gardenEdgeArc * 5.0 + 7.7), gardenFine) * 0.35;
-        if (vGardenEdge - vGardenPosition.y < (gardenRag - 0.3) * ${FRAY.toFixed(1)}) discard;`,
+        if (vGardenEdge - vGardenPosition.y < (gardenRag - 0.3) * ${FRAY.toFixed(1)}) discard;
+        // The volumes fray along their own silhouettes, revealing the clump or crown behind.
+        if (dot(vGardenNormal, vGardenNormal) > 0.25) {
+          float gardenTurn = 1.0 - abs(dot(normalize(vGardenNormal), normalize(cameraPosition - vGardenPosition)));
+          float gardenLeafy = gardenForestNoise(gardenEdgeArc * 2.5 + 3.3) * 0.65
+            + mix(0.5, gardenForestNoise(gardenEdgeArc * 6.0 + 1.7), gardenFine) * 0.35;
+          float gardenVolumeFine = 1.0 - smoothstep(0.12, 0.35, max(length(dFdx(gardenEdgeArc)), length(dFdy(gardenEdgeArc))));
+          if (gardenTurn > 1.0 - ${VOLUME_FRAY.toFixed(2)} * gardenLeafy * gardenVolumeFine) discard;
+        }`,
       )
       .replace(
         '#include <color_fragment>',
@@ -495,7 +522,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v11';
+  material.customProgramCacheKey = () => 'garden-far-forest-v12';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();
