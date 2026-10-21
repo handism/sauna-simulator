@@ -108,19 +108,65 @@ describe('garden accents', () => {
   it('shows butterflies only on warm clear days and hides them for reduced motion', () => {
     const { root, details } = garden();
     const butterfly = root.getObjectByName('Garden butterfly 0')!;
-    details.update(2, 'summer', 0, 'clear', false);
-    expect(butterfly.visible).toBe(true);
+    const flyingAt = Array.from({ length: 480 }, (_, i) => i * 0.5).find((t) => {
+      details.update(t, 'summer', 0, 'clear', false);
+      return butterfly.visible;
+    })!;
+    expect(flyingAt).toBeDefined();
     for (const [season, time, weather, reduced] of [
       ['winter', 0, 'clear', false],
       ['summer', 0, 'rain', false],
       ['summer', 2, 'clear', false],
       ['spring', 0, 'clear', true],
     ] as const) {
-      details.update(2, season, time, weather, reduced);
+      details.update(flyingAt, season, time, weather, reduced);
       expect(butterfly.visible).toBe(false);
     }
-    details.update(30, 'summer', 0, 'clear', false);
-    expect(butterfly.visible).toBe(false);
+    disposeTree(root);
+  });
+
+  it('flies butterflies in visits that land on blooms with symmetric wingbeats', () => {
+    const { root, details } = garden();
+    const flowers = root.getObjectByName('Garden seasonal flowers') as THREE.Mesh;
+    flowers.geometry.computeBoundingBox();
+    const bloomsTop = flowers.geometry.boundingBox!.max.y;
+    for (let n = 0; n < 3; n++) {
+      const butterfly = root.getObjectByName(`Garden butterfly ${n}`)!;
+      const [right, left] = ['right', 'left'].map((side) =>
+        root.getObjectByName(`Garden butterfly ${n} wing ${side}`)!,
+      );
+      let shown = 0,
+        hidden = 0,
+        still = 0;
+      const last = new THREE.Vector3(NaN, NaN, NaN);
+      for (let t = 0; t < 200; t += 0.1) {
+        details.update(t, 'spring', 0, 'clear', false);
+        if (!butterfly.visible) {
+          hidden++;
+          last.set(NaN, NaN, NaN);
+          continue;
+        }
+        shown++;
+        expect(left.rotation.z).toBeCloseTo(-right.rotation.z);
+        // Wings between about 30° below level and closed above the back.
+        expect(right.rotation.z).toBeGreaterThan(-0.6);
+        expect(right.rotation.z).toBeLessThan(1.55);
+        const { x, y, z } = butterfly.position;
+        // Above the ground (at y = 2 here) near the patches, and never too fast.
+        if (Math.hypot(x - 2, z - 6) < 9) expect(y).toBeGreaterThan(2.02);
+        if (Number.isFinite(last.x)) expect(butterfly.position.distanceTo(last)).toBeLessThan(0.8);
+        // Resting on a flower: still, level and at a bloom's height.
+        if (Number.isFinite(last.x) && butterfly.position.distanceTo(last) < 1e-6) {
+          still++;
+          expect(y).toBeLessThan(bloomsTop + 0.05);
+          expect(Math.abs(butterfly.rotation.x)).toBeLessThan(0.05);
+        }
+        last.copy(butterfly.position);
+      }
+      expect(shown).toBeGreaterThan(400);
+      expect(hidden).toBeGreaterThan(100);
+      expect(still).toBeGreaterThan(30);
+    }
     disposeTree(root);
   });
 

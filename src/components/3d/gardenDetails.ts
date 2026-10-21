@@ -4,6 +4,7 @@ import { meadowBlades, meadowGrid } from './meadowGrass';
 import { createFarForest } from './farForest';
 import { gardenBloomGeometry } from './gardenBloom';
 import { createGardenStream, streamSection } from './gardenStream';
+import { createButterflies } from './butterflies';
 import type { Season } from './season';
 
 /** A deterministic generator in [0, 1), so every load builds the same garden. */
@@ -336,6 +337,8 @@ export function addGardenDetails(root: THREE.Object3D) {
   const range = (min: number, max: number) => min + (max - min) * random();
   const white = new THREE.Color(1, 1, 1);
   const batches = new Map<THREE.Material, THREE.BufferGeometry[]>();
+  // Where a butterfly may land: the top of each bloom.
+  const bloomTops: THREE.Vector3[] = [];
   const add = (
     geometry: THREE.BufferGeometry,
     mat: THREE.Material,
@@ -467,6 +470,7 @@ export function addGardenDetails(root: THREE.Object3D) {
         const flowerX = px + Math.cos(a) * reach * wide;
         const flowerY = y + 0.12 + rise * size * tall;
         const flowerZ = pz + Math.sin(a) * reach * deep;
+        bloomTops.push(new THREE.Vector3(flowerX, flowerY + 0.015 * scale, flowerZ));
         const start = new THREE.Vector3(px, y + 0.05, pz);
         const end = new THREE.Vector3(flowerX, flowerY, flowerZ);
         const stem = new THREE.CylinderGeometry(0.0025, 0.005, start.distanceTo(end), 3, 1);
@@ -800,23 +804,9 @@ export function addGardenDetails(root: THREE.Object3D) {
   const pool = new THREE.Mesh(poolGeometry, poolMaterial);
   pool.name = poolMaterial.name;
   group.add(pool);
-  const butterflies: THREE.Group[] = [];
-  const wingMaterial = new THREE.MeshStandardMaterial({ color: 0xf0d9a2, roughness: 0.9, side: THREE.DoubleSide });
-  const wingGeometry = new THREE.CircleGeometry(0.09, 5);
-  wingGeometry.rotateX(-Math.PI / 2);
-  wingGeometry.translate(0.075, 0, 0);
-  for (let n = 0; n < 3; n++) {
-    const butterfly = new THREE.Group();
-    butterfly.name = `Garden butterfly ${n}`;
-    for (const side of [-1, 1]) {
-      const wing = new THREE.Mesh(wingGeometry, wingMaterial);
-      wing.scale.x = side;
-      butterfly.add(wing);
-    }
-    butterflies.push(butterfly);
-    group.add(butterfly);
-  }
-  const butterflyFloors = butterflies.map((_, i) => floor(patches[i + 2][0], patches[i + 2][1]));
+  const butterflyFlock = createButterflies(bloomTops, floor);
+  const butterflies = butterflyFlock.groups;
+  group.add(...butterflies);
   const hillDay = [new THREE.Color(0x718575), new THREE.Color(0x8b9c9b), new THREE.Color(0xa7b4bc)];
   // Unlit, so the dusk colors are set here: halfway to night they stood out above the darkened
   // meadow under the opened evening exposure.
@@ -906,21 +896,11 @@ export function addGardenDetails(root: THREE.Object3D) {
       farForest.update(season, forestLight);
       for (const [i, mesh] of movingGrass.entries())
         mesh.rotation.z = Math.sin(time * 0.8 + i * 1.7) * (reducedMotion ? 0 : 0.025);
-      for (const [i, butterfly] of butterflies.entries()) {
-        butterfly.visible =
-          !reducedMotion &&
-          weather === 'clear' &&
-          (season === 'spring' || season === 'summer') &&
-          timeOfDay < 0.6 &&
-          (time + i * 13) % 42 < 24;
-        const x = patches[i + 2][0] + Math.sin(time * 0.27 + i * 2) * 0.8;
-        const z = patches[i + 2][1] + Math.cos(time * 0.21 + i) * 0.6;
-        butterfly.position.set(x, butterflyFloors[i] + 0.95 + Math.sin(time * 0.7 + i) * 0.22, z);
-        butterfly.rotation.y = time * 0.27 + i;
-        butterfly.children.forEach((wing, j) => {
-          wing.rotation.z = Math.sin(time * 13 + i) * 0.65 * (j ? 1 : -1);
-        });
-      }
+      butterflyFlock.update(
+        time,
+        !reducedMotion && weather === 'clear' && (season === 'spring' || season === 'summer') && timeOfDay < 0.6,
+        1 - evening,
+      );
     },
   };
 }
