@@ -44,12 +44,13 @@ describe('far forest', () => {
     const position = forest.mesh.geometry.attributes.position;
     // Check every vertex: the sparse rear shoulders must not spill past the
     // backing ring or into the real woodland between sampled vertices.
+    // Counted rather than asserted per vertex, which outran CI's 5s timeout.
+    let strays = 0;
     for (let i = 0; i < position.count; i++) {
       const radius = Math.hypot(position.getX(i), position.getZ(i));
-      expect(radius).toBeGreaterThanOrEqual(44 - 1e-4);
-      expect(radius).toBeLessThanOrEqual(FAR_FOREST_RADIUS + 1e-4);
-      expect(position.getY(i)).toBeLessThan(16);
+      if (radius < 44 - 1e-4 || radius > FAR_FOREST_RADIUS + 1e-4 || !(position.getY(i) < 16)) strays++;
     }
+    expect(strays).toBe(0);
     // The bridge is separated in depth from the backing, stays outside the real trees,
     // and uses finite geometry even at a crown's open ends.
     expect(Array.from(position.array).every(Number.isFinite)).toBe(true);
@@ -74,7 +75,9 @@ describe('far forest', () => {
     // The frayed outline over each vertex; none where a crown covers the understory's top.
     const edge = forest.mesh.geometry.attributes.gardenEdge;
     expect(edge.count).toBe(position.count);
-    for (let i = 0; i < position.count; i++) expect(edge.getX(i)).toBeGreaterThanOrEqual(position.getY(i) - 1e-4);
+    let belowEdge = 0;
+    for (let i = 0; i < position.count; i++) if (!(edge.getX(i) >= position.getY(i) - 1e-4)) belowEdge++;
+    expect(belowEdge).toBe(0);
     // Kept out of the depth prepass, whose depth would hide the sky behind the frayed edge.
     expect((forest.mesh.material as THREE.MeshBasicMaterial).alphaTest).toBeGreaterThan(0);
     expect((forest.mesh.material as THREE.MeshBasicMaterial).color.toArray()).toEqual([0.1, 0.2, 0.3]);
@@ -170,22 +173,32 @@ describe('far forest', () => {
     const forest = createFarForest({ value: new THREE.Color() });
     const { gardenBand, gardenEdge, gardenCrownTop, gardenNormal } = forest.mesh.geometry.attributes;
     const tips = farForestCrowns().map((crown) => crown.top);
+    // Counted rather than asserted per vertex, which outran CI's 5s timeout.
+    let bandNormals = 0;
+    let volumeNormals = 0;
+    let misplaced = 0;
     let front = 0;
+    // Many vertices share a crown top: find each one's nearest tip once.
+    const drops = new Map<number, number>();
     for (let i = 0; i < gardenBand.count; i++) {
       const length = Math.hypot(gardenNormal.getX(i), gardenNormal.getY(i), gardenNormal.getZ(i));
       if (gardenBand.getX(i) === 1) {
         // The band frays by its outline's height instead.
-        expect(length).toBe(0);
+        if (length !== 0) bandNormals++;
         continue;
       }
-      expect(length).toBeGreaterThan(0.98);
-      expect(length).toBeLessThan(1.02);
+      if (!(length > 0.98 && length < 1.02)) volumeNormals++;
       if (gardenEdge.getX(i) !== 1e4) continue;
       // The front rank (not the backing one, 0.25m under): close enough under a tip to hide the band's.
-      const drop = Math.min(...tips.map((tip) => Math.abs(tip - gardenCrownTop.getX(i))));
+      const top = gardenCrownTop.getX(i);
+      let drop = drops.get(top);
+      if (drop === undefined) drops.set(top, (drop = Math.min(...tips.map((tip) => Math.abs(tip - top)))));
       if (drop < 0.22) front++;
-      expect(drop < 0.2 + 1e-4 || Math.abs(drop - 0.25) < 1e-4).toBe(true);
+      if (!(drop < 0.2 + 1e-4 || Math.abs(drop - 0.25) < 1e-4)) misplaced++;
     }
+    expect(bandNormals).toBe(0);
+    expect(volumeNormals).toBe(0);
+    expect(misplaced).toBe(0);
     expect(front).toBeGreaterThan(0);
     const shader = {
       uniforms: {},
