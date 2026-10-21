@@ -13,6 +13,15 @@ export const CROWN_NORMAL_WEIGHT = 0.9;
  */
 export const WOODLAND_ALBEDO = 1.7;
 export const WOODLAND_ROUGHNESS = 0.8;
+/**
+ * Not in the source: the share of the reflection probes' sky the woodland cards keep by day. A card in
+ * a crown sees mostly other leaves along its mirror direction, but the probes hold the open sky there;
+ * on the dark leaves that sky was most of their light and turned the sunlit crowns teal-grey (hue about
+ * 145°, the leaves' own about 100°); taking all of it changed little more. Kept on the outer shell,
+ * the crown tops stayed grey. At dusk and night the sheen stays: the darker silhouettes stood out more against
+ * the sky while looking around (docs/3d-qa/crown-specular/).
+ */
+export const WOODLAND_SPECULAR = 0.25;
 /** A card's ellipsoid radius where its crown's outer shell (`LEAF_SHELL_LEVELS`) starts and is outermost. */
 const SHELL_FROM = 1.0;
 const SHELL_TO = 1.45;
@@ -58,12 +67,21 @@ export function crownShade(r: number, up: number) {
 
 // SUI_CROWN_TINT multiplies the base color by the vertex attribute `suiCrownTint`. Not vertex colors:
 // a material with vertexColors leaves the depth prepass and the shadow mask's cut-out copies
-// (depthPrepass.ts cutoutOf), which made the woodland about a third slower to draw.
+// (depthPrepass.ts cutoutOf), which made the woodland about a third slower to draw. The same define
+// scales the probes' reflection on the cards (WOODLAND_SPECULAR).
 const TINT_CHUNKS: [keyof typeof THREE.ShaderChunk, string][] = [
   ['color_pars_vertex', 'attribute vec3 suiCrownTint;\nvarying vec3 vSuiCrownTint;'],
   ['color_vertex', 'vSuiCrownTint = suiCrownTint;'],
   ['color_pars_fragment', 'varying vec3 vSuiCrownTint;'],
   ['color_fragment', 'diffuseColor.rgb *= vSuiCrownTint;'],
+  // After the lights, with the ambient occlusion: only the probes' reflection (the sun has no gloss),
+  // by day only (the evening weight, irradiance.ts).
+  [
+    'aomap_fragment',
+    `#ifdef SUI_IRRADIANCE
+	reflectedLight.indirectSpecular *= mix( ${WOODLAND_SPECULAR.toFixed(2)}, 1.0, suiIrradianceEvening );
+#endif`,
+  ],
 ];
 for (const [chunk, code] of TINT_CHUNKS)
   if (!THREE.ShaderChunk[chunk].includes('SUI_CROWN_TINT'))

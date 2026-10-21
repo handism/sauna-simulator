@@ -1,0 +1,694 @@
+{
+ "note": "ABBA against the pre-change build (HEAD 97eb722 dist). still: CIELAB dE76 over the whole 1280x800 DPR1 frame (forest-leaf-masses.visual.ts); motion: controlled rotation-compensated L* residual at DPR1.5, default views with the review camera (resolution-shimmer.visual.ts), ratio to before; cost: frame interval / 3 repeats, standard DPR1, heading right 20 keys (forest-back-crowns.gpu.ts), two ABBA rounds; hue: sRGB percentiles (10/30/50%, sorted by sum) of the outdoor day woodland crowns (top box 480-640 x 200-300, mid box 300-460 x 300-380 of totonou-day-0).",
+ "browser": "155.0.8059.85",
+ "inputs": {
+  "before1": {
+   "baseline": true,
+   "bundle": "SaunaScene-DvZ2P7kF.js",
+   "bundleHash": "126f0378d4cdca5d961a0ec9bedc61b34058490127ee9107cf334184b250612e",
+   "sourceHash": "8f53b9775d4513de02be5173aa2e024ebf204b7aaebb36650bbe27fb47c328c8"
+  },
+  "after1": {
+   "baseline": false,
+   "bundle": "SaunaScene-DUit4x7n.js",
+   "bundleHash": "353e7e2a87ff495a1e0cb5f9fea5b9bbd6b7520ef1212d6d6b8c59a19dbcc274",
+   "sourceHash": "8f53b9775d4513de02be5173aa2e024ebf204b7aaebb36650bbe27fb47c328c8"
+  },
+  "after2": {
+   "baseline": false,
+   "bundle": "SaunaScene-DUit4x7n.js",
+   "bundleHash": "353e7e2a87ff495a1e0cb5f9fea5b9bbd6b7520ef1212d6d6b8c59a19dbcc274",
+   "sourceHash": "8f53b9775d4513de02be5173aa2e024ebf204b7aaebb36650bbe27fb47c328c8"
+  },
+  "before2": {
+   "baseline": true,
+   "bundle": "SaunaScene-DvZ2P7kF.js",
+   "bundleHash": "126f0378d4cdca5d961a0ec9bedc61b34058490127ee9107cf334184b250612e",
+   "sourceHash": "8f53b9775d4513de02be5173aa2e024ebf204b7aaebb36650bbe27fb47c328c8"
+  }
+ },
+ "still": {
+  "sauna-day-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0767,
+   "maxDeltaE": 18.7
+  },
+  "sauna-day-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0872,
+   "maxDeltaE": 16.6
+  },
+  "sauna-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0657,
+   "maxDeltaE": 32.0
+  },
+  "sauna-evening-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "sauna-evening-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "sauna-evening-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "sauna-night-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "sauna-night-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "sauna-night-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "totonou-autumn-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0473,
+   "maxDeltaE": 21.1
+  },
+  "totonou-day-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.1163,
+   "maxDeltaE": 85.1
+  },
+  "totonou-day-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0346,
+   "maxDeltaE": 19.4
+  },
+  "totonou-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0472,
+   "maxDeltaE": 18.9
+  },
+  "totonou-evening-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "totonou-evening-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.9
+  },
+  "totonou-evening-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "totonou-night-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "totonou-night-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "totonou-night-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "totonou-spring-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0463,
+   "maxDeltaE": 19.5
+  },
+  "totonou-winter-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0258,
+   "maxDeltaE": 20.8
+  },
+  "water-day-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0959,
+   "maxDeltaE": 16.7
+  },
+  "water-day-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0175,
+   "maxDeltaE": 11.0
+  },
+  "water-day-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0292,
+   "maxDeltaE": 15.9
+  },
+  "water-evening-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "water-evening-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "water-evening-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "water-night-0.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "water-night-20.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  },
+  "water-night-60.png": {
+   "retakeMaxBefore": 0.0,
+   "retakeMaxAfter": 0.0,
+   "deltaE2Share": 0.0,
+   "maxDeltaE": 0.0
+  }
+ },
+ "motion": {
+  "product": [
+   {
+    "pair": [
+     "before1",
+     "fafter1"
+    ],
+    "rows": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0203,
+       "tile": 1.0339,
+       "tileP99": 1.0493
+      }
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0304,
+       "tile": 1.0488,
+       "tileP99": 1.0642
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0395,
+       "tile": 1.0557,
+       "tileP99": 1.0844
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     }
+    ]
+   },
+   {
+    "pair": [
+     "before2",
+     "fafter2"
+    ],
+    "rows": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0203,
+       "tile": 1.0339,
+       "tileP99": 1.0493
+      }
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0304,
+       "tile": 1.0488,
+       "tileP99": 1.0642
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0395,
+       "tile": 1.0557,
+       "tileP99": 1.0844
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     }
+    ]
+   }
+  ],
+  "replay": [
+   {
+    "pair": [
+     "before1",
+     "before2"
+    ],
+    "rows": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     }
+    ]
+   },
+   {
+    "pair": [
+     "fafter1",
+     "fafter2"
+    ],
+    "rows": [
+     {
+      "stage": "sauna",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "sauna",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "totonou",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "day",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     },
+     {
+      "stage": "water",
+      "lighting": "evening",
+      "relative": {
+       "pixel": 1.0,
+       "tile": 1.0,
+       "tileP99": 1.0
+      }
+     }
+    ]
+   }
+  ],
+  "rejected": {
+   "quarterDayAndDusk": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0203,
+      "tile": 1.0339,
+      "tileP99": 1.0493
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0202,
+      "tile": 1.0581,
+      "tileP99": 1.1125
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0304,
+      "tile": 1.0488,
+      "tileP99": 1.0642
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0376,
+      "tile": 1.1018,
+      "tileP99": 1.1737
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0395,
+      "tile": 1.0557,
+      "tileP99": 1.0844
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0435,
+      "tile": 1.0921,
+      "tileP99": 1.1505
+     }
+    }
+   ],
+   "quarterInsideOuterShellKept": [
+    {
+     "stage": "sauna",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0179,
+      "tile": 1.0294,
+      "tileP99": 1.0507
+     }
+    },
+    {
+     "stage": "sauna",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0101,
+      "tile": 1.0349,
+      "tileP99": 1.0635
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0246,
+      "tile": 1.0394,
+      "tileP99": 1.053
+     }
+    },
+    {
+     "stage": "totonou",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.0169,
+      "tile": 1.0548,
+      "tileP99": 1.0984
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "day",
+     "relative": {
+      "pixel": 1.0328,
+      "tile": 1.046,
+      "tileP99": 1.0677
+     }
+    },
+    {
+     "stage": "water",
+     "lighting": "evening",
+     "relative": {
+      "pixel": 1.022,
+      "tile": 1.0515,
+      "tileP99": 1.0943
+     }
+    }
+   ]
+  }
+ },
+ "cost": {
+  "browser": "155.0.8059.85",
+  "repeat": 3,
+  "results": {
+   "sauna-day": {
+    "beforeMs": [
+     7.477,
+     7.435,
+     7.477,
+     7.477
+    ],
+    "afterMs": [
+     7.477,
+     7.477,
+     7.477,
+     7.477
+    ],
+    "ratio": 1.0014
+   },
+   "sauna-night": {
+    "beforeMs": [
+     7.649,
+     7.649,
+     7.665,
+     7.622
+    ],
+    "afterMs": [
+     7.666,
+     7.649,
+     7.666,
+     7.692
+    ],
+    "ratio": 1.0028
+   },
+   "water-day": {
+    "beforeMs": [
+     12.345,
+     12.276,
+     12.345,
+     12.345
+    ],
+    "afterMs": [
+     12.277,
+     12.208,
+     12.277,
+     12.345
+    ],
+    "ratio": 0.9958
+   },
+   "water-night": {
+    "beforeMs": [
+     12.82,
+     12.749,
+     12.842,
+     12.749
+    ],
+    "afterMs": [
+     12.82,
+     12.82,
+     12.749,
+     12.842
+    ],
+    "ratio": 1.0014
+   },
+   "totonou-day": {
+    "beforeMs": [
+     8.13,
+     8.13,
+     8.13,
+     8.13
+    ],
+    "afterMs": [
+     8.151,
+     8.13,
+     8.13,
+     8.13
+    ],
+    "ratio": 1.0007
+   },
+   "totonou-night": {
+    "beforeMs": [
+     8.572,
+     8.572,
+     8.62,
+     8.572
+    ],
+    "afterMs": [
+     8.572,
+     8.62,
+     8.572,
+     8.572
+    ],
+    "ratio": 1.0
+   }
+  }
+ },
+ "hue": {
+  "before": [
+   "top 0.1:(30,47,42) h162 s0.36  0.3:(56,88,71) h148 s0.36  0.5:(81,100,89) h145 s0.19",
+   "mid 0.1:(28,38,30) h132 s0.26  0.3:(44,54,48) h144 s0.19  0.5:(57,76,59) h126 s0.25"
+  ],
+  "quarterDayAndDusk": [
+   "top 0.1:(25,37,33) h160 s0.32  0.3:(56,82,41) h98 s0.50  0.5:(68,100,65) h115 s0.35",
+   "mid 0.1:(22,35,22) h120 s0.37  0.3:(34,45,41) h158 s0.24  0.5:(47,63,47) h120 s0.25"
+  ],
+  "none": [
+   "top 0.1:(23,37,22) h116 s0.41  0.3:(43,74,39) h113 s0.47  0.5:(61,99,49) h106 s0.51",
+   "mid 0.1:(17,36,15) h114 s0.58  0.3:(31,41,36) h150 s0.24  0.5:(42,57,45) h132 s0.26"
+  ],
+  "quarterInsideOuterShellKept": [
+   "top 0.1:(26,40,30) h137 s0.35  0.3:(61,96,35) h94 s0.64  0.5:(72,95,93) h175 s0.24",
+   "mid 0.1:(21,35,23) h129 s0.40  0.3:(34,48,38) h137 s0.29  0.5:(46,57,56) h175 s0.19"
+  ]
+ }
+}

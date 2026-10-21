@@ -5,6 +5,7 @@ import {
   CROWN_NORMAL_WEIGHT,
   WOODLAND_ALBEDO,
   WOODLAND_ROUGHNESS,
+  WOODLAND_SPECULAR,
   crownShade,
   crownTint,
   roundWoodlandCrowns,
@@ -188,5 +189,22 @@ describe('woodland crown normals', () => {
     expect(crownShade(0, 0)).toBeCloseTo(0.7);
     expect(crownShade(1, 0)).toBeCloseTo(1);
     expect(crownShade(1, -1)).toBeLessThan(crownShade(1, 1));
+  });
+
+  it("keeps a quarter of the probes' reflection on the cards by day, after the lights and before the sum", () => {
+    expect(WOODLAND_SPECULAR).toBeGreaterThan(0);
+    expect(WOODLAND_SPECULAR).toBeLessThan(1);
+    const fragment = THREE.ShaderLib.standard.fragmentShader.replace(
+      /#include <(\w+)>/g,
+      (_, chunk: keyof typeof THREE.ShaderChunk) => THREE.ShaderChunk[chunk],
+    );
+    const scale = fragment.indexOf(
+      `reflectedLight.indirectSpecular *= mix( ${WOODLAND_SPECULAR.toFixed(2)}, 1.0, suiIrradianceEvening );`,
+    );
+    expect(scale).toBeGreaterThan(0);
+    expect(fragment.lastIndexOf('#ifdef SUI_CROWN_TINT', scale)).toBeGreaterThan(
+      fragment.indexOf('RE_IndirectSpecular('),
+    );
+    expect(scale).toBeLessThan(fragment.indexOf('vec3 totalSpecular'));
   });
 });
