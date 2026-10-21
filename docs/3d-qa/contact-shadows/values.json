@@ -1,0 +1,134 @@
+{
+ "date": "2026-10-22",
+ "capture": "e2e/contact-shadows.visual.ts via playwright.contact.config.ts; standard quality, DPR 1, fixed resolution, reduced motion, 1280x800, Chrome 155.0.8059.85",
+ "baseline": "build of HEAD 570456d served with CONTACT_BASELINE_DIST (before1, before2)",
+ "after": "after4 (final source); after1-3 were earlier iterations",
+ "source_sha256": {
+  "src/components/3d/gardenDetails.ts": "2157adc2fcd44334e80798935a0c46174ef8c3d241610441f9f8a61b0c8cb5c0",
+  "public/models/sauna.glb": "9fa5e213ef5dc9f7eda8ebe40ed5893ab7c98b7bef15eb3c82b249f31e9b90e7"
+ },
+ "settled_props": 10,
+ "settled_detail": "2 sandal soles moved down 3cm, 8 lounger legs stretched 1.7-3cm (data-settled-props)",
+ "views": {
+  "sauna-day-down": {
+   "retake_before_pct_gt3": 0.0001,
+   "change_pct_gt3": 0.0,
+   "change_max": 2
+  },
+  "sauna-day-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 2
+  },
+  "sauna-evening-down": {
+   "retake_before_pct_gt3": 0.0001,
+   "change_pct_gt3": 0.0,
+   "change_max": 1
+  },
+  "sauna-evening-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 1
+  },
+  "sauna-night-down": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  },
+  "sauna-night-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  },
+  "totonou-day-down": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 2.4916,
+   "change_max": 153
+  },
+  "totonou-day-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.5161,
+   "change_max": 157
+  },
+  "totonou-day-left": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.4186,
+   "change_max": 105
+  },
+  "totonou-day-right": {
+   "retake_before_pct_gt3": 0.0004,
+   "change_pct_gt3": 0.6128,
+   "change_max": 153
+  },
+  "totonou-evening-down": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 2.447,
+   "change_max": 61
+  },
+  "totonou-evening-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.5158,
+   "change_max": 63
+  },
+  "totonou-evening-left": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.3432,
+   "change_max": 33
+  },
+  "totonou-evening-right": {
+   "retake_before_pct_gt3": 0.0004,
+   "change_pct_gt3": 0.5826,
+   "change_max": 64
+  },
+  "totonou-night-down": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 2.315,
+   "change_max": 66
+  },
+  "totonou-night-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.3719,
+   "change_max": 66
+  },
+  "totonou-night-left": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.3246,
+   "change_max": 23
+  },
+  "totonou-night-right": {
+   "retake_before_pct_gt3": 0.0004,
+   "change_pct_gt3": 0.4348,
+   "change_max": 65
+  },
+  "water-day-back": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  },
+  "water-day-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  },
+  "water-evening-back": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  },
+  "water-evening-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  },
+  "water-night-back": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  },
+  "water-night-front": {
+   "retake_before_pct_gt3": 0.0,
+   "change_pct_gt3": 0.0,
+   "change_max": 0
+  }
+ }
+}

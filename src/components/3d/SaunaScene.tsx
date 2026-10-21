@@ -373,6 +373,7 @@ export default function SaunaScene({
         setData('spoutTrough', String(addSpoutTrough(gltf.scene, definition.water.spout[0])));
         const gardenDetails = addGardenDetails(gltf.scene);
         setData('tuckedGrass', String(gardenDetails.tuckedGrass));
+        setData('settledProps', String(gardenDetails.settledProps));
         setData('meadowBlades', String(gardenDetails.meadowBlades));
         setData('meadowTufts', String(gardenDetails.meadowTufts));
         prepare(gltf.scene);

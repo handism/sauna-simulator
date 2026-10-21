@@ -103,3 +103,5 @@
 - `forest-leaf-masses.visual.ts` は奥の森の変更の静止画を、3ステージ×昼夕夜×水平3方位（右0／20／60キー）と外気浴の春秋冬の昼で撮る（30枚）。`FOREST_RUN` が回のラベル、before系は `FOREST_BASELINE_DIST` の旧distを配信し `forest-build.ts` で応答ハッシュを照合する（`playwright.forest.config.ts` の `FOREST_REVIEW=visual`）。各回の画像を保存してから次の回を撮る。静止画の比較で、見回しのちらつき・費用は `resolution-shimmer.visual.ts`・`forest-back-crowns.gpu.ts` で測る。
 
 - `stones-meadow.visual.ts` は庭石の質感と中景の草地の変更の静止画を、水風呂の入室視点と外気浴の入室視点・見下ろし・左右（矢印9回）×昼夕、外気浴の秋冬・雨で撮る（13枚）。`playwright.ground.config.ts` で `GROUND_RUN` が回のラベル、before系は `GROUND_BASELINE_DIST` の旧distを配信する。同じ設定に `GROUND_COST=1` を付けると `frame-cost.gpu.ts` を旧／新distで測れる（`FRAME_COST_REPEAT`・`FRAME_COST_VARIANTS` はそのまま渡す）。静止画と描画間隔の比較で、見回し中のちらつき・実機の検査ではない。
+
+- `contact-shadows.visual.ts` はテラスの小物の接地の静止画を、3ステージ×昼夕夜の24視点（サウナ正面・見下ろし、水風呂正面・背後、外気浴正面・見下ろし・左右）で撮る。`playwright.contact.config.ts` で `CONTACT_RUN` が回のラベル、`CONTACT_BASELINE_DIST` で旧distを配信する（`CONTACT_COST=1` で `frame-cost.gpu.ts`）。静止画の比較で、費用・見回しの検査ではない。

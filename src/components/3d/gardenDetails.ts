@@ -42,8 +42,56 @@ export function rockGeometry(seed: number) {
   return geometry;
 }
 
-/** A contact shade: [x, z, half width, half depth, margin, depth, the height its stone rests below]. */
-type Contact = [number, number, number, number, number, number, number?];
+/**
+ * A contact shade: [x, z, half width, half depth, margin, depth, the height its stone rests below,
+ * the turn of its half width/depth axes about y, the terrace surface it lies on (`settleTerraceProps`)].
+ */
+type Contact = [number, number, number, number, number, number, number?, number?, TerraceSupport?];
+type TerraceSupport = (x: number, z: number) => number;
+
+/**
+ * A merged mesh's connected pieces: world positions of its vertices, and each piece's vertices and
+ * world bounds. Pieces share no vertices but may be split at seams, so coincident points (1mm) are joined.
+ */
+function connectedPieces(mesh: THREE.Mesh) {
+  const p = new THREE.Vector3();
+  const position = mesh.geometry.attributes.position;
+  const index = mesh.geometry.index;
+  const parent = Int32Array.from({ length: position.count }, (_, i) => i);
+  const find = (i: number): number => {
+    while (parent[i] !== i) i = parent[i] = parent[parent[i]];
+    return i;
+  };
+  const join = (a: number, b: number) => {
+    parent[find(b)] = find(a);
+  };
+  const world = new Float32Array(position.count * 3);
+  const seen = new Map<string, number>();
+  for (let i = 0; i < position.count; i++) {
+    p.fromBufferAttribute(position, i)
+      .applyMatrix4(mesh.matrixWorld)
+      .toArray(world, i * 3);
+    const key = `${Math.round(p.x * 1000)},${Math.round(p.y * 1000)},${Math.round(p.z * 1000)}`;
+    const first = seen.get(key);
+    if (first === undefined) seen.set(key, i);
+    else join(first, i);
+  }
+  const corners = index ? index.count : position.count;
+  for (let t = 0; t < corners; t += 3) {
+    const at = (k: number) => (index ? index.getX(t + k) : t + k);
+    join(at(0), at(1));
+    join(at(0), at(2));
+  }
+  const pieces = new Map<number, { vertices: number[]; box: THREE.Box3 }>();
+  for (let i = 0; i < position.count; i++) {
+    const root = find(i);
+    const piece = pieces.get(root) ?? { vertices: [], box: new THREE.Box3() };
+    piece.vertices.push(i);
+    piece.box.expandByPoint(p.fromArray(world, i * 3));
+    pieces.set(root, piece);
+  }
+  return { world, pieces: [...pieces.values()] };
+}
 
 /**
  * The source model's stones on the ground (the terrace plinth, the stepping-stone row and boulders),
@@ -64,45 +112,7 @@ function restingStones(root: THREE.Object3D, ground: (x: number, z: number) => n
     )
       meshes.push(object);
   });
-  const p = new THREE.Vector3();
-  for (const mesh of meshes) {
-    const position = mesh.geometry.attributes.position;
-    const index = mesh.geometry.index;
-    // Pieces share no vertices but may be split at seams, so coincident points (1mm) are joined.
-    const parent = Int32Array.from({ length: position.count }, (_, i) => i);
-    const find = (i: number): number => {
-      while (parent[i] !== i) i = parent[i] = parent[parent[i]];
-      return i;
-    };
-    const join = (a: number, b: number) => {
-      parent[find(b)] = find(a);
-    };
-    const world = new Float32Array(position.count * 3);
-    const seen = new Map<string, number>();
-    for (let i = 0; i < position.count; i++) {
-      p.fromBufferAttribute(position, i)
-        .applyMatrix4(mesh.matrixWorld)
-        .toArray(world, i * 3);
-      const key = `${Math.round(p.x * 1000)},${Math.round(p.y * 1000)},${Math.round(p.z * 1000)}`;
-      const first = seen.get(key);
-      if (first === undefined) seen.set(key, i);
-      else join(first, i);
-    }
-    const corners = index ? index.count : position.count;
-    for (let t = 0; t < corners; t += 3) {
-      const at = (k: number) => (index ? index.getX(t + k) : t + k);
-      join(at(0), at(1));
-      join(at(0), at(2));
-    }
-    const boxes = new Map<number, THREE.Box3>();
-    for (let i = 0; i < position.count; i++) {
-      const piece = find(i);
-      const box = boxes.get(piece) ?? new THREE.Box3();
-      box.expandByPoint(p.fromArray(world, i * 3));
-      boxes.set(piece, box);
-    }
-    for (const box of boxes.values()) pieces.push(box);
-  }
+  for (const mesh of meshes) for (const { box } of connectedPieces(mesh).pieces) pieces.push(box);
   const size = new THREE.Vector3();
   const flat = (box: THREE.Box3) => (box.getSize(size), size.y < 0.35 * Math.min(size.x, size.z));
   const tops = pieces.filter(flat);
@@ -140,6 +150,142 @@ function restingStones(root: THREE.Object3D, ground: (x: number, z: number) => n
     else shades.push([x, z, hx * 0.55, hz * 0.55, Math.max(hx, hz) * 0.7, 0.55, below]);
   }
   return { shades, support, boulders: pieces.filter((box) => !flat(box)) };
+}
+
+/** Pieces on the terrace closer than this to its surface are set down onto it (m). */
+const SETTLE_GAP = 0.06;
+
+/**
+ * The source's furniture on the terrace stood in the air: the cork sandal soles 3cm over the deck
+ * and the loungers' bronze legs 2cm over the paving and the deck. Each sole moves down onto the
+ * surface under it, and each leg's foot (its lowest 4mm) stretches down to it. Then the contact
+ * shades: the soles, the feet, the side table's foot with a wider one under its top, and a turned
+ * rectangle under each lounger's body (the rails that carry its four legs), which hides the sky
+ * from the surface below. The surface is the deck boards and the paving, found by rays from 0.3m,
+ * below every piece above it: the highest under a piece's center and corners (a leg stands over
+ * the seam between two boards), and a ray through a seam under a shade takes the piece's level.
+ */
+export function settleTerraceProps(root: THREE.Object3D) {
+  const surfaces: THREE.Mesh[] = [];
+  const props: THREE.Mesh[] = [];
+  root.traverse((object) => {
+    if (!(object instanceof THREE.Mesh) || Array.isArray(object.material)) return;
+    if (/outdoor ash|locally damp ash|pale mineral paving/i.test(object.material.name)) surfaces.push(object);
+    else if (/cork sandal sole|blackened bronze/i.test(object.material.name)) props.push(object);
+  });
+  const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
+  const surface = (x: number, z: number) => {
+    ray.ray.origin.set(x, 0.3, z);
+    return ray.intersectObjects(surfaces, false)[0]?.point.y;
+  };
+  // Under a piece's footprint: its center and corners, the highest (a leg may stand over a seam).
+  const footing = (box: THREE.Box3) => {
+    const heights = [
+      [box.min.x + box.max.x, box.min.z + box.max.z].map((sum) => sum / 2),
+      [box.min.x, box.min.z],
+      [box.max.x, box.min.z],
+      [box.min.x, box.max.z],
+      [box.max.x, box.max.z],
+    ].flatMap(([x, z]) => surface(x, z) ?? []);
+    return heights.length ? Math.max(...heights) : undefined;
+  };
+  const near =
+    (level: number): TerraceSupport =>
+    (x, z) => {
+      const y = surface(x, z);
+      return y === undefined || Math.abs(y - level) > 0.02 ? level : y;
+    };
+  const contacts: Contact[] = [];
+  const legs: { x: number; z: number; top: number }[] = [];
+  const rails: THREE.Box3[] = [];
+  const size = new THREE.Vector3();
+  const p = new THREE.Vector3();
+  let settled = 0;
+  for (const mesh of props) {
+    const { world, pieces } = connectedPieces(mesh);
+    const position = mesh.geometry.attributes.position;
+    const toLocal = mesh.matrixWorld.clone().invert();
+    const sole = /cork sandal sole/i.test((mesh.material as THREE.Material).name);
+    let moved = false;
+    for (const { vertices, box } of pieces) {
+      box.getSize(size);
+      const x = (box.min.x + box.max.x) / 2;
+      const z = (box.min.z + box.max.z) / 2;
+      const top = footing(box);
+      if (top === undefined) continue;
+      const gap = box.min.y - top;
+      const reach = Math.max(size.x, size.z);
+      if (!sole && size.y >= 0.6 && reach >= 0.5 && gap > 0.1 && gap < 0.4) rails.push(box);
+      // Soles and legs: a flat piece, or a post no wider than 12cm and lower than 0.6m.
+      const leg = !sole && size.y < 0.6 && reach < 0.12;
+      if (sole ? size.y > 0.08 : !leg && !(size.y < 0.6 && reach < 0.25)) continue;
+      if (gap > SETTLE_GAP || gap < -0.05) continue;
+      if (gap > 0.003 && (sole || leg)) {
+        for (const i of vertices) {
+          p.fromArray(world, i * 3);
+          if (sole) p.y -= gap;
+          else if (p.y < box.min.y + 0.004) p.y = top;
+          else continue;
+          position.setXYZ(i, ...p.applyMatrix4(toLocal).toArray());
+        }
+        moved = true;
+        settled++;
+      }
+      // Inside the oval sole's outline, so the rectangle's corners do not show past its rim.
+      if (sole) contacts.push([x, z, size.x * 0.35, size.z * 0.4, 0.1, 0.7, undefined, 0, near(top)]);
+      else if (leg) {
+        contacts.push([x, z, 0, 0, 0.08, 0.5, undefined, 0, near(top)]);
+        legs.push({ x, z, top });
+      } else {
+        // The side table's foot, and the sky its top (a 0.3m disc at the feet's height) hides.
+        contacts.push([x, z, 0, 0, 0.18, 0.5, undefined, 0, near(top)]);
+        contacts.push([x, z, 0, 0, 0.5, 0.25, undefined, 0, near(top)]);
+      }
+    }
+    if (!moved) continue;
+    position.needsUpdate = true;
+    mesh.geometry.computeBoundingBox();
+    mesh.geometry.computeBoundingSphere();
+  }
+  // A lounger: two rails, each carrying a pair of legs, side by side (parallel, 0.3–1.2m apart, not
+  // shifted along). The rails' own footprints need not overlap.
+  const within = (box: THREE.Box3, x: number, z: number) =>
+    x >= box.min.x - 0.02 && x <= box.max.x + 0.02 && z >= box.min.z - 0.02 && z <= box.max.z + 0.02;
+  const pairs = rails
+    .map((rail) => legs.filter((leg) => within(rail, leg.x, leg.z)))
+    .filter((pair) => pair.length === 2)
+    .map(([a, b]) => {
+      const length = Math.hypot(b.x - a.x, b.z - a.z);
+      return {
+        feet: [a, b],
+        ax: (b.x - a.x) / length,
+        az: (b.z - a.z) / length,
+        x: (a.x + b.x) / 2,
+        z: (a.z + b.z) / 2,
+      };
+    });
+  const used = new Set<number>();
+  pairs.forEach((pair, i) => {
+    if (used.has(i)) return;
+    const j = pairs.findIndex((other, k) => {
+      if (k === i || used.has(k) || Math.abs(pair.ax * other.ax + pair.az * other.az) < 0.98) return false;
+      const dx = other.x - pair.x;
+      const dz = other.z - pair.z;
+      const across = Math.abs(dx * pair.az - dz * pair.ax);
+      return across > 0.3 && across < 1.2 && Math.abs(dx * pair.ax + dz * pair.az) < 0.3;
+    });
+    if (j < 0) return;
+    used.add(i).add(j);
+    const feet = [...pair.feet, ...pairs[j].feet];
+    const { ax, az } = pair;
+    const cx = feet.reduce((sum, leg) => sum + leg.x, 0) / feet.length;
+    const cz = feet.reduce((sum, leg) => sum + leg.z, 0) / feet.length;
+    const along = Math.max(...feet.map((leg) => Math.abs((leg.x - cx) * ax + (leg.z - cz) * az)));
+    const across = Math.max(...feet.map((leg) => Math.abs((leg.x - cx) * az - (leg.z - cz) * ax)));
+    const level = Math.max(...feet.map((leg) => leg.top));
+    contacts.push([cx, cz, across, along, 0.3, 0.35, undefined, Math.atan2(ax, az), near(level)]);
+  });
+  return { contacts, settled, loungers: used.size / 2 };
 }
 
 /**
@@ -255,6 +401,7 @@ export function addGardenDetails(root: THREE.Object3D) {
   if (!terrain.length)
     return {
       tuckedGrass: 0,
+      settledProps: 0,
       meadowBlades: 0,
       meadowTufts: 0,
       airColor: new THREE.Color(),
@@ -268,6 +415,7 @@ export function addGardenDetails(root: THREE.Object3D) {
   };
   const floor = (x: number, z: number) => ground(x, z) ?? 0;
   const resting = restingStones(root, ground);
+  const terrace = settleTerraceProps(root);
   // Walls and other solid parts near the grass's boulders, as world-space triangles within 1.5m of
   // one (raycasting the whole merged model took seconds). Leaves, grass and the ground do not block
   // the grass; a stone blocks it unless it is the clump's own boulder, which the rays start inside.
@@ -393,7 +541,7 @@ export function addGardenDetails(root: THREE.Object3D) {
   ];
   // Soft darkening where each accent meets the ground: [x, z, half width, half depth, margin, depth]
   // (a rounded rectangle, a disc when the half sizes are 0), darkest inside and 0 at the margin.
-  const contacts: Contact[] = [...resting.shades];
+  const contacts: Contact[] = [...resting.shades, ...terrace.contacts];
   // A stone with its own outline, turn and shade.
   const addRock = (x: number, y: number, z: number, sx: number, sy: number, sz: number) => {
     contacts.push([x, z, 0, 0, Math.max(sx, sz) * 1.5, 0.6]);
@@ -705,12 +853,19 @@ export function addGardenDetails(root: THREE.Object3D) {
   const shadeColors: number[] = [];
   const ARC = 4;
   const lift = 0.012;
-  for (const [x, z, hx, hz, margin, depth, below] of contacts) {
+  for (const [x, z, hx, hz, margin, depth, below, turn = 0, terrace] of contacts) {
     const onGround = (px: number, pz: number) => [
       px,
-      (below === undefined ? floor(px, pz) : (resting.support(px, pz, below) ?? floor(px, pz))) + lift,
+      (terrace
+        ? terrace(px, pz)
+        : below === undefined
+          ? floor(px, pz)
+          : (resting.support(px, pz, below) ?? floor(px, pz))) + lift,
       pz,
     ];
+    // Local (along the half width, along the half depth) to world, turned about y.
+    const [s, c] = [Math.sin(turn), Math.cos(turn)];
+    const turned = (lx: number, lz: number) => onGround(x + lx * c + lz * s, z - lx * s + lz * c);
     // Rings around the core, point for point: each corner's arc around its core corner. Around a
     // stone's footprint the shade gathers at the edge, as occlusion does where it meets the ground.
     const rings: [number, number][] =
@@ -727,11 +882,11 @@ export function addGardenDetails(root: THREE.Object3D) {
     const points = rings.map(([offset]) => {
       const ring: number[][] = [];
       for (let corner = 0; corner < 4; corner++) {
-        const cx = x + (corner === 0 || corner === 3 ? hx : -hx);
-        const cz = z + (corner < 2 ? hz : -hz);
+        const cx = corner === 0 || corner === 3 ? hx : -hx;
+        const cz = corner < 2 ? hz : -hz;
         for (let k = 0; k <= ARC; k++) {
           const a = ((corner + k / ARC) * Math.PI) / 2;
-          ring.push(onGround(cx + Math.cos(a) * offset, cz + Math.sin(a) * offset));
+          ring.push(turned(cx + Math.cos(a) * offset, cz + Math.sin(a) * offset));
         }
       }
       return ring;
@@ -850,6 +1005,8 @@ export function addGardenDetails(root: THREE.Object3D) {
     group,
     /** The source's grass clumps moved out of their boulders (tuckGrassBehindBoulders). */
     tuckedGrass,
+    /** Sandal soles and lounger legs set down onto the terrace (settleTerraceProps). */
+    settledProps: terrace.settled,
     /** Short blades on the meadow (meadowGrass.ts). */
     meadowBlades: meadow.blades,
     /** Taller wild tufts out in the meadow (meadowGrass.ts). */

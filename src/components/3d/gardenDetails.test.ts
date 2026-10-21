@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { addGardenDetails, rockGeometry, tuckGrassBehindBoulders } from './gardenDetails';
+import { addGardenDetails, rockGeometry, settleTerraceProps, tuckGrassBehindBoulders } from './gardenDetails';
 import { FOOTLIGHT_DIRECTION, FOOTLIGHTS } from './lighting';
 import { disposeTree, prepareModel } from './modelMaterials';
 
@@ -235,6 +235,72 @@ describe('garden accents', () => {
       expect(rim).toBeGreaterThan(0);
     }
     for (let i = 0; i < position.count; i++) expect(Math.abs(position.getX(i) + 30)).toBeGreaterThan(2);
+    disposeTree(root);
+  });
+
+  it('sets floating sandals and lounger legs onto the terrace and shades them, the table and each lounger', () => {
+    const root = new THREE.Group();
+    const named = (name: string) => Object.assign(new THREE.MeshStandardMaterial(), { name });
+    // A deck whose top is 0.07, with a 5mm seam at x 0.394–0.399 that rays fall through, right
+    // under the center of one leg (x 0.396).
+    root.add(
+      new THREE.Mesh(
+        mergeGeometries([
+          new THREE.BoxGeometry(5.394, 0.1, 6).translate(-2.303, 0.02, 0),
+          new THREE.BoxGeometry(4.601, 0.1, 6).translate(2.6995, 0.02, 0),
+        ]),
+        named('V2 | outdoor ash / grain & wear'),
+      ),
+    );
+    const sole = new THREE.Mesh(
+      new THREE.BoxGeometry(0.2, 0.03, 0.4).translate(-3, 0.115, 1),
+      named('V4 | cork sandal sole'),
+    );
+    // A lounger turned by 0.3rad: legs 0.8m apart across, 1.5m along, 3cm above the deck, on two
+    // rails that do not overlap; the table's foot sunk 2cm into the deck; a cup's handle up high.
+    const turn = 0.3;
+    const at = (across: number, along: number) => [
+      1 + across * Math.cos(turn) + along * Math.sin(turn),
+      -across * Math.sin(turn) + along * Math.cos(turn),
+    ];
+    const parts: THREE.BufferGeometry[] = [];
+    for (const side of [-0.4, 0.4]) {
+      for (const end of [-0.75, 0.75]) {
+        const [x, z] = at(side, end);
+        parts.push(new THREE.BoxGeometry(0.05, 0.3, 0.05).translate(x, 0.25, z));
+      }
+      const [x, z] = at(side, 0);
+      parts.push(new THREE.BoxGeometry(0.06, 0.8, 1.7).rotateY(turn).translate(x, 0.65, z));
+    }
+    parts.push(new THREE.BoxGeometry(0.16, 0.46, 0.16).translate(-1, 0.28, -2));
+    parts.push(new THREE.BoxGeometry(0.08, 0.01, 0.08).translate(-1, 0.64, -2));
+    const bronze = new THREE.Mesh(mergeGeometries(parts), named('Blackened bronze'));
+    root.add(sole, bronze);
+    root.updateMatrixWorld(true);
+    const { contacts, settled, loungers } = settleTerraceProps(root);
+    expect(settled).toBe(5);
+    expect(loungers).toBe(1);
+    sole.geometry.computeBoundingBox();
+    expect(sole.geometry.boundingBox!.min.y).toBeCloseTo(0.07);
+    // Each foot reaches the deck; the rest of the leg and the rails, foot and handle stay.
+    const position = bronze.geometry.attributes.position;
+    const heights = new Set<number>();
+    for (let i = 0; i < position.count; i++) heights.add(Math.round(position.getY(i) * 1000));
+    expect([...heights].sort((a, b) => a - b)).toEqual([50, 70, 250, 400, 510, 635, 645, 1050]);
+    // Sole, 4 legs, the table's foot and its top, and the lounger: turned, the legs' half spans.
+    expect(contacts).toHaveLength(8);
+    const lounger = contacts.find(([, , hx, , margin]) => hx > 0 && margin === 0.3)!;
+    const [x, z] = at(0, 0);
+    expect(lounger[0]).toBeCloseTo(x);
+    expect(lounger[1]).toBeCloseTo(z);
+    expect(lounger[2]).toBeCloseTo(0.4);
+    expect(lounger[3]).toBeCloseTo(0.75);
+    expect(Math.abs(Math.cos(lounger[7]! - turn))).toBeCloseTo(1);
+    // The shades lie on the deck, also over its seam.
+    for (const contact of contacts) {
+      expect(contact[8]!(contact[0], contact[1])).toBeCloseTo(0.07);
+      expect(contact[8]!(0.3965, 0)).toBeCloseTo(0.07);
+    }
     disposeTree(root);
   });
 
