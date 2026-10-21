@@ -134,6 +134,11 @@ describe('woodland leaf cluster cards', () => {
     expect(LEAF_COVERAGE_GLSL).toContain('smoothstep( cutoff - ramp, cutoff + ramp, alpha )');
     expect(LEAF_FAR_FILL).toBe(0.32);
     expect(LEAF_FAR_RAMP).toBe(0.2);
+    // The card's shell level from its UVs' integer part; the rim lift before the air and tone mapping.
+    expect(LEAF_COVERAGE_GLSL).toContain('min( floor( uv.x * 0.5 ), 7.0 ) / 7.0');
+    const rim = shader.fragmentShader.indexOf('suiLeafRim( vAlphaMapUv ) * ( 1.0 - suiIrradianceEvening )');
+    expect(rim).toBeGreaterThan(shader.fragmentShader.indexOf('suiLeafCoverage( diffuseColor.a'));
+    expect(rim).toBeLessThan(shader.fragmentShader.indexOf('#include <tonemapping_fragment>'));
     expect(material.customProgramCacheKey()).toBe('earlier|leaf-cluster');
   });
 });

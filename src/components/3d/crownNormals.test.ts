@@ -69,6 +69,53 @@ describe('woodland crown normals', () => {
     expect((n.x * p.x + n.z * p.z) / Math.hypot(p.x, p.z)).toBeGreaterThan(CROWN_NORMAL_WEIGHT * 0.9);
   });
 
+  it("carries each card's place in its crown's outer shell in its UVs' integer part", () => {
+    // Four cards at the crown's center and two at opposite corners of its extent (radius √2).
+    const centers = [
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [1, 1],
+      [-1, -1],
+    ];
+    const positions: number[] = [];
+    const uvs: number[] = [];
+    const index: number[] = [];
+    for (const [n, [x, z]] of centers.entries()) {
+      positions.push(x - 0.1, 3, z, x + 0.1, 3, z, x + 0.1, 3.2, z, x - 0.1, 3.2, z);
+      uvs.push(0, 0, 1, 0, 1, 1, 0, 1);
+      index.push(n * 4, n * 4 + 1, n * 4 + 2, n * 4, n * 4 + 2, n * 4 + 3);
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute(
+      'normal',
+      new THREE.Float32BufferAttribute(
+        new Array(positions.length).fill(0).map((_, i) => (i % 3 === 2 ? 1 : 0)),
+        3,
+      ),
+    );
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+    geometry.setIndex(index);
+    const root = new THREE.Group();
+    root.add(new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ name: 'V6 woodland leaf 1 card' })));
+    root.add(
+      new THREE.Mesh(
+        new THREE.CylinderGeometry(0.1, 0.15, 4).translate(0, 2, 0),
+        new THREE.MeshStandardMaterial({ name: 'Tree bark' }),
+      ),
+    );
+    roundWoodlandCrowns(root);
+    const uv = geometry.attributes.uv;
+    const level = (card: number) => Math.floor(uv.getX(card * 4) / 2);
+    expect([0, 1, 2, 3].map(level)).toEqual([0, 0, 0, 0]);
+    expect(level(4)).toBe(6);
+    expect(level(5)).toBe(6);
+    // The leaves within each card are where they were.
+    for (let v = 0; v < uv.count; v++) expect(uv.getX(v) - 2 * level(Math.floor(v / 4))).toBe(uvs[v * 2]);
+  });
+
   it('keeps the normals of cards far from any trunk and marks the material', () => {
     const { root, leaves } = woodland();
     const before = Array.from(leaves.geometry.attributes.normal.array).slice(12 * 4 * 3);

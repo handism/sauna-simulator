@@ -147,6 +147,8 @@ export function createLeafClusterTexture(cluster: LeafCluster): THREE.DataTextur
   const texture = new THREE.DataTexture(levels[0].data, LEAF_CLUSTER_SIZE, LEAF_CLUSTER_SIZE);
   texture.mipmaps = levels;
   texture.generateMipmaps = false;
+  // The UVs' integer part carries the card's shell level (LEAF_SHELL_LEVELS).
+  texture.wrapS = THREE.RepeatWrapping;
   texture.minFilter = THREE.LinearMipmapLinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.colorSpace = THREE.NoColorSpace;
@@ -166,6 +168,17 @@ export const LEAF_FAR_RAMP = 0.2;
 export const LEAF_FAR_FILL = 0.32;
 const FILL_FROM = 1;
 const FILL_TO = 3;
+/**
+ * Levels of a card's place in its crown's outer shell (crownNormals.ts), carried in the integer part
+ * of its UVs (`2 × level` added to u; the mask repeats, so the leaves are the same). Not in the
+ * source: by day, far off, the outermost cards' light goes up to `LEAF_RIM` of the way to the
+ * brightness of 0.6 × the air, keeping their own hue. Whole dark leaves cut out against the sky read
+ * as specks around the crowns, where a real crown's thin rim is lit through by the sky. Toward the
+ * air's color they turned grey like fog; fading their coverage showed the alpha-to-coverage dither
+ * as a screen; at dusk the lifted rim lost the silhouette (docs/3d-qa/crown-rim/).
+ */
+export const LEAF_SHELL_LEVELS = 7;
+export const LEAF_RIM = 0.3;
 
 // The share of the MSAA samples a card covers, from the alpha map's (rescaled) coverage. Up close,
 // the cutoff softened over a pixel, as three's alphatest_fragment does for alpha to coverage. Once
@@ -184,6 +197,22 @@ float suiLeafCoverage( float alpha, vec2 uv ) {
 	// coverage: it joins the leaves into a mass, as measured (docs/3d-qa/crown-fill-far/).
 	return smoothstep( cutoff - ramp, cutoff + ramp, alpha );
 }
+// How far a card in its crown's outer shell is lifted, once its leaves are under a pixel.
+float suiLeafRim( vec2 uv ) {
+	vec2 texels = uv * ${LEAF_CLUSTER_SIZE.toFixed(1)};
+	float footprint = max( length( dFdx( texels ) ), length( dFdy( texels ) ) );
+	float shell = min( floor( uv.x * 0.5 ), ${LEAF_SHELL_LEVELS.toFixed(1)} ) / ${LEAF_SHELL_LEVELS.toFixed(1)};
+	return ${LEAF_RIM.toFixed(2)} * shell * smoothstep( 1.0, 2.0, footprint );
+}
+`;
+export const TONE_MAPPING = '#include <tonemapping_fragment>';
+const RIM_GLSL = /* glsl */ `#ifdef SUI_IRRADIANCE
+	{
+		vec3 suiLuma = vec3( 0.2126, 0.7152, 0.0722 );
+		vec3 suiRim = gl_FragColor.rgb * ( 0.6 * dot( suiAirColor, suiLuma ) / max( dot( gl_FragColor.rgb, suiLuma ), 1e-4 ) );
+		gl_FragColor.rgb = mix( gl_FragColor.rgb, suiRim, suiLeafRim( vAlphaMapUv ) * ( 1.0 - suiIrradianceEvening ) );
+	}
+#endif
 `;
 
 export const ALPHA_TEST = '#include <alphatest_fragment>';
@@ -198,14 +227,16 @@ export function applyLeafCluster(material: THREE.MeshStandardMaterial, texture: 
   const previousKey = material.customProgramCacheKey;
   material.onBeforeCompile = (shader, renderer) => {
     previous.call(material, shader, renderer);
-    if (!shader.fragmentShader.includes(ALPHA_TEST))
+    if (!shader.fragmentShader.includes(ALPHA_TEST) || !shader.fragmentShader.includes(TONE_MAPPING))
       throw new Error('three shader chunks changed; update leafCluster.ts');
     shader.fragmentShader = shader.fragmentShader
       .replace('void main() {', `${LEAF_COVERAGE_GLSL}\nvoid main() {`)
       .replace(
         ALPHA_TEST,
         'diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );\n\tif ( diffuseColor.a == 0.0 ) discard;',
-      );
+      )
+      // Before the distance's air (aerialPerspective.ts); by day only (the evening weight).
+      .replace(TONE_MAPPING, `${RIM_GLSL}${TONE_MAPPING}`);
   };
   material.customProgramCacheKey = () => `${previousKey.call(material)}|leaf-cluster`;
   material.needsUpdate = true;

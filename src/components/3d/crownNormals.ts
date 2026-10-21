@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { trunkBases, trunkFinder, WOODLAND_CARD } from './evergreenWoodland';
 import type { CrownFootprint } from './forestFloor';
+import { LEAF_SHELL_LEVELS } from './leafCluster';
 
 /** Share of a card's shading normal taken from its crown's rounded shape (the rest is the card's own). */
 export const CROWN_NORMAL_WEIGHT = 0.9;
@@ -12,6 +13,9 @@ export const CROWN_NORMAL_WEIGHT = 0.9;
  */
 export const WOODLAND_ALBEDO = 1.7;
 export const WOODLAND_ROUGHNESS = 0.8;
+/** A card's ellipsoid radius where its crown's outer shell (`LEAF_SHELL_LEVELS`) starts and is outermost. */
+const SHELL_FROM = 1.0;
+const SHELL_TO = 1.45;
 /** Least half extent of a crown (m), so a narrow crown does not shade like a blade. */
 const MIN_EXTENT = 0.6;
 
@@ -143,17 +147,35 @@ export function roundWoodlandCrowns(root: THREE.Object3D, footprints?: CrownFoot
   const toLocal = new THREE.Matrix3();
   const toWorld = new THREE.Matrix3();
   let rounded = 0;
+  const shells = new Array<number>(LEAF_SHELL_LEVELS + 1).fill(0);
   meshes.forEach((mesh, m) => {
     const { geometry } = mesh;
     const index = geometry.index!;
     const position = geometry.attributes.position;
     const normal = geometry.attributes.normal as THREE.BufferAttribute;
+    const uv = geometry.attributes.uv as THREE.BufferAttribute | undefined;
     const color = new THREE.BufferAttribute(new Float32Array(position.count * 3).fill(1), 3);
     toWorld.getNormalMatrix(mesh.matrixWorld);
     toLocal.copy(toWorld).invert();
     const done = new Uint8Array(position.count);
     trees[m].forEach((tree, c) => {
       const shape = shapes.get(tree);
+      if (shape && uv) {
+        // The card's level in the outer shell, in its UVs' integer part (leafCluster.ts).
+        p.set(0, 0, 0);
+        for (let k = c * 6; k < c * 6 + 6; k++) p.add(local.fromBufferAttribute(position, index.getX(k)));
+        p.multiplyScalar(1 / 6)
+          .applyMatrix4(mesh.matrixWorld)
+          .sub(shape.center);
+        const r = Math.hypot(p.x / shape.extent.x, p.y / shape.extent.y, p.z / shape.extent.z);
+        const level = Math.round(
+          THREE.MathUtils.clamp((r - SHELL_FROM) / (SHELL_TO - SHELL_FROM), 0, 1) * LEAF_SHELL_LEVELS,
+        );
+        const shifted = new Set<number>();
+        for (let k = c * 6; k < c * 6 + 6; k++) shifted.add(index.getX(k));
+        for (const vertex of shifted) uv.setX(vertex, uv.getX(vertex) + 2 * level);
+        shells[level]++;
+      }
       for (let k = c * 6; k < c * 6 + 6; k++) {
         const vertex = index.getX(k);
         if (done[vertex]) continue;
@@ -183,6 +205,7 @@ export function roundWoodlandCrowns(root: THREE.Object3D, footprints?: CrownFoot
       if (shape) rounded++;
     });
     normal.needsUpdate = true;
+    if (uv) uv.needsUpdate = true;
     geometry.setAttribute('suiCrownTint', color);
     const material = mesh.material as THREE.MeshStandardMaterial;
     // Before the evergreens copy it and the seasons keep it as the summer color.
