@@ -232,5 +232,268 @@
     ]
    }
   }
+ },
+ "shimmer": {
+  "method": "resolution-shimmer.visual.ts via playwright.forest.config.ts FOREST_REVIEW=visual, SHIMMER_FIXED=1 SHIMMER_CONTROLLED=1 SHIMMER_RATIOS=1.5 SHIMMER_QUERY='&camera=review', 1200x800 DPR1.5 standard; before1/after1/after2/before2 plus a temporary build with the tufts hidden (noTufts); summarize_resolution_shimmer.py",
+  "views": {
+   "sauna-day": {
+    "tileRatio": 1.011,
+    "pixelRatio": 1.013,
+    "tripRatio": 1.012,
+    "pixelOverTrip": {
+     "before": 1.782,
+     "after": 1.785,
+     "noTufts": 1.779
+    },
+    "tileNoTuftsRatio": 1.005,
+    "runs": {
+     "before1": {
+      "pixel": 0.3206,
+      "tile": 0.0437,
+      "p99": 0.375,
+      "trip": 0.1799
+     },
+     "after1": {
+      "pixel": 0.3248,
+      "tile": 0.0442,
+      "p99": 0.3769,
+      "trip": 0.182
+     },
+     "after2": {
+      "pixel": 0.3248,
+      "tile": 0.0442,
+      "p99": 0.3769,
+      "trip": 0.182
+     },
+     "before2": {
+      "pixel": 0.3206,
+      "tile": 0.0437,
+      "p99": 0.375,
+      "trip": 0.1799
+     },
+     "notuft": {
+      "pixel": 0.3226,
+      "tile": 0.0439,
+      "p99": 0.3767,
+      "trip": 0.1813
+     }
+    }
+   },
+   "sauna-evening": {
+    "tileRatio": 1.008,
+    "pixelRatio": 1.009,
+    "tripRatio": 1.009,
+    "pixelOverTrip": {
+     "before": 1.632,
+     "after": 1.633,
+     "noTufts": 1.629
+    },
+    "tileNoTuftsRatio": 1.008,
+    "runs": {
+     "before1": {
+      "pixel": 0.2158,
+      "tile": 0.0256,
+      "p99": 0.2934,
+      "trip": 0.1322
+     },
+     "after1": {
+      "pixel": 0.2178,
+      "tile": 0.0258,
+      "p99": 0.2943,
+      "trip": 0.1334
+     },
+     "after2": {
+      "pixel": 0.2178,
+      "tile": 0.0258,
+      "p99": 0.2943,
+      "trip": 0.1334
+     },
+     "before2": {
+      "pixel": 0.2158,
+      "tile": 0.0256,
+      "p99": 0.2934,
+      "trip": 0.1322
+     },
+     "notuft": {
+      "pixel": 0.2172,
+      "tile": 0.0258,
+      "p99": 0.2943,
+      "trip": 0.1333
+     }
+    }
+   },
+   "totonou-day": {
+    "tileRatio": 1.033,
+    "pixelRatio": 1.032,
+    "tripRatio": 1.035,
+    "pixelOverTrip": {
+     "before": 1.817,
+     "after": 1.812,
+     "noTufts": 1.813
+    },
+    "tileNoTuftsRatio": 1.014,
+    "runs": {
+     "before1": {
+      "pixel": 0.3511,
+      "tile": 0.0516,
+      "p99": 0.4341,
+      "trip": 0.1932
+     },
+     "after1": {
+      "pixel": 0.3622,
+      "tile": 0.0533,
+      "p99": 0.4358,
+      "trip": 0.1999
+     },
+     "after2": {
+      "pixel": 0.3622,
+      "tile": 0.0533,
+      "p99": 0.4358,
+      "trip": 0.1999
+     },
+     "before2": {
+      "pixel": 0.3511,
+      "tile": 0.0516,
+      "p99": 0.4341,
+      "trip": 0.1932
+     },
+     "notuft": {
+      "pixel": 0.3554,
+      "tile": 0.0523,
+      "p99": 0.4346,
+      "trip": 0.196
+     }
+    }
+   },
+   "totonou-evening": {
+    "tileRatio": 1.019,
+    "pixelRatio": 1.019,
+    "tripRatio": 1.02,
+    "pixelOverTrip": {
+     "before": 1.72,
+     "after": 1.717,
+     "noTufts": 1.717
+    },
+    "tileNoTuftsRatio": 1.016,
+    "runs": {
+     "before1": {
+      "pixel": 0.2612,
+      "tile": 0.0376,
+      "p99": 0.5323,
+      "trip": 0.1519
+     },
+     "after1": {
+      "pixel": 0.2662,
+      "tile": 0.0383,
+      "p99": 0.5325,
+      "trip": 0.155
+     },
+     "after2": {
+      "pixel": 0.2662,
+      "tile": 0.0383,
+      "p99": 0.5325,
+      "trip": 0.155
+     },
+     "before2": {
+      "pixel": 0.2612,
+      "tile": 0.0376,
+      "p99": 0.5323,
+      "trip": 0.1519
+     },
+     "notuft": {
+      "pixel": 0.2647,
+      "tile": 0.0382,
+      "p99": 0.5325,
+      "trip": 0.1542
+     }
+    }
+   },
+   "water-day": {
+    "tileRatio": 1.012,
+    "pixelRatio": 1.014,
+    "tripRatio": 1.012,
+    "pixelOverTrip": {
+     "before": 1.897,
+     "after": 1.901,
+     "noTufts": 1.9
+    },
+    "tileNoTuftsRatio": 1.002,
+    "runs": {
+     "before1": {
+      "pixel": 0.2495,
+      "tile": 0.0408,
+      "p99": 0.4056,
+      "trip": 0.1315
+     },
+     "after1": {
+      "pixel": 0.253,
+      "tile": 0.0413,
+      "p99": 0.4065,
+      "trip": 0.1331
+     },
+     "after2": {
+      "pixel": 0.253,
+      "tile": 0.0413,
+      "p99": 0.4065,
+      "trip": 0.1331
+     },
+     "before2": {
+      "pixel": 0.2495,
+      "tile": 0.0408,
+      "p99": 0.4056,
+      "trip": 0.1315
+     },
+     "notuft": {
+      "pixel": 0.2498,
+      "tile": 0.0409,
+      "p99": 0.4063,
+      "trip": 0.1315
+     }
+    }
+   },
+   "water-evening": {
+    "tileRatio": 1.0,
+    "pixelRatio": 1.004,
+    "tripRatio": 1.002,
+    "pixelOverTrip": {
+     "before": 1.779,
+     "after": 1.781,
+     "noTufts": 1.778
+    },
+    "tileNoTuftsRatio": 1.0,
+    "runs": {
+     "before1": {
+      "pixel": 0.222,
+      "tile": 0.0369,
+      "p99": 0.4909,
+      "trip": 0.1248
+     },
+     "after1": {
+      "pixel": 0.2228,
+      "tile": 0.0369,
+      "p99": 0.4909,
+      "trip": 0.1251
+     },
+     "after2": {
+      "pixel": 0.2228,
+      "tile": 0.0369,
+      "p99": 0.4909,
+      "trip": 0.1251
+     },
+     "before2": {
+      "pixel": 0.222,
+      "tile": 0.0369,
+      "p99": 0.4909,
+      "trip": 0.1248
+     },
+     "notuft": {
+      "pixel": 0.2221,
+      "tile": 0.0369,
+      "p99": 0.4909,
+      "trip": 0.1249
+     }
+    }
+   }
+  }
  }
 }

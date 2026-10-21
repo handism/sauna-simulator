@@ -3090,3 +3090,5 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - `surfaceDetails.ts` の `stone` に石ごとの色味・まだら・黒い粒・下面の陰、`charcoal stone` の材質だけに苔と地衣類（`SUI_STONE_MOSS`、室内・デッキ・水風呂・高所は除く）。`ground` に株のむらと浅い角度の葉先の明るさ。`meadowGrass.ts` の `meadowTufts()` で11〜40mに野草の株のまとまり（14,113枚、別メッシュで冬は非表示）。
 - 苔の初版は頂部が緑の帽子になり、デッキの石のテーブルにも付いた。地衣類の初版は鳥のフンのような白い斑、株の初版はまばらな筋、冬の株は雪原の暗い点の列になったため、それぞれ直した。
 - `stones-meadow.visual.ts` で変更前（`20ced81`）とABBA撮影（13枚×4回、雨以外の再撮影差0画素）。8階調超の変化は外気浴の昼1.9〜3.9%、水風呂0.2〜0.5%。`frame-cost.gpu.ts` のABBAで描画間隔1.01〜1.03倍（三角形+42,339・描画数+1）。型検査・471単体テスト・Lint・整形・ビルド、`garden-details`・`scene-lifecycle`・`scene-no-hdr` の23回帰が成功。遅延3Dチャンク947.17kB（gzip 265.24kB）。見回し中のちらつき・高画質・春・夜・雪・全周・実機は未確認。記録は [stones-meadow](3d-qa/stones-meadow/README.md)。
+
+- 同日続き（利用者の「続きお願い」）：見回し中のちらつきを `resolution-shimmer.visual.ts`（制御撮影・`&camera=review`・段1.5）で変更前とABBA比較。面の残差は外気浴の昼1.033倍・夕1.019倍、他は1.000〜1.011倍（同版の2回は一致）。株を隠した一時ビルドでは外気浴の昼1.014倍で、増分の約半分が株。補間誤差の対照も同じだけ増え（1.035倍）、画素の残差÷対照は1.817→1.812で変わらないため、細部が増えた分の補間誤差と判断し、調整はしていない。実時間の知覚的な合否・高画質・実機は未確認。
