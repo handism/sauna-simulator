@@ -110,31 +110,46 @@ describe('far forest', () => {
     const { geometry } = forest.mesh;
     const { position, gardenEdge, gardenBand, gardenCrownTop } = geometry.attributes;
     const index = geometry.index!;
-    const edges = new Map<string, number>();
-    let far = 0;
-    let volumes = 0;
-    // Rounded, with -0 as 0 (a pole on the x axis comes out as either).
-    const point = (i: number) =>
-      [position.getX(i), position.getY(i), position.getZ(i)]
+    // Counted rather than asserted per vertex: some 420,000 expect calls outran CI's 5s timeout.
+    let mixedBands = 0;
+    let aboveTop = 0;
+    let degenerate = 0;
+    // One id per rounded point, with -0 as 0 (a pole on the x axis comes out as either).
+    const ids = new Map<string, number>();
+    const pointId = new Int32Array(position.count);
+    for (let i = 0; i < position.count; i++) {
+      const key = [position.getX(i), position.getY(i), position.getZ(i)]
         .map((v) => (v + 0).toFixed(4).replace(/^-(0\.0+)$/, '$1'))
         .join(',');
+      let id = ids.get(key);
+      if (id === undefined) ids.set(key, (id = ids.size));
+      pointId[i] = id;
+    }
+    const edges = new Map<number, number>();
+    let far = 0;
+    let volumes = 0;
     for (let t = 0; t < index.count; t += 3) {
-      const corners = [0, 1, 2].map((n) => index.getX(t + n));
-      if (gardenBand.getX(corners[0]) !== 0) continue;
+      const a = index.getX(t);
+      if (gardenBand.getX(a) !== 0) continue;
       volumes++;
-      if (gardenEdge.getX(corners[0]) === 2e4) far++;
-      const vertices = corners.map((i) => {
-        expect(gardenBand.getX(i)).toBe(0);
+      if (gardenEdge.getX(a) === 2e4) far++;
+      const vertices = [a, index.getX(t + 1), index.getX(t + 2)].map((i) => {
+        if (gardenBand.getX(i) !== 0) mixedBands++;
         // The leaders, shoulders and foliage clumps stay under the crown's top.
-        expect(position.getY(i)).toBeLessThanOrEqual(gardenCrownTop.getX(i) + 1e-4);
-        return point(i);
+        if (position.getY(i) > gardenCrownTop.getX(i) + 1e-4) aboveTop++;
+        return pointId[i];
       });
-      expect(new Set(vertices).size).toBe(3);
+      if (new Set(vertices).size !== 3) degenerate++;
       for (let n = 0; n < 3; n++) {
-        const key = [vertices[n], vertices[(n + 1) % 3]].sort().join('|');
+        const p = vertices[n];
+        const q = vertices[(n + 1) % 3];
+        const key = Math.min(p, q) * ids.size + Math.max(p, q);
         edges.set(key, (edges.get(key) ?? 0) + 1);
       }
     }
+    expect(mixedBands).toBe(0);
+    expect(aboveTop).toBe(0);
+    expect(degenerate).toBe(0);
     // Closed: every edge of the volumes (leaders, shoulders, clumps) shared by two of their triangles.
     expect([...edges.values()].every((count) => count === 2)).toBe(true);
     // The far rank: three lobes and four clumps a crown.
