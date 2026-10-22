@@ -156,6 +156,84 @@ function restingStones(root: THREE.Object3D, ground: (x: number, z: number) => n
 const SETTLE_GAP = 0.06;
 
 /**
+ * Not in the source: the sandals were bare cork soles, read from the loungers as oval boards or
+ * pebbles on the deck. A slide's band arches over each sole's front half: `along` of the sole's
+ * length from its middle toward the wider (toe) end, `width` of its length wide, `rise` high (m)
+ * and `thickness` thick (m), its feet just inside the sole's rim.
+ */
+export const SANDAL_STRAP = { along: 0.14, width: 0.3, rise: 0.042, thickness: 0.006, inset: 0.9 };
+const STRAP_SEGMENTS = 14;
+
+/** A sole's footprint: its middle, long axis and extents, from its vertices (world xyz). */
+export function soleFrame(world: ArrayLike<number>, vertices: number[]) {
+  let cx = 0;
+  let cz = 0;
+  for (const i of vertices) {
+    cx += world[i * 3];
+    cz += world[i * 3 + 2];
+  }
+  cx /= vertices.length;
+  cz /= vertices.length;
+  let xx = 0;
+  let xz = 0;
+  let zz = 0;
+  let top = -Infinity;
+  for (const i of vertices) {
+    const dx = world[i * 3] - cx;
+    const dz = world[i * 3 + 2] - cz;
+    xx += dx * dx;
+    xz += dx * dz;
+    zz += dz * dz;
+    top = Math.max(top, world[i * 3 + 1]);
+  }
+  const angle = 0.5 * Math.atan2(2 * xz, xx - zz);
+  let ax = Math.cos(angle);
+  let az = Math.sin(angle);
+  const along = (i: number) => (world[i * 3] - cx) * ax + (world[i * 3 + 2] - cz) * az;
+  const across = (i: number) => -(world[i * 3] - cx) * az + (world[i * 3 + 2] - cz) * ax;
+  const length = Math.max(...vertices.map(along)) - Math.min(...vertices.map(along));
+  const width = Math.max(...vertices.map(across)) - Math.min(...vertices.map(across));
+  // The toe end is the wider: the spread across of the outer quarters at each end.
+  const spread = (sign: number) => {
+    const ends = vertices.filter((i) => along(i) * sign > length / 4).map(across);
+    return ends.length ? Math.max(...ends) - Math.min(...ends) : 0;
+  };
+  if (spread(-1) > spread(1)) {
+    ax = -ax;
+    az = -az;
+  }
+  return { x: cx, z: cz, ax, az, length, width, top };
+}
+
+/** The band over a sole (soleFrame): an elliptic arch from rim to rim, `SANDAL_STRAP` sized. */
+export function sandalStrap(sole: ReturnType<typeof soleFrame>) {
+  const { along, width, rise, thickness, inset } = SANDAL_STRAP;
+  const half = (sole.width / 2) * inset;
+  const geometry = new THREE.BoxGeometry(1, thickness, sole.length * width, STRAP_SEGMENTS, 1, 1);
+  const position = geometry.attributes.position;
+  for (let i = 0; i < position.count; i++) {
+    // Box x (−0.5…0.5) runs over the arch; its y is the thickness, outward from the arch.
+    const t = position.getX(i) * Math.PI;
+    const nx = Math.sin(t) / half;
+    const ny = Math.cos(t) / rise;
+    const n = Math.hypot(nx, ny);
+    const off = position.getY(i) + thickness / 2;
+    position.setXY(i, half * Math.sin(t) + (off * nx) / n, rise * Math.cos(t) + (off * ny) / n);
+  }
+  const cx = sole.x + sole.ax * sole.length * along;
+  const cz = sole.z + sole.az * sole.length * along;
+  // Box x across the sole, z along it.
+  const basis = new THREE.Matrix4().makeBasis(
+    new THREE.Vector3(-sole.az, 0, sole.ax),
+    new THREE.Vector3(0, 1, 0),
+    new THREE.Vector3(sole.ax, 0, sole.az),
+  );
+  geometry.applyMatrix4(basis.setPosition(cx, sole.top - 0.002, cz));
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+/**
  * The source's furniture on the terrace stood in the air: the cork sandal soles 3cm over the deck
  * and the loungers' bronze legs 2cm over the paving and the deck. Each sole moves down onto the
  * surface under it, and each leg's foot (its lowest 4mm) stretches down to it. Then the contact
@@ -201,6 +279,7 @@ export function settleTerraceProps(root: THREE.Object3D) {
   const size = new THREE.Vector3();
   const p = new THREE.Vector3();
   let settled = 0;
+  const straps: THREE.BufferGeometry[] = [];
   for (const mesh of props) {
     const { world, pieces } = connectedPieces(mesh);
     const position = mesh.geometry.attributes.position;
@@ -232,8 +311,12 @@ export function settleTerraceProps(root: THREE.Object3D) {
         settled++;
       }
       // Inside the oval sole's outline, so the rectangle's corners do not show past its rim.
-      if (sole) contacts.push([x, z, size.x * 0.35, size.z * 0.4, 0.1, 0.7, undefined, 0, near(top)]);
-      else if (leg) {
+      if (sole) {
+        contacts.push([x, z, size.x * 0.35, size.z * 0.4, 0.1, 0.7, undefined, 0, near(top)]);
+        const settledWorld = Float32Array.from(world);
+        if (gap > 0.003) for (const i of vertices) settledWorld[i * 3 + 1] -= gap;
+        straps.push(sandalStrap(soleFrame(settledWorld, vertices)));
+      } else if (leg) {
         contacts.push([x, z, 0, 0, 0.08, 0.5, undefined, 0, near(top)]);
         legs.push({ x, z, top });
       } else {
@@ -285,7 +368,18 @@ export function settleTerraceProps(root: THREE.Object3D) {
     const level = Math.max(...feet.map((leg) => leg.top));
     contacts.push([cx, cz, across, along, 0.3, 0.35, undefined, Math.atan2(ax, az), near(level)]);
   });
-  return { contacts, settled, loungers: used.size / 2 };
+  if (straps.length) {
+    const strap = new THREE.Mesh(
+      mergeGeometries(straps),
+      new THREE.MeshStandardMaterial({ name: 'V4 | sandal strap', color: 0x2e2925, roughness: 0.75 }),
+    );
+    strap.name = 'Sandal straps';
+    strap.castShadow = true;
+    strap.receiveShadow = true;
+    root.add(strap);
+    for (const geometry of straps) geometry.dispose();
+  }
+  return { contacts, settled, loungers: used.size / 2, straps: straps.length };
 }
 
 /**

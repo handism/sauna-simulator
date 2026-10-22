@@ -109,6 +109,8 @@ const DISK_SEGMENTS = 32;
  * Not in the source: lights whose mirrored image is blurred. The lounge dusk fill (a 2 m disk) lay on
  * the dusk and night water as a sharp cream shape, which read as a cutout, and the water strip (V7,
  * 2.2 × 1.6 m right above the plunge view) as a gray sheet floating at the bather's feet at night.
+ * The lounge light's first blur (full out to 0.6 of the radius) still lay as a flat, saturated
+ * white sheet; its small core and slow falloff spread it into a glow that dims from the middle.
  * Distances are relative to the shape's half size `s` (the radius, or the shorter half side): the
  * radiance is full inside the shape inset by `1 − core` (a rounded rectangle for rectangles), falls
  * by e every `falloff` beyond it and is drawn out to `reach` (under 1% there), scaled so the light
@@ -117,7 +119,7 @@ const DISK_SEGMENTS = 32;
 type Soft = { core: number; falloff: number; reach: number };
 export const SOFT_GLOSSY: Record<string, Soft> = {
   'V7 water reflection soft strip': { core: 0.7, falloff: 0.25, reach: 1.6 },
-  'V10 lounge dusk fill': { core: 0.6, falloff: 0.25, reach: 1.8 },
+  'V10 lounge dusk fill': { core: 0.3, falloff: 0.5, reach: 2.7 },
 };
 /** The half size that the blur's distances are relative to. */
 export const softUnit = (size: number[]) => Math.min(...size) / 2;

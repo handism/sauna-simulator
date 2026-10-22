@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { addGardenDetails, rockGeometry, settleTerraceProps, tuckGrassBehindBoulders } from './gardenDetails';
+import {
+  addGardenDetails,
+  rockGeometry,
+  SANDAL_STRAP,
+  settleTerraceProps,
+  soleFrame,
+  tuckGrassBehindBoulders,
+} from './gardenDetails';
 import { FOOTLIGHT_DIRECTION, FOOTLIGHTS } from './lighting';
 import { disposeTree, prepareModel } from './modelMaterials';
 
@@ -277,9 +284,16 @@ describe('garden accents', () => {
     const bronze = new THREE.Mesh(mergeGeometries(parts), named('Blackened bronze'));
     root.add(sole, bronze);
     root.updateMatrixWorld(true);
-    const { contacts, settled, loungers } = settleTerraceProps(root);
+    const { contacts, settled, loungers, straps } = settleTerraceProps(root);
     expect(settled).toBe(5);
     expect(loungers).toBe(1);
+    // A band over the settled sole, its feet on the sole's top inside its rim.
+    expect(straps).toBe(1);
+    const band = (root.getObjectByName('Sandal straps') as THREE.Mesh).geometry;
+    band.computeBoundingBox();
+    expect(band.boundingBox!.min.y).toBeCloseTo(0.1 - 0.002, 2);
+    expect(band.boundingBox!.max.y).toBeCloseTo(0.1 - 0.002 + SANDAL_STRAP.rise + SANDAL_STRAP.thickness, 2);
+    expect(band.boundingBox!.max.x - band.boundingBox!.min.x).toBeLessThan(0.2);
     sole.geometry.computeBoundingBox();
     expect(sole.geometry.boundingBox!.min.y).toBeCloseTo(0.07);
     // Each foot reaches the deck; the rest of the leg and the rails, foot and handle stay.
@@ -302,6 +316,30 @@ describe('garden accents', () => {
       expect(contact[8]!(0.3965, 0)).toBeCloseTo(0.07);
     }
     disposeTree(root);
+  });
+
+  it("finds a sole's long axis and its wider toe end", () => {
+    // A sole along a 0.6rad turn: 0.26m long, its toe end (+) 0.1m wide and its heel 0.07m.
+    const turn = 0.6;
+    const world: number[] = [];
+    for (const [along, across] of [
+      [-0.13, -0.035],
+      [-0.13, 0.035],
+      [0.13, -0.05],
+      [0.13, 0.05],
+      [0, -0.045],
+      [0, 0.045],
+    ])
+      world.push(
+        2 + along * Math.cos(turn) - across * Math.sin(turn),
+        0.1,
+        1 + along * Math.sin(turn) + across * Math.cos(turn),
+      );
+    const frame = soleFrame(world, [0, 1, 2, 3, 4, 5]);
+    expect(frame.ax).toBeCloseTo(Math.cos(turn), 1);
+    expect(frame.az).toBeCloseTo(Math.sin(turn), 1);
+    expect(frame.length).toBeCloseTo(0.26, 2);
+    expect(frame.top).toBeCloseTo(0.1);
   });
 
   it('builds the same varied garden on every load', () => {

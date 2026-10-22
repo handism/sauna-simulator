@@ -14,7 +14,7 @@ import './reflection';
 // Patches the spot lights' loop first (DRY_ONLY).
 import { DIRECT_CALL, DIRECTIONAL_START, DRY_ONLY, SPOT_START } from './lighting';
 import { FBM_GLSL } from './noiseColor';
-import { WATER_BUMP_GLSL } from './waterEffects';
+import { RIM_HEIGHT, WATER_BUMP_GLSL } from './waterEffects';
 import { canopyBlocks, CANOPY_GLSL } from './waterLightOcclusion';
 
 // The bottom of the source water. Its flat bottom face lies 1.3 cm above the tiles with air
@@ -44,8 +44,7 @@ import { canopyBlocks, CANOPY_GLSL } from './waterLightOcclusion';
 
 /** The bottom face of the source water, glTF y (the tiles are 1.3 cm below). */
 export const WATER_BOTTOM = WATER_VOLUME.min.y;
-/** Top of the coping around the water on all four sides, glTF y. */
-export const RIM_HEIGHT = 1.035;
+export { RIM_HEIGHT };
 /** Side reflections followed on the way up. */
 const MAX_SIDES = 3;
 /** Half width of the soft edge of a light, relative to its size. */

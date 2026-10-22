@@ -4,7 +4,7 @@ import { shapeFernLeaflets } from './fernShape';
 import { tiltMapleLeaves } from './mapleLeafTilt';
 import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
-import { INTERIOR_BOX } from './interiorLights';
+import { INTERIOR_BOX, shadeStovePile } from './interiorLights';
 import { applyFoliage, isFoliageMaterial } from './foliage';
 import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
 import { applyImageRamp, imageRampOf, type ImageRamp } from './imageRamp';
@@ -44,6 +44,10 @@ export interface PreparedModelStats {
  * Applies the browser-side material extensions recorded by the exporter and the
  * shadow/visibility rules. Returns per-extension material counts for the DOM metrics.
  */
+const CONCEALED_LED = '2700K concealed LED';
+/** The share of the concealed bench strip's emission kept for its look. */
+export const CONCEALED_LED_GLOW = 0.1;
+
 export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   const foliage = new Set<THREE.MeshStandardMaterial>();
   const noiseColors = new Map<THREE.MeshStandardMaterial, NoiseColor>();
@@ -80,6 +84,20 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       shapeCanopyLeaves(object.geometry, SMALL_LEAF);
     }
     for (const material of materials) {
+      shadeStovePile(material);
+      // Not in the source: the strip under the lower bench, which the lips hide, showed through the
+      // gaps between the slats as thin white lines: the under-bench area light right at it lit its
+      // warm base color far past white. It is the light, so it takes none (black base color) and
+      // keeps a share of its glow; its light on the room stays the area lights' (interiorLights.ts).
+      if (
+        material.name === CONCEALED_LED &&
+        material instanceof THREE.MeshStandardMaterial &&
+        !material.userData.suiDimmed
+      ) {
+        material.color.setScalar(0);
+        material.emissiveIntensity *= CONCEALED_LED_GLOW;
+        material.userData.suiDimmed = true;
+      }
       if (isFoliageMaterial(material)) foliage.add(material);
       const noise = noiseColorOf(material);
       if (noise) {

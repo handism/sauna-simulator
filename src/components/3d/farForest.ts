@@ -35,6 +35,13 @@ const FRONT_DROP = 0.2;
  * foliage instead of smooth balls; gone where the masses would be finer than a pixel.
  */
 const VOLUME_FRAY = 0.8;
+/**
+ * Bare broadleaf crowns in winter: how much deeper the outline frays, the share of the leaf-mass
+ * contrast taken away, and how much of the air behind shows through the twigs.
+ */
+const BARE_FRAY = 0.8;
+const BARE_LEAF_KEPT = 0.75;
+const BARE_SEE_THROUGH = 0.45;
 /** The scene's fixed sun (lighting.ts), as the band's shading uses. */
 const sun = new THREE.Vector3(-0.556, 0.6178, 0.556).normalize();
 
@@ -96,7 +103,7 @@ export function crownHeight(crown: Crown, d: number) {
 const BROADLEAF: Record<Season, number[]> = {
   spring: [0x6f8a4a, 0x7f9a52, 0x627c43],
   summer: [0x4d6339, 0x56703f, 0x435933],
-  autumn: [0x8a5a32, 0x8e4a2e, 0x957540, 0x6e5634],
+  autumn: [0x9a6532, 0x8e4a2e, 0xa8853e, 0x6f6c3a, 0x5d6b3e],
   winter: [0x6e6660, 0x77706a, 0x655e59],
 };
 const EVERGREEN: Record<Season, number[]> = {
@@ -393,6 +400,11 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   geometry.setAttribute('gardenBand', new THREE.Float32BufferAttribute(band, 1));
   geometry.setAttribute('gardenDepth', new THREE.Float32BufferAttribute(depths, 1));
   geometry.setAttribute('gardenNormal', new THREE.BufferAttribute(new Int8Array(normals), 3, true));
+  // The broadleaf crowns, bare in winter.
+  const broadleaf = new Uint8Array(crownOf.length);
+  for (let v = 0; v < crownOf.length; v++) broadleaf[v] = crowns[crownOf[v]] && !crowns[crownOf[v]].evergreen ? 255 : 0;
+  geometry.setAttribute('gardenBroadleaf', new THREE.BufferAttribute(broadleaf, 1, true));
+  const bare = { value: 0 };
   const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
   material.name = 'Garden far forest';
   // The shader frays the outline with discard; an alpha test (never failed: the alpha is 1) keeps the
@@ -400,20 +412,23 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   material.alphaTest = 0.01;
   material.onBeforeCompile = (shader) => {
     shader.uniforms.gardenHazeColor = hazeColor;
+    shader.uniforms.gardenBare = bare;
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nattribute vec3 gardenNormal;\nvarying vec3 vGardenNormal;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;\nvarying float vGardenAir;',
+        '#include <common>\nattribute float gardenBroadleaf;\nvarying float vGardenBroadleaf;\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nattribute vec3 gardenNormal;\nvarying vec3 vGardenNormal;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;\nvarying float vGardenAir;',
       )
       .replace('#include <project_vertex>', '#include <project_vertex>\nvGardenAir = length(mvPosition.xyz);')
       .replace(
         '#include <begin_vertex>',
-        '#include <begin_vertex>\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenNormal = gardenNormal;\nvGardenPosition = position;',
+        '#include <begin_vertex>\nvGardenBroadleaf = gardenBroadleaf;\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenNormal = gardenNormal;\nvGardenPosition = position;',
       );
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <common>',
         `#include <common>
+        varying float vGardenBroadleaf;
+        uniform float gardenBare;
         varying float vGardenBand;
         varying float vGardenSide;
         varying float vGardenDepth;
@@ -440,6 +455,8 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       .replace(
         '#include <clipping_planes_fragment>',
         `#include <clipping_planes_fragment>
+        // Bare broadleaf crowns in winter: twigs thin out toward the outline, so it frays deeper.
+        float gardenBareCrown = vGardenBroadleaf * gardenBare;
         // SUI_FAR_CROWN_CONTROL
         // Ragged foliage along the outline: the smooth domes and cones read as hills and rocky
         // peaks. Leafy masses (about 0.45m and 0.2m) cut up to ${FRAY.toFixed(1)}m into the crowns, gone
@@ -447,14 +464,14 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         vec2 gardenEdgeArc = vec2(atan(vGardenPosition.z, vGardenPosition.x) * ${FAR_FOREST_RADIUS.toFixed(1)}, vGardenPosition.y);
         float gardenFine = 1.0 - smoothstep(0.08, 0.2, max(length(dFdx(gardenEdgeArc)), length(dFdy(gardenEdgeArc))));
         float gardenRag = gardenForestNoise(gardenEdgeArc * 2.2) * 0.65 + mix(0.5, gardenForestNoise(gardenEdgeArc * 5.0 + 7.7), gardenFine) * 0.35;
-        if (vGardenEdge - vGardenPosition.y < (gardenRag - 0.3) * ${FRAY.toFixed(1)}) discard;
+        if (vGardenEdge - vGardenPosition.y < (gardenRag - 0.3) * ${FRAY.toFixed(1)} * (1.0 + ${BARE_FRAY.toFixed(1)} * gardenBareCrown)) discard;
         // The volumes fray along their own silhouettes, revealing the clump or crown behind.
         if (dot(vGardenNormal, vGardenNormal) > 0.25) {
           float gardenTurn = 1.0 - abs(dot(normalize(vGardenNormal), normalize(cameraPosition - vGardenPosition)));
           float gardenLeafy = gardenForestNoise(gardenEdgeArc * 2.5 + 3.3) * 0.65
             + mix(0.5, gardenForestNoise(gardenEdgeArc * 6.0 + 1.7), gardenFine) * 0.35;
           float gardenVolumeFine = 1.0 - smoothstep(0.12, 0.35, max(length(dFdx(gardenEdgeArc)), length(dFdy(gardenEdgeArc))));
-          if (gardenTurn > 1.0 - ${VOLUME_FRAY.toFixed(2)} * gardenLeafy * gardenVolumeFine) discard;
+          if (gardenTurn > 1.0 - ${VOLUME_FRAY.toFixed(2)} * (1.0 + 0.4 * gardenBareCrown) * gardenLeafy * gardenVolumeFine) discard;
         }`,
       )
       .replace(
@@ -514,7 +531,14 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         }
         float gardenLeaf = (1.0 - smoothstep(0.35, 0.8, sqrt(gardenLeafNear)))
           * (0.75 + 0.5 * clamp(gardenLeafOffset.y * 1.4 + 0.5, 0.0, 1.0));
-        diffuseColor.rgb *= mix(1.0, 0.42 + 0.95 * gardenLeaf, gardenLeafDetail);
+        diffuseColor.rgb *= mix(1.0, 0.42 + 0.95 * gardenLeaf, gardenLeafDetail * (1.0 - ${BARE_LEAF_KEPT.toFixed(2)} * gardenBareCrown));
+        // A bare crown is a lace of twigs: fine upright branches over the air seen through them,
+        // not the leaf masses above (grey-brown masses read as boulders and smoke).
+        if (gardenBareCrown > 0.0) {
+          float gardenTwig = mix(0.5, gardenForestNoise(gardenArc * vec2(7.0, 1.6)), 1.0 - smoothstep(0.05, 0.16, gardenFootprint));
+          diffuseColor.rgb *= mix(1.0, 0.82 + 0.36 * gardenTwig, gardenBareCrown);
+          diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, ${BARE_SEE_THROUGH.toFixed(2)} * gardenBareCrown);
+        }
         // The same air as the lit woodland in front (aerialPerspective.ts), and mist at the foot.
         float haze = suiAirAmount(vGardenAir);
         // SUI_FAR_AIR_CONTROL
@@ -522,7 +546,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v12';
+  material.customProgramCacheKey = () => 'garden-far-forest-v13';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();
@@ -550,6 +574,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     /** The light on the band, as the ridges' (the color of the material multiplies the tints). */
     update(season: Season, light: THREE.Color) {
       if (painted !== season) paint(season);
+      bare.value = season === 'winter' ? 1 : 0;
       material.color.copy(light);
     },
   };

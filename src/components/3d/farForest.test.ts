@@ -164,8 +164,9 @@ describe('far forest', () => {
     expect(index.count / 3).toBeLessThan(95000);
     let bytes = index.array.byteLength;
     for (const attribute of Object.values(geometry.attributes)) bytes += attribute.array.byteLength;
-    // Plus the volumes' 8-bit normals for their frayed outline (240 KB).
-    expect(bytes).toBeLessThan(5.65e6);
+    // Plus the volumes' 8-bit normals for their frayed outline (240 KB) and the broadleaf flag of
+    // the bare winter crowns (80 KB).
+    expect(bytes).toBeLessThan(5.73e6);
     geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });

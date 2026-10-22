@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { IRRADIANCE_PARS, type IrradianceUniforms } from './irradiance';
-import { INTERIOR_BOX } from './interiorLights';
+import { INTERIOR_BOX, interiorPointSources } from './interiorLights';
 import { REFLECTION_PARS } from './reflection';
 
 // The source glass is a Principled BSDF with full transmission: 18 mm panes (closed boxes) of
@@ -18,6 +18,14 @@ import { REFLECTION_PARS } from './reflection';
 // pane, so the room grid serves views from inside the sauna. Refraction offsets (at most a few
 // millimeters) and the 0.055 roughness are left out; L2 probes give a soft reflection.
 //
+// Not in the source's shortcut: the probes hold no direct light of the browser's lights, so from
+// inside the sauna by night the glass showed the dark garden with none of the lit room in it
+// (Cycles shows the warm room on the panes). The reflected view is followed to the room box's
+// cedar wall, floor or ceiling and lit there by the six room lights as points (their spread and
+// the benches in the way are left out); a view to the other glass sees none of it.
+/** The room's cedar and ash as seen in the glass (linear albedo). */
+export const ROOM_ALBEDO = [0.26, 0.17, 0.085];
+
 // The condensation beads on the sauna's window are fully transmissive water (IOR 1.333) too, but
 // the exporter wrote them as an opaque off-white surface: dimly lit, they showed as dark specks
 // against the bright sky. Drawn as this glass, each bead's front face is one slab; the blur of
@@ -47,6 +55,33 @@ export function slab(cosine: number, optics: (typeof GLASS)[string]) {
 
 const vec3 = (v: THREE.Vector3) => `vec3( ${v.x.toFixed(4)}, ${v.y.toFixed(4)}, ${v.z.toFixed(4)} )`;
 
+// The room lights' direct light reflected toward the camera from where the view R from P (inside
+// the room box) meets the box: no light on the glass sides (+x and +z).
+const ROOM_GLOW = (() => {
+  const lights = interiorPointSources()
+    .map(
+      ({ position, emit, intensity }) => `
+	d = H - ${vec3(position)};
+	r2 = dot( d, d ) + 0.15;
+	d = normalize( d );
+	E += ${vec3(new THREE.Vector3(intensity.r, intensity.g, intensity.b))} * max( dot( d, ${vec3(emit)} ), 0.0 ) * max( - dot( d, Nh ), 0.0 ) / r2;`,
+    )
+    .join('');
+  return /* glsl */ `
+vec3 suiRoomGlow( const in vec3 P, const in vec3 R ) {
+	vec3 bound = mix( ${vec3(INTERIOR_BOX.min)}, ${vec3(INTERIOR_BOX.max)}, step( 0.0, R ) );
+	vec3 t = ( bound - P ) / mix( vec3( 1e-6 ), R, step( 1e-6, abs( R ) ) );
+	float hit = min( t.x, min( t.y, t.z ) );
+	vec3 Nh = t.x == hit ? vec3( - sign( R.x ), 0.0, 0.0 ) : t.y == hit ? vec3( 0.0, - sign( R.y ), 0.0 ) : vec3( 0.0, 0.0, - sign( R.z ) );
+	if ( Nh.x < 0.0 || Nh.z < 0.0 ) return vec3( 0.0 );
+	vec3 H = P + R * hit;
+	vec3 E = vec3( 0.0 );
+	vec3 d;
+	float r2;${lights}
+	return ${vec3(new THREE.Vector3(...ROOM_ALBEDO))} * RECIPROCAL_PI * E;
+}`;
+})();
+
 const vertexShader = /* glsl */ `varying vec3 vWorldPosition;
 varying vec3 vWorldNormal;
 void main() {
@@ -61,6 +96,7 @@ ${IRRADIANCE_PARS}
 ${REFLECTION_PARS}
 uniform float ior;
 uniform vec3 tint;
+${ROOM_GLOW}
 varying vec3 vWorldPosition;
 varying vec3 vWorldNormal;
 
@@ -86,6 +122,7 @@ void main() {
 		vec3 P = vWorldPosition + N * 0.02;
 		bool interior = all( greaterThanEqual( P, ${vec3(INTERIOR_BOX.min)} ) ) && all( lessThanEqual( P, ${vec3(INTERIOR_BOX.max)} ) );
 		vec3 radiance = suiReflection( P, N, reflect( - V, N ), 0.055, interior, false );
+		if ( interior ) radiance += suiRoomGlow( P, reflect( - V, N ) );
 		gl_FragColor = vec4( radiance * ( F + F * through ), 1.0 );
 		#include <tonemapping_fragment>
 		#include <colorspace_fragment>

@@ -102,6 +102,8 @@ const ROOM_BOARDS = /* glsl */ `
   }
   #endif
 `;
+/** The open deck's weathering: the silvered share at most, the extra board contrast and darkening. */
+export const DECK_WEATHER = { silver: 0.45, boards: 0.14, darker: 0.1 };
 const DECK = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;
   float suiBoardSeed = 0.5;
@@ -117,6 +119,15 @@ const DECK = /* glsl */ `
   float suiFiber = suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 390.0 + suiBend * 5.0, suiSurfaceP.z * 4.5, suiBoardSeed * 23.0));
   float suiDetail = (suiGrain - 0.5) * 0.30 + (suiFiber - 0.5) * 0.10;
   diffuseColor.rgb *= 1.0 + suiDeckTop * (suiDetail + (suiBoardSeed - 0.5) * 0.14);
+  #ifndef SUI_ROOM_FLOOR
+  // Not in the source: the open deck read as one pale, freshly sanded floor in the sun. Weathered
+  // ash greys toward silver in patches of some decimeters and board by board, the boards differ
+  // more, and the whole is a little darker.
+  float suiWeather = suiSurfaceFilteredNoise(suiSurfaceP * vec3(0.9, 1.0, 0.35) + suiBoardSeed * 5.0);
+  float suiSilver = suiDeckTop * clamp((suiWeather - 0.35) * 1.6 + (suiBoardSeed - 0.5) * 0.8, 0.0, 1.0) * ${DECK_WEATHER.silver.toFixed(2)};
+  diffuseColor.rgb = mix(diffuseColor.rgb, vec3(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722))) * vec3(0.95, 0.96, 0.98), suiSilver);
+  diffuseColor.rgb *= 1.0 + suiDeckTop * ((suiBoardSeed - 0.5) * ${DECK_WEATHER.boards.toFixed(2)} - ${DECK_WEATHER.darker.toFixed(2)});
+  #endif
   diffuseColor.rgb *= (1.0 - 0.65 * suiSeam) * (1.0 - suiContact);
   float suiSurfaceRoughness = suiDeckTop * ((0.5 - suiGrain) * 0.12) + suiSeam * 0.15;
   float suiSurfaceHeight = suiDeckTop * (suiGrain * 0.00022 + suiFiber * 0.00006) - suiSeam * 0.002;
@@ -191,6 +202,19 @@ const GROUND = /* glsl */ `
   float suiSurfaceRoughness = (suiDry - suiLush) * 0.05;
   float suiSurfaceHeight = suiTuft * 0.004 + suiBlade * 0.0006;
 `;
+/**
+ * The plaster wall behind the plunge (glTF axes): beyond z, between x, with a damp band above the
+ * coping (1.035 m) up to about dampTop and the spillway's streaks around x = spout below streakTop.
+ */
+export const PLUNGE_WALL = {
+  z: -4.1,
+  x: [-0.25, 2.6],
+  dampTop: 1.32,
+  spout: 1.18,
+  streakHalfWidth: 0.34,
+  streakTop: 1.65,
+};
+const f = (v: number) => v.toFixed(3);
 // Warm limestone plaster (courtyard walls and tea cups): broad trowel clouds + fine mineral grain
 // matching the source 2-layer FBM (scale 8 color/bump and scale 75 fine bump), balanced around the mean.
 const PLASTER = /* glsl */ `
@@ -200,7 +224,19 @@ const PLASTER = /* glsl */ `
   float suiLimeGrain = suiSurfaceFilteredNoise(suiSurfaceP * 58.0);
   float suiPlasterVar = (suiTrowel - 0.5) * 0.36 + (suiLimeGrain - 0.5) * 0.14;
   diffuseColor.rgb *= 1.0 + vec3(suiPlasterVar * 1.02, suiPlasterVar * 1.0, suiPlasterVar * 0.96);
-  float suiSurfaceRoughness = (0.5 - suiTrowel) * 0.08 + (suiLimeGrain - 0.5) * 0.06;
+  // Not in the source: the wall behind the plunge, evenly lit, read as a blank sheet. Above the
+  // coping it is damp in a ragged band, and under the spillway the overflow left grey streaks.
+  float suiDamp = 0.0;
+  if (suiSurfaceP.z < ${f(PLUNGE_WALL.z)} && suiSurfaceP.x > ${f(PLUNGE_WALL.x[0])} && suiSurfaceP.x < ${f(PLUNGE_WALL.x[1])}) {
+    float suiDampEdge = ${f(PLUNGE_WALL.dampTop)} + (suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 2.4, 0.0, suiSurfaceP.x * 0.7)) - 0.5) * 0.22
+      + (suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 9.0, 3.1, 0.0)) - 0.5) * 0.06;
+    suiDamp = 1.0 - smoothstep(suiDampEdge - 0.14, suiDampEdge, suiSurfaceP.y);
+    float suiStreak = (1.0 - smoothstep(0.08, ${f(PLUNGE_WALL.streakHalfWidth)}, abs(suiSurfaceP.x - ${f(PLUNGE_WALL.spout)})))
+      * smoothstep(0.35, 0.65, suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 34.0, suiSurfaceP.y * 1.5, 0.0)))
+      * (1.0 - smoothstep(${f(PLUNGE_WALL.streakTop - 0.25)}, ${f(PLUNGE_WALL.streakTop)}, suiSurfaceP.y));
+    diffuseColor.rgb *= (1.0 - 0.32 * suiDamp) * mix(vec3(1.0), vec3(0.8, 0.83, 0.86), suiStreak);
+  }
+  float suiSurfaceRoughness = (0.5 - suiTrowel) * 0.08 + (suiLimeGrain - 0.5) * 0.06 - 0.12 * suiDamp;
   float suiSurfaceHeight = suiTrowel * 0.0022 + suiLimeGrain * 0.00045;
 `;
 // Unbleached linen (sauna plaque and thermometer numerals): fine woven cross-threads and slub

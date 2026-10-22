@@ -187,10 +187,17 @@ export const LEAF_RIM = 0.3;
 // fades them over part of the samples instead. The mean coverage itself would thin the crowns:
 // overlapping cards with the same alpha cover the same samples. Further still, the cutoff drops so
 // the distant crowns fill in (the leaves seen against the sky were separate dark specks).
+// The texels a pixel spans across its footprint's minor axis: far off, many; for a near card seen
+// edge-on, its major axis alone spanned many too, and the far fill and rim showed the card's clear
+// parts as a pale camouflaged rectangle beside the terrace.
 export const LEAF_COVERAGE_GLSL = /* glsl */ `
+float suiLeafFootprint( vec2 uv ) {
+	vec2 dx = dFdx( uv ) * ${LEAF_CLUSTER_SIZE.toFixed(1)};
+	vec2 dy = dFdy( uv ) * ${LEAF_CLUSTER_SIZE.toFixed(1)};
+	return abs( dx.x * dy.y - dx.y * dy.x ) / max( max( length( dx ), length( dy ) ), 1e-6 );
+}
 float suiLeafCoverage( float alpha, vec2 uv ) {
-	vec2 texels = uv * ${LEAF_CLUSTER_SIZE.toFixed(1)};
-	float footprint = max( length( dFdx( texels ) ), length( dFdy( texels ) ) );
+	float footprint = suiLeafFootprint( uv );
 	float ramp = max( fwidth( alpha ), ${LEAF_FAR_RAMP.toFixed(2)} * smoothstep( 1.0, 2.0, footprint ) );
 	float cutoff = ${CUTOFF.toFixed(1)} - ${LEAF_FAR_FILL.toFixed(2)} * smoothstep( ${FILL_FROM.toFixed(1)}, ${FILL_TO.toFixed(1)}, footprint );
 	// Below zero far off (a wide ramp under a low cutoff), the clear parts of a card keep a little
@@ -199,8 +206,7 @@ float suiLeafCoverage( float alpha, vec2 uv ) {
 }
 // How far a card in its crown's outer shell is lifted, once its leaves are under a pixel.
 float suiLeafRim( vec2 uv ) {
-	vec2 texels = uv * ${LEAF_CLUSTER_SIZE.toFixed(1)};
-	float footprint = max( length( dFdx( texels ) ), length( dFdy( texels ) ) );
+	float footprint = suiLeafFootprint( uv );
 	float shell = min( floor( uv.x * 0.5 ), ${LEAF_SHELL_LEVELS.toFixed(1)} ) / ${LEAF_SHELL_LEVELS.toFixed(1)};
 	return ${LEAF_RIM.toFixed(2)} * shell * smoothstep( 1.0, 2.0, footprint );
 }

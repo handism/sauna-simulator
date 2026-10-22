@@ -62,6 +62,23 @@ export const INTERIOR_SOURCES: Source[] = [
 
 const gltf = ([x, y, z]: number[]) => new THREE.Vector3(x, z, -y);
 
+/**
+ * Not in the source: the lights cast no shadow, so every stone in the heater's cage took them in
+ * full, and by night the dark olivine pile shone pale grey down to its foot between the bars. The
+ * stones below the top layer (world y from `from` to `to`, m) keep `buried` of the lights and the
+ * faces turned down `down` of it, as the packed stones and the cage would hide them.
+ */
+export const STOVE_PILE = { from: 0.78, to: 1.05, buried: 0.3, down: 0.5 };
+const STOVE_STONE = 'Loyly | split olivine';
+
+/** Marks the heater's stones (SUI_STOVE_PILE). Returns whether there were any. */
+export function shadeStovePile(material: THREE.Material) {
+  if (material.name !== STOVE_STONE) return false;
+  material.defines = { ...material.defines, SUI_STOVE_PILE: '' };
+  material.needsUpdate = true;
+  return true;
+}
+
 /** Area of the disk of radius r between chords at local y = a and b. */
 export function diskBandArea(r: number, a: number, b: number): number {
   const f = (y: number) => y * Math.sqrt(r * r - y * y) + r * r * Math.asin(y / r);
@@ -108,6 +125,19 @@ export function createInteriorLights(): THREE.RectAreaLight[] {
   });
 }
 
+/**
+ * The lights as points for what a reflection sees lit (glass.ts): the middle of the part in the
+ * room, the direction it shines (glTF axes) and its on-axis intensity (W/sr per linear color),
+ * radiance × area in the room × visible share, falling with the cosine.
+ */
+export function interiorPointSources() {
+  return createInteriorLights().map((light) => {
+    const emit = new THREE.Vector3(0, 0, -1).applyQuaternion(light.quaternion);
+    const intensity = light.color.clone().multiplyScalar(light.intensity * light.width * light.height);
+    return { position: light.position.clone(), emit, intensity };
+  });
+}
+
 const DIFFUSE_TARGET =
   'RE_Direct_RectArea( rectAreaLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );';
 const vec3 = (v: THREE.Vector3) =>
@@ -121,8 +151,18 @@ const interior = /* glsl */ `
 vec3 suiWorldPosition = ( ( vec4( geometryPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;
 bool suiInterior = all( greaterThanEqual( suiWorldPosition, ${vec3(INTERIOR_BOX.min)} ) ) && all( lessThanEqual( suiWorldPosition, ${vec3(INTERIOR_BOX.max)} ) );
 bool suiUnderwater = all( greaterThanEqual( suiWorldPosition, ${vec3(WATER_BOX.min)} ) ) && all( lessThanEqual( suiWorldPosition, ${vec3(WATER_BOX.max)} ) );
+float suiInteriorShade = 1.0;
+#ifdef SUI_STOVE_PILE
+{
+	// STOVE_PILE: the stones under the top layer of the heater's pile and the faces turned down.
+	float suiUp = inverseTransformDirection( geometryNormal, viewMatrix ).y;
+	suiInteriorShade = mix( ${STOVE_PILE.buried.toFixed(2)}, 1.0, smoothstep( ${STOVE_PILE.from.toFixed(2)}, ${STOVE_PILE.to.toFixed(2)}, suiWorldPosition.y ) )
+		* mix( ${STOVE_PILE.down.toFixed(2)}, 1.0, clamp( suiUp * 0.5 + 0.5, 0.0, 1.0 ) );
+}
+#endif
 `;
 const diffuse = /* glsl */ `if ( suiInterior ) {
+			rectAreaLight.color *= suiInteriorShade;
 			vec3 rectCoords[ 4 ];
 			rectCoords[ 0 ] = rectAreaLight.position + rectAreaLight.halfWidth - rectAreaLight.halfHeight;
 			rectCoords[ 1 ] = rectAreaLight.position - rectAreaLight.halfWidth - rectAreaLight.halfHeight;

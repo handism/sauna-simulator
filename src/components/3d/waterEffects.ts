@@ -133,10 +133,16 @@ vec2 suiRainRipples( vec2 xz, float t ) {
 }
 `;
 
-// How far the mirror image is looked up along the rippled reflection ray, in meters. The true
-// distance to the reflected surface varies (the tub walls are 0.1–3 m away); this sets how far the
-// waves displace the image.
+/** Top of the coping around the water on all four sides, glTF y. */
+export const RIM_HEIGHT = 1.035;
+
+// How far the mirror image is looked up along the rippled reflection ray, in meters: the distance
+// to the coping where the ray meets it, else MIRROR_DISTANCE for what stands beyond it. This sets
+// how far the waves displace the image. A fixed 0.6 m moved the image of the coping and the black
+// spout trough, 0.1–0.3 m from the water by the far wall, up to six times too far: the spout's
+// ripples drew them as sharp dark rings and teeth along the waterline.
 export const MIRROR_DISTANCE = 0.6;
+const MIRROR_NEAREST = 0.03;
 
 // A bounded surface avoids rings crossing the pool coping. No fluid simulation.
 // `probes` are the shared probe uniforms (reflection.ts), filled before the first frame; `mirror`
@@ -149,6 +155,11 @@ export function createWaterEffects(
 ) {
   const group = new THREE.Group();
   const rain = { value: 0 };
+  // The surface spans the tub between the coping's inner faces.
+  const [width, depth] = definition.size;
+  const poolMin = [definition.center[0] - width / 2, definition.center[2] - depth / 2];
+  const poolMax = [definition.center[0] + width / 2, definition.center[2] + depth / 2];
+  const glslVec2 = ([x, z]: number[]) => `vec2(${x.toFixed(4)}, ${z.toFixed(4)})`;
   // The source water is clear (transmission 1, IOR 1.333, absorption density 0.12), so the teal
   // tiles below stay visible. Only the Fresnel reflection is blended over: the mirror image, or
   // the reflection probes (roughness 0.018 of the source) when there is none.
@@ -182,8 +193,14 @@ export function createWaterEffects(
         vec3 direction = reflect(-view, normal);
         vec3 color = suiReflection(vWorld + normal * 0.02, normal, direction, 0.018, false, false);
         if (suiMirrorAmount > 0.0) {
-          // The flat mirror's ray through this point projects onto it; the rippled one is displaced.
-          vec4 image = suiMirrorMatrix * vec4(vWorld + direction * ${MIRROR_DISTANCE.toFixed(2)}, 1.0);
+          // The flat mirror's ray through this point projects onto it; the rippled one is displaced
+          // by as much as the surface it meets is far.
+          vec2 wall = mix(${glslVec2(poolMin)}, ${glslVec2(poolMax)}, step(0.0, direction.xz));
+          vec2 across = abs(wall - vWorld.xz) / max(abs(direction.xz), vec2(1e-4));
+          float reach = min(across.x, across.y);
+          reach = vWorld.y + direction.y * reach < ${RIM_HEIGHT.toFixed(3)}
+            ? clamp(reach, ${MIRROR_NEAREST.toFixed(2)}, ${MIRROR_DISTANCE.toFixed(2)}) : ${MIRROR_DISTANCE.toFixed(2)};
+          vec4 image = suiMirrorMatrix * vec4(vWorld + direction * reach, 1.0);
           color = mix(color, texture2D(suiMirror, clamp(image.xy / image.w, vec2(0.0), suiMirrorLimit)).rgb, suiMirrorAmount);
         }
         gl_FragColor = vec4(color, fresnel);

@@ -383,6 +383,8 @@ describe('refraction', () => {
     expect(trueWeight(new THREE.Vector3(WATER_VOLUME.max.x + SIDE_WALL_LAYER + 0.01, 0.5, -2), path)).toBe(0);
     expect(trueWeight(new THREE.Vector3(1, 0.5, WATER_VOLUME.min.z - 0.006), path)).toBe(0);
     expect(trueWeight(wall, { sides: [0, 0], first: [0, 0], reflectance: 0 })).toBe(1);
+    // The wall's foot under the water's bottom, lit by the dark air layer there.
+    expect(trueWeight(new THREE.Vector3(wall.x, WATER_VOLUME.min.y - 0.005, -2), path)).toBe(0);
   });
 
   it('keeps each fragment on the one image its view reaches', () => {

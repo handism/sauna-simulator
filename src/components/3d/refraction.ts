@@ -254,7 +254,9 @@ export function keepsImage(point: THREE.Vector3, image: Sides, path: Sides) {
 /**
  * The weight of a true surface at `point` on the view `path` (drawn over the mirrored images): 1
  * in the water or when the view meets no side, the transmittance of the first side for the wall
- * just behind it, and 0 for anything else behind a side.
+ * just behind it, and 0 for anything else behind a side. The wall's foot under the water's bottom
+ * is left to the images: it reads the probes of the thin dark air layer under the water, and
+ * views leaving a side near grazing stretch its 1.3 cm into a black band along the walls.
  */
 export function trueWeight(point: THREE.Vector3, path: SidePath) {
   const { min, max } = WATER_VOLUME;
@@ -264,7 +266,7 @@ export function trueWeight(point: THREE.Vector3, path: SidePath) {
   const axis = k === 0 ? 'x' : 'z';
   const plane = path.first[k] > 0 ? max[axis] : min[axis];
   const behind = (point[axis] - plane) * path.first[k];
-  return behind > 0 && behind <= SIDE_WALL_LAYER ? 1 - path.reflectance : 0;
+  return behind > 0 && behind <= SIDE_WALL_LAYER && point.y >= min.y ? 1 - path.reflectance : 0;
 }
 
 const vec2 = (v: THREE.Vector3) => `vec2( ${v.x.toFixed(4)}, ${v.z.toFixed(4)} )`;
@@ -398,8 +400,8 @@ vSuiWaterPath = 0.0;
 
 // Keeps a fragment only on the image its view reaches (keepsImage in refraction.ts). Mirrored
 // images show nothing above the water or for a camera under it. A true surface behind the first
-// side is kept only for the inner wall there, weighted by the side's transmittance (trueWeight),
-// and blended over the images drawn before it (SUI_SIDE_BLEND).
+// side is kept only for the inner wall there above the water's bottom, weighted by the side's
+// transmittance (trueWeight), and blended over the images drawn before it (SUI_SIDE_BLEND).
 const sideImage = (level: string) => /* glsl */ `
 #ifdef SUI_REFRACTION
 float suiSideWeight = 1.0;
@@ -433,7 +435,7 @@ vec3 suiWetView = vec3( 0.0 );
 		if ( ! suiInside && any( notEqual( suiFirst, vec2( 0.0 ) ) ) ) {
 			vec2 suiPlane = mix( ${vec2(WATER_VOLUME.min)}, ${vec2(WATER_VOLUME.max)}, step( 0.0, suiFirst ) );
 			float suiBeyond = dot( suiTrue.xz - suiPlane, suiFirst );
-			if ( suiBeyond <= 0.0 || suiBeyond > ${SIDE_WALL_LAYER.toFixed(4)} || suiReflectance >= 1.0 ) discard;
+			if ( suiBeyond <= 0.0 || suiBeyond > ${SIDE_WALL_LAYER.toFixed(4)} || suiReflectance >= 1.0 || suiTrue.y < ${WATER_VOLUME.min.y.toFixed(4)} ) discard;
 			suiSideWeight = 1.0 - suiReflectance;
 		}
 		#endif
