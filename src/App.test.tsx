@@ -1,11 +1,11 @@
 import { act, render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import App from '../App';
-import { SaunaProvider } from '../context/SaunaContext';
-import * as useAudioEngineModule from '../hooks/useAudioEngine';
+import App from './App';
+import { SaunaProvider } from './context/SaunaContext';
+import * as useAudioEngineModule from './hooks/useAudioEngine';
 
 // Mock child components to isolate App testing
-vi.mock('../components/SaunaRoom', () => ({
+vi.mock('./components/SaunaRoom', () => ({
   default: ({ onNext }: any) => (
     <div data-testid="sauna-room">
       <button onClick={() => onNext({ heartRate: 100, saunaTime: 10, loylyCount: 2 })}>Next to Water</button>
@@ -13,7 +13,7 @@ vi.mock('../components/SaunaRoom', () => ({
   ),
 }));
 
-vi.mock('../components/CoolingBath', () => ({
+vi.mock('./components/CoolingBath', () => ({
   default: ({ onNext }: any) => (
     <div data-testid="cooling-bath">
       <button onClick={() => onNext({ heartRate: 80, waterTime: 2 })}>Next to Totonou</button>
@@ -21,7 +21,7 @@ vi.mock('../components/CoolingBath', () => ({
   ),
 }));
 
-vi.mock('../components/TotonouSpace', () => ({
+vi.mock('./components/TotonouSpace', () => ({
   default: ({ onNext, onFinish }: any) => (
     <div data-testid="totonou-space">
       <button onClick={() => onNext()}>Next to Sauna</button>
