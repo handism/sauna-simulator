@@ -19,6 +19,7 @@ import { splitEvergreenWoodland } from './evergreenWoodland';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
 import { updateSeasonLight } from './seasonalLight';
+import { createSeasonProbes, type ProbeSeason } from './seasonalProbes';
 import { createRain } from './rain';
 import { applyRainWetness, DECK_LEVEL, deckMirrorSurface } from './rainWetness';
 import { createFrameMetrics } from './frameMetrics';
@@ -333,6 +334,28 @@ export default function SaunaScene({
         };
         probes.apply(lighting.irradiance);
         setData('irradianceProbes', String(probes.probes));
+        // The outdoor grids of the chosen season, once fetched (seasonalProbes.ts).
+        const seasonProbes = createSeasonProbes(get);
+        let probeSeason: Season = 'summer';
+        const updateSeasonProbes = () => {
+          const season = seasonRef.current;
+          const files = seasonProbes.files(season);
+          const next = files ? season : 'summer';
+          if (next !== probeSeason) {
+            try {
+              probes.setSeason(files);
+              probeSeason = next;
+            } catch {
+              seasonProbes.reject(season as ProbeSeason);
+              probes.setSeason(null);
+              probeSeason = 'summer';
+            }
+            output.resetTemporal();
+            setData('seasonProbes', probeSeason);
+          }
+          return probeSeason !== 'summer' && probeSeason === season;
+        };
+        let seasonRebaked = false;
         const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(model, MODEL_BASE);
         if (disposed || failed) {
           disposeTree(gltf.scene);
@@ -443,7 +466,8 @@ export default function SaunaScene({
         };
         const drawingSize = new THREE.Vector2();
         const draw = () => {
-          updateSeasonLight(lighting.irradiance, seasonRef.current);
+          seasonRebaked = updateSeasonProbes();
+          updateSeasonLight(lighting.irradiance, seasonRef.current, seasonRebaked);
           setData('sideImagesShown', String(sideImages.update(camera)));
           if (mirror) {
             // What else the reflection shows changing: lighting and the quality's lights.
@@ -455,13 +479,13 @@ export default function SaunaScene({
             mirrorState[1] = qualityIndex;
             mirrorState[2] = gardenAdded;
             mirrorState[4] =
-              seasonRef.current === 'spring'
+              (seasonRef.current === 'spring'
                 ? 3
                 : seasonRef.current === 'winter'
                   ? 2
                   : seasonRef.current === 'autumn'
                     ? 1
-                    : 0;
+                    : 0) + (seasonRebaked ? 4 : 0);
             // The overcast in the same steps (its approach lasts a few seconds).
             mirrorState[3] = Math.round(lighting.clouds * 500) / 500;
             const reflected = mirror.render(scene, camera, waterEffects.surface, mirrorState);

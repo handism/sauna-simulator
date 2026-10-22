@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { INTERIOR_BOX, INTERIOR_SOURCES, createInteriorLights, diskBandArea, sourceRect } from './interiorLights';
+import {
+  INTERIOR_BOX,
+  INTERIOR_SOURCES,
+  createInteriorLights,
+  diskBandArea,
+  interiorPointSources,
+  sourceRect,
+} from './interiorLights';
 
 describe('sauna interior lights', () => {
   it('places the source area lights inside the room with their power and orientation', () => {
@@ -39,5 +46,22 @@ describe('sauna interior lights', () => {
     expect(begin).toContain('suiRectFormFactor( geometryNormal, geometryPosition, rectCoords )');
     expect(begin).not.toContain('RE_Direct_RectArea( rectAreaLight');
     expect(THREE.ShaderChunk.lights_physical_pars_fragment).toContain('float suiRectFormFactor(');
+  });
+
+  it('splits each light into points no farther apart than a meter, keeping its power', () => {
+    const lights = createInteriorLights();
+    const points = interiorPointSources();
+    // The under-bench and backrest strips (4.35 m) as five points each, the ceiling disk as nine.
+    expect(points.length).toBeGreaterThan(20);
+    let next = 0;
+    for (const light of lights) {
+      const count = Math.ceil(light.width - 1e-6) * Math.ceil(light.height - 1e-6);
+      const own = points.slice(next, (next += count));
+      const power = own.reduce((sum, point) => sum + point.intensity.r, 0);
+      expect(power).toBeCloseTo(light.color.r * light.intensity * light.width * light.height, 6);
+      const center = own.reduce((sum, point) => sum.add(point.position), new THREE.Vector3()).divideScalar(count);
+      expect(center.distanceTo(light.position)).toBeLessThan(1e-9);
+    }
+    expect(next).toBe(points.length);
   });
 });

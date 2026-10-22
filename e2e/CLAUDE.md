@@ -105,3 +105,7 @@
 - `stones-meadow.visual.ts` は庭石の質感と中景の草地の変更の静止画を、水風呂の入室視点と外気浴の入室視点・見下ろし・左右（矢印9回）×昼夕、外気浴の秋冬・雨で撮る（13枚）。`playwright.ground.config.ts` で `GROUND_RUN` が回のラベル、before系は `GROUND_BASELINE_DIST` の旧distを配信する。同じ設定に `GROUND_COST=1` を付けると `frame-cost.gpu.ts` を旧／新distで測れる（`FRAME_COST_REPEAT`・`FRAME_COST_VARIANTS` はそのまま渡す）。静止画と描画間隔の比較で、見回し中のちらつき・実機の検査ではない。
 
 - `contact-shadows.visual.ts` はテラスの小物の接地の静止画を、3ステージ×昼夕夜の24視点（サウナ正面・見下ろし、水風呂正面・背後、外気浴正面・見下ろし・左右）で撮る。`playwright.contact.config.ts` で `CONTACT_RUN` が回のラベル、`CONTACT_BASELINE_DIST` で旧distを配信する（`CONTACT_COST=1` で `frame-cost.gpu.ts`）。静止画の比較で、費用・見回しの検査ではない。
+
+- `look-fixes.visual.ts` は2026-10-22の見た目の修正（水風呂の壁・注水口・夜の水面・冬秋の奥の森・鉢の林のカード・サンダル・夜のストーブとガラス・ベンチの隙間・漆喰・デッキ）の静止画を、3ステージ×昼夕夜の27視点と秋冬の昼の8視点で撮る（41枚）。`playwright.look.config.ts` で `LOOK_RUN` が回のラベル、`LOOK_BASELINE_DIST` で旧distを配信する（`LOOK_COST=1` で `frame-cost.gpu.ts`）。集計は `scripts/summarize_look_fixes.py`、記録は `docs/3d-qa/look-fixes/`。
+
+- `season-probes.visual.ts`（`playwright.season-probes.config.ts`、`SEASON_PROBES_RUN`）は季節別の屋外プローブを、同じビルドで季節ファイル（`models/seasons/`）の取得を遮断した対照（比の補正だけ）とABBA比較する（gains1→baked1→baked2→gains2）。3ステージ×季節（`SEASON_PROBES_SEASONS`、既定は春秋冬）×昼夕夜の入室視点を撮り、夏のままでは季節ファイルを取得しないこと、各季節の4ファイルを1回だけ要求すること、baked回で `data-season-probes` が季節になることを検査する。遮断した取得のコンソールエラーだけは対照の回で除く。記録は `docs/3d-qa/seasonal-probes/`。

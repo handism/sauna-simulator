@@ -6,6 +6,7 @@ import { INTERIOR_BOX, WATER_BOX } from './interiorLights';
 import {
   GRID_NAMES,
   IRRADIANCE_LINE,
+  SEASONAL_GRIDS,
   applyIrradiance,
   createIrradianceUniforms,
   createProbeTextures,
@@ -148,5 +149,48 @@ describe('baked irradiance probes', () => {
     // Water probes lie below the surface, where fragments use them, and away from the room.
     expect(WATER_BOX.containsBox(box(water))).toBe(true);
     expect(WATER_BOX.intersectsBox(INTERIOR_BOX)).toBe(false);
+  });
+
+  it("swaps a season's outdoor grids in and out without touching the room and water grids", () => {
+    const irradianceFile = fixture([2, 3, 4]);
+    const reflectionFile = fixture([2, 3, 4], 17);
+    const probes = createProbeTextures(irradianceFile, reflectionFile);
+    const uniforms = createIrradianceUniforms();
+    probes.apply(uniforms);
+    const summer = [uniforms.suiProbeRoom.value, uniforms.suiProbeCourtyard.value, uniforms.suiProbeOuter.value];
+    // A season file: only the outdoor grids, on the same layout.
+    const season = (shift: number) => {
+      const file = fixture([2, 3, 4], shift);
+      const grids = file.header.grids.filter((grid) => (SEASONAL_GRIDS as readonly string[]).includes(grid.name));
+      const values = grids.length * 3 * file.perScene;
+      const data = new Uint16Array(values).map((_, i) => (i + shift) % 60000);
+      grids.forEach((grid, g) => {
+        grid.offset = {
+          day: 3 * g * file.perScene,
+          evening: (3 * g + 1) * file.perScene,
+          night: (3 * g + 2) * file.perScene,
+        };
+      });
+      return { header: { scenes: file.header.scenes, grids }, buffer: data.buffer };
+    };
+    probes.setSeason({ irradiance: season(5), reflection: season(9) });
+    expect(uniforms.suiProbeRoom.value).toBe(summer[0]);
+    expect(uniforms.suiProbeCourtyard.value).not.toBe(summer[1]);
+    expect(uniforms.suiProbeOuter.value).not.toBe(summer[2]);
+    // Day irradiance, texel 0, coefficient 0 of probe (0, 0, 0) of the courtyard (the season's first grid).
+    expect((uniforms.suiProbeCourtyard.value!.image.data as Uint16Array)[1 * 3 * 2 * 4]).toBe(5);
+    const winter = uniforms.suiProbeCourtyard.value!;
+    let disposed = 0;
+    winter.addEventListener('dispose', () => disposed++);
+    probes.setSeason(null);
+    expect(disposed).toBe(1);
+    expect([uniforms.suiProbeRoom.value, uniforms.suiProbeCourtyard.value, uniforms.suiProbeOuter.value]).toEqual(
+      summer,
+    );
+    const moved = season(5);
+    moved.header.grids[0].max = [2, 2, 3];
+    expect(() => probes.setSeason({ irradiance: moved, reflection: season(9) })).toThrow('season irradiance');
+    expect(uniforms.suiProbeCourtyard.value).toBe(summer[1]);
+    probes.dispose();
   });
 });

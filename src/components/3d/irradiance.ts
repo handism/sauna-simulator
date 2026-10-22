@@ -110,71 +110,138 @@ function checkLayout({ header, buffer }: ProbeFile, name: string) {
 const gridLayout = (header: IrradianceHeader) =>
   JSON.stringify(header.grids.map(({ name, min, max, resolution }) => [name, min, max, resolution]));
 
+/** The outdoor grids each season rebakes (scripts/bake_irradiance_probes.py --season). */
+export const SEASONAL_GRIDS = ['courtyard', 'outer'] as const;
+
+/** A season's rebake of the outdoor grids (public/models/seasons/), irradiance and reflection. */
+export interface SeasonProbeFiles {
+  irradiance: ProbeFile;
+  reflection: ProbeFile;
+}
+
+/** A season file holds only SEASONAL_GRIDS, on the same layout as the shipped grids. */
+function checkSeasonLayout({ header, buffer }: ProbeFile, summer: IrradianceHeader, name: string) {
+  const grids = header.grids?.map((grid) => [grid.name, grid.min, grid.max, grid.resolution]);
+  const expected = SEASONAL_GRIDS.map((grid) => {
+    const { name, min, max, resolution } = summer.grids.find((entry) => entry.name === grid)!;
+    return [name, min, max, resolution];
+  });
+  const values = buffer.byteLength / 2;
+  if (
+    header.scenes?.join() !== SCENES.join() ||
+    JSON.stringify(grids) !== JSON.stringify(expected) ||
+    !header.grids.every((grid) =>
+      SCENES.every(
+        (scene) =>
+          Number.isInteger(grid.offset?.[scene]) &&
+          grid.offset[scene] + grid.resolution.reduce((a, b) => a * b) * COEFFICIENTS <= values,
+      ),
+    ) ||
+    values !==
+      header.grids.reduce(
+        (sum, grid) => sum + SCENES.length * grid.resolution.reduce((a, b) => a * b) * COEFFICIENTS,
+        0,
+      )
+  )
+    throw Error(name);
+}
+
 /**
- * One RGBA half-float 3D texture per grid. Along Z it stacks 42 sub-volumes (7 texels of the
- * irradiance of each scene, then of the reflection of each scene), each padded by
- * a copy of its first and last slice so that the linear filter never blends two sub-volumes (the
- * atlas layout of three's LightProbeGrid). Both files must have the same grids.
+ * One grid's RGBA half-float 3D texture. Along Z it stacks 42 sub-volumes (7 texels of the
+ * irradiance of each scene, then of the reflection of each scene), each padded by a copy of its
+ * first and last slice so that the linear filter never blends two sub-volumes (the atlas layout of
+ * three's LightProbeGrid).
+ */
+function gridTexture(files: SeasonProbeFiles, name: string) {
+  const sources = [files.irradiance, files.reflection].map(({ header, buffer }) => ({
+    grid: header.grids.find((grid) => grid.name === name)!,
+    data: new Uint16Array(buffer),
+  }));
+  const [nx, ny, nz] = sources[0].grid.resolution;
+  const slices = nz + 2;
+  const texels = new Uint16Array(nx * ny * slices * TEXELS * SCENES.length * KINDS.length * 4);
+  sources.forEach(({ grid, data }, kind) =>
+    SCENES.forEach((scene, s) => {
+      for (let iz = 0; iz < nz; iz++)
+        for (let iy = 0; iy < ny; iy++)
+          for (let ix = 0; ix < nx; ix++) {
+            const source = grid.offset[scene] + ((iz * ny + iy) * nx + ix) * COEFFICIENTS;
+            for (let t = 0; t < TEXELS; t++) {
+              const base = ((kind * SCENES.length + s) * TEXELS + t) * slices;
+              // The padding slices repeat the first and last data slice.
+              for (const slice of [
+                base + 1 + iz,
+                ...(iz === 0 ? [base] : []),
+                ...(iz === nz - 1 ? [base + nz + 1] : []),
+              ]) {
+                const target = ((slice * ny + iy) * nx + ix) * 4;
+                for (let c = 0; c < 4; c++) {
+                  const k = t * 4 + c;
+                  texels[target + c] = k < COEFFICIENTS ? data[source + k] : 0;
+                }
+              }
+            }
+          }
+    }),
+  );
+  const texture = new THREE.Data3DTexture(texels, nx, ny, slices * TEXELS * SCENES.length * KINDS.length);
+  texture.format = THREE.RGBAFormat;
+  texture.type = THREE.HalfFloatType;
+  texture.minFilter = texture.magFilter = THREE.LinearFilter;
+  texture.wrapS = texture.wrapT = texture.wrapR = THREE.ClampToEdgeWrapping;
+  texture.unpackAlignment = 1;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+/**
+ * One texture per grid (gridTexture). Both files must have the same grids. setSeason swaps the
+ * outdoor grids for a season's rebake (or back to the shipped summer ones) without recompiling:
+ * the uniforms keep their objects and only their texture changes.
  */
 export function createProbeTextures(irradiance: ProbeFile, reflection: ProbeFile) {
   checkLayout(irradiance, 'irradiance');
   checkLayout(reflection, 'reflection');
   if (gridLayout(reflection.header) !== gridLayout(irradiance.header)) throw Error('reflection');
-  const files = [irradiance, reflection].map(({ header, buffer }) => ({ header, data: new Uint16Array(buffer) }));
-  const textures = irradiance.header.grids.map((grid, g) => {
-    const [nx, ny, nz] = grid.resolution;
-    const slices = nz + 2;
-    const texels = new Uint16Array(nx * ny * slices * TEXELS * SCENES.length * KINDS.length * 4);
-    files.forEach(({ header, data }, kind) =>
-      SCENES.forEach((scene, s) => {
-        for (let iz = 0; iz < nz; iz++)
-          for (let iy = 0; iy < ny; iy++)
-            for (let ix = 0; ix < nx; ix++) {
-              const source = header.grids[g].offset[scene] + ((iz * ny + iy) * nx + ix) * COEFFICIENTS;
-              for (let t = 0; t < TEXELS; t++) {
-                const base = ((kind * SCENES.length + s) * TEXELS + t) * slices;
-                // The padding slices repeat the first and last data slice.
-                for (const slice of [
-                  base + 1 + iz,
-                  ...(iz === 0 ? [base] : []),
-                  ...(iz === nz - 1 ? [base + nz + 1] : []),
-                ]) {
-                  const target = ((slice * ny + iy) * nx + ix) * 4;
-                  for (let c = 0; c < 4; c++) {
-                    const k = t * 4 + c;
-                    texels[target + c] = k < COEFFICIENTS ? data[source + k] : 0;
-                  }
-                }
-              }
-            }
-      }),
-    );
-    const texture = new THREE.Data3DTexture(texels, nx, ny, slices * TEXELS * SCENES.length * KINDS.length);
-    texture.format = THREE.RGBAFormat;
-    texture.type = THREE.HalfFloatType;
-    texture.minFilter = texture.magFilter = THREE.LinearFilter;
-    texture.wrapS = texture.wrapT = texture.wrapR = THREE.ClampToEdgeWrapping;
-    texture.unpackAlignment = 1;
-    texture.needsUpdate = true;
-    return texture;
-  });
+  const summer = irradiance.header.grids.map((grid) => gridTexture({ irradiance, reflection }, grid.name));
+  let seasonal: THREE.Data3DTexture[] = [];
+  let bound: IrradianceUniforms | null = null;
+  const bind = (uniforms: IrradianceUniforms) => {
+    const textures = summer.slice();
+    SEASONAL_GRIDS.forEach((name, i) => {
+      if (seasonal[i]) textures[GRID_NAMES.indexOf(name)] = seasonal[i];
+    });
+    [
+      uniforms.suiProbeRoom.value,
+      uniforms.suiProbeCourtyard.value,
+      uniforms.suiProbeOuter.value,
+      uniforms.suiProbeWater.value,
+    ] = textures;
+  };
   return {
     probes: irradiance.header.grids.reduce((sum, grid) => sum + grid.resolution.reduce((a, b) => a * b), 0),
     apply(uniforms: IrradianceUniforms) {
-      [
-        uniforms.suiProbeRoom.value,
-        uniforms.suiProbeCourtyard.value,
-        uniforms.suiProbeOuter.value,
-        uniforms.suiProbeWater.value,
-      ] = textures;
+      bound = uniforms;
+      bind(uniforms);
       irradiance.header.grids.forEach((grid, i) => {
         uniforms.suiIrradianceMin.value[i].fromArray(grid.min);
         uniforms.suiIrradianceMax.value[i].fromArray(grid.max);
         uniforms.suiIrradianceRes.value[i].fromArray(grid.resolution);
       });
     },
+    /** The season's outdoor grids, or the summer ones (null). Throws on a layout mismatch. */
+    setSeason(files: SeasonProbeFiles | null) {
+      if (files) {
+        checkSeasonLayout(files.irradiance, irradiance.header, 'season irradiance');
+        checkSeasonLayout(files.reflection, irradiance.header, 'season reflection');
+      }
+      const next = files ? SEASONAL_GRIDS.map((name) => gridTexture(files, name)) : [];
+      for (const texture of seasonal) texture.dispose();
+      seasonal = next;
+      if (bound) bind(bound);
+    },
     dispose() {
-      for (const texture of textures) texture.dispose();
+      for (const texture of [...summer, ...seasonal]) texture.dispose();
     },
   };
 }

@@ -57,6 +57,11 @@ With --surface-samples <JSON> --out <diagnostic-dir> it measures incident diffus
 supplied glTF surface positions/normals, compares full cosine integration with local L2 SH and
 shipped grid interpolation, and writes only surface-sampling.json. It never writes probe assets.
 
+With --season spring|autumn|winter --grids courtyard,outer --out <dir> those grids are baked with the
+seasonal proxy of bake_seasonal_probes.py (leaf colours, autumn ground, a mean winter snow cover,
+leafless winter trees) and the other grids are copied from the shipped summer file. The browser
+loads the outdoor grids of the chosen season from public/models/seasons/ (seasonalProbes.ts).
+
 With --reflection it bakes what glossy rays see instead (src/components/3d/reflection.ts), into
 reflection.bin / reflection.json / reflection-report.json with the same layout: every light is
 visible to the panorama camera exactly when it is visible to glossy rays in the source, except the
@@ -106,6 +111,12 @@ ONLY_GRIDS = ARGS[ARGS.index('--grids') + 1].split(',') if '--grids' in ARGS els
 if ONLY_GRIDS and (SURFACE_SAMPLES or PROBE_TEST or QUICK):
     raise ValueError('--grids cannot combine with other bake modes')
 ONLY_SCENES = ARGS[ARGS.index('--scenes') + 1].split(',') if '--scenes' in ARGS else None
+# --season NAME rebakes the outdoor grids with the source-scene seasonal proxy
+# (bake_seasonal_probes.py season_proxy); the other grids are copied from the shipped summer file.
+SEASON = ARGS[ARGS.index('--season') + 1] if '--season' in ARGS else None
+if SEASON and (SEASON not in ('spring', 'autumn', 'winter') or '--out' not in ARGS or not ONLY_GRIDS
+               or any(flag in ARGS for flag in ('--quick', '--seasonal', '--surface-samples', '--probe-test', '--deck-surface', '--room-surface'))):
+    raise ValueError('--season spring|autumn|winter requires --out and --grids and cannot combine with other bake modes')
 OUT = Path(sys.argv[sys.argv.index('--out') + 1]) if '--out' in sys.argv else ROOT / 'public/models'
 REPORT = OUT if '--out' in sys.argv else ROOT / 'docs/3d-export'
 ALL_SCENES = (('day', 'SUI • Daylight'), ('evening', 'SUI • Blue hour'), ('night', 'SUI • Night'))
@@ -541,6 +552,11 @@ if '--seasonal' in ARGS:
     from bake_seasonal_probes import bake
     bake(globals())
     sys.exit(0)
+if SEASON:
+    from bake_seasonal_probes import season_proxy
+    apply_season = season_proxy(globals())
+    apply_season(SEASON)
+    print('IRRADIANCE season', SEASON, apply_season.counts, flush=True)
 
 
 def set_sky_gates(world, sky, disk):
@@ -563,6 +579,9 @@ def restore_sky_gates(world, old):
 
 report = dict(mode=NAME, plain_materials=plain_materials, flipped_meshes=flipped_meshes, input=source.name, input_sha256=source_hash, blender=bpy.app.version_string,
               panorama=[WIDTH, HEIGHT], samples=SAMPLES, quick=QUICK, grids=[], scenes={})
+if SEASON:
+    report['season'] = dict(name=SEASON, proxy=apply_season.counts, rebaked_grids=ONLY_GRIDS,
+                            script_sha256=hashlib.sha256((ROOT / 'scripts/bake_seasonal_probes.py').read_bytes()).hexdigest())
 coefficients = {}
 if '--room-surface' in ARGS:
     if '--out' not in ARGS or any(flag in ARGS for flag in ('--quick', '--reflection', '--surface-samples', '--probe-test', '--grids', '--scenes', '--deck-surface')):

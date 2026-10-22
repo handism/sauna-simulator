@@ -19,10 +19,12 @@ def linear(hex_color):
     return [c / 12.92 if c <= .04045 else ((c + .055) / 1.055) ** 2.4 for c in rgb]
 
 
-def bake(g):
-    started = time.time()
-    out = g['OUT']
-    out.mkdir(parents=True, exist_ok=True)
+def season_proxy(g):
+    """Adds the seasonal controls to the source materials and returns apply(season).
+
+    Spring/autumn leaf colours, autumn ground, a mean winter snow cover and the winter leafless
+    trees (about 35% evergreen). Shared by the calibration below and by the seasonal rebake
+    (bake_irradiance_probes.py --season). The input blend is never saved."""
     # Per-material controls retain one compiled shader as the seasons change.
     controls = []
     foliage = set()
@@ -110,6 +112,27 @@ def bake(g):
         if not keep:
             hidden.append(o)
 
+    def apply(current):
+        for mode, node, spring, autumn in controls:
+            if mode == 'leaf':
+                node.inputs[0].default_value = float(current in ['spring', 'autumn'])
+                node.inputs[2].default_value = [*(spring if current == 'spring' else autumn), 1]
+            elif mode == 'snow':
+                node.outputs[0].default_value = float(current == 'winter')
+            else:
+                node.inputs[0].default_value = float(current == 'autumn')
+        for o in hidden:
+            o.hide_render = original[o] or current == 'winter'
+
+    apply.counts = dict(controls=len(controls), leafless_objects=len(hidden))
+    return apply
+
+
+def bake(g):
+    started = time.time()
+    out = g['OUT']
+    out.mkdir(parents=True, exist_ok=True)
+    apply_season = season_proxy(g)
     points = {
         'room': [[x, 1.4, z] for z in [-3.6, -1.0] for x in [-4.8, -1.2]],
         'courtyard': [[x, 1.5, z] for z in [3.0, 8.0] for x in [-5., 0., 5.]],
@@ -135,16 +158,7 @@ def bake(g):
                 if node:
                     node.inputs[1].default_value = float(name == 'SUI sky gate' and g['REFLECTION'])
             for current in ['summer', 'spring', 'autumn', 'winter']:
-                for mode, node, spring, autumn in controls:
-                    if mode == 'leaf':
-                        node.inputs[0].default_value = float(current in ['spring', 'autumn'])
-                        node.inputs[2].default_value = [*(spring if current == 'spring' else autumn), 1]
-                    elif mode == 'snow':
-                        node.outputs[0].default_value = float(current == 'winter')
-                    else:
-                        node.inputs[0].default_value = float(current == 'autumn')
-                for o in hidden:
-                    o.hide_render = original[o] or current == 'winter'
+                apply_season(current)
                 g['configure'](scene, 64, backface=True)
                 scene.cycles.seed = 7319
                 for grid, positions in points.items():

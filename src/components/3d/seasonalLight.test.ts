@@ -55,4 +55,23 @@ describe('seasonal probe energy', () => {
     updateSeasonLight(first, 'summer');
     for (const u of Object.values(first)) expect(u.value.every((v) => v.toArray().every((c) => c === 1))).toBe(true);
   });
+
+  it('leaves the rebaked outdoor grids at 1 and keeps the calibrated light of the summer-baked deck patch', () => {
+    const uniforms = createSeasonLightUniforms();
+    expect(updateSeasonLight(uniforms, 'winter', true)).toBe(true);
+    for (let i = 0; i < 12; i++) {
+      // Grids in order room, courtyard, outer, water; three scenes each.
+      const rebaked = i >= 3 && i < 9;
+      for (const kind of ['irradiance', 'reflection'] as const) {
+        const value = (kind === 'irradiance' ? uniforms.suiSeasonIrradiance : uniforms.suiSeasonReflection).value[i];
+        expect(value.toArray()).toEqual(rebaked ? [1, 1, 1] : calibration.gains.winter[kind][i]);
+      }
+    }
+    expect(uniforms.suiSeasonDeck.value.map((v) => v.toArray())).toEqual(
+      calibration.gains.winter.irradiance.slice(4, 6),
+    );
+    // Until the files arrive, the calibrated gains.
+    expect(updateSeasonLight(uniforms, 'winter', false)).toBe(true);
+    expect(uniforms.suiSeasonIrradiance.value[4].toArray()).toEqual(calibration.gains.winter.irradiance[4]);
+  });
 });

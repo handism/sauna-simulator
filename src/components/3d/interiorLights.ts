@@ -125,16 +125,32 @@ export function createInteriorLights(): THREE.RectAreaLight[] {
   });
 }
 
+/** The largest side of the cells an area light is split into as points (m). */
+const POINT_SPACING = 1;
+
 /**
- * The lights as points for what a reflection sees lit (glass.ts): the middle of the part in the
- * room, the direction it shines (glTF axes) and its on-axis intensity (W/sr per linear color),
- * radiance × area in the room × visible share, falling with the cosine.
+ * The lights as points for what a reflection sees lit (glass.ts): each light split into cells of at
+ * most POINT_SPACING (one point at the middle of the 4.35 m under-bench strips made a hot spot on
+ * the floor that the glass showed as an orange smear, day and night), the direction it shines
+ * (glTF axes) and each cell's on-axis intensity (W/sr per linear color), radiance × its area in
+ * the room × visible share, falling with the cosine.
  */
-export function interiorPointSources() {
-  return createInteriorLights().map((light) => {
+export function interiorPointSources(spacing = POINT_SPACING) {
+  return createInteriorLights().flatMap((light) => {
     const emit = new THREE.Vector3(0, 0, -1).applyQuaternion(light.quaternion);
-    const intensity = light.color.clone().multiplyScalar(light.intensity * light.width * light.height);
-    return { position: light.position.clone(), emit, intensity };
+    const x = new THREE.Vector3(1, 0, 0).applyQuaternion(light.quaternion);
+    const y = new THREE.Vector3(0, 1, 0).applyQuaternion(light.quaternion);
+    const nx = Math.ceil(light.width / spacing - 1e-6);
+    const ny = Math.ceil(light.height / spacing - 1e-6);
+    const intensity = light.color.clone().multiplyScalar((light.intensity * light.width * light.height) / (nx * ny));
+    return Array.from({ length: nx * ny }, (_, i) => ({
+      position: light.position
+        .clone()
+        .addScaledVector(x, (((i % nx) + 0.5) / nx - 0.5) * light.width)
+        .addScaledVector(y, ((Math.floor(i / nx) + 0.5) / ny - 0.5) * light.height),
+      emit,
+      intensity: intensity.clone(),
+    }));
   });
 }
 

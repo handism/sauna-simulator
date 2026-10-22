@@ -18,7 +18,7 @@
 
 - セッション状態と各ステージ完了時の操作（`completeSauna` など。setterは公開しない）は `src/hooks/useSaunaSession.ts` が保持し、`SaunaProvider` / `useSaunaContext`（`src/context/SaunaContext.tsx`）経由で配布する。`App.tsx` はセッション値をcontextから読み、ロウリュ通知用の `EventTarget` だけを保持する
 - ステージ遷移は `changeStage()` が単一の1秒タイマーで管理する。`pendingStage` を設定してUIと背景を暗転し、1秒後にステージ・環境音を同時に切り替えてフェードインする。遷移中の二重操作は拒否し、ステージUIには `inert` を付ける
-- 2D背景は現在のステージの1枚のみ描画する（`public/sauna_bg.webp`, `water_bg.webp`, `totonou_bg.webp`）。背景専用タイマーは持たず、3Dレイヤー・UIと同じ `opacity` で遷移する
+- 2D背景は現在のステージの1枚のみ描画する（`public/sauna_bg.webp`, `water_bg.webp`, `totonou_bg.webp`）。背景専用タイマーは持たず、3Dレイヤー・UIと同じ `opacity` で遷移する。画像は2048px四方（元は1024pxで、高DPRの全画面で約2〜4倍に引き伸ばされぼけていた）。元画像をReal-ESRGAN（`realesrgan-x4plus`）で4倍にしてLanczosで2048pxへ縮め、元画像のLanczos拡大と6:4で混ぜて（超解像だけでは水底のタイルなどの質感が平らになった）`cwebp -q 75 -m 6 -sharp_yuv` で書き出した。構図は同じなので `SAUNA_CONFIG.STOVE_X/Y` などの割合は変わらない
 
 ### オーディオ
 

@@ -1170,7 +1170,8 @@ export function addGardenDetails(root: THREE.Object3D) {
         .lerp(forestEvening, Math.min(1, timeOfDay))
         .lerp(forestNight, Math.max(0, Math.min(1, timeOfDay - 1)));
       if (overcast) forestLight.lerp(overcastAir.copy(overcast).multiplyScalar(FOREST_OVERCAST), cover);
-      farForest.update(season, forestLight);
+      // The sun's share of the crowns' shading: the day's weight under a clear sky.
+      farForest.update(season, forestLight, Math.max(0, 1 - timeOfDay) * (1 - cover));
       for (const [i, mesh] of movingGrass.entries())
         mesh.rotation.z = Math.sin(time * 0.8 + i * 1.7) * (reducedMotion ? 0 : 0.025);
       butterflyFlock.update(

@@ -70,6 +70,8 @@ uniform highp sampler3D suiDeckIrradiance;
 uniform vec4 suiDeckBounds;
 uniform vec2 suiDeckResolution;
 uniform float suiDeckLevel;
+// The calibrated courtyard gains of the evening and night (seasonalLight.ts): the patch is a summer bake.
+uniform vec3 suiSeasonDeck[2];
 vec3 suiDeckLight(vec3 coarse, vec3 P, vec3 N) {
   vec2 q = (P.xz - suiDeckBounds.xy) / (suiDeckBounds.zw - suiDeckBounds.xy);
   vec2 edge = min(q, 1.0 - q) * (suiDeckBounds.zw - suiDeckBounds.xy);
@@ -80,7 +82,7 @@ vec3 suiDeckLight(vec3 coarse, vec3 P, vec3 N) {
   vec2 uv = (clamp(q, 0.0, 1.0) * (suiDeckResolution - 1.0) + 0.5) / suiDeckResolution;
   vec3 evening = texture(suiDeckIrradiance, vec3(uv, 0.25)).rgb;
   vec3 night = texture(suiDeckIrradiance, vec3(uv, 0.75)).rgb;
-  vec3 fine = mix(evening * suiSeasonIrradiance[4], night * suiSeasonIrradiance[5], suiIrradianceNight / suiIrradianceEvening);
+  vec3 fine = mix(evening * suiSeasonDeck[0], night * suiSeasonDeck[1], suiIrradianceNight / suiIrradianceEvening);
   // Remove only the dusk/night component already in the coarse grid; leave
   // the daytime contribution intact during automatic and manual transitions.
   // This small patch lies entirely inside the courtyard's unblended interior.

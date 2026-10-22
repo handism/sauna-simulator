@@ -165,8 +165,8 @@ describe('far forest', () => {
     let bytes = index.array.byteLength;
     for (const attribute of Object.values(geometry.attributes)) bytes += attribute.array.byteLength;
     // Plus the volumes' 8-bit normals for their frayed outline (240 KB) and the broadleaf flag of
-    // the bare winter crowns (80 KB).
-    expect(bytes).toBeLessThan(5.73e6);
+    // the bare winter crowns (80 KB), and the volumes' 8-bit light without the sun (80 KB).
+    expect(bytes).toBeLessThan(5.81e6);
     geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });
@@ -209,6 +209,39 @@ describe('far forest', () => {
     (forest.mesh.material as THREE.MeshBasicMaterial).onBeforeCompile(shader as any, undefined as any);
     expect(shader.vertexShader).toContain('vGardenNormal = gardenNormal;');
     expect(shader.fragmentShader).toContain('normalize(cameraPosition - vGardenPosition)');
+    forest.mesh.geometry.dispose();
+    (forest.mesh.material as THREE.MeshBasicMaterial).dispose();
+  });
+
+  it('gives way to the sky light where the sun does not shine', () => {
+    const forest = createFarForest({ value: new THREE.Color() });
+    const { gardenBand, gardenSunRatio } = forest.mesh.geometry.attributes as Record<string, THREE.BufferAttribute>;
+    let bandOff = 0;
+    let sunSide = 0;
+    let shadeSide = 0;
+    for (let i = 0; i < gardenSunRatio.count; i++) {
+      // Stored halved: 0.5 is no sun lobe.
+      const ratio = 2 * gardenSunRatio.getX(i);
+      if (gardenBand.getX(i) !== 0) {
+        if (Math.abs(ratio - 1) > 0.01) bandOff++;
+      } else if (ratio < 0.97) sunSide++;
+      else if (ratio > 1.03) shadeSide++;
+      expect(ratio).toBeGreaterThan(0.6);
+      expect(ratio).toBeLessThan(1.4);
+    }
+    // The band shades itself in the shader; the sunlit clumps dim and their shaded sides lift.
+    expect(bandOff).toBe(0);
+    expect(sunSide).toBeGreaterThan(1000);
+    expect(shadeSide).toBeGreaterThan(1000);
+    const shader = {
+      uniforms: {} as Record<string, { value: unknown }>,
+      vertexShader: THREE.ShaderLib.basic.vertexShader,
+      fragmentShader: THREE.ShaderLib.basic.fragmentShader,
+    };
+    (forest.mesh.material as THREE.MeshBasicMaterial).onBeforeCompile(shader as any, undefined as any);
+    forest.update('summer', new THREE.Color(1, 1, 1), 0.25);
+    expect(shader.uniforms.gardenSun.value).toBe(0.25);
+    expect(shader.fragmentShader).toContain('mix(2.0 * vGardenSunRatio, 1.0, gardenSun)');
     forest.mesh.geometry.dispose();
     (forest.mesh.material as THREE.MeshBasicMaterial).dispose();
   });

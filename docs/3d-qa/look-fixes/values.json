@@ -1,0 +1,917 @@
+{
+  "browser": "155.0.8059.85",
+  "views": {
+    "sauna-day-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 26.7239,
+        "delta_e": 1.7107
+      },
+      "change_repeat": {
+        "over3": 26.7239,
+        "delta_e": 1.7107
+      }
+    },
+    "sauna-day-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 24.2561,
+        "delta_e": 1.5586
+      },
+      "change_repeat": {
+        "over3": 24.2561,
+        "delta_e": 1.5586
+      }
+    },
+    "sauna-day-glass.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 15.77,
+        "delta_e": 1.2613
+      },
+      "change_repeat": {
+        "over3": 15.77,
+        "delta_e": 1.2613
+      }
+    },
+    "sauna-evening-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 41.0093,
+        "delta_e": 3.1657
+      },
+      "change_repeat": {
+        "over3": 41.0093,
+        "delta_e": 3.1657
+      }
+    },
+    "sauna-evening-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 36.5712,
+        "delta_e": 2.938
+      },
+      "change_repeat": {
+        "over3": 36.5712,
+        "delta_e": 2.938
+      }
+    },
+    "sauna-evening-glass.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 24.4518,
+        "delta_e": 1.8294
+      },
+      "change_repeat": {
+        "over3": 24.4518,
+        "delta_e": 1.8294
+      }
+    },
+    "sauna-night-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 42.6605,
+        "delta_e": 4.3972
+      },
+      "change_repeat": {
+        "over3": 42.6605,
+        "delta_e": 4.3972
+      }
+    },
+    "sauna-night-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 37.1608,
+        "delta_e": 4.0907
+      },
+      "change_repeat": {
+        "over3": 37.1608,
+        "delta_e": 4.0907
+      }
+    },
+    "sauna-night-glass.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 26.3729,
+        "delta_e": 2.1676
+      },
+      "change_repeat": {
+        "over3": 26.3729,
+        "delta_e": 2.1676
+      }
+    },
+    "water-day-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 7.0543,
+        "delta_e": 0.5285
+      },
+      "change_repeat": {
+        "over3": 7.0543,
+        "delta_e": 0.5285
+      }
+    },
+    "water-day-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 7.1486,
+        "delta_e": 0.4841
+      },
+      "change_repeat": {
+        "over3": 7.1486,
+        "delta_e": 0.4841
+      }
+    },
+    "water-day-back.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 6.8668,
+        "delta_e": 0.4405
+      },
+      "change_repeat": {
+        "over3": 6.8668,
+        "delta_e": 0.4405
+      }
+    },
+    "water-evening-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 10.9,
+        "delta_e": 0.9808
+      },
+      "change_repeat": {
+        "over3": 10.9,
+        "delta_e": 0.9808
+      }
+    },
+    "water-evening-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 9.9738,
+        "delta_e": 0.8845
+      },
+      "change_repeat": {
+        "over3": 9.9738,
+        "delta_e": 0.8845
+      }
+    },
+    "water-evening-back.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 7.0471,
+        "delta_e": 0.4894
+      },
+      "change_repeat": {
+        "over3": 7.0471,
+        "delta_e": 0.4894
+      }
+    },
+    "water-night-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 11.8579,
+        "delta_e": 0.949
+      },
+      "change_repeat": {
+        "over3": 11.8579,
+        "delta_e": 0.949
+      }
+    },
+    "water-night-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 9.469,
+        "delta_e": 0.8261
+      },
+      "change_repeat": {
+        "over3": 9.469,
+        "delta_e": 0.8261
+      }
+    },
+    "water-night-back.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 8.0857,
+        "delta_e": 0.6911
+      },
+      "change_repeat": {
+        "over3": 8.0857,
+        "delta_e": 0.6911
+      }
+    },
+    "water-autumn-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 7.5957,
+        "delta_e": 0.5639
+      },
+      "change_repeat": {
+        "over3": 7.5957,
+        "delta_e": 0.5639
+      }
+    },
+    "water-winter-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 7.4339,
+        "delta_e": 0.8481
+      },
+      "change_repeat": {
+        "over3": 7.4339,
+        "delta_e": 0.8481
+      }
+    },
+    "totonou-day-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 23.1729,
+        "delta_e": 0.9237
+      },
+      "change_repeat": {
+        "over3": 23.1729,
+        "delta_e": 0.9237
+      }
+    },
+    "totonou-day-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 21.0963,
+        "delta_e": 0.8535
+      },
+      "change_repeat": {
+        "over3": 21.0963,
+        "delta_e": 0.8535
+      }
+    },
+    "totonou-day-left.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 13.8296,
+        "delta_e": 0.5878
+      },
+      "change_repeat": {
+        "over3": 13.8296,
+        "delta_e": 0.5878
+      }
+    },
+    "totonou-day-right.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 20.7545,
+        "delta_e": 0.9448
+      },
+      "change_repeat": {
+        "over3": 20.7545,
+        "delta_e": 0.9448
+      }
+    },
+    "totonou-day-back.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 8.4768,
+        "delta_e": 0.4185
+      },
+      "change_repeat": {
+        "over3": 8.4768,
+        "delta_e": 0.4185
+      }
+    },
+    "totonou-evening-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 19.9671,
+        "delta_e": 0.7909
+      },
+      "change_repeat": {
+        "over3": 19.9671,
+        "delta_e": 0.7909
+      }
+    },
+    "totonou-evening-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 17.7831,
+        "delta_e": 0.7127
+      },
+      "change_repeat": {
+        "over3": 17.7831,
+        "delta_e": 0.7127
+      }
+    },
+    "totonou-evening-left.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 12.5925,
+        "delta_e": 0.4868
+      },
+      "change_repeat": {
+        "over3": 12.5925,
+        "delta_e": 0.4868
+      }
+    },
+    "totonou-evening-right.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 18.2753,
+        "delta_e": 0.9221
+      },
+      "change_repeat": {
+        "over3": 18.2753,
+        "delta_e": 0.9221
+      }
+    },
+    "totonou-evening-back.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 6.9349,
+        "delta_e": 0.4534
+      },
+      "change_repeat": {
+        "over3": 6.9349,
+        "delta_e": 0.4534
+      }
+    },
+    "totonou-night-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 18.6451,
+        "delta_e": 0.75
+      },
+      "change_repeat": {
+        "over3": 18.6451,
+        "delta_e": 0.75
+      }
+    },
+    "totonou-night-down.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 16.4349,
+        "delta_e": 0.6694
+      },
+      "change_repeat": {
+        "over3": 16.4349,
+        "delta_e": 0.6694
+      }
+    },
+    "totonou-night-left.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 11.939,
+        "delta_e": 0.4429
+      },
+      "change_repeat": {
+        "over3": 11.939,
+        "delta_e": 0.4429
+      }
+    },
+    "totonou-night-right.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 17.0305,
+        "delta_e": 0.9415
+      },
+      "change_repeat": {
+        "over3": 17.0305,
+        "delta_e": 0.9415
+      }
+    },
+    "totonou-night-back.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 6.1467,
+        "delta_e": 0.4824
+      },
+      "change_repeat": {
+        "over3": 6.1467,
+        "delta_e": 0.4824
+      }
+    },
+    "totonou-autumn-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 23.436,
+        "delta_e": 0.9385
+      },
+      "change_repeat": {
+        "over3": 23.436,
+        "delta_e": 0.9385
+      }
+    },
+    "totonou-autumn-left.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 12.4388,
+        "delta_e": 0.5419
+      },
+      "change_repeat": {
+        "over3": 12.4388,
+        "delta_e": 0.5419
+      }
+    },
+    "totonou-autumn-right.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 19.336,
+        "delta_e": 0.9314
+      },
+      "change_repeat": {
+        "over3": 19.336,
+        "delta_e": 0.9314
+      }
+    },
+    "totonou-winter-front.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 22.7461,
+        "delta_e": 1.2305
+      },
+      "change_repeat": {
+        "over3": 22.7461,
+        "delta_e": 1.2305
+      }
+    },
+    "totonou-winter-left.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 11.5056,
+        "delta_e": 0.7517
+      },
+      "change_repeat": {
+        "over3": 11.5056,
+        "delta_e": 0.7517
+      }
+    },
+    "totonou-winter-right.png": {
+      "repeat_before": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_after": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 16.1852,
+        "delta_e": 0.8121
+      },
+      "change_repeat": {
+        "over3": 16.1852,
+        "delta_e": 0.8121
+      }
+    }
+  },
+  "png_sha256": {
+    "before1": {
+      "sauna-day-front.png": "33e1509300a3c877b1472f17ef3cb9311e31537e9b29f4b0cd0bae1d63acacf2",
+      "sauna-day-down.png": "ae10eb16372c89b78e39eb4a9ec4798acbab160cb65e78de688e371216284195",
+      "sauna-day-glass.png": "520da8e284956b0ede59ae004fb25f222f4db268ed28535756b4de0a16a26e30",
+      "sauna-evening-front.png": "cbc35097c7bfa7fcbbc0e4018ef53bbae4cceb1088fb72406a4b78ffa466e916",
+      "sauna-evening-down.png": "de99050a0dc74d5d2ee795595f5dce66fc141e482405bafeb4ca1dd7b654adbd",
+      "sauna-evening-glass.png": "1c11b7c03b2730620aaf50332496cd4c5b863c802c9af37e8767edc9bab50ec9",
+      "sauna-night-front.png": "162f591e2e37bb8a1bcf37288d762f3d8820a682effc489d6d84c61b90feabf7",
+      "sauna-night-down.png": "d023d0e6b216367628fd4729ec9ef68c15592d2e070ec07a5daf9751eb52f25c",
+      "sauna-night-glass.png": "fd7f72c0a991a0968125881f2368b9dcbdf36537277e70efb131b9967d85f246",
+      "water-day-front.png": "be26600bf63699ae94904f81fd20dc0169d8e501901cbbcd82bc87e229cc3077",
+      "water-day-down.png": "fca09ed0f875e273468c8a72cb15bfae833d63fab54f45b31452fcfb22c75bf9",
+      "water-day-back.png": "22f01c60f359b91396cb2b7fa7421e7594bc7c8227930d85a3054391e71d08e1",
+      "water-evening-front.png": "a190122c9379dbea7567ebec5a54c8cd6c2111865a1c157426a5d08bc847a407",
+      "water-evening-down.png": "2b788062513d65d188dcb4f354c9c60995b1ddf3b84ee0acb34b6934ee13e0ea",
+      "water-evening-back.png": "b9606010e3e276cb4e1947b694e23af8b4e2a7406aaf9bf58963a443cf9c3c0b",
+      "water-night-front.png": "a79d7632481f91e4cd4621b536cb27457fa6a677e58b8e57abc32d45a5c9a4fe",
+      "water-night-down.png": "f4acb55b3d7708e2d84a13dc9ad4a59d402184d2b826c30abba20bf945afe291",
+      "water-night-back.png": "08a9e071af1102ea2dcc302f5a6ff611c0d58b0923cff5a78b22b80caec90a8c",
+      "water-autumn-front.png": "2cbd1fafb038ecd86d7c24254a7c2aca0caa0196d0b90d47973dd280a44e8945",
+      "water-winter-front.png": "e8cf6678cf1a983424adc368b2e8bbfcd100471218e4cfff161bfc7ba62373c1",
+      "totonou-day-front.png": "0f92ae4dfc73b2e69f7ebd427da67b2ff73d943351bd683a495d7e245c5298cb",
+      "totonou-day-down.png": "b2e8d4be1de1b01786e6eafe3200358e51df9fc0d2ad1b2c8bae252b0f550684",
+      "totonou-day-left.png": "76c532f05b9c91f0fbbba261cbeac85b6ba41575bc7172ffb33e04d1c991384d",
+      "totonou-day-right.png": "108a9d91a184fd6bb3f0e612b249e5ac15b16ffdaa93fcfdb813990eba45de2e",
+      "totonou-day-back.png": "1a98496357c4e4868bb11dbe7377bc35a6f8a416fdf7b558cdb579f06dd29bf4",
+      "totonou-evening-front.png": "cff8a23e89e14b387d2861e4d132618434f72bac4f16beb4bf254b311e5e2ea1",
+      "totonou-evening-down.png": "7d6faa492365b63777df49d2ff1e6d5fe5be4ae2c68e830c455c1f873c9755f8",
+      "totonou-evening-left.png": "2350c23d7b242f9eca39665dae41d711e332c8682df02d48b5e561ba94de2081",
+      "totonou-evening-right.png": "dd5c61c5ee3ccd2f5322002224eabc8af5979b50ef781fec5e943e405408c986",
+      "totonou-evening-back.png": "b9a0f7fa65b75f8f827c33ba813461ab4ea25d2cd93216b52640606ad31537c4",
+      "totonou-night-front.png": "4a5fb1490edd1b3b8f33ed29422d8f67b04f21c447b681a18a682af789717002",
+      "totonou-night-down.png": "d27eca700ebea8b503145da33d51e710b0435e72d8d4f8fa209e59647f65d33f",
+      "totonou-night-left.png": "3c250e308fb368e71b66290683d7f5772a24e60484b305f08b0503cb9e5ea38a",
+      "totonou-night-right.png": "3dc6bec0ae51133867e483d2abc912414b1a3b279faae43a1b3b92cad869fc87",
+      "totonou-night-back.png": "d6caa8bae002e57d83556f012e110d2c74b671dafd9c16a7f642096a320aa4a8",
+      "totonou-autumn-front.png": "83f0ce135adadc66d25cd677d6df30ff8fe837f1719fd5ef6a8a130347c41bbb",
+      "totonou-autumn-left.png": "2adfef35a50293908c58e0b80951b9df3d03849780ca4db399a3252dfd6e9088",
+      "totonou-autumn-right.png": "b09b648acbfb784b46fea4799c757dae559859ee425378a41b2ae531274cadcc",
+      "totonou-winter-front.png": "ecad1f59a762fcb2abf7ff3c41b9367596f794523739bf86e546b6afcb1191e3",
+      "totonou-winter-left.png": "632c1bc9451ca30f206155752ff0b4ca44db4522873142984e2cfb8a6a874b30",
+      "totonou-winter-right.png": "c9ccaba9b073192330df91359142c6bc79d573b89fe30335e01131703ce5e430"
+    },
+    "after1": {
+      "sauna-day-front.png": "2fc1c1bc3c2def0f8634954474a88b65dea8d1802b44b23f99197f8214a88f32",
+      "sauna-day-down.png": "fe1f8258c01822f203cc6bb60a04ac5ccce1fad725c064aa5fa20bf986d65258",
+      "sauna-day-glass.png": "d54fdd6f5f57ebbd97a2a3979222c46d2d43ef06d574f35cef5905a4a9e7bb81",
+      "sauna-evening-front.png": "50b4a137005a407a4bce7a0696569bf85485940e34e52e36658a121de4387ea7",
+      "sauna-evening-down.png": "f6693c223714448b29c2f20e3349d00142dc89ae6e72a837388274efa2e60f89",
+      "sauna-evening-glass.png": "427302050dfe31e97b39d67b0180fadf521fe0b7d93f6daf443791dd47ae69d4",
+      "sauna-night-front.png": "a0911b5c3aa05598f4e96f8a55ddb7f0abe4ad74757415976aedcade6ea7beda",
+      "sauna-night-down.png": "f6e614b1df945f80ba97915720f04b4dbac3fe9fdc1336bb2fedd1592fb0eb60",
+      "sauna-night-glass.png": "bc37de4097677b431770109efb3ae32ff4a9a9ce5c4504a5d800aa06548fdb84",
+      "water-day-front.png": "4243e6f70f80c263e204f057e47220f17cd6ce47d4237cdc64d8563f819336b7",
+      "water-day-down.png": "6fbbac04b8a6be5fd4149a0c8473396065d7e9cad2886c6164e51de4748e67d1",
+      "water-day-back.png": "66ec7f21e969590cef0b9d73484011897426bed77cf5f4a3b2627f9cb9463ea0",
+      "water-evening-front.png": "fb41c1e2cdbe388f0fc2220cc605b1a66d16ab223e5600fcce38046bf6a23038",
+      "water-evening-down.png": "984019dba2285d9aaa82c1398d364845d2c74f098707371d1f8d71526d843ad1",
+      "water-evening-back.png": "3f72107a12b565cdb0a4a20827d5e56ee0b4d8dd683820f7e0bc5003c66122ed",
+      "water-night-front.png": "c1acda6a7ab0b30b03e0e602972b16c012069033f759adf439eda85da7058a1d",
+      "water-night-down.png": "6005aecd32dedd6dc76980c73b1f0711585ec4ae83be2d39e408e2d20d058d52",
+      "water-night-back.png": "43e5bcec5f3d7a1d18f9f04ad677e7dcd101f21157e02ecc9a78d08707b175b7",
+      "water-autumn-front.png": "13adfff45f3e6e0130d26dedb2235e4f09d1f62365d0807c476abfbabffd39a8",
+      "water-winter-front.png": "b821bf7b1aff3a19b9feeaf8d7bfabf74e4ff49d504bea47bd0b56f1fa07db99",
+      "totonou-day-front.png": "0a869123b80b65d2f728b07f8c6a3a4ea8ed32537ce10ef14cfd248865e1f85c",
+      "totonou-day-down.png": "4d0b11daa23462c44fe99cdee521074761aa2428acfab45b6d4a5beeaa9a3f05",
+      "totonou-day-left.png": "a4cf43aca082bc1a4f332aa44107e2257f912656cc0e53d92286892e54b66468",
+      "totonou-day-right.png": "3f0f5cc057539572038b008d677816049ae5a2e589dc9832cd770604bd4e9523",
+      "totonou-day-back.png": "3193a5074689d087f2874749fb18407334e8d9b955d2cd56e0d1bef73cdcaa81",
+      "totonou-evening-front.png": "efe8e8a17b6a454ca5252eab587cbccdfbffa0487657fda28cc9ad756593e00c",
+      "totonou-evening-down.png": "d94d34bdd28bc0702349b87c6570aaa1839395214d4d16be4751d040e9c43847",
+      "totonou-evening-left.png": "46f70f422d1867084ee697aba74231b32c2f63c3316d7fc4e04aa3645fc1c521",
+      "totonou-evening-right.png": "49568c36241f5c91cc4da633b008f0873d452bf87c2561cf672ca6538c9886d5",
+      "totonou-evening-back.png": "24596a15f1dc59e44daa096c72f8eb0871f36a8350029a5149f2c137f4ad2947",
+      "totonou-night-front.png": "78a060b6442e27e82ff56c51a772300506da2ec9928dc56cbbdfbbef18763bd7",
+      "totonou-night-down.png": "7db56c7706f25d33f0ae3db4205e407df7068848fd89b26a8085bbc1f5935f62",
+      "totonou-night-left.png": "fca7d084a2e573643878542562ab1de63c40b3f953bb0c24afec3ab05526b7d4",
+      "totonou-night-right.png": "d6bbe6a287b29e4efbf45b0842303c3addca73384db04f1bb1f5367a1c5634f5",
+      "totonou-night-back.png": "d130f4cbbaa7ec4a462dce784f09d55060b0235b709434d1279e1b9d65991cf2",
+      "totonou-autumn-front.png": "317b19b90588f5696ba42303eb1c0d778f9d8384acdb985a5f38e116ba28f855",
+      "totonou-autumn-left.png": "22b4c16016549a7bacf621bccabbf3066f021c6135360c8069b8d179852cd827",
+      "totonou-autumn-right.png": "ff744e7c9cd212d5c624ac239c8c6c299ed84c36387f2e8e864c36ed3ea7d60a",
+      "totonou-winter-front.png": "22e1fe03ac46ac9fe702fc9dc7322ce309b8f2277400983a13039c7740175332",
+      "totonou-winter-left.png": "af4ef2f360f9187c523f9b6588cb1b6a6ad28b37dfb67a849178c37e8c3da8ba",
+      "totonou-winter-right.png": "c9b30d28ae5f25a62ed65dcaa57ac562066fdfed7a560dccf6a169d5b6ff3313"
+    },
+    "after2": {
+      "sauna-day-front.png": "2fc1c1bc3c2def0f8634954474a88b65dea8d1802b44b23f99197f8214a88f32",
+      "sauna-day-down.png": "fe1f8258c01822f203cc6bb60a04ac5ccce1fad725c064aa5fa20bf986d65258",
+      "sauna-day-glass.png": "d54fdd6f5f57ebbd97a2a3979222c46d2d43ef06d574f35cef5905a4a9e7bb81",
+      "sauna-evening-front.png": "50b4a137005a407a4bce7a0696569bf85485940e34e52e36658a121de4387ea7",
+      "sauna-evening-down.png": "f6693c223714448b29c2f20e3349d00142dc89ae6e72a837388274efa2e60f89",
+      "sauna-evening-glass.png": "427302050dfe31e97b39d67b0180fadf521fe0b7d93f6daf443791dd47ae69d4",
+      "sauna-night-front.png": "a0911b5c3aa05598f4e96f8a55ddb7f0abe4ad74757415976aedcade6ea7beda",
+      "sauna-night-down.png": "f6e614b1df945f80ba97915720f04b4dbac3fe9fdc1336bb2fedd1592fb0eb60",
+      "sauna-night-glass.png": "bc37de4097677b431770109efb3ae32ff4a9a9ce5c4504a5d800aa06548fdb84",
+      "water-day-front.png": "4243e6f70f80c263e204f057e47220f17cd6ce47d4237cdc64d8563f819336b7",
+      "water-day-down.png": "6fbbac04b8a6be5fd4149a0c8473396065d7e9cad2886c6164e51de4748e67d1",
+      "water-day-back.png": "66ec7f21e969590cef0b9d73484011897426bed77cf5f4a3b2627f9cb9463ea0",
+      "water-evening-front.png": "fb41c1e2cdbe388f0fc2220cc605b1a66d16ab223e5600fcce38046bf6a23038",
+      "water-evening-down.png": "984019dba2285d9aaa82c1398d364845d2c74f098707371d1f8d71526d843ad1",
+      "water-evening-back.png": "3f72107a12b565cdb0a4a20827d5e56ee0b4d8dd683820f7e0bc5003c66122ed",
+      "water-night-front.png": "c1acda6a7ab0b30b03e0e602972b16c012069033f759adf439eda85da7058a1d",
+      "water-night-down.png": "6005aecd32dedd6dc76980c73b1f0711585ec4ae83be2d39e408e2d20d058d52",
+      "water-night-back.png": "43e5bcec5f3d7a1d18f9f04ad677e7dcd101f21157e02ecc9a78d08707b175b7",
+      "water-autumn-front.png": "13adfff45f3e6e0130d26dedb2235e4f09d1f62365d0807c476abfbabffd39a8",
+      "water-winter-front.png": "b821bf7b1aff3a19b9feeaf8d7bfabf74e4ff49d504bea47bd0b56f1fa07db99",
+      "totonou-day-front.png": "0a869123b80b65d2f728b07f8c6a3a4ea8ed32537ce10ef14cfd248865e1f85c",
+      "totonou-day-down.png": "4d0b11daa23462c44fe99cdee521074761aa2428acfab45b6d4a5beeaa9a3f05",
+      "totonou-day-left.png": "a4cf43aca082bc1a4f332aa44107e2257f912656cc0e53d92286892e54b66468",
+      "totonou-day-right.png": "3f0f5cc057539572038b008d677816049ae5a2e589dc9832cd770604bd4e9523",
+      "totonou-day-back.png": "3193a5074689d087f2874749fb18407334e8d9b955d2cd56e0d1bef73cdcaa81",
+      "totonou-evening-front.png": "efe8e8a17b6a454ca5252eab587cbccdfbffa0487657fda28cc9ad756593e00c",
+      "totonou-evening-down.png": "d94d34bdd28bc0702349b87c6570aaa1839395214d4d16be4751d040e9c43847",
+      "totonou-evening-left.png": "46f70f422d1867084ee697aba74231b32c2f63c3316d7fc4e04aa3645fc1c521",
+      "totonou-evening-right.png": "49568c36241f5c91cc4da633b008f0873d452bf87c2561cf672ca6538c9886d5",
+      "totonou-evening-back.png": "24596a15f1dc59e44daa096c72f8eb0871f36a8350029a5149f2c137f4ad2947",
+      "totonou-night-front.png": "78a060b6442e27e82ff56c51a772300506da2ec9928dc56cbbdfbbef18763bd7",
+      "totonou-night-down.png": "7db56c7706f25d33f0ae3db4205e407df7068848fd89b26a8085bbc1f5935f62",
+      "totonou-night-left.png": "fca7d084a2e573643878542562ab1de63c40b3f953bb0c24afec3ab05526b7d4",
+      "totonou-night-right.png": "d6bbe6a287b29e4efbf45b0842303c3addca73384db04f1bb1f5367a1c5634f5",
+      "totonou-night-back.png": "d130f4cbbaa7ec4a462dce784f09d55060b0235b709434d1279e1b9d65991cf2",
+      "totonou-autumn-front.png": "317b19b90588f5696ba42303eb1c0d778f9d8384acdb985a5f38e116ba28f855",
+      "totonou-autumn-left.png": "22b4c16016549a7bacf621bccabbf3066f021c6135360c8069b8d179852cd827",
+      "totonou-autumn-right.png": "ff744e7c9cd212d5c624ac239c8c6c299ed84c36387f2e8e864c36ed3ea7d60a",
+      "totonou-winter-front.png": "22e1fe03ac46ac9fe702fc9dc7322ce309b8f2277400983a13039c7740175332",
+      "totonou-winter-left.png": "af4ef2f360f9187c523f9b6588cb1b6a6ad28b37dfb67a849178c37e8c3da8ba",
+      "totonou-winter-right.png": "c9b30d28ae5f25a62ed65dcaa57ac562066fdfed7a560dccf6a169d5b6ff3313"
+    },
+    "before2": {
+      "sauna-day-front.png": "33e1509300a3c877b1472f17ef3cb9311e31537e9b29f4b0cd0bae1d63acacf2",
+      "sauna-day-down.png": "ae10eb16372c89b78e39eb4a9ec4798acbab160cb65e78de688e371216284195",
+      "sauna-day-glass.png": "520da8e284956b0ede59ae004fb25f222f4db268ed28535756b4de0a16a26e30",
+      "sauna-evening-front.png": "cbc35097c7bfa7fcbbc0e4018ef53bbae4cceb1088fb72406a4b78ffa466e916",
+      "sauna-evening-down.png": "de99050a0dc74d5d2ee795595f5dce66fc141e482405bafeb4ca1dd7b654adbd",
+      "sauna-evening-glass.png": "1c11b7c03b2730620aaf50332496cd4c5b863c802c9af37e8767edc9bab50ec9",
+      "sauna-night-front.png": "162f591e2e37bb8a1bcf37288d762f3d8820a682effc489d6d84c61b90feabf7",
+      "sauna-night-down.png": "d023d0e6b216367628fd4729ec9ef68c15592d2e070ec07a5daf9751eb52f25c",
+      "sauna-night-glass.png": "fd7f72c0a991a0968125881f2368b9dcbdf36537277e70efb131b9967d85f246",
+      "water-day-front.png": "be26600bf63699ae94904f81fd20dc0169d8e501901cbbcd82bc87e229cc3077",
+      "water-day-down.png": "fca09ed0f875e273468c8a72cb15bfae833d63fab54f45b31452fcfb22c75bf9",
+      "water-day-back.png": "22f01c60f359b91396cb2b7fa7421e7594bc7c8227930d85a3054391e71d08e1",
+      "water-evening-front.png": "a190122c9379dbea7567ebec5a54c8cd6c2111865a1c157426a5d08bc847a407",
+      "water-evening-down.png": "2b788062513d65d188dcb4f354c9c60995b1ddf3b84ee0acb34b6934ee13e0ea",
+      "water-evening-back.png": "b9606010e3e276cb4e1947b694e23af8b4e2a7406aaf9bf58963a443cf9c3c0b",
+      "water-night-front.png": "a79d7632481f91e4cd4621b536cb27457fa6a677e58b8e57abc32d45a5c9a4fe",
+      "water-night-down.png": "f4acb55b3d7708e2d84a13dc9ad4a59d402184d2b826c30abba20bf945afe291",
+      "water-night-back.png": "08a9e071af1102ea2dcc302f5a6ff611c0d58b0923cff5a78b22b80caec90a8c",
+      "water-autumn-front.png": "2cbd1fafb038ecd86d7c24254a7c2aca0caa0196d0b90d47973dd280a44e8945",
+      "water-winter-front.png": "e8cf6678cf1a983424adc368b2e8bbfcd100471218e4cfff161bfc7ba62373c1",
+      "totonou-day-front.png": "0f92ae4dfc73b2e69f7ebd427da67b2ff73d943351bd683a495d7e245c5298cb",
+      "totonou-day-down.png": "b2e8d4be1de1b01786e6eafe3200358e51df9fc0d2ad1b2c8bae252b0f550684",
+      "totonou-day-left.png": "76c532f05b9c91f0fbbba261cbeac85b6ba41575bc7172ffb33e04d1c991384d",
+      "totonou-day-right.png": "108a9d91a184fd6bb3f0e612b249e5ac15b16ffdaa93fcfdb813990eba45de2e",
+      "totonou-day-back.png": "1a98496357c4e4868bb11dbe7377bc35a6f8a416fdf7b558cdb579f06dd29bf4",
+      "totonou-evening-front.png": "cff8a23e89e14b387d2861e4d132618434f72bac4f16beb4bf254b311e5e2ea1",
+      "totonou-evening-down.png": "7d6faa492365b63777df49d2ff1e6d5fe5be4ae2c68e830c455c1f873c9755f8",
+      "totonou-evening-left.png": "2350c23d7b242f9eca39665dae41d711e332c8682df02d48b5e561ba94de2081",
+      "totonou-evening-right.png": "dd5c61c5ee3ccd2f5322002224eabc8af5979b50ef781fec5e943e405408c986",
+      "totonou-evening-back.png": "b9a0f7fa65b75f8f827c33ba813461ab4ea25d2cd93216b52640606ad31537c4",
+      "totonou-night-front.png": "4a5fb1490edd1b3b8f33ed29422d8f67b04f21c447b681a18a682af789717002",
+      "totonou-night-down.png": "d27eca700ebea8b503145da33d51e710b0435e72d8d4f8fa209e59647f65d33f",
+      "totonou-night-left.png": "3c250e308fb368e71b66290683d7f5772a24e60484b305f08b0503cb9e5ea38a",
+      "totonou-night-right.png": "3dc6bec0ae51133867e483d2abc912414b1a3b279faae43a1b3b92cad869fc87",
+      "totonou-night-back.png": "d6caa8bae002e57d83556f012e110d2c74b671dafd9c16a7f642096a320aa4a8",
+      "totonou-autumn-front.png": "83f0ce135adadc66d25cd677d6df30ff8fe837f1719fd5ef6a8a130347c41bbb",
+      "totonou-autumn-left.png": "2adfef35a50293908c58e0b80951b9df3d03849780ca4db399a3252dfd6e9088",
+      "totonou-autumn-right.png": "b09b648acbfb784b46fea4799c757dae559859ee425378a41b2ae531274cadcc",
+      "totonou-winter-front.png": "ecad1f59a762fcb2abf7ff3c41b9367596f794523739bf86e546b6afcb1191e3",
+      "totonou-winter-left.png": "632c1bc9451ca30f206155752ff0b4ca44db4522873142984e2cfb8a6a874b30",
+      "totonou-winter-right.png": "c9ccaba9b073192330df91359142c6bc79d573b89fe30335e01131703ce5e430"
+    }
+  }
+}
