@@ -3136,3 +3136,10 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 不具合：雪のシェーダーで `vec2` の関数に `vec3` を渡したところ、庭が `data-garden="loading"` のまま止まり、2Dにも戻らなかった。庭の `compile()` を30秒（`gardenDeadline`）で打ち切り、庭だけ失敗にした（`SaunaScene.test.tsx` に回帰テスト）。
 - 37視点の前後撮影（`e2e/graphic-fixes.visual.ts`）で変化は意図した範囲だけ、最終ビルドは全画素一致で再撮影。既定視点の描画間隔のABBAは0.996〜1.005倍。型検査・単体テスト・Lint・整形・ビルドが成功。遅延3Dチャンク969.69kB（gzip 272.99kB）。見回し中・高画質・実機は未確認。記録は [graphic-fixes-20261025](3d-qa/graphic-fixes-20261025/README.md)。
 - 記録の訂正：`src/components/3d/CLAUDE.md` が春秋冬の屋外プローブを焼き直し済みと書いていたが、配信物は冬だけだった。
+
+## 2026-10-26 — まとめた回帰と入室直後の停止
+
+- 利用者の依頼（改善候補の1番目「まとめて回帰をかける」）。`a6beac3` で通常回帰の全件、全周撮影の6条件（夏晴れ・春・秋・冬・雨・雪）、天気の撮影、高画質の全周（4回）を実行した。
+- 通常回帰は7件が失敗。Playwrightの変換キャッシュが古いテストを走らせていた（行番号が合わない）ため、`PWTEST_CACHE_DIR` を新しくして切り分けた。原因は入室直後の約4.8秒のLong Taskで、大半が `gardenDetails.ts` の地面の高さと `settleTerraceProps()` の支えの面への総当たりのレイ（旧版 `47692ff` でも同じ）。`downwardRay.ts` で三角形を水平の格子に振り分け、Raycasterとビット単位で同じ結果のまま、Long Taskを1.04秒、`data-load-ms` を1.41秒にした。
+- 修正後の通常回帰は80件成功。37視点のABBAで4回のPNGがバイト単位で一致。全周6条件・天気は撮影成功でエラー0件、高画質の216視点は4回で全画素一致。一覧の目視で欠け・黒い面は見当たらない。記録は [regression-20261026](3d-qa/regression-20261026/README.md)。見回し中・連続視聴・継続利用・GPU時間・実機は未確認。
+

@@ -5,6 +5,7 @@ import { createFarForest } from './farForest';
 import { gardenBloomGeometry } from './gardenBloom';
 import { createGardenStream, streamSection } from './gardenStream';
 import { createButterflies } from './butterflies';
+import { createDownwardRay } from './downwardRay';
 import type { Season } from './season';
 
 /** A deterministic generator in [0, 1), so every load builds the same garden. */
@@ -251,11 +252,7 @@ export function settleTerraceProps(root: THREE.Object3D) {
     if (/outdoor ash|locally damp ash|pale mineral paving/i.test(object.material.name)) surfaces.push(object);
     else if (/cork sandal sole|blackened bronze/i.test(object.material.name)) props.push(object);
   });
-  const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
-  const surface = (x: number, z: number) => {
-    ray.ray.origin.set(x, 0.3, z);
-    return ray.intersectObjects(surfaces, false)[0]?.point.y;
-  };
+  const surface = createDownwardRay(surfaces, 0.3);
   // Under a piece's footprint: its center and corners, the highest (a leg may stand over a seam).
   const footing = (box: THREE.Box3) => {
     const heights = [
@@ -589,11 +586,9 @@ export function addGardenDetails(root: THREE.Object3D) {
       finishPreparation() {},
       update() {},
     };
-  const ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0));
-  const ground = (x: number, z: number) => {
-    ray.ray.origin.set(x, 25, z);
-    return ray.intersectObjects(terrain, false)[0]?.point.y;
-  };
+  // Thousands of rays: binned rather than tested against the whole terrain (it held the page
+  // for about four seconds after entering).
+  const ground = createDownwardRay(terrain, 25);
   const floor = (x: number, z: number) => ground(x, z) ?? 0;
   const resting = restingStones(root, ground);
   const terrace = settleTerraceProps(root);
