@@ -63,6 +63,11 @@ const SNOW = /* glsl */ `
   // Fronds hold only a dusting in clumps; fully covered they read as white cut-outs.
   suiSnowCover *= 0.1 + 0.35 * smoothstep(0.35, 0.75, suiSnowFiltered(suiSnowP.xz * 7.0));
   #endif
+  #ifdef SUI_SNOW_CROWN
+  // Evergreen crowns hold snow in clumps on their upper side (the crown normal faces out of the
+  // crown, crownNormals.ts); with a dusting alone they stood summer green among the bare trees.
+  suiSnowCover *= 0.3 + 0.6 * smoothstep(0.3, 0.7, suiSnowFiltered(vec2(suiSnowP.x + suiSnowP.y * 0.7, suiSnowP.z - suiSnowP.y * 0.5) * 2.2));
+  #endif
   vec3 suiSnowColor = mix(vec3(0.64, 0.71, 0.82), vec3(0.82, 0.85, 0.88), smoothstep(0.2, 0.7, suiSnowDrift));
   suiSnowColor *= 0.97 + (suiSnowSwell - 0.5) * 0.08;
   diffuseColor.rgb = mix(diffuseColor.rgb, suiSnowColor, suiSnowCover);
@@ -104,14 +109,21 @@ export function patchWinterSnowShader(shader: { vertexShader: string; fragmentSh
     .replace(normal, `${normal}\n${SNOW_BUMP}`);
 }
 
-/** Thin, broken-up cover for fine fronds and the evergreen crowns' leaf cards. */
+/** Thin, broken-up cover for fine fronds. */
 export function dustedByWinterSnow(name: string) {
-  return /fern \d|card evergreen$/i.test(name);
+  return /fern \d/i.test(name);
+}
+
+/** Clumped cover on the upper side of the evergreen crowns' leaf cards. */
+export function crownedByWinterSnow(name: string) {
+  return /card evergreen$/i.test(name);
 }
 
 export function applyWinterSnow(material: THREE.MeshStandardMaterial, amount: { value: number }) {
   const dusting = dustedByWinterSnow(material.name);
+  const crown = crownedByWinterSnow(material.name);
   if (dusting) material.defines = { ...material.defines, SUI_SNOW_DUSTING: '' };
+  if (crown) material.defines = { ...material.defines, SUI_SNOW_CROWN: '' };
   const previous = material.onBeforeCompile;
   const previousKey = material.customProgramCacheKey;
   material.onBeforeCompile = (shader, renderer) => {
@@ -119,6 +131,7 @@ export function applyWinterSnow(material: THREE.MeshStandardMaterial, amount: { 
     shader.uniforms.suiWinterSnow = amount;
     patchWinterSnowShader(shader);
   };
-  material.customProgramCacheKey = () => `${previousKey.call(material)}|winter-snow-v2${dusting ? '-dust' : ''}`;
+  material.customProgramCacheKey = () =>
+    `${previousKey.call(material)}|winter-snow-v2${dusting ? '-dust' : ''}${crown ? '-crown' : ''}`;
   material.needsUpdate = true;
 }

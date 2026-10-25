@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+// The crowns' shader chunks (SUI_CROWN_SPECULAR), registered on import.
+import './crownNormals';
 
 // The garden's near maples (V11) keep the source's lobed leaves (11 vertices, 10 triangles, the
 // lobes folded ~45° but the whole leaf exactly level). From the seated eye height they are seen
@@ -230,7 +232,9 @@ export function roundMapleCrowns(mesh: THREE.Mesh) {
   }
   normal.needsUpdate = true;
   for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
-    material.defines = { ...material.defines, SUI_CROWN_NORMAL: '' };
+    // By day the leaves' gloss caught the probes' open sky and the sunlit tops of the crowns read
+    // cream (crownNormals.ts WOODLAND_SPECULAR, as for the woodland's cards).
+    material.defines = { ...material.defines, SUI_CROWN_NORMAL: '', SUI_CROWN_SPECULAR: '' };
     material.needsUpdate = true;
   }
   geometry.userData.suiMapleRounded = rounded;

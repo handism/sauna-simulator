@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { INTERIOR_BOX, WATER_BOX } from './interiorLights';
 
-export type SurfaceDetail = 'deck' | 'stone' | 'ground' | 'plaster' | 'linen' | 'bark' | 'gravel';
+export type SurfaceDetail = 'deck' | 'stone' | 'ground' | 'plaster' | 'linen' | 'towel' | 'heater' | 'bark' | 'gravel';
 
 // Keep indoor timber, pool tiles, glass and the submerged stone/light materials out.
 export function surfaceDetailOf(name: string): SurfaceDetail | null {
@@ -13,6 +13,9 @@ export function surfaceDetailOf(name: string): SurfaceDetail | null {
   // Materials whose source FBM noise ramps were flattened to their mean color at export (`procedural_flat_color`).
   if (name === 'Warm limestone plaster') return 'plaster';
   if (name === 'Unbleached linen') return 'linen';
+  // The loungers' towels and pillows (image ramps, not flattened noise).
+  if (name === 'V7 | oatmeal woven towel' || name === 'V6 | fine soft linen') return 'towel';
+  if (name === 'Loyly | split olivine') return 'heater';
   if (name === 'Tree bark') return 'bark';
   if (name === 'Fine garden gravel') return 'gravel';
   return null;
@@ -251,6 +254,39 @@ const LINEN = /* glsl */ `
   float suiSurfaceRoughness = (0.5 - suiSlub) * 0.05;
   float suiSurfaceHeight = (suiWeft + suiWarp) * 0.00028 + suiSlub * 0.00035;
 `;
+// The loungers' oatmeal towels and linen pillows read as flat white sheets in the sun: their ramp
+// tops out near 0.8 and the fold normals are faint. Pull the color down to an oatmeal beige, add a
+// terry pile (a few millimeters, fading to its mean once subpixel) and a coarser weave of rows, and
+// shade the draped sides and the undersides of the folds.
+export const TOWEL_TINT = [0.8, 0.76, 0.67] as const;
+const TOWEL = /* glsl */ `
+  vec3 suiSurfaceP = vSuiSurfacePosition;
+  float suiPile = suiSurfaceFilteredNoise(suiSurfaceP * 260.0);
+  float suiRows = suiSurfaceFilteredNoise(vec3(suiSurfaceP.x * 70.0, suiSurfaceP.y * 70.0, suiSurfaceP.z * 9.0));
+  float suiTowelPatch = suiSurfaceFilteredNoise(suiSurfaceP * 6.0);
+  float suiTowelVar = (suiPile - 0.5) * 0.22 + (suiRows - 0.5) * 0.12 + (suiTowelPatch - 0.5) * 0.08;
+  float suiDrape = mix(0.72, 1.0, smoothstep(-0.1, 0.75, vSuiSurfaceUp));
+  diffuseColor.rgb *= vec3(${TOWEL_TINT.map((v) => v.toFixed(2)).join(', ')}) * (1.0 + suiTowelVar) * suiDrape;
+  float suiSurfaceRoughness = 0.04;
+  float suiSurfaceHeight = suiPile * 0.0007 + suiRows * 0.0004;
+`;
+// The heater's split olivine stones were a uniform charcoal pile. Ladled water leaves pale mineral
+// scale on the upper faces of the top layer (the Cycles reference's stones read light grey from the
+// sauna's bench) and each stone keeps its own tone. Under the 2700K room lights a neutral grey
+// already reads warm: a warmer scale turned the pile tan. The pile tops out at 1.08m (refine_loyly_props.py).
+export const HEATER_SCALE = { from: 0.88, to: 1.0, color: [0.26, 0.27, 0.29], most: 0.55 } as const;
+const HEATER = /* glsl */ `
+  vec3 suiSurfaceP = vSuiSurfacePosition;
+  float suiScalePatch = suiSurfaceFilteredNoise(suiSurfaceP * 26.0) * 0.65 + suiSurfaceFilteredNoise(suiSurfaceP * 71.0 + 2.3) * 0.35;
+  float suiScale = smoothstep(${HEATER_SCALE.from.toFixed(2)}, ${HEATER_SCALE.to.toFixed(2)}, suiSurfaceP.y)
+    * smoothstep(0.15, 0.75, vSuiSurfaceUp) * smoothstep(0.42, 0.62, suiScalePatch);
+  float suiStoneTone = suiSurfaceFilteredNoise(suiSurfaceP * 9.0);
+  diffuseColor.rgb *= mix(vec3(0.9, 0.93, 0.97), vec3(1.12, 1.1, 1.06), suiStoneTone);
+  diffuseColor.rgb = mix(diffuseColor.rgb, vec3(${HEATER_SCALE.color.map((v) => v.toFixed(2)).join(', ')}) * (0.85 + 0.3 * suiScalePatch),
+    suiScale * ${HEATER_SCALE.most.toFixed(2)});
+  float suiSurfaceRoughness = suiScale * 0.12;
+  float suiSurfaceHeight = suiScalePatch * 0.0012 * suiScale;
+`;
 // Tree bark (overhead boughs and woodland trunks): elongated vertical ridges and coarse fissures
 // that fade cleanly to the mean on distant branches so crown shimmer does not increase.
 const BARK = /* glsl */ `
@@ -294,6 +330,8 @@ const DETAILS: Record<SurfaceDetail, string> = {
   ground: GROUND,
   plaster: PLASTER,
   linen: LINEN,
+  towel: TOWEL,
+  heater: HEATER,
   bark: BARK,
   gravel: GRAVEL,
 };

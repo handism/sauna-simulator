@@ -579,6 +579,26 @@ describe('garden loaded after the ready scene', () => {
     expect(view.onError).not.toHaveBeenCalled();
   });
 
+  it('fails the garden alone when its programs never finish compiling', async () => {
+    const response = deferred<any>();
+    mocks.garden.mockReturnValue(response.promise);
+    const garden = standard();
+    mocks.parse.mockResolvedValueOnce(model()).mockResolvedValueOnce(garden);
+    const view = mountScene();
+    await flush();
+    const renderer = mocks.renderers[0];
+    renderer.compileAsync.mockReturnValue(new Promise(() => {}));
+    response.resolve(ok);
+    await flush();
+    expect(canvas(view).dataset.garden).toBe('loading');
+    act(() => vi.advanceTimersByTime(30000));
+    await flush();
+    expect(canvas(view).dataset.garden).toBe('failed');
+    expect(garden.scene.parent).toBeNull();
+    expect(view.onError).not.toHaveBeenCalled();
+    view.unmount();
+  });
+
   it.each(['download', 'compile'])('releases a garden left unfinished at exit during its %s', async (phase) => {
     const response = deferred<any>();
     const compiled = deferred<void>();

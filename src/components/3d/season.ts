@@ -27,6 +27,13 @@ function springColor(name: string): THREE.Color {
 
 const colorSeason = (season: Season) => (season === 'winter' ? 'summer' : season);
 
+/**
+ * Winter dulls the woodland's evergreen crowns (evergreenWoodland.ts) to a deeper, greyer green:
+ * kept at their summer color they stood out bright among the bare trees and the snow.
+ */
+export const EVERGREEN_WINTER = new THREE.Color(0.5, 0.58, 0.58);
+const EVERGREEN_CARD = /card evergreen$/;
+
 /** Reuses model surfaces; the settled snow is a shared uniform, independent of weather. */
 export function createSeasonColors() {
   const colors = new Map<
@@ -40,6 +47,8 @@ export function createSeasonColors() {
   const grounds = new Set<THREE.MeshStandardMaterial>();
   const flowers = new Map<THREE.Mesh, number>();
   const leaves = new Map<THREE.Mesh, boolean>();
+  const evergreens = new Map<THREE.MeshStandardMaterial, { summer: THREE.Color; winter: THREE.Color }>();
+  const evergreenColor = (season: Season) => (season === 'winter' ? 'winter' : 'summer');
   return {
     get snowMaterials() {
       return snowy.size;
@@ -88,6 +97,16 @@ export function createSeasonColors() {
             applyWinterSnow(material, snow);
             snowy.add(material);
           }
+          if (
+            material instanceof THREE.MeshStandardMaterial &&
+            EVERGREEN_CARD.test(material.name) &&
+            !evergreens.has(material)
+          ) {
+            const summer = material.color.clone();
+            const palette = { summer, winter: summer.clone().multiply(EVERGREEN_WINTER) };
+            evergreens.set(material, palette);
+            material.color.copy(palette[evergreenColor(season)]);
+          }
           if (!(material instanceof THREE.MeshStandardMaterial) || colors.has(material)) continue;
           const autumn = autumnColor(material.name);
           if (!autumn) continue;
@@ -123,6 +142,11 @@ export function createSeasonColors() {
       for (const [material, palette] of colors) {
         if (material.color.equals(palette[colorSeason(season)])) continue;
         material.color.copy(palette[colorSeason(season)]);
+        changed = true;
+      }
+      for (const [material, palette] of evergreens) {
+        if (material.color.equals(palette[evergreenColor(season)])) continue;
+        material.color.copy(palette[evergreenColor(season)]);
         changed = true;
       }
       return changed;

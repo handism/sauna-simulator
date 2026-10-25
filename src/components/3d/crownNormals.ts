@@ -69,6 +69,9 @@ export function crownShade(r: number, up: number) {
 // a material with vertexColors leaves the depth prepass and the shadow mask's cut-out copies
 // (depthPrepass.ts cutoutOf), which made the woodland about a third slower to draw. The same define
 // scales the probes' reflection on the cards (WOODLAND_SPECULAR).
+const CROWN_SPECULAR = `#ifdef SUI_IRRADIANCE
+	reflectedLight.indirectSpecular *= mix( ${WOODLAND_SPECULAR.toFixed(2)}, 1.0, suiIrradianceEvening );
+#endif`;
 const TINT_CHUNKS: [keyof typeof THREE.ShaderChunk, string][] = [
   ['color_pars_vertex', 'attribute vec3 suiCrownTint;\nvarying vec3 vSuiCrownTint;'],
   ['color_vertex', 'vSuiCrownTint = suiCrownTint;'],
@@ -76,16 +79,14 @@ const TINT_CHUNKS: [keyof typeof THREE.ShaderChunk, string][] = [
   ['color_fragment', 'diffuseColor.rgb *= vSuiCrownTint;'],
   // After the lights, with the ambient occlusion: only the probes' reflection (the sun has no gloss),
   // by day only (the evening weight, irradiance.ts).
-  [
-    'aomap_fragment',
-    `#ifdef SUI_IRRADIANCE
-	reflectedLight.indirectSpecular *= mix( ${WOODLAND_SPECULAR.toFixed(2)}, 1.0, suiIrradianceEvening );
-#endif`,
-  ],
+  ['aomap_fragment', CROWN_SPECULAR],
 ];
 for (const [chunk, code] of TINT_CHUNKS)
   if (!THREE.ShaderChunk[chunk].includes('SUI_CROWN_TINT'))
     THREE.ShaderChunk[chunk] += `\n#ifdef SUI_CROWN_TINT\n\t${code}\n#endif\n`;
+// The same daytime cut of the probes' reflection without the tint (the garden maples, mapleLeafTilt.ts).
+if (!THREE.ShaderChunk.aomap_fragment.includes('SUI_CROWN_SPECULAR'))
+  THREE.ShaderChunk.aomap_fragment += `\n#if defined( SUI_CROWN_SPECULAR ) && ! defined( SUI_CROWN_TINT )\n\t${CROWN_SPECULAR}\n#endif\n`;
 
 /** GLSL condition for turning a two-sided normal to the viewer, which crown normals skip. */
 export const TURNS_TO_VIEWER = 'defined( DOUBLE_SIDED ) && ! defined( SUI_CROWN_NORMAL )';

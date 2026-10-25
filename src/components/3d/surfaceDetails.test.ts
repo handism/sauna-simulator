@@ -19,6 +19,9 @@ describe('deck, stone and procedural flat-color surface details', () => {
     expect(surfaceDetailOf('V3 | moss and woodland earth')).toBe('ground');
     expect(surfaceDetailOf('Warm limestone plaster')).toBe('plaster');
     expect(surfaceDetailOf('Unbleached linen')).toBe('linen');
+    expect(surfaceDetailOf('V7 | oatmeal woven towel')).toBe('towel');
+    expect(surfaceDetailOf('V6 | fine soft linen')).toBe('towel');
+    expect(surfaceDetailOf('Loyly | split olivine')).toBe('heater');
     expect(surfaceDetailOf('Tree bark')).toBe('bark');
     expect(surfaceDetailOf('Fine garden gravel')).toBe('gravel');
     for (const name of [
@@ -31,7 +34,7 @@ describe('deck, stone and procedural flat-color surface details', () => {
       expect(surfaceDetailOf(name)).toBeNull();
   });
 
-  it.each(['deck', 'stone', 'ground', 'plaster', 'linen', 'bark', 'gravel'] as const)(
+  it.each(['deck', 'stone', 'ground', 'plaster', 'linen', 'towel', 'heater', 'bark', 'gravel'] as const)(
     'composes %s with existing materials and snow without adding texture samplers',
     (kind) => {
       const material = new THREE.MeshStandardMaterial();

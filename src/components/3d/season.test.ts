@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { createSeasonColors } from './season';
+import { createSeasonColors, EVERGREEN_WINTER } from './season';
 
 function tree(...names: string[]) {
   const root = new THREE.Group();
@@ -90,5 +90,21 @@ describe('season colors', () => {
     materials.forEach((material, index) => expect(material.color.equals(originals[index])).toBe(true));
     seasons.add(tree('Forest leaf tone 0').root, 'spring');
     expect(seasons.update('summer')).toBe(true);
+  });
+  it('dulls the evergreen crowns in winter only and restores their color', () => {
+    const { root, materials } = tree('V6 woodland leaf 2 card evergreen');
+    const original = materials[0].color.clone();
+    const seasons = createSeasonColors();
+    seasons.add(root, 'summer');
+    expect(materials[0].color.equals(original)).toBe(true);
+    expect(seasons.update('winter')).toBe(true);
+    expect(root.children[0].visible).toBe(true);
+    expect(materials[0].color.equals(original.clone().multiply(EVERGREEN_WINTER))).toBe(true);
+    expect(seasons.update('autumn')).toBe(true);
+    expect(materials[0].color.equals(original)).toBe(true);
+    seasons.update('winter');
+    seasons.add(root, 'winter');
+    seasons.update('spring');
+    expect(materials[0].color.equals(original)).toBe(true);
   });
 });

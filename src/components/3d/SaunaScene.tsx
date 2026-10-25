@@ -699,8 +699,19 @@ export default function SaunaScene({
             // Not extended by a warmup started over; the body keeps drawing past it.
             const gardenDeadline = performance.now() + 30000;
             for (;;) {
-              // Compile for the pass it is drawn in, off the render loop where the browser can.
-              await output.compile(woodland, camera, scene);
+              // Compile for the pass it is drawn in, off the render loop where the browser can. A
+              // program that fails to compile may never report completion (ANGLE Metal), which left
+              // the garden loading for good: past the deadline it fails and the body draws on.
+              let expire = 0;
+              await Promise.race([
+                output.compile(woodland, camera, scene),
+                new Promise((_, reject) => {
+                  expire = window.setTimeout(
+                    () => reject(Error('Garden compile timed out')),
+                    Math.max(0, gardenDeadline - performance.now()),
+                  );
+                }),
+              ]).finally(() => clearTimeout(expire));
               if (disposed || failed) return;
               scene.add(woodland);
               if (warmupMode !== 'split') break;

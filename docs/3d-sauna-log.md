@@ -3123,3 +3123,16 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 水風呂の奥の漆喰に湿った帯と筋、屋外デッキに銀灰色の風化と板ごとの濃淡を足した（`surfaceDetails.ts`）。
 - 型検査・475単体テスト・Lint・整形・ビルドが成功。遅延3Dチャンク958.26kB（gzip 269.28kB）。確認は一時的な撮影スクリプトの静止画の目視のみで、変更前後のABBA比較・描画費用・見回し中のちらつき・高画質・実機は未確認。
 
+
+## 2026-10-25 — 水底・稜線・モミジの樹冠（`05e0796`）
+
+- 利用者のコミット。水風呂のコースティクスの表示を0.6→0.4倍、タイルの彩度・明るさを下げた（`poolTiles.ts` の `TILE_SATURATION`・`TILE_DARKEN`）。山並みの稜線に2列の木立の凹凸（`ridgeTreeline()`）と、山肌に谷・尾根・木立の斑（`RIDGE_RELIEF_GLSL`）。モミジの葉の法線を樹冠の楕円体の外向きへ寄せた（`roundMapleCrowns()`）。この記録は後から追記した。
+
+## 2026-10-25 — グラフィックの改善候補5件
+
+- 利用者の「全部直したいね。全部お願い」（手元の撮影から挙げた5件）に基づく。
+- 寝椅子のタオル・枕を生成り色へ寄せ、パイル・織りの凹凸と垂れた面の陰を付けた（`surfaceDetails.ts` の `towel`）。ストーブの石に濃淡と上の段の石灰の付着（`heater`。暖色の付着は室内灯で茶色に見え、灰色寄りに直した）。冬の常緑樹を深くくすんだ緑（`season.ts` の `EVERGREEN_WINTER`）にし、樹冠の上側に塊の雪（`winterSnow.ts` の `SUI_SNOW_CROWN`）。昼のモミジに林のカードと同じ空の映り込みの抑制（`SUI_CROWN_SPECULAR`、改善は控えめ）。
+- サウナ室から見た水風呂の側面の茶色の平面は、Cyclesの参照（v13-sky/02）でも同じ暗い茶色だったため変更しない。
+- 不具合：雪のシェーダーで `vec2` の関数に `vec3` を渡したところ、庭が `data-garden="loading"` のまま止まり、2Dにも戻らなかった。庭の `compile()` を30秒（`gardenDeadline`）で打ち切り、庭だけ失敗にした（`SaunaScene.test.tsx` に回帰テスト）。
+- 37視点の前後撮影（`e2e/graphic-fixes.visual.ts`）で変化は意図した範囲だけ、最終ビルドは全画素一致で再撮影。既定視点の描画間隔のABBAは0.996〜1.005倍。型検査・単体テスト・Lint・整形・ビルドが成功。遅延3Dチャンク969.69kB（gzip 272.99kB）。見回し中・高画質・実機は未確認。記録は [graphic-fixes-20261025](3d-qa/graphic-fixes-20261025/README.md)。
+- 記録の訂正：`src/components/3d/CLAUDE.md` が春秋冬の屋外プローブを焼き直し済みと書いていたが、配信物は冬だけだった。

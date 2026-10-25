@@ -1,0 +1,155 @@
+{
+ "before": "test-results/graphic-before1/graphic-fixes.visual.ts-graphic-fixes-before1",
+ "after": "test-results/graphic-after2/graphic-fixes.visual.ts-graphic-fixes-after2",
+ "metric": "share of pixels whose largest channel differs by more than 8 levels",
+ "views": {
+  "sauna-autumn-front": {
+   "over8": 0.0178,
+   "max": 90
+  },
+  "sauna-day-front": {
+   "over8": 0.0171,
+   "max": 89
+  },
+  "sauna-day-pool": {
+   "over8": 0.0138,
+   "max": 90
+  },
+  "sauna-day-stove": {
+   "over8": 0.0146,
+   "max": 91
+  },
+  "sauna-evening-front": {
+   "over8": 0.0056,
+   "max": 99
+  },
+  "sauna-evening-pool": {
+   "over8": 0.0056,
+   "max": 98
+  },
+  "sauna-evening-stove": {
+   "over8": 0.0061,
+   "max": 99
+  },
+  "sauna-night-front": {
+   "over8": 0.0057,
+   "max": 102
+  },
+  "sauna-night-pool": {
+   "over8": 0.0057,
+   "max": 103
+  },
+  "sauna-night-stove": {
+   "over8": 0.0062,
+   "max": 103
+  },
+  "sauna-winter-front": {
+   "over8": 0.0153,
+   "max": 89
+  },
+  "totonou-autumn-front": {
+   "over8": 0.0464,
+   "max": 61
+  },
+  "totonou-autumn-left": {
+   "over8": 0.0526,
+   "max": 152
+  },
+  "totonou-autumn-right": {
+   "over8": 0.046,
+   "max": 76
+  },
+  "totonou-day-front": {
+   "over8": 0.0454,
+   "max": 60
+  },
+  "totonou-day-left": {
+   "over8": 0.0525,
+   "max": 152
+  },
+  "totonou-day-right": {
+   "over8": 0.0451,
+   "max": 75
+  },
+  "totonou-day-towel": {
+   "over8": 0.1964,
+   "max": 154
+  },
+  "totonou-evening-front": {
+   "over8": 0.0278,
+   "max": 40
+  },
+  "totonou-evening-left": {
+   "over8": 0.05,
+   "max": 108
+  },
+  "totonou-evening-right": {
+   "over8": 0.0293,
+   "max": 84
+  },
+  "totonou-evening-towel": {
+   "over8": 0.1813,
+   "max": 113
+  },
+  "totonou-night-front": {
+   "over8": 0.0277,
+   "max": 41
+  },
+  "totonou-night-left": {
+   "over8": 0.0499,
+   "max": 118
+  },
+  "totonou-night-right": {
+   "over8": 0.0293,
+   "max": 92
+  },
+  "totonou-night-towel": {
+   "over8": 0.1812,
+   "max": 123
+  },
+  "totonou-winter-front": {
+   "over8": 0.0443,
+   "max": 94
+  },
+  "totonou-winter-left": {
+   "over8": 0.0616,
+   "max": 153
+  },
+  "totonou-winter-right": {
+   "over8": 0.0435,
+   "max": 99
+  },
+  "water-autumn-front": {
+   "over8": 0.0158,
+   "max": 57
+  },
+  "water-day-front": {
+   "over8": 0.0149,
+   "max": 57
+  },
+  "water-day-left": {
+   "over8": 0.0198,
+   "max": 61
+  },
+  "water-evening-front": {
+   "over8": 0.0,
+   "max": 0
+  },
+  "water-evening-left": {
+   "over8": 0.005,
+   "max": 42
+  },
+  "water-night-front": {
+   "over8": 0.0,
+   "max": 0
+  },
+  "water-night-left": {
+   "over8": 0.005,
+   "max": 42
+  },
+  "water-winter-front": {
+   "over8": 0.0142,
+   "max": 98
+  }
+ }
+}

@@ -54,4 +54,15 @@ describe('settled winter snow', () => {
     amount.value = 1;
     expect(shader.uniforms.suiWinterSnow.value).toBe(1);
   });
+  it('gives the fern fronds a dusting and the evergreen crowns clumped snow on their own programs', () => {
+    const fern = new THREE.MeshStandardMaterial({ name: 'V3 | fern 1' });
+    const crown = new THREE.MeshStandardMaterial({ name: 'V6 woodland leaf 2 card evergreen' });
+    applyWinterSnow(fern, { value: 1 });
+    applyWinterSnow(crown, { value: 1 });
+    expect(fern.defines).toHaveProperty('SUI_SNOW_DUSTING');
+    expect(fern.defines).not.toHaveProperty('SUI_SNOW_CROWN');
+    expect(crown.defines).toHaveProperty('SUI_SNOW_CROWN');
+    expect(crown.defines).not.toHaveProperty('SUI_SNOW_DUSTING');
+    expect(fern.customProgramCacheKey()).not.toBe(crown.customProgramCacheKey());
+  });
 });

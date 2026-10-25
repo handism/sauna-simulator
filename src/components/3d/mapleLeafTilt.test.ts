@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { MAPLE_TILT_MAX, MAPLE_TILT_MIN, mapleLeafTurn, tiltMapleLeaves } from './mapleLeafTilt';
+import { MAPLE_TILT_MAX, MAPLE_TILT_MIN, mapleLeafTurn, roundMapleCrowns, tiltMapleLeaves } from './mapleLeafTilt';
 
 /**
  * A level leaf like the export's: a fan of 10 triangles around a center vertex (11 vertices), its
@@ -96,5 +96,13 @@ describe('tiltMapleLeaves', () => {
         true,
       );
     }
+  });
+  it("rounds the crowns with the woodland cards' daytime cut of the sky reflection", () => {
+    const material = new THREE.MeshStandardMaterial({ name: 'V11 | maple leaf 1' });
+    const mesh = new THREE.Mesh(geometry(), material);
+    roundMapleCrowns(mesh);
+    expect(material.defines?.SUI_CROWN_NORMAL).toBe('');
+    expect(material.defines?.SUI_CROWN_SPECULAR).toBe('');
+    expect(THREE.ShaderChunk.aomap_fragment).toContain('defined( SUI_CROWN_SPECULAR )');
   });
 });
