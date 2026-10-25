@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 // The plunge's floor tiles. The source material is one flat teal (0.12, 0.32, 0.28) on every tile, so
 // the floor read as an even, brightly lit swimming-pool grid. Glazed tiles vary: each tile gets its
-// own tone (on average 15% darker than the source) and a slight hue shift, the glaze pools deeper and darker toward the tile's edges, and a soft mottle runs
+// own tone (on average 15% darker than the source, then muted, TILE_SATURATION) and a slight hue shift, the glaze pools a little darker toward the tile's edges, and a soft mottle runs
 // through it; the roughness varies a little from tile to tile. The grid (separate tiles with 8 mm
 // joints between them) is the source's, read from the exported tiles' corners. Within 35 cm of the
 // tub's walls the floor darkens (no baked occlusion reaches the tiles' color there). No texture: the
@@ -16,6 +16,17 @@ export const TILE_BOUNDS = [
   TILE_GRID.origin[0] + 13 * TILE_GRID.pitch[0],
   TILE_GRID.origin[1] + 16 * TILE_GRID.pitch[1],
 ];
+
+/**
+ * Not in the source: the glaze's saturation and brightness, and how wide (m) and how dark the glaze
+ * pools along each tile's edge. Even after the tones and the water's absorption, the bright teal
+ * tiles with a dark band of pooled glaze on every edge drew a bold grid and still read as a swimming
+ * pool; a plunge's glaze is a quieter green-grey and the joints a fine line.
+ */
+export const TILE_SATURATION = 0.62;
+export const TILE_DARKEN = 0.86;
+export const TILE_POOL_WIDTH = 0.013;
+export const TILE_POOL_SHADE = 0.84;
 
 const f = (value: number) => value.toFixed(4);
 const COMMON = '#include <common>';
@@ -46,14 +57,16 @@ const GLAZE = /* glsl */ `
 	float suiTileHue = suiTileHash( suiTileId + 17.0 );
 	// Distance to the tile's edge in meters; the glaze pools within about 2 cm of it.
 	vec2 suiTileEdge = min( fract( suiTileCell ), 1.0 - fract( suiTileCell ) ) * vec2( ${f(TILE_GRID.pitch[0])}, ${f(TILE_GRID.pitch[1])} );
-	float suiTilePool = 1.0 - smoothstep( 0.002, 0.022, min( suiTileEdge.x, suiTileEdge.y ) );
+	float suiTilePool = 1.0 - smoothstep( 0.002, ${f(TILE_POOL_WIDTH)}, min( suiTileEdge.x, suiTileEdge.y ) );
 	vec2 suiTileMottleP = vSuiTilePosition.xz * 26.0 + suiTileId * 3.7;
 	float suiTileMottle = mix( suiTileNoise( suiTileMottleP ), 0.5, smoothstep( 0.4, 1.2, fwidth( suiTileMottleP.x ) ) );
 	// Toward the tub's walls less of the sky above reaches the floor.
 	vec2 suiTileWall = min( vSuiTilePosition.xz - vec2( ${f(TILE_GRID.origin[0])}, ${f(TILE_GRID.origin[1])} ), vec2( ${f(TILE_BOUNDS[0])}, ${f(TILE_BOUNDS[1])} ) - vSuiTilePosition.xz );
 	float suiTileCorner = mix( 0.62, 1.0, smoothstep( 0.0, 0.35, suiTileWall.x ) * smoothstep( 0.0, 0.35, suiTileWall.y ) );
 	diffuseColor.rgb *= ( 0.68 + 0.34 * suiTileTone ) * mix( vec3( 1.1, 1.0, 0.88 ), vec3( 0.88, 1.0, 1.1 ), suiTileHue )
-		* mix( 1.0, 0.7, suiTilePool ) * ( 0.88 + 0.24 * suiTileMottle ) * suiTileCorner;
+		* mix( 1.0, ${f(TILE_POOL_SHADE)}, suiTilePool ) * ( 0.88 + 0.24 * suiTileMottle ) * suiTileCorner;
+	// A muted, deeper green-grey glaze instead of the pool's bright teal.
+	diffuseColor.rgb = mix( vec3( dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) ), diffuseColor.rgb, ${f(TILE_SATURATION)} ) * ${f(TILE_DARKEN)};
 `;
 
 export function patchPoolTileShader(shader: { vertexShader: string; fragmentShader: string }) {

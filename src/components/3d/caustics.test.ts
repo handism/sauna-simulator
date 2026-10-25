@@ -37,7 +37,7 @@ describe('caustics', () => {
     expect(fragment).toContain('vec3( vSuiCausticPosition.x, - vSuiCausticPosition.z, vSuiCausticPosition.y )');
     expect(fragment).toContain('uniform float suiCausticLight;');
     expect(fragment).toContain('* ( suiCausticLight * sui_caustic_strength(');
-    expect(fragment.indexOf('totalEmissiveRadiance += vec3( 0.276, 0.462, 0.396 )')).toBeGreaterThan(
+    expect(fragment.indexOf('totalEmissiveRadiance += vec3( 0.184, 0.308, 0.264 )')).toBeGreaterThan(
       fragment.indexOf('#include <emissivemap_fragment>'),
     );
     expect(fragment.indexOf('float sui_caustic_strength(')).toBeLessThan(fragment.indexOf('void main() {'));

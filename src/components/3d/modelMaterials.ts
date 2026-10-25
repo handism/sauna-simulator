@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { SMALL_LEAF, shapeCanopyLeaves } from './canopyLeafShape';
 import { shapeFernLeaflets } from './fernShape';
-import { tiltMapleLeaves } from './mapleLeafTilt';
+import { roundMapleCrowns, tiltMapleLeaves } from './mapleLeafTilt';
 import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
 import { INTERIOR_BOX, shadeStovePile } from './interiorLights';
@@ -78,6 +78,7 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
     // The garden's near maples (V11). The body's V7 maple behind the wall has no level lobed leaves.
     if (materials.every((material) => /^V11 \| maple leaf \d+$/.test(material.name))) {
       tiltedMapleLeaves += tiltMapleLeaves(object.geometry);
+      roundMapleCrowns(object);
     }
     // The garden's fine canopy behind the building: the lighter outline for 78k small leaves.
     if (materials.every((material) => /^Forest leaf tone \d+$/.test(material.name))) {

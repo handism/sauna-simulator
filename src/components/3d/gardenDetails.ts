@@ -482,6 +482,93 @@ export function tuckGrassBehindBoulders(
 }
 
 /** Browser-built garden accents. Geometry is deterministic and owned by the scene. */
+/** Segments around each ridge: about 0.3–0.6 m apart, so the treeline's crowns have a few each. */
+export const RIDGE_SEGMENTS = 1440;
+/** The treeline's crowns along a ridge's crest: their spacing (m) and greatest height (m). */
+export const RIDGE_CROWN = { spacing: 2.6, height: 0.8 };
+
+/**
+ * Not in the source: woods along the ridges' crest. The smooth sine crest read as bare grey hills
+ * cut from card; wooded hills show a fine bumpy skyline of crowns against the sky. At `along` meters
+ * around the ridge, a rounded crown of a jittered width and height (0 between crowns), by layer.
+ */
+export function ridgeTreeline(along: number, layer: number) {
+  const hash = (i: number, salt: number) => {
+    const v = Math.sin(i * 127.1 + layer * 311.7 + salt * 74.7) * 43758.5453;
+    return v - Math.floor(v);
+  };
+  // Two overlapping ranks of crowns, so the skyline is not a row of equal humps.
+  const crown = (u: number, salt: number) => {
+    const i = Math.floor(u);
+    // A crown fills 70–100% of its cell; a few cells are gaps in the woods.
+    const width = 0.7 + 0.3 * hash(i, salt + 1);
+    const t = (u - i - (1 - width) * hash(i, salt + 2)) / width;
+    if (t <= 0 || t >= 1 || hash(i, salt + 3) < 0.15) return 0;
+    return (0.35 + 0.65 * hash(i, salt + 4)) * Math.sqrt(Math.sin(Math.PI * t));
+  };
+  const u = along / RIDGE_CROWN.spacing;
+  return RIDGE_CROWN.height * Math.max(crown(u, 0), 0.8 * crown(u * 1.6 + 0.37, 10));
+}
+
+/**
+ * Not in the source: relief on the distant ridges, which were flat grey silhouettes (only a vertex
+ * shade along the crest and the haze). A noise height (meters) stretched downhill gives gullies and
+ * spurs, bumped onto the band's surface (screen derivatives, as three's bump map) tilted back as a
+ * slope; by a clear day its sun side is lit and its far side shaded by the scene's fixed sun
+ * (lighting.ts), and at any time the gullies stay darker and a few-meter mottle of woods covers the
+ * slopes. Detail finer than a few pixels fades to its mean. Before the haze, so the farther ridges keep less of it.
+ */
+export const RIDGE_RELIEF_GLSL = /* glsl */ `
+float gardenRidgeHash( vec3 p ) {
+	p = fract( p * 0.3183099 + 0.1 ) * 17.0;
+	return fract( p.x * p.y * p.z * ( p.x + p.y + p.z ) );
+}
+float gardenRidgeNoise( vec3 x ) {
+	vec3 i = floor( x ), f = fract( x );
+	f = f * f * ( 3.0 - 2.0 * f );
+	vec2 e = vec2( 1.0, 0.0 );
+	return mix(
+		mix( mix( gardenRidgeHash( i ), gardenRidgeHash( i + e.xyy ), f.x ),
+			mix( gardenRidgeHash( i + e.yxy ), gardenRidgeHash( i + e.xxy ), f.x ), f.y ),
+		mix( mix( gardenRidgeHash( i + e.yyx ), gardenRidgeHash( i + e.xyx ), f.x ),
+			mix( gardenRidgeHash( i + e.yxx ), gardenRidgeHash( i + e.xxx ), f.x ), f.y ), f.z );
+}
+vec3 gardenRidgeShade( vec3 p, float sunShare ) {
+	// Meters per pixel: octaves finer than about four pixels fade to their mean.
+	float footprint = length( fwidth( p ) );
+	// Gullies run downhill: finer across the slope than along it.
+	vec3 q = p * vec3( 1.0 / 40.0, 1.0 / 90.0, 1.0 / 40.0 );
+	float relief = 0.0, amplitude = 12.0, size = 40.0;
+	for ( int octave = 0; octave < 4; octave ++ ) {
+		float keep = 1.0 - smoothstep( 0.12, 0.3, footprint / size );
+		relief += amplitude * mix( 0.5, gardenRidgeNoise( q ), keep );
+		q = q * 2.03 + 7.1;
+		amplitude *= 0.42;
+		size *= 0.5;
+	}
+	vec3 dpdx = dFdx( p ), dpdy = dFdy( p );
+	vec3 wall = normalize( cross( dpdx, dpdy ) );
+	vec3 toEye = cameraPosition - p;
+	if ( dot( wall, toEye ) < 0.0 ) wall = - wall;
+	vec3 r1 = cross( dpdy, wall ), r2 = cross( wall, dpdx );
+	float det = dot( dpdx, r1 );
+	vec3 grad = sign( det ) * ( dFdx( relief ) * r1 + dFdy( relief ) * r2 );
+	vec3 bumped = normalize( abs( det ) * wall - grad );
+	// The band stands upright; the slopes it stands for lean back toward the sky.
+	vec3 up = vec3( 0.0, 0.9, 0.0 );
+	vec3 slope = normalize( bumped + up ), plain = normalize( wall + up );
+	vec3 sun = normalize( vec3( -0.556, 0.6178, 0.556 ) );
+	float lit = max( dot( slope, sun ), 0.0 ) / max( dot( plain, sun ), 0.15 );
+	float sunSide = mix( 1.0, clamp( 0.55 + 0.45 * lit, 0.5, 1.4 ), sunShare );
+	// Gullies hold less sky at any time; the relief's mean is about 10 m.
+	float gully = clamp( 0.9 + 0.045 * ( relief - 10.0 ), 0.62, 1.15 );
+	// Woods on the slopes: a mottle of stands a few meters across.
+	vec3 w = p * vec3( 0.3, 0.5, 0.3 );
+	float woods = mix( 0.5, gardenRidgeNoise( w ) * 0.6 + gardenRidgeNoise( w * 2.3 + 3.7 ) * 0.4, 1.0 - smoothstep( 0.4, 1.0, footprint / 2.5 ) );
+	return vec3( sunSide * gully * ( 0.76 + 0.48 * woods ) );
+}
+`;
+
 export function addGardenDetails(root: THREE.Object3D) {
   root.updateMatrixWorld(true);
   const terrain: THREE.Mesh[] = [];
@@ -771,11 +858,13 @@ export function addGardenDetails(root: THREE.Object3D) {
   // Low hills around the woodland, with three overlapping silhouettes and atmospheric color.
   const hills: THREE.Mesh[] = [];
   const hazeColor = { value: new THREE.Color() };
+  // The clear day's share of the ridges' sun-side shading (set by update).
+  const ridgeSun = { value: 0 };
   for (let layer = 0; layer < 3; layer++) {
     const positions: number[] = [];
     const colors: number[] = [];
     const radius = 72 + layer * 38;
-    const segments = 320;
+    const segments = RIDGE_SEGMENTS;
     const point = (j: number, row: number) => {
       const a = (j / segments) * Math.PI * 2;
       const height =
@@ -784,7 +873,8 @@ export function addGardenDetails(root: THREE.Object3D) {
         3 * Math.sin(a * 3 + layer) +
         1.8 * Math.sin(a * 7 + 0.7 + layer) +
         0.65 * Math.sin(a * 19 + layer * 2) +
-        0.3 * Math.sin(a * 43);
+        0.3 * Math.sin(a * 43) +
+        ridgeTreeline(a * radius, layer);
       const y = row === 0 ? -7 : row === 1 ? height * 0.38 : height;
       return [Math.cos(a) * radius, y, Math.sin(a) * radius];
     };
@@ -812,17 +902,28 @@ export function addGardenDetails(root: THREE.Object3D) {
     mat.name = `Garden distant ridge ${layer}`;
     mat.onBeforeCompile = (shader) => {
       shader.uniforms.gardenHazeColor = hazeColor;
+      shader.uniforms.gardenRidgeSun = ridgeSun;
       shader.vertexShader = shader.vertexShader
-        .replace('#include <common>', '#include <common>\nvarying float gardenRidgeHeight;')
-        .replace('#include <begin_vertex>', '#include <begin_vertex>\ngardenRidgeHeight = position.y;');
+        .replace(
+          '#include <common>',
+          '#include <common>\nvarying float gardenRidgeHeight; varying vec3 gardenRidgeWorld;',
+        )
+        .replace(
+          '#include <begin_vertex>',
+          '#include <begin_vertex>\ngardenRidgeHeight = position.y;\ngardenRidgeWorld = ( modelMatrix * vec4( position, 1.0 ) ).xyz;',
+        );
       shader.fragmentShader = shader.fragmentShader
         .replace(
           '#include <common>',
-          '#include <common>\nvarying float gardenRidgeHeight; uniform vec3 gardenHazeColor;',
+          `#include <common>
+          varying float gardenRidgeHeight; varying vec3 gardenRidgeWorld;
+          uniform vec3 gardenHazeColor; uniform float gardenRidgeSun;
+          ${RIDGE_RELIEF_GLSL}`,
         )
         .replace(
           '#include <color_fragment>',
           `#include <color_fragment>
+          diffuseColor.rgb *= gardenRidgeShade( gardenRidgeWorld, gardenRidgeSun );
           float valleyMist = 1.0 - smoothstep(-3.0, ${(12 + layer * 4).toFixed(1)}, gardenRidgeHeight);
           float haze = ${(0.24 + layer * 0.19).toFixed(2)} + valleyMist * 0.25;
           diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
@@ -1158,6 +1259,7 @@ export function addGardenDetails(root: THREE.Object3D) {
       // grey deck), so the haze takes the deck's radiance near the horizon and the ridges a darker share.
       const cover = overcast ? clouds : 0;
       if (overcast) hazeColor.value.lerp(overcastAir.copy(overcast).multiplyScalar(OVERCAST_HAZE), cover);
+      ridgeSun.value = Math.max(0, 1 - timeOfDay) * (1 - cover);
       for (const [i, hill] of hills.entries()) {
         const color = (hill.material as THREE.MeshBasicMaterial).color
           .copy(season === 'winter' ? hillWinter[i] : hillDay[i])

@@ -102,3 +102,137 @@ export function tiltMapleLeaves(geometry: THREE.BufferGeometry) {
   geometry.userData.suiMapleTilted = tilted;
   return tilted;
 }
+
+/** Share of a maple leaf's shading normal taken from its crown's rounded shape. */
+export const MAPLE_CROWN_NORMAL_WEIGHT = 0.6;
+/** Leaves whose centers are this close (m) belong to one crown. */
+const MAPLE_CROWN_LINK = 0.9;
+/** Least half extent of a maple crown (m), and the fewest leaves that make one. */
+const MAPLE_MIN_EXTENT = 0.4;
+const MAPLE_MIN_LEAVES = 12;
+
+/**
+ * Not in the source: the maples' leaves, lit each by its own folded lobes facing every way, read as a
+ * hard speckle of bright yellow-green and dark leaves (a sprite more than a crown). As the woodland's
+ * cards (crownNormals.ts), each leaf's normals lean outward from its crown's ellipsoid by
+ * MAPLE_CROWN_NORMAL_WEIGHT, less than the cards' so the lobes still show; the crowns are the
+ * leaves grouped by their centers. The materials take SUI_CROWN_NORMAL (normals as written, not
+ * turned to the viewer); a leaf in no crown keeps its own normal turned up. Run after
+ * tiltMapleLeaves, once per geometry. Returns the number of leaves rounded.
+ */
+export function roundMapleCrowns(mesh: THREE.Mesh) {
+  const { geometry } = mesh;
+  if (geometry.userData.suiMapleRounded !== undefined) return geometry.userData.suiMapleRounded as number;
+  const position = geometry.getAttribute('position');
+  const normal = geometry.getAttribute('normal') as THREE.BufferAttribute | undefined;
+  const index = geometry.getIndex();
+  geometry.userData.suiMapleRounded = 0;
+  if (!position || !normal || !index) return 0;
+  mesh.updateWorldMatrix(true, false);
+  const parent = Int32Array.from({ length: position.count }, (_, i) => i);
+  const find = (v: number): number => {
+    while (parent[v] !== v) v = parent[v] = parent[parent[v]];
+    return v;
+  };
+  for (let i = 0; i < index.count; i += 3) {
+    const root = find(index.getX(i));
+    parent[find(index.getX(i + 1))] = root;
+    parent[find(index.getX(i + 2))] = root;
+  }
+  const leafOf = new Map<number, number>();
+  const members: number[][] = [];
+  for (let v = 0; v < position.count; v++) {
+    const root = find(v);
+    let leaf = leafOf.get(root);
+    if (leaf === undefined) {
+      leafOf.set(root, (leaf = members.length));
+      members.push([]);
+    }
+    members[leaf].push(v);
+  }
+  const point = new THREE.Vector3();
+  const centers = members.map((vertices) => {
+    const center = new THREE.Vector3();
+    for (const v of vertices) center.add(point.fromBufferAttribute(position, v));
+    return center.divideScalar(vertices.length).applyMatrix4(mesh.matrixWorld);
+  });
+  // Crowns: leaves linked through neighbors closer than MAPLE_CROWN_LINK, found on a grid.
+  const crownParent = Int32Array.from({ length: centers.length }, (_, i) => i);
+  const findCrown = (l: number): number => {
+    while (crownParent[l] !== l) l = crownParent[l] = crownParent[crownParent[l]];
+    return l;
+  };
+  const cell = (c: THREE.Vector3) => [c.x, c.y, c.z].map((x) => Math.floor(x / MAPLE_CROWN_LINK));
+  const grid = new Map<string, number[]>();
+  centers.forEach((c, l) => {
+    const key = cell(c).join();
+    const list = grid.get(key);
+    if (list) list.push(l);
+    else grid.set(key, [l]);
+  });
+  centers.forEach((c, l) => {
+    const [x, y, z] = cell(c);
+    for (let dx = -1; dx <= 1; dx++)
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dz = -1; dz <= 1; dz++)
+          for (const other of grid.get(`${x + dx},${y + dy},${z + dz}`) ?? [])
+            if (other > l && c.distanceToSquared(centers[other]) < MAPLE_CROWN_LINK ** 2)
+              crownParent[findCrown(other)] = findCrown(l);
+  });
+  const crowns = new Map<number, { leaves: number[]; min: THREE.Vector3; max: THREE.Vector3; sum: THREE.Vector3 }>();
+  centers.forEach((c, l) => {
+    const root = findCrown(l);
+    let crown = crowns.get(root);
+    if (!crown)
+      crowns.set(
+        root,
+        (crown = {
+          leaves: [],
+          min: new THREE.Vector3(Infinity, Infinity, Infinity),
+          max: new THREE.Vector3(-Infinity, -Infinity, -Infinity),
+          sum: new THREE.Vector3(),
+        }),
+      );
+    crown.leaves.push(l);
+    crown.min.min(c);
+    crown.max.max(c);
+    crown.sum.add(c);
+  });
+  const toWorld = new THREE.Matrix3().getNormalMatrix(mesh.matrixWorld);
+  const toLocal = toWorld.clone().invert();
+  const own = new THREE.Vector3();
+  const outward = new THREE.Vector3();
+  let rounded = 0;
+  for (const crown of crowns.values()) {
+    const shaped = crown.leaves.length >= MAPLE_MIN_LEAVES;
+    const center = crown.sum.divideScalar(crown.leaves.length);
+    const extent = crown.max
+      .clone()
+      .sub(crown.min)
+      .multiplyScalar(0.5)
+      .max(new THREE.Vector3().setScalar(MAPLE_MIN_EXTENT));
+    for (const l of crown.leaves) {
+      for (const v of members[l]) {
+        own.fromBufferAttribute(normal, v).applyMatrix3(toWorld).normalize();
+        if (shaped) {
+          point.fromBufferAttribute(position, v).applyMatrix4(mesh.matrixWorld).sub(center);
+          outward.set(point.x / extent.x ** 2, point.y / extent.y ** 2, point.z / extent.z ** 2);
+          if (outward.lengthSq() < 1e-12) outward.set(0, 1, 0);
+          outward.normalize();
+          if (own.dot(outward) < 0) own.negate();
+          own.multiplyScalar(1 - MAPLE_CROWN_NORMAL_WEIGHT).addScaledVector(outward, MAPLE_CROWN_NORMAL_WEIGHT);
+        } else if (own.y < 0) own.negate();
+        own.applyMatrix3(toLocal).normalize();
+        normal.setXYZ(v, own.x, own.y, own.z);
+      }
+      if (shaped) rounded++;
+    }
+  }
+  normal.needsUpdate = true;
+  for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+    material.defines = { ...material.defines, SUI_CROWN_NORMAL: '' };
+    material.needsUpdate = true;
+  }
+  geometry.userData.suiMapleRounded = rounded;
+  return rounded;
+}

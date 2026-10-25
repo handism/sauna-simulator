@@ -15,9 +15,10 @@ const PREFIX = 'V10 | submerged light';
 export const CAUSTIC_COLOR = [0.46, 0.77, 0.66] as const;
 /**
  * Not in the source: the scale of the drawn caustics. At the source's strength the bright net over
- * the whole floor read as a lit swimming pool; the strength itself stays the source's (caustics.e2e.ts).
+ * the whole floor read as a lit swimming pool, and at 0.6 the net still did on a clear day; the
+ * strength itself stays the source's (caustics.e2e.ts).
  */
-export const CAUSTIC_VIEW_SCALE = 0.6;
+export const CAUSTIC_VIEW_SCALE = 0.4;
 /**
  * Not in the source: the share of the caustics kept in the Daylight, Blue hour and Night scenes. The
  * source's emission is the same at every hour, and with the dusk's and the night's brighter exposure
