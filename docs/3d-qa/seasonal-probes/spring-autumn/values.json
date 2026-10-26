@@ -1,0 +1,497 @@
+{
+  "browser": "155.0.8059.85",
+  "seasons": [
+    "spring",
+    "autumn"
+  ],
+  "requested": [
+    "spring-irradiance.json",
+    "spring-irradiance.bin",
+    "spring-reflection.json",
+    "spring-reflection.bin",
+    "autumn-irradiance.json",
+    "autumn-irradiance.bin",
+    "autumn-reflection.json",
+    "autumn-reflection.bin"
+  ],
+  "views": {
+    "sauna-spring-day.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.2609,
+        "delta_e": 0.1438
+      },
+      "change_repeat": {
+        "over3": 0.2609,
+        "delta_e": 0.1438
+      },
+      "lightness": {
+        "gains": 40.16,
+        "baked": 40.166
+      }
+    },
+    "sauna-spring-evening.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0001,
+        "delta_e": 0.0964
+      },
+      "change_repeat": {
+        "over3": 0.0001,
+        "delta_e": 0.0964
+      },
+      "lightness": {
+        "gains": 27.786,
+        "baked": 27.773
+      }
+    },
+    "sauna-spring-night.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0,
+        "delta_e": 0.1441
+      },
+      "change_repeat": {
+        "over3": 0.0,
+        "delta_e": 0.1441
+      },
+      "lightness": {
+        "gains": 23.121,
+        "baked": 23.083
+      }
+    },
+    "sauna-autumn-day.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 1.0204,
+        "delta_e": 0.2529
+      },
+      "change_repeat": {
+        "over3": 1.0204,
+        "delta_e": 0.2529
+      },
+      "lightness": {
+        "gains": 39.683,
+        "baked": 39.709
+      }
+    },
+    "sauna-autumn-evening.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0349,
+        "delta_e": 0.1393
+      },
+      "change_repeat": {
+        "over3": 0.0349,
+        "delta_e": 0.1393
+      },
+      "lightness": {
+        "gains": 27.481,
+        "baked": 27.487
+      }
+    },
+    "sauna-autumn-night.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.1121,
+        "delta_e": 0.1676
+      },
+      "change_repeat": {
+        "over3": 0.1121,
+        "delta_e": 0.1676
+      },
+      "lightness": {
+        "gains": 22.922,
+        "baked": 22.91
+      }
+    },
+    "water-spring-day.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.5918,
+        "delta_e": 0.2481
+      },
+      "change_repeat": {
+        "over3": 0.5918,
+        "delta_e": 0.2481
+      },
+      "lightness": {
+        "gains": 41.011,
+        "baked": 41.062
+      }
+    },
+    "water-spring-evening.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0002,
+        "delta_e": 0.1108
+      },
+      "change_repeat": {
+        "over3": 0.0002,
+        "delta_e": 0.1108
+      },
+      "lightness": {
+        "gains": 24.505,
+        "baked": 24.508
+      }
+    },
+    "water-spring-night.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0003,
+        "delta_e": 0.1659
+      },
+      "change_repeat": {
+        "over3": 0.0003,
+        "delta_e": 0.1659
+      },
+      "lightness": {
+        "gains": 16.32,
+        "baked": 16.271
+      }
+    },
+    "water-autumn-day.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 2.6425,
+        "delta_e": 0.3977
+      },
+      "change_repeat": {
+        "over3": 2.6425,
+        "delta_e": 0.3977
+      },
+      "lightness": {
+        "gains": 40.291,
+        "baked": 40.37
+      }
+    },
+    "water-autumn-evening.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.038,
+        "delta_e": 0.1636
+      },
+      "change_repeat": {
+        "over3": 0.038,
+        "delta_e": 0.1636
+      },
+      "lightness": {
+        "gains": 24.116,
+        "baked": 24.142
+      }
+    },
+    "water-autumn-night.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0703,
+        "delta_e": 0.1839
+      },
+      "change_repeat": {
+        "over3": 0.0703,
+        "delta_e": 0.1839
+      },
+      "lightness": {
+        "gains": 16.058,
+        "baked": 16.054
+      }
+    },
+    "totonou-spring-day.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.7898,
+        "delta_e": 0.2696
+      },
+      "change_repeat": {
+        "over3": 0.7898,
+        "delta_e": 0.2696
+      },
+      "lightness": {
+        "gains": 55.241,
+        "baked": 55.242
+      }
+    },
+    "totonou-spring-evening.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0008,
+        "delta_e": 0.1696
+      },
+      "change_repeat": {
+        "over3": 0.0008,
+        "delta_e": 0.1696
+      },
+      "lightness": {
+        "gains": 30.925,
+        "baked": 30.9
+      }
+    },
+    "totonou-spring-night.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.0006,
+        "delta_e": 0.157
+      },
+      "change_repeat": {
+        "over3": 0.0006,
+        "delta_e": 0.157
+      },
+      "lightness": {
+        "gains": 18.615,
+        "baked": 18.593
+      }
+    },
+    "totonou-autumn-day.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 3.1558,
+        "delta_e": 0.4263
+      },
+      "change_repeat": {
+        "over3": 3.1558,
+        "delta_e": 0.4263
+      },
+      "lightness": {
+        "gains": 54.763,
+        "baked": 54.788
+      }
+    },
+    "totonou-autumn-evening.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.1246,
+        "delta_e": 0.2106
+      },
+      "change_repeat": {
+        "over3": 0.1246,
+        "delta_e": 0.2106
+      },
+      "lightness": {
+        "gains": 30.533,
+        "baked": 30.544
+      }
+    },
+    "totonou-autumn-night.png": {
+      "repeat_gains": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "repeat_baked": {
+        "over3": 0.0,
+        "delta_e": 0.0
+      },
+      "change": {
+        "over3": 0.3531,
+        "delta_e": 0.1872
+      },
+      "change_repeat": {
+        "over3": 0.3531,
+        "delta_e": 0.1872
+      },
+      "lightness": {
+        "gains": 18.389,
+        "baked": 18.384
+      }
+    }
+  },
+  "png_sha256": {
+    "gains1": {
+      "sauna-spring-day.png": "7dff75ff51679bfe9b5efbc1ad3e56cda06adce80768a072dfd87465a5f71f57",
+      "sauna-spring-evening.png": "cda4423d1623fbb3f7b22c0aa597a185b42747fd20be1aa8b1b722d30daed4a9",
+      "sauna-spring-night.png": "6bbef261bc3bdd76a8f8088a289cad2000533e3cf8e336c27504fc704cb7a765",
+      "sauna-autumn-day.png": "a3f97584154c19bb7c1d24c2685d195bce5bb5b4c2932364400b04a54169c41e",
+      "sauna-autumn-evening.png": "ca339874793993408cdcd8216f0ee2075a6c8f54ede0c67d8e0bbdc6c1476f16",
+      "sauna-autumn-night.png": "0169c081adf173779611addeac7cb33d2a0c08a49531d4805211cd4b66a871a3",
+      "water-spring-day.png": "b012442d331c336d712dfd3b72d7b69e8e3f6a7d6e764e88ad279586d217fba8",
+      "water-spring-evening.png": "f8a59add6bf552b82959dad3341d5a0b01e31bd1f5cf33b90268b2fa0de43e8c",
+      "water-spring-night.png": "5ba7069d917aa81f9b4c91c15f49b17e1169e3cdb6aa681714999b7586e94b60",
+      "water-autumn-day.png": "02642ecec7b6500ddd827cf170451056741e2d48521293cb956ea5e773f27939",
+      "water-autumn-evening.png": "b86fdc68ca153e6f4cdcd5564f982fe8ef524c800e2f2ec4111799f3740f166b",
+      "water-autumn-night.png": "9362038d5e83cf642aa54e803b08652ddc095683f8d16f84d9ebf2f76eea014b",
+      "totonou-spring-day.png": "af77e429105b19d59f912d40caf34c2f9a8a31e46b3f2468e3f341643820bcf4",
+      "totonou-spring-evening.png": "900fee305a17261468e5c9656e5ad75ebd8ce8d0984796400553da4048dcfd94",
+      "totonou-spring-night.png": "6cc74521536a7589b976d0619acd3ac92a2cad17a0800901ccb29aedf036afc9",
+      "totonou-autumn-day.png": "b7fb04ede4b2548d72da285e2c482ee4fa05837cf24c0303d54305c125ff30de",
+      "totonou-autumn-evening.png": "e30696f0f519e0fb86b689017133f92d2df3f85a0d4c587de249ee314f01e083",
+      "totonou-autumn-night.png": "1d9ff4fe2ace265fcc7ced953658c9e5fda180f198e572f7afa02cd454a57164"
+    },
+    "baked1": {
+      "sauna-spring-day.png": "fefcf78ef34421532e9733a8057f9e2e83da53e47c4a22a90d644d7f4f426a77",
+      "sauna-spring-evening.png": "38669f33057ff8829889dbbc8efdfda64c4ac4f55f7aa83964a91b9f72ea7719",
+      "sauna-spring-night.png": "fb6b1aac73152fc1dfca630590bcfa618202e0d88dc8d20ad5d414c7bf0f14a1",
+      "sauna-autumn-day.png": "9be82adcb06412a53f43ff0f21eb84f5821ba5bf01130d3f95420132be54aafd",
+      "sauna-autumn-evening.png": "40864b74517ca5af1f1ea552fd6916a3217a63d6d0255dca730f29f267e5ee18",
+      "sauna-autumn-night.png": "4f4b01f366d228fa100e8f709dc703b66343147c85a19c4e537ce1458c60c4ed",
+      "water-spring-day.png": "2934cff53abf03657b8c9d685d947428299f7cede2a35b34e664d1a4ec48846f",
+      "water-spring-evening.png": "8a41592d0527270f6d11745d9e98f1a9d550f27639e74810ecfbcb8e3d37c306",
+      "water-spring-night.png": "083c3d2742b162915783082f0538b7b4c5f4e300d8f33467724162882c1a1534",
+      "water-autumn-day.png": "7deb03bfca709ccaf88a3d382d17f7e0600928d57e945fcc9f7156c578ddbd1a",
+      "water-autumn-evening.png": "af7c948eeb23f3b425a8afb19250df57703a5ae72a3858bb7f0e8152e238e208",
+      "water-autumn-night.png": "c4f7878e36a2806e1696a682e4f0f376e0f803a64f2e6e590264a8ea90845d21",
+      "totonou-spring-day.png": "56010483ad19153c013c0685a2167a1c634cccc75aa776c7d58de80399edf48f",
+      "totonou-spring-evening.png": "808f98b9743c2468edb1901bd73b1314f4d42dfc25b1e8a5eb50efc11f944fd5",
+      "totonou-spring-night.png": "e3630cb0c3a9ff50a131b6a7a8402862778ccd5102b9f03dfc22c86f8cf99c6b",
+      "totonou-autumn-day.png": "2a6ebb2426a5e51377af03b6c3e88851c893208528158d6794a81a81e47113b8",
+      "totonou-autumn-evening.png": "12e746ae118b78d65d1ac815f7dc23fbda4dcddcb71940d9df59cfe8e200a231",
+      "totonou-autumn-night.png": "aab214cac223963f685895d2a693c5c086aa2f313951bed5d6869dace8fa019b"
+    },
+    "baked2": {
+      "sauna-spring-day.png": "fefcf78ef34421532e9733a8057f9e2e83da53e47c4a22a90d644d7f4f426a77",
+      "sauna-spring-evening.png": "38669f33057ff8829889dbbc8efdfda64c4ac4f55f7aa83964a91b9f72ea7719",
+      "sauna-spring-night.png": "fb6b1aac73152fc1dfca630590bcfa618202e0d88dc8d20ad5d414c7bf0f14a1",
+      "sauna-autumn-day.png": "9be82adcb06412a53f43ff0f21eb84f5821ba5bf01130d3f95420132be54aafd",
+      "sauna-autumn-evening.png": "40864b74517ca5af1f1ea552fd6916a3217a63d6d0255dca730f29f267e5ee18",
+      "sauna-autumn-night.png": "4f4b01f366d228fa100e8f709dc703b66343147c85a19c4e537ce1458c60c4ed",
+      "water-spring-day.png": "2934cff53abf03657b8c9d685d947428299f7cede2a35b34e664d1a4ec48846f",
+      "water-spring-evening.png": "8a41592d0527270f6d11745d9e98f1a9d550f27639e74810ecfbcb8e3d37c306",
+      "water-spring-night.png": "083c3d2742b162915783082f0538b7b4c5f4e300d8f33467724162882c1a1534",
+      "water-autumn-day.png": "7deb03bfca709ccaf88a3d382d17f7e0600928d57e945fcc9f7156c578ddbd1a",
+      "water-autumn-evening.png": "af7c948eeb23f3b425a8afb19250df57703a5ae72a3858bb7f0e8152e238e208",
+      "water-autumn-night.png": "c4f7878e36a2806e1696a682e4f0f376e0f803a64f2e6e590264a8ea90845d21",
+      "totonou-spring-day.png": "56010483ad19153c013c0685a2167a1c634cccc75aa776c7d58de80399edf48f",
+      "totonou-spring-evening.png": "808f98b9743c2468edb1901bd73b1314f4d42dfc25b1e8a5eb50efc11f944fd5",
+      "totonou-spring-night.png": "e3630cb0c3a9ff50a131b6a7a8402862778ccd5102b9f03dfc22c86f8cf99c6b",
+      "totonou-autumn-day.png": "2a6ebb2426a5e51377af03b6c3e88851c893208528158d6794a81a81e47113b8",
+      "totonou-autumn-evening.png": "12e746ae118b78d65d1ac815f7dc23fbda4dcddcb71940d9df59cfe8e200a231",
+      "totonou-autumn-night.png": "aab214cac223963f685895d2a693c5c086aa2f313951bed5d6869dace8fa019b"
+    },
+    "gains2": {
+      "sauna-spring-day.png": "7dff75ff51679bfe9b5efbc1ad3e56cda06adce80768a072dfd87465a5f71f57",
+      "sauna-spring-evening.png": "cda4423d1623fbb3f7b22c0aa597a185b42747fd20be1aa8b1b722d30daed4a9",
+      "sauna-spring-night.png": "6bbef261bc3bdd76a8f8088a289cad2000533e3cf8e336c27504fc704cb7a765",
+      "sauna-autumn-day.png": "a3f97584154c19bb7c1d24c2685d195bce5bb5b4c2932364400b04a54169c41e",
+      "sauna-autumn-evening.png": "ca339874793993408cdcd8216f0ee2075a6c8f54ede0c67d8e0bbdc6c1476f16",
+      "sauna-autumn-night.png": "0169c081adf173779611addeac7cb33d2a0c08a49531d4805211cd4b66a871a3",
+      "water-spring-day.png": "b012442d331c336d712dfd3b72d7b69e8e3f6a7d6e764e88ad279586d217fba8",
+      "water-spring-evening.png": "f8a59add6bf552b82959dad3341d5a0b01e31bd1f5cf33b90268b2fa0de43e8c",
+      "water-spring-night.png": "5ba7069d917aa81f9b4c91c15f49b17e1169e3cdb6aa681714999b7586e94b60",
+      "water-autumn-day.png": "02642ecec7b6500ddd827cf170451056741e2d48521293cb956ea5e773f27939",
+      "water-autumn-evening.png": "b86fdc68ca153e6f4cdcd5564f982fe8ef524c800e2f2ec4111799f3740f166b",
+      "water-autumn-night.png": "9362038d5e83cf642aa54e803b08652ddc095683f8d16f84d9ebf2f76eea014b",
+      "totonou-spring-day.png": "af77e429105b19d59f912d40caf34c2f9a8a31e46b3f2468e3f341643820bcf4",
+      "totonou-spring-evening.png": "900fee305a17261468e5c9656e5ad75ebd8ce8d0984796400553da4048dcfd94",
+      "totonou-spring-night.png": "6cc74521536a7589b976d0619acd3ac92a2cad17a0800901ccb29aedf036afc9",
+      "totonou-autumn-day.png": "b7fb04ede4b2548d72da285e2c482ee4fa05837cf24c0303d54305c125ff30de",
+      "totonou-autumn-evening.png": "e30696f0f519e0fb86b689017133f92d2df3f85a0d4c587de249ee314f01e083",
+      "totonou-autumn-night.png": "1d9ff4fe2ace265fcc7ced953658c9e5fda180f198e572f7afa02cd454a57164"
+    }
+  }
+}

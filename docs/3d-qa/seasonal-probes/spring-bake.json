@@ -1,0 +1,730 @@
+{
+  "irradiance": {
+    "mode": "irradiance",
+    "plain_materials": [],
+    "flipped_meshes": [
+      "V10 woodland floor extension"
+    ],
+    "input": "SUI_Retreat.blend",
+    "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+    "blender": "4.5.11 LTS",
+    "panorama": [
+      64,
+      32
+    ],
+    "samples": 64,
+    "quick": false,
+    "grids": [
+      {
+        "name": "room",
+        "min": [
+          -5.9,
+          0.25,
+          -4.34
+        ],
+        "max": [
+          -0.75,
+          3.11,
+          -0.5
+        ],
+        "resolution": [
+          11,
+          7,
+          9
+        ]
+      },
+      {
+        "name": "courtyard",
+        "min": [
+          -9.0,
+          0.25,
+          -8.0
+        ],
+        "max": [
+          9.0,
+          4.25,
+          16.0
+        ],
+        "resolution": [
+          19,
+          5,
+          25
+        ]
+      },
+      {
+        "name": "outer",
+        "min": [
+          -30.0,
+          0.25,
+          -30.0
+        ],
+        "max": [
+          30.0,
+          9.25,
+          30.0
+        ],
+        "resolution": [
+          21,
+          4,
+          21
+        ]
+      },
+      {
+        "name": "water",
+        "min": [
+          0.05,
+          0.2085,
+          -3.9
+        ],
+        "max": [
+          2.31,
+          0.66,
+          -1.1
+        ],
+        "resolution": [
+          6,
+          2,
+          7
+        ]
+      }
+    ],
+    "scenes": {
+      "day": {
+        "scene": "SUI \u2022 Daylight",
+        "lights_in_probes": [
+          "Garden lantern glow",
+          "Garden lantern glow.001",
+          "Garden lantern glow.002",
+          "Garden lantern glow.003",
+          "Sky softbox",
+          "Sunlit courtyard",
+          "V10 concealed deck edge -3.7 / day",
+          "V10 concealed deck edge 0 / day",
+          "V10 concealed deck edge 4.4 / day",
+          "V10 lounge dusk fill / day",
+          "V10 path grazing light 1 / day",
+          "V10 path grazing light 4 / day",
+          "V10 path grazing light 7 / day",
+          "V10 specimen uplight / day",
+          "V7 water reflection soft strip",
+          "V8 maple garden grazing light"
+        ],
+        "world_in_probes": true,
+        "grids": {
+          "room": {
+            "probes": 693,
+            "invalid": 4,
+            "fill_rounds": 1,
+            "backface_share_max_valid": 0.198,
+            "seconds": 282.5,
+            "upward_irradiance_mean": [
+              0.2101,
+              0.1254,
+              0.0857
+            ]
+          },
+          "courtyard": {
+            "probes": 2375,
+            "invalid": 295,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.249,
+            "seconds": 667.6,
+            "upward_irradiance_mean": [
+              1.8503,
+              1.9598,
+              2.0489
+            ]
+          },
+          "outer": {
+            "probes": 1764,
+            "invalid": 303,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.25,
+            "seconds": 385.2,
+            "upward_irradiance_mean": [
+              0.409,
+              0.5139,
+              0.5878
+            ]
+          },
+          "water": {
+            "probes": 84,
+            "invalid": 0,
+            "fill_rounds": 0,
+            "method": "receiver",
+            "receiver": {
+              "radius": 0.004,
+              "albedo": [
+                0.109,
+                0.29,
+                0.254
+              ],
+              "resolution": 32,
+              "samples": 256,
+              "shell": {
+                "radius": 0.0044,
+                "transmittance": 0.925
+              },
+              "fit_residual_median": 0.525,
+              "fit_residual_max": 0.709
+            },
+            "seconds": 661.4,
+            "upward_irradiance_mean": [
+              1.2422,
+              1.1649,
+              0.911
+            ]
+          }
+        },
+        "sky_gates": {
+          "sky": 0,
+          "disk": 0
+        }
+      },
+      "evening": {
+        "scene": "SUI \u2022 Blue hour",
+        "lights_in_probes": [
+          "Garden lantern glow.008",
+          "Garden lantern glow.009",
+          "Garden lantern glow.010",
+          "Garden lantern glow.011",
+          "Sky softbox.002",
+          "Sunlit courtyard.002",
+          "V10 concealed deck edge -3.7 / dusk",
+          "V10 concealed deck edge 0 / dusk",
+          "V10 concealed deck edge 4.4 / dusk",
+          "V7 water reflection soft strip.002",
+          "V8 maple garden grazing light.001"
+        ],
+        "world_in_probes": true,
+        "grids": {
+          "room": {
+            "probes": 693,
+            "invalid": 4,
+            "fill_rounds": 1,
+            "backface_share_max_valid": 0.198,
+            "seconds": 282.9,
+            "upward_irradiance_mean": [
+              0.1497,
+              0.0635,
+              0.04
+            ]
+          },
+          "courtyard": {
+            "probes": 2375,
+            "invalid": 295,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.249,
+            "seconds": 651.2,
+            "upward_irradiance_mean": [
+              0.3685,
+              0.5041,
+              0.8548
+            ]
+          },
+          "outer": {
+            "probes": 1764,
+            "invalid": 303,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.25,
+            "seconds": 377.8,
+            "upward_irradiance_mean": [
+              0.0928,
+              0.1439,
+              0.2657
+            ]
+          },
+          "water": {
+            "probes": 84,
+            "invalid": 0,
+            "fill_rounds": 0,
+            "method": "receiver",
+            "receiver": {
+              "radius": 0.004,
+              "albedo": [
+                0.109,
+                0.29,
+                0.254
+              ],
+              "resolution": 32,
+              "samples": 256,
+              "shell": {
+                "radius": 0.0044,
+                "transmittance": 0.925
+              },
+              "fit_residual_median": 0.349,
+              "fit_residual_max": 0.515
+            },
+            "seconds": 1747.1,
+            "upward_irradiance_mean": [
+              0.1354,
+              0.1616,
+              0.1907
+            ]
+          }
+        },
+        "sky_gates": {
+          "sky": 0,
+          "disk": 0
+        }
+      },
+      "night": {
+        "scene": "SUI \u2022 Night",
+        "lights_in_probes": [
+          "Garden lantern glow.008 / night",
+          "Garden lantern glow.009 / night",
+          "Garden lantern glow.010 / night",
+          "Garden lantern glow.011 / night",
+          "Sky softbox.002 / night",
+          "Sunlit courtyard.002 / night",
+          "V10 concealed deck edge -3.7 / night",
+          "V10 concealed deck edge 0 / night",
+          "V10 concealed deck edge 4.4 / night",
+          "V7 water reflection soft strip.002 / night",
+          "V8 maple garden grazing light.001 / night"
+        ],
+        "world_in_probes": true,
+        "grids": {
+          "room": {
+            "probes": 693,
+            "invalid": 4,
+            "fill_rounds": 1,
+            "backface_share_max_valid": 0.198,
+            "seconds": 293.7,
+            "upward_irradiance_mean": [
+              0.1434,
+              0.0521,
+              0.0195
+            ]
+          },
+          "courtyard": {
+            "probes": 2375,
+            "invalid": 295,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.249,
+            "seconds": 790.1,
+            "upward_irradiance_mean": [
+              0.118,
+              0.1357,
+              0.1776
+            ]
+          },
+          "outer": {
+            "probes": 1764,
+            "invalid": 303,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.25,
+            "seconds": 439.8,
+            "upward_irradiance_mean": [
+              0.0184,
+              0.0251,
+              0.0411
+            ]
+          },
+          "water": {
+            "probes": 84,
+            "invalid": 0,
+            "fill_rounds": 0,
+            "method": "receiver",
+            "receiver": {
+              "radius": 0.004,
+              "albedo": [
+                0.109,
+                0.29,
+                0.254
+              ],
+              "resolution": 32,
+              "samples": 256,
+              "shell": {
+                "radius": 0.0044,
+                "transmittance": 0.925
+              },
+              "fit_residual_median": 0.388,
+              "fit_residual_max": 0.603
+            },
+            "seconds": 152.9,
+            "upward_irradiance_mean": [
+              0.1208,
+              0.1351,
+              0.1405
+            ]
+          }
+        },
+        "sky_gates": {
+          "sky": 0,
+          "disk": 0
+        }
+      }
+    },
+    "season": {
+      "name": "spring",
+      "proxy": {
+        "controls": 70,
+        "leafless_objects": 377
+      },
+      "rebaked_grids": [
+        "courtyard",
+        "outer"
+      ],
+      "script_sha256": "4f076f66b8d64669d2a2da87a487cb572d7bdf8abd3b9f2dc35e2083cdd85186"
+    },
+    "copied_grids": {
+      "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+      "bin_sha256": "7d691ca6bcc893252f45e1e86a5fa664ad356566cc5eb3f7ef87dc119ea0e1cd",
+      "seconds": 1280.3,
+      "grids": [
+        "room",
+        "water"
+      ],
+      "scenes": [
+        "day",
+        "evening",
+        "night"
+      ]
+    },
+    "bin_bytes": 796392,
+    "bin_sha256": "9a69ca2f8fbf7fe1aa0f7e6e12db806984e7c19e35fad1e08a2b876078c2858d",
+    "seconds": 3313.3
+  },
+  "reflection": {
+    "mode": "reflection",
+    "plain_materials": [],
+    "flipped_meshes": [
+      "V10 woodland floor extension"
+    ],
+    "input": "SUI_Retreat.blend",
+    "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+    "blender": "4.5.11 LTS",
+    "panorama": [
+      64,
+      32
+    ],
+    "samples": 64,
+    "quick": false,
+    "grids": [
+      {
+        "name": "room",
+        "min": [
+          -5.9,
+          0.25,
+          -4.34
+        ],
+        "max": [
+          -0.75,
+          3.11,
+          -0.5
+        ],
+        "resolution": [
+          11,
+          7,
+          9
+        ]
+      },
+      {
+        "name": "courtyard",
+        "min": [
+          -9.0,
+          0.25,
+          -8.0
+        ],
+        "max": [
+          9.0,
+          4.25,
+          16.0
+        ],
+        "resolution": [
+          19,
+          5,
+          25
+        ]
+      },
+      {
+        "name": "outer",
+        "min": [
+          -30.0,
+          0.25,
+          -30.0
+        ],
+        "max": [
+          30.0,
+          9.25,
+          30.0
+        ],
+        "resolution": [
+          21,
+          4,
+          21
+        ]
+      },
+      {
+        "name": "water",
+        "min": [
+          0.05,
+          0.2085,
+          -3.9
+        ],
+        "max": [
+          2.31,
+          0.66,
+          -1.1
+        ],
+        "resolution": [
+          6,
+          2,
+          7
+        ]
+      }
+    ],
+    "scenes": {
+      "day": {
+        "scene": "SUI \u2022 Daylight",
+        "lights_in_probes": [
+          "V10 concealed deck edge -3.7 / day",
+          "V10 concealed deck edge 0 / day",
+          "V10 concealed deck edge 4.4 / day",
+          "V10 lounge dusk fill / day",
+          "V10 path grazing light 1 / day",
+          "V10 path grazing light 4 / day",
+          "V10 path grazing light 7 / day",
+          "V10 specimen uplight / day",
+          "V7 concealed backrest wash",
+          "V7 water reflection soft strip",
+          "V8 maple garden grazing light"
+        ],
+        "world_in_probes": true,
+        "grids": {
+          "room": {
+            "probes": 693,
+            "invalid": 4,
+            "fill_rounds": 1,
+            "backface_share_max_valid": 0.198,
+            "seconds": 302.3,
+            "upward_irradiance_mean": [
+              0.4011,
+              0.3464,
+              0.3754
+            ]
+          },
+          "courtyard": {
+            "probes": 2375,
+            "invalid": 295,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.249,
+            "seconds": 813.3,
+            "upward_irradiance_mean": [
+              1.3588,
+              1.5164,
+              2.1072
+            ]
+          },
+          "outer": {
+            "probes": 1764,
+            "invalid": 303,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.25,
+            "seconds": 457.3,
+            "upward_irradiance_mean": [
+              1.3987,
+              1.5883,
+              2.337
+            ]
+          },
+          "water": {
+            "probes": 84,
+            "invalid": 0,
+            "fill_rounds": 0,
+            "backface_share_max_valid": 0.123,
+            "hidden_from_transmission": [
+              "V9 lounge patch of sunlight"
+            ],
+            "seconds": 590.1,
+            "upward_irradiance_mean": [
+              0.5601,
+              0.6187,
+              0.777
+            ]
+          }
+        },
+        "sky_gates": {
+          "sky": 1,
+          "disk": 0
+        }
+      },
+      "evening": {
+        "scene": "SUI \u2022 Blue hour",
+        "lights_in_probes": [
+          "V10 concealed deck edge -3.7 / dusk",
+          "V10 concealed deck edge 0 / dusk",
+          "V10 concealed deck edge 4.4 / dusk",
+          "V7 concealed backrest wash.002",
+          "V7 water reflection soft strip.002",
+          "V8 maple garden grazing light.001"
+        ],
+        "world_in_probes": true,
+        "grids": {
+          "room": {
+            "probes": 693,
+            "invalid": 4,
+            "fill_rounds": 1,
+            "backface_share_max_valid": 0.198,
+            "seconds": 252.8,
+            "upward_irradiance_mean": [
+              0.1931,
+              0.1169,
+              0.1622
+            ]
+          },
+          "courtyard": {
+            "probes": 2375,
+            "invalid": 295,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.249,
+            "seconds": 833.8,
+            "upward_irradiance_mean": [
+              0.335,
+              0.4285,
+              0.9113
+            ]
+          },
+          "outer": {
+            "probes": 1764,
+            "invalid": 303,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.25,
+            "seconds": 467.5,
+            "upward_irradiance_mean": [
+              0.3054,
+              0.4071,
+              0.9859
+            ]
+          },
+          "water": {
+            "probes": 84,
+            "invalid": 0,
+            "fill_rounds": 0,
+            "backface_share_max_valid": 0.123,
+            "hidden_from_transmission": [
+              "V10 lounge dusk fill / dusk",
+              "V10 path grazing light 1 / dusk",
+              "V10 path grazing light 4 / dusk",
+              "V10 path grazing light 7 / dusk",
+              "V10 specimen uplight / dusk"
+            ],
+            "seconds": 37.7,
+            "upward_irradiance_mean": [
+              0.1192,
+              0.1557,
+              0.2986
+            ]
+          }
+        },
+        "sky_gates": {
+          "sky": 1,
+          "disk": 0
+        }
+      },
+      "night": {
+        "scene": "SUI \u2022 Night",
+        "lights_in_probes": [
+          "V10 concealed deck edge -3.7 / night",
+          "V10 concealed deck edge 0 / night",
+          "V10 concealed deck edge 4.4 / night",
+          "V7 concealed backrest wash.002 / night",
+          "V7 water reflection soft strip.002 / night",
+          "V8 maple garden grazing light.001 / night"
+        ],
+        "world_in_probes": true,
+        "grids": {
+          "room": {
+            "probes": 693,
+            "invalid": 4,
+            "fill_rounds": 1,
+            "backface_share_max_valid": 0.198,
+            "seconds": 261.0,
+            "upward_irradiance_mean": [
+              0.1516,
+              0.0643,
+              0.0455
+            ]
+          },
+          "courtyard": {
+            "probes": 2375,
+            "invalid": 295,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.249,
+            "seconds": 844.4,
+            "upward_irradiance_mean": [
+              0.1431,
+              0.1736,
+              0.2729
+            ]
+          },
+          "outer": {
+            "probes": 1764,
+            "invalid": 303,
+            "fill_rounds": 3,
+            "backface_share_max_valid": 0.25,
+            "seconds": 460.8,
+            "upward_irradiance_mean": [
+              0.0729,
+              0.1002,
+              0.2137
+            ]
+          },
+          "water": {
+            "probes": 84,
+            "invalid": 0,
+            "fill_rounds": 0,
+            "backface_share_max_valid": 0.123,
+            "hidden_from_transmission": [
+              "V10 lounge dusk fill / night",
+              "V10 path grazing light 1 / night",
+              "V10 path grazing light 4 / night",
+              "V10 path grazing light 7 / night",
+              "V10 specimen uplight / night"
+            ],
+            "seconds": 31.1,
+            "upward_irradiance_mean": [
+              0.0637,
+              0.0763,
+              0.0995
+            ]
+          }
+        },
+        "sky_gates": {
+          "sky": 1,
+          "disk": 0
+        }
+      }
+    },
+    "season": {
+      "name": "spring",
+      "proxy": {
+        "controls": 70,
+        "leafless_objects": 377
+      },
+      "rebaked_grids": [
+        "courtyard",
+        "outer"
+      ],
+      "script_sha256": "4f076f66b8d64669d2a2da87a487cb572d7bdf8abd3b9f2dc35e2083cdd85186"
+    },
+    "copied_grids": {
+      "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+      "bin_sha256": "969b4c4b832043996eeb471327788dfed867d808ad1cfd1eb0c832e171e1c40d",
+      "seconds": 1144.0,
+      "grids": [
+        "room",
+        "water"
+      ],
+      "scenes": [
+        "day",
+        "evening",
+        "night"
+      ]
+    },
+    "bin_bytes": 796392,
+    "bin_sha256": "00ac314ed29e2608903279294ae8dda9cbcc496ea30bb449d98c7a38d879b47c",
+    "seconds": 3878.2
+  }
+}

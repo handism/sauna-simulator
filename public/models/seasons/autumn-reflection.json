@@ -1,0 +1,59 @@
+{
+  "season": "autumn",
+  "input_sha256": "d7969b95d153e78c7675db1fc66fa5f220f79dbab43bc3cd18ca642c518fe753",
+  "format": "float16 little-endian; per grid and scene, probes x-fastest then y then z, 9 SH L2 coefficients x RGB (three basis, glTF axes, linear radiance)",
+  "scenes": [
+    "day",
+    "evening",
+    "night"
+  ],
+  "grids": [
+    {
+      "name": "courtyard",
+      "min": [
+        -9.0,
+        0.25,
+        -8.0
+      ],
+      "max": [
+        9.0,
+        4.25,
+        16.0
+      ],
+      "resolution": [
+        19,
+        5,
+        25
+      ],
+      "offset": {
+        "day": 0,
+        "evening": 64125,
+        "night": 128250
+      }
+    },
+    {
+      "name": "outer",
+      "min": [
+        -30.0,
+        0.25,
+        -30.0
+      ],
+      "max": [
+        30.0,
+        9.25,
+        30.0
+      ],
+      "resolution": [
+        21,
+        4,
+        21
+      ],
+      "offset": {
+        "day": 192375,
+        "evening": 240003,
+        "night": 287631
+      }
+    }
+  ],
+  "bin_sha256": "0929fb5011089f395697aef5dcfaa61e062b25f6854cee933542dbe291edf043"
+}

@@ -3152,3 +3152,9 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 
 - 利用者の「つづきお願い」（改善候補の3番目「水の反射像の形と部分遮蔽」）。水風呂の12視点をCyclesと並べ、水底の斑はタイルの光沢を外す切り分けで色差が悪化（12.4〜13.0→15.7〜15.8）したため変えず、夜の見下ろしの足元の丸い光は意図したV7の帯のぼかしと確認した。代わりに、窓ガラスに寝椅子灯・V9が映らない差（プローブが焼き込みから外し、ガラスはハイライトを描かない）を直した：`glass.ts` が室外側の反射で6灯を `waterBottom.ts` の `sourcesGlsl`（共用化）と交差させ、水面の鏡像のパスでは足さない。
 - 窓の範囲のCyclesとのΔE76は夜19.40→14.79・夕暮れ21.97→19.68。全周216視点で変わったのは14視点で、昼の見上げのV9の円盤は同じ視点のCyclesでも同じ位置に映る。描画間隔0.999〜1.002倍。型検査・489単体テスト・Lint・整形・ビルド、`scene-lifecycle`・`scene-no-hdr`・`scene-shader`・`temporal-aa` の28件が成功。四季・雨雪・高画質・実機は未確認。記録は [glass-lights](3d-qa/glass-lights/README.md)。
+
+## 2026-10-26 — 春・秋の屋外プローブの焼き直し
+
+- 利用者の「続きお願い」（改善候補の4番目）に基づく。冬だけ配信していた中庭・外周の季節別プローブを、春・秋も `bake_irradiance_probes.py --season` で焼き直し（照度・反射、2プロセス並行で約2時間）、`split_seasonal_probes.py` で `public/models/seasons/` に切り出した。アプリ側の変更はない。入力blend・スクリプトは冬の焼き直しと同じ。
+- `season-probes.visual.ts` の比の補正だけの対照とのABBA（18視点）で再撮影差0、差はΔE76の平均0.10〜0.43・3段階超の画素は最大3.2%（秋の昼）と小さい。単体テスト489件、`season.e2e.ts`・`garden-details.e2e.ts` の9件が成功。全周・見回し中・高画質・雨雪・実機は未確認。記録は [seasonal-probes/spring-autumn](3d-qa/seasonal-probes/spring-autumn/README.md)。
+
