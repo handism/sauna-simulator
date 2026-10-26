@@ -203,7 +203,7 @@ export function createProbeTextures(irradiance: ProbeFile, reflection: ProbeFile
   checkLayout(irradiance, 'irradiance');
   checkLayout(reflection, 'reflection');
   if (gridLayout(reflection.header) !== gridLayout(irradiance.header)) throw Error('reflection');
-  const summer = irradiance.header.grids.map((grid) => gridTexture({ irradiance, reflection }, grid.name));
+  let summer = irradiance.header.grids.map((grid) => gridTexture({ irradiance, reflection }, grid.name));
   let seasonal: THREE.Data3DTexture[] = [];
   let bound: IrradianceUniforms | null = null;
   const bind = (uniforms: IrradianceUniforms) => {
@@ -238,6 +238,16 @@ export function createProbeTextures(irradiance: ProbeFile, reflection: ProbeFile
       const next = files ? SEASONAL_GRIDS.map((name) => gridTexture(files, name)) : [];
       for (const texture of seasonal) texture.dispose();
       seasonal = next;
+      if (bound) bind(bound);
+    },
+    /**
+     * Rebuilds the shipped grids from the files' buffers, after more of their scenes arrived
+     * (sceneAssets.ts createProbeFiles). Like setSeason, it swaps the textures only.
+     */
+    refresh() {
+      const next = irradiance.header.grids.map((grid) => gridTexture({ irradiance, reflection }, grid.name));
+      for (const texture of summer) texture.dispose();
+      summer = next;
       if (bound) bind(bound);
     },
     dispose() {

@@ -3158,3 +3158,9 @@ python3 scripts/summarize_visual_survey.py /tmp/sauna-visual-check.json docs/3d-
 - 利用者の「続きお願い」（改善候補の4番目）に基づく。冬だけ配信していた中庭・外周の季節別プローブを、春・秋も `bake_irradiance_probes.py --season` で焼き直し（照度・反射、2プロセス並行で約2時間）、`split_seasonal_probes.py` で `public/models/seasons/` に切り出した。アプリ側の変更はない。入力blend・スクリプトは冬の焼き直しと同じ。
 - `season-probes.visual.ts` の比の補正だけの対照とのABBA（18視点）で再撮影差0、差はΔE76の平均0.10〜0.43・3段階超の画素は最大3.2%（秋の昼）と小さい。単体テスト489件、`season.e2e.ts`・`garden-details.e2e.ts` の9件が成功。全周・見回し中・高画質・雨雪・実機は未確認。記録は [seasonal-probes/spring-autumn](3d-qa/seasonal-probes/spring-autumn/README.md)。
 
+
+## 2026-10-26 — 読み込みの期限を受信の途絶に、プローブを時間帯ごとに取得
+
+- 利用者の「1の対応お願い」（読み込みの軽量化）に基づく。調査で、庭の分割後は本番（gzip配信）で準備完了までの取得が約3.5MB、30秒に間に合う目安は約0.9 Mbpsだと分かった（進捗記録の「4.7 Mbps」は古い値だった）。テクスチャのWebP化とプローブの可逆な再符号化は効果が小さく不採用。利用者の選択で次の2つを実施した。
+- 読み込みの期限を開始から一律30秒から「受信が30秒途絶えたら失敗」に変えた（`loadDeadline.ts`、`SceneMode`・`SaunaScene` の両方、`onProgress`）。照度・反射プローブを時間帯ごとのファイルに切り出して配信し（`vite.config.ts` の `probe-scenes`、`probeScenes.ts`）、準備完了までは今の時間帯の分だけ取得、残りは準備完了の後・庭の前に取得する。時間帯の変化はそのプローブが揃うまで止める。本番の準備完了までの取得は約2.5MB。
+- `test:browser:network` 6件成功（0.8 Mbpsで37.4秒に準備完了、本体GLBの応答を保留すると他の最後の受信から約30秒で2Dへ）。単体テスト追加。記録は [network-loading-20261026/](3d-qa/network-loading-20261026/README.md)。実機・本番CDNは未確認。

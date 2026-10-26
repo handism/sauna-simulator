@@ -1,9 +1,10 @@
 import { useDismissibleDetails } from '../hooks/useDismissibleDetails';
-import { Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { AudioEngine, Weather } from '../hooks/useAudioEngine';
 import type { QualityMode } from './3d/quality';
 import type { Season } from './3d/season';
 import type { LightingMode } from './3d/lighting';
+import { LOAD_STALL_MS } from './3d/loadDeadline';
 import type { AmbientEnv, Stage } from '../context/SaunaContext';
 import { readPreference, writePreference } from '../utils/preferences';
 import { ActionIcon } from './ActionIcon';
@@ -140,13 +141,23 @@ function ActiveScene({
   const boundaryFailed = useCallback((error: Error) => {
     setStatus(error instanceof SceneModuleError ? 'reload-required' : 'failed');
   }, []);
-  // Cover the lazy JavaScript download as well as the scene/model load.
+  // Cover the lazy JavaScript download as well as the scene/model load: it fails once nothing
+  // arrives for LOAD_STALL_MS (the scene reports each piece of its downloads, the JavaScript none).
   // Stage and setting changes must not extend the deadline.
+  const progressRef = useRef(() => {});
   useEffect(() => {
     if (status !== 'loading') return;
-    const timeout = window.setTimeout(failed, 30_000);
-    return () => window.clearTimeout(timeout);
+    let timeout = window.setTimeout(failed, LOAD_STALL_MS);
+    progressRef.current = () => {
+      window.clearTimeout(timeout);
+      timeout = window.setTimeout(failed, LOAD_STALL_MS);
+    };
+    return () => {
+      window.clearTimeout(timeout);
+      progressRef.current = () => {};
+    };
   }, [status, failed]);
+  const progress = useCallback(() => progressRef.current(), []);
   return (
     <>
       <div className="scene-3d-layer" style={{ opacity }}>
@@ -165,6 +176,7 @@ function ActiveScene({
                 onReady={ready}
                 onError={failed}
                 onGardenLoading={setGardenLoading}
+                onProgress={progress}
               />
             </Suspense>
           </SceneBoundary>

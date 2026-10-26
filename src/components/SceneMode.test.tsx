@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { useEffect } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import SceneMode from './SceneMode';
@@ -16,6 +16,8 @@ const audio = {
 };
 const steam = vi.hoisted(() => vi.fn());
 const mountScene = vi.hoisted(() => vi.fn());
+// The mock scene reports ready at once unless a test holds it loading.
+const loading = vi.hoisted(() => ({ hold: false }));
 vi.mock('./3d/SaunaScene', () => ({
   default: function MockScene({
     stage,
@@ -28,11 +30,13 @@ vi.mock('./3d/SaunaScene', () => ({
     onReady,
     onError,
     onGardenLoading,
+    onProgress,
   }: SceneProps) {
     useEffect(() => {
       mountScene();
     }, []);
     useEffect(() => {
+      if (loading.hold) return;
       onReady();
       if (stage !== 'sauna') return;
       loylyEvents.addEventListener('loyly', steam);
@@ -52,6 +56,7 @@ vi.mock('./3d/SaunaScene', () => ({
         </button>
         <button onClick={() => onGardenLoading?.(true)}>simulate garden request</button>
         <button onClick={() => onGardenLoading?.(false)}>simulate garden end</button>
+        <button onClick={() => onProgress?.()}>simulate download progress</button>
       </>
     );
   },
@@ -67,6 +72,7 @@ describe('3D mode lifecycle', () => {
     window.history.replaceState(null, '', '/');
     steam.mockClear();
     mountScene.mockClear();
+    loading.hold = false;
   });
   it('defaults to 2D and honors a stored choice and explicit URL override', () => {
     const events = new EventTarget();
@@ -258,5 +264,30 @@ describe('3D mode lifecycle', () => {
     expect(window.location.search).toBe('?view=2d');
     fireEvent.click(screen.getByRole('button', { name: '3Dを試す' }));
     expect(await screen.findByRole('button', { name: 'simulate context loss' })).toBeInTheDocument();
+  });
+
+  it('keeps loading while the downloads arrive and falls back once they stop for 30 seconds', async () => {
+    loading.hold = true;
+    vi.useFakeTimers();
+    try {
+      window.history.replaceState(null, '', '/?view=3d');
+      render(<SceneMode audio={audio} stage="sauna" loylyEvents={new EventTarget()} />);
+      await act(async () => {
+        await vi.dynamicImportSettled();
+      });
+      const progress = screen.getByRole('button', { name: 'simulate download progress' });
+      // A slow connection: a piece every 20 seconds keeps the load going past 30 seconds.
+      for (let piece = 0; piece < 4; piece++) {
+        act(() => vi.advanceTimersByTime(20_000));
+        fireEvent.click(progress);
+      }
+      expect(screen.getByRole('status')).toHaveTextContent('3Dを読み込み中');
+      act(() => vi.advanceTimersByTime(29_000));
+      expect(screen.getByRole('status')).toHaveTextContent('3Dを読み込み中');
+      act(() => vi.advanceTimersByTime(1_000));
+      expect(screen.getByRole('status')).toHaveTextContent('2Dで続けています');
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

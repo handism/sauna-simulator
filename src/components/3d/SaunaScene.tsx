@@ -23,7 +23,9 @@ import { createSeasonProbes, type ProbeSeason } from './seasonalProbes';
 import { createRain } from './rain';
 import { applyRainWetness, DECK_LEVEL, deckMirrorSurface } from './rainWetness';
 import { createFrameMetrics } from './frameMetrics';
-import { createModelFetch, fetchSceneAssets, MODEL_BASE } from './sceneAssets';
+import { createModelFetch, fetchSceneAssets, MODEL_BASE, type ProbeFiles } from './sceneAssets';
+import { PROBE_SCENES, scenesBetween } from './probeScenes';
+import { LOAD_STALL_MS } from './loadDeadline';
 import { attachLookControls } from './lookControls';
 import { disposeTree, prepareModel } from './modelMaterials';
 import { applyIrradiance, createProbeTextures } from './irradiance';
@@ -60,6 +62,8 @@ export interface SceneProps {
   onError: () => void;
   /** Whether the garden that follows the ready scene is still loading. */
   onGardenLoading?: (loading: boolean) => void;
+  /** Each piece of a download while loading (SceneMode.tsx counts its deadline from the last). */
+  onProgress?: () => void;
 }
 
 const STEAM_LAYER = 1;
@@ -89,6 +93,7 @@ export default function SaunaScene({
   onReady,
   onError,
   onGardenLoading,
+  onProgress,
 }: SceneProps) {
   const host = useRef<HTMLDivElement>(null);
   // A ref: a new callback must not restart the scene.
@@ -96,6 +101,10 @@ export default function SaunaScene({
   useLayoutEffect(() => {
     gardenLoadingRef.current = onGardenLoading;
   }, [onGardenLoading]);
+  const progressRef = useRef(onProgress);
+  useLayoutEffect(() => {
+    progressRef.current = onProgress;
+  }, [onProgress]);
   const qualityRef = useRef(quality);
   const applyQualityRef = useRef<(() => void) | null>(null);
   useLayoutEffect(() => {
@@ -162,7 +171,16 @@ export default function SaunaScene({
       audio.setSpatialPose(null);
       onError();
     };
-    const timeout = window.setTimeout(fail, 30000);
+    // A slow connection still loads while its downloads keep arriving; a stalled one fails.
+    let timeout = window.setTimeout(fail, LOAD_STALL_MS);
+    let lastProgress = performance.now();
+    const progress = () => {
+      if (ready || disposed || failed) return;
+      lastProgress = performance.now();
+      clearTimeout(timeout);
+      timeout = window.setTimeout(fail, LOAD_STALL_MS);
+      progressRef.current?.();
+    };
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(65, 1, 0.05, 250);
     camera.rotation.order = 'YXZ';
@@ -310,16 +328,33 @@ export default function SaunaScene({
     // A key's step is not blended with the view before it (temporalAA.ts).
     const look = attachLookControls(element, camera, () => output.resetTemporal());
     let releaseProbes = () => {};
+    // The probe scenes fetched so far; the time of day waits for the ones it needs (lightingTime).
+    let probeFiles: ProbeFiles | null = null;
+    const lightingTime = (immediate: boolean) => {
+      const target = targetTime();
+      const loaded = scenesBetween(immediate ? target : lighting.time, target).every((scene) =>
+        probeFiles?.loaded.has(scene),
+      );
+      return loaded ? target : lighting.time;
+    };
     // Parsed gardens not yet in the scene still hold GPU programs and geometry on exit.
     const gardenScenes: THREE.Object3D[] = [];
     const start = performance.now();
     async function load() {
       try {
-        const get = createModelFetch(abort.signal);
-        const { definition, model, irradiance, reflection, deck, room } = await fetchSceneAssets(get);
+        const get = createModelFetch(abort.signal, progress);
+        // Only the probes of the time of day shown at first; the rest follow the ready scene.
+        const {
+          definition,
+          model,
+          probes: files,
+          deck,
+          room,
+        } = await fetchSceneAssets(get, scenesBetween(targetTime(), targetTime()));
         if (disposed || failed) return;
+        probeFiles = files;
         // Throws on a layout mismatch before the model is parsed.
-        const probes = createProbeTextures(irradiance, reflection);
+        const probes = createProbeTextures(files.irradiance, files.reflection);
         releaseProbes = probes.dispose;
         const deckLight = createDeckIrradiance(deck.header, deck.buffer);
         releaseProbes = () => {
@@ -531,7 +566,7 @@ export default function SaunaScene({
           resolution?.settle();
           metrics.reset();
           setData('stage', next);
-          lighting.update(targetTime(), 0, true, targetRain(), targetSnow(), groundSnow());
+          lighting.update(lightingTime(true), 0, true, targetRain(), targetSnow(), groundSnow());
           try {
             recordRenderInfo(draw());
           } catch {
@@ -553,7 +588,7 @@ export default function SaunaScene({
           const entry = stageRef.current;
           const saved = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), fov: camera.fov };
           look.cancel();
-          lighting.update(targetTime(), 0, true, targetRain(), targetSnow(), groundSnow());
+          lighting.update(lightingTime(true), 0, true, targetRain(), targetSnow(), groundSnow());
           warming = true;
           setData('warming', part);
           const run = startSceneWarmup(
@@ -637,7 +672,7 @@ export default function SaunaScene({
           if (warmupMode !== 'split') break;
           const began = performance.now();
           try {
-            const result = await warm(scene, 'body', start + 30000);
+            const result = await warm(scene, 'body', lastProgress + LOAD_STALL_MS);
             setData('warmupSteps', String(result.steps));
             setData('warmupUndrawn', String(result.undrawn));
             setData('warmupMs', String(Math.round(performance.now() - began)));
@@ -677,7 +712,19 @@ export default function SaunaScene({
           gardenLoadingRef.current?.(state === 'loading');
         };
         setGarden('loading');
+        setData('probeScenes', PROBE_SCENES.filter((scene) => files.loaded.has(scene)).join());
         void (async () => {
+          // The other times of day's probes first (about a third of the garden's size): a change of
+          // the time of day waits for them. A failed fetch keeps the lighting on the scenes loaded.
+          try {
+            if (await files.fetch(get, PROBE_SCENES)) {
+              if (disposed || failed) return;
+              probes.refresh();
+            }
+          } catch {
+            if (disposed || failed) return;
+          }
+          setData('probeScenes', PROBE_SCENES.filter((scene) => files.loaded.has(scene)).join());
           try {
             const garden = await get('sauna-garden.glb').then((r) => r.arrayBuffer());
             if (disposed || failed) return;
@@ -781,7 +828,14 @@ export default function SaunaScene({
           setData('winterHiddenLeaves', String(seasonColors.hiddenLeaves));
           updateAudio();
           const delta = metrics.frame(now);
-          lighting.update(targetTime(), delta, reducedMotion.matches, targetRain(), targetSnow(), groundSnow());
+          lighting.update(
+            lightingTime(reducedMotion.matches),
+            delta,
+            reducedMotion.matches,
+            targetRain(),
+            targetSnow(),
+            groundSnow(),
+          );
           setData('lighting', lightingRef.current);
           setData('timeOfDay', lighting.time.toFixed(3));
           setData('weather', weatherRef.current);

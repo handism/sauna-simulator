@@ -180,8 +180,8 @@ beforeEach(() => {
                   ? roomHeader.width * roomHeader.height * 12 * 8
                   : url.endsWith('deck-irradiance.bin')
                     ? 64
-                    : /(irradiance|reflection)\.bin$/.test(url)
-                      ? irradianceBytes
+                    : /probes\/(irradiance|reflection)-(day|evening|night)\.bin$/.test(url)
+                      ? irradianceBytes / 3
                       : 0,
               ),
             url,
@@ -681,5 +681,77 @@ describe('automatic lighting', () => {
     vi.setSystemTime(entered + 60 * 60_000);
     for (let frame = 1; frame <= 200; frame++) loop(1000 + frame * 100);
     expect(element.dataset.timeOfDay).toBe('2.000');
+  });
+
+  it('fetches the probes of the time of day shown, then the other scenes before the garden', async () => {
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene({ lightingMode: 'evening' });
+    const requested = () => vi.mocked(fetch).mock.calls.map(([url]) => String(url).split('models/').pop());
+    const probes = () => requested().filter((name) => name!.startsWith('probes/'));
+    expect(probes()).toEqual([]);
+    await flush();
+    expect(view.onReady).toHaveBeenCalledOnce();
+    const ready = probes().length;
+    // Before ready: the evening's two files only.
+    expect(probes().slice(0, 2).sort()).toEqual(['probes/irradiance-evening.bin', 'probes/reflection-evening.bin']);
+    expect(ready).toBe(6);
+    const element = view.container.querySelector('.sauna-3d-canvas') as HTMLElement;
+    expect(element.dataset.probeScenes).toBe('day,evening,night');
+    // The garden follows the probes.
+    const garden = requested().indexOf('sauna-garden.glb');
+    expect(garden).toBeGreaterThan(requested().lastIndexOf('probes/reflection-night.bin'));
+  });
+
+  it('holds the time of day until the probes it passes through arrive', async () => {
+    const original = vi.mocked(fetch).getMockImplementation()!;
+    const night = deferred<void>();
+    vi.mocked(fetch).mockImplementation(async (url, options) => {
+      if (/-(evening|night)\.bin$/.test(String(url))) await night.promise;
+      return original(url, options);
+    });
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene({ lightingMode: 'day' });
+    await flush();
+    expect(view.onReady).toHaveBeenCalledOnce();
+    const element = view.container.querySelector('.sauna-3d-canvas') as HTMLElement;
+    expect(element.dataset.probeScenes).toBe('day');
+    const loop = mocks.renderers[0].setAnimationLoop.mock.calls.at(-1)[0] as (now: number) => void;
+    view.update({ lightingMode: 'night' });
+    for (let frame = 1; frame <= 20; frame++) loop(1000 + frame * 100);
+    expect(element.dataset.timeOfDay).toBe('0.000');
+    night.resolve();
+    for (let i = 0; i < 5; i++) await flush();
+    expect(element.dataset.probeScenes).toBe('day,evening,night');
+    for (let frame = 21; frame <= 200; frame++) loop(1000 + frame * 100);
+    expect(element.dataset.timeOfDay).toBe('2.000');
+  });
+
+  it('fails a load only once its downloads stop arriving', async () => {
+    const original = vi.mocked(fetch).getMockImplementation()!;
+    let push: ((chunk: Uint8Array) => void) | null = null;
+    vi.mocked(fetch).mockImplementation(async (url, options) =>
+      String(url).endsWith('sauna.glb')
+        ? new Response(
+            new ReadableStream<Uint8Array>({
+              start(controller) {
+                push = (chunk) => controller.enqueue(chunk);
+              },
+            }),
+          )
+        : original(url, options),
+    );
+    mocks.parse.mockResolvedValue(model());
+    const view = mountScene();
+    await flush();
+    // A slow model: a piece every 20 seconds, for over a minute.
+    for (let piece = 0; piece < 4; piece++) {
+      act(() => vi.advanceTimersByTime(20_000));
+      push!(new Uint8Array(8));
+      for (let i = 0; i < 5; i++) await flush();
+    }
+    expect(view.onError).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(30_000));
+    expect(view.onError).toHaveBeenCalledOnce();
+    expect(view.onReady).not.toHaveBeenCalled();
   });
 });
