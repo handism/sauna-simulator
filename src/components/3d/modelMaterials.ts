@@ -4,7 +4,7 @@ import { shapeFernLeaflets } from './fernShape';
 import { roundMapleCrowns, tiltMapleLeaves } from './mapleLeafTilt';
 import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surfaceDetails';
 import { broadenWoodlandCards } from './woodlandCrowns';
-import { INTERIOR_BOX, shadeStovePile } from './interiorLights';
+import { INTERIOR_BOX, WATER_BOX, shadeStovePile } from './interiorLights';
 import { applyFoliage, isFoliageMaterial } from './foliage';
 import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
 import { applyImageRamp, imageRampOf, type ImageRamp } from './imageRamp';
@@ -47,6 +47,77 @@ export interface PreparedModelStats {
 const CONCEALED_LED = '2700K concealed LED';
 /** The share of the concealed bench strip's emission kept for its look. */
 export const CONCEALED_LED_GLOW = 0.1;
+
+const PLUNGE_SIDE = 'V10 | submerged light / V9 | quiet honed stone / V2 | mineral c';
+/**
+ * The plunge's outer sides share the stone of its walls under water, whose source mixes 64% of a
+ * flat dark color over the basalt image for the submerged look. Out of the water (from the sauna
+ * through the glass, the long face beside the bench) that left one featureless dark slab.
+ */
+export const PLUNGE_OUTER_MIX = 0.15;
+// Past the walls' inner faces (WATER_BOX reaches the slab 2.5 cm beyond them) and short of the
+// outer ones about 30 cm further out.
+const PLUNGE_INNER = WATER_BOX.clone().expandByVector(new THREE.Vector3(0.1, 0, 0.1));
+
+/**
+ * Moves the plunge stone's triangles outside the pool's walls to a copy of the material with
+ * PLUNGE_OUTER_MIX, before prepareModel. Attributes stay shared; the copy differs only in the mix
+ * uniform and has no underwater triangles. Returns the triangles moved.
+ */
+export function exposePlungeSides(root: THREE.Object3D): number {
+  root.updateMatrixWorld(true);
+  const meshes: THREE.Mesh[] = [];
+  root.traverse((object) => {
+    if (
+      object instanceof THREE.Mesh &&
+      object.material instanceof THREE.MeshStandardMaterial &&
+      object.material.name === PLUNGE_SIDE &&
+      !object.material.userData.suiPlungeOuter
+    )
+      meshes.push(object);
+  });
+  const point = new THREE.Vector3();
+  let triangles = 0;
+  for (const mesh of meshes) {
+    const source = mesh.geometry;
+    const index = source.index;
+    const ramp = imageRampOf(mesh.material as THREE.MeshStandardMaterial);
+    if (!index || !ramp?.mix) throw Error('Expected the indexed plunge stone with its mix');
+    const position = source.getAttribute('position');
+    const kept: number[] = [],
+      outer: number[] = [];
+    for (let i = 0; i < index.count; i += 3) {
+      const vertices = [index.getX(i), index.getX(i + 1), index.getX(i + 2)];
+      point.set(0, 0, 0);
+      for (const v of vertices)
+        point.add(new THREE.Vector3().fromBufferAttribute(position, v).applyMatrix4(mesh.matrixWorld));
+      point.divideScalar(3);
+      const outside =
+        point.x < PLUNGE_INNER.min.x ||
+        point.x > PLUNGE_INNER.max.x ||
+        point.z < PLUNGE_INNER.min.z ||
+        point.z > PLUNGE_INNER.max.z;
+      (outside ? outer : kept).push(...vertices);
+    }
+    if (!outer.length) continue;
+    const geometry = new THREE.BufferGeometry();
+    for (const [name, attribute] of Object.entries(source.attributes)) geometry.setAttribute(name, attribute);
+    geometry.setIndex(outer);
+    source.setIndex(kept);
+    const material = (mesh.material as THREE.MeshStandardMaterial).clone();
+    material.userData.suiPlungeOuter = true;
+    material.userData.suiImageRamp = { ...ramp, mix: { ...ramp.mix, factor: PLUNGE_OUTER_MIX } };
+    const sides = new THREE.Mesh(geometry, material);
+    sides.name = 'Plunge outer sides';
+    sides.castShadow = mesh.castShadow;
+    sides.receiveShadow = mesh.receiveShadow;
+    mesh.add(sides);
+    triangles += outer.length / 3;
+  }
+  return triangles;
+}
+
+const PAIL_WATER = 'Loyly | recessed pail water';
 
 export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   const foliage = new Set<THREE.MeshStandardMaterial>();
@@ -113,7 +184,8 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
             : noise,
         );
       }
-      const detail = surfaceDetailOf(material.name);
+      // The plunge's outer sides take the speckle and grain of the other dry stone.
+      const detail = material.userData.suiPlungeOuter ? 'stone' : surfaceDetailOf(material.name);
       if (detail && material instanceof THREE.MeshStandardMaterial) surfaces.set(material, detail);
       const ramp = imageRampOf(material);
       if (ramp) imageRamps.set(material as THREE.MeshStandardMaterial, ramp);
@@ -126,9 +198,12 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       }
     }
     // Water and steam cast no shadow. Cycles glass passes no direct light (only refracted view
-    // rays), so glass shadows every light but receives none.
-    object.receiveShadow = materials.every((material) => !material.transparent);
-    object.castShadow = object.receiveShadow || materials.some((material) => /glass/i.test(material.name));
+    // rays), so glass shadows every light but receives none. The pail's water receives them: left
+    // unshadowed, the daylight through the glazing lit it as a gray disk among the shaded boards.
+    const pailWater = materials.every((material) => material.name === PAIL_WATER);
+    object.receiveShadow = pailWater || materials.every((material) => !material.transparent);
+    object.castShadow =
+      (object.receiveShadow && !pailWater) || materials.some((material) => /glass/i.test(material.name));
     // Replace the exported closed water volume with the bounded realtime surface.
     // Drawing both creates a milky double layer when the viewer sits in the pool.
     if (materials.every((material) => material.name === 'V4 | clear spring water')) object.visible = false;

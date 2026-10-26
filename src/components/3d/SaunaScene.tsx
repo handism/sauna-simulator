@@ -29,7 +29,7 @@ import { createModelFetch, fetchSceneAssets, MODEL_BASE, type ProbeFiles } from 
 import { PROBE_SCENES, scenesBetween } from './probeScenes';
 import { LOAD_STALL_MS } from './loadDeadline';
 import { attachLookControls } from './lookControls';
-import { disposeTree, prepareModel } from './modelMaterials';
+import { disposeTree, exposePlungeSides, prepareModel } from './modelMaterials';
 import { applyIrradiance, createProbeTextures } from './irradiance';
 import { createDeckIrradiance, isolateDeckReceivers } from './deckIrradiance';
 import { createRoomIrradiance, isolateRoomReceivers } from './roomIrradiance';
@@ -413,6 +413,7 @@ export default function SaunaScene({
         const prepare = (root: THREE.Object3D) => {
           count('deckIrradianceTriangles', isolateDeckReceivers(root));
           count('roomIrradianceTriangles', isolateRoomReceivers(root));
+          count('plungeOuterTriangles', exposePlungeSides(root));
           const stats = prepareModel(root);
           // Before the seasons: the autumn leaves lie on the forest floor too.
           count('forestFloorMaterials', forestFloor.apply(root));
