@@ -34,7 +34,8 @@ void main() {
 		vec4 view = suiProjectionInverse * vec4( uv * 2.0 - 1.0, texture2D( tDepth, uv ).x * 2.0 - 1.0, 1.0 );
 		vec3 origin = suiCameraWorld[ 3 ].xyz;
 		vec3 world = ( suiCameraWorld * vec4( view.xyz / view.w, 1.0 ) ).xyz;
-		gl_FragColor.rgb = mix( gl_FragColor.rgb, suiSteamHazeColor, suiHazeAmount( origin, world - origin ) );
+		vec4 haze = suiHaze( origin, world - origin );
+		gl_FragColor.rgb = mix( gl_FragColor.rgb, suiSteamHazeColor + haze.rgb, haze.a );
 	}
 	#include <tonemapping_fragment>
 	#include <colorspace_fragment>

@@ -14,7 +14,14 @@ const REPEAT = Number(process.env.STEAM_REPEAT ?? 3);
 const LIGHTINGS = ['day', 'evening', 'night'] as const;
 test.use({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1, reducedMotion: 'no-preference' });
 
+// STEAM_QUICK=1 takes the stills only (no frame cost).
+const QUICK = process.env.STEAM_QUICK === '1';
+
 async function measure(page: Page, ms: number) {
+  if (QUICK) {
+    await page.waitForTimeout(ms);
+    return {};
+  }
   await page.evaluate(() => {
     const w = window as any;
     w.suiFrameAt = [];

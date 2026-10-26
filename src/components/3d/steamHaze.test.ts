@@ -8,6 +8,9 @@ import {
   HAZE_PER_LOYLY,
   hazeAmount,
   hazeColor,
+  hazeLight,
+  HAZE_LIGHT,
+  HAZE_SOURCES,
   HAZE_COLOR,
   HAZE_SCENES,
 } from './steamHaze';
@@ -71,5 +74,48 @@ describe('room steam haze', () => {
     expect(hazeColor([1, 0, 0], color).r).toBeCloseTo(HAZE_COLOR[0]);
     expect(hazeColor([0, 0, 1], color).g).toBeCloseTo(HAZE_COLOR[1] * HAZE_SCENES[2]);
     expect(hazeColor([0, 0.5, 0.5], color).b).toBeCloseTo(HAZE_COLOR[2] * (HAZE_SCENES[1] + HAZE_SCENES[2]) * 0.5);
+  });
+
+  it('glows with the room lights along the view, warm and brighter toward them', () => {
+    const color = new THREE.Color();
+    // Outside the room, nothing.
+    expect(hazeLight(new THREE.Vector3(1, 1.5, -2), new THREE.Vector3(-5, 0, 0), color).r).toBe(0);
+    // The 'Steam soft backlight' by the glass, and away from it toward the left wall.
+    const backlight = HAZE_SOURCES.reduce((a, b) => (b.intensity.r > a.intensity.r ? b : a)).position;
+    const toward = hazeLight(seat, backlight.clone().sub(seat).multiplyScalar(3), new THREE.Color()).r;
+    const away = hazeLight(seat, new THREE.Vector3(-15, 0, 0), color).r;
+    expect(toward).toBeGreaterThan(away * 2);
+    expect(color.r).toBeGreaterThan(color.b * 2);
+    // The bench strips shine down: steam over them takes none of their light, steam under them does.
+    const strip = HAZE_SOURCES[0].position;
+    const along = new THREE.Vector3(2, 0, 0);
+    const over = hazeLight(strip.clone().add(new THREE.Vector3(-0.5, 0.4, 0)), along, new THREE.Color()).r;
+    const under = hazeLight(strip.clone().add(new THREE.Vector3(-0.5, -0.4, 0)), along, new THREE.Color()).r;
+    expect(under).toBeGreaterThan(over * 3);
+    // Finite through a light.
+    expect(Number.isFinite(hazeLight(strip.clone().add(new THREE.Vector3(-0.5, 0, 0)), along, color).r)).toBe(true);
+  });
+
+  it('integrates a light along the ray as the sum of short steps does', () => {
+    const origin = seat.clone();
+    const ray = new THREE.Vector3(2.2, 0.6, 1.1);
+    const exact = hazeLight(origin, ray, new THREE.Color());
+    // Midpoint sum of max(cos, 0) / (d² + r²)^(3/2)·d over the same softened distance.
+    const steps = 20000;
+    const sum = new THREE.Color(0, 0, 0);
+    const point = new THREE.Vector3();
+    for (let i = 0; i < steps; i++) {
+      point.copy(origin).addScaledVector(ray, (i + 0.5) / steps);
+      for (const { position, emit, intensity } of HAZE_SOURCES) {
+        const d = point.clone().sub(position);
+        const cos = emit.dot(d);
+        if (cos <= 0) continue;
+        const r2 = d.lengthSq() + 0.25 * 0.25;
+        sum.add(intensity.clone().multiplyScalar(cos / r2 ** 1.5 / steps));
+      }
+    }
+    sum.multiplyScalar(HAZE_LIGHT / (4 * Math.PI));
+    expect(exact.r).toBeCloseTo(sum.r, 4);
+    expect(exact.b).toBeCloseTo(sum.b, 4);
   });
 });
