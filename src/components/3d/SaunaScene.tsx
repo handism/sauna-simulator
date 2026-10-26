@@ -12,6 +12,8 @@ import { createGlossyLights } from './glossyLights';
 import { createWaterEffects } from './waterEffects';
 import { addSpoutTrough } from './waterSpout';
 import { createSteam, LIFETIME_SECONDS } from './steam';
+import { createSteamHaze, hazeColor } from './steamHaze';
+import { updateShimmer } from './heatShimmer';
 import { addGardenDetails } from './gardenDetails';
 import { roundWoodlandCrowns } from './crownNormals';
 import { createForestFloor, type CrownFootprint } from './forestFloor';
@@ -219,6 +221,10 @@ export default function SaunaScene({
     let gardenAdded = 0;
     let qualityIndex = 0;
     const steam = createSteam();
+    // The vapor a löyly leaves in the room (steamHaze.ts) and the heat haze over the stove (heatShimmer.ts).
+    const haze = output.haze ? createSteamHaze(output.haze) : null;
+    let loylyAt = -Infinity;
+    const imageSize = new THREE.Vector2();
     // Only the main camera sees the steam: it rises by the stove inside the room, out of the water's
     // mirror, which would otherwise redraw every frame of a löyly (planarReflection.ts).
     steam.points.layers.set(STEAM_LAYER);
@@ -236,6 +242,8 @@ export default function SaunaScene({
       if (!ready || stageRef.current !== 'sauna') return;
       const now = performance.now();
       steam.start(now);
+      haze?.start();
+      loylyAt = now;
       frameRate?.hold(now, LIFETIME_SECONDS * 1000);
     };
     loylyEvents.addEventListener('loyly', onLoyly);
@@ -856,6 +864,23 @@ export default function SaunaScene({
           mirrorState[5] = reducedMotion.matches ? 0 : Math.floor(now / 125);
           setData('gardenDetails', 'ready');
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);
+          if (haze && output.haze) {
+            setData('steamHaze', haze.update(now, stageRef.current === 'sauna').toFixed(2));
+            hazeColor(sceneWeights(lighting.time), output.haze.suiSteamHazeColor.value);
+          }
+          if (output.shimmer) {
+            renderer.getDrawingBufferSize(imageSize);
+            const shimmer = updateShimmer(
+              output.shimmer,
+              camera,
+              steam.points.position,
+              imageSize,
+              now / 1000,
+              (now - loylyAt) / 1000,
+              reducedMotion.matches,
+            );
+            setData('heatShimmer', shimmer.toFixed(1));
+          }
           waterEffects.update(now / 1000, reducedMotion.matches, lighting.rain);
           const fallTime = reducedMotion.matches ? 0 : now / 1000;
           rain.update(lighting.rain, lighting.overcast, camera, fallTime);

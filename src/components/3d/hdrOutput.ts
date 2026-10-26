@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { PREPASS_LAYER } from './depthPrepass';
 import { createTemporalAA } from './temporalAA';
+import { createShimmerUniforms, SHIMMER_GLSL } from './heatShimmer';
+import { createHazeUniforms, HAZE_GLSL } from './steamHaze';
 
 // Cycles composites glass, water and steam in scene-linear light and only then applies the view
 // transform. three tone maps every material on its own, so a transparent surface was blended
@@ -16,10 +18,24 @@ void main() {
 	vUv = uv;
 	gl_Position = vec4( position.xy, 0.0, 1.0 );
 }`;
+// The heat haze above the stove moves where the image is read (heatShimmer.ts); the room's steam
+// pales it by the length of each view ray in the room, from the scene's depth (steamHaze.ts).
 const fragmentShader = /* glsl */ `uniform sampler2D tScene;
+uniform sampler2D tDepth;
+uniform mat4 suiProjectionInverse;
+uniform mat4 suiCameraWorld;
 varying vec2 vUv;
+${SHIMMER_GLSL}
+${HAZE_GLSL}
 void main() {
-	gl_FragColor = texture2D( tScene, vUv );
+	vec2 uv = suiShimmer( vUv );
+	gl_FragColor = texture2D( tScene, uv );
+	if ( suiSteamHaze > 0.0 ) {
+		vec4 view = suiProjectionInverse * vec4( uv * 2.0 - 1.0, texture2D( tDepth, uv ).x * 2.0 - 1.0, 1.0 );
+		vec3 origin = suiCameraWorld[ 3 ].xyz;
+		vec3 world = ( suiCameraWorld * vec4( view.xyz / view.w, 1.0 ) ).xyz;
+		gl_FragColor.rgb = mix( gl_FragColor.rgb, suiSteamHazeColor, suiHazeAmount( origin, world - origin ) );
+	}
 	#include <tonemapping_fragment>
 	#include <colorspace_fragment>
 	// The canvas has alpha: the scene's alpha (under 1 at some leaf edges) let the page show through.
@@ -110,6 +126,9 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       drain() {},
       setTemporal(_on: boolean) {},
       resetTemporal() {},
+      // No full-screen pass to move or haze the image in.
+      shimmer: null,
+      haze: null,
       compile: compileLinked,
       dispose() {
         released = true;
@@ -118,12 +137,24 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
   // Four samples: two drew about 10% faster but stepped the leaf cards' edges (alpha to coverage,
   // leafCluster.ts) and the deck's lines visibly even at ratio 1.5 (docs/3d-qa/main-msaa/), and
   // at the high quality's ratio 2 kept about 80% of that difference (docs/3d-qa/high-dpr2-msaa/).
-  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  // The depth is resolved into its texture only while the steam hazes the view.
+  const depth = new THREE.DepthTexture(1, 1);
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4, depthTexture: depth });
+  target.resolveDepthBuffer = false;
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3));
   geometry.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 2, 0, 0, 2], 2));
+  const shimmer = createShimmerUniforms();
+  const haze = createHazeUniforms();
   const material = new THREE.ShaderMaterial({
-    uniforms: { tScene: { value: target.texture } },
+    uniforms: {
+      tScene: { value: target.texture },
+      tDepth: { value: depth },
+      suiProjectionInverse: { value: new THREE.Matrix4() },
+      suiCameraWorld: { value: new THREE.Matrix4() },
+      ...shimmer,
+      ...haze,
+    },
     vertexShader,
     fragmentShader,
     depthTest: false,
@@ -142,6 +173,9 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       renderer.getDrawingBufferSize(size);
       if (target.width !== size.x || target.height !== size.y) target.setSize(size.x, size.y);
       // Materials skip tone mapping when drawn into a render target.
+      target.resolveDepthBuffer = haze.suiSteamHaze.value > 0;
+      material.uniforms.suiProjectionInverse.value.copy(camera.projectionMatrixInverse);
+      material.uniforms.suiCameraWorld.value.copy(camera.matrixWorld);
       renderer.setRenderTarget(target);
       drawScene(scene, camera);
       material.uniforms.tScene.value = temporalOn
@@ -179,6 +213,10 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
     resetTemporal() {
       temporal.reset();
     },
+    /** The heat haze's uniforms (heatShimmer.ts updateShimmer). */
+    shimmer,
+    /** The room steam's uniforms (steamHaze.ts createSteamHaze, hazeColor). */
+    haze,
     /** Compiles `object` as lit by `scene` for the HDR pass (the programs differ from the canvas's). */
     compile(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene, within = Infinity) {
       // The programs are created synchronously; only the wait for the driver is asynchronous.
@@ -190,6 +228,7 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
     dispose() {
       released = true;
       target.dispose();
+      depth.dispose();
       temporal.dispose();
       geometry.dispose();
       material.dispose();
