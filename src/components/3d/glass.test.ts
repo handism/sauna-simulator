@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { applyGlass, fresnel, GLASS, slab } from './glass';
+import { applyGlass, fresnel, GLASS, GLASS_LIGHTS, slab } from './glass';
+import { GLOSSY_SOURCES } from './glossyLights';
+import { MIRROR_LAYER } from './planarReflection';
 import { createIrradianceUniforms } from './irradiance';
 
 describe('glass', () => {
@@ -64,6 +66,38 @@ describe('glass', () => {
     expect(reflection.uniforms.suiIrradianceEvening).toBe(uniforms.suiIrradianceEvening);
     expect(reflection.defines).toHaveProperty('SUI_REFLECTION');
     expect(wall.material).toBeInstanceOf(THREE.MeshStandardMaterial);
+  });
+
+  it('reflects the glossy-only lights the probes leave out, from outside the room and not in the mirror', () => {
+    // The lights left out of the reflection probes (scripts/bake_irradiance_probes.py): V9 and the
+    // five blue-hour accents, each a known glossy source.
+    expect(GLASS_LIGHTS).toHaveLength(6);
+    for (const name of GLASS_LIGHTS) expect(GLOSSY_SOURCES.map(([source]) => source)).toContain(name);
+    const root = new THREE.Group();
+    const glass = new THREE.Mesh(
+      new THREE.PlaneGeometry(),
+      new THREE.MeshStandardMaterial({ name: 'Low iron architectural glass' }),
+    );
+    root.add(glass);
+    applyGlass(root, createIrradianceUniforms());
+    const [copy] = glass.children as THREE.Mesh[];
+    const reflection = copy.material as THREE.ShaderMaterial;
+    const shader = reflection.fragmentShader;
+    // Tested only by the reflection's material, which has the irradiance uniforms.
+    expect(shader).toMatch(/#ifdef SUI_REFLECTION[\s\S]*vec3 suiGlassLights\(/);
+    expect(shader.match(/^\t\/\/ V(9|10) /gm)).toHaveLength(6);
+    expect(shader).toContain('else radiance += suiGlassLightsOn * suiGlassLights(');
+    // Off in the water's mirror (a second glossy bounce), on for the main camera.
+    const mirror = new THREE.PerspectiveCamera();
+    mirror.layers.enable(MIRROR_LAYER);
+    const main = new THREE.PerspectiveCamera();
+    const draw = (camera: THREE.Camera) =>
+      copy.onBeforeRender(null as never, null as never, camera, copy.geometry, reflection, null as never);
+    draw(mirror);
+    expect(reflection.uniforms.suiGlassLightsOn.value).toBe(0);
+    draw(main);
+    expect(reflection.uniforms.suiGlassLightsOn.value).toBe(1);
+    expect((glass.material as unknown as THREE.ShaderMaterial).uniforms.suiGlassLightsOn.value).toBe(1);
   });
 
   it('draws the condensation beads as transmissive water, not an opaque surface', () => {

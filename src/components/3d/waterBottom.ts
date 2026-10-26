@@ -54,7 +54,7 @@ export const LIGHT_EDGE = 0.03;
  * surface's crossings by about as much again). */
 export const BUMP_REACH = 0.006;
 
-type Source = (typeof GLOSSY_SOURCES)[number];
+export type Source = (typeof GLOSSY_SOURCES)[number];
 
 /** Whether a light can be seen from the water surface at `level`: part of it above and facing it. */
 function facesSurface([, size, , , , position, axis, direction]: Source, level: number) {
@@ -77,7 +77,7 @@ function facesSurface([, size, , , , position, axis, direction]: Source, level: 
 // Glossy-only lights that transmission rays do not see either.
 const TRANSMISSION_INVISIBLE = ['V7 water reflection soft strip'];
 /** The Cycles sunlight patch over the lounge and plunge, which the rain's overcast puts out. */
-const SUNLIGHT = 'V9 lounge patch of sunlight';
+export const SUNLIGHT = 'V9 lounge patch of sunlight';
 
 /** The glossy-only lights the reflected view can reach from the surface at `level`. */
 export const bottomLights = (level = WATER_VOLUME.max.y) =>
@@ -274,8 +274,13 @@ export function sourceSH(
 const f = (v: number) => v.toFixed(6);
 const vec3 = (v: readonly number[]) => `vec3( ${v.map(f).join(', ')} )`;
 
-function lightsGlsl() {
-  return bottomLights()
+/**
+ * GLSL statements adding to `sum` the radiance of `sources` along the ray from `origin` along
+ * `direction` (world, unit): each shape's front, soft edged by LIGHT_EDGE, unless the canopy is in
+ * the way (suiCanopyBlocks). Declare `float along, t;` first; needs the irradiance uniforms.
+ */
+export function sourcesGlsl(sources: Source[]) {
+  return sources
     .map(([name, size, color, dayWatts, eveningWatts, position, axis, facing]) => {
       const n = new THREE.Vector3().fromArray(facing).normalize();
       const x = new THREE.Vector3().fromArray(axis).normalize();
@@ -296,6 +301,8 @@ function lightsGlsl() {
     })
     .join('');
 }
+
+const lightsGlsl = () => sourcesGlsl(bottomLights());
 
 // The part of the reflection probes that only glossy rays see (the V7 strip), taken out of the
 // reflected view: suiGlossyOnly( direction ) evaluates its L2 coefficients seen from PROBE_POINT.

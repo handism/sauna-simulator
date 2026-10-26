@@ -1,7 +1,11 @@
 import * as THREE from 'three';
 import { IRRADIANCE_PARS, type IrradianceUniforms } from './irradiance';
 import { INTERIOR_BOX, interiorPointSources } from './interiorLights';
+import { MIRROR_LAYER } from './planarReflection';
 import { REFLECTION_PARS } from './reflection';
+import { GLOSSY_SOURCES } from './glossyLights';
+import { sourcesGlsl } from './waterBottom';
+import { CANOPY_GLSL } from './waterLightOcclusion';
 
 // The source glass is a Principled BSDF with full transmission: 18 mm panes (closed boxes) of
 // IOR 1.45 whose base color tints each refraction, and a hourglass of IOR 1.46. The exporter
@@ -25,6 +29,36 @@ import { REFLECTION_PARS } from './reflection';
 // the benches in the way are left out); a view to the other glass sees none of it.
 /** The room's cedar and ash as seen in the glass (linear albedo). */
 export const ROOM_ALBEDO = [0.26, 0.17, 0.085];
+
+// Nor do the probes hold V9 and the five blue-hour accents, whose highlights the browser draws
+// (scripts/bake_irradiance_probes.py), but not on the glass: by night Cycles shows the 2 m lounge
+// dusk fill as a bright disk in the sauna's window seen from the plunge, which the panes lacked.
+// From outside the room the reflected view is tested against their shapes as the water's bottom
+// does (waterBottom.ts sourcesGlsl, the canopy in the way); other occluders are left out. From
+// inside, the reflected view stays in the room. Not in the water's mirror: seen off the water and
+// then the glass, the lights are a second glossy bounce, which Cycles' indirect clamp leaves faint
+// (by day V9 is a white disk in the pane looking up, as in Cycles, but only a pale ring in the
+// water below it).
+/** The glossy-only lights left out of the reflection probes (seen by the glass from outside). */
+export const GLASS_LIGHTS = [
+  'V9 lounge patch of sunlight',
+  'V10 lounge dusk fill',
+  'V10 path grazing light 1',
+  'V10 path grazing light 4',
+  'V10 path grazing light 7',
+  'V10 specimen uplight',
+];
+// The reflection's material only (the transmittance's has no irradiance uniforms).
+const GLASS_LIGHTS_GLSL = /* glsl */ `
+#ifdef SUI_REFLECTION
+${CANOPY_GLSL}
+vec3 suiGlassLights( const in vec3 origin, const in vec3 direction ) {
+	vec3 sum = vec3( 0.0 );
+	float along;
+	float t;
+${sourcesGlsl(GLOSSY_SOURCES.filter(([name]) => GLASS_LIGHTS.includes(name)))}	return sum;
+}
+#endif`;
 
 // The condensation beads on the sauna's window are fully transmissive water (IOR 1.333) too, but
 // the exporter wrote them as an opaque off-white surface: dimly lit, they showed as dark specks
@@ -96,7 +130,9 @@ ${IRRADIANCE_PARS}
 ${REFLECTION_PARS}
 uniform float ior;
 uniform vec3 tint;
+uniform float suiGlassLightsOn;
 ${ROOM_GLOW}
+${GLASS_LIGHTS_GLSL}
 varying vec3 vWorldPosition;
 varying vec3 vWorldNormal;
 
@@ -123,6 +159,7 @@ void main() {
 		bool interior = all( greaterThanEqual( P, ${vec3(INTERIOR_BOX.min)} ) ) && all( lessThanEqual( P, ${vec3(INTERIOR_BOX.max)} ) );
 		vec3 radiance = suiReflection( P, N, reflect( - V, N ), 0.055, interior, false );
 		if ( interior ) radiance += suiRoomGlow( P, reflect( - V, N ) );
+		else radiance += suiGlassLightsOn * suiGlassLights( P, reflect( - V, N ) );
 		gl_FragColor = vec4( radiance * ( F + F * through ), 1.0 );
 		#include <tonemapping_fragment>
 		#include <colorspace_fragment>
@@ -138,7 +175,12 @@ function glassMaterial(
   const material = new THREE.ShaderMaterial({
     name: source.name,
     defines: transmission ? { SUI_GLASS_TRANSMISSION: '' } : { SUI_IRRADIANCE: '', SUI_REFLECTION: '' },
-    uniforms: { ...uniforms, ior: { value: optics.ior }, tint: { value: new THREE.Vector3(...optics.tint) } },
+    uniforms: {
+      ...uniforms,
+      ior: { value: optics.ior },
+      tint: { value: new THREE.Vector3(...optics.tint) },
+      suiGlassLightsOn: { value: 1 },
+    },
     vertexShader,
     fragmentShader,
     transparent: true,
@@ -172,6 +214,10 @@ export function applyGlass(root: THREE.Object3D, uniforms: IrradianceUniforms): 
     const reflection = new THREE.Mesh(mesh.geometry, glassMaterial(source, optics, false, uniforms));
     reflection.name = `${mesh.name} reflection`;
     reflection.castShadow = reflection.receiveShadow = false;
+    const uniform = (reflection.material as THREE.ShaderMaterial).uniforms.suiGlassLightsOn;
+    reflection.onBeforeRender = (_renderer, _scene, camera) => {
+      uniform.value = camera.layers.isEnabled(MIRROR_LAYER) ? 0 : 1;
+    };
     mesh.add(reflection);
     source.dispose();
   }
