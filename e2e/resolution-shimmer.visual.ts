@@ -4,6 +4,7 @@ import { controlFrames, holdRatio } from './resolution-control';
 import { rendererCaptureStyle } from './scene-capture';
 import { restoreTemporalVariance } from './temporal-variance-controls';
 import { restoreLeafAlpha } from './leaf-alpha-controls';
+import { applyCrownGrain } from './crown-grain-controls';
 import { verifyForestBuild } from './forest-build';
 import { installRefractionClock, type RefractionClock } from './refraction-frame-control';
 import { createHash } from 'node:crypto';
@@ -37,9 +38,11 @@ const FRAMES = Number(process.env.SHIMMER_FRAMES ?? 2);
 const RATIOS = (process.env.SHIMMER_RATIOS ?? (QUALITY === 'high' ? '2,1.75,1.5,1.25' : '1.5,1.25,1')).split(',');
 
 // SHIMMER_CONTROL=leaf-alpha takes the woodland cards' unbiased alpha (leaf-alpha-controls.ts) as the
-// before runs' control instead of the earlier temporal variance bound.
+// before runs' control instead of the earlier temporal variance bound. SHIMMER_CONTROL=crown-grain:<variant>
+// takes a candidate of crown-grain-controls.ts in the before runs (the ratio is product ÷ candidate).
 const CONTROL = process.env.SHIMMER_CONTROL ?? 'temporal-variance';
-if (CONTROL !== 'temporal-variance' && CONTROL !== 'leaf-alpha') throw Error('Invalid SHIMMER_CONTROL');
+const GRAIN = CONTROL.startsWith('crown-grain:') ? CONTROL.slice('crown-grain:'.length) : undefined;
+if (CONTROL !== 'temporal-variance' && CONTROL !== 'leaf-alpha' && !GRAIN) throw Error('Invalid SHIMMER_CONTROL');
 const runs = process.env.SHIMMER_ABBA === '1' ? ['before1', 'after1', 'after2', 'before2'] : ['product'];
 for (const run of runs) {
   test(`capture the dynamic resolution steps while looking around ${run}`, async ({ page, browser }, info) => {
@@ -50,8 +53,10 @@ for (const run of runs) {
       if (message.type() === 'error') errors.push(message.text());
     });
     await page.addInitScript(CONTROLLED ? installRefractionClock : controlFrames);
-    if (run.startsWith('before'))
-      await page.addInitScript(CONTROL === 'leaf-alpha' ? restoreLeafAlpha : restoreTemporalVariance);
+    if (run.startsWith('before')) {
+      if (GRAIN) await page.addInitScript(applyCrownGrain, GRAIN);
+      else await page.addInitScript(CONTROL === 'leaf-alpha' ? restoreLeafAlpha : restoreTemporalVariance);
+    }
     await page.goto(
       `?sound=off&quality&view=3d&frameRate=full${FIXED_RATIO ? `&resolution=fixed&quality=${QUALITY}` : ''}${process.env.SHIMMER_QUERY ?? ''}`,
     );

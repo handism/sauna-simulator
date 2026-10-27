@@ -4,9 +4,11 @@ import { rendererCaptureStyle, settleRenderer } from './scene-capture';
 
 // The sauna's default view, the stove and the bench side by day, dusk and night: the pail's water,
 // the heater's ember glow and the room's dusk exposure (docs/3d-qa/sauna-warmth/). WARMTH_RUN labels
-// the run, WARMTH_LIGHTS picks the times of day.
+// the run, WARMTH_LIGHTS picks the times of day, WARMTH_WEATHER (rain, snow) and WARMTH_SEASON the saved
+// weather and season, WARMTH_QUALITY=high the high quality at DPR 2.
 const run = process.env.WARMTH_RUN ?? 'now';
-test.use({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
+const quality = process.env.WARMTH_QUALITY === 'high' ? 'high' : 'standard';
+test.use({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: quality === 'high' ? 2 : 1 });
 test(`sauna warmth ${run}`, async ({ page }, info) => {
   test.setTimeout(600_000);
   const errors: string[] = [];
@@ -14,7 +16,11 @@ test(`sauna warmth ${run}`, async ({ page }, info) => {
   page.on('console', (m) => {
     if (m.type() === 'error') errors.push(m.text());
   });
-  await page.goto('?sound=off&view=3d&quality=standard&resolution=fixed&frameRate=full');
+  const saved = { 'sui-weather': process.env.WARMTH_WEATHER, 'sui-season': process.env.WARMTH_SEASON };
+  await page.addInitScript((values) => {
+    for (const [key, value] of Object.entries(values)) if (value) localStorage.setItem(key, value);
+  }, saved);
+  await page.goto(`?sound=off&view=3d&quality=${quality}&resolution=fixed&frameRate=full`);
   await page.getByRole('button', { name: '入室する', exact: true }).click();
   const scene = page.locator('.sauna-3d-canvas');
   const canvas = scene.locator('canvas');
