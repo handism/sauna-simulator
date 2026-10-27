@@ -12,6 +12,14 @@ import { createHazeUniforms, HAZE_GLSL } from './steamHaze';
 // renderer.dispose() does not release its targets.
 // Between the two, temporalAA.ts may blend the image with the previous frames.
 
+/**
+ * A grade after the view transform in the clear day (not in the source): AgX with look None keeps
+ * the source's flat, hazy daylight, so the sunny garden read as overcast grey. An S-curve about
+ * mid-grey in display gamma (monotonic for contrast below 0.5) and a little more saturation,
+ * by the clear day's weight (lighting.ts clearDay); dusk, night, rain and snow keep the source's.
+ */
+export const CLEAR_LOOK = { contrast: 0.3, saturation: 0.1 };
+
 // The full-screen triangle; the pass includes three's tone mapping and output color space.
 const vertexShader = /* glsl */ `varying vec2 vUv;
 void main() {
@@ -24,6 +32,7 @@ const fragmentShader = /* glsl */ `uniform sampler2D tScene;
 uniform sampler2D tDepth;
 uniform mat4 suiProjectionInverse;
 uniform mat4 suiCameraWorld;
+uniform float suiClearLook;
 varying vec2 vUv;
 ${SHIMMER_GLSL}
 ${HAZE_GLSL}
@@ -38,6 +47,14 @@ void main() {
 		gl_FragColor.rgb = mix( gl_FragColor.rgb, suiSteamHazeColor + haze.rgb, haze.a );
 	}
 	#include <tonemapping_fragment>
+	// The clear day's look (CLEAR_LOOK): AgX without a look leaves a sunny garden grey and flat.
+	if ( suiClearLook > 0.0 ) {
+		vec3 c = pow( max( gl_FragColor.rgb, 0.0 ), vec3( 1.0 / 2.2 ) );
+		c += ${CLEAR_LOOK.contrast.toFixed(3)} * suiClearLook * ( c - 0.5 ) * 4.0 * c * ( 1.0 - c );
+		float luma = dot( c, vec3( 0.2126, 0.7152, 0.0722 ) );
+		c = luma + ( c - luma ) * ( 1.0 + ${CLEAR_LOOK.saturation.toFixed(3)} * suiClearLook );
+		gl_FragColor.rgb = pow( clamp( c, 0.0, 1.0 ), vec3( 2.2 ) );
+	}
 	#include <colorspace_fragment>
 	// The canvas has alpha: the scene's alpha (under 1 at some leaf edges) let the page show through.
 	gl_FragColor.a = 1.0;
@@ -128,6 +145,7 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
       setTemporal(_on: boolean) {},
       resetTemporal() {},
       // No full-screen pass to move or haze the image in.
+      look: null,
       shimmer: null,
       haze: null,
       compile: compileLinked,
@@ -147,12 +165,14 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
   geometry.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 2, 0, 0, 2], 2));
   const shimmer = createShimmerUniforms();
   const haze = createHazeUniforms();
+  const look = { value: 0 };
   const material = new THREE.ShaderMaterial({
     uniforms: {
       tScene: { value: target.texture },
       tDepth: { value: depth },
       suiProjectionInverse: { value: new THREE.Matrix4() },
       suiCameraWorld: { value: new THREE.Matrix4() },
+      suiClearLook: look,
       ...shimmer,
       ...haze,
     },
@@ -214,6 +234,8 @@ export function createHdrOutput(renderer: THREE.WebGLRenderer) {
     resetTemporal() {
       temporal.reset();
     },
+    /** The clear day's look (0–1, CLEAR_LOOK). */
+    look,
     /** The heat haze's uniforms (heatShimmer.ts updateShimmer). */
     shimmer,
     /** The room steam's uniforms (steamHaze.ts createSteamHaze, hazeColor). */

@@ -15,17 +15,19 @@ export function receivesWinterSnow(name: string) {
 export const DECK_BOARDS = { x0: -0.145, pitch: 0.2, end: 2.844 };
 /**
  * The deck's snow, from its outer end: each board's reach (m) — a field `across` boards per board
- * mixed with each board's `own` share — how far the drifts move it, the ragged edge's depth across a
- * board, the thin margin over which the cover builds up, and the layer's depth for the bump.
+ * mixed with each board's `own` share — how far the drifts move it, the ragged edge's depth (a
+ * wave of about a meter across the boards and finer tatters), the thin margin over which the cover
+ * builds up, the layer's depth for the bump, and how far in front of the edge loose clumps lie.
  */
 export const DECK_SNOW = {
-  reach: [0.45, 1.05],
-  across: 0.45,
-  own: 0.4,
-  drift: 0.3,
-  fray: 0.12,
-  thin: 0.06,
+  reach: [0.5, 1.0],
+  across: 0.3,
+  own: 0.15,
+  drift: 0.35,
+  fray: 0.26,
+  thin: 0.05,
   depth: 0.02,
+  clumps: 0.45,
 };
 
 const PARS = /* glsl */ `
@@ -82,9 +84,16 @@ const SNOW = /* glsl */ `
     float suiShare = mix(suiSnowNoise(vec2(suiBoard * ${DECK_SNOW.across.toFixed(2)}, 5.1)), suiSnowHash(vec2(suiBoard, 3.7)), ${DECK_SNOW.own.toFixed(2)});
     float suiReach = ${DECK_SNOW.reach[0].toFixed(2)} + ${(DECK_SNOW.reach[1] - DECK_SNOW.reach[0]).toFixed(2)} * suiShare
       + (suiSnowDrift - 0.5) * ${DECK_SNOW.drift.toFixed(2)};
-    float suiFray = (suiSnowFiltered(suiSnowP.xz * vec2(14.0, 5.0) + 2.3) - 0.5) * ${DECK_SNOW.fray.toFixed(2)}
-      + (suiSnowFiltered(suiSnowP.xz * 40.0) - 0.5) * ${(DECK_SNOW.fray * 0.5).toFixed(3)};
-    suiOpenDeck = smoothstep(0.0, ${DECK_SNOW.thin.toFixed(2)}, suiSnowP.z - (${DECK_BOARDS.end.toFixed(3)} - suiReach) + suiFray);
+    // A wave across the boards and finer tatters: with each board's own reach dominant, the edge
+    // stepped like piano keys in one line across the deck.
+    float suiFray = (suiSnowFiltered(suiSnowP.xz * vec2(2.3, 1.1) + 2.3) - 0.5) * ${DECK_SNOW.fray.toFixed(2)}
+      + (suiSnowFiltered(suiSnowP.xz * vec2(9.0, 4.0) + 6.1) - 0.5) * ${(DECK_SNOW.fray * 0.45).toFixed(3)}
+      + (suiSnowFiltered(suiSnowP.xz * 40.0) - 0.5) * ${(DECK_SNOW.fray * 0.25).toFixed(3)};
+    float suiInside = suiSnowP.z - (${DECK_BOARDS.end.toFixed(3)} - suiReach) + suiFray;
+    // Loose clumps on the boards just in front of the edge, fewer further in.
+    float suiClump = smoothstep(0.66, 0.74, suiSnowFiltered(suiSnowP.xz * vec2(7.0, 4.0) + 9.4) + 0.12 * suiInside / ${DECK_SNOW.clumps.toFixed(2)})
+      * (1.0 - smoothstep(0.0, ${DECK_SNOW.clumps.toFixed(2)}, -suiInside));
+    suiOpenDeck = max(smoothstep(0.0, ${DECK_SNOW.thin.toFixed(2)}, suiInside), suiClump * step(suiInside, 0.0));
   }
   suiSnowCover *= (suiSheltered ? suiOpenDeck : 1.0) * suiWinterSnow;
   #ifdef SUI_SNOW_DUSTING

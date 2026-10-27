@@ -48,6 +48,12 @@ const CONCEALED_LED = '2700K concealed LED';
 /** The share of the concealed bench strip's emission kept for its look. */
 export const CONCEALED_LED_GLOW = 0.1;
 
+/**
+ * The ferns' noise ramp (not in the source): darker and greener. At 0.85 of the source's grey-green
+ * the fronds, thin leaflets over the meadow of nearly their color, read as pale translucent ghosts.
+ */
+export const FERN_TINT = [0.62, 0.8, 0.5] as const;
+
 const PLUNGE_SIDE = 'V10 | submerged light / V9 | quiet honed stone / V2 | mineral c';
 /**
  * The plunge's outer sides share the stone of its walls under water, whose source mixes 64% of a
@@ -106,6 +112,8 @@ export function exposePlungeSides(root: THREE.Object3D): number {
     source.setIndex(kept);
     const material = (mesh.material as THREE.MeshStandardMaterial).clone();
     material.userData.suiPlungeOuter = true;
+    // Laid blocks (surfaceDetails.ts PLUNGE_BLOCKS).
+    material.defines = { ...material.defines, SUI_PLUNGE_BLOCKS: '' };
     material.userData.suiImageRamp = { ...ramp, mix: { ...ramp.mix, factor: PLUNGE_OUTER_MIX } };
     const sides = new THREE.Mesh(geometry, material);
     sides.name = 'Plunge outer sides';
@@ -172,12 +180,14 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       const noise = noiseColorOf(material);
       if (noise) {
         const fern = /^V3 \| fern [0-2]$/.test(material.name);
+        // The fronds take the crowns' daytime cut of the sky's gloss (crownNormals.ts).
+        if (fern) material.defines = { ...material.defines, SUI_CROWN_SPECULAR: '' };
         noiseColors.set(
           material as THREE.MeshStandardMaterial,
           fern
             ? {
                 ...noise,
-                stops: noise.stops.map(([at, r, g, b]) => [at, r * 0.85, g * 0.85, b * 0.85]),
+                stops: noise.stops.map(([at, r, g, b]) => [at, r * FERN_TINT[0], g * FERN_TINT[1], b * FERN_TINT[2]]),
               }
             : noise,
         );

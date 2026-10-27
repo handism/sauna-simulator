@@ -135,6 +135,12 @@ const DECK = /* glsl */ `
   float suiSurfaceRoughness = suiDeckTop * ((0.5 - suiGrain) * 0.12) + suiSeam * 0.15;
   float suiSurfaceHeight = suiDeckTop * (suiGrain * 0.00022 + suiFiber * 0.00006) - suiSeam * 0.002;
 `;
+const f = (v: number) => v.toFixed(3);
+/**
+ * The plunge's outer faces (SUI_PLUNGE_BLOCKS, modelMaterials.ts exposePlungeSides) as laid blocks:
+ * course and length (m), the joint's half width (m), the joint's darkening and each block's tone.
+ */
+export const PLUNGE_BLOCKS = { course: 0.32, length: 0.68, joint: 0.004, shade: 0.55, tone: 0.22 };
 // Every stone read as the same flat light gray: smooth, CG-clean boulders and pavers. Each stone
 // takes its own warmer or cooler tone (a field broader than most stones), mottling at a few
 // centimeters to decimeters, dark mineral grains that fade to their mean coverage once subpixel,
@@ -154,6 +160,26 @@ const STONE = /* glsl */ `
   diffuseColor.rgb *= suiStoneTint * (1.0 + suiDetail) * (1.0 - 0.4 * suiSpeck) * (1.0 - 0.35 * suiUnder);
   float suiSurfaceRoughness = (suiPores - 0.5) * 0.14;
   float suiSurfaceHeight = suiMottle * 0.0012 + suiPores * 0.00045 - suiSpeck * 0.0002;
+  #ifdef SUI_PLUNGE_BLOCKS
+  // Not in the source: the plunge's outer faces as laid blocks (PLUNGE_BLOCKS). One mottled face
+  // filled a third of the sauna's view as a single dark slab.
+  if (abs(vSuiSurfaceUp) < 0.3) {
+    // The faces are axis-aligned, so x + z runs along each of them.
+    float suiCourse = suiSurfaceP.y / ${f(PLUNGE_BLOCKS.course)};
+    float suiRow = floor(suiCourse);
+    float suiAlong = (suiSurfaceP.x + suiSurfaceP.z) / ${f(PLUNGE_BLOCKS.length)} + 0.5 * mod(suiRow, 2.0);
+    float suiBlock = suiSurfaceHash(vec3(floor(suiAlong), suiRow, 7.3));
+    vec2 suiJointUv = vec2(fract(suiAlong) * ${f(PLUNGE_BLOCKS.length)}, fract(suiCourse) * ${f(PLUNGE_BLOCKS.course)});
+    vec2 suiJointDistance = min(suiJointUv, vec2(${f(PLUNGE_BLOCKS.length)}, ${f(PLUNGE_BLOCKS.course)}) - suiJointUv);
+    // Box-filtered over the pixel's footprint, so the joints fade to their share when subpixel.
+    vec2 suiJointWidth = max(vec2(fwidth(suiAlong) * ${f(PLUNGE_BLOCKS.length)}, fwidth(suiCourse) * ${f(PLUNGE_BLOCKS.course)}), 1e-5);
+    vec2 suiJointCover = 1.0 - smoothstep(vec2(${f(PLUNGE_BLOCKS.joint)}) - suiJointWidth, vec2(${f(PLUNGE_BLOCKS.joint)}) + suiJointWidth, suiJointDistance);
+    float suiJoint = max(suiJointCover.x, suiJointCover.y);
+    diffuseColor.rgb *= (1.0 + (suiBlock - 0.5) * ${f(PLUNGE_BLOCKS.tone)}) * (1.0 - ${f(PLUNGE_BLOCKS.shade)} * suiJoint);
+    suiSurfaceRoughness += suiJoint * 0.1;
+    suiSurfaceHeight -= suiJoint * 0.0015;
+  }
+  #endif
   #ifdef SUI_STONE_MOSS
   bool suiIndoor = all(greaterThan(suiSurfaceP, ${vec3(MOSS_FREE.indoor.min)}))
     && all(lessThan(suiSurfaceP, ${vec3(MOSS_FREE.indoor.max)}));
@@ -217,7 +243,6 @@ export const PLUNGE_WALL = {
   streakHalfWidth: 0.34,
   streakTop: 1.65,
 };
-const f = (v: number) => v.toFixed(3);
 // Warm limestone plaster (courtyard walls and tea cups): broad trowel clouds + fine mineral grain
 // matching the source 2-layer FBM (scale 8 color/bump and scale 75 fine bump), balanced around the mean.
 const PLASTER = /* glsl */ `
@@ -259,6 +284,8 @@ const LINEN = /* glsl */ `
 // terry pile (a few millimeters, fading to its mean once subpixel) and a coarser weave of rows, and
 // shade the draped sides and the undersides of the folds.
 export const TOWEL_TINT = [0.8, 0.76, 0.67] as const;
+/** The creases: radians per meter across them, the valleys' darkening and the bump's height (m). */
+export const TOWEL_CREASE = { frequency: 38, shade: 0.14, height: 0.0035 };
 const TOWEL = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;
   float suiPile = suiSurfaceFilteredNoise(suiSurfaceP * 260.0);
@@ -266,9 +293,17 @@ const TOWEL = /* glsl */ `
   float suiTowelPatch = suiSurfaceFilteredNoise(suiSurfaceP * 6.0);
   float suiTowelVar = (suiPile - 0.5) * 0.22 + (suiRows - 0.5) * 0.12 + (suiTowelPatch - 0.5) * 0.08;
   float suiDrape = mix(0.72, 1.0, smoothstep(-0.1, 0.75, vSuiSurfaceUp));
-  diffuseColor.rgb *= vec3(${TOWEL_TINT.map((v) => v.toFixed(2)).join(', ')}) * (1.0 + suiTowelVar) * suiDrape;
+  // Not in the source: soft creases where the towel lies on the slats (TOWEL_CREASE), bent by a
+  // broad noise, fading once a crease spans a few pixels or less. Flat, the towels read as cream boards.
+  float suiCreaseWarp = suiSurfaceNoise(suiSurfaceP * 3.1 + 2.7) * 0.7 + suiSurfaceNoise(suiSurfaceP * 7.3) * 0.3;
+  float suiCreasePhase = dot(suiSurfaceP.xz, vec2(0.62, 0.78)) * ${TOWEL_CREASE.frequency.toFixed(1)} + suiCreaseWarp * 7.0;
+  float suiCreaseFade = 1.0 - smoothstep(0.35, 1.0, fwidth(suiCreasePhase));
+  float suiCrease = (sin(suiCreasePhase) * 0.65 + sin(suiCreasePhase * 2.3 + 1.7) * 0.35) * suiCreaseFade
+    * smoothstep(0.25, 0.65, suiSurfaceNoise(suiSurfaceP * 4.2 + 9.1));
+  diffuseColor.rgb *= vec3(${TOWEL_TINT.map((v) => v.toFixed(2)).join(', ')}) * (1.0 + suiTowelVar) * suiDrape
+    * (1.0 - ${TOWEL_CREASE.shade.toFixed(2)} * max(-suiCrease, 0.0));
   float suiSurfaceRoughness = 0.04;
-  float suiSurfaceHeight = suiPile * 0.0007 + suiRows * 0.0004;
+  float suiSurfaceHeight = suiPile * 0.0007 + suiRows * 0.0004 + suiCrease * ${TOWEL_CREASE.height.toFixed(4)};
 `;
 // The heater's split olivine stones were a uniform charcoal pile. Ladled water leaves pale mineral
 // scale on the upper faces of the top layer (the Cycles reference's stones read light grey from the

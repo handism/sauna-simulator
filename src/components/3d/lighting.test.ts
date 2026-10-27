@@ -353,7 +353,8 @@ describe('cached shadows', () => {
     for (const light of shadowLights) {
       expect(light.castShadow).toBe(true);
       expect(light.shadow.autoUpdate).toBe(false);
-      expect(light.shadow.mapSize.x).toBe(1024);
+      // The lounge dusk fill's map is twice as fine, up to 2048 (LOUNGE_SHADOW_SCALE).
+      expect(light.shadow.mapSize.x).toBe(light === duskLounge ? 2048 : 1024);
       light.shadow.needsUpdate = false;
     }
     lighting.update(0, 0.016, false);

@@ -69,6 +69,8 @@ ${sourcesGlsl(GLOSSY_SOURCES.filter(([name]) => GLASS_LIGHTS.includes(name)))}	r
 // bench it read as a grey haze over an empty pail, with no waterline and nothing reflected in it.
 // Drawn the same way it is one surface, not a slab: T = (1 − F) t and R = F. Not in the source: t
 // darkens the pail's inside under the water (its depth against the cedar), so the waterline shows.
+// At 0.48 of the cedar it still read as a flat brown disc: a deeper, neutral 0.3 and a smoother
+// surface (0.06) make it a dark pool with the room's light in it.
 
 /** Source IOR and base color by material name; `surface` for one interface (water) instead of a slab. */
 export const GLASS: Record<
@@ -78,7 +80,7 @@ export const GLASS: Record<
   'Low iron architectural glass': { ior: 1.45, tint: [0.87, 0.96, 0.95] },
   'V11 | timer clear glass': { ior: 1.46, tint: [0.9, 0.97, 1] },
   'V2 | condensed clear droplets': { ior: 1.333, tint: [0.94, 0.98, 1] },
-  'Loyly | recessed pail water': { ior: 1.333, tint: [0.48, 0.46, 0.4], surface: true, roughness: 0.12 },
+  'Loyly | recessed pail water': { ior: 1.333, tint: [0.3, 0.3, 0.28], surface: true, roughness: 0.06 },
 };
 
 /** Unpolarized Fresnel reflectance of a dielectric interface (suiFresnel in the shader). */

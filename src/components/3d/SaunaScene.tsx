@@ -891,6 +891,7 @@ export default function SaunaScene({
           mirrorState[5] = reducedMotion.matches ? 0 : Math.floor(now / 125);
           setData('gardenDetails', 'ready');
           steam.update(now, stageRef.current === 'sauna', reducedMotion.matches);
+          if (output.look) output.look.value = lighting.clearDay;
           if (haze && output.haze) {
             setData('steamHaze', haze.update(now, stageRef.current === 'sauna').toFixed(2));
             hazeColor(sceneWeights(lighting.time), output.haze.suiSteamHazeColor.value);

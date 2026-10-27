@@ -527,6 +527,14 @@ const SOURCE_CLAMP = 10;
 export const WET_SAMPLE_WEIGHT = 0.0967;
 /** Widening of the GGX α² by the light disk's angular radius r/d. */
 export const DISK_WIDENING = 0.25;
+/**
+ * Not in the source, as drawn only (the reference functions keep the source's): the floor highlights'
+ * share, and the width (m) inside the water's outline over which a path's exit fades instead of
+ * being cut. At dusk the lounge fill's highlight lay on the floor as a flat cream slab, brighter than
+ * anything around it, its edge along the coping's cut-off stepping with the waves.
+ */
+export const WET_HIGHLIGHT_VIEW = 0.6;
+export const WET_EXIT_FADE = 0.05;
 const WET_GLOSS_LIGHTS = [SUNLIGHT, 'V10 lounge dusk fill'];
 
 /** The lights that highlight the pool floor: position, disk radius and the clamp's scale. */
@@ -740,7 +748,9 @@ void suiWetSpecular( const in int index, const in vec3 color, const in vec3 ligh
 	if ( toLight.y <= 0.0 ) return;
 	float sine = length( toLight.xz );
 	vec2 exit = point.xz + toLight.xz / max( sine, 1e-6 ) * suiWetExitRun( point.y, toLight );
-	if ( ! image && ( any( lessThan( exit, vec2( ${f(min.x)}, ${f(min.z)} ) ) ) || any( greaterThan( exit, vec2( ${f(max.x)}, ${f(max.z)} ) ) ) ) ) return;
+	vec2 inside = min( exit - vec2( ${f(min.x)}, ${f(min.z)} ), vec2( ${f(max.x)}, ${f(max.z)} ) - exit );
+	float fade = image ? 1.0 : smoothstep( 0.0, ${f(WET_EXIT_FADE)}, min( inside.x, inside.y ) );
+	if ( fade <= 0.0 ) return;
 	float cosine = sqrt( 1.0 - ( 1.0 - toLight.y * toLight.y ) / ${f(WATER_IOR ** 2)} );
 	float pass = 1.0 - suiWaterAirReflectance( cosine );
 	vec3 through = pass * pass * ${vec3(WATER_TINT.map((t) => t * t))} * exp( - ${vec3(WATER_ABSORPTION)} * ( float( SUI_REFRACTION ) - ${f(WATER_BOTTOM)} ) / cosine );
@@ -752,7 +762,7 @@ void suiWetSpecular( const in int index, const in vec3 color, const in vec3 ligh
 	float alpha = pow2( material.roughness );
 	PhysicalMaterial disk = material;
 	disk.roughness = sqrt( sqrt( alpha * alpha + ${f(DISK_WIDENING)} * spread * spread ) );
-	reflectedLight.directSpecular += saturate( dot( normal, lightDirection ) ) * color * through * ( ${pick(lights.map(({ scale }) => f(scale)))} ) *
+	reflectedLight.directSpecular += ${f(WET_HIGHLIGHT_VIEW)} * fade * saturate( dot( normal, lightDirection ) ) * color * through * ( ${pick(lights.map(({ scale }) => f(scale)))} ) *
 		BRDF_GGX( lightDirection, viewDir, normal, disk ) * material.multiScatteringCompensation;
 }
 #endif

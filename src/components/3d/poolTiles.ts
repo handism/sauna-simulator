@@ -27,6 +27,12 @@ export const TILE_SATURATION = 0.62;
 export const TILE_DARKEN = 0.86;
 export const TILE_POOL_WIDTH = 0.013;
 export const TILE_POOL_SHADE = 0.84;
+/**
+ * Not in the source: the joints' grout (linear color). The 8 mm joints showed the tiles' unlit sides
+ * and the dark bed below as near-black lines, the bold grid of a swimming pool; the tiles' sides
+ * take a pale cementitious grey instead, as a filled joint would show.
+ */
+export const TILE_GROUT = [0.3, 0.3, 0.28] as const;
 
 const f = (value: number) => value.toFixed(4);
 const COMMON = '#include <common>';
@@ -67,6 +73,9 @@ const GLAZE = /* glsl */ `
 		* mix( 1.0, ${f(TILE_POOL_SHADE)}, suiTilePool ) * ( 0.88 + 0.24 * suiTileMottle ) * suiTileCorner;
 	// A muted, deeper green-grey glaze instead of the pool's bright teal.
 	diffuseColor.rgb = mix( vec3( dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) ), diffuseColor.rgb, ${f(TILE_SATURATION)} ) * ${f(TILE_DARKEN)};
+	// The tiles' sides (the face's true normal, from the unrefracted position) show the grout.
+	vec3 suiTileFace = normalize( cross( dFdx( vSuiTilePosition ), dFdy( vSuiTilePosition ) ) );
+	diffuseColor.rgb = mix( diffuseColor.rgb, vec3( ${TILE_GROUT.map(f).join(', ')} ) * ( 0.9 + 0.2 * suiTileTone ), 1.0 - smoothstep( 0.4, 0.7, abs( suiTileFace.y ) ) );
 `;
 
 export function patchPoolTileShader(shader: { vertexShader: string; fragmentShader: string }) {

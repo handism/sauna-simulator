@@ -8,7 +8,28 @@ export interface LeafCluster {
   leaves: number;
 }
 
-export const LEAF_CLUSTER_SIZE = 64;
+export const LEAF_CLUSTER_SIZE = 128;
+/**
+ * Mask leaves per source leaf (not in the source): each drawn leaf has 1/LEAF_SPLIT of the source
+ * leaf's area, the card's leaf area the same. At 20 leaves the near crowns (10–20 m) read as a few
+ * large paper cut-outs, each leaf as long as a hand; the mask is twice as fine to keep their outline.
+ */
+export const LEAF_SPLIT = 3;
+/**
+ * The texels across a card that the far fill, ramp and bias count a pixel's footprint in: the
+ * earlier mask's 64, where they were measured (docs/3d-qa/leaf-alpha-bias/ and before). Counted in
+ * the finer mask's texels they set in at half the distance and closed the mid-ground crowns up.
+ */
+const LEAF_FOOTPRINT_TEXELS = 64;
+/**
+ * Each mask leaf's own shade (not in the source), in the mask's red channel over 0–LEAF_SHADE_MAX:
+ * `spread` either way of the mean per leaf, darker by `stalk` toward its stalk inside the sprig.
+ * Each card was lit as one flat plane, so a crown in the mid-ground read as flat paper cut-outs;
+ * the leaves' own shades give the cut-outs a leafy texture. The mips average the shade over the
+ * leaves only (not the gaps), so it fades to 1 without darkening far crowns.
+ */
+export const LEAF_SHADE = { spread: 0.24, stalk: 0.22 };
+const LEAF_SHADE_MAX = 1.5;
 const SUPERSAMPLE = 4;
 const CUTOFF = 0.5;
 
@@ -39,14 +60,15 @@ const OUTLINE = [
 const OUTLINE_AREA = OUTLINE.slice(1).reduce((sum, [t, w], i) => sum + (t - OUTLINE[i][0]) * (w + OUTLINE[i][1]), 0);
 // Length over full width, and the leaf area per card share: the leaves of a sprig overlap at
 // their stalks, so they cover a little less above the cutoff (0.41) than the earlier evenly
-// spread leaves (0.44) did with 0.9.
+// spread leaves (0.44) did with 0.9. Split three ways (LEAF_SPLIT) they overlap more: 1.55 keeps 0.41.
 const LEAF_ASPECT = 2.2;
-const LEAF_AREA = 1.2;
-// Sprigs per card: one in the middle and the rest on a ring of LEAF_SPRIG_RING around it, the
-// ring's places turned up to half a step either way.
-const LEAF_SPRIGS = 5;
-const LEAF_SPRIG_RING = 0.25;
-const LEAF_SPRIG_JITTER = 0.5;
+const LEAF_AREA = 1.55;
+// Leaves per sprig; the sprigs lie on a sunflower spiral out to LEAF_SPRIG_REACH of the card,
+// each moved up to LEAF_SPRIG_JITTER of their spacing. A centre and one ring (five sprigs of four
+// leaves) drew rosettes too regular once the leaves were smaller.
+const LEAVES_PER_SPRIG = 5;
+const LEAF_SPRIG_REACH = 0.3;
+const LEAF_SPRIG_JITTER = 0.35;
 
 const halfWidth = (t: number) => {
   if (t <= 0 || t >= 1) return 0;
@@ -60,58 +82,122 @@ const halfWidth = (t: number) => {
 // Coverage in [0, 1] per texel: ovate leaves of varied size in sprigs, antialiased by
 // supersampling. Deterministic, so every load draws the same crowns.
 export function leafClusterCoverage(leaves: number, size = LEAF_CLUSTER_SIZE): Float32Array {
+  return leafCluster(leaves, size).coverage;
+}
+
+/**
+ * The mask's coverage and each texel's mean leaf shade (LEAF_SHADE) over the leaves in it, 1 where
+ * none is. Deterministic.
+ */
+export function leafCluster(leaves: number, size = LEAF_CLUSTER_SIZE) {
   const next = random(leaves);
+  // Their own stream, so the shades leave the outline as it was.
+  const shadeOf = random(leaves + 101);
+  const count = leaves * LEAF_SPLIT;
   // Each leaf's stalk at its sprig's centre, the leaves spread round it like a rosette, so the card
   // fills a scalloped disc. Leaves on a jittered grid out to the corners showed the card's rectangle
   // in the mid-ground crowns once the far fill and bias closed them up; leaves evenly over a disc,
   // one smooth oval like a single huge leaf on the long cards (docs/3d-qa/leaf-card-sprigs/).
-  const sprigs = Array.from({ length: LEAF_SPRIGS }, (_, index) => {
+  const sprigCount = Math.max(1, Math.round(count / LEAVES_PER_SPRIG));
+  const spacing = LEAF_SPRIG_REACH / Math.sqrt(sprigCount);
+  const sprigs = Array.from({ length: sprigCount }, (_, index) => {
     const turn = next() * 2 * Math.PI;
-    if (index === 0) return { x: 0.5, y: 0.5, turn };
-    const around = ((index - 1 + LEAF_SPRIG_JITTER * (next() - 0.5)) / (LEAF_SPRIGS - 1)) * 2 * Math.PI;
-    return { x: 0.5 + LEAF_SPRIG_RING * Math.cos(around), y: 0.5 + LEAF_SPRIG_RING * Math.sin(around), turn };
+    const radius = LEAF_SPRIG_REACH * Math.sqrt((index + 0.5) / sprigCount);
+    const around = index * Math.PI * (3 - Math.sqrt(5));
+    return {
+      x: 0.5 + radius * Math.cos(around) + LEAF_SPRIG_JITTER * spacing * (next() - 0.5),
+      y: 0.5 + radius * Math.sin(around) + LEAF_SPRIG_JITTER * spacing * (next() - 0.5),
+      turn,
+    };
   });
-  const shapes = Array.from({ length: leaves }, (_, index) => {
-    const sprig = sprigs[index % LEAF_SPRIGS];
-    const place = Math.floor(index / LEAF_SPRIGS);
-    const count = Math.ceil((leaves - (index % LEAF_SPRIGS)) / LEAF_SPRIGS);
-    // Each leaf takes 1 / (2 * leaves) of the card on average, its area scaled 0.5–1.5.
-    const area = (LEAF_AREA * (0.5 + next())) / (2 * leaves);
+  const shapes = Array.from({ length: count }, (_, index) => {
+    const sprig = sprigs[index % sprigCount];
+    const place = Math.floor(index / sprigCount);
+    const around = Math.ceil((count - (index % sprigCount)) / sprigCount);
+    // Each leaf takes 1 / (2 * count) of the card on average, its area scaled 0.5–1.5.
+    const area = (LEAF_AREA * (0.5 + next())) / (2 * count);
     const widest = Math.sqrt(area / (2 * LEAF_ASPECT * OUTLINE_AREA));
     const length = 2 * LEAF_ASPECT * widest;
     // Evenly round the sprig, each turned up to a sixth of a step either way.
-    const angle = sprig.turn + ((place + 0.35 * (next() - 0.5)) / count) * 2 * Math.PI;
+    const angle = sprig.turn + ((place + 0.35 * (next() - 0.5)) / around) * 2 * Math.PI;
     const [cos, sin] = [Math.cos(angle), Math.sin(angle)];
     // The leaf's farthest point from its centre, one texel clear of the border as the diamonds were.
     const reach = Math.max(...OUTLINE.map(([t, w]) => Math.hypot((t - 0.5) * length, w * widest))) + 1 / size;
     const out = 0.5 * length;
     const x = THREE.MathUtils.clamp(sprig.x + out * cos, reach, 1 - reach);
     const y = THREE.MathUtils.clamp(sprig.y + out * sin, reach, 1 - reach);
-    return { x, y, cos, sin, length, widest };
+    const shade = 1 + LEAF_SHADE.spread * (2 * shadeOf() - 1);
+    return { x, y, cos, sin, length, widest, reach, shade };
   });
-  const coverage = new Float32Array(size * size);
-  for (let py = 0; py < size; py++) {
-    for (let px = 0; px < size; px++) {
-      let hits = 0;
-      for (let sy = 0; sy < SUPERSAMPLE; sy++) {
-        for (let sx = 0; sx < SUPERSAMPLE; sx++) {
-          const u = (px + (sx + 0.5) / SUPERSAMPLE) / size;
-          const v = (py + (sy + 0.5) / SUPERSAMPLE) / size;
-          if (
-            shapes.some(({ x, y, cos, sin, length, widest }) => {
-              const du = u - x,
-                dv = v - y;
-              const along = (du * cos + dv * sin) / length + 0.5;
-              return Math.abs(dv * cos - du * sin) <= widest * halfWidth(along);
-            })
-          )
-            hits++;
-        }
+  // Each sample's leaf shade (0 for none; the last leaf drawn over it), each leaf over the texels
+  // of its bounding square only.
+  const hit = new Float32Array(size * size * SUPERSAMPLE ** 2);
+  const samples = size * SUPERSAMPLE;
+  for (const { x, y, cos, sin, length, widest, reach, shade } of shapes) {
+    const [from, to] = [
+      (c: number) => Math.max(0, Math.floor((c - reach) * samples)),
+      (c: number) => Math.min(samples - 1, Math.ceil((c + reach) * samples)),
+    ];
+    for (let sy = from(y); sy <= to(y); sy++) {
+      for (let sx = from(x); sx <= to(x); sx++) {
+        const du = (sx + 0.5) / samples - x,
+          dv = (sy + 0.5) / samples - y;
+        const along = (du * cos + dv * sin) / length + 0.5;
+        if (Math.abs(dv * cos - du * sin) <= widest * halfWidth(along))
+          // Darker toward the stalk, in the sprig's shade.
+          hit[sy * samples + sx] = shade * (1 - LEAF_SHADE.stalk * (1 - THREE.MathUtils.clamp(along, 0, 1)));
       }
-      coverage[py * size + px] = hits / SUPERSAMPLE ** 2;
     }
   }
-  return coverage;
+  const coverage = new Float32Array(size * size);
+  const shade = new Float32Array(size * size);
+  for (let sy = 0; sy < samples; sy++)
+    for (let sx = 0; sx < samples; sx++) {
+      const value = hit[sy * samples + sx];
+      if (!value) continue;
+      const texel = Math.floor(sy / SUPERSAMPLE) * size + Math.floor(sx / SUPERSAMPLE);
+      coverage[texel] += 1 / SUPERSAMPLE ** 2;
+      shade[texel] += value / SUPERSAMPLE ** 2;
+    }
+  // The mean over the leaves is 1, so the crowns keep their brightness.
+  const total = coverage.reduce((sum, value) => sum + value, 0);
+  const mean = shade.reduce((sum, value) => sum + value, 0) / Math.max(total, 1e-6);
+  return {
+    coverage,
+    shade: shadeMean(
+      coverage,
+      shade.map((value) => value / mean),
+    ),
+  };
+}
+
+// The shade per covered area (1 where nothing covers the texel).
+const shadeMean = (coverage: Float32Array, shade: Float32Array) =>
+  shade.map((value, texel) => (coverage[texel] > 0 ? value / coverage[texel] : 1));
+
+/** The shade's mips: averaged over the leaves' coverage, so the gaps do not pull it toward 1. */
+export function leafShadeMips(coverage: Float32Array, shade: Float32Array, size: number): Float32Array[] {
+  const levels = [shade];
+  let weights = coverage;
+  let sums = shade.map((value, texel) => value * coverage[texel]);
+  for (let width = size / 2; width >= 1; width /= 2) {
+    const [nextWeights, nextSums] = [new Float32Array(width * width), new Float32Array(width * width)];
+    for (let y = 0; y < width; y++)
+      for (let x = 0; x < width; x++)
+        for (const [dx, dy] of [
+          [0, 0],
+          [1, 0],
+          [0, 1],
+          [1, 1],
+        ]) {
+          const from = (2 * y + dy) * width * 2 + 2 * x + dx;
+          nextWeights[y * width + x] += weights[from] / 4;
+          nextSums[y * width + x] += sums[from] / 4;
+        }
+    [weights, sums] = [nextWeights, nextSums];
+    levels.push(shadeMean(weights, sums));
+  }
+  return levels;
 }
 
 const covered = (alpha: Float32Array, scale = 1) => {
@@ -149,10 +235,16 @@ export function leafClusterMips(base: Float32Array, size: number): Float32Array[
 }
 
 export function createLeafClusterTexture(cluster: LeafCluster): THREE.DataTexture {
-  const levels = leafClusterMips(leafClusterCoverage(cluster.leaves), LEAF_CLUSTER_SIZE).map((alpha, index) => {
+  const { coverage, shade } = leafCluster(cluster.leaves);
+  const shades = leafShadeMips(coverage, shade, LEAF_CLUSTER_SIZE);
+  // Red: the leaves' shade; green, blue and alpha: the coverage (alphaMap reads green).
+  const levels = leafClusterMips(coverage, LEAF_CLUSTER_SIZE).map((alpha, index) => {
     const width = LEAF_CLUSTER_SIZE >> index;
     const data = new Uint8Array(width * width * 4);
-    alpha.forEach((value, texel) => data.fill(Math.round(value * 255), texel * 4, texel * 4 + 4));
+    alpha.forEach((value, texel) => {
+      data.fill(Math.round(value * 255), texel * 4, texel * 4 + 4);
+      data[texel * 4] = Math.round((Math.min(shades[index][texel], LEAF_SHADE_MAX) / LEAF_SHADE_MAX) * 255);
+    });
     return { data, width, height: width };
   });
   const texture = new THREE.DataTexture(levels[0].data, LEAF_CLUSTER_SIZE, LEAF_CLUSTER_SIZE);
@@ -213,8 +305,8 @@ export const LEAF_RIM = 0.3;
 // parts as a pale camouflaged rectangle beside the terrace.
 export const LEAF_COVERAGE_GLSL = /* glsl */ `
 float suiLeafFootprint( vec2 uv ) {
-	vec2 dx = dFdx( uv ) * ${LEAF_CLUSTER_SIZE.toFixed(1)};
-	vec2 dy = dFdy( uv ) * ${LEAF_CLUSTER_SIZE.toFixed(1)};
+	vec2 dx = dFdx( uv ) * ${LEAF_FOOTPRINT_TEXELS.toFixed(1)};
+	vec2 dy = dFdy( uv ) * ${LEAF_FOOTPRINT_TEXELS.toFixed(1)};
 	return abs( dx.x * dy.y - dx.y * dy.x ) / max( max( length( dx ), length( dy ) ), 1e-6 );
 }
 float suiLeafCoverage( float alpha, vec2 uv ) {
@@ -249,6 +341,12 @@ export const ALPHA_TEST = '#include <alphatest_fragment>';
 export const ALPHA_MAP = '#include <alphamap_fragment>';
 /** three's alphamap_fragment with the far bias (`suiLeafBias`). */
 export const LEAF_ALPHA_MAP = 'diffuseColor.a *= texture2D( alphaMap, vAlphaMapUv, suiLeafBias( vAlphaMapUv ) ).g;';
+/** The same in the lit pass, with the leaves' own shade (LEAF_SHADE) from the red channel. */
+export const LEAF_SHADED_ALPHA_MAP = /* glsl */ `{
+	vec4 suiLeafTexel = texture2D( alphaMap, vAlphaMapUv, suiLeafBias( vAlphaMapUv ) );
+	diffuseColor.a *= suiLeafTexel.g;
+	diffuseColor.rgb *= suiLeafTexel.r * ${LEAF_SHADE_MAX.toFixed(2)};
+}`;
 
 // alphaMap reads the green channel with the card UVs; the shadow maps cut it at a fixed 0.5, unbiased.
 // Composes with an earlier onBeforeCompile.
@@ -268,7 +366,7 @@ export function applyLeafCluster(material: THREE.MeshStandardMaterial, texture: 
       throw new Error('three shader chunks changed; update leafCluster.ts');
     shader.fragmentShader = shader.fragmentShader
       .replace('void main() {', `${LEAF_COVERAGE_GLSL}\nvoid main() {`)
-      .replace(ALPHA_MAP, LEAF_ALPHA_MAP)
+      .replace(ALPHA_MAP, LEAF_SHADED_ALPHA_MAP)
       .replace(
         ALPHA_TEST,
         'diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );\n\tif ( diffuseColor.a == 0.0 ) discard;',
@@ -276,6 +374,6 @@ export function applyLeafCluster(material: THREE.MeshStandardMaterial, texture: 
       // Before the distance's air (aerialPerspective.ts); by day only (the evening weight).
       .replace(TONE_MAPPING, `${RIM_GLSL}${TONE_MAPPING}`);
   };
-  material.customProgramCacheKey = () => `${previousKey.call(material)}|leaf-cluster`;
+  material.customProgramCacheKey = () => `${previousKey.call(material)}|leaf-cluster-shaded`;
   material.needsUpdate = true;
 }

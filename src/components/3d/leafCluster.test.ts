@@ -5,7 +5,7 @@ import {
   ALPHA_TEST,
   LEAF_CLUSTER_SIZE,
   LEAF_COVERAGE_GLSL,
-  LEAF_ALPHA_MAP,
+  LEAF_SHADED_ALPHA_MAP,
   LEAF_FAR_BIAS,
   LEAF_FAR_FILL,
   LEAF_FAR_RAMP,
@@ -73,7 +73,7 @@ describe('woodland leaf cluster cards', () => {
 
   it('keeps the alpha-tested coverage in the mip levels that distant cards sample', () => {
     const levels = leafClusterMips(leafClusterCoverage(20), LEAF_CLUSTER_SIZE);
-    expect(levels.map((level) => level.length)).toEqual([4096, 1024, 256, 64, 16, 4, 1]);
+    expect(levels.map((level) => level.length)).toEqual([16384, 4096, 1024, 256, 64, 16, 4, 1]);
     const base = share(levels[0], 0.5);
     for (const level of levels.slice(1, 5)) expect(Math.abs(share(level, 0.5) - base)).toBeLessThan(0.05);
     // A plain box filter thins the cutout once a card spans a few texels (0.44 -> 0.31 at 4x4).
@@ -94,12 +94,18 @@ describe('woodland leaf cluster cards', () => {
     const texture = createLeafClusterTexture({ leaves: 20 });
     expect(texture.generateMipmaps).toBe(false);
     const mips = texture.mipmaps as { data: Uint8Array; width: number }[];
-    expect(mips.map((level) => level.width)).toEqual([64, 32, 16, 8, 4, 2, 1]);
+    expect(mips.map((level) => level.width)).toEqual([128, 64, 32, 16, 8, 4, 2, 1]);
     expect(texture.image.data).toBe(mips[0].data);
     expect(texture.minFilter).toBe(THREE.LinearMipmapLinearFilter);
-    // alphaMap samples green; all channels carry the coverage.
+    // alphaMap samples green; green, blue and alpha carry the coverage, red the leaves' shade.
     const data = mips[2].data;
-    expect(data.filter((_, i) => i % 4 === 1)).toEqual(data.filter((_, i) => i % 4 === 0));
+    expect(data.filter((_, i) => i % 4 === 1)).toEqual(data.filter((_, i) => i % 4 === 3));
+    const reds = data.filter((_, i) => i % 4 === 0);
+    // The shade's mean over the leaves stays near 1 (255 / LEAF_SHADE_MAX) and varies leaf to leaf.
+    const covered = reds.filter((_, i) => data[i * 4 + 1] > 128);
+    const mean = covered.reduce((sum, v) => sum + v, 0) / covered.length;
+    expect(Math.abs(mean / 170 - 1)).toBeLessThan(0.1);
+    expect(Math.max(...covered) - Math.min(...covered)).toBeGreaterThan(30);
     const material = new THREE.MeshStandardMaterial();
     const version = material.version;
     applyLeafCluster(material, texture);
@@ -124,11 +130,11 @@ describe('woodland leaf cluster cards', () => {
     expect(shader.fragmentShader).toContain('diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );');
     // The mask read up to LEAF_FAR_BIAS mips blurrier far off, before the coverage.
     expect(shader.fragmentShader).not.toContain(ALPHA_MAP);
-    expect(shader.fragmentShader).toContain(LEAF_ALPHA_MAP);
+    expect(shader.fragmentShader).toContain(LEAF_SHADED_ALPHA_MAP);
     expect(shader.fragmentShader).toContain(
       `return ${LEAF_FAR_BIAS.toFixed(1)} * smoothstep( 2.0, 4.0, suiLeafFootprint( uv ) );`,
     );
-    expect(shader.fragmentShader.indexOf(LEAF_ALPHA_MAP)).toBeLessThan(
+    expect(shader.fragmentShader.indexOf(LEAF_SHADED_ALPHA_MAP)).toBeLessThan(
       shader.fragmentShader.indexOf('diffuseColor.a = suiLeafCoverage'),
     );
     // Defined before main, centred on the cutoff, widened to LEAF_FAR_RAMP past two texels per pixel,
@@ -146,6 +152,6 @@ describe('woodland leaf cluster cards', () => {
     const rim = shader.fragmentShader.indexOf('suiLeafRim( vAlphaMapUv ) * ( 1.0 - suiIrradianceEvening )');
     expect(rim).toBeGreaterThan(shader.fragmentShader.indexOf('suiLeafCoverage( diffuseColor.a'));
     expect(rim).toBeLessThan(shader.fragmentShader.indexOf('#include <tonemapping_fragment>'));
-    expect(material.customProgramCacheKey()).toBe('earlier|leaf-cluster');
+    expect(material.customProgramCacheKey()).toBe('earlier|leaf-cluster-shaded');
   });
 });

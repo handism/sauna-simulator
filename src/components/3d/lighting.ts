@@ -90,6 +90,14 @@ export const RAIN_DESATURATION = 0.55;
  * The probes are unchanged, so the sun's share of the light rises.
  */
 export const CLEAR_DAY_SUN = 2.2;
+/**
+ * The lounge dusk fill's shadow map is this much finer than the quality's, up to MAX_SHADOW_SIZE
+ * (standard 1024 → 2048; high stays 2048). Under the water its highlight on the floor is cut by the
+ * coping a few centimeters from where the shadow is looked up (waterBottom.ts), so the penumbra is
+ * under a texel and the edge stepped with the map's texels, stretched along the grazing light.
+ */
+export const LOUNGE_SHADOW_SCALE = 2;
+export const MAX_SHADOW_SIZE = 2048;
 export const CLEAR_DAY_EXPOSURE = -0.1;
 
 /**
@@ -228,6 +236,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
   duskLounge.shadow.normalBias = 0.015;
   duskLounge.shadow.radius = spotPenumbra(0.1, 20, 144, 2);
   duskLounge.shadow.autoUpdate = false;
+  duskLounge.userData.shadowScale = LOUNGE_SHADOW_SCALE;
   // The maple uplight must not shine through the trunk and canopy. The source is a 0.6 m
   // disk; its center-based shadow is an approximation of the disk's visibility.
   const maple = duskLights[4];
@@ -274,7 +283,7 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     setShadowSize(size: number) {
       for (const light of shadowLights) {
         light.castShadow = size > 0;
-        if (size) light.shadow.mapSize.setScalar(size);
+        if (size) light.shadow.mapSize.setScalar(Math.min(size * (light.userData.shadowScale ?? 1), MAX_SHADOW_SIZE));
         else {
           light.shadow.dispose();
           light.shadow.map = null;
@@ -325,6 +334,10 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     /** The share of the overcast: the rain's and the snow's together (their targets exclude each other). */
     get clouds() {
       return Math.min(1, rain + snow);
+    },
+    /** The clear day's weight: the day's share without the overcast. */
+    get clearDay() {
+      return sceneWeights(current)[0] * (1 - Math.min(1, rain + snow));
     },
     /** The overcast sky's radiance at its base (scene-linear), which the rain's drops carry. */
     get overcast() {

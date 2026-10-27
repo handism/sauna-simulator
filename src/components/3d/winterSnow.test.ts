@@ -36,7 +36,7 @@ describe('settled winter snow', () => {
     );
     expect(shader.fragmentShader).toContain('suiSnowHash(vec2(suiBoard, 3.7))');
     // Even with the drifts and the ragged edge, the snow stays on the open deck past the roofs (z 0.74).
-    const deepest = DECK_SNOW.reach[1] + DECK_SNOW.drift / 2 + DECK_SNOW.fray * 0.75;
+    const deepest = DECK_SNOW.reach[1] + DECK_SNOW.drift / 2 + DECK_SNOW.fray * 0.85;
     expect(DECK_BOARDS.end - deepest).toBeGreaterThan(1.3);
   });
 
