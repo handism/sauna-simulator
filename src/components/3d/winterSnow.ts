@@ -11,6 +11,23 @@ export function receivesWinterSnow(name: string) {
   );
 }
 
+/** The open deck's boards: along world Z, `pitch` apart from `x0`, out to `end` (the exported deck). */
+export const DECK_BOARDS = { x0: -0.145, pitch: 0.2, end: 2.844 };
+/**
+ * The deck's snow, from its outer end: each board's reach (m) — a field `across` boards per board
+ * mixed with each board's `own` share — how far the drifts move it, the ragged edge's depth across a
+ * board, the thin margin over which the cover builds up, and the layer's depth for the bump.
+ */
+export const DECK_SNOW = {
+  reach: [0.45, 1.05],
+  across: 0.45,
+  own: 0.4,
+  drift: 0.3,
+  fray: 0.12,
+  thin: 0.06,
+  depth: 0.02,
+};
+
 const PARS = /* glsl */ `
 uniform float suiWinterSnow;
 varying vec3 vSuiSnowPosition;
@@ -54,10 +71,21 @@ const SNOW = /* glsl */ `
   // Preserve the sauna, pool and sheltered deck; their roof tops remain eligible.
   bool suiSheltered = suiSnowP.x > -7.1 && suiSnowP.x < 7.1 && suiSnowP.z > -5.3 && suiSnowP.z < 2.9 && suiSnowP.y < 3.35;
   // The deck runs on past the roofs' edge (z 0.74) to 2.84 under the open sky. Bare to its edge, it
-  // met the white garden in a hard line: there, snow lies in crisp drifts along the outer meter (the
-  // walked middle kept clear; a soft, partial cover read as stains on the boards).
-  float suiOpenDeck = suiSnowP.y < 0.5 ? smoothstep(1.7, 2.75, suiSnowP.z) : 0.0;
-  suiOpenDeck = smoothstep(0.42, 0.5, suiOpenDeck * 0.75 + (suiSnowFiltered(suiSnowP.xz * 2.2 + 4.1) - 0.5) * 0.35 + (suiSnowDrift - 0.5) * 0.3);
+  // met the white garden in a hard line: there, snow lies along the outer meter (the walked middle
+  // kept clear; a soft, partial cover read as stains on the boards). Its edge ends board by board,
+  // ragged across each board and thin over its last centimeters: one smooth wave across all the
+  // boards read as a white shape painted on the deck (docs/3d-qa/deck-snow-edge/).
+  float suiOpenDeck = 0.0;
+  if (suiSnowP.y < 0.5) {
+    float suiBoard = floor((suiSnowP.x - ${DECK_BOARDS.x0.toFixed(3)}) / ${DECK_BOARDS.pitch.toFixed(2)});
+    // Neighbouring boards differ by part of the range: independent reaches stepped like piano keys.
+    float suiShare = mix(suiSnowNoise(vec2(suiBoard * ${DECK_SNOW.across.toFixed(2)}, 5.1)), suiSnowHash(vec2(suiBoard, 3.7)), ${DECK_SNOW.own.toFixed(2)});
+    float suiReach = ${DECK_SNOW.reach[0].toFixed(2)} + ${(DECK_SNOW.reach[1] - DECK_SNOW.reach[0]).toFixed(2)} * suiShare
+      + (suiSnowDrift - 0.5) * ${DECK_SNOW.drift.toFixed(2)};
+    float suiFray = (suiSnowFiltered(suiSnowP.xz * vec2(14.0, 5.0) + 2.3) - 0.5) * ${DECK_SNOW.fray.toFixed(2)}
+      + (suiSnowFiltered(suiSnowP.xz * 40.0) - 0.5) * ${(DECK_SNOW.fray * 0.5).toFixed(3)};
+    suiOpenDeck = smoothstep(0.0, ${DECK_SNOW.thin.toFixed(2)}, suiSnowP.z - (${DECK_BOARDS.end.toFixed(3)} - suiReach) + suiFray);
+  }
   suiSnowCover *= (suiSheltered ? suiOpenDeck : 1.0) * suiWinterSnow;
   #ifdef SUI_SNOW_DUSTING
   // Fronds hold only a dusting in clumps; fully covered they read as white cut-outs.
@@ -73,6 +101,8 @@ const SNOW = /* glsl */ `
   diffuseColor.rgb = mix(diffuseColor.rgb, suiSnowColor, suiSnowCover);
   roughnessFactor = mix(roughnessFactor, 0.92, suiSnowCover);
   float suiSnowHeight = suiSnowDrift * 0.16 + suiSnowSwell * 0.012 + suiSnowRipple * 0.0018;
+  // The deck's snow stands as a layer whose edge rises over its thin margin, catching the light.
+  if (suiSheltered) suiSnowHeight += suiOpenDeck * ${DECK_SNOW.depth.toFixed(3)};
 `;
 
 // Surface-gradient bump in view space, blended in by the cover so bare surfaces keep their normal.

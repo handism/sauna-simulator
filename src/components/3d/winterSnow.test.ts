@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { applyWinterSnow, patchWinterSnowShader, receivesWinterSnow } from './winterSnow';
+import { DECK_BOARDS, DECK_SNOW, applyWinterSnow, patchWinterSnowShader, receivesWinterSnow } from './winterSnow';
 
 describe('settled winter snow', () => {
   it('patches the actual standard shader after procedural color and before lighting', () => {
@@ -24,6 +24,22 @@ describe('settled winter snow', () => {
       shader.fragmentShader.indexOf('#include <lights_fragment_begin>'),
     );
   });
+  it("ends the open deck's snow board by board, short of the roofs and the walked middle", () => {
+    const shader = {
+      vertexShader: THREE.ShaderLib.standard.vertexShader,
+      fragmentShader: THREE.ShaderLib.standard.fragmentShader,
+    };
+    patchWinterSnowShader(shader);
+    // Each board's own reach, from the exported boards' grid.
+    expect(shader.fragmentShader).toContain(
+      `floor((suiSnowP.x - ${DECK_BOARDS.x0.toFixed(3)}) / ${DECK_BOARDS.pitch.toFixed(2)})`,
+    );
+    expect(shader.fragmentShader).toContain('suiSnowHash(vec2(suiBoard, 3.7))');
+    // Even with the drifts and the ragged edge, the snow stays on the open deck past the roofs (z 0.74).
+    const deepest = DECK_SNOW.reach[1] + DECK_SNOW.drift / 2 + DECK_SNOW.fray * 0.75;
+    expect(DECK_BOARDS.end - deepest).toBeGreaterThan(1.3);
+  });
+
   it('keeps snow out of glass, water, pool tiles and textiles', () => {
     for (const name of [
       'Low iron architectural glass',
