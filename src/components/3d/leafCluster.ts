@@ -169,6 +169,16 @@ export const LEAF_FAR_FILL = 0.32;
 const FILL_FROM = 1;
 const FILL_TO = 3;
 /**
+ * The mask's LOD bias once a pixel spans `BIAS_FROM`→`BIAS_TO` texels (`suiLeafBias`): a blurrier mip
+ * turns a leaf's coverage over more of the view's turn, where the leaves under a pixel popped by a
+ * quarter of the samples at a time inside the far crowns. 0.91–0.99 times the shimmer while looking
+ * around; from one texel (0.81–0.96 times) the near leaves turned into large angular shards
+ * (docs/3d-qa/leaf-alpha-bias/).
+ */
+export const LEAF_FAR_BIAS = 1;
+const BIAS_FROM = 2;
+const BIAS_TO = 4;
+/**
  * Levels of a card's place in its crown's outer shell (crownNormals.ts), carried in the integer part
  * of its UVs (`2 × level` added to u; the mask repeats, so the leaves are the same). Not in the
  * source: by day, far off, the outermost cards' light goes up to `LEAF_RIM` of the way to the
@@ -204,6 +214,9 @@ float suiLeafCoverage( float alpha, vec2 uv ) {
 	// coverage: it joins the leaves into a mass, as measured (docs/3d-qa/crown-fill-far/).
 	return smoothstep( cutoff - ramp, cutoff + ramp, alpha );
 }
+float suiLeafBias( vec2 uv ) {
+	return ${LEAF_FAR_BIAS.toFixed(1)} * smoothstep( ${BIAS_FROM.toFixed(1)}, ${BIAS_TO.toFixed(1)}, suiLeafFootprint( uv ) );
+}
 // How far a card in its crown's outer shell is lifted, once its leaves are under a pixel.
 float suiLeafRim( vec2 uv ) {
 	float footprint = suiLeafFootprint( uv );
@@ -222,8 +235,11 @@ const RIM_GLSL = /* glsl */ `#ifdef SUI_IRRADIANCE
 `;
 
 export const ALPHA_TEST = '#include <alphatest_fragment>';
+export const ALPHA_MAP = '#include <alphamap_fragment>';
+/** three's alphamap_fragment with the far bias (`suiLeafBias`). */
+export const LEAF_ALPHA_MAP = 'diffuseColor.a *= texture2D( alphaMap, vAlphaMapUv, suiLeafBias( vAlphaMapUv ) ).g;';
 
-// alphaMap reads the green channel with the card UVs; the shadow maps cut it at a fixed 0.5.
+// alphaMap reads the green channel with the card UVs; the shadow maps cut it at a fixed 0.5, unbiased.
 // Composes with an earlier onBeforeCompile.
 export function applyLeafCluster(material: THREE.MeshStandardMaterial, texture: THREE.Texture) {
   material.alphaMap = texture;
@@ -233,10 +249,15 @@ export function applyLeafCluster(material: THREE.MeshStandardMaterial, texture: 
   const previousKey = material.customProgramCacheKey;
   material.onBeforeCompile = (shader, renderer) => {
     previous.call(material, shader, renderer);
-    if (!shader.fragmentShader.includes(ALPHA_TEST) || !shader.fragmentShader.includes(TONE_MAPPING))
+    if (
+      !shader.fragmentShader.includes(ALPHA_MAP) ||
+      !shader.fragmentShader.includes(ALPHA_TEST) ||
+      !shader.fragmentShader.includes(TONE_MAPPING)
+    )
       throw new Error('three shader chunks changed; update leafCluster.ts');
     shader.fragmentShader = shader.fragmentShader
       .replace('void main() {', `${LEAF_COVERAGE_GLSL}\nvoid main() {`)
+      .replace(ALPHA_MAP, LEAF_ALPHA_MAP)
       .replace(
         ALPHA_TEST,
         'diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );\n\tif ( diffuseColor.a == 0.0 ) discard;',

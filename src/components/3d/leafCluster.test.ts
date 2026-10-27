@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import {
+  ALPHA_MAP,
   ALPHA_TEST,
   LEAF_CLUSTER_SIZE,
   LEAF_COVERAGE_GLSL,
+  LEAF_ALPHA_MAP,
+  LEAF_FAR_BIAS,
   LEAF_FAR_FILL,
   LEAF_FAR_RAMP,
   applyLeafCluster,
@@ -124,6 +127,15 @@ describe('woodland leaf cluster cards', () => {
     expect(calls).toEqual(['earlier']);
     expect(shader.fragmentShader).not.toContain(ALPHA_TEST);
     expect(shader.fragmentShader).toContain('diffuseColor.a = suiLeafCoverage( diffuseColor.a, vAlphaMapUv );');
+    // The mask read up to LEAF_FAR_BIAS mips blurrier far off, before the coverage.
+    expect(shader.fragmentShader).not.toContain(ALPHA_MAP);
+    expect(shader.fragmentShader).toContain(LEAF_ALPHA_MAP);
+    expect(shader.fragmentShader).toContain(
+      `return ${LEAF_FAR_BIAS.toFixed(1)} * smoothstep( 2.0, 4.0, suiLeafFootprint( uv ) );`,
+    );
+    expect(shader.fragmentShader.indexOf(LEAF_ALPHA_MAP)).toBeLessThan(
+      shader.fragmentShader.indexOf('diffuseColor.a = suiLeafCoverage'),
+    );
     // Defined before main, centred on the cutoff, widened to LEAF_FAR_RAMP past two texels per pixel,
     // the cutoff lowered by LEAF_FAR_FILL from one to three.
     expect(shader.fragmentShader.indexOf(LEAF_COVERAGE_GLSL)).toBeLessThan(

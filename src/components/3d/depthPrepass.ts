@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ALPHA_TEST, LEAF_COVERAGE_GLSL } from './leafCluster';
+import { ALPHA_MAP, ALPHA_TEST, LEAF_ALPHA_MAP, LEAF_COVERAGE_GLSL } from './leafCluster';
 import { refractedDepthMaterial } from './refraction';
 
 // Almost all of a frame's GPU time is fragment shading (every light, PCSS shadows, probes), and
@@ -52,11 +52,12 @@ function cutoutDepthMaterial(material: THREE.MeshStandardMaterial, alphaMap: THR
   copy.opacity = material.opacity;
   const covered = material.alphaToCoverage;
   copy.onBeforeCompile = (shader) => {
-    if (!shader.fragmentShader.includes(ALPHA_TEST))
+    if (!shader.fragmentShader.includes(ALPHA_MAP) || !shader.fragmentShader.includes(ALPHA_TEST))
       throw new Error('three shader chunks changed; update depthPrepass.ts');
     if (covered)
       shader.fragmentShader = shader.fragmentShader
         .replace('void main() {', `${LEAF_COVERAGE_GLSL}\nvoid main() {`)
+        .replace(ALPHA_MAP, LEAF_ALPHA_MAP)
         .replace(ALPHA_TEST, 'if ( suiLeafCoverage( diffuseColor.a, vAlphaMapUv ) < 1.0 ) discard;');
   };
   copy.customProgramCacheKey = () => `sui-cutout-depth|${covered}`;

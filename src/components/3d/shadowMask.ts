@@ -259,7 +259,7 @@ function maskMaterial(side: THREE.Side, level?: string, waterBottom = false, cut
   // The true world position, which the vertex stage keeps in vViewPosition.
   const discard = cutout
     ? // Where the lit pass keeps the leaves (leafCluster.ts).
-      'if ( suiLeafCoverage( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv ).g, vSuiAlphaMapUv ) == 0.0 ) discard;'
+      'if ( suiLeafCoverage( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv, suiLeafBias( vSuiAlphaMapUv ) ).g, vSuiAlphaMapUv ) == 0.0 ) discard;'
     : level === undefined
       ? ''
       : `vec3 suiTrue = ( ( vec4( geometryPosition, 1.0 ) - viewMatrix[ 3 ] ) * viewMatrix ).xyz;

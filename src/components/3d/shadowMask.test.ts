@@ -123,7 +123,7 @@ describe('shadow mask', () => {
     expect(cut.uniforms.suiAlphaMap.value).toBe(alphaMap);
     expect(cut.uniforms.suiAlphaMapTransform.value).toBe(alphaMap.matrix);
     expect(cut.fragmentShader).toContain(
-      'if ( suiLeafCoverage( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv ).g, vSuiAlphaMapUv ) == 0.0 ) discard;',
+      'if ( suiLeafCoverage( suiOpacity * texture2D( suiAlphaMap, vSuiAlphaMapUv, suiLeafBias( vSuiAlphaMapUv ) ).g, vSuiAlphaMapUv ) == 0.0 ) discard;',
     );
     expect(cut.fragmentShader).toContain('float suiLeafCoverage(');
     expect(dry.fragmentShader).not.toMatch(/discard;/);

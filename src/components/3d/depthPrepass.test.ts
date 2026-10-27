@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { createDepthPrepass, PREPASS_LAYER } from './depthPrepass';
+import { LEAF_ALPHA_MAP } from './leafCluster';
 
 const standard = (parameters: THREE.MeshStandardMaterialParameters = {}) => new THREE.MeshStandardMaterial(parameters);
 
@@ -122,6 +123,9 @@ describe('depth prepass', () => {
     // Depth only where the lit pass's coverage reaches every sample.
     expect(compile(covered)).toContain('if ( suiLeafCoverage( diffuseColor.a, vAlphaMapUv ) < 1.0 ) discard;');
     expect(compile(covered)).toContain('float suiLeafCoverage(');
+    // The same biased mask read as the lit pass (leafCluster.ts).
+    expect(compile(covered)).toContain(LEAF_ALPHA_MAP);
+    expect(compile(cut)).toContain('#include <alphamap_fragment>');
     expect(compile(cut)).toContain('#include <alphatest_fragment>');
     expect(covered.customProgramCacheKey()).not.toBe(cut.customProgramCacheKey());
     // Each material keeps its copy.

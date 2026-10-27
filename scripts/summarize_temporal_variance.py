@@ -92,7 +92,7 @@ def main():
                     'yawPerStep', 'framesPerStep', 'controlledFrames', 'samples'):
             if body[key] != reference[key]:
                 raise ValueError(f'{run}: mismatched {key}')
-        if bool(body['controls']) != run.startswith('before'):
+        if body.get('control') != reference.get('control') or bool(body['controls']) != run.startswith('before'):
             raise ValueError(f'{run}: missing or unexpected shader substitution')
     groups = {}
     for sample in reference['samples']:
