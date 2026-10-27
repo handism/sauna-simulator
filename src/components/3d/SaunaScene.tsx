@@ -15,6 +15,7 @@ import { createSteam, LIFETIME_SECONDS } from './steam';
 import { createSteamHaze, hazeColor } from './steamHaze';
 import { updateShimmer } from './heatShimmer';
 import { addGardenDetails } from './gardenDetails';
+import { IMPOSTOR_FILE } from './farForest';
 import { roundWoodlandCrowns } from './crownNormals';
 import { createForestFloor, type CrownFootprint } from './forestFloor';
 import { splitEvergreenWoodland } from './evergreenWoodland';
@@ -734,6 +735,27 @@ export default function SaunaScene({
             if (disposed || failed) return;
           }
           setData('probeScenes', PROBE_SCENES.filter((scene) => files.loaded.has(scene)).join());
+          // The far forest's crowns (farForest.ts), before the woodland in front of them. A failed
+          // fetch leaves the band alone behind the woodland.
+          try {
+            const bitmap = await get(IMPOSTOR_FILE)
+              .then((r) => r.blob())
+              .then((blob) => createImageBitmap(blob, { premultiplyAlpha: 'none', colorSpaceConversion: 'none' }));
+            if (disposed || failed) {
+              bitmap.close();
+              return;
+            }
+            const impostors = new THREE.Texture(bitmap);
+            impostors.flipY = false;
+            impostors.colorSpace = THREE.NoColorSpace;
+            impostors.anisotropy = 4;
+            impostors.needsUpdate = true;
+            gardenDetails.setForestImpostors(impostors);
+            setData('forestImpostors', 'ready');
+          } catch {
+            if (disposed || failed) return;
+            setData('forestImpostors', 'failed');
+          }
           try {
             const garden = await get('sauna-garden.glb').then((r) => r.arrayBuffer());
             if (disposed || failed) return;

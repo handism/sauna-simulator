@@ -583,6 +583,9 @@ export function addGardenDetails(root: THREE.Object3D) {
       meadowBlades: 0,
       meadowTufts: 0,
       airColor: new THREE.Color(),
+      setForestImpostors(texture: THREE.Texture) {
+        texture.dispose();
+      },
       finishPreparation() {},
       update() {},
     };
@@ -1201,6 +1204,8 @@ export function addGardenDetails(root: THREE.Object3D) {
     meadowBlades: meadow.blades,
     /** Taller wild tufts out in the meadow (meadowGrass.ts). */
     meadowTufts: tufts.blades,
+    /** The far forest's baked crowns, once fetched (farForest.ts IMPOSTOR_FILE). */
+    setForestImpostors: farForest.setImpostors,
     /** The air's color by time and weather (set by update), for the lit surfaces too (aerialPerspective.ts). */
     airColor: hazeColor.value,
     /** Call after the generic model preparation, which otherwise enables every shadow. */

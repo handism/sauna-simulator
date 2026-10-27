@@ -18,7 +18,7 @@
 | --- | --- |
 | 配信物の書き出し | `export_web_glb.py`, `compress_web_glb.mjs`, `web_scene.py`（シーン定義の正本） |
 | 元blendの加工・来歴 | `flatten_water_sides.py`, `build_sky_world.py`, `build_night_scene.py`, `blend_lineage.py` |
-| ベイク・当てはめ（製品の定数を作る） | `bake_irradiance_probes.py`, `refill_enclosed_probes.py`, `fit_blender_agx.py`, `fit_water_waves.py` |
+| ベイク・当てはめ（製品の定数を作る） | `bake_irradiance_probes.py`, `bake_forest_impostors.py`, `refill_enclosed_probes.py`, `fit_blender_agx.py`, `fit_water_waves.py` |
 | Blender参照画像（e2e比較用） | `blender_{bluehour,camera,caustic,noise,sky,stage}_reference.py`, `cycles_tone_stats.py`, `summarize_cycles_compare.py` |
 | ブラウザ撮影の集計 | `summarize_visual_survey.py`, `compare_shadow_samples.py`, `summarize_sun_shadow.py`, `summarize_sun_pcf.py`, `summarize_water_side_images.py`, `summarize_auto_motion.py`, `analyze_auto_motion_frames.py`, `analyze_water_bump_motion.py`, `summarize_taa_ghosting.py` |
 | 診断：プローブ・床の拡散光 | `probe_sampling.py`（補間のCPU版）, `diagnose_probe_{depth,visibility}.py`, `survey_probe_enclosure.py`, `check_probe_visibility.py`, `compare_probe_weights.py`, `sample_room_floor.py`, `summarize_floor_irradiance.py` |
@@ -27,6 +27,8 @@
 | テスト（Blender不要） | `test_*.py`。`python3 -m unittest discover -s scripts -p 'test_*.py'` で一括実行（NumPy・Pillow・SciPyが必要） |
 
 ## 詳細
+
+- `bake_forest_impostors.py`（Blender、`-b --factory-startup --python-exit-code 1`、元blendは使わない、CPUで約20秒）は奥の森（`src/components/3d/farForest.ts`）の樹冠のインポスタを `public/models/forest-impostors.webp` に書く。空のシーンに固定の乱数種で密な葉（菱形の小さな面、樹冠と葉の塊の外向きへ寄せたカスタム法線）の樹冠を広葉樹5・常緑樹3作り、正投影（タイル6.4×12.8m、160×320）で、法線を頂点色の発光として、明るさを天頂ほど明るい曇天（`SKY_POWER` 1.5）の下でCycles（256サンプル）に描く。EXR（線形・事前乗算）で受け、被覆で割って事前乗算を外し、透明なテクセルへ色を広げてから（ミップで輪郭が暗くならないように）、法線を32段・明るさの平方根を64段に丸めて、`cwebp -lossless -exact`（PATHに必要）で書く。出力は実行ごとに同じ。`-- --out <path>` で別出力、`--preview` で光を当てた確認画像（`<名前>-preview.png`、配信しない）。タイルの配置・縦横・樹冠の頂部の割合は `farForest.ts` の `IMPOSTOR_*` と合わせる。葉の面の頂点を時計回りに並べると面の向きがカスタム法線と逆になり、Cyclesで黒く描かれた。葉面積密度が実際の10倍以上（2,600枚/m³）だと表面の葉まで影になった。樹冠がタイルの端で切れると縦の直線の輪郭になるため、タイルの外の葉は捨てる。記録は `docs/3d-qa/forest-impostors/`。
 
 - 比較用 `views`・着座位置を上書きする `stageViews` と水面位置の正本は `scripts/web_scene.py`。水面の高さ0.765mは元の `V4 rippled spring water volume` の上面の平均。`python3 scripts/web_scene.py` でシーン定義だけ再生成できる。GLB再出力時も同じ関数を呼ぶ。
 - 葉の書き出しは `export_web_glb.py` の `sample_whole_leaves()`。接続成分を葉として名前をseedに選ぶ。近景V11 maple 3体とV7 mapleは全枚数を元の5裂の輪郭・水平の向き・元の面のスムーズ設定のまま残す（元形状は1枚10三角形）。V6林の葉（`V6 clustered tree leaves`、1本約4,000枚）は元の葉20枚につき1枚の切り抜きカード（元の葉の面積を保つ長方形、UVは4隅・90度単位の回転）へ置換する。カードは複製した専用材質（名前末尾 ` card`）を使い、その `extras.suiLeafCluster` に枚数を記録する（同じ色材質を使う `V8 selective low grass` にはカードUVがないため共有しない）。`Fine canopy leaves` とその複製は各480枚を間引かず2三角形の平面へ変換する（ブラウザの `canopyLeafShape.ts` が読み込み時に葉の形へ加工する）。それ以外は1オブジェクト175枚を上限に、元の位置・向き・広がりを近似した2三角形の平面へ変換する（V5/V6の葉は元から菱形）。建物のDecimateとは分離。中庭外の距離による除外はしない（該当する表示対象は林・植栽帯の木だけで、Cyclesの視点に写る）。奥の植栽帯のモミジは菱形のまま。

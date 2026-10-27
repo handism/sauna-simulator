@@ -55,7 +55,8 @@ describe('far forest', () => {
     // and uses finite geometry even at a crown's open ends.
     expect(Array.from(position.array).every(Number.isFinite)).toBe(true);
     const radii = Array.from({ length: position.count }, (_, i) => Math.hypot(position.getX(i), position.getZ(i)));
-    expect(radii.some((r) => r < 47)).toBe(true);
+    // The impostors' front rank from 48m.
+    expect(radii.some((r) => r < 49)).toBe(true);
     expect(radii.filter((r) => r < 53).reduce((a, b) => Math.max(a, b), 0)).toBeGreaterThan(50);
     expect(radii.some((r) => r > 53.9)).toBe(true);
     expect(Array.from(forest.mesh.geometry.attributes.gardenCrownSide.array).every(Number.isFinite)).toBe(true);
@@ -108,141 +109,114 @@ describe('far forest', () => {
     forest.mesh.geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });
-  it('closes every crown volume without holes, below its crown top, within a geometry budget', () => {
+  it('stands one baked crown in front of the band for each crown, its tree top at the crown top', () => {
     const forest = createFarForest({ value: new THREE.Color() });
     const { geometry } = forest.mesh;
-    const { position, gardenEdge, gardenBand, gardenCrownTop } = geometry.attributes;
-    const index = geometry.index!;
-    // Counted rather than asserted per vertex: some 420,000 expect calls outran CI's 5s timeout.
-    let mixedBands = 0;
-    let aboveTop = 0;
-    let degenerate = 0;
-    // One id per rounded point, with -0 as 0 (a pole on the x axis comes out as either).
-    const ids = new Map<string, number>();
-    const pointId = new Int32Array(position.count);
+    const { position, uv, gardenImpostor, gardenBand, gardenCrownTop, gardenEdge, gardenBroadleaf } =
+      geometry.attributes;
+    const crowns = farForestCrowns();
+    const quads: number[][] = [];
     for (let i = 0; i < position.count; i++) {
-      const key = [position.getX(i), position.getY(i), position.getZ(i)]
-        .map((v) => (v + 0).toFixed(4).replace(/^-(0\.0+)$/, '$1'))
-        .join(',');
-      let id = ids.get(key);
-      if (id === undefined) ids.set(key, (id = ids.size));
-      pointId[i] = id;
+      if (gardenImpostor.getX(i) === 0) continue;
+      expect(gardenBand.getX(i)).toBe(0);
+      if (!quads.length || quads[quads.length - 1].length === 4) quads.push([]);
+      quads[quads.length - 1].push(i);
     }
-    const edges = new Map<number, number>();
-    let far = 0;
-    let volumes = 0;
-    for (let t = 0; t < index.count; t += 3) {
-      const a = index.getX(t);
-      if (gardenBand.getX(a) !== 0) continue;
-      volumes++;
-      if (gardenEdge.getX(a) === 2e4) far++;
-      const vertices = [a, index.getX(t + 1), index.getX(t + 2)].map((i) => {
-        if (gardenBand.getX(i) !== 0) mixedBands++;
-        // The leaders, shoulders and foliage clumps stay under the crown's top.
-        if (position.getY(i) > gardenCrownTop.getX(i) + 1e-4) aboveTop++;
-        return pointId[i];
-      });
-      if (new Set(vertices).size !== 3) degenerate++;
-      for (let n = 0; n < 3; n++) {
-        const p = vertices[n];
-        const q = vertices[(n + 1) % 3];
-        const key = Math.min(p, q) * ids.size + Math.max(p, q);
-        edges.set(key, (edges.get(key) ?? 0) + 1);
-      }
-    }
-    expect(mixedBands).toBe(0);
-    expect(aboveTop).toBe(0);
-    expect(degenerate).toBe(0);
-    // Closed: every edge of the volumes (leaders, shoulders, clumps) shared by two of their triangles.
-    expect([...edges.values()].every((count) => count === 2)).toBe(true);
-    // The far rank: three lobes and four clumps a crown.
-    expect(far).toBeGreaterThan(0);
-    expect(far).toBeLessThan(8000);
-    // About 58,600 triangles of clumps over the 32,780 of the band and lobes; the shared vertices
-    // keep the attributes and the 32-bit index near the earlier non-indexed arrays (5.3 against 4.7 MB).
-    expect(volumes).toBeGreaterThan(70000);
-    expect(index.count / 3).toBeLessThan(95000);
-    let bytes = index.array.byteLength;
-    for (const attribute of Object.values(geometry.attributes)) bytes += attribute.array.byteLength;
-    // Plus the volumes' 8-bit normals for their frayed outline (240 KB) and the broadleaf flag of
-    // the bare winter crowns (80 KB), and the volumes' 8-bit light without the sun (80 KB).
-    expect(bytes).toBeLessThan(5.81e6);
+    expect(quads.length).toBe(crowns.length);
+    const drops = { front: 0, backing: 0, far: 0 };
+    quads.forEach((quad, c) => {
+      const crown = crowns[c];
+      const ys = quad.map((i) => position.getY(i));
+      const bottom = Math.min(...ys);
+      const top = Math.max(...ys);
+      expect(bottom).toBe(-4);
+      // The baked tree's top 0.25m under its tile's 12.8m.
+      expect(bottom + (top - bottom) * (12.55 / 12.8)).toBeCloseTo(gardenCrownTop.getX(quad[0]), 4);
+      const drop = crown.top - gardenCrownTop.getX(quad[0]);
+      const rank = c % 6 === 3 ? 'far' : c % 6 === 0 ? 'backing' : 'front';
+      expect(drop).toBeCloseTo({ front: 0.2, backing: 0.25, far: 0.1 }[rank], 4);
+      drops[rank]++;
+      // The far rank alone carries the larger sentinel QA omits it by.
+      expect(gardenEdge.getX(quad[0])).toBe(rank === 'far' ? 2e4 : 1e4);
+      // One tile of the 4 × 2 atlas, broadleaf (the first five) or evergreen by the crown.
+      const us = quad.map((i) => uv.getX(i));
+      const vs = quad.map((i) => uv.getY(i));
+      const column = Math.floor(Math.min(...us) * 4 + 1e-6);
+      const row = Math.floor(Math.min(...vs) * 2 + 1e-6);
+      expect(Math.max(...us) - Math.min(...us)).toBeCloseTo(0.25, 6);
+      expect(Math.max(...vs) - Math.min(...vs)).toBeCloseTo(0.5, 6);
+      expect(row * 4 + column >= 5).toBe(crown.evergreen);
+      expect(gardenBroadleaf.getX(quad[0]) > 0).toBe(!crown.evergreen);
+      // Its tree's top row at its top (an ImageBitmap is not flipped).
+      const topVertex = quad[ys.indexOf(top)];
+      expect(uv.getY(topVertex)).toBeCloseTo(row / 2, 6);
+      // Facing the clearing: its corners at one distance along the crown's direction.
+      const along = quad.map(
+        (i) => position.getX(i) * Math.cos(crown.angle) + position.getZ(i) * Math.sin(crown.angle),
+      );
+      expect(Math.max(...along) - Math.min(...along)).toBeLessThan(1e-4);
+    });
+    expect(drops.front).toBeGreaterThan(50);
+    expect(drops.backing).toBeGreaterThan(10);
+    expect(drops.far).toBeGreaterThan(10);
+    // The band's 32,780 triangles less the old volumes, plus two a crown.
+    expect(geometry.index!.count / 3).toBeLessThan(25000);
     geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });
-  it("raises the front volumes to their crowns' tips and gives only the volumes normals to fray", () => {
+  it('cuts the impostors out of their atlas over the samples and shades them by the baked crown', () => {
     const forest = createFarForest({ value: new THREE.Color() });
-    const { gardenBand, gardenEdge, gardenCrownTop, gardenNormal } = forest.mesh.geometry.attributes;
-    const tips = farForestCrowns().map((crown) => crown.top);
-    // Counted rather than asserted per vertex, which outran CI's 5s timeout.
-    let bandNormals = 0;
-    let volumeNormals = 0;
-    let misplaced = 0;
-    let front = 0;
-    // Many vertices share a crown top: find each one's nearest tip once.
-    const drops = new Map<number, number>();
-    for (let i = 0; i < gardenBand.count; i++) {
-      const length = Math.hypot(gardenNormal.getX(i), gardenNormal.getY(i), gardenNormal.getZ(i));
-      if (gardenBand.getX(i) === 1) {
-        // The band frays by its outline's height instead.
-        if (length !== 0) bandNormals++;
-        continue;
-      }
-      if (!(length > 0.98 && length < 1.02)) volumeNormals++;
-      if (gardenEdge.getX(i) !== 1e4) continue;
-      // The front rank (not the backing one, 0.25m under): close enough under a tip to hide the band's.
-      const top = gardenCrownTop.getX(i);
-      let drop = drops.get(top);
-      if (drop === undefined) drops.set(top, (drop = Math.min(...tips.map((tip) => Math.abs(tip - top)))));
-      if (drop < 0.22) front++;
-      if (!(drop < 0.2 + 1e-4 || Math.abs(drop - 0.25) < 1e-4)) misplaced++;
-    }
-    expect(bandNormals).toBe(0);
-    expect(volumeNormals).toBe(0);
-    expect(misplaced).toBe(0);
-    expect(front).toBeGreaterThan(0);
-    const shader = {
-      uniforms: {},
-      vertexShader: THREE.ShaderLib.basic.vertexShader,
-      fragmentShader: THREE.ShaderLib.basic.fragmentShader,
-    };
-    (forest.mesh.material as THREE.MeshBasicMaterial).onBeforeCompile(shader as any, undefined as any);
-    expect(shader.vertexShader).toContain('vGardenNormal = gardenNormal;');
-    expect(shader.fragmentShader).toContain('normalize(cameraPosition - vGardenPosition)');
-    forest.mesh.geometry.dispose();
-    (forest.mesh.material as THREE.MeshBasicMaterial).dispose();
-  });
-
-  it('gives way to the sky light where the sun does not shine', () => {
-    const forest = createFarForest({ value: new THREE.Color() });
-    const { gardenBand, gardenSunRatio } = forest.mesh.geometry.attributes as Record<string, THREE.BufferAttribute>;
-    let bandOff = 0;
-    let sunSide = 0;
-    let shadeSide = 0;
-    for (let i = 0; i < gardenSunRatio.count; i++) {
-      // Stored halved: 0.5 is no sun lobe.
-      const ratio = 2 * gardenSunRatio.getX(i);
-      if (gardenBand.getX(i) !== 0) {
-        if (Math.abs(ratio - 1) > 0.01) bandOff++;
-      } else if (ratio < 0.97) sunSide++;
-      else if (ratio > 1.03) shadeSide++;
-      expect(ratio).toBeGreaterThan(0.6);
-      expect(ratio).toBeLessThan(1.4);
-    }
-    // The band shades itself in the shader; the sunlit clumps dim and their shaded sides lift.
-    expect(bandOff).toBe(0);
-    expect(sunSide).toBeGreaterThan(1000);
-    expect(shadeSide).toBeGreaterThan(1000);
+    const material = forest.mesh.material as THREE.MeshBasicMaterial;
+    // A clear placeholder until the atlas arrives, so the same program draws both.
+    const placeholder = material.map!;
+    expect(placeholder).toBeInstanceOf(THREE.DataTexture);
+    expect(Array.from((placeholder.image as { data: Uint8Array }).data)).toEqual([0, 0, 0, 0]);
+    const atlas = new THREE.Texture();
+    let disposed = 0;
+    placeholder.addEventListener('dispose', () => disposed++);
+    forest.setImpostors(atlas);
+    expect(material.map).toBe(atlas);
+    expect(disposed).toBe(1);
+    expect(material.alphaToCoverage).toBe(true);
+    // Still kept out of the depth prepass.
+    expect(material.alphaTest).toBeGreaterThan(0);
     const shader = {
       uniforms: {} as Record<string, { value: unknown }>,
       vertexShader: THREE.ShaderLib.basic.vertexShader,
       fragmentShader: THREE.ShaderLib.basic.fragmentShader,
     };
-    (forest.mesh.material as THREE.MeshBasicMaterial).onBeforeCompile(shader as any, undefined as any);
+    material.onBeforeCompile(shader as any, undefined as any);
+    expect(shader.fragmentShader).toContain('texture2D(map, vMapUv)');
+    expect(shader.fragmentShader).not.toContain('#include <map_fragment>');
+    expect(shader.fragmentShader).not.toContain('#include <alphatest_fragment>');
+    expect(shader.vertexShader).toContain('vGardenImpostor = gardenImpostor;');
+    // Without the sun, its mean, as on the band.
     forest.update('summer', new THREE.Color(1, 1, 1), 0.25);
     expect(shader.uniforms.gardenSun.value).toBe(0.25);
-    expect(shader.fragmentShader).toContain('mix(2.0 * vGardenSunRatio, 1.0, gardenSun)');
+    expect(shader.fragmentShader.match(/mix\(0\.3, max\(0\.0, dot\(gardenNormal/g)?.length).toBe(2);
     forest.mesh.geometry.dispose();
-    (forest.mesh.material as THREE.MeshBasicMaterial).dispose();
+    material.dispose();
+  });
+  it("frays the understory with the crown over it and tints its foot as no crown's", () => {
+    const forest = createFarForest({ value: new THREE.Color() });
+    const { position, gardenEdge, gardenBand, gardenBroadleaf, color } = forest.mesh.geometry.attributes;
+    forest.update('winter', new THREE.Color(1, 1, 1));
+    let higher = 0;
+    const feet = new Set<string>();
+    for (let i = 0; i < position.count; i++) {
+      if (gardenBand.getX(i) !== 1) continue;
+      // No unfrayed sentinel left on the band: under a crown its outline is above the understory.
+      expect(gardenEdge.getX(i)).toBeLessThan(100);
+      if (position.getY(i) === 4.5 && gardenEdge.getX(i) > 4.6) higher++;
+      if (position.getY(i) === -4) {
+        expect(gardenBroadleaf.getX(i)).toBe(0);
+        feet.add([color.getX(i), color.getY(i), color.getZ(i)].map((v) => v.toFixed(5)).join());
+      }
+    }
+    expect(higher).toBeGreaterThan(1000);
+    // One tint at the foot all round.
+    expect(feet.size).toBe(1);
+    forest.mesh.geometry.dispose();
+    (forest.mesh.material as THREE.Material).dispose();
   });
 });

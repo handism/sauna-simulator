@@ -11,8 +11,9 @@ import { AIR_GLSL } from './aerialPerspective';
 // darker toward the foot, hazed with the same air color. Each crown has its own shade; the season changes the
 // colors (autumn reds and ochres, grey-brown crowns in winter among the evergreens, fresh green
 // in spring) and the time of day and the overcast darken them as they do the ridges.
-// Low-poly lobed volumes in front of the ring supply depth, sharing the unlit material;
-// their fixed vertex shading is a shape cue, not seasonally rebaked or dynamic lighting.
+// Crown impostors in front of the ring supply depth, sharing the unlit material: dense leafy crowns
+// baked in Blender (scripts/bake_forest_impostors.py) as their normal, the light of an open sky on
+// their leaves and their coverage, lit here by the scene's fixed sun; not seasonally rebaked.
 
 export const FAR_FOREST_RADIUS = 54;
 const SEGMENTS = 1440;
@@ -21,20 +22,26 @@ const BASE = -4;
 const UNDERSTORY = 4.5;
 /** How deep (m) the ragged foliage cuts into the outline. */
 const FRAY = 1.2;
-/** Darker cores under the foliage clumps, which take the light. */
-const CORE_SHADE = 0.74;
-/** Foliage clumps per crown of each rank, and their facets (36 triangles each). */
-const CLUMPS = { front: 10, backing: 6, far: 4 };
-const CLUMP_RINGS = 5;
-const CLUMP_SECTORS = 8;
-/** How far (m) a front crown's volume stays under its crown's top. */
+/** How far (m) a front crown's impostor stays under its crown's top. */
 const FRONT_DROP = 0.2;
 /**
- * The volumes' leafy outline: along a volume's silhouette (where its surface turns from the view),
- * leaf masses of about 0.4m and 0.17m cut in up to this share of the turn, so the clumps read as
- * foliage instead of smooth balls; gone where the masses would be finer than a pixel.
+ * The impostor atlas (scripts/bake_forest_impostors.py): tiles of 6.4 × 12.8 m, the tree standing on
+ * the tile's bottom edge with its top 0.25m under the tile's; the first five broadleaf, the rest
+ * evergreen. An impostor spans the crown's height from the foot of the band (BASE).
  */
-const VOLUME_FRAY = 0.8;
+export const IMPOSTOR_FILE = 'forest-impostors.webp';
+const IMPOSTOR_COLUMNS = 4;
+const IMPOSTOR_ROWS = 2;
+const IMPOSTOR_BROADLEAF = 5;
+const IMPOSTOR_TILES = 8;
+const IMPOSTOR_TOP = 12.55 / 12.8;
+const IMPOSTOR_BROADEN = 1.3;
+/**
+ * The impostors' light over the square root of the zenith sky's light on their leaves (about 0.14,
+ * 0.33 and 0.57 at the 10th, 50th and 90th percentiles): lobes lit on top, dark beneath and between.
+ */
+const IMPOSTOR_SHADE_FLOOR = 0.2;
+const IMPOSTOR_SHADE_SKY = 1.9;
 /**
  * Bare broadleaf crowns in winter: how much deeper the outline frays, the share of the leaf-mass
  * contrast taken away, and how much of the air behind shows through the twigs.
@@ -42,10 +49,8 @@ const VOLUME_FRAY = 0.8;
 const BARE_FRAY = 0.8;
 const BARE_LEAF_KEPT = 0.75;
 const BARE_SEE_THROUGH = 0.45;
-/** The scene's fixed sun (lighting.ts), as the band's shading uses. */
-const sun = new THREE.Vector3(-0.556, 0.6178, 0.556).normalize();
-/** The mean sun term over a crown's visible side, which stands for it without the sun. */
-const SUN_MEAN = 0.3;
+/** A bare impostor keeps only its densest leaves' share of coverage: the twigs thin out the crown. */
+const BARE_COVERAGE = 0.72;
 
 interface Crown {
   /** Angle (rad), half width (m), top (m above y=0) and per-crown shade and pick in [0, 1). */
@@ -165,17 +170,15 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   const lift: number[] = [];
   // The top of the crown each quad belongs to, so every crown is lit at its top and darker below.
   const tops: number[] = [];
-  // The outline over each vertex (Infinity under a crown): the shader frays the foliage below it.
+  // The outline over each vertex (the crown's or the understory's top): the shader frays the foliage below it.
   const edges: number[] = [];
   const crownOf: number[] = [];
   const depths: number[] = [];
   const sides: number[] = [];
   const band: number[] = [];
-  const volumeLight: number[] = [];
-  // The volumes' light without the sun's lobe over their light with it (1 where no sun lobe).
-  const sunRatio: number[] = [];
-  // The volumes' outward normals (the band has none: its outline frays by height).
-  const normals: number[] = [];
+  // The impostors' place in the atlas and their mirroring (±1; 0 on the band).
+  const uvs: number[] = [];
+  const impostor: number[] = [];
   const at = (
     j: number,
     y: number,
@@ -183,6 +186,10 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     edge: number,
     radius = FAR_FOREST_RADIUS,
     crown = owner[Math.min(j, SEGMENTS - 1)],
+    // The crown whose tint (and bareness) the vertex takes: none at the foot, where the understory
+    // runs on under every crown (owned, a bare or a dark evergreen crown made a block of its own
+    // down to the ground beside the next, once the volumes in front no longer hid the band).
+    tinted = y === BASE ? -1 : crown,
   ) => {
     const a = j * step;
     // Push the shoulder toward the clearing, tapering into the buried foot and
@@ -192,10 +199,9 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     radius -= relief[j] * rise * (1 - 0.55 * tip);
     positions.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
     indices.push(vertices++);
-    crownOf.push(crown);
-    volumeLight.push(1);
-    sunRatio.push(1);
-    normals.push(0, 0, 0);
+    crownOf.push(tinted);
+    uvs.push(0, 0);
+    impostor.push(0);
     band.push(1);
     sides.push(crown >= 0 ? (span(crowns[crown], a) * (radius / FAR_FOREST_RADIUS)) / crowns[crown].radius : 0);
     depths.push((radius - 47) / 7);
@@ -213,10 +219,12 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       [UNDERSTORY, a, b],
     ] as const) {
       if (hiA <= lo && hiB <= lo) continue;
-      // The understory's top is an outline only where no crown stands over it.
-      const covered = lo === BASE && (a > UNDERSTORY || b > UNDERSTORY);
-      // A crown's side may fall below the understory's top (the quad then narrows to a triangle).
-      const [edgeA, edgeB] = covered ? [1e4, 1e4] : [Math.max(hiA, lo), Math.max(hiB, lo)];
+      // Under a crown, the understory's outline is the crown's: at the crown's sides, where it meets
+      // the understory's top, the fray goes on across both. With none there (once the volumes in front
+      // hid it), the understory under a crown kept a flat top beside the frayed one, as a block with
+      // straight sides where the crowns end. A crown's side may fall below the understory's top (the
+      // quad then narrows to a triangle).
+      const [edgeA, edgeB] = [Math.max(a, hiA, lo), Math.max(b, hiB, lo)];
       at(j, lo, top, edgeA, FAR_FOREST_RADIUS, owner[j]);
       at(j, hiA, top, edgeA, FAR_FOREST_RADIUS, owner[j]);
       at(j + 1, hiB, top, edgeB, FAR_FOREST_RADIUS, owner[j]);
@@ -225,189 +233,63 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       at(j + 1, lo, top, edgeB, FAR_FOREST_RADIUS, owner[j]);
     }
   }
-  // Replace the exposed foreground cutouts with overlapping, low-poly crown volumes.
-  // The backing band still closes the horizon. All lobes share its material and seasonal
-  // palette, and stay outside the real woodland and below the existing crown tops.
+  // In front of the band, an impostor for every crown in three ranks: the band still closes the
+  // horizon, and the impostors stand outside the real woodland, their tops under the band's crowns.
   for (const [i, crown] of crowns.entries()) {
-    // A sparse second rank fills selected gaps between the foreground volumes.
-    // The remaining exposed cutouts get a smaller, farther crown: their lit shoulders
-    // overlap the backing sheet instead of leaving a row of flat silhouettes.
+    // A sparse second rank fills selected gaps between the front crowns; the remaining exposed
+    // cutouts get a farther crown, overlapping the band instead of leaving a row of flat silhouettes.
     const backing = i % 6 === 0;
     const far = i % 6 === 3;
     const distance = far ? 51.9 + crown.shade * 0.2 : backing ? 51.2 + crown.shade * 0.5 : 48 + crown.shade * 3;
-    // The front volumes once stopped 1.1m short of the band behind: its crown tips then stood over them
+    // The front crowns once stopped 1.1m short of the band behind: its crown tips then stood over them
     // alone, cut by the fray into stalks and knobs like chimney pots (docs/3d-qa/forest-outline/).
-    // Rising to the tips, the nearer volumes hide them.
+    // Rising to the tips, the nearer crowns hide them.
     const top = crown.top - (far ? 0.1 : backing ? 0.25 : FRONT_DROP);
-    // Extend below the terrain: exposing the ellipsoid bottoms made floating blobs.
-    const bottom = BASE;
-    const height = Math.max(1.6, top - bottom);
+    // Standing on the band's foot, below the terrain, its tree's top at the crown's.
+    const height = (top - BASE) / IMPOSTOR_TOP;
+    // The baked broadleaf crowns are about 4m across: widened toward the clumps' 3–6m.
+    const width = (height / 2) * (crown.evergreen ? 1 : IMPOSTOR_BROADEN);
     const radial = new THREE.Vector3(Math.cos(crown.angle), 0, Math.sin(crown.angle));
+    // The viewer's right, facing out from the clearing.
     const tangent = new THREE.Vector3(-radial.z, 0, radial.x);
-    // Broad, fixed inward/upward fill makes the curved shoulders readable from the clearing.
-    const lightDirection = radial.clone().multiplyScalar(-0.55).addScaledVector(tangent, -0.3);
-    lightDirection.y = 0.78;
-    lightDirection.normalize();
-    // The far rank meets the band, whose approximate shading uses this fixed world sun.
-    if (far) lightDirection.set(-0.556, 0.6178, 0.556).normalize();
-    const edge = far ? 2e4 : 1e4;
-    const scale = far ? 0.76 : backing ? 0.88 : 1;
-    // One closed, low-poly ellipsoid: `light` shades each vertex from its normal.
-    const ellipsoid = (
-      center: THREE.Vector3,
-      width: number,
-      halfHeight: number,
-      depth: number,
-      rings: number,
-      sectors: number,
-      light: (normal: THREE.Vector3) => number,
-      taper: (ny: number) => number,
-      // The same light with the sun's lobe at its mean (light itself when no sun lights it).
-      sunless = light,
-    ) => {
-      const vertex = (ring: number, sector: number) => {
-        const phi = (ring / rings) * Math.PI;
-        const theta = (sector / sectors) * Math.PI * 2;
-        const sin = Math.sin(phi);
-        const nx = Math.cos(theta) * sin,
-          ny = Math.cos(phi),
-          nz = Math.sin(theta) * sin;
-        const uneven = 1 + 0.1 * Math.sin(theta * 3 + crown.pick * 6 + phi * 2) * sin;
-        const x = nx * width * uneven * taper(ny);
-        const z = nz * depth * uneven * taper(ny);
-        const position = center.clone().addScaledVector(tangent, x).addScaledVector(radial, z);
-        position.y += ny * halfHeight;
-        positions.push(position.x, position.y, position.z);
-        crownOf.push(i);
-        band.push(0);
-        const normal = tangent
-          .clone()
-          .multiplyScalar(nx / width)
-          .addScaledVector(radial, nz / depth)
-          .add(new THREE.Vector3(0, ny / halfHeight, 0))
-          .normalize();
-        volumeLight.push(light(normal));
-        sunRatio.push(sunless(normal) / light(normal));
-        normals.push(Math.round(normal.x * 127), Math.round(normal.y * 127), Math.round(normal.z * 127));
-        sides.push(0);
-        depths.push(Math.max(0, Math.min(1, (Math.hypot(position.x, position.z) - 47) / 7)));
-        lift.push(Math.max(0, Math.min(1, (position.y - BASE) / (UNDERSTORY - BASE))));
-        tops.push(top);
-        // Volumes have their own closed silhouette; the band's vertical edge discard
-        // would punch view-dependent holes through their front and back surfaces.
-        // The larger sentinel also lets QA omit just the far rank in a same-build control.
-        edges.push(edge);
-      };
-      const first = vertices;
-      for (let ring = 0; ring <= rings; ring++) for (let sector = 0; sector <= sectors; sector++) vertex(ring, sector);
-      vertices += (rings + 1) * (sectors + 1);
-      const at = (ring: number, sector: number) => first + ring * (sectors + 1) + sector;
-      for (let ring = 0; ring < rings; ring++) {
-        for (let sector = 0; sector < sectors; sector++) {
-          // The poles' rings are points: one triangle there.
-          if (ring > 0) indices.push(at(ring, sector), at(ring, sector + 1), at(ring + 1, sector));
-          if (ring < rings - 1) indices.push(at(ring, sector + 1), at(ring + 1, sector + 1), at(ring + 1, sector));
-        }
-      }
-    };
-    const lobeLight = (normal: THREE.Vector3) =>
-      CORE_SHADE *
-      (far
-        ? 0.78 + 0.66 * Math.max(0, normal.dot(lightDirection))
-        : 0.55 + 0.75 * (0.5 + 0.5 * normal.dot(lightDirection)));
-    // Only the far rank is lit by the sun; the others by a fixed fill from the sky over the clearing.
-    const lobeSunless = far ? () => CORE_SHADE * (0.78 + 0.66 * SUN_MEAN) : lobeLight;
-    // Narrow the evergreen leader toward the top. Its upper half closes as a cone, to the spire the band
-    // behind once showed over it (a rounded tip read as a broadleaf's).
-    const lobeTaper = (ny: number) =>
-      crown.evergreen ? (0.78 - 0.22 * ny) * (ny > 0 ? Math.sqrt((1 - ny) / (1 + ny)) : 1) : 1;
-    // A leader and two offset shoulders break up a single smooth balloon/cone.
-    for (let lobe = 0; lobe < 3; lobe++) {
-      const shoulder = lobe !== 0;
-      const side = lobe === 1 ? -1 : 1;
-      const width = crown.radius * (shoulder ? 0.62 : 0.78) * scale;
-      // The broadleaf leader stops under the clumps, which make the top of the outline.
-      const leader = shoulder || crown.evergreen ? height : height - crown.radius * scale * 0.5;
-      const halfHeight = leader * (shoulder ? 0.22 : 0.5);
-      const center = radial.clone().multiplyScalar(distance - (shoulder ? 0.35 : 0));
-      center.addScaledVector(tangent, shoulder ? side * crown.radius * 0.57 : 0);
-      center.y = shoulder
-        ? bottom + height * (lobe === 1 ? 0.61 : 0.69) - (crown.evergreen ? 0 : crown.radius * scale * 0.4)
-        : bottom + halfHeight;
-      const depth = width * (0.72 + crown.pick * 0.18);
-      // These farther shoulders need fewer facets; share the existing material.
-      ellipsoid(
-        center,
-        width,
-        halfHeight,
-        depth,
-        backing || far ? 4 : 6,
-        backing || far ? 8 : 10,
-        lobeLight,
-        lobeTaper,
-        lobeSunless,
-      );
+    const kind = crown.evergreen
+      ? IMPOSTOR_BROADLEAF + Math.floor(crown.pick * (IMPOSTOR_TILES - IMPOSTOR_BROADLEAF))
+      : Math.floor(crown.pick * IMPOSTOR_BROADLEAF);
+    const mirror = crown.shade < 0.5 ? 1 : -1;
+    const u0 = (kind % IMPOSTOR_COLUMNS) / IMPOSTOR_COLUMNS;
+    const u1 = u0 + 1 / IMPOSTOR_COLUMNS;
+    // The atlas' top row first (an ImageBitmap is not flipped).
+    const v0 = Math.floor(kind / IMPOSTOR_COLUMNS) / IMPOSTOR_ROWS;
+    const v1 = v0 + 1 / IMPOSTOR_ROWS;
+    const first = vertices;
+    for (const [side, up] of [
+      [-1, 0],
+      [1, 0],
+      [1, 1],
+      [-1, 1],
+    ] as const) {
+      const position = radial
+        .clone()
+        .multiplyScalar(distance)
+        .addScaledVector(tangent, (side * width) / 2);
+      position.y = BASE + up * height;
+      positions.push(position.x, position.y, position.z);
+      const left = mirror > 0 ? side < 0 : side > 0;
+      uvs.push(left ? u0 : u1, up ? v0 : v1);
+      impostor.push(mirror);
+      crownOf.push(i);
+      band.push(0);
+      sides.push(0);
+      depths.push(Math.max(0, Math.min(1, (distance - 47) / 7)));
+      lift.push(Math.max(0, Math.min(1, (position.y - BASE) / (UNDERSTORY - BASE))));
+      tops.push(top);
+      // Impostors have their own outline: no band fray. The larger sentinel also lets QA omit
+      // just the far rank in a same-build control.
+      edges.push(far ? 2e4 : 1e4);
     }
-    // Clumps of foliage over the side facing the clearing: each lit on top by the world's sun and
-    // shaded beneath, so the crown reads as a cluster of leafy masses with a bumpy outline instead
-    // of one smooth spire (docs/3d-qa/forest-clumps/).
-    const random = seeded(0xc1a0 + i * 7919);
-    const clumps = far ? CLUMPS.far : backing ? CLUMPS.backing : CLUMPS.front;
-    const inward = radial.clone().negate();
-    for (let k = 0; k < clumps; k++) {
-      const u = (k + random()) / clumps;
-      // Across the facing half, from one side to the other; the evergreens' tiers out at the
-      // edges, left and right in turn, so they step the outline.
-      const across = crown.evergreen ? (k % 2 ? 1 : -1) * (0.55 + 0.4 * random()) : (random() * 2 - 1) * 0.95;
-      let center: THREE.Vector3;
-      let size: number;
-      if (crown.evergreen) {
-        // Tiers narrowing toward the leader.
-        const fall = u * crown.radius * 2.2;
-        const reach = crown.radius * scale * (0.35 + 0.8 * (fall / (crown.radius * 2.2)));
-        size = crown.radius * scale * (0.3 + 0.22 * (fall / (crown.radius * 2.2))) * (0.85 + 0.3 * random());
-        center = radial
-          .clone()
-          .multiplyScalar(distance)
-          .addScaledVector(tangent, across * reach)
-          .addScaledVector(inward, Math.sqrt(1 - across * across) * reach * 0.7);
-        center.y = top - 0.35 - fall;
-      } else {
-        // Over a dome: up to about 70 degrees above the crown's equator.
-        const elevation = (u * 0.85 - 0.1) * (Math.PI / 2);
-        const reach = crown.radius * scale * 0.95;
-        size = crown.radius * scale * (0.28 + 0.12 * random());
-        const around = tangent
-          .clone()
-          .multiplyScalar(across)
-          .addScaledVector(inward, Math.sqrt(1 - across * across));
-        center = radial
-          .clone()
-          .multiplyScalar(distance)
-          .addScaledVector(around, Math.cos(elevation) * reach);
-        center.y = top - crown.radius * scale * 0.95 + Math.sin(elevation) * reach * 0.9;
-      }
-      // Below the crown's top and over the understory.
-      // Its half height (0.85) at the most uneven (1.1).
-      center.y = Math.min(center.y, top - size * 0.94);
-      const lower = THREE.MathUtils.clamp((top - center.y) / (crown.radius * 2.5), 0, 1);
-      // Seen from below, mostly their sides: a little over the darker core, brighter up top and on
-      // the sun's side, darker beneath, and each clump its own shade so neighbours part.
-      const own = 0.88 + 0.24 * random();
-      const clumpLight = (normal: THREE.Vector3, sunlit = Math.max(0, normal.dot(sun))) =>
-        (0.86 + 0.45 * normal.y + 0.3 * sunlit) * (1 - 0.15 * lower) * own;
-      ellipsoid(
-        center,
-        size,
-        size * 0.85,
-        size * 0.9,
-        CLUMP_RINGS,
-        CLUMP_SECTORS,
-        clumpLight,
-        () => 1,
-        (normal) => clumpLight(normal, SUN_MEAN),
-      );
-    }
+    vertices += 4;
+    // Facing the clearing (the material is double-sided either way).
+    indices.push(first, first + 2, first + 1, first, first + 3, first + 2);
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
@@ -420,16 +302,8 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   geometry.setAttribute('gardenCrownSide', new THREE.Float32BufferAttribute(sides, 1));
   geometry.setAttribute('gardenBand', new THREE.Float32BufferAttribute(band, 1));
   geometry.setAttribute('gardenDepth', new THREE.Float32BufferAttribute(depths, 1));
-  geometry.setAttribute('gardenNormal', new THREE.BufferAttribute(new Int8Array(normals), 3, true));
-  // Halved into [0, 1] (the ratios lie within about 0.7–1.3).
-  geometry.setAttribute(
-    'gardenSunRatio',
-    new THREE.BufferAttribute(
-      Uint8Array.from(sunRatio, (r) => Math.round(Math.min(1, r / 2) * 255)),
-      1,
-      true,
-    ),
-  );
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  geometry.setAttribute('gardenImpostor', new THREE.BufferAttribute(Int8Array.from(impostor), 1));
   // The broadleaf crowns, bare in winter.
   const broadleaf = new Uint8Array(crownOf.length);
   for (let v = 0; v < crownOf.length; v++) broadleaf[v] = crowns[crownOf[v]] && !crowns[crownOf[v]].evergreen ? 255 : 0;
@@ -438,11 +312,16 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   // The share of the shading that the sun gives: the clear day's (lighting.ts), none at dusk,
   // night or under overcast, when the crowns are lit by the sky alone.
   const sunlit = { value: 1 };
-  const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
+  // Until the atlas arrives (setImpostors), a clear texel: the impostors draw nothing and the band
+  // alone closes the horizon. The same map keeps the same program.
+  const placeholder = new THREE.DataTexture(new Uint8Array(4), 1, 1);
+  placeholder.needsUpdate = true;
+  const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide, map: placeholder });
   material.name = 'Garden far forest';
-  // The shader frays the outline with discard; an alpha test (never failed: the alpha is 1) keeps the
-  // band out of the depth prepass, whose depth would hide the sky behind the frayed edge.
+  // The shader frays the outline and cuts the impostors out with discard; an alpha test (never failed:
+  // the alpha is 1) keeps the forest out of the depth prepass, whose depth would hide the sky behind.
   material.alphaTest = 0.01;
+  material.alphaToCoverage = true;
   material.onBeforeCompile = (shader) => {
     shader.uniforms.gardenHazeColor = hazeColor;
     shader.uniforms.gardenBare = bare;
@@ -450,12 +329,12 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
-        '#include <common>\nattribute float gardenBroadleaf;\nvarying float vGardenBroadleaf;\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nattribute vec3 gardenNormal;\nvarying vec3 vGardenNormal;\nattribute float gardenSunRatio;\nvarying float vGardenSunRatio;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;\nvarying float vGardenAir;',
+        '#include <common>\nattribute float gardenBroadleaf;\nvarying float vGardenBroadleaf;\nattribute float gardenBand;\nvarying float vGardenBand;\nattribute float gardenCrownSide;\nvarying float vGardenSide;\nattribute float gardenDepth;\nvarying float vGardenDepth;\nattribute float gardenLift;\nattribute float gardenCrownTop;\nattribute float gardenEdge;\nattribute float gardenImpostor;\nvarying float vGardenImpostor;\nvarying float vGardenLift;\nvarying float vGardenTop;\nvarying float vGardenEdge;\nvarying vec3 vGardenPosition;\nvarying float vGardenAir;',
       )
       .replace('#include <project_vertex>', '#include <project_vertex>\nvGardenAir = length(mvPosition.xyz);')
       .replace(
         '#include <begin_vertex>',
-        '#include <begin_vertex>\nvGardenBroadleaf = gardenBroadleaf;\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenNormal = gardenNormal;\nvGardenSunRatio = gardenSunRatio;\nvGardenPosition = position;',
+        '#include <begin_vertex>\nvGardenBroadleaf = gardenBroadleaf;\nvGardenBand = gardenBand;\nvGardenSide = gardenCrownSide;\nvGardenDepth = gardenDepth;\nvGardenLift = gardenLift;\nvGardenTop = gardenCrownTop;\nvGardenEdge = gardenEdge;\nvGardenImpostor = gardenImpostor;\nvGardenPosition = position;',
       );
     shader.fragmentShader = shader.fragmentShader
       .replace(
@@ -470,8 +349,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         varying float vGardenLift;
         varying float vGardenTop;
         varying float vGardenEdge;
-        varying vec3 vGardenNormal;
-        varying float vGardenSunRatio;
+        varying float vGardenImpostor;
         varying vec3 vGardenPosition;
         varying float vGardenAir;
         uniform vec3 gardenHazeColor;
@@ -501,23 +379,43 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         float gardenFine = 1.0 - smoothstep(0.08, 0.2, max(length(dFdx(gardenEdgeArc)), length(dFdy(gardenEdgeArc))));
         float gardenRag = gardenForestNoise(gardenEdgeArc * 2.2) * 0.65 + mix(0.5, gardenForestNoise(gardenEdgeArc * 5.0 + 7.7), gardenFine) * 0.35;
         if (vGardenEdge - vGardenPosition.y < (gardenRag - 0.3) * ${FRAY.toFixed(1)} * (1.0 + ${BARE_FRAY.toFixed(1)} * gardenBareCrown)) discard;
-        // The volumes fray along their own silhouettes, revealing the clump or crown behind.
-        if (dot(vGardenNormal, vGardenNormal) > 0.25) {
-          float gardenTurn = 1.0 - abs(dot(normalize(vGardenNormal), normalize(cameraPosition - vGardenPosition)));
-          float gardenLeafy = gardenForestNoise(gardenEdgeArc * 2.5 + 3.3) * 0.65
-            + mix(0.5, gardenForestNoise(gardenEdgeArc * 6.0 + 1.7), gardenFine) * 0.35;
-          float gardenVolumeFine = 1.0 - smoothstep(0.12, 0.35, max(length(dFdx(gardenEdgeArc)), length(dFdy(gardenEdgeArc))));
-          if (gardenTurn > 1.0 - ${VOLUME_FRAY.toFixed(2)} * (1.0 + 0.4 * gardenBareCrown) * gardenLeafy * gardenVolumeFine) discard;
+        // An impostor's crown: its normal across and up, the light of an open sky on its leaves, and
+        // its coverage. A bare crown in winter keeps only its densest leaves, with gaps between twigs.
+        // Sampled outside the branch, where its derivatives are defined.
+        vec4 gardenCrown = texture2D(map, vMapUv);
+        if (vGardenImpostor != 0.0) {
+          // Gaps of about 0.3m between the twigs.
+          float gardenTwigGap = gardenForestNoise(vMapUv * vec2(${(IMPOSTOR_COLUMNS * 20).toFixed(1)}, ${(IMPOSTOR_ROWS * 40).toFixed(1)}));
+          // Its outline over a pixel's samples (alpha to coverage) rather than a stepped cut.
+          float gardenCut = mix(0.5, ${BARE_COVERAGE.toFixed(2)}, gardenBareCrown);
+          gardenCrown.a = smoothstep(gardenCut - 0.5 * fwidth(gardenCrown.a), gardenCut + 0.5 * fwidth(gardenCrown.a), gardenCrown.a);
+          if (gardenCrown.a == 0.0 || gardenTwigGap < 0.42 * gardenBareCrown) discard;
         }`,
       )
+      .replace('#include <map_fragment>', '')
+      // The impostors' coverage over the samples; the band and the fray are whole or discarded.
+      .replace('#include <alphatest_fragment>', '')
       .replace(
         '#include <color_fragment>',
         `#include <color_fragment>
+        vec2 gardenArc = vec2(atan(vGardenPosition.z, vGardenPosition.x) * ${FAR_FOREST_RADIUS.toFixed(1)}, vGardenPosition.y);
+        float gardenFootprint = max(length(dFdx(gardenArc)), length(dFdy(gardenArc)));
+        if (vGardenImpostor != 0.0) {
+          // The baked normal in the impostor's frame (mirrored with it), toward the clearing.
+          vec2 gardenRadial = normalize(vGardenPosition.xz);
+          vec2 gardenAcross = (gardenCrown.xy * 2.0 - 1.0) * vec2(vGardenImpostor, 1.0);
+          vec3 gardenNormal = vec3(-gardenRadial.y, 0.0, gardenRadial.x) * gardenAcross.x + vec3(0.0, gardenAcross.y, 0.0)
+            - vec3(gardenRadial.x, 0.0, gardenRadial.y) * sqrt(max(0.0, 1.0 - dot(gardenAcross, gardenAcross)));
+          // The scene's fixed sun (lighting.ts) by day; without it, its mean over a crown.
+          float gardenSunlit = mix(0.3, max(0.0, dot(gardenNormal, vec3(-0.556, 0.6178, 0.556))), gardenSun);
+          // Brighter on top and on the sun's side, as the clumps were; darker within, by the sky's light.
+          diffuseColor.rgb *= (0.72 + 0.45 * gardenNormal.y + 0.66 * gardenSunlit)
+            * (${IMPOSTOR_SHADE_FLOOR.toFixed(2)} + ${IMPOSTOR_SHADE_SKY.toFixed(2)} * gardenCrown.b);
+          diffuseColor.a = gardenCrown.a;
+        } else {
         // Clumps of foliage (about 0.7m and 2m), each crown lit at its top and shaded below where
         // the next crown overlaps, darker under the canopy; then the air between, more toward the
         // foot (valley mist).
-        vec2 gardenArc = vec2(atan(vGardenPosition.z, vGardenPosition.x) * ${FAR_FOREST_RADIUS.toFixed(1)}, vGardenPosition.y);
-        float gardenFootprint = max(length(dFdx(gardenArc)), length(dFdy(gardenArc)));
         float gardenDetail = 1.0 - smoothstep(0.18, 0.65, gardenFootprint);
         float gardenClump = mix(0.5, gardenForestNoise(gardenArc * vec2(1.4, 2.1)), gardenDetail) * 0.6
           + gardenForestNoise(gardenArc * 0.5 + 3.1) * 0.4;
@@ -525,7 +423,6 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         // shoulder, and larger branch masses within it. No additional light or shadow pass.
         float gardenSide = clamp(vGardenSide, -1.0, 1.0);
         float gardenRound = sqrt(max(0.0, 1.0 - gardenSide * gardenSide));
-        float gardenShoulder = clamp(0.6 * gardenRound - 0.35 * gardenSide, -0.35, 0.7);
         // The backing crowns share the world's fixed sun direction (lighting.ts), rather
         // than every crown having its left shoulder lit. A broad upper dome and side
         // normals imply volume without adding silhouette detail or a shadow pass.
@@ -541,18 +438,16 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         // adjacent masses; this is a shape cue, not traced inter-tree occlusion.
         float gardenRecess = mix(0.84, 1.0, smoothstep(0.0, 0.55, gardenRound));
         float gardenDirectional = (0.78 + 0.66 * gardenSunlit) * gardenRecess;
-        diffuseColor.rgb *= (0.64 + 0.64 * gardenClump)
-          * mix(0.82 + 0.44 * gardenShoulder, gardenDirectional, vGardenBand);
-        // The sun's lobe in the volumes' vertex light gives way to its mean without the sun.
-        diffuseColor.rgb *= mix(2.0 * vGardenSunRatio, 1.0, gardenSun);
+        diffuseColor.rgb *= (0.64 + 0.64 * gardenClump) * gardenDirectional;
+        }
         diffuseColor.rgb *= mix(0.76, 1.12, smoothstep(vGardenTop - 4.5, vGardenTop - 0.3, vGardenPosition.y));
         diffuseColor.rgb *= mix(0.62, 1.0, vGardenLift);
         // Foreground remains darker and clearer; backing crowns recede into the air.
         diffuseColor.rgb *= mix(0.72, 1.0, vGardenDepth);
-        // Leaf masses (about 0.9m) over every crown, each lighter on its upper side with dark gaps
+        // Leaf masses (about 0.9m) over the band, each lighter on its upper side with dark gaps
         // between: smooth shading alone read as a painted backdrop beside the speckled woodland.
-        // Gone where a mass would be under about four pixels.
-        float gardenLeafDetail = 1.0 - smoothstep(0.12, 0.3, gardenFootprint);
+        // Gone where a mass would be under about four pixels; the impostors have their own leaves.
+        float gardenLeafDetail = (1.0 - smoothstep(0.12, 0.3, gardenFootprint)) * vGardenBand;
         vec2 gardenLeafP = gardenArc / 0.9;
         vec2 gardenLeafCell = floor(gardenLeafP);
         float gardenLeafNear = 8.0;
@@ -585,7 +480,7 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v14';
+  material.customProgramCacheKey = () => 'garden-far-forest-v15';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();
@@ -602,7 +497,6 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         tint.setHex(palette[Math.floor(crown.pick * palette.length)]);
         tint.multiplyScalar(0.86 + 0.28 * crown.shade);
       }
-      tint.multiplyScalar(volumeLight[v]);
       tint.toArray(colors, v * 3);
     }
     geometry.attributes.color.needsUpdate = true;
@@ -610,6 +504,12 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   return {
     mesh,
     crowns: crowns.length,
+    /** The baked crowns (IMPOSTOR_FILE), not flipped, without color space; the mesh's disposal frees it. */
+    setImpostors(texture: THREE.Texture) {
+      if (material.map === texture) return;
+      material.map?.dispose();
+      material.map = texture;
+    },
     /** The light on the band, as the ridges' (the color of the material multiplies the tints). */
     update(season: Season, light: THREE.Color, sun = 1) {
       if (painted !== season) paint(season);
