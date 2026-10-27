@@ -1,0 +1,2087 @@
+{
+ "browser": "155.0.8059.85",
+ "sourceHash": "a0357227ccdaa8e4b2c8df24e556a328d8aeebdf0d6cf83aed53d7d3cf270402",
+ "yawPerStep": 0.008,
+ "moveThreshold": 2.0,
+ "baseline": "sigma1.25",
+ "variants": [
+  "sigma1.25",
+  "sigma1.25-repeat",
+  "sigma2"
+ ],
+ "summary": {
+  "sigma1.25-repeat": {
+   "totonou-clear-after": {
+    "frames": 3,
+    "moving_share": 0.0028125,
+    "sigma1.25_moving": 2.6516833482075755,
+    "sigma1.25-repeat_moving": 2.6516833482075755,
+    "ratio_moving": 1.0,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.0
+   },
+   "totonou-clear-turn": {
+    "frames": 9,
+    "moving_share": 0.0017194444444444444,
+    "sigma1.25_moving": 4.678150414579963,
+    "sigma1.25-repeat_moving": 4.678150414579963,
+    "ratio_moving": 1.0,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.0
+   },
+   "totonou-rain-after": {
+    "frames": 3,
+    "moving_share": 0.06707453703703704,
+    "sigma1.25_moving": 4.4344105410667165,
+    "sigma1.25-repeat_moving": 4.434369416468192,
+    "ratio_moving": 0.9999933480395476,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.000004693869966
+   },
+   "totonou-rain-turn": {
+    "frames": 13,
+    "moving_share": 0.06437222222222222,
+    "sigma1.25_moving": 4.910091729976253,
+    "sigma1.25-repeat_moving": 4.910101006838169,
+    "ratio_moving": 0.9999993050143621,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.0000021039515699
+   },
+   "water-clear-after": {
+    "frames": 3,
+    "moving_share": 0.03239120370370371,
+    "sigma1.25_moving": 1.2428331154294285,
+    "sigma1.25-repeat_moving": 1.2428331154294285,
+    "ratio_moving": 1.0,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.0
+   },
+   "water-clear-turn": {
+    "frames": 12,
+    "moving_share": 0.05767638888888889,
+    "sigma1.25_moving": 0.9746938384690691,
+    "sigma1.25-repeat_moving": 0.9746938384690691,
+    "ratio_moving": 1.0,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.0
+   },
+   "water-rain-after": {
+    "frames": 3,
+    "moving_share": 0.10609212962962963,
+    "sigma1.25_moving": 1.876201061155005,
+    "sigma1.25-repeat_moving": 1.876201061155005,
+    "ratio_moving": 1.0,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.0
+   },
+   "water-rain-turn": {
+    "frames": 12,
+    "moving_share": 0.11022523148148147,
+    "sigma1.25_moving": 1.97424708616228,
+    "sigma1.25-repeat_moving": 1.97424708616228,
+    "ratio_moving": 1.0,
+    "ratio_moving_p99": 1.0,
+    "ratio_static": 1.0
+   }
+  },
+  "sigma2": {
+   "totonou-clear-after": {
+    "frames": 3,
+    "moving_share": 0.0028125,
+    "sigma1.25_moving": 2.6516833482075755,
+    "sigma2_moving": 2.718912309869196,
+    "ratio_moving": 1.025353314417072,
+    "ratio_moving_p99": 1.0211395346566794,
+    "ratio_static": 1.023120329618481
+   },
+   "totonou-clear-turn": {
+    "frames": 9,
+    "moving_share": 0.0017194444444444444,
+    "sigma1.25_moving": 4.678150414579963,
+    "sigma2_moving": 4.749461182826674,
+    "ratio_moving": 1.0130939816506337,
+    "ratio_moving_p99": 1.0055441195371233,
+    "ratio_static": 1.0251893367064078
+   },
+   "totonou-rain-after": {
+    "frames": 3,
+    "moving_share": 0.06707453703703704,
+    "sigma1.25_moving": 4.4344105410667165,
+    "sigma2_moving": 4.644713493708377,
+    "ratio_moving": 1.063168979373875,
+    "ratio_moving_p99": 1.0343624041908368,
+    "ratio_static": 1.0998090312655833
+   },
+   "totonou-rain-turn": {
+    "frames": 13,
+    "moving_share": 0.06437222222222222,
+    "sigma1.25_moving": 4.910091729976253,
+    "sigma2_moving": 5.162510429361584,
+    "ratio_moving": 1.0528025046473763,
+    "ratio_moving_p99": 1.0269166060622228,
+    "ratio_static": 1.051504485769769
+   },
+   "water-clear-after": {
+    "frames": 3,
+    "moving_share": 0.03239120370370371,
+    "sigma1.25_moving": 1.2428331154294285,
+    "sigma2_moving": 1.590064981085248,
+    "ratio_moving": 1.273335567503126,
+    "ratio_moving_p99": 1.3033555584985426,
+    "ratio_static": 1.06632143463486
+   },
+   "water-clear-turn": {
+    "frames": 12,
+    "moving_share": 0.05767638888888889,
+    "sigma1.25_moving": 0.9746938384690691,
+    "sigma2_moving": 1.1925066171742496,
+    "ratio_moving": 1.279311584378629,
+    "ratio_moving_p99": 1.281354249592949,
+    "ratio_static": 1.048636860033091
+   },
+   "water-rain-after": {
+    "frames": 3,
+    "moving_share": 0.10609212962962963,
+    "sigma1.25_moving": 1.876201061155005,
+    "sigma2_moving": 2.1705048773171227,
+    "ratio_moving": 1.1454834867750552,
+    "ratio_moving_p99": 1.074242280362745,
+    "ratio_static": 1.1348726979954815
+   },
+   "water-rain-turn": {
+    "frames": 12,
+    "moving_share": 0.11022523148148147,
+    "sigma1.25_moving": 1.97424708616228,
+    "sigma2_moving": 2.2544213838962337,
+    "ratio_moving": 1.1440655489230762,
+    "ratio_moving_p99": 1.0866169620725599,
+    "ratio_static": 1.0831085641853062
+   }
+  }
+ },
+ "frames": [
+  {
+   "file": "water-clear-turn-0.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 0,
+   "moving": 0.019407407407407408,
+   "sigma1.25": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   },
+   "sigma2": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   }
+  },
+  {
+   "file": "water-clear-turn-1.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 1,
+   "moving": 0.03674814814814815,
+   "sigma1.25": {
+    "moving": 0.9957364157631965,
+    "moving_p99": 6.742855272550752,
+    "moving_over5": 0.027766579318685747,
+    "static": 0.0180408087009904
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.9957364157631965,
+    "moving_p99": 6.742855272550752,
+    "moving_over5": 0.027766579318685747,
+    "static": 0.0180408087009904
+   },
+   "sigma2": {
+    "moving": 1.1618018101958367,
+    "moving_p99": 8.248846170163244,
+    "moving_over5": 0.04355220721628704,
+    "static": 0.02114480094811906
+   }
+  },
+  {
+   "file": "water-clear-turn-2.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 2,
+   "moving": 0.04897268518518519,
+   "sigma1.25": {
+    "moving": 1.225369985303944,
+    "moving_p99": 7.173712681728721,
+    "moving_over5": 0.04411945434435296,
+    "static": 0.5313550352955863
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.225369985303944,
+    "moving_p99": 7.173712681728721,
+    "moving_over5": 0.04411945434435296,
+    "static": 0.5313550352955863
+   },
+   "sigma2": {
+    "moving": 1.5540822444840738,
+    "moving_p99": 9.25407434963253,
+    "moving_over5": 0.07911628742401755,
+    "static": 0.5628311730778313
+   }
+  },
+  {
+   "file": "water-clear-turn-3.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 3,
+   "moving": 0.05886018518518518,
+   "sigma1.25": {
+    "moving": 1.1135397803600782,
+    "moving_p99": 7.010675024188944,
+    "moving_over5": 0.03872170397520804,
+    "static": 0.5551577191318885
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.1135397803600782,
+    "moving_p99": 7.010675024188944,
+    "moving_over5": 0.03872170397520804,
+    "static": 0.5551577191318885
+   },
+   "sigma2": {
+    "moving": 1.4488263937115782,
+    "moving_p99": 9.023975837974476,
+    "moving_over5": 0.0739983325205682,
+    "static": 0.5852944512775532
+   }
+  },
+  {
+   "file": "water-clear-turn-4.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 4,
+   "moving": 0.06699166666666667,
+   "sigma1.25": {
+    "moving": 0.996988007378223,
+    "moving_p99": 7.016488978799159,
+    "moving_over5": 0.03424969938217855,
+    "static": 0.5726787599263151
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.996988007378223,
+    "moving_p99": 7.016488978799159,
+    "moving_over5": 0.03424969938217855,
+    "static": 0.5726787599263151
+   },
+   "sigma2": {
+    "moving": 1.3031772741768244,
+    "moving_p99": 9.029464507218071,
+    "moving_over5": 0.06389683625658249,
+    "static": 0.6022931095648544
+   }
+  },
+  {
+   "file": "water-clear-turn-5.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 5,
+   "moving": 0.07148518518518518,
+   "sigma1.25": {
+    "moving": 0.8984181530048395,
+    "moving_p99": 6.812007299229068,
+    "moving_over5": 0.028981658981399927,
+    "static": 0.5761964522476865
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.8984181530048395,
+    "moving_p99": 6.812007299229068,
+    "moving_over5": 0.028981658981399927,
+    "static": 0.5761964522476865
+   },
+   "sigma2": {
+    "moving": 1.1756452026355553,
+    "moving_p99": 8.706230652047513,
+    "moving_over5": 0.05487409978757577,
+    "static": 0.6038008223075
+   }
+  },
+  {
+   "file": "water-clear-turn-6.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 6,
+   "moving": 0.0722875,
+   "sigma1.25": {
+    "moving": 0.8429220936178147,
+    "moving_p99": 6.583359664676426,
+    "moving_over5": 0.02503506446096797,
+    "static": 0.5825812407409036
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.8429220936178147,
+    "moving_p99": 6.583359664676426,
+    "moving_over5": 0.02503506446096797,
+    "static": 0.5825812407409036
+   },
+   "sigma2": {
+    "moving": 1.0956790478916818,
+    "moving_p99": 8.402236602302944,
+    "moving_over5": 0.04682306376928545,
+    "static": 0.6095611823276219
+   }
+  },
+  {
+   "file": "water-clear-turn-7.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 7,
+   "moving": 0.06898194444444444,
+   "sigma1.25": {
+    "moving": 0.8268000678047687,
+    "moving_p99": 6.613577268745921,
+    "moving_over5": 0.024717954913054275,
+    "static": 0.5853181067765604
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.8268000678047687,
+    "moving_p99": 6.613577268745921,
+    "moving_over5": 0.024717954913054275,
+    "static": 0.5853181067765604
+   },
+   "sigma2": {
+    "moving": 1.072723995645855,
+    "moving_p99": 8.496047740758591,
+    "moving_over5": 0.044684263864000914,
+    "static": 0.6116776395927781
+   }
+  },
+  {
+   "file": "water-clear-turn-8.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 8,
+   "moving": 0.0637324074074074,
+   "sigma1.25": {
+    "moving": 0.832950869421606,
+    "moving_p99": 6.576168713136062,
+    "moving_over5": 0.023819209367872036,
+    "static": 0.5889402550257062
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.832950869421606,
+    "moving_p99": 6.576168713136062,
+    "moving_over5": 0.023819209367872036,
+    "static": 0.5889402550257062
+   },
+   "sigma2": {
+    "moving": 1.0624093193933597,
+    "moving_p99": 8.219892003027509,
+    "moving_over5": 0.043374351672938065,
+    "static": 0.6154184538807849
+   }
+  },
+  {
+   "file": "water-clear-turn-9.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 9,
+   "moving": 0.056492592592592594,
+   "sigma1.25": {
+    "moving": 0.8882894559901745,
+    "moving_p99": 6.521868931738389,
+    "moving_over5": 0.025527765029830198,
+    "static": 0.5834900419621293
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.8882894559901745,
+    "moving_p99": 6.521868931738389,
+    "moving_over5": 0.025527765029830198,
+    "static": 0.5834900419621293
+   },
+   "sigma2": {
+    "moving": 1.1383492580275354,
+    "moving_p99": 8.27138392752681,
+    "moving_over5": 0.04970333704844949,
+    "static": 0.6110495352865623
+   }
+  },
+  {
+   "file": "water-clear-turn-10.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 10,
+   "moving": 0.048048148148148145,
+   "sigma1.25": {
+    "moving": 0.9536512611749417,
+    "moving_p99": 6.665995737270329,
+    "moving_over5": 0.02823171201726663,
+    "static": 0.5788516024157107
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.9536512611749417,
+    "moving_p99": 6.665995737270329,
+    "moving_over5": 0.02823171201726663,
+    "static": 0.5788516024157107
+   },
+   "sigma2": {
+    "moving": 1.2093680317129438,
+    "moving_p99": 8.582625786356001,
+    "moving_over5": 0.05312957681338164,
+    "static": 0.6064004819530273
+   }
+  },
+  {
+   "file": "water-clear-turn-11.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 11,
+   "moving": 0.03935972222222222,
+   "sigma1.25": {
+    "moving": 1.0685238574162672,
+    "moving_p99": 6.791402464168282,
+    "moving_over5": 0.032864015432207676,
+    "static": 0.5737764131687234
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.0685238574162672,
+    "moving_p99": 6.791402464168282,
+    "moving_over5": 0.032864015432207676,
+    "static": 0.5737764131687234
+   },
+   "sigma2": {
+    "moving": 1.357689496687056,
+    "moving_p99": 8.652815115244993,
+    "moving_over5": 0.061423009515743913,
+    "static": 0.6021013483280434
+   }
+  },
+  {
+   "file": "water-clear-turn-12.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 12,
+   "moving": 0.03294305555555556,
+   "sigma1.25": {
+    "moving": 1.2200456348006656,
+    "moving_p99": 6.996648368545986,
+    "moving_over5": 0.038098851834675436,
+    "static": 0.569099030306618
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.2200456348006656,
+    "moving_p99": 6.996648368545986,
+    "moving_over5": 0.038098851834675436,
+    "static": 0.569099030306618
+   },
+   "sigma2": {
+    "moving": 1.558139866524999,
+    "moving_p99": 9.176793905927697,
+    "moving_over5": 0.07337296400916284,
+    "static": 0.5976921005036556
+   }
+  },
+  {
+   "file": "water-clear-after-2.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "after",
+   "step": 2,
+   "moving": 0.03239120370370371,
+   "sigma1.25": {
+    "moving": 1.2428331154294285,
+    "moving_p99": 7.330324847932786,
+    "moving_over5": 0.04089187450868291,
+    "static": 0.47067248840872405
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.2428331154294285,
+    "moving_p99": 7.330324847932786,
+    "moving_over5": 0.04089187450868291,
+    "static": 0.47067248840872405
+   },
+   "sigma2": {
+    "moving": 1.590064981085248,
+    "moving_p99": 9.55401963615318,
+    "moving_over5": 0.07508039734152791,
+    "static": 0.49584424393312115
+   }
+  },
+  {
+   "file": "water-clear-after-10.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "after",
+   "step": 10,
+   "moving": 0.05120277777777778,
+   "sigma1.25": {
+    "moving": 1.056087022329914,
+    "moving_p99": 7.24154709156766,
+    "moving_over5": 0.033499701622090816,
+    "static": 0.22145208056918342
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.056087022329914,
+    "moving_p99": 7.24154709156766,
+    "moving_over5": 0.033499701622090816,
+    "static": 0.22145208056918342
+   },
+   "sigma2": {
+    "moving": 1.3447531679111473,
+    "moving_p99": 9.1111983900482,
+    "moving_over5": 0.056185464474945296,
+    "static": 0.23613910025540627
+   }
+  },
+  {
+   "file": "water-clear-after-30.png",
+   "stage": "water",
+   "weather": "clear",
+   "phase": "after",
+   "step": 30,
+   "moving": 0.027708796296296297,
+   "sigma1.25": {
+    "moving": 1.2878617624675885,
+    "moving_p99": 7.682241330907782,
+    "moving_over5": 0.04659905431822359,
+    "static": 0.07125186542018822
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.2878617624675885,
+    "moving_p99": 7.682241330907782,
+    "moving_over5": 0.04659905431822359,
+    "static": 0.07125186542018822
+   },
+   "sigma2": {
+    "moving": 1.6151162599081292,
+    "moving_p99": 10.051403433962802,
+    "moving_over5": 0.08026599388481395,
+    "static": 0.08874302134211427
+   }
+  },
+  {
+   "file": "water-rain-turn-0.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 0,
+   "moving": 0.08894537037037037,
+   "sigma1.25": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   },
+   "sigma2": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   }
+  },
+  {
+   "file": "water-rain-turn-1.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 1,
+   "moving": 0.11172592592592592,
+   "sigma1.25": {
+    "moving": 1.347295589655791,
+    "moving_p99": 15.565032489939982,
+    "moving_over5": 0.07075018232447126,
+    "static": 0.07502356581846667
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.347295589655791,
+    "moving_p99": 15.565032489939982,
+    "moving_over5": 0.07075018232447126,
+    "static": 0.07502356581846667
+   },
+   "sigma2": {
+    "moving": 1.5691356733999218,
+    "moving_p99": 17.13059089417838,
+    "moving_over5": 0.08344245176688987,
+    "static": 0.09571813589606472
+   }
+  },
+  {
+   "file": "water-rain-turn-2.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 2,
+   "moving": 0.10701435185185185,
+   "sigma1.25": {
+    "moving": 2.0195862907375064,
+    "moving_p99": 20.66071710991471,
+    "moving_over5": 0.11406829302057962,
+    "static": 0.37486003169416565
+   },
+   "sigma1.25-repeat": {
+    "moving": 2.0195862907375064,
+    "moving_p99": 20.66071710991471,
+    "moving_over5": 0.11406829302057962,
+    "static": 0.37486003169416565
+   },
+   "sigma2": {
+    "moving": 2.2997522992095334,
+    "moving_p99": 22.321023684891657,
+    "moving_over5": 0.12705980073631523,
+    "static": 0.4135425033653948
+   }
+  },
+  {
+   "file": "water-rain-turn-3.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 3,
+   "moving": 0.1058125,
+   "sigma1.25": {
+    "moving": 2.0755005812136753,
+    "moving_p99": 20.454585676929785,
+    "moving_over5": 0.12002362669816893,
+    "static": 0.3800604852042153
+   },
+   "sigma1.25-repeat": {
+    "moving": 2.0755005812136753,
+    "moving_p99": 20.454585676929785,
+    "moving_over5": 0.12002362669816893,
+    "static": 0.3800604852042153
+   },
+   "sigma2": {
+    "moving": 2.3758957003106405,
+    "moving_p99": 21.54600366380293,
+    "moving_over5": 0.13608103082409048,
+    "static": 0.4158986773612636
+   }
+  },
+  {
+   "file": "water-rain-turn-4.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 4,
+   "moving": 0.11466296296296297,
+   "sigma1.25": {
+    "moving": 1.9738234062813862,
+    "moving_p99": 20.09279501476379,
+    "moving_over5": 0.11207564843825706,
+    "static": 0.39440982929500323
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.9738234062813862,
+    "moving_p99": 20.09279501476379,
+    "moving_over5": 0.11207564843825706,
+    "static": 0.39440982929500323
+   },
+   "sigma2": {
+    "moving": 2.2523478768724,
+    "moving_p99": 21.385042529717357,
+    "moving_over5": 0.12717222778513518,
+    "static": 0.42818710126408877
+   }
+  },
+  {
+   "file": "water-rain-turn-5.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 5,
+   "moving": 0.11899861111111111,
+   "sigma1.25": {
+    "moving": 1.8607295166752769,
+    "moving_p99": 19.717966899323372,
+    "moving_over5": 0.10430015912106039,
+    "static": 0.3994265294718318
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.8607295166752769,
+    "moving_p99": 19.717966899323372,
+    "moving_over5": 0.10430015912106039,
+    "static": 0.3994265294718318
+   },
+   "sigma2": {
+    "moving": 2.128181493698009,
+    "moving_p99": 21.00197423194091,
+    "moving_over5": 0.11816586717087423,
+    "static": 0.43206887373699254
+   }
+  },
+  {
+   "file": "water-rain-turn-6.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 6,
+   "moving": 0.1199449074074074,
+   "sigma1.25": {
+    "moving": 1.937728914798126,
+    "moving_p99": 19.861064700970896,
+    "moving_over5": 0.10847572766818099,
+    "static": 0.4045359351021017
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.937728914798126,
+    "moving_p99": 19.861064700970896,
+    "moving_over5": 0.10847572766818099,
+    "static": 0.4045359351021017
+   },
+   "sigma2": {
+    "moving": 2.2231805672527276,
+    "moving_p99": 22.41963640779398,
+    "moving_over5": 0.12316611407243294,
+    "static": 0.4382987581398773
+   }
+  },
+  {
+   "file": "water-rain-turn-7.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 7,
+   "moving": 0.11936990740740741,
+   "sigma1.25": {
+    "moving": 1.9900391542510694,
+    "moving_p99": 20.188152615258947,
+    "moving_over5": 0.11379581832073503,
+    "static": 0.407781733663638
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.9900391542510694,
+    "moving_p99": 20.188152615258947,
+    "moving_over5": 0.11379581832073503,
+    "static": 0.407781733663638
+   },
+   "sigma2": {
+    "moving": 2.2821139919343616,
+    "moving_p99": 22.220731113106726,
+    "moving_over5": 0.1273236399458577,
+    "static": 0.44039571811704786
+   }
+  },
+  {
+   "file": "water-rain-turn-8.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 8,
+   "moving": 0.11446342592592593,
+   "sigma1.25": {
+    "moving": 1.9746707660431737,
+    "moving_p99": 20.23825325629585,
+    "moving_over5": 0.11233169255908203,
+    "static": 0.41247898308041636
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.9746707660431737,
+    "moving_p99": 20.23825325629585,
+    "moving_over5": 0.11233169255908203,
+    "static": 0.41247898308041636
+   },
+   "sigma2": {
+    "moving": 2.256494890920068,
+    "moving_p99": 22.31888723444938,
+    "moving_over5": 0.1254565383573113,
+    "static": 0.44562815831471164
+   }
+  },
+  {
+   "file": "water-rain-turn-9.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 9,
+   "moving": 0.10872453703703704,
+   "sigma1.25": {
+    "moving": 1.9161168502776287,
+    "moving_p99": 20.46090544446874,
+    "moving_over5": 0.10692158657838148,
+    "static": 0.4130072624372532
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.9161168502776287,
+    "moving_p99": 20.46090544446874,
+    "moving_over5": 0.10692158657838148,
+    "static": 0.4130072624372532
+   },
+   "sigma2": {
+    "moving": 2.1628646059807264,
+    "moving_p99": 22.193115673703833,
+    "moving_over5": 0.11927441503970704,
+    "static": 0.4472570157858685
+   }
+  },
+  {
+   "file": "water-rain-turn-10.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 10,
+   "moving": 0.10579444444444444,
+   "sigma1.25": {
+    "moving": 1.9636678876001885,
+    "moving_p99": 19.749354771085592,
+    "moving_over5": 0.11344501041502564,
+    "static": 0.4149145693852936
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.9636678876001885,
+    "moving_p99": 19.749354771085592,
+    "moving_over5": 0.11344501041502564,
+    "static": 0.4149145693852936
+   },
+   "sigma2": {
+    "moving": 2.2472138469887417,
+    "moving_p99": 21.498642299533802,
+    "moving_over5": 0.12649004883684292,
+    "static": 0.449273798211033
+   }
+  },
+  {
+   "file": "water-rain-turn-11.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 11,
+   "moving": 0.0998462962962963,
+   "sigma1.25": {
+    "moving": 2.010595148704604,
+    "moving_p99": 19.915694246508377,
+    "moving_over5": 0.1169065415360647,
+    "static": 0.41383138090483435
+   },
+   "sigma1.25-repeat": {
+    "moving": 2.010595148704604,
+    "moving_p99": 19.915694246508377,
+    "moving_over5": 0.1169065415360647,
+    "static": 0.41383138090483435
+   },
+   "sigma2": {
+    "moving": 2.3033361408583213,
+    "moving_p99": 21.478647739264787,
+    "moving_over5": 0.13369623680842777,
+    "static": 0.44829914904888946
+   }
+  },
+  {
+   "file": "water-rain-turn-12.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 12,
+   "moving": 0.09541712962962963,
+   "sigma1.25": {
+    "moving": 2.1909703207462163,
+    "moving_p99": 21.360906453775335,
+    "moving_over5": 0.12699598740423385,
+    "static": 0.4088361337729653
+   },
+   "sigma1.25-repeat": {
+    "moving": 2.1909703207462163,
+    "moving_p99": 21.360906453775335,
+    "moving_over5": 0.12699598740423385,
+    "static": 0.4088361337729653
+   },
+   "sigma2": {
+    "moving": 2.5046018041682823,
+    "moving_p99": 23.612782605282476,
+    "moving_over5": 0.14197893265923017,
+    "static": 0.4422564815267214
+   }
+  },
+  {
+   "file": "water-rain-after-2.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "after",
+   "step": 2,
+   "moving": 0.09538194444444445,
+   "sigma1.25": {
+    "moving": 2.3033750712810317,
+    "moving_p99": 22.135081761710854,
+    "moving_over5": 0.13385268778060916,
+    "static": 0.3547176460784798
+   },
+   "sigma1.25-repeat": {
+    "moving": 2.3033750712810317,
+    "moving_p99": 22.135081761710854,
+    "moving_over5": 0.13385268778060916,
+    "static": 0.3547176460784798
+   },
+   "sigma2": {
+    "moving": 2.634806803145518,
+    "moving_p99": 24.633313852920264,
+    "moving_over5": 0.14965659507341342,
+    "static": 0.38719444891595733
+   }
+  },
+  {
+   "file": "water-rain-after-10.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "after",
+   "step": 10,
+   "moving": 0.11314722222222222,
+   "sigma1.25": {
+    "moving": 1.876201061155005,
+    "moving_p99": 19.167836075674224,
+    "moving_over5": 0.1076031718753836,
+    "static": 0.22441342844786172
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.876201061155005,
+    "moving_p99": 19.167836075674224,
+    "moving_over5": 0.1076031718753836,
+    "static": 0.22441342844786172
+   },
+   "sigma2": {
+    "moving": 2.1705048773171227,
+    "moving_p99": 20.590899935551565,
+    "moving_over5": 0.1227587787134101,
+    "static": 0.2546806730090408
+   }
+  },
+  {
+   "file": "water-rain-after-30.png",
+   "stage": "water",
+   "weather": "rain",
+   "phase": "after",
+   "step": 30,
+   "moving": 0.10609212962962963,
+   "sigma1.25": {
+    "moving": 1.8024129903633737,
+    "moving_p99": 19.612459090173086,
+    "moving_over5": 0.10476132292425783,
+    "static": 0.15339154924542203
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.8024129903633737,
+    "moving_p99": 19.612459090173086,
+    "moving_over5": 0.10476132292425783,
+    "static": 0.15339154924542203
+   },
+   "sigma2": {
+    "moving": 2.0646343168100914,
+    "moving_p99": 20.82823097064332,
+    "moving_over5": 0.11699736863924175,
+    "static": 0.1857756169269507
+   }
+  },
+  {
+   "file": "totonou-clear-turn-0.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 0,
+   "moving": 0.00031944444444444446,
+   "sigma1.25": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   },
+   "sigma2": {
+    "moving": 0.0,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0
+   }
+  },
+  {
+   "file": "totonou-clear-turn-1.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 1,
+   "moving": 0.0005861111111111111,
+   "sigma1.25": {
+    "moving": 2.277342679178159,
+    "moving_p99": 29.475651310378343,
+    "moving_over5": 0.13744075829383887,
+    "static": 0.0003227416110393159
+   },
+   "sigma1.25-repeat": {
+    "moving": 2.277342679178159,
+    "moving_p99": 29.475651310378343,
+    "moving_over5": 0.13744075829383887,
+    "static": 0.0003227416110393159
+   },
+   "sigma2": {
+    "moving": 2.4826223564046663,
+    "moving_p99": 33.703057976238036,
+    "moving_over5": 0.14691943127962084,
+    "static": 0.0003771711918649694
+   }
+  },
+  {
+   "file": "totonou-clear-turn-2.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 2,
+   "moving": 0.0008138888888888888,
+   "sigma1.25": {
+    "moving": 5.419036148924871,
+    "moving_p99": 35.63671995640309,
+    "moving_over5": 0.35551763367463024,
+    "static": 0.8134670524525212
+   },
+   "sigma1.25-repeat": {
+    "moving": 5.419036148924871,
+    "moving_p99": 35.63671995640309,
+    "moving_over5": 0.35551763367463024,
+    "static": 0.8134670524525212
+   },
+   "sigma2": {
+    "moving": 5.663319419730634,
+    "moving_p99": 38.25759641816687,
+    "moving_over5": 0.3623435722411832,
+    "static": 0.8506060547383878
+   }
+  },
+  {
+   "file": "totonou-clear-turn-3.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 3,
+   "moving": 0.0009430555555555556,
+   "sigma1.25": {
+    "moving": 5.020082389291457,
+    "moving_p99": 30.193191371155795,
+    "moving_over5": 0.32989690721649484,
+    "static": 0.8484411107662989
+   },
+   "sigma1.25-repeat": {
+    "moving": 5.020082389291457,
+    "moving_p99": 30.193191371155795,
+    "moving_over5": 0.32989690721649484,
+    "static": 0.8484411107662989
+   },
+   "sigma2": {
+    "moving": 5.175524396170135,
+    "moving_p99": 32.69362441194742,
+    "moving_over5": 0.3289150711831124,
+    "static": 0.8819190370625919
+   }
+  },
+  {
+   "file": "totonou-clear-turn-4.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 4,
+   "moving": 0.0011064814814814815,
+   "sigma1.25": {
+    "moving": 5.092335493572236,
+    "moving_p99": 27.28417798517095,
+    "moving_over5": 0.33807531380753136,
+    "static": 0.8702144855641184
+   },
+   "sigma1.25-repeat": {
+    "moving": 5.092335493572236,
+    "moving_p99": 27.28417798517095,
+    "moving_over5": 0.33807531380753136,
+    "static": 0.8702144855641184
+   },
+   "sigma2": {
+    "moving": 5.201949108194773,
+    "moving_p99": 28.814363937193882,
+    "moving_over5": 0.34309623430962344,
+    "static": 0.900247274679352
+   }
+  },
+  {
+   "file": "totonou-clear-turn-5.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 5,
+   "moving": 0.001236111111111111,
+   "sigma1.25": {
+    "moving": 5.024698702145427,
+    "moving_p99": 27.515179748529174,
+    "moving_over5": 0.3382022471910112,
+    "static": 0.8809980444428815
+   },
+   "sigma1.25-repeat": {
+    "moving": 5.024698702145427,
+    "moving_p99": 27.515179748529174,
+    "moving_over5": 0.3382022471910112,
+    "static": 0.8809980444428815
+   },
+   "sigma2": {
+    "moving": 5.110192313210008,
+    "moving_p99": 28.15525620524566,
+    "moving_over5": 0.34269662921348315,
+    "static": 0.9078450608458809
+   }
+  },
+  {
+   "file": "totonou-clear-turn-6.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 6,
+   "moving": 0.001426388888888889,
+   "sigma1.25": {
+    "moving": 4.9810947068078075,
+    "moving_p99": 26.879533059977383,
+    "moving_over5": 0.32976306394027916,
+    "static": 0.8881307805382339
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.9810947068078075,
+    "moving_p99": 26.879533059977383,
+    "moving_over5": 0.32976306394027916,
+    "static": 0.8881307805382339
+   },
+   "sigma2": {
+    "moving": 5.041524301105532,
+    "moving_p99": 27.68477753508404,
+    "moving_over5": 0.3343070431678027,
+    "static": 0.91282076601587
+   }
+  },
+  {
+   "file": "totonou-clear-turn-7.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 7,
+   "moving": 0.0015675925925925926,
+   "sigma1.25": {
+    "moving": 4.745926465401215,
+    "moving_p99": 26.340612787863154,
+    "moving_over5": 0.32368576491435325,
+    "static": 0.8890776565071775
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.745926465401215,
+    "moving_p99": 26.340612787863154,
+    "moving_over5": 0.32368576491435325,
+    "static": 0.8890776565071775
+   },
+   "sigma2": {
+    "moving": 4.831912143486634,
+    "moving_p99": 26.675528428631285,
+    "moving_over5": 0.32634376845835794,
+    "static": 0.9125756868908149
+   }
+  },
+  {
+   "file": "totonou-clear-turn-8.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 8,
+   "moving": 0.0017194444444444444,
+   "sigma1.25": {
+    "moving": 4.6530638468279895,
+    "moving_p99": 25.265320354002846,
+    "moving_over5": 0.3050619278406031,
+    "static": 0.8900754311077604
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.6530638468279895,
+    "moving_p99": 25.265320354002846,
+    "moving_over5": 0.3050619278406031,
+    "static": 0.8900754311077604
+   },
+   "sigma2": {
+    "moving": 4.7139909794575825,
+    "moving_p99": 25.319468403867884,
+    "moving_over5": 0.30990845449649973,
+    "static": 0.9124958408360349
+   }
+  },
+  {
+   "file": "totonou-clear-turn-9.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 9,
+   "moving": 0.0018546296296296297,
+   "sigma1.25": {
+    "moving": 4.678150414579963,
+    "moving_p99": 25.977850008093778,
+    "moving_over5": 0.31003494757863204,
+    "static": 0.8897501870143889
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.678150414579963,
+    "moving_p99": 25.977850008093778,
+    "moving_over5": 0.31003494757863204,
+    "static": 0.8897501870143889
+   },
+   "sigma2": {
+    "moving": 4.749461182826674,
+    "moving_p99": 25.913883995002465,
+    "moving_over5": 0.31153270094857716,
+    "static": 0.9114162808352133
+   }
+  },
+  {
+   "file": "totonou-clear-turn-10.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 10,
+   "moving": 0.0020393518518518517,
+   "sigma1.25": {
+    "moving": 4.284111428481026,
+    "moving_p99": 24.170605789340417,
+    "moving_over5": 0.28740068104426786,
+    "static": 0.8865363320178712
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.284111428481026,
+    "moving_p99": 24.170605789340417,
+    "moving_over5": 0.28740068104426786,
+    "static": 0.8865363320178712
+   },
+   "sigma2": {
+    "moving": 4.325699214143904,
+    "moving_p99": 24.219095926210503,
+    "moving_over5": 0.2887627695800227,
+    "static": 0.9077171993273337
+   }
+  },
+  {
+   "file": "totonou-clear-turn-11.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 11,
+   "moving": 0.002162962962962963,
+   "sigma1.25": {
+    "moving": 4.250228392417503,
+    "moving_p99": 24.132220039579252,
+    "moving_over5": 0.2752568493150685,
+    "static": 0.8870302278639058
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.250228392417503,
+    "moving_p99": 24.132220039579252,
+    "moving_over5": 0.2752568493150685,
+    "static": 0.8870302278639058
+   },
+   "sigma2": {
+    "moving": 4.295861414318117,
+    "moving_p99": 24.108699318835328,
+    "moving_over5": 0.2799657534246575,
+    "static": 0.9075817736166354
+   }
+  },
+  {
+   "file": "totonou-clear-turn-12.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "turn",
+   "step": 12,
+   "moving": 0.002310185185185185,
+   "sigma1.25": {
+    "moving": 4.210912430868481,
+    "moving_p99": 24.50374995575162,
+    "moving_over5": 0.27014028056112227,
+    "static": 0.8834009965858831
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.210912430868481,
+    "moving_p99": 24.50374995575162,
+    "moving_over5": 0.27014028056112227,
+    "static": 0.8834009965858831
+   },
+   "sigma2": {
+    "moving": 4.254665352308021,
+    "moving_p99": 24.639601674614084,
+    "moving_over5": 0.27214428857715434,
+    "static": 0.9034607688353165
+   }
+  },
+  {
+   "file": "totonou-clear-after-2.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "after",
+   "step": 2,
+   "moving": 0.0024217592592592594,
+   "sigma1.25": {
+    "moving": 3.5907369230525505,
+    "moving_p99": 21.41504660825681,
+    "moving_over5": 0.21907857006308545,
+    "static": 0.7189033096181187
+   },
+   "sigma1.25-repeat": {
+    "moving": 3.5907369230525505,
+    "moving_p99": 21.41504660825681,
+    "moving_over5": 0.21907857006308545,
+    "static": 0.7189033096181187
+   },
+   "sigma2": {
+    "moving": 3.6351660877666796,
+    "moving_p99": 21.599890726119572,
+    "moving_over5": 0.22290193079717072,
+    "static": 0.735226809149557
+   }
+  },
+  {
+   "file": "totonou-clear-after-10.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "after",
+   "step": 10,
+   "moving": 0.0028125,
+   "sigma1.25": {
+    "moving": 2.6516833482075755,
+    "moving_p99": 19.30676167215561,
+    "moving_over5": 0.14617283950617285,
+    "static": 0.31130392238780663
+   },
+   "sigma1.25-repeat": {
+    "moving": 2.6516833482075755,
+    "moving_p99": 19.30676167215561,
+    "moving_over5": 0.14617283950617285,
+    "static": 0.31130392238780663
+   },
+   "sigma2": {
+    "moving": 2.718912309869196,
+    "moving_p99": 19.982603275637977,
+    "moving_over5": 0.14847736625514404,
+    "static": 0.31850137168493875
+   }
+  },
+  {
+   "file": "totonou-clear-after-30.png",
+   "stage": "totonou",
+   "weather": "clear",
+   "phase": "after",
+   "step": 30,
+   "moving": 0.003490277777777778,
+   "sigma1.25": {
+    "moving": 1.9532435258175218,
+    "moving_p99": 19.22167888184671,
+    "moving_over5": 0.10425785913251094,
+    "static": 0.02863083920526682
+   },
+   "sigma1.25-repeat": {
+    "moving": 1.9532435258175218,
+    "moving_p99": 19.22167888184671,
+    "moving_over5": 0.10425785913251094,
+    "static": 0.02863083920526682
+   },
+   "sigma2": {
+    "moving": 2.0297799438123723,
+    "moving_p99": 19.62801622872907,
+    "moving_over5": 0.10730866162621037,
+    "static": 0.029568861088265234
+   }
+  },
+  {
+   "file": "totonou-rain-turn-0.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 0,
+   "moving": 0.05844861111111111,
+   "sigma1.25": {
+    "moving": 0.00024538819229887504,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.0001380209323449872
+   },
+   "sigma1.25-repeat": {
+    "moving": 0.00026727240697935987,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.00012981379001874647
+   },
+   "sigma2": {
+    "moving": 0.00019726750864464533,
+    "moving_p99": 0.0,
+    "moving_over5": 0.0,
+    "static": 0.00013972171977864507
+   }
+  },
+  {
+   "file": "totonou-rain-turn-1.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 1,
+   "moving": 0.06528194444444445,
+   "sigma1.25": {
+    "moving": 3.0059565558698544,
+    "moving_p99": 27.061829502882397,
+    "moving_over5": 0.19205866292222482,
+    "static": 0.04509509081545348
+   },
+   "sigma1.25-repeat": {
+    "moving": 3.005965204366649,
+    "moving_p99": 27.061829502882397,
+    "moving_over5": 0.19205866292222482,
+    "static": 0.045107771475509637
+   },
+   "sigma2": {
+    "moving": 3.3120262616360088,
+    "moving_p99": 28.178920204978613,
+    "moving_over5": 0.21636916792545158,
+    "static": 0.05610470977389501
+   }
+  },
+  {
+   "file": "totonou-rain-turn-2.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 2,
+   "moving": 0.06468611111111111,
+   "sigma1.25": {
+    "moving": 4.912976778193284,
+    "moving_p99": 28.71680009574583,
+    "moving_over5": 0.3252315311833498,
+    "static": 0.5237874643502289
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.912933291618752,
+    "moving_p99": 28.71680009574583,
+    "moving_over5": 0.3252315311833498,
+    "static": 0.5237906188147025
+   },
+   "sigma2": {
+    "moving": 5.231912230889917,
+    "moving_p99": 29.540909256686838,
+    "moving_over5": 0.3344212078269707,
+    "static": 0.5628645917723312
+   }
+  },
+  {
+   "file": "totonou-rain-turn-3.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 3,
+   "moving": 0.06333194444444444,
+   "sigma1.25": {
+    "moving": 4.87488351828489,
+    "moving_p99": 28.626347572427584,
+    "moving_over5": 0.32025556115996695,
+    "static": 0.5398937356637409
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.874880130310858,
+    "moving_p99": 28.626347572427584,
+    "moving_over5": 0.32025556115996695,
+    "static": 0.5398907575357677
+   },
+   "sigma2": {
+    "moving": 5.1322895779145465,
+    "moving_p99": 29.475378254058064,
+    "moving_over5": 0.3293639480397962,
+    "static": 0.5743033338087034
+   }
+  },
+  {
+   "file": "totonou-rain-turn-4.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 4,
+   "moving": 0.06437222222222222,
+   "sigma1.25": {
+    "moving": 4.9099701939639395,
+    "moving_p99": 28.5665209439134,
+    "moving_over5": 0.3269540577083513,
+    "static": 0.5574670017624469
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.909969486040541,
+    "moving_p99": 28.5665209439134,
+    "moving_over5": 0.3269612496763614,
+    "static": 0.5574681746460204
+   },
+   "sigma2": {
+    "moving": 5.19852496764474,
+    "moving_p99": 29.057002374703792,
+    "moving_over5": 0.33806564828399643,
+    "static": 0.5903842176746843
+   }
+  },
+  {
+   "file": "totonou-rain-turn-5.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 5,
+   "moving": 0.06389305555555555,
+   "sigma1.25": {
+    "moving": 4.910091729976253,
+    "moving_p99": 29.206858927027422,
+    "moving_over5": 0.3181966393496076,
+    "static": 0.5651063401875093
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.910101006838169,
+    "moving_p99": 29.206858927027422,
+    "moving_over5": 0.3181966393496076,
+    "static": 0.5651043970987113
+   },
+   "sigma2": {
+    "moving": 5.144856241985077,
+    "moving_p99": 29.823531111347503,
+    "moving_over5": 0.3270004130165424,
+    "static": 0.5969203798046862
+   }
+  },
+  {
+   "file": "totonou-rain-turn-6.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 6,
+   "moving": 0.062216203703703704,
+   "sigma1.25": {
+    "moving": 4.844650620650925,
+    "moving_p99": 28.616724657687538,
+    "moving_over5": 0.31390685110911026,
+    "static": 0.5690816909910925
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.844618176559935,
+    "moving_p99": 28.616724657687538,
+    "moving_over5": 0.31390685110911026,
+    "static": 0.5690830429989053
+   },
+   "sigma2": {
+    "moving": 5.039106175837843,
+    "moving_p99": 29.304234028686487,
+    "moving_over5": 0.31995654341565777,
+    "static": 0.5998703516238789
+   }
+  },
+  {
+   "file": "totonou-rain-turn-7.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 7,
+   "moving": 0.06302453703703703,
+   "sigma1.25": {
+    "moving": 4.903095745351836,
+    "moving_p99": 28.234284821113214,
+    "moving_over5": 0.3205027436404105,
+    "static": 0.5712781370493367
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.9030782921118865,
+    "moving_p99": 28.234284821113214,
+    "moving_over5": 0.3205027436404105,
+    "static": 0.5712792419935278
+   },
+   "sigma2": {
+    "moving": 5.118258850004235,
+    "moving_p99": 28.89688276257278,
+    "moving_over5": 0.32643811566629694,
+    "static": 0.6007015237295744
+   }
+  },
+  {
+   "file": "totonou-rain-turn-8.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 8,
+   "moving": 0.0643087962962963,
+   "sigma1.25": {
+    "moving": 4.938013518062754,
+    "moving_p99": 28.511534988267083,
+    "moving_over5": 0.32195641688323845,
+    "static": 0.5711359877237027
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.938005967907999,
+    "moving_p99": 28.511534988267083,
+    "moving_over5": 0.32196361594448086,
+    "static": 0.5711349137256377
+   },
+   "sigma2": {
+    "moving": 5.190942708288723,
+    "moving_p99": 29.290961110880573,
+    "moving_over5": 0.3284715673076231,
+    "static": 0.5999668353770913
+   }
+  },
+  {
+   "file": "totonou-rain-turn-9.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 9,
+   "moving": 0.06517037037037036,
+   "sigma1.25": {
+    "moving": 4.917418092515117,
+    "moving_p99": 28.702502766019506,
+    "moving_over5": 0.32070498977040235,
+    "static": 0.5694521656416426
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.917384607356219,
+    "moving_p99": 28.702502766019506,
+    "moving_over5": 0.32070498977040235,
+    "static": 0.5694530046444923
+   },
+   "sigma2": {
+    "moving": 5.162510429361584,
+    "moving_p99": 29.296270590050735,
+    "moving_over5": 0.3269564105478518,
+    "static": 0.5976293465244541
+   }
+  },
+  {
+   "file": "totonou-rain-turn-10.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 10,
+   "moving": 0.06643611111111111,
+   "sigma1.25": {
+    "moving": 5.049539778900877,
+    "moving_p99": 28.85947368298155,
+    "moving_over5": 0.327312511323884,
+    "static": 0.5735134523186167
+   },
+   "sigma1.25-repeat": {
+    "moving": 5.049566680761929,
+    "moving_p99": 28.85947368298155,
+    "moving_over5": 0.327312511323884,
+    "static": 0.573517341624487
+   },
+   "sigma2": {
+    "moving": 5.3211191228072465,
+    "moving_p99": 29.885339150606338,
+    "moving_over5": 0.33423227550835527,
+    "static": 0.6012630275402244
+   }
+  },
+  {
+   "file": "totonou-rain-turn-11.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 11,
+   "moving": 0.06633564814814814,
+   "sigma1.25": {
+    "moving": 4.996353390919621,
+    "moving_p99": 28.716105777767876,
+    "moving_over5": 0.32691488990473533,
+    "static": 0.5758877283191975
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.996390738276769,
+    "moving_p99": 28.716105777767876,
+    "moving_over5": 0.32691488990473533,
+    "static": 0.5758949002588082
+   },
+   "sigma2": {
+    "moving": 5.280102127539795,
+    "moving_p99": 29.59130863541326,
+    "moving_over5": 0.33612729874027286,
+    "static": 0.6035102864833791
+   }
+  },
+  {
+   "file": "totonou-rain-turn-12.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "turn",
+   "step": 12,
+   "moving": 0.0674212962962963,
+   "sigma1.25": {
+    "moving": 4.914890312162809,
+    "moving_p99": 28.357555440628126,
+    "moving_over5": 0.32206962851060905,
+    "static": 0.5734697065018352
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.914882815321954,
+    "moving_p99": 28.357555440628126,
+    "moving_over5": 0.3220627617935865,
+    "static": 0.5734731673758495
+   },
+   "sigma2": {
+    "moving": 5.209515749439076,
+    "moving_p99": 29.120844589311158,
+    "moving_over5": 0.33364004669367575,
+    "static": 0.6017966103190042
+   }
+  },
+  {
+   "file": "totonou-rain-after-2.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "after",
+   "step": 2,
+   "moving": 0.06852962962962963,
+   "sigma1.25": {
+    "moving": 4.746532366799071,
+    "moving_p99": 28.170280055979312,
+    "moving_over5": 0.3070312922228828,
+    "static": 0.48682416881047635
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.746500793053482,
+    "moving_p99": 28.170280055979312,
+    "moving_over5": 0.30702453656163864,
+    "static": 0.48682645389982104
+   },
+   "sigma2": {
+    "moving": 5.046365971974832,
+    "moving_p99": 29.635792484859998,
+    "moving_over5": 0.32318407825757983,
+    "static": 0.515449582941061
+   }
+  },
+  {
+   "file": "totonou-rain-after-10.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "after",
+   "step": 10,
+   "moving": 0.06425046296296297,
+   "sigma1.25": {
+    "moving": 4.4344105410667165,
+    "moving_p99": 28.47105307383219,
+    "moving_over5": 0.2853272422017423,
+    "static": 0.2797453301939453
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.434369416468192,
+    "moving_p99": 28.47105307383219,
+    "moving_over5": 0.2853272422017423,
+    "static": 0.2797397769221205
+   },
+   "sigma2": {
+    "moving": 4.643618317371975,
+    "moving_p99": 28.905014302295633,
+    "moving_over5": 0.2915817006650766,
+    "static": 0.3076664406016737
+   }
+  },
+  {
+   "file": "totonou-rain-after-30.png",
+   "stage": "totonou",
+   "weather": "rain",
+   "phase": "after",
+   "step": 30,
+   "moving": 0.06707453703703704,
+   "sigma1.25": {
+    "moving": 4.335890141717125,
+    "moving_p99": 27.6099266982542,
+    "moving_over5": 0.28949965834029306,
+    "static": 0.1562875390688727
+   },
+   "sigma1.25-repeat": {
+    "moving": 4.335868143059179,
+    "moving_p99": 27.6099266982542,
+    "moving_over5": 0.28949965834029306,
+    "static": 0.1562920894322264
+   },
+   "sigma2": {
+    "moving": 4.644713493708377,
+    "moving_p99": 28.558670159138988,
+    "moving_over5": 0.29830688634120417,
+    "static": 0.1810928195551076
+   }
+  }
+ ],
+ "script_sha256": "bd79ba3e0327126356d8301d18298fc5341c70c0434a6c0204c6fb071f85acfc",
+ "images": {
+  "off/totonou-clear-after-10.png": "ecfbeb82760a9e92304c6f2b5d4870cb06b1698a38b45867caccf8ba70168a37",
+  "off/totonou-clear-after-2.png": "559a3076a4e40b8b1d730330bff7090a63362f5a25e5691d9ff00f1acabf1e1b",
+  "off/totonou-clear-after-30.png": "1f33fdd3f3ae572097cb24c10584a972cd4cb1368777ebac193c98142ecdf18d",
+  "off/totonou-clear-turn-0.png": "474b06023eaf06f295150868a6bd03fed12acdef60d3bd3397ea457f0a75bd0b",
+  "off/totonou-clear-turn-1.png": "1171e48028fa3a557ed2322f1ef51216dd119d3565759a8a80dd9763ae40600f",
+  "off/totonou-clear-turn-10.png": "4f440ee85150203d275d030fa01af7b77d22a50ffdc98f976080253fd001c339",
+  "off/totonou-clear-turn-11.png": "bf4070a105e8f8c06b2b440a2f807919a318258bcf4abd9f2fd29a6c563040ff",
+  "off/totonou-clear-turn-12.png": "4bc1f770cf4693e2b86a69509003f29387a953ad8d603713f353b68e4b529cd6",
+  "off/totonou-clear-turn-2.png": "0702c211b229cf05405933c97c8f7143d8aa6bc7719b7a87f7afc944b11beddf",
+  "off/totonou-clear-turn-3.png": "434089b43b6b4fec68ed23dafbe8e56d8f7cef08b7f7e931cf4fb690a838af09",
+  "off/totonou-clear-turn-4.png": "46ca012dc9e8eacff8faf33612d284b1db8005eeacb8e85c1eb4dc2f0ebfffd8",
+  "off/totonou-clear-turn-5.png": "2b91600551dc91ec1033c7b9f645833d2142355e0b06cd6c188b0a6a0b5d1e00",
+  "off/totonou-clear-turn-6.png": "2ba563c29add27019925cbecf3f47c04a39d0697280ccabd171432db09a0ef37",
+  "off/totonou-clear-turn-7.png": "9c18a30c473028b45e6c4b9bfcc0cda5a5caa2d9ae6046aaaefb73e8ac43a299",
+  "off/totonou-clear-turn-8.png": "666ab6d4b24e454d1d7bf381a1b87b8a8b108c420499f5833967afca5fb743bc",
+  "off/totonou-clear-turn-9.png": "aa2298349be69633dd216c105d70d11870cc3651c844220b44fed41276c28084",
+  "off/totonou-rain-after-10.png": "bdf0182b23d13deca01b6a46b386b99e765c54ff32959a12bcceceb9d4c567a8",
+  "off/totonou-rain-after-2.png": "f5345046fec3150a00a7a60bb0b4cb66943374394fb883e9962ff7ab780c088d",
+  "off/totonou-rain-after-30.png": "51752be5b317cb90c0d9128a34a9e65340dcd0a788099851b74eb2f6e3f676ae",
+  "off/totonou-rain-turn-0.png": "db543658214c2a04c92891ba9b5d332346b9615f5125a45a8f4665c8e10c4a4d",
+  "off/totonou-rain-turn-1.png": "6d96da1d6e5775666cf163483ef5906ac3509d16cf774cd70838f126d71c804b",
+  "off/totonou-rain-turn-10.png": "88d9daaeb76ae774331beaab9cc66fd90b901be8f0786f20b1f1262feb66ccfb",
+  "off/totonou-rain-turn-11.png": "288264b181bdc72ba8c12b75536d134beef147ea6ca90fd6aa690bed6294787b",
+  "off/totonou-rain-turn-12.png": "6c2932f9f042f36518c2648c17eeb2208c8d3712b2cfc32aece7d5f1601d95a4",
+  "off/totonou-rain-turn-2.png": "63392a47871c5299b9e0b28968c8a08ce2b39d1d5abbe469022cf1a5479b88c4",
+  "off/totonou-rain-turn-3.png": "40071e2f5f230d27493490fe4a47c971ac73fe1dfc870c18d862d196fd3d46f7",
+  "off/totonou-rain-turn-4.png": "30200594cd93f8abce24fffdd9a7a499637157e635b317ebf97fb4537098fb4a",
+  "off/totonou-rain-turn-5.png": "0260b27101f8d64344ca44771b2dc5c615189979fce5b3df483552a9276ede1c",
+  "off/totonou-rain-turn-6.png": "7a26eb7a1cf8b979d9f2ee20b875d8802a489e00ea7273fdef4f870fa18d08c2",
+  "off/totonou-rain-turn-7.png": "a8df42041bf946b0bee8e452c25c72cb9f56ffb0d7dfac97bfbc73ef2f924be6",
+  "off/totonou-rain-turn-8.png": "45c8133d260acb65abb9156cd8c0309c81c003814e4b0f882e371cd038ba4cc5",
+  "off/totonou-rain-turn-9.png": "d394d796b01dec632aba71d6e8435dd9350832aa85d6a7c5ba1754f9ae62c81f",
+  "off/water-clear-after-10.png": "fca96a3cc3ec2c59163694864789f67352000e7fd280cd2a625843c49816463c",
+  "off/water-clear-after-2.png": "3f4e79690b67076a6f243fd2e3ff6e6b8f162aedc60b9678e055c075daba52ed",
+  "off/water-clear-after-30.png": "fee1ba7c2e4eef3c2773436c4d12d909423eacaf37bb8529a82477d4ca7b7afb",
+  "off/water-clear-turn-0.png": "dfcc3c5c87de3a011e2dc96d5e32eabdd4a2ae8520d3045d0b6ae20fb50610d0",
+  "off/water-clear-turn-1.png": "03cc4d6edaab54b324df95b3b6015a5139522dcab153b26fd2bc0fca5417992d",
+  "off/water-clear-turn-10.png": "0cd0621a719f86f3720d6bfd9c614cc7f5804a20ba05d5d819e9b91f8384e39c",
+  "off/water-clear-turn-11.png": "f912fe340a0ed334544283105b918d9a3a6c8a007305c4b4edfb2cc2f8ae9547",
+  "off/water-clear-turn-12.png": "f3aeb9a7df78518a4b0abdbcac07a2b015a5900721b04382452c0f71d66479b8",
+  "off/water-clear-turn-2.png": "410930f2260e7068a23b3f9fd7ecd431bc93a1be4a79b12383bbc390bbc7f0b8",
+  "off/water-clear-turn-3.png": "028b6dfa0108d72c4ad251b16ab9fc1285176337be10884ccc50d53b8eeaf420",
+  "off/water-clear-turn-4.png": "93b59628e2b3c34370c5747b8cb8d91251710d846f25ff57033f2a682ba41efc",
+  "off/water-clear-turn-5.png": "7f64bd850571ce1293b56069d872ab64ad16c070178fea771eeefc5d24cfce98",
+  "off/water-clear-turn-6.png": "1edc12b69149b2169aa22f848b599313ed33c978eebe26728a1b861df98a1df0",
+  "off/water-clear-turn-7.png": "c4d0a744a436f99e3c28c5207670690ec14ae2ea10acbaa7291dc9c3893c4c05",
+  "off/water-clear-turn-8.png": "6ed668ab18e390b7fe6ebc144e6d982abda275983d6a0c867577779aa357597e",
+  "off/water-clear-turn-9.png": "92bf1bc724bd336283cf9ff5a0bd196c364c9169bdbc7753ffb1106980cbc428",
+  "off/water-rain-after-10.png": "299294212015547320b04871d1e355e10dbf82f3d81dce8b444a5b64b1516264",
+  "off/water-rain-after-2.png": "75d50e6eb3862611f0d4c3a3b6167525c4653cd76809dc3e8fcd2bd1ebd634e6",
+  "off/water-rain-after-30.png": "c13383642365a033407dd706de2edebf68509ffa5c76bb724be9a2a905424fc7",
+  "off/water-rain-turn-0.png": "193ce870920b6a3824559c60122d81c030ff1d4e2ce916ec8328711c9cfff387",
+  "off/water-rain-turn-1.png": "32af198b789bcebbd6606945fb1c5678a6cf21d83dbc236ccfbc0a92f6423f1a",
+  "off/water-rain-turn-10.png": "65db6c1fa61c8f84b610c1e7b2043844a243470c2b32546583f521b1c108b2a6",
+  "off/water-rain-turn-11.png": "83946c8cb6821f5d7c4f7dd2260ae0ea0f380feabf5512f08b2746661a701021",
+  "off/water-rain-turn-12.png": "e78a6d44fe9a21214d71ea9c1034da365f993fd39a4bba8eeaf7e43922870482",
+  "off/water-rain-turn-2.png": "b224226e450d55c39a5a6ef60c3d52db4305fa49f0c2ffc9e52058c02fcb5357",
+  "off/water-rain-turn-3.png": "f25d98044d8fd89da769dbc3aa4a7ef8b2bda36e0b6b4937f234be5f53a814de",
+  "off/water-rain-turn-4.png": "626b1af9cc3d80c570f043c9e7a076b555408c93a14160bae8989249f66716c4",
+  "off/water-rain-turn-5.png": "419751dac1b5ddb7b7c1f980a8fc943b13de10e17f1732f2d204f7e29e312a07",
+  "off/water-rain-turn-6.png": "77f8080c0e0e961bc3e2b892d9e54aad07af17373a239da3e2c59661fbd0cc14",
+  "off/water-rain-turn-7.png": "19c6b05b091c74233f8c043dc461584161f435d4385afdf4ce0a136ea118433d",
+  "off/water-rain-turn-8.png": "6798ddb147f40dd1d3333d9e17247e84ab6032a4d6ca05acd4a82ade5ee85e34",
+  "off/water-rain-turn-9.png": "15ff0ce1bd43a35d5de312efad9aaf1dd87d010acea57a07b4a42f01f9e7b413",
+  "sigma1.25/totonou-clear-after-10.png": "87a98c672393a3ff8a0d2fa6a5d7c54e9be43095ef042467fad18b8bad3056cd",
+  "sigma1.25/totonou-clear-after-2.png": "eef9be96e410753d9c376c65ddf11092ba6e4bdf4f5937a6a01718640dc0bded",
+  "sigma1.25/totonou-clear-after-30.png": "063449723c9f1a542409a00ae13f6a5468a1035e6aab0ea1b89a447cb26c7b6e",
+  "sigma1.25/totonou-clear-turn-0.png": "474b06023eaf06f295150868a6bd03fed12acdef60d3bd3397ea457f0a75bd0b",
+  "sigma1.25/totonou-clear-turn-1.png": "849eef1ba63b02547e073b7bb2ef0e778895633515f29e55f206b4ed7d49d456",
+  "sigma1.25/totonou-clear-turn-10.png": "7f71c897550e95853ce18fb7c6a4f31e08747176822383b675749896e8fad57f",
+  "sigma1.25/totonou-clear-turn-11.png": "2d076ca6a235656a6439a9d9163985aa3c39a03501feb74aaef30606896c2d21",
+  "sigma1.25/totonou-clear-turn-12.png": "0389ae09e883ec204bbff5e81b24fc5b93bc1307f28ce395897e2aa2c5b04b24",
+  "sigma1.25/totonou-clear-turn-2.png": "2ad3db4fb17d00be7b1975995eab7200ec684203edaae19b95d4f7de96f362c4",
+  "sigma1.25/totonou-clear-turn-3.png": "a656ee43ed8603f8e935c2e6d71fb614e616dec3fecf3b38c457c7d4d5980d50",
+  "sigma1.25/totonou-clear-turn-4.png": "e232b1d1ee8b604e530e8a823b03a3a7dc5b5f872b5029d0ed78804e99b1b9f1",
+  "sigma1.25/totonou-clear-turn-5.png": "f29e6239d98834c3678eb9a103785a2b3e36db5811f39406ddcc90aac46c8228",
+  "sigma1.25/totonou-clear-turn-6.png": "dd59d16b8042efe3e1425e2e4861d79ff02d052ef560611e4068f3a3f16d7630",
+  "sigma1.25/totonou-clear-turn-7.png": "e08bd9b7ccf0a408496fa8f7b73ab14d8ecf4dfd9439498dcdbe1afcb29a3c96",
+  "sigma1.25/totonou-clear-turn-8.png": "ef2073614b73c79ef5fa16751788f4aea9302409f09ce634f3b85afc17fd41ba",
+  "sigma1.25/totonou-clear-turn-9.png": "d0d8357d55d5bec40b48ac3e4e3c2fe8af6158c65c9d87b717a31692129562e3",
+  "sigma1.25/totonou-rain-after-10.png": "b7e42fff16297f8dd09ad0eb1b5f9622684234d3d81c82cae7819d5b5156e650",
+  "sigma1.25/totonou-rain-after-2.png": "db30667c3d91e5503fb15e82b885bd718633a5b60e8f797a1329025356c4efa0",
+  "sigma1.25/totonou-rain-after-30.png": "535f74b944342c176bdba69105ffa9f7aae8b2bce10c751fb3b1efccc9f82ffd",
+  "sigma1.25/totonou-rain-turn-0.png": "2d811fb93f43ea4b6d028f83f9691150a760ecf277b1871c74f3ae886e6b3b4d",
+  "sigma1.25/totonou-rain-turn-1.png": "1c2377924d549c3d6df36a6de7912585dcb9f28c311fdc0ac9be344d8f86af9e",
+  "sigma1.25/totonou-rain-turn-10.png": "785f530e196c9fb7ed78534731f4ced7947dfd85f93bfa51ebfecaf59de47429",
+  "sigma1.25/totonou-rain-turn-11.png": "b1a2251071f4e10ca4628048581e50196057b1c189963034c347b93e2e5ff2d3",
+  "sigma1.25/totonou-rain-turn-12.png": "abeb7ffbad7b9a14a0e80f4a25212b16f8da48ccf8bfee810396198c3e37a5e5",
+  "sigma1.25/totonou-rain-turn-2.png": "e413a95b4fe0ca673c20754fb1413b987e4a6ceac36772d10e400aaa853741a6",
+  "sigma1.25/totonou-rain-turn-3.png": "940dab2b3292a93460105b22e96bdcc0c62322294cdca5868bf3072b4a8bd66f",
+  "sigma1.25/totonou-rain-turn-4.png": "3726d55b39246d2d75c1025797ee0a74255e932cb8e02ec1a74b4a066ce8c384",
+  "sigma1.25/totonou-rain-turn-5.png": "0abf34a2950d4bef7aa9d5e02a563d4f92e956d52444390c4b4bcce60095a135",
+  "sigma1.25/totonou-rain-turn-6.png": "57103530e7e825067dfb002ab1309b95614fe42a4f1a5d500fb1ee93b1371a0b",
+  "sigma1.25/totonou-rain-turn-7.png": "3ac15d72f3428238e7ef1770044b6196bc307c4c62404d34781bfe4f804e36f4",
+  "sigma1.25/totonou-rain-turn-8.png": "da0f72ed5337862c4220f6af7cafa4ad5e1305f8c99d8ca7a86cd3138ea8c5ed",
+  "sigma1.25/totonou-rain-turn-9.png": "50e6379cfcd8601b993c2e03a7dd06498edb664b7fd6254263121ef285ec7b9f",
+  "sigma1.25/water-clear-after-10.png": "ff4d6981bc99588012561d358aa55692405847bf9e1a952ce96622bd120bc190",
+  "sigma1.25/water-clear-after-2.png": "ab5c16b10b34203fa74b8415581ef644cea86113ccd9d99d4cffe6254a1445b0",
+  "sigma1.25/water-clear-after-30.png": "2f5be3b5da1cfe6cc741caa543f56a168736ab43593e5bb752e4f31778d4d504",
+  "sigma1.25/water-clear-turn-0.png": "dfcc3c5c87de3a011e2dc96d5e32eabdd4a2ae8520d3045d0b6ae20fb50610d0",
+  "sigma1.25/water-clear-turn-1.png": "db6849bbe9028ce5599e87ceb79f847a8907e08dd615b7d2687877c6c74eafb2",
+  "sigma1.25/water-clear-turn-10.png": "ee2cbbf5b17ca79f66aca8e42fe703086ac410b5923e33a4f5b593b7abae52d0",
+  "sigma1.25/water-clear-turn-11.png": "e95568b2a2af0449f67223544698cdbdcaab2af0ec510f06126b0c1e53dc64d8",
+  "sigma1.25/water-clear-turn-12.png": "e59fe33684272930cedaf06e727ed9feeba29c7429249e1d1e848c8d15fbe035",
+  "sigma1.25/water-clear-turn-2.png": "d02f8af6633ed5787eeaf1c48ab565781878f416fffa5ac2341093f9e7be2b32",
+  "sigma1.25/water-clear-turn-3.png": "186f06f61fa080722d624657f50003b1c60bd565bf14b36a315814745dc983fc",
+  "sigma1.25/water-clear-turn-4.png": "c2ae0b7e24ee5119198e4621fcc3f381eaf1c68d4c4590b636afc5e512570f4e",
+  "sigma1.25/water-clear-turn-5.png": "bd70167408a1bc064559e7f6e09386338441c95ca7ac93293fddea8b1f0af930",
+  "sigma1.25/water-clear-turn-6.png": "db462e7d56d9532a67eb8b25b7d236d7984d0fa942f99f74e0b1027394cc0d6c",
+  "sigma1.25/water-clear-turn-7.png": "11c791639a2ca41f40a4966834c02f81d4bf3e2fe88fef80aa1d41e98401e01a",
+  "sigma1.25/water-clear-turn-8.png": "21467267fd1bb285e074ab0fe345b146f12a2dba1d899c3e1ffb881290e77d66",
+  "sigma1.25/water-clear-turn-9.png": "7e1ac618767c41926d3a98ccbf28be494f50d96c45d9170d81110b43ad456db9",
+  "sigma1.25/water-rain-after-10.png": "0dabc3da39d9900522ff317c5a2e19f238bbc89bf576c8e9b7486755206bfc51",
+  "sigma1.25/water-rain-after-2.png": "b30c0bf839ca3ed45774c031c5397f6b92487dd04921fc4a44a4d7041b4e7594",
+  "sigma1.25/water-rain-after-30.png": "aa4ccde2810cd13445e4d3497752fd4460694db7e3829e746eb7d207058e1add",
+  "sigma1.25/water-rain-turn-0.png": "193ce870920b6a3824559c60122d81c030ff1d4e2ce916ec8328711c9cfff387",
+  "sigma1.25/water-rain-turn-1.png": "032a2561646b68ed73e038f59888a284cfbec8799a39cd3cc574e6308078f186",
+  "sigma1.25/water-rain-turn-10.png": "168a0b4eb993e765db5e877bdab581026cbfa14e3edc9885c4356e8c4a0395bd",
+  "sigma1.25/water-rain-turn-11.png": "af9d5495a6a74744e6033376f065c1bafa35e9aecfaaf5fb701764d282721c75",
+  "sigma1.25/water-rain-turn-12.png": "eab0aae77833ba4cecda95e220c87bcdda5f5401c6142e58cc5651ec3986bac1",
+  "sigma1.25/water-rain-turn-2.png": "29ed9ea9f9279d810823d4c634cc5199c2f9aac3b39542f61b297849f497282e",
+  "sigma1.25/water-rain-turn-3.png": "200d1ff15654b174c5588c93a14a53f3b6047bba341c562866c52c083769f45f",
+  "sigma1.25/water-rain-turn-4.png": "a216a8ba7088af9886b4e9739ea809e7d1b4fcf85246c20c9986a36547fa0a2d",
+  "sigma1.25/water-rain-turn-5.png": "1965704a74ca2dd92e39b76e06994e8195120cff97ca08231acc2f34413701bb",
+  "sigma1.25/water-rain-turn-6.png": "bf7a323022f740d12d63da75223a026950d7ef466b578be6db9bcb536d91565e",
+  "sigma1.25/water-rain-turn-7.png": "b886a6dcc22ef9b192f8bf178a2133fc5cf6d06ccb2008d0bf06b99f34a2b260",
+  "sigma1.25/water-rain-turn-8.png": "162ca9392282d7d41db699fe8682210d7f70c27866c502ca8a717941400928f8",
+  "sigma1.25/water-rain-turn-9.png": "793d7ad37b3520a0cfed9a0188325fd93c28f0a8c887369d3f27a14215096da2",
+  "sigma1.25-repeat/totonou-clear-after-10.png": "87a98c672393a3ff8a0d2fa6a5d7c54e9be43095ef042467fad18b8bad3056cd",
+  "sigma1.25-repeat/totonou-clear-after-2.png": "eef9be96e410753d9c376c65ddf11092ba6e4bdf4f5937a6a01718640dc0bded",
+  "sigma1.25-repeat/totonou-clear-after-30.png": "063449723c9f1a542409a00ae13f6a5468a1035e6aab0ea1b89a447cb26c7b6e",
+  "sigma1.25-repeat/totonou-clear-turn-0.png": "474b06023eaf06f295150868a6bd03fed12acdef60d3bd3397ea457f0a75bd0b",
+  "sigma1.25-repeat/totonou-clear-turn-1.png": "849eef1ba63b02547e073b7bb2ef0e778895633515f29e55f206b4ed7d49d456",
+  "sigma1.25-repeat/totonou-clear-turn-10.png": "7f71c897550e95853ce18fb7c6a4f31e08747176822383b675749896e8fad57f",
+  "sigma1.25-repeat/totonou-clear-turn-11.png": "2d076ca6a235656a6439a9d9163985aa3c39a03501feb74aaef30606896c2d21",
+  "sigma1.25-repeat/totonou-clear-turn-12.png": "0389ae09e883ec204bbff5e81b24fc5b93bc1307f28ce395897e2aa2c5b04b24",
+  "sigma1.25-repeat/totonou-clear-turn-2.png": "2ad3db4fb17d00be7b1975995eab7200ec684203edaae19b95d4f7de96f362c4",
+  "sigma1.25-repeat/totonou-clear-turn-3.png": "a656ee43ed8603f8e935c2e6d71fb614e616dec3fecf3b38c457c7d4d5980d50",
+  "sigma1.25-repeat/totonou-clear-turn-4.png": "e232b1d1ee8b604e530e8a823b03a3a7dc5b5f872b5029d0ed78804e99b1b9f1",
+  "sigma1.25-repeat/totonou-clear-turn-5.png": "f29e6239d98834c3678eb9a103785a2b3e36db5811f39406ddcc90aac46c8228",
+  "sigma1.25-repeat/totonou-clear-turn-6.png": "dd59d16b8042efe3e1425e2e4861d79ff02d052ef560611e4068f3a3f16d7630",
+  "sigma1.25-repeat/totonou-clear-turn-7.png": "e08bd9b7ccf0a408496fa8f7b73ab14d8ecf4dfd9439498dcdbe1afcb29a3c96",
+  "sigma1.25-repeat/totonou-clear-turn-8.png": "ef2073614b73c79ef5fa16751788f4aea9302409f09ce634f3b85afc17fd41ba",
+  "sigma1.25-repeat/totonou-clear-turn-9.png": "d0d8357d55d5bec40b48ac3e4e3c2fe8af6158c65c9d87b717a31692129562e3",
+  "sigma1.25-repeat/totonou-rain-after-10.png": "9506e525bd8f91d9c887226cfbf4d45df056738d931f725fe86c2eb3ee28fed7",
+  "sigma1.25-repeat/totonou-rain-after-2.png": "86cf2736ca1c553dafb2aa1c79f6f4d4b91ecdbe4c14ecf5bb37cd8465750e65",
+  "sigma1.25-repeat/totonou-rain-after-30.png": "682260157f167c9efda5ef9c561630d8b834c978958aaa64068f75b184a6259f",
+  "sigma1.25-repeat/totonou-rain-turn-0.png": "f0ce51368d698c7a9bee22f38e0191062eefd1b503a0753164404d8d7cdf4644",
+  "sigma1.25-repeat/totonou-rain-turn-1.png": "06fe806f08e9a43586a9a134cce1f6ce8ae9ab71bb725a37d5c5737434b4088f",
+  "sigma1.25-repeat/totonou-rain-turn-10.png": "3f39ab0192b8a27a1e9b3de64a30d43247465e3704a78b586d019dca90ebdce5",
+  "sigma1.25-repeat/totonou-rain-turn-11.png": "d73e100a04033dacf614262a71de1d8b14254f147550fa464e62960efbe2ef96",
+  "sigma1.25-repeat/totonou-rain-turn-12.png": "5f2a059c92d4a519a7dcbc967e434f5a9672c1d80109379ad7daa1c3160bb295",
+  "sigma1.25-repeat/totonou-rain-turn-2.png": "c04201a1b5f0fed16f6d9b016265884cded4dce04c39651237314c88ce66a3e3",
+  "sigma1.25-repeat/totonou-rain-turn-3.png": "0869a78369efb02ee640b99406e9bcb8bd56db0a2659bf8dd42bcd546f88a93a",
+  "sigma1.25-repeat/totonou-rain-turn-4.png": "200212347b9d524da6544159fb5cde2d32ae945ac89c931efc68a5e4fcaffcd6",
+  "sigma1.25-repeat/totonou-rain-turn-5.png": "c3346d0350408a6f8ec439c7bfd7c52f40622fe12dea139ff74f2e80448b9816",
+  "sigma1.25-repeat/totonou-rain-turn-6.png": "cabf1f93e09431e46c6fad40dadda2e753023acae8fb9b159ac1b00a37b53896",
+  "sigma1.25-repeat/totonou-rain-turn-7.png": "1f8cf79216e5a7c4b2eeff310baa43ca7488d92b67a259a0a8fcafbd489f814f",
+  "sigma1.25-repeat/totonou-rain-turn-8.png": "e7db7f80332c3cb3843ee900239191c365a77161d93e99ede097f13f06523140",
+  "sigma1.25-repeat/totonou-rain-turn-9.png": "126bea33377a7d651135c9b56c4c8a516ae37a31e75e249bc20c4041aeb2e3e0",
+  "sigma1.25-repeat/water-clear-after-10.png": "ff4d6981bc99588012561d358aa55692405847bf9e1a952ce96622bd120bc190",
+  "sigma1.25-repeat/water-clear-after-2.png": "ab5c16b10b34203fa74b8415581ef644cea86113ccd9d99d4cffe6254a1445b0",
+  "sigma1.25-repeat/water-clear-after-30.png": "2f5be3b5da1cfe6cc741caa543f56a168736ab43593e5bb752e4f31778d4d504",
+  "sigma1.25-repeat/water-clear-turn-0.png": "dfcc3c5c87de3a011e2dc96d5e32eabdd4a2ae8520d3045d0b6ae20fb50610d0",
+  "sigma1.25-repeat/water-clear-turn-1.png": "db6849bbe9028ce5599e87ceb79f847a8907e08dd615b7d2687877c6c74eafb2",
+  "sigma1.25-repeat/water-clear-turn-10.png": "ee2cbbf5b17ca79f66aca8e42fe703086ac410b5923e33a4f5b593b7abae52d0",
+  "sigma1.25-repeat/water-clear-turn-11.png": "e95568b2a2af0449f67223544698cdbdcaab2af0ec510f06126b0c1e53dc64d8",
+  "sigma1.25-repeat/water-clear-turn-12.png": "e59fe33684272930cedaf06e727ed9feeba29c7429249e1d1e848c8d15fbe035",
+  "sigma1.25-repeat/water-clear-turn-2.png": "d02f8af6633ed5787eeaf1c48ab565781878f416fffa5ac2341093f9e7be2b32",
+  "sigma1.25-repeat/water-clear-turn-3.png": "186f06f61fa080722d624657f50003b1c60bd565bf14b36a315814745dc983fc",
+  "sigma1.25-repeat/water-clear-turn-4.png": "c2ae0b7e24ee5119198e4621fcc3f381eaf1c68d4c4590b636afc5e512570f4e",
+  "sigma1.25-repeat/water-clear-turn-5.png": "bd70167408a1bc064559e7f6e09386338441c95ca7ac93293fddea8b1f0af930",
+  "sigma1.25-repeat/water-clear-turn-6.png": "db462e7d56d9532a67eb8b25b7d236d7984d0fa942f99f74e0b1027394cc0d6c",
+  "sigma1.25-repeat/water-clear-turn-7.png": "11c791639a2ca41f40a4966834c02f81d4bf3e2fe88fef80aa1d41e98401e01a",
+  "sigma1.25-repeat/water-clear-turn-8.png": "21467267fd1bb285e074ab0fe345b146f12a2dba1d899c3e1ffb881290e77d66",
+  "sigma1.25-repeat/water-clear-turn-9.png": "7e1ac618767c41926d3a98ccbf28be494f50d96c45d9170d81110b43ad456db9",
+  "sigma1.25-repeat/water-rain-after-10.png": "0dabc3da39d9900522ff317c5a2e19f238bbc89bf576c8e9b7486755206bfc51",
+  "sigma1.25-repeat/water-rain-after-2.png": "b30c0bf839ca3ed45774c031c5397f6b92487dd04921fc4a44a4d7041b4e7594",
+  "sigma1.25-repeat/water-rain-after-30.png": "aa4ccde2810cd13445e4d3497752fd4460694db7e3829e746eb7d207058e1add",
+  "sigma1.25-repeat/water-rain-turn-0.png": "193ce870920b6a3824559c60122d81c030ff1d4e2ce916ec8328711c9cfff387",
+  "sigma1.25-repeat/water-rain-turn-1.png": "032a2561646b68ed73e038f59888a284cfbec8799a39cd3cc574e6308078f186",
+  "sigma1.25-repeat/water-rain-turn-10.png": "168a0b4eb993e765db5e877bdab581026cbfa14e3edc9885c4356e8c4a0395bd",
+  "sigma1.25-repeat/water-rain-turn-11.png": "af9d5495a6a74744e6033376f065c1bafa35e9aecfaaf5fb701764d282721c75",
+  "sigma1.25-repeat/water-rain-turn-12.png": "eab0aae77833ba4cecda95e220c87bcdda5f5401c6142e58cc5651ec3986bac1",
+  "sigma1.25-repeat/water-rain-turn-2.png": "29ed9ea9f9279d810823d4c634cc5199c2f9aac3b39542f61b297849f497282e",
+  "sigma1.25-repeat/water-rain-turn-3.png": "200d1ff15654b174c5588c93a14a53f3b6047bba341c562866c52c083769f45f",
+  "sigma1.25-repeat/water-rain-turn-4.png": "a216a8ba7088af9886b4e9739ea809e7d1b4fcf85246c20c9986a36547fa0a2d",
+  "sigma1.25-repeat/water-rain-turn-5.png": "1965704a74ca2dd92e39b76e06994e8195120cff97ca08231acc2f34413701bb",
+  "sigma1.25-repeat/water-rain-turn-6.png": "bf7a323022f740d12d63da75223a026950d7ef466b578be6db9bcb536d91565e",
+  "sigma1.25-repeat/water-rain-turn-7.png": "b886a6dcc22ef9b192f8bf178a2133fc5cf6d06ccb2008d0bf06b99f34a2b260",
+  "sigma1.25-repeat/water-rain-turn-8.png": "162ca9392282d7d41db699fe8682210d7f70c27866c502ca8a717941400928f8",
+  "sigma1.25-repeat/water-rain-turn-9.png": "793d7ad37b3520a0cfed9a0188325fd93c28f0a8c887369d3f27a14215096da2",
+  "sigma2/totonou-clear-after-10.png": "8356ea74da484c4f6ab0c03c50ebfde33a9c738bc60a3e02d3714bca0594fa21",
+  "sigma2/totonou-clear-after-2.png": "2dc98d2f649e2dd4b03e955cdb288153630bf06b122ea5757ed4780ddcb7a684",
+  "sigma2/totonou-clear-after-30.png": "b1e5374b027a67e7acc8cb9a8949e7cf6bbdddaacfa2e4fff97c43b737912da5",
+  "sigma2/totonou-clear-turn-0.png": "474b06023eaf06f295150868a6bd03fed12acdef60d3bd3397ea457f0a75bd0b",
+  "sigma2/totonou-clear-turn-1.png": "aa998a6e0880d56db7ce90a7354ab60879ce73e254f75165455150ccfca6a5a4",
+  "sigma2/totonou-clear-turn-10.png": "828e4fe7eb7a2dac4961036975b794e270e107ee6ccf215e3fe73b9fe58bf5c7",
+  "sigma2/totonou-clear-turn-11.png": "72eaee8e3b9570a2e33f68d822cdd9bcd0d9b01126c3e1042a20a067999174ef",
+  "sigma2/totonou-clear-turn-12.png": "3dd076bbc9e73cd4303ee42616a119131e4ff73d33d24e69391ab7d89f970b81",
+  "sigma2/totonou-clear-turn-2.png": "279471081497975fbbfc438aa1c31ca4455e981cc6baa50766547d592d01bc19",
+  "sigma2/totonou-clear-turn-3.png": "e9c31105c84cb958943522e163e7f1a8dfc1bbd216be06b3ce64290a0637d829",
+  "sigma2/totonou-clear-turn-4.png": "278c26cca0944dff790e881ebd095078dc287af98f9c9b1ef4a47ff15d009ac1",
+  "sigma2/totonou-clear-turn-5.png": "658839f9e8630d5ea78374f99235d380e2fa88c1ae0a14deb4a48f59aebf5964",
+  "sigma2/totonou-clear-turn-6.png": "bb2bdeada304a3ebbbce71e0aa0be6e08ef7b666c44f77ddf562f7b8a9256906",
+  "sigma2/totonou-clear-turn-7.png": "b1053d3503205fb2950082c143506b9d94cf0a8c637897ad38be0fdb2975a387",
+  "sigma2/totonou-clear-turn-8.png": "8be0cd7c33d6a6a9dcb35e2c64eccfe9374e36375c6e5c0579fb832b4c7dc3f8",
+  "sigma2/totonou-clear-turn-9.png": "861c4de5ae70f4e0135ffdc5be7547a674a7b42de9031c63adebaaeb8fb53f39",
+  "sigma2/totonou-rain-after-10.png": "2f7b4639d6b67ea610b98b7099c29ff30492227772182a1104baf5d08342f9b5",
+  "sigma2/totonou-rain-after-2.png": "8e18697fe9222a6692f5b55c95631e023155eaf982f86ddbccfd162ff16e0bd2",
+  "sigma2/totonou-rain-after-30.png": "208b4cd219992fab555d0e183552b7467bded34c071b88f01fb553e50230edfa",
+  "sigma2/totonou-rain-turn-0.png": "6153f8293b56faf0dadf9c74db163287444ea598714f49d31810dc10c5dbc3ab",
+  "sigma2/totonou-rain-turn-1.png": "2edfd59fad9d5c423ccdb896f4223d5bb886c523cf28b7f569ae41a17edcacc2",
+  "sigma2/totonou-rain-turn-10.png": "6dc48ae23b6daae5959ec0460deda6bb6ab9906c752a82a7af865f70df1a4c42",
+  "sigma2/totonou-rain-turn-11.png": "f219465798e36487808593fa1582dc95ddda886f8b5ac0d8a07f3597038a4fbb",
+  "sigma2/totonou-rain-turn-12.png": "3b88ff0a6480ebb82f08724d8fc4084c64f5d716019141e5d8962744c6f8327d",
+  "sigma2/totonou-rain-turn-2.png": "f6a4396cdf92bed1be208135c1fc8f38426f7c6abda08fbb74d7e0709fc8779b",
+  "sigma2/totonou-rain-turn-3.png": "d50ee3ca3ec55441abfac0204b94ffcde3570de9709f58279064fcb29f49f00c",
+  "sigma2/totonou-rain-turn-4.png": "96d103f9f948422ccb3602a78455f32743c73d6e1cc49bb140d0035e8116644d",
+  "sigma2/totonou-rain-turn-5.png": "9662ffe7c83260eec7d6d34a00d6db09d16de8426359540c6fd323252aa9ceb8",
+  "sigma2/totonou-rain-turn-6.png": "5bcfa60fd66d23dd024cb8260e4fa5f70a2287c63654fbe5c4ff3bb94c6c7aaf",
+  "sigma2/totonou-rain-turn-7.png": "3d075d1bc53bd5f68b2443e3bbf19d556d678310bd69ec2306c1ea32192ba5f8",
+  "sigma2/totonou-rain-turn-8.png": "6de03dd88fb93f11b474cd943b1d581ef1ef024c76daf5a47cd6803fd5f4c388",
+  "sigma2/totonou-rain-turn-9.png": "48bc1941bb9875f4b5f664e11e245211995496f1d0412e74a38d2466e27721dd",
+  "sigma2/water-clear-after-10.png": "4f0ebb197ea04246cabbcaf0261cf2aa5ab90552a8797348212ec2925c421c16",
+  "sigma2/water-clear-after-2.png": "f77adbe786641c584690e983113826f774b48cf1a2d967ced650fd948d325f06",
+  "sigma2/water-clear-after-30.png": "9b54e672bd60ee20c3a32254f1b6c1baf140a2ec0094ca07822fce108f68b7c3",
+  "sigma2/water-clear-turn-0.png": "dfcc3c5c87de3a011e2dc96d5e32eabdd4a2ae8520d3045d0b6ae20fb50610d0",
+  "sigma2/water-clear-turn-1.png": "b7828eadf03ad94366b844e9bdcb699f4000d5f61b80c372dadd6f47a0dfd7be",
+  "sigma2/water-clear-turn-10.png": "33273f78723b9a7c086e6ca8d7c32ab7b750d99e36b2a2d50158cee2d52f7a07",
+  "sigma2/water-clear-turn-11.png": "916aa3f32e65410255073b7d22acb61acd62da9258a589824a9c6c960e1a4462",
+  "sigma2/water-clear-turn-12.png": "fe3f6496b1ad06d38b11dbae5f8a21baddbd7febbd3861948919a80daa0b9fce",
+  "sigma2/water-clear-turn-2.png": "70a0f83fe92dc896f17be15ac67fed89f9dafb0edd82121552577ef94b6bc344",
+  "sigma2/water-clear-turn-3.png": "c9cf1d75f1d9a813168cb6ad580b55b2bb11479cef7154b6b580ad6c46a99d45",
+  "sigma2/water-clear-turn-4.png": "daded7b4e4f34fa30d32a30b463d6a25c00fc83b4f9415b703ca01b0ff6b7552",
+  "sigma2/water-clear-turn-5.png": "0eca4f5cc17587aada70f0dcffe359477ceb950b0c007cc6cb49eda6e970f6b8",
+  "sigma2/water-clear-turn-6.png": "3751090875392d585279cc939054d69ea2d3b4635a09c0e8f1ab23996c63020f",
+  "sigma2/water-clear-turn-7.png": "090d15059212d6d7e224cf2d4e681308eecac3f5b2f33d5d3eca2540b5c90126",
+  "sigma2/water-clear-turn-8.png": "a200efa9acc86ab11cdb079690c8b00bda86c39b0be0c51c894bcc30e1e7eaad",
+  "sigma2/water-clear-turn-9.png": "7f11faeaf54337e7a1bbb8f7b34dd308899ebe6faaa761a1328773ed887c7143",
+  "sigma2/water-rain-after-10.png": "dd783427178b440f5c5c7e39ef2aecfc17bd0885b1d301384059313474f47669",
+  "sigma2/water-rain-after-2.png": "eceb690bed1ba5a094f41f95aa7092d187cb4b4f97b21f367b2a28a53b3e2982",
+  "sigma2/water-rain-after-30.png": "31c0aa92aec4e0a1983ebdb4f2a430bcbb0176c82e28c52ad34221ea006fdf40",
+  "sigma2/water-rain-turn-0.png": "193ce870920b6a3824559c60122d81c030ff1d4e2ce916ec8328711c9cfff387",
+  "sigma2/water-rain-turn-1.png": "7ef84d0a91bf06551ad0779868579695f8f304ac26b68a5da47a3e8c51aa1556",
+  "sigma2/water-rain-turn-10.png": "11baf985eb1c6b341ff7f9d909433622f8cdf8e7eb8eef88b91ecea37913389e",
+  "sigma2/water-rain-turn-11.png": "cb7089c8c1431f6fde76eeea2d1ef90ab2fe7f50bbbe8ae612fd164a1b5df035",
+  "sigma2/water-rain-turn-12.png": "82b4be547118abccdec2188381c70ca89a013d28d47db126151e03e48ca39e58",
+  "sigma2/water-rain-turn-2.png": "220d790afe7c9fcbc5e9fe18de8ee49d05d3df4056863d8d5e54d9065ab25a3d",
+  "sigma2/water-rain-turn-3.png": "b139242054278c63f0f6d5fd2eba494b8acf3ef8ef2ce1835e01ca70af380fec",
+  "sigma2/water-rain-turn-4.png": "0ffd7a3a8f3ecefd93c2a10e1c8c8f9e86de159c72021abf9123860cdcc7a222",
+  "sigma2/water-rain-turn-5.png": "321695085cabb13c9cd9e2eb2fb00d1f3e30586707e1aecdf17459d90dd16cfe",
+  "sigma2/water-rain-turn-6.png": "f62ef50f88dc12307b281db8e1414e8a9a9cc1e1b34dda1a29a960ac1989bd74",
+  "sigma2/water-rain-turn-7.png": "718894bb37782ed4e9997c91bf7d592e317f3923fc752489e55713a54b048ca1",
+  "sigma2/water-rain-turn-8.png": "1e859128175665588b4933a2998d94cd88d6c7bc45077d3f835644d14bdcab87",
+  "sigma2/water-rain-turn-9.png": "ad149eb60146d4c31dec57d3b424aabd6b555b6ce1e80bc524e4ad0f3600d588"
+ }
+}

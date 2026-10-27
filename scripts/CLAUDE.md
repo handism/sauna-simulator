@@ -20,7 +20,7 @@
 | 元blendの加工・来歴 | `flatten_water_sides.py`, `build_sky_world.py`, `build_night_scene.py`, `blend_lineage.py` |
 | ベイク・当てはめ（製品の定数を作る） | `bake_irradiance_probes.py`, `refill_enclosed_probes.py`, `fit_blender_agx.py`, `fit_water_waves.py` |
 | Blender参照画像（e2e比較用） | `blender_{bluehour,camera,caustic,noise,sky,stage}_reference.py`, `cycles_tone_stats.py`, `summarize_cycles_compare.py` |
-| ブラウザ撮影の集計 | `summarize_visual_survey.py`, `compare_shadow_samples.py`, `summarize_sun_shadow.py`, `summarize_sun_pcf.py`, `summarize_water_side_images.py`, `summarize_auto_motion.py`, `analyze_auto_motion_frames.py`, `analyze_water_bump_motion.py` |
+| ブラウザ撮影の集計 | `summarize_visual_survey.py`, `compare_shadow_samples.py`, `summarize_sun_shadow.py`, `summarize_sun_pcf.py`, `summarize_water_side_images.py`, `summarize_auto_motion.py`, `analyze_auto_motion_frames.py`, `analyze_water_bump_motion.py`, `summarize_taa_ghosting.py` |
 | 診断：プローブ・床の拡散光 | `probe_sampling.py`（補間のCPU版）, `diagnose_probe_{depth,visibility}.py`, `survey_probe_enclosure.py`, `check_probe_visibility.py`, `compare_probe_weights.py`, `sample_room_floor.py`, `summarize_floor_irradiance.py` |
 | 診断：水面（補助モジュール） | `water_path_trace.py`, `water_reflection_trace.py`, `water_capture_parallax.py`, `water_capture_radiance.py`, `water_exit_sampling.py`, `water_exit_visibility.py` |
 | 診断：水面（実行・集計） | `diagnose_water_*.py`, `summarize_water_*.py`（`summarize_water_side_images.py` は上の撮影集計）, `water_bump.py`（バンプのCPU版）, `water_gloss.py`（床から灯りへの屈折経路） |
