@@ -110,6 +110,14 @@ export const FOOTLIGHTS = [
 ] as const;
 export const FOOTLIGHT_DIRECTION = [0.9661, -0.1255, -0.2258] as const;
 
+/**
+ * Exposure added (stops) per scene while the camera is in the sauna room (not in the source). The
+ * room's lights are the same in every scene, but the exposure opens 0.4 and 0.75 stops for dusk and
+ * night, so the room read brighter by night than by day: the benches and floor a flat bright orange.
+ * An eye in the lit room adapts to it, and the garden through the glass is darker for it.
+ */
+export const ROOM_DUSK_EXPOSURE = [0, -0.4, -0.65];
+
 /** Exposure added (stops), as an eye or camera adapts to the darker overcast. */
 export const RAIN_EXPOSURE = [0.9, 0.3, 0.1];
 /** Overcast sky radiance (linear) at its base; slightly blue grey. */
@@ -324,9 +332,18 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
     },
     /**
      * `target` is the time of day (timeOfDay); `rainTarget` and `snowTarget` are 1 for that weather;
-     * `groundSnow` is 1 while snow lies on the ground (applied at once, as the season's surfaces are).
+     * `groundSnow` is 1 while snow lies on the ground (applied at once, as the season's surfaces are);
+     * `indoor` is 1 while the camera is in the sauna room (applied at once: it changes in a stage's fade).
      */
-    update(target: number, delta: number, immediate: boolean, rainTarget = 0, snowTarget = 0, groundSnow = 0) {
+    update(
+      target: number,
+      delta: number,
+      immediate: boolean,
+      rainTarget = 0,
+      snowTarget = 0,
+      groundSnow = 0,
+      indoor = 0,
+    ) {
       // Exponential smoothing is independent of frame rate; reduced motion snaps.
       const step = 1 - Math.exp(-delta / SMOOTHING_SECONDS);
       current = immediate ? target : THREE.MathUtils.lerp(current, target, step);
@@ -369,7 +386,8 @@ export function createLighting(scene: THREE.Scene, renderer: THREE.WebGLRenderer
         (dot(weights, EXPOSURE) +
           clouds * dot(weights, RAIN_EXPOSURE) +
           clear * CLEAR_DAY_EXPOSURE +
-          groundSnow * weights[0] * SNOW_GROUND_EXPOSURE);
+          groundSnow * weights[0] * SNOW_GROUND_EXPOSURE +
+          indoor * dot(weights, ROOM_DUSK_EXPOSURE));
     },
   };
 }

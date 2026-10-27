@@ -10,6 +10,7 @@ import {
   RAIN_EXPOSURE,
   RAIN_PROBES,
   RAIN_SKY,
+  ROOM_DUSK_EXPOSURE,
   sceneWeights,
   SNOW_GROUND_EXPOSURE,
   SPOT_COSINE,
@@ -119,6 +120,17 @@ describe('3D lighting', () => {
     expect(SNOW_GROUND_EXPOSURE).toBeLessThan(0);
     lighting.update(2, 0, true, 0, 0, 1);
     expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.9);
+  });
+
+  it('closes the dusk and night exposure while the camera is in the sauna room, not by day', () => {
+    const renderer = { toneMappingExposure: 0 } as THREE.WebGLRenderer;
+    const lighting = createLighting(new THREE.Scene(), renderer);
+    lighting.update(0, 0, true, 0, 0, 0, 1);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** (0.15 + CLEAR_DAY_EXPOSURE));
+    lighting.update(2, 0, true, 0, 0, 0, 1);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** (0.9 + ROOM_DUSK_EXPOSURE[2]));
+    lighting.update(1.5, 0, true, 0, 0, 0, 0);
+    expect(renderer.toneMappingExposure).toBeCloseTo(2 ** 0.725);
   });
 
   it('draws the source sky as a mesh that follows the time of day', () => {

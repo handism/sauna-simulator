@@ -36,6 +36,7 @@ import { createDeckIrradiance, isolateDeckReceivers } from './deckIrradiance';
 import { createRoomIrradiance, isolateRoomReceivers } from './roomIrradiance';
 import { applyReflection } from './reflection';
 import { applyGlass } from './glass';
+import { INTERIOR_BOX } from './interiorLights';
 import { addSideImages, applyRefraction, SIDE_IMAGE_LAYER } from './refraction';
 import { applyCaustics, causticLight } from './caustics';
 import { applyPoolTiles } from './poolTiles';
@@ -186,6 +187,8 @@ export default function SaunaScene({
     };
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(65, 1, 0.05, 250);
+    // The sauna room's exposure (lighting.ts ROOM_DUSK_EXPOSURE) while the camera is in it.
+    const indoor = () => (INTERIOR_BOX.containsPoint(camera.position) ? 1 : 0);
     camera.rotation.order = 'YXZ';
     renderer.shadowMap.enabled = true;
     // Raw depth for the soft shadow filter in softShadows.ts.
@@ -576,7 +579,7 @@ export default function SaunaScene({
           resolution?.settle();
           metrics.reset();
           setData('stage', next);
-          lighting.update(lightingTime(true), 0, true, targetRain(), targetSnow(), groundSnow());
+          lighting.update(lightingTime(true), 0, true, targetRain(), targetSnow(), groundSnow(), indoor());
           try {
             recordRenderInfo(draw());
           } catch {
@@ -598,7 +601,7 @@ export default function SaunaScene({
           const entry = stageRef.current;
           const saved = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), fov: camera.fov };
           look.cancel();
-          lighting.update(lightingTime(true), 0, true, targetRain(), targetSnow(), groundSnow());
+          lighting.update(lightingTime(true), 0, true, targetRain(), targetSnow(), groundSnow(), indoor());
           warming = true;
           setData('warming', part);
           const run = startSceneWarmup(
@@ -866,6 +869,7 @@ export default function SaunaScene({
             targetRain(),
             targetSnow(),
             groundSnow(),
+            indoor(),
           );
           setData('lighting', lightingRef.current);
           setData('timeOfDay', lighting.time.toFixed(3));

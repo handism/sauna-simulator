@@ -16,7 +16,7 @@ describe('model shadows', () => {
     const wall = mesh('Warm limestone plaster', false);
     const pail = mesh('Loyly | recessed pail water', true);
     prepareModel(root);
-    expect([pail.castShadow, pail.receiveShadow]).toEqual([false, true]);
+    expect([pail.castShadow, pail.receiveShadow]).toEqual([false, false]);
     expect([glass.castShadow, glass.receiveShadow]).toEqual([true, false]);
     expect([water.castShadow, water.receiveShadow]).toEqual([false, false]);
     expect([wall.castShadow, wall.receiveShadow]).toEqual([true, true]);

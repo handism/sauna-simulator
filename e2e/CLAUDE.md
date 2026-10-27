@@ -114,3 +114,4 @@
 
 - `taa-ghosting.visual.ts` は動くもの（水・草・雨）のTAAの残像を、動作抑制なし・時刻を1/60秒ずつ進めて撮る。標準DPR1.5・固定解像度・`camera=review` で水風呂・外気浴×晴れ・雨の昼、2 CSS pxずつ12ステップと離した後の16枚を、時刻を止めたTAAなし／TAAなし／制限幅の各変種／製品の再撮影の5回の読み込みで撮る。クロックは前にしか進めない（`refraction-frame-control.ts` のように保留を解いて時刻が戻ると、負のdeltaで照明の平滑化がNaNになる）。条件ごとに同じ時刻へ進めて720フレーム整定し、`Math.random` も固定する。`scripts/summarize_taa_ghosting.py` が撮影時の雨・NaNを検査し、動く画素での真のフレームとの差を比べる。記録は `docs/3d-qa/taa-ghosting/`。サウナのロウリュは `performance.now()` を使うので対象外。
 
+- `sauna-warmth.visual.ts` はサウナの既定視点・ストーブの見下ろし・ベンチ側×昼夕夜の9枚を撮る（桶の水・ストーブの熾火・サウナ室の夕夜の露出の目視用、`WARMTH_RUN` が回のラベル、`WARMTH_LIGHTS` で時間帯を絞る）。標準DPR1・固定解像度・動作抑制の静止画で、ABBA・費用の比較ではない。記録は `docs/3d-qa/sauna-warmth/`。

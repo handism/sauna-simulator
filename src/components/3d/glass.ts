@@ -65,11 +65,20 @@ ${sourcesGlsl(GLOSSY_SOURCES.filter(([name]) => GLASS_LIGHTS.includes(name)))}	r
 // against the bright sky. Drawn as this glass, each bead's front face is one slab; the blur of
 // its refraction (Cycles' frosted view through them) is left out.
 
-/** Source IOR and base color by material name. */
-export const GLASS: Record<string, { ior: number; tint: [number, number, number] }> = {
+// The ladle pail's water (refine_loyly_props.py) was exported as a 38% opaque dark film: from the
+// bench it read as a grey haze over an empty pail, with no waterline and nothing reflected in it.
+// Drawn the same way it is one surface, not a slab: T = (1 − F) t and R = F. Not in the source: t
+// darkens the pail's inside under the water (its depth against the cedar), so the waterline shows.
+
+/** Source IOR and base color by material name; `surface` for one interface (water) instead of a slab. */
+export const GLASS: Record<
+  string,
+  { ior: number; tint: [number, number, number]; surface?: boolean; roughness?: number }
+> = {
   'Low iron architectural glass': { ior: 1.45, tint: [0.87, 0.96, 0.95] },
   'V11 | timer clear glass': { ior: 1.46, tint: [0.9, 0.97, 1] },
   'V2 | condensed clear droplets': { ior: 1.333, tint: [0.94, 0.98, 1] },
+  'Loyly | recessed pail water': { ior: 1.333, tint: [0.48, 0.46, 0.4], surface: true, roughness: 0.12 },
 };
 
 /** Unpolarized Fresnel reflectance of a dielectric interface (suiFresnel in the shader). */
@@ -83,6 +92,8 @@ export function fresnel(cosine: number, eta: number): number {
 /** The slab's per-channel transmittance and reflectance at a view angle, as the shader forms them. */
 export function slab(cosine: number, optics: (typeof GLASS)[string]) {
   const f = fresnel(Math.max(cosine, 1e-4), optics.ior);
+  if (optics.surface)
+    return { transmittance: optics.tint.map((t) => (1 - f) * t), reflectance: optics.tint.map(() => f) };
   const through = optics.tint.map((t) => ((1 - f) * (1 - f) * t) / (1 - f * f * t));
   return { transmittance: through, reflectance: through.map((t) => f + f * t) };
 }
@@ -130,6 +141,8 @@ ${IRRADIANCE_PARS}
 ${REFLECTION_PARS}
 uniform float ior;
 uniform vec3 tint;
+uniform float suiSurface;
+uniform float suiRoughness;
 uniform float suiGlassLightsOn;
 ${ROOM_GLOW}
 ${GLASS_LIGHTS_GLSL}
@@ -150,17 +163,18 @@ void main() {
 	vec3 N = normalize( vWorldNormal );
 	N = dot( N, V ) < 0.0 ? - N : N;
 	float F = suiFresnel( max( dot( N, V ), 1e-4 ), ior );
-	vec3 through = ( 1.0 - F ) * ( 1.0 - F ) * tint / ( 1.0 - F * F * tint );
+	vec3 through = suiSurface > 0.5 ? ( 1.0 - F ) * tint : ( 1.0 - F ) * ( 1.0 - F ) * tint / ( 1.0 - F * F * tint );
+	vec3 reflectance = suiSurface > 0.5 ? vec3( F ) : F + F * through;
 	#ifdef SUI_GLASS_TRANSMISSION
 		gl_FragColor = vec4( through, 1.0 );
 	#else
 		// Camera side of the pane, which lies on the room box.
 		vec3 P = vWorldPosition + N * 0.02;
 		bool interior = all( greaterThanEqual( P, ${vec3(INTERIOR_BOX.min)} ) ) && all( lessThanEqual( P, ${vec3(INTERIOR_BOX.max)} ) );
-		vec3 radiance = suiReflection( P, N, reflect( - V, N ), 0.055, interior, false );
+		vec3 radiance = suiReflection( P, N, reflect( - V, N ), suiRoughness, interior, false );
 		if ( interior ) radiance += suiRoomGlow( P, reflect( - V, N ) );
 		else radiance += suiGlassLightsOn * suiGlassLights( P, reflect( - V, N ) );
-		gl_FragColor = vec4( radiance * ( F + F * through ), 1.0 );
+		gl_FragColor = vec4( radiance * reflectance, 1.0 );
 		#include <tonemapping_fragment>
 		#include <colorspace_fragment>
 	#endif
@@ -179,6 +193,8 @@ function glassMaterial(
       ...uniforms,
       ior: { value: optics.ior },
       tint: { value: new THREE.Vector3(...optics.tint) },
+      suiSurface: { value: optics.surface ? 1 : 0 },
+      suiRoughness: { value: optics.roughness ?? 0.055 },
       suiGlassLightsOn: { value: 1 },
     },
     vertexShader,

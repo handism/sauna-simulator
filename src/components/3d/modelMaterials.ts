@@ -117,8 +117,6 @@ export function exposePlungeSides(root: THREE.Object3D): number {
   return triangles;
 }
 
-const PAIL_WATER = 'Loyly | recessed pail water';
-
 export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   const foliage = new Set<THREE.MeshStandardMaterial>();
   const noiseColors = new Map<THREE.MeshStandardMaterial, NoiseColor>();
@@ -198,12 +196,9 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       }
     }
     // Water and steam cast no shadow. Cycles glass passes no direct light (only refracted view
-    // rays), so glass shadows every light but receives none. The pail's water receives them: left
-    // unshadowed, the daylight through the glazing lit it as a gray disk among the shaded boards.
-    const pailWater = materials.every((material) => material.name === PAIL_WATER);
-    object.receiveShadow = pailWater || materials.every((material) => !material.transparent);
-    object.castShadow =
-      (object.receiveShadow && !pailWater) || materials.some((material) => /glass/i.test(material.name));
+    // rays), so glass shadows every light but receives none (nor does the pail's water, glass.ts).
+    object.receiveShadow = materials.every((material) => !material.transparent);
+    object.castShadow = object.receiveShadow || materials.some((material) => /glass/i.test(material.name));
     // Replace the exported closed water volume with the bounded realtime surface.
     // Drawing both creates a milky double layer when the viewer sits in the pool.
     if (materials.every((material) => material.name === 'V4 | clear spring water')) object.visible = false;

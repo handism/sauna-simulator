@@ -275,6 +275,8 @@ const TOWEL = /* glsl */ `
 // sauna's bench) and each stone keeps its own tone. Under the 2700K room lights a neutral grey
 // already reads warm: a warmer scale turned the pile tan. The pile tops out at 1.08m (refine_loyly_props.py).
 export const HEATER_SCALE = { from: 0.88, to: 1.0, color: [0.26, 0.27, 0.29], most: 0.55 } as const;
+/** The pile's ember glow: linear radiance at most, fading above `deep` and outside the `core` radius (m). */
+export const HEATER_EMBER = { color: [0.16, 0.035, 0.007], deep: [0.5, 0.9], core: [0.12, 0.34] } as const;
 const HEATER = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;
   float suiScalePatch = suiSurfaceFilteredNoise(suiSurfaceP * 26.0) * 0.65 + suiSurfaceFilteredNoise(suiSurfaceP * 71.0 + 2.3) * 0.35;
@@ -286,6 +288,15 @@ const HEATER = /* glsl */ `
     suiScale * ${HEATER_SCALE.most.toFixed(2)});
   float suiSurfaceRoughness = suiScale * 0.12;
   float suiSurfaceHeight = suiScalePatch * 0.0012 * suiScale;
+  // Not in the source: heat. The pile read as cold stones in a basket. The stones below the top
+  // layer and toward the core glow a faint ember red in uneven hot patches, most on the faces turned
+  // down to the elements, seen between the top stones and through the cage.
+  float suiCore = 1.0 - smoothstep(${g(HEATER_EMBER.core[0])}, ${g(HEATER_EMBER.core[1])},
+    length(suiSurfaceP.xz - vec2(${g(ROOM_FLOOR.stove.center[0])}, ${g(ROOM_FLOOR.stove.center[1])})));
+  float suiDeep = 1.0 - smoothstep(${g(HEATER_EMBER.deep[0])}, ${g(HEATER_EMBER.deep[1])}, suiSurfaceP.y);
+  float suiHot = smoothstep(0.45, 0.8, suiSurfaceFilteredNoise(suiSurfaceP * 13.0 + 5.1));
+  totalEmissiveRadiance += vec3(${HEATER_EMBER.color.map(g).join(', ')}) * suiDeep * mix(0.3, 1.0, suiCore)
+    * mix(0.3, 1.0, clamp(0.5 - 0.5 * vSuiSurfaceUp, 0.0, 1.0)) * mix(0.1, 1.0, suiHot);
 `;
 // Tree bark (overhead boughs and woodland trunks): elongated vertical ridges and coarse fissures
 // that fade cleanly to the mean on distant branches so crown shimmer does not increase.

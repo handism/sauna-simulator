@@ -115,4 +115,22 @@ describe('glass', () => {
     const { transmittance } = slab(1, GLASS['V2 | condensed clear droplets']);
     for (const t of transmittance) expect(t).toBeGreaterThan(0.85);
   });
+
+  it("draws the pail's water as one surface that darkens the pail's inside under it", () => {
+    const root = new THREE.Group();
+    const water = new THREE.Mesh(
+      new THREE.CircleGeometry(),
+      new THREE.MeshStandardMaterial({ name: 'Loyly | recessed pail water', transparent: true }),
+    );
+    root.add(water);
+    expect(applyGlass(root, createIrradianceUniforms())).toBe(1);
+    const transmission = water.material as unknown as THREE.ShaderMaterial;
+    expect(transmission.uniforms.suiSurface.value).toBe(1);
+    const optics = GLASS['Loyly | recessed pail water'];
+    // One interface: R = F (about 2% at normal incidence) and T = (1 − F) t.
+    const { transmittance, reflectance } = slab(1, optics);
+    for (const r of reflectance) expect(r).toBeCloseTo(fresnel(1, 1.333), 6);
+    transmittance.forEach((t, i) => expect(t).toBeCloseTo((1 - fresnel(1, 1.333)) * optics.tint[i], 6));
+    for (const t of transmittance) expect(t).toBeLessThan(0.6);
+  });
 });
