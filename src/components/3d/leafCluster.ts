@@ -37,10 +37,16 @@ const OUTLINE = [
   [1, 0],
 ] as const;
 const OUTLINE_AREA = OUTLINE.slice(1).reduce((sum, [t, w], i) => sum + (t - OUTLINE[i][0]) * (w + OUTLINE[i][1]), 0);
-// Length over full width, and the leaf area per card share: overlaps take a little, so
-// the leaves cover about the same share above the cutoff as the earlier diamonds (0.44).
+// Length over full width, and the leaf area per card share: the leaves of a sprig overlap at
+// their stalks, so they cover a little less above the cutoff (0.41) than the earlier evenly
+// spread leaves (0.44) did with 0.9.
 const LEAF_ASPECT = 2.2;
-const LEAF_AREA = 0.9;
+const LEAF_AREA = 1.2;
+// Sprigs per card: one in the middle and the rest on a ring of LEAF_SPRIG_RING around it, the
+// ring's places turned up to half a step either way.
+const LEAF_SPRIGS = 5;
+const LEAF_SPRIG_RING = 0.25;
+const LEAF_SPRIG_JITTER = 0.5;
 
 const halfWidth = (t: number) => {
   if (t <= 0 || t >= 1) return 0;
@@ -51,31 +57,36 @@ const halfWidth = (t: number) => {
   return w0 + ((w1 - w0) * (t - t0)) / (t1 - t0);
 };
 
-// Coverage in [0, 1] per texel: ovate leaves of varied size and any direction on a jittered
-// grid, antialiased by supersampling. Deterministic, so every load draws the same crowns.
+// Coverage in [0, 1] per texel: ovate leaves of varied size in sprigs, antialiased by
+// supersampling. Deterministic, so every load draws the same crowns.
 export function leafClusterCoverage(leaves: number, size = LEAF_CLUSTER_SIZE): Float32Array {
   const next = random(leaves);
-  const columns = Math.ceil(Math.sqrt(leaves));
-  const rows = Math.ceil(leaves / columns);
+  // Each leaf's stalk at its sprig's centre, the leaves spread round it like a rosette, so the card
+  // fills a scalloped disc. Leaves on a jittered grid out to the corners showed the card's rectangle
+  // in the mid-ground crowns once the far fill and bias closed them up; leaves evenly over a disc,
+  // one smooth oval like a single huge leaf on the long cards (docs/3d-qa/leaf-card-sprigs/).
+  const sprigs = Array.from({ length: LEAF_SPRIGS }, (_, index) => {
+    const turn = next() * 2 * Math.PI;
+    if (index === 0) return { x: 0.5, y: 0.5, turn };
+    const around = ((index - 1 + LEAF_SPRIG_JITTER * (next() - 0.5)) / (LEAF_SPRIGS - 1)) * 2 * Math.PI;
+    return { x: 0.5 + LEAF_SPRIG_RING * Math.cos(around), y: 0.5 + LEAF_SPRIG_RING * Math.sin(around), turn };
+  });
   const shapes = Array.from({ length: leaves }, (_, index) => {
-    const column = index % columns;
-    const row = Math.floor(index / columns);
+    const sprig = sprigs[index % LEAF_SPRIGS];
+    const place = Math.floor(index / LEAF_SPRIGS);
+    const count = Math.ceil((leaves - (index % LEAF_SPRIGS)) / LEAF_SPRIGS);
     // Each leaf takes 1 / (2 * leaves) of the card on average, its area scaled 0.5–1.5.
     const area = (LEAF_AREA * (0.5 + next())) / (2 * leaves);
     const widest = Math.sqrt(area / (2 * LEAF_ASPECT * OUTLINE_AREA));
     const length = 2 * LEAF_ASPECT * widest;
-    const angle = next() * 2 * Math.PI;
+    // Evenly round the sprig, each turned up to a sixth of a step either way.
+    const angle = sprig.turn + ((place + 0.35 * (next() - 0.5)) / count) * 2 * Math.PI;
     const [cos, sin] = [Math.cos(angle), Math.sin(angle)];
-    // Keep whole leaves inside the card: clamp the jittered grid position by the rotated
-    // outline's extent.
-    const extent = (x: number, y: number) =>
-      Math.max(
-        ...OUTLINE.flatMap(([t, w]) => [1, -1].map((sign) => Math.abs((t - 0.5) * length * x + sign * w * widest * y))),
-      );
-    // One texel clear of the border, as the diamonds were.
-    const [rx, ry] = [extent(cos, -sin) + 1 / size, extent(sin, cos) + 1 / size];
-    const x = THREE.MathUtils.clamp((column + next()) / columns, rx, 1 - rx);
-    const y = THREE.MathUtils.clamp((row + next()) / rows, ry, 1 - ry);
+    // The leaf's farthest point from its centre, one texel clear of the border as the diamonds were.
+    const reach = Math.max(...OUTLINE.map(([t, w]) => Math.hypot((t - 0.5) * length, w * widest))) + 1 / size;
+    const out = 0.5 * length;
+    const x = THREE.MathUtils.clamp(sprig.x + out * cos, reach, 1 - reach);
+    const y = THREE.MathUtils.clamp(sprig.y + out * sin, reach, 1 - reach);
     return { x, y, cos, sin, length, widest };
   });
   const coverage = new Float32Array(size * size);

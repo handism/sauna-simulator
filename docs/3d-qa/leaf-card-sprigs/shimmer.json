@@ -1,0 +1,152 @@
+{
+ "note": "L* residual after warping frame k onto frame k+1 by the known rotation (0.004 rad of yaw per frame), mean over the pairs of a sequence. tile: |mean| over 12x12 capture pixels. trip*: round trip k -> k+1 -> k (resampling error alone, twice). relativeTo1_5: per view, the ratio to the 1.5 sequence.",
+ "quality": "standard",
+ "yawPerStep": 0.004,
+ "framesPerStep": 2,
+ "relativeTo1_5": {},
+ "sequences": [
+  {
+   "stage": "sauna",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.2432,
+   "firstPairWrongSignPixel": 5.7591,
+   "pixel": 0.3033,
+   "tile": 0.0426,
+   "tileP99": 0.3839,
+   "tripPixel": 0.1683,
+   "tripTile": 0.0049,
+   "relativeToBaseline": {
+    "pixel": 0.9127,
+    "tile": 0.9045,
+    "tileP99": 0.8852
+   }
+  },
+  {
+   "stage": "sauna",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": -0.2302,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.0462,
+   "firstPairWrongSignPixel": 4.1565,
+   "pixel": 0.1968,
+   "tile": 0.0227,
+   "tileP99": 0.2411,
+   "tripPixel": 0.1192,
+   "tripTile": 0.0032,
+   "relativeToBaseline": {
+    "pixel": 0.8889,
+    "tile": 0.847,
+    "tileP99": 0.7416
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 4.9853,
+   "firstPairWrongSignPixel": 6.9465,
+   "pixel": 0.3328,
+   "tile": 0.05,
+   "tileP99": 0.4142,
+   "tripPixel": 0.1868,
+   "tripTile": 0.0057,
+   "relativeToBaseline": {
+    "pixel": 0.9288,
+    "tile": 0.9225,
+    "tileP99": 0.8987
+   }
+  },
+  {
+   "stage": "totonou",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.1019,
+   "fov": 65,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 3.4075,
+   "firstPairWrongSignPixel": 4.861,
+   "pixel": 0.2289,
+   "tile": 0.0323,
+   "tileP99": 0.4095,
+   "tripPixel": 0.1354,
+   "tripTile": 0.0041,
+   "relativeToBaseline": {
+    "pixel": 0.8879,
+    "tile": 0.873,
+    "tileP99": 0.7902
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "day",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 2.7475,
+   "firstPairWrongSignPixel": 3.9758,
+   "pixel": 0.2212,
+   "tile": 0.0378,
+   "tileP99": 0.3799,
+   "tripPixel": 0.115,
+   "tripTile": 0.0035,
+   "relativeToBaseline": {
+    "pixel": 0.9267,
+    "tile": 0.9287,
+    "tileP99": 0.9097
+   }
+  },
+  {
+   "stage": "water",
+   "lighting": "evening",
+   "ratio": 1.5,
+   "pitch": 0.0371,
+   "fov": 68,
+   "frames": 13,
+   "firstPairUnwarpedPixel": 2.2558,
+   "firstPairWrongSignPixel": 3.3514,
+   "pixel": 0.1844,
+   "tile": 0.0305,
+   "tileP99": 0.3793,
+   "tripPixel": 0.1052,
+   "tripTile": 0.0032,
+   "relativeToBaseline": {
+    "pixel": 0.8969,
+    "tile": 0.9024,
+    "tileP99": 0.8176
+   }
+  }
+ ],
+ "relativeToBaseline": {
+  "baseline": "/private/tmp/claude-501/-Users-mac-git-sauna-simulator/c6acbe97-857c-455e-bd50-eedb8f36616b/scratchpad/shsum-base/shimmer.json",
+  "baselineRatio": null,
+  "byRatio": {
+   "1.5": {
+    "pixel": {
+     "min": 0.8879,
+     "median": 0.9048,
+     "max": 0.9288
+    },
+    "tile": {
+     "min": 0.847,
+     "median": 0.90345,
+     "max": 0.9287
+    },
+    "tileP99": {
+     "min": 0.7416,
+     "median": 0.8513999999999999,
+     "max": 0.9097
+    }
+   }
+  }
+ }
+}

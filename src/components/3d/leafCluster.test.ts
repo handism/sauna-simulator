@@ -31,9 +31,9 @@ describe('woodland leaf cluster cards', () => {
   it('draws the same leaves every time and covers about half of the card', () => {
     const coverage = leafClusterCoverage(20);
     expect(coverage).toEqual(leafClusterCoverage(20));
-    // The leaves may overlap a little; the exporter assumes half of the card is leaf.
+    // The leaves of a sprig overlap at their stalks; the exporter assumes half of the card is leaf.
     const mean = coverage.reduce((sum, value) => sum + value, 0) / coverage.length;
-    expect(mean).toBeGreaterThan(0.42);
+    expect(mean).toBeGreaterThan(0.4);
     expect(mean).toBeLessThanOrEqual(0.5);
     // Whole leaves: nothing touches the card border.
     for (let i = 0; i < LEAF_CLUSTER_SIZE; i++) {
@@ -42,38 +42,33 @@ describe('woodland leaf cluster cards', () => {
     }
   });
 
-  it('draws ovate leaves of varied size rather than equal diamonds', () => {
+  it('keeps the leaves in sprigs within a disc, clear of the card corners', () => {
     const coverage = leafClusterCoverage(20);
     const size = LEAF_CLUSTER_SIZE;
-    // Label the texels above the cutoff into connected leaves (touching leaves merge).
-    const label = new Int32Array(coverage.length).fill(-1);
-    const areas: number[] = [];
-    for (let start = 0; start < coverage.length; start++) {
-      if (coverage[start] < 0.5 || label[start] >= 0) continue;
-      const stack = [start];
-      label[start] = areas.length;
-      let area = 0;
-      while (stack.length) {
-        const texel = stack.pop()!;
+    let corners = 0;
+    coverage.forEach((value, texel) => {
+      const [u, v] = [((texel % size) + 0.5) / size - 0.5, (Math.floor(texel / size) + 0.5) / size - 0.5];
+      if (Math.hypot(u, v) > 0.55) corners += value;
+    });
+    // The corners outside that disc are 30% of the card; filled, a far card showed its rectangle.
+    expect(corners / coverage.length).toBeLessThan(0.002);
+  });
+
+  it('draws a ragged sprig of leaves rather than one solid blob', () => {
+    const coverage = leafClusterCoverage(20);
+    const size = LEAF_CLUSTER_SIZE;
+    const covered = (x: number, y: number) => x >= 0 && y >= 0 && x < size && y < size && coverage[y * size + x] >= 0.5;
+    let area = 0,
+      edge = 0;
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        if (!covered(x, y)) continue;
         area++;
-        const [x, y] = [texel % size, Math.floor(texel / size)];
-        for (const [dx, dy] of [
-          [1, 0],
-          [-1, 0],
-          [0, 1],
-          [0, -1],
-        ]) {
-          const [nx, ny] = [x + dx, y + dy];
-          const next = ny * size + nx;
-          if (nx < 0 || ny < 0 || nx >= size || ny >= size || coverage[next] < 0.5 || label[next] >= 0) continue;
-          label[next] = areas.length;
-          stack.push(next);
-        }
+        if (!covered(x + 1, y) || !covered(x - 1, y) || !covered(x, y + 1) || !covered(x, y - 1)) edge++;
       }
-      areas.push(area);
     }
-    expect(areas.length).toBeGreaterThan(5);
-    expect(Math.max(...areas) / Math.min(...areas)).toBeGreaterThan(2);
+    // The leaves' outlines and the gaps between them: about twice as long as a disc of the same area.
+    expect(edge / (2 * Math.sqrt(Math.PI * area))).toBeGreaterThan(1.6);
   });
 
   it('keeps the alpha-tested coverage in the mip levels that distant cards sample', () => {
