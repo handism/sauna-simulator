@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { createWaterEffects, waveHeight, waveSpeed } from './waterEffects';
+import { createWaterEffects, MIRROR_RIPPLE, rippleTaps, waveHeight, waveSpeed } from './waterEffects';
 import { createMirrorUniforms } from './planarReflection';
 import { createIrradianceUniforms } from './irradiance';
 
@@ -41,5 +41,25 @@ describe('water surface', () => {
     // Capillary–gravity waves of 18 cm run at about 0.54 m/s.
     expect(waveSpeed(33.988) / 33.988).toBeCloseTo(0.54, 2);
     expect(Math.abs(waveHeight(1.18, -2.5))).toBeLessThan(0.006);
+  });
+  it('smears the mirror along the vertical, symmetric about the ray and weighted to 1', () => {
+    const taps = rippleTaps();
+    expect(taps).toHaveLength(MIRROR_RIPPLE.taps);
+    expect(taps.reduce((sum, { w }) => sum + w, 0)).toBeCloseTo(1, 6);
+    expect(taps.reduce((sum, { y, w }) => sum + y * w, 0)).toBeCloseTo(0, 6);
+    for (const { x, y } of taps) {
+      expect(Math.abs(y)).toBeLessThanOrEqual(1);
+      expect(Math.abs(x)).toBeLessThanOrEqual(MIRROR_RIPPLE.across);
+    }
+    // The middle read weighs most; the ends the least.
+    const weights = taps.map(({ w }) => w);
+    expect(weights[(taps.length - 1) / 2]).toBe(Math.max(...weights));
+    const water = createWaterEffects(
+      { center: [1.18, 0.785, -2.5], size: [2.65, 3.17], inlet: [1.18, 0.79, -4.12], spout: [1.18, 1.12, -4.12] },
+      createIrradianceUniforms(),
+      createMirrorUniforms(),
+    );
+    const surface = water.surface as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
+    expect(surface.material.fragmentShader.match(/texture2D\(suiMirror/g)).toHaveLength(MIRROR_RIPPLE.taps);
   });
 });

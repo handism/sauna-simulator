@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { PREPASS_LAYER } from './depthPrepass';
 import { createTemporalAA } from './temporalAA';
 import { createShimmerUniforms, SHIMMER_GLSL } from './heatShimmer';
-import { createHazeUniforms, HAZE_GLSL } from './steamHaze';
+import { createHazeUniforms, HAZE_FORWARD, HAZE_GLSL } from './steamHaze';
 
 // Cycles composites glass, water and steam in scene-linear light and only then applies the view
 // transform. three tone maps every material on its own, so a transparent surface was blended
@@ -27,7 +27,8 @@ void main() {
 	gl_Position = vec4( position.xy, 0.0, 1.0 );
 }`;
 // The heat haze above the stove moves where the image is read (heatShimmer.ts); the room's steam
-// pales it by the length of each view ray in the room, from the scene's depth (steamHaze.ts).
+// pales it by the length of each view ray in the room, from the scene's depth, part toward its even
+// color and part toward the scene blurred around the pixel (the forward scattering, steamHaze.ts).
 const fragmentShader = /* glsl */ `uniform sampler2D tScene;
 uniform sampler2D tDepth;
 uniform mat4 suiProjectionInverse;
@@ -44,7 +45,8 @@ void main() {
 		vec3 origin = suiCameraWorld[ 3 ].xyz;
 		vec3 world = ( suiCameraWorld * vec4( view.xyz / view.w, 1.0 ) ).xyz;
 		vec4 haze = suiHaze( origin, world - origin );
-		gl_FragColor.rgb = mix( gl_FragColor.rgb, suiSteamHazeColor + haze.rgb, haze.a );
+		vec3 forward = suiHazeForward( tScene, uv );
+		gl_FragColor.rgb = mix( gl_FragColor.rgb, mix( suiSteamHazeColor + haze.rgb, forward, ${HAZE_FORWARD.share.toFixed(3)} ), haze.a );
 	}
 	#include <tonemapping_fragment>
 	// The clear day's look (CLEAR_LOOK): AgX without a look leaves a sunny garden grey and flat.

@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import { INTERIOR_BOX } from './interiorLights';
 import {
   createHazeUniforms,
+  forwardTaps,
+  HAZE_FORWARD,
+  HAZE_GLSL,
   createSteamHaze,
   HAZE_DECAY_SECONDS,
   HAZE_PER_LOYLY,
@@ -117,5 +120,16 @@ describe('room steam haze', () => {
     sum.multiplyScalar(HAZE_LIGHT / (4 * Math.PI));
     expect(exact.r).toBeCloseTo(sum.r, 4);
     expect(exact.b).toBeCloseTo(sum.b, 4);
+  });
+  it('blurs the scene for the forward scattering over a disk, weighted to 1 and heavier inside', () => {
+    const taps = forwardTaps();
+    expect(taps).toHaveLength(HAZE_FORWARD.taps);
+    expect(taps.reduce((sum, { w }) => sum + w, 0)).toBeCloseTo(1, 6);
+    for (const { x, y } of taps) expect(Math.hypot(x, y)).toBeLessThanOrEqual(1);
+    // Centered: the blur does not shift the scene.
+    expect(Math.abs(taps.reduce((sum, { x, w }) => sum + x * w, 0))).toBeLessThan(0.05);
+    expect(Math.abs(taps.reduce((sum, { y, w }) => sum + y * w, 0))).toBeLessThan(0.05);
+    expect(taps[0].w).toBeGreaterThan(taps[taps.length - 1].w);
+    expect(HAZE_GLSL.match(/texture2D\( scene,/g)).toHaveLength(HAZE_FORWARD.taps);
   });
 });

@@ -51,6 +51,15 @@ const BARE_LEAF_KEPT = 0.75;
 const BARE_SEE_THROUGH = 0.45;
 /** A bare impostor keeps only its densest leaves' share of coverage: the twigs thin out the crown. */
 const BARE_COVERAGE = 0.72;
+/**
+ * Below its outline, the band takes the tint and bareness of the crowns around rather than of the
+ * one over it: the mean over a window of `reach` meters (Gaussian), fully `depth` meters under the
+ * outline and, up to the outline, within `side` meters of where the crown over it changes. Taken
+ * from the crown over each segment alone, a bare broadleaf and a dark evergreen beside it met in a
+ * straight vertical step down the whole band (winter's dark blocks between the evergreens,
+ * docs/3d-qa/graphic-followup-20261028/).
+ */
+export const BAND_BLEND = { reach: 2.5, depth: 2.5, side: 1.5 };
 
 interface Crown {
   /** Angle (rad), half width (m), top (m above y=0) and per-crown shade and pick in [0, 1). */
@@ -151,6 +160,18 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   };
   for (let j = 0; j <= SEGMENTS; j++) heights[j] = outline(j * step)[0];
   for (let j = 0; j < SEGMENTS; j++) owner[j] = outline((j + 0.5) * step)[1];
+  // How far (m) each segment boundary is from one where the crown over the band changes.
+  const fromChange = new Float32Array(SEGMENTS + 1).fill(Infinity);
+  const metersPerSegment = step * FAR_FOREST_RADIUS;
+  for (let j = 0; j < SEGMENTS; j++) {
+    if (owner[j] === owner[(j + SEGMENTS - 1) % SEGMENTS]) continue;
+    const reach = Math.ceil(BAND_BLEND.side / metersPerSegment);
+    for (let k = -reach; k <= reach; k++) {
+      const at = j + k;
+      if (at >= 0 && at <= SEGMENTS) fromChange[at] = Math.min(fromChange[at], Math.abs(k) * metersPerSegment);
+    }
+  }
+  fromChange[0] = fromChange[SEGMENTS] = Math.min(fromChange[0], fromChange[SEGMENTS]);
   const positions: number[] = [];
   // Indexed: the volumes' facets share their vertices (the band's quads do not).
   const indices: number[] = [];
@@ -176,6 +197,10 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   const depths: number[] = [];
   const sides: number[] = [];
   const band: number[] = [];
+  // The segment boundary each band vertex stands on (-1 for an impostor) and how far it takes the
+  // crowns around instead of its own (BAND_BLEND).
+  const bandAt: number[] = [];
+  const blends: number[] = [];
   // The impostors' place in the atlas and their mirroring (±1; 0 on the band).
   const uvs: number[] = [];
   const impostor: number[] = [];
@@ -186,10 +211,6 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     edge: number,
     radius = FAR_FOREST_RADIUS,
     crown = owner[Math.min(j, SEGMENTS - 1)],
-    // The crown whose tint (and bareness) the vertex takes: none at the foot, where the understory
-    // runs on under every crown (owned, a bare or a dark evergreen crown made a block of its own
-    // down to the ground beside the next, once the volumes in front no longer hid the band).
-    tinted = y === BASE ? -1 : crown,
   ) => {
     const a = j * step;
     // Push the shoulder toward the clearing, tapering into the buried foot and
@@ -199,7 +220,18 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
     radius -= relief[j] * rise * (1 - 0.55 * tip);
     positions.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
     indices.push(vertices++);
-    crownOf.push(tinted);
+    crownOf.push(crown);
+    bandAt.push(j);
+    // At the foot, wholly the crowns around: the understory runs on under every crown (owned, a bare
+    // or a dark evergreen crown made a block of its own down to the ground beside the next).
+    blends.push(
+      crown < 0
+        ? 1
+        : Math.max(
+            THREE.MathUtils.smoothstep(edge - y, 0, BAND_BLEND.depth),
+            1 - THREE.MathUtils.smoothstep(fromChange[j], 0, BAND_BLEND.side),
+          ),
+    );
     uvs.push(0, 0);
     impostor.push(0);
     band.push(1);
@@ -278,6 +310,8 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
       uvs.push(left ? u0 : u1, up ? v0 : v1);
       impostor.push(mirror);
       crownOf.push(i);
+      bandAt.push(-1);
+      blends.push(0);
       band.push(0);
       sides.push(0);
       depths.push(Math.max(0, Math.min(1, (distance - 47) / 7)));
@@ -304,9 +338,26 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
   geometry.setAttribute('gardenDepth', new THREE.Float32BufferAttribute(depths, 1));
   geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
   geometry.setAttribute('gardenImpostor', new THREE.BufferAttribute(Int8Array.from(impostor), 1));
-  // The broadleaf crowns, bare in winter.
+  // The crowns around each segment boundary and their weights (BAND_BLEND), summing to 1.
+  const around = Array.from({ length: SEGMENTS + 1 }, (_, j) => {
+    const near = crowns.flatMap((crown, i) => {
+      const d = span(crown, j * step);
+      return Math.abs(d) < crown.radius + 3 * BAND_BLEND.reach
+        ? [{ i, w: Math.exp(-((d / BAND_BLEND.reach) ** 2)) }]
+        : [];
+    });
+    const total = near.reduce((sum, { w }) => sum + w, 0);
+    return near.map(({ i, w }) => ({ i, w: w / total }));
+  });
+  const blendOf = (v: number) => (bandAt[v] >= 0 && around[bandAt[v]].length ? blends[v] : 0);
+  // The broadleaf crowns, bare in winter (fractional where the band takes the crowns around).
   const broadleaf = new Uint8Array(crownOf.length);
-  for (let v = 0; v < crownOf.length; v++) broadleaf[v] = crowns[crownOf[v]] && !crowns[crownOf[v]].evergreen ? 255 : 0;
+  const isBroadleaf = (i: number) => (crowns[i] && !crowns[i].evergreen ? 1 : 0);
+  for (let v = 0; v < crownOf.length; v++) {
+    const b = blendOf(v);
+    const mean = b > 0 ? around[bandAt[v]].reduce((sum, { i, w }) => sum + w * isBroadleaf(i), 0) : 0;
+    broadleaf[v] = Math.round(255 * THREE.MathUtils.lerp(isBroadleaf(crownOf[v]), mean, b));
+  }
   geometry.setAttribute('gardenBroadleaf', new THREE.BufferAttribute(broadleaf, 1, true));
   const bare = { value: 0 };
   // The share of the shading that the sun gives: the clear day's (lighting.ts), none at dusk,
@@ -480,22 +531,29 @@ export function createFarForest(hazeColor: { value: THREE.Color }) {
         diffuseColor.rgb = mix(diffuseColor.rgb, gardenHazeColor, haze);`,
       );
   };
-  material.customProgramCacheKey = () => 'garden-far-forest-v15';
+  material.customProgramCacheKey = () => 'garden-far-forest-v16';
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = material.name;
   const tint = new THREE.Color();
+  const mean = new THREE.Color();
   let painted: Season | null = null;
   const paint = (season: Season) => {
     painted = season;
+    const tints = crowns.map((crown) => {
+      const palette = crown.evergreen ? EVERGREEN[season] : BROADLEAF[season];
+      return new THREE.Color(palette[Math.floor(crown.pick * palette.length)]).multiplyScalar(
+        0.86 + 0.28 * crown.shade,
+      );
+    });
+    // Away from every crown, the understory and the trunks behind it: a mean of the season's tints.
+    const understory = new THREE.Color(BROADLEAF[season][0]).lerp(new THREE.Color(EVERGREEN[season][0]), 0.5);
     for (let v = 0; v < crownOf.length; v++) {
-      const crown = crowns[crownOf[v]];
-      if (!crown) {
-        // Between crowns, the understory and the trunks behind it: a mean of the season's tints.
-        tint.setHex(BROADLEAF[season][0]).lerp(tint.clone().setHex(EVERGREEN[season][0]), 0.5);
-      } else {
-        const palette = crown.evergreen ? EVERGREEN[season] : BROADLEAF[season];
-        tint.setHex(palette[Math.floor(crown.pick * palette.length)]);
-        tint.multiplyScalar(0.86 + 0.28 * crown.shade);
+      tint.copy(tints[crownOf[v]] ?? understory);
+      const b = blendOf(v);
+      if (b > 0) {
+        mean.setRGB(0, 0, 0);
+        for (const { i, w } of around[bandAt[v]]) mean.add(tints[i].clone().multiplyScalar(w));
+        tint.lerp(mean, b);
       }
       tint.toArray(colors, v * 3);
     }

@@ -143,6 +143,27 @@ export const RIM_HEIGHT = 1.035;
 // ripples drew them as sharp dark rings and teeth along the waterline.
 export const MIRROR_DISTANCE = 0.6;
 const MIRROR_NEAREST = 0.03;
+/**
+ * Not in the source (a still mirror with a faint bump): the plunge is stirred by the spout, so what
+ * stands far beyond the water smears along the view's vertical. The mirror is read over `taps`
+ * points up to `reach` of its height above and below (Gaussian, `across` of that sideways), by
+ * the ray's share of MIRROR_DISTANCE: the coping's image at the waterline stays sharp. Read sharp,
+ * the lounge fill's image ended at the coping's in a hard edge toothed by the frozen ripples, a
+ * cream triangle laid on the tiles at dusk and night (docs/3d-qa/graphic-followup-20261028/).
+ */
+export const MIRROR_RIPPLE = { reach: 0.015, across: 0.2, taps: 13 };
+
+/** The ripple blur's reads: offsets in units of its reach and weights summing to 1. */
+export function rippleTaps() {
+  const n = MIRROR_RIPPLE.taps;
+  const taps = Array.from({ length: n }, (_, i) => {
+    const t = (2 * i) / (n - 1) - 1;
+    // Alternating sideways, so the streak is not a single column.
+    return { x: (i % 2 ? 1 : -1) * MIRROR_RIPPLE.across * (1 - Math.abs(t)), y: t, w: Math.exp(-2 * t * t) };
+  });
+  const total = taps.reduce((sum, tap) => sum + tap.w, 0);
+  return taps.map((tap) => ({ ...tap, w: tap.w / total }));
+}
 
 // A bounded surface avoids rings crossing the pool coping. No fluid simulation.
 // `probes` are the shared probe uniforms (reflection.ts), filled before the first frame; `mirror`
@@ -201,7 +222,21 @@ export function createWaterEffects(
           reach = vWorld.y + direction.y * reach < ${RIM_HEIGHT.toFixed(3)}
             ? clamp(reach, ${MIRROR_NEAREST.toFixed(2)}, ${MIRROR_DISTANCE.toFixed(2)}) : ${MIRROR_DISTANCE.toFixed(2)};
           vec4 image = suiMirrorMatrix * vec4(vWorld + direction * reach, 1.0);
-          color = mix(color, texture2D(suiMirror, clamp(image.xy / image.w, vec2(0.0), suiMirrorLimit)).rgb, suiMirrorAmount);
+          // MIRROR_RIPPLE: smeared vertically by as much as the ray reaches past the coping.
+          vec2 mirrorAt = image.xy / image.w;
+          vec2 smear = vec2(${MIRROR_RIPPLE.reach.toFixed(4)}) * vec2(float(textureSize(suiMirror, 0).y) / float(textureSize(suiMirror, 0).x), 1.0)
+            * smoothstep(${MIRROR_NEAREST.toFixed(2)}, ${MIRROR_DISTANCE.toFixed(2)}, reach);
+          vec3 mirrored = vec3(0.0);
+${rippleTaps()
+  .map(
+    ({
+      x,
+      y,
+      w,
+    }) => `          mirrored += ${w.toFixed(5)} * texture2D(suiMirror, clamp(mirrorAt + smear * vec2(${x.toFixed(4)}, ${y.toFixed(4)}), vec2(0.0), suiMirrorLimit)).rgb;
+`,
+  )
+  .join('')}          color = mix(color, mirrored, suiMirrorAmount);
         }
         gl_FragColor = vec4(color, fresnel);
         #include <tonemapping_fragment>

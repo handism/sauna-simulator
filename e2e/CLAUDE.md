@@ -117,3 +117,5 @@
 - `sauna-warmth.visual.ts` はサウナの既定視点・ストーブの見下ろし・ベンチ側×昼夕夜の9枚を撮る（桶の水・ストーブの熾火・サウナ室の夕夜の露出の目視用、`WARMTH_RUN` が回のラベル、`WARMTH_LIGHTS` で時間帯を絞る）。標準DPR1・固定解像度・動作抑制の静止画で、ABBA・費用の比較ではない。記録は `docs/3d-qa/sauna-warmth/`。
 
 - `graphic-review.visual.ts` は2026-10-28のグラフィックの見直し（ガラス・水面の寝椅子灯、冬の常緑樹・雪原、秋のシダ、夕暮れの中景の樹冠、漆喰の塀、夜のサウナの窓）の静止画を、サウナ3・水風呂4・外気浴9の16視点で撮る（季節・時間帯は視点ごとに選ぶ）。`REVIEW_RUN` が回のラベル。`playwright.visual.config.ts` で実行し、配信は `dist`（撮る前に `bun run build`）。標準DPR1・固定解像度・動作抑制の静止画で、ABBA・費用の比較ではない（費用は `GRAPHIC_COST=1` の `frame-cost.gpu.ts`）。記録は `docs/3d-qa/graphic-review-20261028/`。
+
+- `graphic-followup.visual.ts` は2026-10-28の追加修正（冬の奥の森の帯の境目・水面の鏡像の縦の平均・湯気の前方散乱）の静止画を撮る。サウナは昼夕夜の湯気なしの正面と、各時間帯でロウリュを2回押した後の正面・左・見上げ（湯気は3つの時間帯を通して積み重なるが、どの回も同じ手順）、水風呂は夕夜の正面・左・見下ろしと昼、冬の昼夕の水平の右20／60キー、外気浴は冬の昼夕の水平の左30・右30・右60キー（28枚）。`REVIEW_RUN` が回のラベルで、`playwright.visual.config.ts` の `dist` を撮る（撮る前に `bun run build`）。標準DPR1・固定解像度・動作抑制の静止画で、ABBA・費用の比較ではない。記録は `docs/3d-qa/graphic-followup-20261028/`。

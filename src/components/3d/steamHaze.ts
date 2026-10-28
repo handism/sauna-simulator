@@ -21,9 +21,13 @@ export const HAZE_RISE_SECONDS = 2.5;
 export const HAZE_DECAY_SECONDS = 28;
 /** Density each löyly adds (1 at most). */
 export const HAZE_PER_LOYLY = 0.5;
-/** Extinction (per m) at density 1, on the floor and under the ceiling (linear in between). */
-export const HAZE_FLOOR = 0.015;
-export const HAZE_CEILING = 0.11;
+/**
+ * Extinction (per m) at density 1, on the floor and under the ceiling (linear in between). 1.6 times
+ * the values before the forward scattering (HAZE_FORWARD), which gives half of it back to the view
+ * blurred: the even veil stays about three quarters of what it was.
+ */
+export const HAZE_FLOOR = 0.024;
+export const HAZE_CEILING = 0.176;
 /**
  * The steam's even radiance (scene-linear) by day: the daylight through the glass and the room's
  * bounce. The room's lights add their warm light on top (HAZE_LIGHT).
@@ -42,6 +46,26 @@ export const HAZE_SOURCES = interiorPointSources(1.5);
 export const HAZE_SOURCE_RADIUS = 0.25;
 /** The share of the lights' single scattering drawn (1 is a white, isotropic droplet cloud). */
 export const HAZE_LIGHT = 0.25;
+/**
+ * Not in the source: the steam's droplets scatter mostly forward, so what lies just off the view
+ * ray lights the vapor in front of it and the bright panes and the garden glow over the mullions,
+ * the benches and the stove (with the even color alone, the vapor was a flat pale film). This
+ * share of the haze takes the scene's own radiance blurred over `radius` (of the view's height)
+ * instead of the even color: a fixed spiral of `taps` reads (the same every frame, no noise), with
+ * weights falling off to the rim.
+ */
+export const HAZE_FORWARD = { share: 0.5, radius: 0.045, taps: 24 };
+
+/** The forward blur's reads: [x, y] in units of the radius, and the weight (sums to 1). */
+export function forwardTaps() {
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  const taps = Array.from({ length: HAZE_FORWARD.taps }, (_, i) => {
+    const r = Math.sqrt((i + 0.5) / HAZE_FORWARD.taps);
+    return { x: r * Math.cos(i * golden), y: r * Math.sin(i * golden), w: Math.exp(-2 * r * r) };
+  });
+  const total = taps.reduce((sum, tap) => sum + tap.w, 0);
+  return taps.map((tap) => ({ ...tap, w: tap.w / total }));
+}
 
 /** The steam's color at the time of day's scene weights. */
 export function hazeColor(weights: readonly number[], out: THREE.Color) {
@@ -178,6 +202,22 @@ vec4 suiHaze( const in vec3 origin, const in vec3 ray ) {
 	float t1 = far * len;
 	vec3 light = vec3( 0.0 );
 ${sourcesGlsl()}	return vec4( light * ${(HAZE_LIGHT / (4 * Math.PI)).toFixed(5)} / ( t1 - t0 ), 1.0 - exp( - depth ) );
+}
+// The scene's radiance around uv, blurred over HAZE_FORWARD's radius (forwardTaps).
+vec3 suiHazeForward( const in sampler2D scene, const in vec2 uv ) {
+	vec2 size = vec2( textureSize( scene, 0 ) );
+	vec2 step = vec2( size.y / size.x, 1.0 ) * ${HAZE_FORWARD.radius.toFixed(4)};
+	vec3 sum = vec3( 0.0 );
+${forwardTaps()
+  .map(
+    ({
+      x,
+      y,
+      w,
+    }) => `	sum += ${w.toFixed(5)} * texture2D( scene, uv + step * vec2( ${x.toFixed(4)}, ${y.toFixed(4)} ) ).rgb;
+`,
+  )
+  .join('')}	return sum;
 }
 #endif
 `;

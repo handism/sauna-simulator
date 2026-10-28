@@ -197,25 +197,37 @@ describe('far forest', () => {
     forest.mesh.geometry.dispose();
     material.dispose();
   });
-  it("frays the understory with the crown over it and tints its foot as no crown's", () => {
+  it('frays the understory with the crown over it and tints it as the crowns around, without steps', () => {
     const forest = createFarForest({ value: new THREE.Color() });
     const { position, gardenEdge, gardenBand, gardenBroadleaf, color } = forest.mesh.geometry.attributes;
     forest.update('winter', new THREE.Color(1, 1, 1));
     let higher = 0;
-    const feet = new Set<string>();
+    // Every band vertex by place: the quads on either side of a segment boundary must agree there,
+    // up to the outline, or the band steps (a bare crown beside a dark evergreen).
+    const under = new Map<string, string>();
+    let shared = 0;
+    const tints = new Set<string>();
     for (let i = 0; i < position.count; i++) {
       if (gardenBand.getX(i) !== 1) continue;
       // No unfrayed sentinel left on the band: under a crown its outline is above the understory.
       expect(gardenEdge.getX(i)).toBeLessThan(100);
-      if (position.getY(i) === 4.5 && gardenEdge.getX(i) > 4.6) higher++;
-      if (position.getY(i) === -4) {
-        expect(gardenBroadleaf.getX(i)).toBe(0);
-        feet.add([color.getX(i), color.getY(i), color.getZ(i)].map((v) => v.toFixed(5)).join());
-      }
+      const y = position.getY(i);
+      if (y === 4.5 && gardenEdge.getX(i) > 4.6) higher++;
+      const place = [position.getX(i), y, position.getZ(i)].map((v) => v.toFixed(3)).join();
+      const look = [color.getX(i), color.getY(i), color.getZ(i), gardenBroadleaf.getX(i)]
+        .map((v) => v.toFixed(4))
+        .join();
+      if (y === -4) tints.add(look);
+      const seen = under.get(place);
+      if (seen !== undefined) {
+        expect(look).toBe(seen);
+        shared++;
+      } else under.set(place, look);
     }
     expect(higher).toBeGreaterThan(1000);
-    // One tint at the foot all round.
-    expect(feet.size).toBe(1);
+    expect(shared).toBeGreaterThan(3000);
+    // Still varied along the ring, not one flat tint.
+    expect(tints.size).toBeGreaterThan(100);
     forest.mesh.geometry.dispose();
     (forest.mesh.material as THREE.Material).dispose();
   });
