@@ -28,11 +28,27 @@ function springColor(name: string): THREE.Color {
 const colorSeason = (season: Season) => (season === 'winter' ? 'summer' : season);
 
 /**
- * Winter dulls the woodland's evergreen crowns (evergreenWoodland.ts) to a deeper, greyer green:
- * kept at their summer color they stood out bright among the bare trees and the snow.
+ * Winter dulls the woodland's evergreen crowns (evergreenWoodland.ts) and the body's evergreen
+ * trees to a deep blue-green: kept at their summer color they stood out bright among the bare
+ * trees and the snow, as summer broadleaf crowns (0.5–0.58 still read as light green).
  */
-export const EVERGREEN_WINTER = new THREE.Color(0.5, 0.58, 0.58);
-const EVERGREEN_CARD = /card evergreen$/;
+export const EVERGREEN_WINTER = new THREE.Color(0.36, 0.46, 0.47);
+const EVERGREEN_CARD = /card evergreen$|^Evergreen foliage$/;
+
+/**
+ * Not in the source: the ferns' autumn hue over their noise ramp, by fern 0–2 (noiseColor.ts
+ * SUI_NOISE_TINT keeps the ramp's luminance, these colors' own luminance about 1.2 brightens the
+ * drying fronds a little). Kept green they stood bright among the turned crowns and the dried
+ * meadow. Two turn yellow-brown and rust, one stays olive, so the fronds do not turn as one.
+ */
+export const FERN_AUTUMN = [
+  new THREE.Color(1.9, 1.15, 0.45),
+  new THREE.Color(2.2, 0.95, 0.4),
+  new THREE.Color(1.3, 1.2, 0.55),
+];
+const FERN = /^V3 \| fern ([0-2])$/;
+const fernColor = (name: string, season: Season) =>
+  season === 'autumn' ? FERN_AUTUMN[Number(FERN.exec(name)![1])] : new THREE.Color(1, 1, 1);
 
 /** Reuses model surfaces; the settled snow is a shared uniform, independent of weather. */
 export function createSeasonColors() {
@@ -49,6 +65,7 @@ export function createSeasonColors() {
   const leaves = new Map<THREE.Mesh, boolean>();
   const evergreens = new Map<THREE.MeshStandardMaterial, { summer: THREE.Color; winter: THREE.Color }>();
   const evergreenColor = (season: Season) => (season === 'winter' ? 'winter' : 'summer');
+  const ferns = new Set<THREE.MeshStandardMaterial>();
   return {
     get snowMaterials() {
       return snowy.size;
@@ -107,6 +124,15 @@ export function createSeasonColors() {
             evergreens.set(material, palette);
             material.color.copy(palette[evergreenColor(season)]);
           }
+          if (
+            material instanceof THREE.MeshStandardMaterial &&
+            material.defines?.SUI_NOISE_TINT !== undefined &&
+            FERN.test(material.name) &&
+            !ferns.has(material)
+          ) {
+            ferns.add(material);
+            material.color.copy(fernColor(material.name, season));
+          }
           if (!(material instanceof THREE.MeshStandardMaterial) || colors.has(material)) continue;
           const autumn = autumnColor(material.name);
           if (!autumn) continue;
@@ -142,6 +168,12 @@ export function createSeasonColors() {
       for (const [material, palette] of colors) {
         if (material.color.equals(palette[colorSeason(season)])) continue;
         material.color.copy(palette[colorSeason(season)]);
+        changed = true;
+      }
+      for (const material of ferns) {
+        const next = fernColor(material.name, season);
+        if (material.color.equals(next)) continue;
+        material.color.copy(next);
         changed = true;
       }
       for (const [material, palette] of evergreens) {

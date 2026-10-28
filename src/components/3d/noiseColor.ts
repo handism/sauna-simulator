@@ -108,7 +108,12 @@ ${NOISE_COLOR_GLSL}`;
 const FRAGMENT_COLOR = `
 	vec3 suiNoisePoint = vec3( vSuiNoisePosition.x, - vSuiNoisePosition.z, vSuiNoisePosition.y ) * suiNoiseScale;
 	float suiFootprint = max( length( dFdx( suiNoisePoint ) ), length( dFdy( suiNoisePoint ) ) );
-	diffuseColor.rgb = sui_ramp( sui_fbm( suiNoisePoint, suiNoiseDetail, suiNoiseRoughness, suiNoiseLacunarity, suiFootprint ), suiNoiseStops, suiNoiseStopCount );`;
+	diffuseColor.rgb = sui_ramp( sui_fbm( suiNoisePoint, suiNoiseDetail, suiNoiseRoughness, suiNoiseLacunarity, suiFootprint ), suiNoiseStops, suiNoiseStopCount );
+	// Where defined, a material color other than white replaces the ramp's hue, keeping its
+	// luminance (the ferns' season, season.ts): a dark green ramp multiplied stays green.
+	#ifdef SUI_NOISE_TINT
+		if ( diffuse != vec3( 1.0 ) ) diffuseColor.rgb = dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) ) * diffuse;
+	#endif`;
 
 export type RampStop = [number, number, number, number];
 

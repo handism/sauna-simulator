@@ -121,6 +121,12 @@ export const SOFT_GLOSSY: Record<string, Soft> = {
   'V7 water reflection soft strip': { core: 0.7, falloff: 0.25, reach: 1.6 },
   'V10 lounge dusk fill': { core: 0.3, falloff: 0.5, reach: 2.7 },
 };
+/**
+ * Not in the source, as drawn only: the share of a light's mirrored image. Blurred, the lounge fill
+ * still lay on the dusk and night water as the brightest thing in view, a saturated cream patch cut
+ * sharp along the coping's mirror image.
+ */
+export const MIRROR_VIEW: Record<string, number> = { 'V10 lounge dusk fill': 0.25 };
 /** The half size that the blur's distances are relative to. */
 export const softUnit = (size: number[]) => Math.min(...size) / 2;
 /** Half extents, in `softUnit`s, of the box whose rounded offset the blur measures from (0 for disks). */
@@ -163,7 +169,8 @@ export function createGlossyLights() {
     n = new THREE.Vector3();
   for (const [name, size, color, dayWatts, eveningWatts, position, axis, direction] of GLOSSY_SOURCES) {
     const soft = SOFT_GLOSSY[name];
-    const blur = soft ? [soft.core, soft.falloff, softScale(soft, size), soft.reach] : [0, 0, 1, 0];
+    const view = MIRROR_VIEW[name] ?? 1;
+    const blur = soft ? [soft.core, soft.falloff, softScale(soft, size) * view, soft.reach] : [0, 0, view, 0];
     const unit = softUnit(size);
     const box = softInner(size);
     // A blurred rectangle grows by `reach − 1` units on each side. The polygon keeps the disk's area,

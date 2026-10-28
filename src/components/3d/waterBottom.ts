@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLOSSY_SOURCES, areaRadiance, sourceArea } from './glossyLights';
+import { GLOSSY_SOURCES, SOFT_GLOSSY, areaRadiance, softInner, softScale, softUnit, sourceArea } from './glossyLights';
 import {
   SIDE_WALL_LAYER,
   VIEW_TINT,
@@ -277,9 +277,11 @@ const vec3 = (v: readonly number[]) => `vec3( ${v.map(f).join(', ')} )`;
 /**
  * GLSL statements adding to `sum` the radiance of `sources` along the ray from `origin` along
  * `direction` (world, unit): each shape's front, soft edged by LIGHT_EDGE, unless the canopy is in
- * the way (suiCanopyBlocks). Declare `float along, t;` first; needs the irradiance uniforms.
+ * the way (suiCanopyBlocks). With `soft`, the lights in SOFT_GLOSSY are drawn with the mirror's
+ * blurred profile instead (glossyLights.ts, the same power). Declare `float along, t;` first;
+ * needs the irradiance uniforms.
  */
-export function sourcesGlsl(sources: Source[]) {
+export function sourcesGlsl(sources: Source[], soft = false) {
   return sources
     .map(([name, size, color, dayWatts, eveningWatts, position, axis, facing]) => {
       const n = new THREE.Vector3().fromArray(facing).normalize();
@@ -288,6 +290,23 @@ export function sourcesGlsl(sources: Source[]) {
       const area = sourceArea(size);
       const half = size.length === 2 ? [size[0] / 2, size[1] / 2] : [size[0] / 2, size[0] / 2];
       const distance = size.length === 2 ? 'max( abs( q.x ), abs( q.y ) )' : 'length( q )';
+      const radiance = `mix( ${vec3(areaRadiance(dayWatts, color, area))}${name === SUNLIGHT ? ' * suiOvercast.w' : ''}, ${vec3(areaRadiance(eveningWatts, color, area))}, suiIrradianceEvening )`;
+      const blur = soft ? SOFT_GLOSSY[name] : undefined;
+      if (blur) {
+        // Measured in softUnits from the shape's inner box, as the mirror's glossyLights.ts does.
+        const unit = softUnit(size);
+        const inner = softInner(size);
+        return `	// ${name} (blurred)
+	along = dot( direction, ${vec3(n.toArray())} );
+	t = dot( ${vec3(position)} - origin, ${vec3(n.toArray())} ) / min( along, -1e-4 );
+	if ( along < -1e-4 && t > 0.0 ) {
+		vec3 hit = origin + direction * t - ${vec3(position)};
+		vec2 q = vec2( dot( hit, ${vec3(x.toArray())} ), dot( hit, ${vec3(y.toArray())} ) ) / ${f(unit)};
+		float r = length( max( abs( q ) - vec2( ${f(inner[0])}, ${f(inner[1])} ), 0.0 ) );
+		if ( r < ${f(blur.reach)} && ! suiCanopyBlocks( origin, direction, t ) ) sum += ${f(softScale(blur, size))} * exp( - max( 0.0, r - ${f(blur.core)} ) / ${f(blur.falloff)} ) * ${radiance};
+	}
+`;
+      }
       return `	// ${name}
 	along = dot( direction, ${vec3(n.toArray())} );
 	t = dot( ${vec3(position)} - origin, ${vec3(n.toArray())} ) / min( along, -1e-4 );
@@ -295,7 +314,7 @@ export function sourcesGlsl(sources: Source[]) {
 		vec3 hit = origin + direction * t - ${vec3(position)};
 		vec2 q = vec2( dot( hit, ${vec3(x.toArray())} ), dot( hit, ${vec3(y.toArray())} ) ) / vec2( ${f(half[0])}, ${f(half[1])} );
 		if ( ${distance} < ${f(1 + LIGHT_EDGE)} && ! suiCanopyBlocks( origin, direction, t ) ) sum += ( 1.0 - smoothstep( ${f(1 - LIGHT_EDGE)}, ${f(1 + LIGHT_EDGE)}, ${distance} ) ) *
-			mix( ${vec3(areaRadiance(dayWatts, color, area))}${name === SUNLIGHT ? ' * suiOvercast.w' : ''}, ${vec3(areaRadiance(eveningWatts, color, area))}, suiIrradianceEvening );
+			${radiance};
 	}
 `;
     })
@@ -346,10 +365,11 @@ float suiSideDistance( vec2 p, vec2 d ) {
 }
 vec3 suiBottomLights( vec3 origin, vec3 direction ) {
 	vec3 sum = vec3( 0.0 );
-	if ( origin.y + direction.y * suiSideDistance( origin.xz, direction.xz ) < ${f(RIM_HEIGHT)} ) return sum;
+	float clear = smoothstep( ${f(RIM_HEIGHT - BOTTOM_RIM_FADE[0])}, ${f(RIM_HEIGHT + BOTTOM_RIM_FADE[1])}, origin.y + direction.y * suiSideDistance( origin.xz, direction.xz ) );
+	if ( clear <= 0.0 ) return sum;
 	float along;
 	float t;
-${lightsGlsl()}	return sum;
+${lightsGlsl()}	return ${f(BOTTOM_LIGHT_VIEW)} * clear * sum;
 }
 ${glossyOnlyGlsl()}
 // The view going down at point, reflected up at the bottom about the normal bottom (or its bumped
@@ -414,7 +434,8 @@ vec4 suiBottomReflection( vec3 point, vec3 d, vec3 view, bool entryBump, vec3 fl
 	for ( int k = 0; k < 4; k ++ ) {
 		vec2 tilt = ${f(BUMP_REACH)} * vec2( k == 0 ? 1.0 : k == 1 ? - 1.0 : 0.0, k == 2 ? 1.0 : k == 3 ? - 1.0 : 0.0 );
 		vec3 seen = suiBottomTrace( point, d, vec3( tilt.x, - 1.0, tilt.y ), false, footprint, q, l, m, w, s, r ) ? suiBottomLights( q, l ) : vec3( 0.0 );
-		near = near || any( notEqual( seen, suiBottomLights( p, leaving ) ) );
+		vec3 base = suiBottomLights( p, leaving );
+		near = near || any( greaterThan( abs( seen - base ), ${f(BUMP_NEAR_CHANGE)} * max( seen, base ) + 1e-5 ) );
 	}
 	if ( near ) {
 		// Integrate the light boundary over this pixel, including the canopy and fine bump.
@@ -534,6 +555,18 @@ export const DISK_WIDENING = 0.25;
  * anything around it, its edge along the coping's cut-off stepping with the waves.
  */
 export const WET_HIGHLIGHT_VIEW = 0.6;
+/**
+ * Not in the source, as drawn only (bottomLightRadiance keeps the source's): the share of the lights
+ * the bottom's reflected view sees, the heights (m) below and above the rim over which a view
+ * leaving past a side fades instead of being cut, and the relative change of the light seen by a
+ * tilted trace that sends a pixel to the bumped quarter-pixel trace. At dusk the lounge fill lay on
+ * the floor as a cream triangle cut sharp by the rim, the brightest thing in the scene (most of it
+ * the water's mirror, glossyLights.ts MIRROR_VIEW). The lights stay sharp here: blurred, they reach
+ * 2.7 radii, the canopy is tested over that many more pixels and the plunge drew about 8% slower.
+ */
+export const BOTTOM_LIGHT_VIEW = 0.45;
+export const BOTTOM_RIM_FADE = [0.03, 0.18];
+export const BUMP_NEAR_CHANGE = 0.2;
 export const WET_EXIT_FADE = 0.05;
 const WET_GLOSS_LIGHTS = [SUNLIGHT, 'V10 lounge dusk fill'];
 

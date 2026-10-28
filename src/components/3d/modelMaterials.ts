@@ -6,7 +6,9 @@ import { applySurfaceDetails, surfaceDetailOf, type SurfaceDetail } from './surf
 import { broadenWoodlandCards } from './woodlandCrowns';
 import { INTERIOR_BOX, WATER_BOX, shadeStovePile } from './interiorLights';
 import { applyFoliage, isFoliageMaterial } from './foliage';
-import { applyLeafCluster, createLeafClusterTexture, leafClusterOf } from './leafCluster';
+import { applyLeafCluster, createLeafClusterTexture, leafClusterOf, NEEDLE_LEAF } from './leafCluster';
+// The woodland's evergreen share (evergreenWoodland.ts) draws needle sprays.
+const EVERGREEN_CARD = /card evergreen$/;
 import { applyImageRamp, imageRampOf, type ImageRamp } from './imageRamp';
 import { applyNoiseColor, noiseColorOf, type NoiseColor } from './noiseColor';
 
@@ -130,7 +132,7 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
   const noiseColors = new Map<THREE.MeshStandardMaterial, NoiseColor>();
   const imageRamps = new Map<THREE.MeshStandardMaterial, ImageRamp>();
   const surfaces = new Map<THREE.MeshStandardMaterial, SurfaceDetail>();
-  const leafClusters = new Map<number, THREE.DataTexture>();
+  const leafClusters = new Map<string, THREE.DataTexture>();
   let leafClusterMaterials = 0;
   let tiltedMapleLeaves = 0;
   root.traverse((object) => {
@@ -181,7 +183,11 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       if (noise) {
         const fern = /^V3 \| fern [0-2]$/.test(material.name);
         // The fronds take the crowns' daytime cut of the sky's gloss (crownNormals.ts).
-        if (fern) material.defines = { ...material.defines, SUI_CROWN_SPECULAR: '' };
+        // Their color tints the ramp (season.ts turns them in autumn), white otherwise.
+        if (fern) {
+          material.defines = { ...material.defines, SUI_CROWN_SPECULAR: '', SUI_NOISE_TINT: '' };
+          (material as THREE.MeshStandardMaterial).color.setScalar(1);
+        }
         noiseColors.set(
           material as THREE.MeshStandardMaterial,
           fern
@@ -199,9 +205,12 @@ export function prepareModel(root: THREE.Object3D): PreparedModelStats {
       if (ramp) imageRamps.set(material as THREE.MeshStandardMaterial, ramp);
       const cluster = leafClusterOf(material);
       if (cluster && material instanceof THREE.MeshStandardMaterial && !material.alphaMap) {
-        // One mask per leaf count; disposeTree releases it with the materials.
-        if (!leafClusters.has(cluster.leaves)) leafClusters.set(cluster.leaves, createLeafClusterTexture(cluster));
-        applyLeafCluster(material, leafClusters.get(cluster.leaves)!);
+        // One mask per leaf count and form; disposeTree releases it with the materials.
+        const needles = EVERGREEN_CARD.test(material.name);
+        const key = `${cluster.leaves}${needles ? ' needles' : ''}`;
+        if (!leafClusters.has(key))
+          leafClusters.set(key, createLeafClusterTexture(cluster, needles ? NEEDLE_LEAF : undefined));
+        applyLeafCluster(material, leafClusters.get(key)!);
         leafClusterMaterials++;
       }
     }

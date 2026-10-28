@@ -9,7 +9,9 @@ import {
   LEAF_FAR_BIAS,
   LEAF_FAR_FILL,
   LEAF_FAR_RAMP,
+  NEEDLE_LEAF,
   applyLeafCluster,
+  leafCluster,
   createLeafClusterTexture,
   leafClusterCoverage,
   leafClusterMips,
@@ -26,6 +28,15 @@ describe('woodland leaf cluster cards', () => {
     expect(leafClusterOf(material({ leaves: 20 }))).toEqual({ leaves: 20 });
     for (const extras of [undefined, {}, { leaves: 0 }, { leaves: 2.5 }, { leaves: '20' }])
       expect(leafClusterOf(material(extras))).toBeNull();
+  });
+
+  it('draws the evergreen needle sprays at the broadleaf mask coverage', () => {
+    const above = (coverage: Float32Array) => coverage.filter((value) => value >= 0.5).length / coverage.length;
+    const broad = above(leafCluster(20).coverage);
+    const needles = leafCluster(20, LEAF_CLUSTER_SIZE, NEEDLE_LEAF).coverage;
+    expect(Math.abs(above(needles) - broad)).toBeLessThan(0.02);
+    expect(needles).not.toEqual(leafCluster(20).coverage);
+    for (let i = 0; i < LEAF_CLUSTER_SIZE; i++) expect(needles[i]).toBe(0);
   });
 
   it('draws the same leaves every time and covers about half of the card', () => {

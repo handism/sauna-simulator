@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { createSeasonColors, EVERGREEN_WINTER } from './season';
+import { createSeasonColors, EVERGREEN_WINTER, FERN_AUTUMN } from './season';
 
 function tree(...names: string[]) {
   const root = new THREE.Group();
@@ -54,15 +54,19 @@ describe('season colors', () => {
     const seasons = createSeasonColors();
     seasons.add(root, 'summer');
     const original = materials[0].color.clone();
+    const evergreen = materials[1].color.clone();
     seasons.update('autumn');
     expect(seasons.update('winter')).toBe(true);
     expect(root.children[0].visible).toBe(false);
     expect(root.children[1].visible).toBe(true);
     expect(seasons.hiddenLeaves).toBe(1);
-    expect(seasons.snowMaterials).toBe(1);
+    // The moss and the evergreen trees, which take snow on their crowns and a winter green.
+    expect(seasons.snowMaterials).toBe(2);
+    expect(materials[1].color.equals(evergreen.clone().multiply(EVERGREEN_WINTER))).toBe(true);
     seasons.update('summer');
     expect(root.children[0].visible).toBe(true);
     expect(materials[0].color.equals(original)).toBe(true);
+    expect(materials[1].color.equals(evergreen)).toBe(true);
     expect(seasons.update('summer')).toBe(false);
   });
   it('a late winter garden keeps initially hidden meshes hidden on restoration', () => {
@@ -106,5 +110,21 @@ describe('season colors', () => {
     seasons.add(root, 'winter');
     seasons.update('spring');
     expect(materials[0].color.equals(original)).toBe(true);
+  });
+
+  it('turns the tinted fern ramps in autumn only and returns them to white', () => {
+    const { root, materials } = tree('V3 | fern 1', 'V3 | fern 2');
+    // Only ramps tinted by their color (modelMaterials.ts) take it.
+    materials[0].defines = { SUI_NOISE_TINT: '' };
+    materials[0].color.setScalar(1);
+    const untinted = materials[1].color.clone();
+    const seasons = createSeasonColors();
+    seasons.add(root, 'summer');
+    expect(materials[0].color.equals(new THREE.Color(1, 1, 1))).toBe(true);
+    expect(seasons.update('autumn')).toBe(true);
+    expect(materials[0].color.equals(FERN_AUTUMN[1])).toBe(true);
+    expect(materials[1].color.equals(untinted)).toBe(true);
+    expect(seasons.update('winter')).toBe(true);
+    expect(materials[0].color.equals(new THREE.Color(1, 1, 1))).toBe(true);
   });
 });

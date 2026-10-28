@@ -6,7 +6,7 @@ import { TURNS_TO_VIEWER } from './crownNormals';
 // shader excludes the sheltered room/terrace by position; water, glass, towels,
 // lamps and pool tiles never receive the extension.
 export function receivesWinterSnow(name: string) {
-  return /moss|woodland earth|garden gravel|tree bark|mineral charcoal stone|pale mineral paving|quiet honed stone|outdoor ash|locally damp ash|warm open-grain timber|garden evergreen foliage|fern \d|card evergreen$/i.test(
+  return /moss|woodland earth|garden gravel|tree bark|mineral charcoal stone|pale mineral paving|quiet honed stone|outdoor ash|locally damp ash|warm open-grain timber|garden evergreen foliage|^evergreen foliage$|fern \d|card evergreen$/i.test(
     name,
   );
 }
@@ -51,6 +51,18 @@ float suiSnowFiltered(vec2 p) {
   return mix(suiSnowNoise(p), 0.5, smoothstep(0.35, 1.2, footprint));
 }
 `;
+
+/**
+ * The snowfield's broad tone (not in the source): the noise frequencies (per meter) of the scoured
+ * and banked stretches, their colors, and the color of the snow on slopes (full by a slope of
+ * about 40°).
+ */
+export const SNOW_FIELD = {
+  frequency: [0.045, 0.13],
+  scoured: [0.84, 0.88, 0.95],
+  banked: 1.03,
+  slope: [0.8, 0.86, 0.95],
+};
 
 // Thin settled snow on upward surfaces, with a soft irregular boundary. A uniform white read as a
 // blank sheet: the snow lies in drifts a few meters across with finer swells and wind ripples (in
@@ -107,6 +119,12 @@ const SNOW = /* glsl */ `
   #endif
   vec3 suiSnowColor = mix(vec3(0.64, 0.71, 0.82), vec3(0.82, 0.85, 0.88), smoothstep(0.2, 0.7, suiSnowDrift));
   suiSnowColor *= 0.97 + (suiSnowSwell - 0.5) * 0.08;
+  // Past twenty meters the drifts are finer than the eye resolves and the field read as one flat
+  // white: wind-scoured and banked stretches tens of meters across, and the slopes, turned from
+  // the open sky, a little bluer and darker (SNOW_FIELD).
+  float suiSnowField = suiSnowNoise(suiSnowP.xz * ${SNOW_FIELD.frequency[0].toFixed(3)}) * 0.6 + suiSnowNoise(suiSnowP.xz * ${SNOW_FIELD.frequency[1].toFixed(3)} + 3.1) * 0.4;
+  suiSnowColor *= mix(vec3(${SNOW_FIELD.scoured.map((v) => v.toFixed(3)).join(', ')}), vec3(${SNOW_FIELD.banked.toFixed(3)}), smoothstep(0.25, 0.75, suiSnowField));
+  suiSnowColor *= mix(vec3(${SNOW_FIELD.slope.map((v) => v.toFixed(3)).join(', ')}), vec3(1.0), smoothstep(0.78, 0.99, suiSnowUp));
   diffuseColor.rgb = mix(diffuseColor.rgb, suiSnowColor, suiSnowCover);
   roughnessFactor = mix(roughnessFactor, 0.92, suiSnowCover);
   float suiSnowHeight = suiSnowDrift * 0.16 + suiSnowSwell * 0.012 + suiSnowRipple * 0.0018;
@@ -153,9 +171,9 @@ export function dustedByWinterSnow(name: string) {
   return /fern \d/i.test(name);
 }
 
-/** Clumped cover on the upper side of the evergreen crowns' leaf cards. */
+/** Clumped cover on the upper side of the evergreen crowns (the woodland cards and the body's evergreen trees). */
 export function crownedByWinterSnow(name: string) {
-  return /card evergreen$/i.test(name);
+  return /card evergreen$|^evergreen foliage$/i.test(name);
 }
 
 export function applyWinterSnow(material: THREE.MeshStandardMaterial, amount: { value: number }) {

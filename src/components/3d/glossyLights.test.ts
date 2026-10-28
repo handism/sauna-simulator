@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import {
   GLOSSY_SOURCES,
+  MIRROR_VIEW,
   SOFT_GLOSSY,
   areaRadiance,
   createGlossyLights,
@@ -93,7 +94,8 @@ describe('glossy-only area lights', () => {
       // The water strip, a rectangle, is checked below.
       if (boxes.getX(i) !== 0) continue;
       blurred++;
-      expect(softness.getZ(i)).toBeCloseTo(softScale(soft), 6);
+      // Scaled down as drawn (MIRROR_VIEW), not as the source's power.
+      expect(softness.getZ(i)).toBeCloseTo(softScale(soft) * MIRROR_VIEW['V10 lounge dusk fill'], 6);
       expect(Math.hypot(local.getX(i), local.getY(i))).toBeLessThan(soft.reach * 1.01);
     }
     expect(blurred).toBe(3 * 32);

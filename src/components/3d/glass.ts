@@ -48,6 +48,12 @@ export const GLASS_LIGHTS = [
   'V10 path grazing light 7',
   'V10 specimen uplight',
 ];
+/**
+ * Not in the source, as drawn only: the share of those lights seen in the panes from outside. Drawn
+ * sharp, the lounge fill lay on the sauna's window at dusk as a cream wedge with a hard edge; blurred
+ * as in the water's mirror (SOFT_GLOSSY), at full strength it still stood as a white bar down the pane.
+ */
+export const GLASS_LIGHT_VIEW = 0.6;
 // The reflection's material only (the transmittance's has no irradiance uniforms).
 const GLASS_LIGHTS_GLSL = /* glsl */ `
 #ifdef SUI_REFLECTION
@@ -56,7 +62,10 @@ vec3 suiGlassLights( const in vec3 origin, const in vec3 direction ) {
 	vec3 sum = vec3( 0.0 );
 	float along;
 	float t;
-${sourcesGlsl(GLOSSY_SOURCES.filter(([name]) => GLASS_LIGHTS.includes(name)))}	return sum;
+${sourcesGlsl(
+  GLOSSY_SOURCES.filter(([name]) => GLASS_LIGHTS.includes(name)),
+  true,
+)}	return sum;
 }
 #endif`;
 
@@ -102,6 +111,14 @@ export function slab(cosine: number, optics: (typeof GLASS)[string]) {
 
 const vec3 = (v: THREE.Vector3) => `vec3( ${v.x.toFixed(4)}, ${v.y.toFixed(4)}, ${v.z.toFixed(4)} )`;
 
+/**
+ * Not in the source's shortcut, as drawn only: the boards of the room as seen in the glass, their
+ * widths (m; upright on the walls, along z on the floor as surfaceDetails.ts ROOM_FLOOR) and each
+ * board's shade either way and its groove's darkening. In one flat albedo the night panes held a
+ * smooth brown sheet over the view, which hid the plunge's stone side behind it.
+ */
+export const ROOM_BOARDS = { wall: 0.095, floor: 0.145, shade: 0.16, groove: 0.55 };
+
 // The room lights' direct light reflected toward the camera from where the view R from P (inside
 // the room box) meets the box: no light on the glass sides (+x and +z).
 const ROOM_GLOW = (() => {
@@ -125,7 +142,16 @@ vec3 suiRoomGlow( const in vec3 P, const in vec3 R ) {
 	vec3 E = vec3( 0.0 );
 	vec3 d;
 	float r2;${lights}
-	return ${vec3(new THREE.Vector3(...ROOM_ALBEDO))} * RECIPROCAL_PI * E;
+	// The boards across the face hit: each its own shade, a dark groove between them that fades to
+	// its mean once finer than a pixel.
+	float width = Nh.y != 0.0 ? ${ROOM_BOARDS.floor.toFixed(3)} : ${ROOM_BOARDS.wall.toFixed(3)};
+	float across = ( Nh.x != 0.0 ? H.z : H.x ) / width;
+	float board = floor( across ) + dot( Nh, vec3( 17.0, 31.0, 47.0 ) );
+	float edge = min( fract( across ), 1.0 - fract( across ) );
+	float footprint = fwidth( across );
+	float groove = mix( 1.0 - smoothstep( 0.0, max( 0.04, footprint ), edge ), 0.08, smoothstep( 0.25, 0.6, footprint ) );
+	float shade = 1.0 + ${ROOM_BOARDS.shade.toFixed(3)} * ( 2.0 * fract( sin( board * 12.9898 ) * 43758.5453 ) - 1.0 );
+	return ${vec3(new THREE.Vector3(...ROOM_ALBEDO))} * RECIPROCAL_PI * E * shade * ( 1.0 - ${ROOM_BOARDS.groove.toFixed(3)} * groove );
 }`;
 })();
 
@@ -175,7 +201,7 @@ void main() {
 		bool interior = all( greaterThanEqual( P, ${vec3(INTERIOR_BOX.min)} ) ) && all( lessThanEqual( P, ${vec3(INTERIOR_BOX.max)} ) );
 		vec3 radiance = suiReflection( P, N, reflect( - V, N ), suiRoughness, interior, false );
 		if ( interior ) radiance += suiRoomGlow( P, reflect( - V, N ) );
-		else radiance += suiGlassLightsOn * suiGlassLights( P, reflect( - V, N ) );
+		else radiance += ${GLASS_LIGHT_VIEW.toFixed(3)} * suiGlassLightsOn * suiGlassLights( P, reflect( - V, N ) );
 		gl_FragColor = vec4( radiance * reflectance, 1.0 );
 		#include <tonemapping_fragment>
 		#include <colorspace_fragment>

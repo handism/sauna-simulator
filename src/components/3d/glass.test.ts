@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
-import { applyGlass, fresnel, GLASS, GLASS_LIGHTS, slab } from './glass';
+import { applyGlass, fresnel, GLASS, GLASS_LIGHT_VIEW, GLASS_LIGHTS, slab } from './glass';
 import { GLOSSY_SOURCES } from './glossyLights';
 import { MIRROR_LAYER } from './planarReflection';
 import { createIrradianceUniforms } from './irradiance';
@@ -86,7 +86,9 @@ describe('glass', () => {
     // Tested only by the reflection's material, which has the irradiance uniforms.
     expect(shader).toMatch(/#ifdef SUI_REFLECTION[\s\S]*vec3 suiGlassLights\(/);
     expect(shader.match(/^\t\/\/ V(9|10) /gm)).toHaveLength(6);
-    expect(shader).toContain('else radiance += suiGlassLightsOn * suiGlassLights(');
+    expect(shader).toContain(`else radiance += ${GLASS_LIGHT_VIEW.toFixed(3)} * suiGlassLightsOn * suiGlassLights(`);
+    // Blurred as in the water's mirror: the lounge fill has no hard rim.
+    expect(shader).toContain('// V10 lounge dusk fill (blurred)');
     // Off in the water's mirror (a second glossy bounce), on for the main camera.
     const mirror = new THREE.PerspectiveCamera();
     mirror.layers.enable(MIRROR_LAYER);

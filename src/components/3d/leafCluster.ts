@@ -13,8 +13,10 @@ export const LEAF_CLUSTER_SIZE = 128;
  * Mask leaves per source leaf (not in the source): each drawn leaf has 1/LEAF_SPLIT of the source
  * leaf's area, the card's leaf area the same. At 20 leaves the near crowns (10–20 m) read as a few
  * large paper cut-outs, each leaf as long as a hand; the mask is twice as fine to keep their outline.
+ * Split three ways the outer leaves still stood against the dusk sky as single large cut-outs
+ * (2026-10-28): five.
  */
-export const LEAF_SPLIT = 3;
+export const LEAF_SPLIT = 5;
 /**
  * The texels across a card that the far fill, ramp and bias count a pixel's footprint in: the
  * earlier mask's 64, where they were measured (docs/3d-qa/leaf-alpha-bias/ and before). Counted in
@@ -60,15 +62,28 @@ const OUTLINE = [
 const OUTLINE_AREA = OUTLINE.slice(1).reduce((sum, [t, w], i) => sum + (t - OUTLINE[i][0]) * (w + OUTLINE[i][1]), 0);
 // Length over full width, and the leaf area per card share: the leaves of a sprig overlap at
 // their stalks, so they cover a little less above the cutoff (0.41) than the earlier evenly
-// spread leaves (0.44) did with 0.9. Split three ways (LEAF_SPLIT) they overlap more: 1.55 keeps 0.41.
+// spread leaves (0.44) did with 0.9. Split three ways (LEAF_SPLIT) they overlap more: 1.55 kept 0.41;
+// split five ways, six to a sprig, 1.7 keeps 0.42.
 const LEAF_ASPECT = 2.2;
-const LEAF_AREA = 1.55;
+const LEAF_AREA = 1.7;
 // Leaves per sprig; the sprigs lie on a sunflower spiral out to LEAF_SPRIG_REACH of the card,
 // each moved up to LEAF_SPRIG_JITTER of their spacing. A centre and one ring (five sprigs of four
 // leaves) drew rosettes too regular once the leaves were smaller.
-const LEAVES_PER_SPRIG = 5;
+const LEAVES_PER_SPRIG = 6;
 const LEAF_SPRIG_REACH = 0.3;
 const LEAF_SPRIG_JITTER = 0.35;
+
+/** How a card's leaves are drawn: split per source leaf, length over width, area share, per sprig. */
+export type LeafForm = { split: number; aspect: number; area: number; perSprig: number };
+const BROADLEAF: LeafForm = { split: LEAF_SPLIT, aspect: LEAF_ASPECT, area: LEAF_AREA, perSprig: LEAVES_PER_SPRIG };
+/**
+ * Not in the source: the evergreen share of the woodland (evergreenWoodland.ts) drawn as sprays of
+ * narrow needle-like leaves. With the broadleaf mask, in winter they stood among the bare trees as
+ * summer broadleaf crowns in the snow. Twice as many leaves per source leaf, each about three times
+ * as slender, fanned eight to a spray; the area keeps the coverage above the cutoff near the
+ * broadleaf mask's.
+ */
+export const NEEDLE_LEAF: LeafForm = { split: 6, aspect: 6.5, area: 1.45, perSprig: 8 };
 
 const halfWidth = (t: number) => {
   if (t <= 0 || t >= 1) return 0;
@@ -89,16 +104,17 @@ export function leafClusterCoverage(leaves: number, size = LEAF_CLUSTER_SIZE): F
  * The mask's coverage and each texel's mean leaf shade (LEAF_SHADE) over the leaves in it, 1 where
  * none is. Deterministic.
  */
-export function leafCluster(leaves: number, size = LEAF_CLUSTER_SIZE) {
+export function leafCluster(leaves: number, size = LEAF_CLUSTER_SIZE, form: LeafForm = BROADLEAF) {
   const next = random(leaves);
   // Their own stream, so the shades leave the outline as it was.
   const shadeOf = random(leaves + 101);
-  const count = leaves * LEAF_SPLIT;
+  const { split, aspect, area: leafArea, perSprig } = form;
+  const count = leaves * split;
   // Each leaf's stalk at its sprig's centre, the leaves spread round it like a rosette, so the card
   // fills a scalloped disc. Leaves on a jittered grid out to the corners showed the card's rectangle
   // in the mid-ground crowns once the far fill and bias closed them up; leaves evenly over a disc,
   // one smooth oval like a single huge leaf on the long cards (docs/3d-qa/leaf-card-sprigs/).
-  const sprigCount = Math.max(1, Math.round(count / LEAVES_PER_SPRIG));
+  const sprigCount = Math.max(1, Math.round(count / perSprig));
   const spacing = LEAF_SPRIG_REACH / Math.sqrt(sprigCount);
   const sprigs = Array.from({ length: sprigCount }, (_, index) => {
     const turn = next() * 2 * Math.PI;
@@ -115,9 +131,9 @@ export function leafCluster(leaves: number, size = LEAF_CLUSTER_SIZE) {
     const place = Math.floor(index / sprigCount);
     const around = Math.ceil((count - (index % sprigCount)) / sprigCount);
     // Each leaf takes 1 / (2 * count) of the card on average, its area scaled 0.5–1.5.
-    const area = (LEAF_AREA * (0.5 + next())) / (2 * count);
-    const widest = Math.sqrt(area / (2 * LEAF_ASPECT * OUTLINE_AREA));
-    const length = 2 * LEAF_ASPECT * widest;
+    const area = (leafArea * (0.5 + next())) / (2 * count);
+    const widest = Math.sqrt(area / (2 * aspect * OUTLINE_AREA));
+    const length = 2 * aspect * widest;
     // Evenly round the sprig, each turned up to a sixth of a step either way.
     const angle = sprig.turn + ((place + 0.35 * (next() - 0.5)) / around) * 2 * Math.PI;
     const [cos, sin] = [Math.cos(angle), Math.sin(angle)];
@@ -234,8 +250,8 @@ export function leafClusterMips(base: Float32Array, size: number): Float32Array[
   return levels;
 }
 
-export function createLeafClusterTexture(cluster: LeafCluster): THREE.DataTexture {
-  const { coverage, shade } = leafCluster(cluster.leaves);
+export function createLeafClusterTexture(cluster: LeafCluster, form: LeafForm = BROADLEAF): THREE.DataTexture {
+  const { coverage, shade } = leafCluster(cluster.leaves, LEAF_CLUSTER_SIZE, form);
   const shades = leafShadeMips(coverage, shade, LEAF_CLUSTER_SIZE);
   // Red: the leaves' shade; green, blue and alpha: the coverage (alphaMap reads green).
   const levels = leafClusterMips(coverage, LEAF_CLUSTER_SIZE).map((alpha, index) => {

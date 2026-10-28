@@ -243,6 +243,18 @@ export const PLUNGE_WALL = {
   streakHalfWidth: 0.34,
   streakTop: 1.65,
 };
+/**
+ * The plaster walls' weathering (not in the source): the share of the metre-scale tone, the rain
+ * streaks' color and spacing (per metre across), and the splashed foot's color below about footTop
+ * (m, glTF y; the deck is at 0.075, the tea cups stand higher).
+ */
+export const PLASTER_WEATHER = {
+  weather: 0.28,
+  streak: [0.78, 0.77, 0.75],
+  streakFrequency: 7,
+  foot: [0.7, 0.68, 0.62],
+  footTop: 0.32,
+};
 // Warm limestone plaster (courtyard walls and tea cups): broad trowel clouds + fine mineral grain
 // matching the source 2-layer FBM (scale 8 color/bump and scale 75 fine bump), balanced around the mean.
 const PLASTER = /* glsl */ `
@@ -252,6 +264,23 @@ const PLASTER = /* glsl */ `
   float suiLimeGrain = suiSurfaceFilteredNoise(suiSurfaceP * 58.0);
   float suiPlasterVar = (suiTrowel - 0.5) * 0.36 + (suiLimeGrain - 0.5) * 0.14;
   diffuseColor.rgb *= 1.0 + vec3(suiPlasterVar * 1.02, suiPlasterVar * 1.0, suiPlasterVar * 0.96);
+  // Not in the source: on the walls' upright faces, weathering over metres, rain streaks run down from
+  // above and a ragged band of splashed grime at the foot (PLASTER_WEATHER). The courtyard wall
+  // beside the loungers filled half the view as one blank, evenly lit sheet.
+  float suiUpright = 1.0 - smoothstep(0.25, 0.5, abs(vSuiSurfaceUp));
+  if (suiUpright > 0.0) {
+    float suiWeather = suiSurfaceFilteredNoise(suiSurfaceP * 0.45 + 7.1) * 0.6 + suiSurfaceFilteredNoise(suiSurfaceP * 1.3 + 3.7) * 0.4;
+    float suiRain = smoothstep(0.52, 0.8, suiSurfaceFilteredNoise(vec3((suiSurfaceP.x + suiSurfaceP.z) * ${f(PLASTER_WEATHER.streakFrequency)}, suiSurfaceP.y * 0.35, 1.9)))
+      * smoothstep(0.3, 0.7, suiSurfaceFilteredNoise(vec3((suiSurfaceP.x - suiSurfaceP.z) * 1.1, suiSurfaceP.y * 0.6, 4.2)));
+    float suiFootEdge = ${f(PLASTER_WEATHER.footTop)} + (suiSurfaceFilteredNoise(vec3((suiSurfaceP.x + suiSurfaceP.z) * 3.1, 0.0, 6.3)) - 0.5) * 0.16
+      + (suiSurfaceFilteredNoise(vec3((suiSurfaceP.x + suiSurfaceP.z) * 13.0, 1.7, 0.0)) - 0.5) * 0.05;
+    float suiFoot = 1.0 - smoothstep(suiFootEdge - 0.12, suiFootEdge, suiSurfaceP.y);
+    diffuseColor.rgb *= mix(vec3(1.0),
+      (1.0 + (suiWeather - 0.5) * ${f(PLASTER_WEATHER.weather)})
+        * mix(vec3(1.0), vec3(${PLASTER_WEATHER.streak.map(f).join(', ')}), suiRain)
+        * mix(vec3(1.0), vec3(${PLASTER_WEATHER.foot.map(f).join(', ')}), suiFoot),
+      suiUpright);
+  }
   // Not in the source: the wall behind the plunge, evenly lit, read as a blank sheet. Above the
   // coping it is damp in a ragged band, and under the spillway the overflow left grey streaks.
   float suiDamp = 0.0;
