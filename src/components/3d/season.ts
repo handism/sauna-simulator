@@ -30,9 +30,10 @@ const colorSeason = (season: Season) => (season === 'winter' ? 'summer' : season
 /**
  * Winter dulls the woodland's evergreen crowns (evergreenWoodland.ts) and the body's evergreen
  * trees to a deep blue-green: kept at their summer color they stood out bright among the bare
- * trees and the snow, as summer broadleaf crowns (0.5–0.58 still read as light green).
+ * trees and the snow, as summer broadleaf crowns (0.5–0.58 still read as light green, and
+ * 0.36–0.47 still a sunlit yellow-green on the near trees).
  */
-export const EVERGREEN_WINTER = new THREE.Color(0.36, 0.46, 0.47);
+export const EVERGREEN_WINTER = new THREE.Color(0.25, 0.33, 0.35);
 const EVERGREEN_CARD = /card evergreen$|^Evergreen foliage$/;
 
 /**

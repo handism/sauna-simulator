@@ -108,9 +108,16 @@ export function crownHeight(crown: Crown, d: number) {
   const t = Math.abs(d) / crown.radius;
   if (t >= 1) return -Infinity;
   // Rounded leaders and uneven branch shoulders instead of identical straight cones.
-  // Fade the lobes at the axis and rim; keep every crown below its original top.
+  // Fade the lobes at the axis and rim; keep every crown below its original top. One sine of the
+  // same period on every crown drew the band's skyline at dusk as a row of equal scallops: two
+  // unrelated periods, each crown's own phases and strength (0.6–1.4), make the lobes uneven.
   const side = d / crown.radius;
-  const lobes = Math.sin(side * 10 + crown.pick * 6) * Math.sin(t * Math.PI) * 0.16;
+  const own = (crown.pick * 7.31) % 1;
+  const lobes =
+    (0.6 * Math.sin(side * 7.3 + crown.pick * 6) + 0.4 * Math.sin(side * 16.7 + own * 6.3)) *
+    (0.6 + 0.8 * own) *
+    Math.sin(t * Math.PI) *
+    0.16;
   if (crown.evergreen) return crown.top - crown.radius * Math.max(0, 2 * Math.pow(t, 1.35) + lobes);
   return crown.top - crown.radius * Math.max(0, 1.15 * (1 - Math.sqrt(1 - t * t)) + lobes * 0.65);
 }

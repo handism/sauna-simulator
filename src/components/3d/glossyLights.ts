@@ -124,9 +124,10 @@ export const SOFT_GLOSSY: Record<string, Soft> = {
 /**
  * Not in the source, as drawn only: the share of a light's mirrored image. Blurred, the lounge fill
  * still lay on the dusk and night water as the brightest thing in view, a saturated cream patch cut
- * sharp along the coping's mirror image.
+ * sharp along the coping's mirror image. At 0.25 (2026-10-28) a cream trapezoid with that straight
+ * upper edge stayed the brightest thing on the water seen from the plunge toward the lounge.
  */
-export const MIRROR_VIEW: Record<string, number> = { 'V10 lounge dusk fill': 0.25 };
+export const MIRROR_VIEW: Record<string, number> = { 'V10 lounge dusk fill': 0.12 };
 /** The half size that the blur's distances are relative to. */
 export const softUnit = (size: number[]) => Math.min(...size) / 2;
 /** Half extents, in `softUnit`s, of the box whose rounded offset the blur measures from (0 for disks). */

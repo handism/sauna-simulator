@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLOSSY_SOURCES, SOFT_GLOSSY, areaRadiance, softInner, softScale, softUnit, sourceArea } from './glossyLights';
 import {
+  SIDE_MIRROR,
   SIDE_WALL_LAYER,
   VIEW_TINT,
   WATER_ABSORPTION,
@@ -145,7 +146,8 @@ export function upwardExit(
     const alongX = tx < tz;
     p.addScaledVector(d, Math.min(tx, tz));
     path += Math.min(tx, tz);
-    weight *= waterAirReflectance(Math.abs(alongX ? d.x : d.z));
+    // SIDE_MIRROR: the water touches the wall, which takes the rest.
+    weight *= SIDE_MIRROR * waterAirReflectance(Math.abs(alongX ? d.x : d.z));
     if (alongX) d.x = -d.x;
     else d.z = -d.z;
   }
@@ -405,7 +407,7 @@ bool suiBottomTrace( vec3 point, vec3 d, vec3 bottom, bool bumped, float footpri
 		bool alongX = t.x < t.y;
 		p += d * min( t.x, t.y );
 		path += min( t.x, t.y );
-		weight *= suiWaterAirReflectance( abs( alongX ? d.x : d.z ) );
+		weight *= ${f(SIDE_MIRROR)} * suiWaterAirReflectance( abs( alongX ? d.x : d.z ) );
 		if ( alongX ) d.x = - d.x;
 		else d.z = - d.z;
 	}
@@ -651,7 +653,7 @@ export function wetImage(source: THREE.Vector3, point: THREE.Vector3, axis: 0 | 
   if ((e - plane) * (source[k] - plane) <= 0 || exit.x < min.x || exit.x > max.x || exit.y < min.z || exit.y > max.z)
     return null;
   if (!clearsRim(new THREE.Vector3(exit.x, level, exit.y), toLight)) return null;
-  const reflectance = waterAirReflectance(Math.abs(toLight[k]) / WATER_IOR);
+  const reflectance = SIDE_MIRROR * waterAirReflectance(Math.abs(toLight[k]) / WATER_IOR);
   toLight[k] = -toLight[k];
   return { toLight, reflectance };
 }
@@ -769,7 +771,7 @@ bool suiWetImage( const in int axis, const in vec3 source, const in vec3 point, 
 	vec2 wall = mix( low, high, step( 0.0, unit ) );
 	vec2 reach = mix( vec2( 1e6 ), max( ( wall - run ) / ( sign( unit ) * max( abs( unit ), vec2( 1e-6 ) ) ), 0.0 ), step( 1e-6, abs( unit ) ) );
 	if ( float( SUI_REFRACTION ) + min( reach.x, reach.y ) * toLight.y / s < ${f(RIM_HEIGHT)} ) return false;
-	reflectance = suiWaterAirReflectance( abs( axis == 0 ? toLight.x : toLight.z ) / ${f(WATER_IOR)} );
+	reflectance = ${f(SIDE_MIRROR)} * suiWaterAirReflectance( abs( axis == 0 ? toLight.x : toLight.z ) / ${f(WATER_IOR)} );
 	if ( axis == 0 ) toLight.x = - toLight.x;
 	else toLight.z = - toLight.z;
 	return true;

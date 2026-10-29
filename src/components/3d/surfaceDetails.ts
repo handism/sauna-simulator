@@ -338,7 +338,9 @@ const TOWEL = /* glsl */ `
 // scale on the upper faces of the top layer (the Cycles reference's stones read light grey from the
 // sauna's bench) and each stone keeps its own tone. Under the 2700K room lights a neutral grey
 // already reads warm: a warmer scale turned the pile tan. The pile tops out at 1.08m (refine_loyly_props.py).
-export const HEATER_SCALE = { from: 0.88, to: 1.0, color: [0.26, 0.27, 0.29], most: 0.55 } as const;
+// Not in the source, as drawn only: at dusk and night the scale keeps `dusk` of its share. Lit by the
+// blue-hour probes through the glass, the pale tops read lavender-white above a dark room.
+export const HEATER_SCALE = { from: 0.88, to: 1.0, color: [0.26, 0.27, 0.29], most: 0.55, dusk: 0.35 } as const;
 /** The pile's ember glow: linear radiance at most, fading above `deep` and outside the `core` radius (m). */
 export const HEATER_EMBER = { color: [0.16, 0.035, 0.007], deep: [0.5, 0.9], core: [0.12, 0.34] } as const;
 const HEATER = /* glsl */ `
@@ -346,6 +348,9 @@ const HEATER = /* glsl */ `
   float suiScalePatch = suiSurfaceFilteredNoise(suiSurfaceP * 26.0) * 0.65 + suiSurfaceFilteredNoise(suiSurfaceP * 71.0 + 2.3) * 0.35;
   float suiScale = smoothstep(${HEATER_SCALE.from.toFixed(2)}, ${HEATER_SCALE.to.toFixed(2)}, suiSurfaceP.y)
     * smoothstep(0.15, 0.75, vSuiSurfaceUp) * smoothstep(0.42, 0.62, suiScalePatch);
+  #ifdef SUI_IRRADIANCE
+  suiScale *= mix(1.0, ${HEATER_SCALE.dusk.toFixed(2)}, suiIrradianceEvening);
+  #endif
   float suiStoneTone = suiSurfaceFilteredNoise(suiSurfaceP * 9.0);
   diffuseColor.rgb *= mix(vec3(0.9, 0.93, 0.97), vec3(1.12, 1.1, 1.06), suiStoneTone);
   diffuseColor.rgb = mix(diffuseColor.rgb, vec3(${HEATER_SCALE.color.map((v) => v.toFixed(2)).join(', ')}) * (0.85 + 0.3 * suiScalePatch),

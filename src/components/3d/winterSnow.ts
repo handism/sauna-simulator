@@ -68,6 +68,11 @@ export const SNOW_FIELD = {
 // blank sheet: the snow lies in drifts a few meters across with finer swells and wind ripples (in
 // its color and as a bump that shades with the light), thins on steeper ground so the relief
 // shows, and is a little darker and bluer in the hollows between drifts.
+/**
+ * Not in the source: the evergreen crowns' facing toward the sky taken as `scale` × up + `lift`,
+ * so snow lies on their sides down to a little below level, still in clumps.
+ */
+export const CROWN_SNOW = { scale: 0.6, lift: 0.48 };
 const SNOW = /* glsl */ `
   vec3 suiSnowP = vSuiSnowPosition;
   float suiSnowUp = normalize(vSuiSnowNormal).y;
@@ -81,6 +86,11 @@ const SNOW = /* glsl */ `
   float suiSnowRippleFootprint = max(length(dFdx(suiSnowP.xz)), length(dFdy(suiSnowP.xz))) * 48.0 / 6.2832;
   float suiSnowRipple = sin(dot(suiSnowP.xz, vec2(38.4, 28.8)) + suiSnowDrift * 9.0)
     * (1.0 - smoothstep(0.15, 0.5, suiSnowRippleFootprint));
+  #ifdef SUI_SNOW_CROWN
+  // CROWN_SNOW: a crown's cards face every way around its ellipsoid, and only the top few held
+  // snow: the evergreens stood as dark summer broadleaf crowns among the bare trees.
+  suiSnowUp = suiSnowUp * ${CROWN_SNOW.scale.toFixed(2)} + ${CROWN_SNOW.lift.toFixed(2)};
+  #endif
   float suiSnowCover = smoothstep(0.42, 0.88, suiSnowUp + suiSnowGrain * 0.07 + (suiSnowDrift - 0.5) * 0.2);
   // Preserve the sauna, pool and sheltered deck; their roof tops remain eligible.
   bool suiSheltered = suiSnowP.x > -7.1 && suiSnowP.x < 7.1 && suiSnowP.z > -5.3 && suiSnowP.z < 2.9 && suiSnowP.y < 3.35;

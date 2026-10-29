@@ -149,6 +149,14 @@ const SIDE_CRITICAL = Math.sqrt(1 - 1 / WATER_IOR ** 2);
  * 6 mm behind each side of the source water, its back 0.3 m further.
  */
 export const SIDE_WALL_LAYER = 0.05;
+/**
+ * Not in the source, as drawn only: the share of the first side's reflectance that the mirrored
+ * images keep over the wall behind it. The source's water stands 6 mm off the tiles, so its sides
+ * mirror most views; in a filled tub the water touches the wall and nothing is mirrored there. The
+ * mirrored floor met the direct view along the critical angle's cone, an arc bowed across the pool
+ * from wall to wall (darker under the far wall, lighter along the sides) at any time of day.
+ */
+export const SIDE_MIRROR = 0.2;
 /** The sides a mirrored image lies behind: [x, z], each −1 (min side), 0 or 1 (max side). */
 export type Sides = [number, number];
 /** The mirrored images drawn besides the true one: four sides and four corners. */
@@ -266,7 +274,7 @@ export function trueWeight(point: THREE.Vector3, path: SidePath) {
   const axis = k === 0 ? 'x' : 'z';
   const plane = path.first[k] > 0 ? max[axis] : min[axis];
   const behind = (point[axis] - plane) * path.first[k];
-  return behind > 0 && behind <= SIDE_WALL_LAYER && point.y >= min.y ? 1 - path.reflectance : 0;
+  return behind > 0 && behind <= SIDE_WALL_LAYER && point.y >= min.y ? 1 - SIDE_MIRROR * path.reflectance : 0;
 }
 
 const vec2 = (v: THREE.Vector3) => `vec2( ${v.x.toFixed(4)}, ${v.z.toFixed(4)} )`;
@@ -435,8 +443,8 @@ vec3 suiWetView = vec3( 0.0 );
 		if ( ! suiInside && any( notEqual( suiFirst, vec2( 0.0 ) ) ) ) {
 			vec2 suiPlane = mix( ${vec2(WATER_VOLUME.min)}, ${vec2(WATER_VOLUME.max)}, step( 0.0, suiFirst ) );
 			float suiBeyond = dot( suiTrue.xz - suiPlane, suiFirst );
-			if ( suiBeyond <= 0.0 || suiBeyond > ${SIDE_WALL_LAYER.toFixed(4)} || suiReflectance >= 1.0 || suiTrue.y < ${WATER_VOLUME.min.y.toFixed(4)} ) discard;
-			suiSideWeight = 1.0 - suiReflectance;
+			if ( suiBeyond <= 0.0 || suiBeyond > ${SIDE_WALL_LAYER.toFixed(4)} || suiTrue.y < ${WATER_VOLUME.min.y.toFixed(4)} ) discard;
+			suiSideWeight = 1.0 - ${SIDE_MIRROR.toFixed(3)} * suiReflectance;
 		}
 		#endif
 	}

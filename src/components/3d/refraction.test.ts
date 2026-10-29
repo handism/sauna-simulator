@@ -15,6 +15,7 @@ import {
   SLICE_SPACING,
   sliceUnderwater,
   trueWeight,
+  SIDE_MIRROR,
   waterAirReflectance,
   WATER_IOR,
   WATER_VOLUME,
@@ -377,8 +378,8 @@ describe('refraction', () => {
     const path = { sides: [1, 0] as Sides, first: [1, 0] as Sides, reflectance: 0.3 };
     const wall = new THREE.Vector3(WATER_VOLUME.max.x + 0.006, 0.5, -2);
     expect(trueWeight(new THREE.Vector3(1, 0.3, -2), path)).toBe(1);
-    expect(trueWeight(wall, path)).toBeCloseTo(0.7, 9);
-    expect(trueWeight(wall, { ...path, reflectance: 1 })).toBe(0);
+    expect(trueWeight(wall, path)).toBeCloseTo(1 - SIDE_MIRROR * 0.3, 9);
+    expect(trueWeight(wall, { ...path, reflectance: 1 })).toBeCloseTo(1 - SIDE_MIRROR, 9);
     // The back of the wall, a wall behind another side and a view that meets no side.
     expect(trueWeight(new THREE.Vector3(WATER_VOLUME.max.x + SIDE_WALL_LAYER + 0.01, 0.5, -2), path)).toBe(0);
     expect(trueWeight(new THREE.Vector3(1, 0.5, WATER_VOLUME.min.z - 0.006), path)).toBe(0);

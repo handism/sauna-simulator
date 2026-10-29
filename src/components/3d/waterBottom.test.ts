@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { GLOSSY_SOURCES } from './glossyLights';
-import { VIEW_TINT, WATER_IOR, WATER_VOLUME, waterAirReflectance } from './refraction';
+import { SIDE_MIRROR, VIEW_TINT, WATER_IOR, WATER_VOLUME, waterAirReflectance } from './refraction';
 import {
   applyWaterBottom,
   bottomExit,
@@ -92,8 +92,9 @@ describe('water bottom reflection', () => {
     const exit = bottomExit(floor, d, LEVEL)!;
     expect(exit.direction.x).toBeLessThan(0);
     expect(exit.point.x).toBeLessThan(WATER_VOLUME.max.x);
-    // Across the side: |d.x| below √(1 − 1/n²), so fully reflected.
-    expect(exit.transmittance + exit.reflectance).toBeCloseTo(1, 9);
+    // Across the side: |d.x| below √(1 − 1/n²), so fully reflected in the source; the wall the
+    // water touches takes all but SIDE_MIRROR of it.
+    expect(exit.transmittance + exit.reflectance).toBeCloseTo(SIDE_MIRROR, 9);
     // A partial side reflection loses the part that leaves into the wall.
     const partial = upwardExit(
       new THREE.Vector3(WATER_VOLUME.max.x - 0.01, 0.5, -2.5),
@@ -101,7 +102,7 @@ describe('water bottom reflection', () => {
       LEVEL,
     )!;
     const across = new THREE.Vector3(0.7, 0.7, 0).normalize().x;
-    expect(partial.transmittance + partial.reflectance).toBeCloseTo(waterAirReflectance(across), 6);
+    expect(partial.transmittance + partial.reflectance).toBeCloseTo(SIDE_MIRROR * waterAirReflectance(across), 6);
     expect(upwardExit(new THREE.Vector3(1, 0.5, -2.5), new THREE.Vector3(0, -1, 0), LEVEL)).toBeNull();
   });
 
@@ -345,10 +346,10 @@ describe('light highlights on the floor below the water', () => {
     expect(found).not.toBeNull();
     const { toLight, reflectance } = found!;
     expect(toLight.length()).toBeCloseTo(1, 9);
-    // It arrives from the side away from the light, fully reflected past the critical angle.
+    // It arrives from the side away from the light, past the critical angle: SIDE_MIRROR of it.
     expect(toLight.x).toBeLessThan(0);
     expect(Math.abs(toLight.x) / WATER_IOR).toBeLessThan(Math.sqrt(1 - 1 / WATER_IOR ** 2));
-    expect(reflectance).toBe(1);
+    expect(reflectance).toBe(SIDE_MIRROR);
     // Unfolded at the side, the refracted path from the floor's image ends at the light.
     const unfolded = new THREE.Vector3(-toLight.x, toLight.y, toLight.z);
     const image = new THREE.Vector3(2 * WATER_VOLUME.min.x - floor.x, floor.y, floor.z);

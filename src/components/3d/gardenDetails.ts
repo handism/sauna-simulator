@@ -479,32 +479,45 @@ export function tuckGrassBehindBoulders(
 }
 
 /** Browser-built garden accents. Geometry is deterministic and owned by the scene. */
-/** Segments around each ridge: about 0.3–0.6 m apart, so the treeline's crowns have a few each. */
+/**
+ * Segments around the nearest ridge (72 m), about 0.3 m apart; the farther ridges get more in
+ * proportion to their radius. At 1440 on every ridge the farthest crowns had two to four vertices
+ * each and drew as polygonal humps.
+ */
 export const RIDGE_SEGMENTS = 1440;
-/** The treeline's crowns along a ridge's crest: their spacing (m) and greatest height (m). */
-export const RIDGE_CROWN = { spacing: 2.6, height: 0.8 };
+/**
+ * The treeline along a ridge's crest: its crowns' spacing (m) and greatest height (m), the share of
+ * crown cells with a spire standing out, and the spires' height over the canopy's.
+ */
+export const RIDGE_CROWN = { spacing: 2.6, height: 0.8, spires: 0.12, spire: 1.15 };
 
 /**
  * Not in the source: woods along the ridges' crest. The smooth sine crest read as bare grey hills
  * cut from card; wooded hills show a fine bumpy skyline of crowns against the sky. At `along` meters
- * around the ridge, a rounded crown of a jittered width and height (0 between crowns), by layer.
+ * around the ridge, the canopy's height above the crest (0 in the gaps), by layer.
  */
 export function ridgeTreeline(along: number, layer: number) {
   const hash = (i: number, salt: number) => {
     const v = Math.sin(i * 127.1 + layer * 311.7 + salt * 74.7) * 43758.5453;
     return v - Math.floor(v);
   };
-  // Two overlapping ranks of crowns, so the skyline is not a row of equal humps.
-  const crown = (u: number, salt: number) => {
+  const smooth = (u: number, salt: number) => {
     const i = Math.floor(u);
-    // A crown fills 70–100% of its cell; a few cells are gaps in the woods.
-    const width = 0.7 + 0.3 * hash(i, salt + 1);
-    const t = (u - i - (1 - width) * hash(i, salt + 2)) / width;
-    if (t <= 0 || t >= 1 || hash(i, salt + 3) < 0.15) return 0;
-    return (0.35 + 0.65 * hash(i, salt + 4)) * Math.sqrt(Math.sin(Math.PI * t));
+    const f = u - i;
+    return hash(i, salt) + (hash(i + 1, salt) - hash(i, salt)) * f * f * (3 - 2 * f);
   };
+  // The canopy as noise over three scales (stands, crowns, half crowns), not a row of crowns: at
+  // dusk the ridges are silhouettes against a bright sky, and rounded crowns one per cell (domes or
+  // spires, of any size) still read as a scalloped trim. Low stretches are gaps in the woods.
   const u = along / RIDGE_CROWN.spacing;
-  return RIDGE_CROWN.height * Math.max(crown(u, 0), 0.8 * crown(u * 1.6 + 0.37, 10));
+  const canopy = 0.5 * smooth(u * 0.4, 1) + 0.32 * smooth(u * 1.1 + 0.3, 2) + 0.18 * smooth(u * 2.6 + 0.7, 3);
+  const height = Math.max(0, (canopy - 0.22) / 0.78);
+  // Now and then a conifer's spire over the canopy.
+  const i = Math.floor(u * 1.6);
+  const t = u * 1.6 - i;
+  const spire =
+    hash(i, 4) < RIDGE_CROWN.spires ? RIDGE_CROWN.spire * Math.pow(Math.max(0, 1 - Math.abs(2 * t - 1) * 1.6), 1.2) : 0;
+  return RIDGE_CROWN.height * Math.max(height, spire * (0.6 + 0.4 * height));
 }
 
 /**
@@ -862,7 +875,7 @@ export function addGardenDetails(root: THREE.Object3D) {
     const positions: number[] = [];
     const colors: number[] = [];
     const radius = 72 + layer * 38;
-    const segments = RIDGE_SEGMENTS;
+    const segments = Math.round((RIDGE_SEGMENTS * radius) / 72);
     const point = (j: number, row: number) => {
       const a = (j / segments) * Math.PI * 2;
       const height =
