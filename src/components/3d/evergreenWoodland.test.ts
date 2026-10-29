@@ -92,6 +92,15 @@ describe('evergreen woodland', () => {
       const reach = Math.hypot(c.x - evergreen, c.z);
       expect(reach).toBeLessThanOrEqual((radius * (1 - t) + 0.15) * (1 + EVERGREEN_CONE.JITTER) + 1e-4);
     }
+    // The cards turn to face out of the cone (either side), raised toward the sky.
+    for (let card = 0; card < 12; card++) {
+      const [a, b, c] = [0, 1, 2].map((k) => new THREE.Vector3().fromBufferAttribute(position, card * 4 + k));
+      const facing = b.sub(a).cross(c.sub(a)).normalize();
+      const out = new THREE.Vector3(centers[card].x - evergreen, 0, centers[card].z).normalize();
+      if (facing.dot(out) < 0) facing.negate();
+      expect(facing.dot(out)).toBeGreaterThan(0.5);
+      expect(facing.y).toBeGreaterThan(0.1);
+    }
     // The cards shrink about their centers.
     const side = new THREE.Vector3()
       .fromBufferAttribute(position, 1)

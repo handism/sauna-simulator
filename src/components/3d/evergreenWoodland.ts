@@ -101,17 +101,28 @@ export function trunkFinder(trunks: THREE.Vector2[]) {
  * broadleaf crown high on a bare stem, so the evergreen share read as summer broadleaf trees in the
  * snow even with the needle mask. The cone starts `BASE` of the way up (at least `LOW` above the
  * ground), reaches `TIP` past the highest card, and is `SLENDER` times its height across at the
- * base (clamped to `RADIUS`); `JITTER` frays its outline card by card. The cards shrink to `CARD` of
- * their size: at full size the near trees' needle sprays still blurred into broad leaves.
+ * base (clamped to `RADIUS`); `JITTER` frays its outline card by card. The cards shrink to `CARD`
+ * of their size at the base and `CARD_TIP` at the tip: at full size the near trees' needle sprays
+ * still blurred into broad leaves, and even cards up the cone left a blunt tuft at its top. Whorls
+ * every `TIER` meters reach out fully and their branches shorten by `TIER_DEPTH` up to the next. Each
+ * card turns `FACE` of the way to face out of the cone, raised `RAISE` (± `RAISE_JITTER`) rad toward
+ * the sky: with their tilts kept the cards met the eye edge-on as often as not, and a near
+ * tree read as a column of loose leaves with the sky between them.
  */
 export const EVERGREEN_CONE = {
-  BASE: 0.16,
+  BASE: 0.3,
   LOW: 0.9,
   TIP: 0.5,
-  SLENDER: 0.3,
-  RADIUS: [1.3, 2.4],
+  SLENDER: 0.26,
+  RADIUS: [1.1, 2.1] as [number, number],
   JITTER: 0.18,
-  CARD: 0.75,
+  CARD: 1.05,
+  CARD_TIP: 0.6,
+  TIER: 1.1,
+  TIER_DEPTH: 0.3,
+  FACE: 0.8,
+  RAISE: 0.45,
+  RAISE_JITTER: 0.25,
 };
 
 const cardHash = (x: number, z: number) => {
@@ -121,11 +132,12 @@ const cardHash = (x: number, z: number) => {
 };
 
 /**
- * Moves the cards of the evergreen trees (`isEvergreenTree`) into a slender cone around their
- * trunk, keeping each card's tilt and bearing from the trunk. Cards go up the cone by their
- * height's rank in the tree, denser low where the cone is wider, and out by their distance's rank,
- * mostly toward the surface where they make the outline. Call before roundWoodlandCrowns, so the
- * crown normals and the forest floor's footprints follow the cone. Returns the number of cards moved.
+ * Moves the cards of the evergreen trees (`isEvergreenTree`) into a slender tiered cone around
+ * their trunk, keeping each card's bearing from the trunk and turning it mostly to face out. Cards
+ * go up the cone by their height's rank in the tree, denser low where the cone is wider, and out by
+ * their distance's rank, mostly toward the surface where they make the outline. Call before
+ * roundWoodlandCrowns, so the crown normals and the forest floor's footprints follow the cone.
+ * Returns the number of cards moved.
  */
 export function shapeEvergreenCones(root: THREE.Object3D) {
   root.updateMatrixWorld(true);
@@ -158,6 +170,14 @@ export function shapeEvergreenCones(root: THREE.Object3D) {
   const moved = new Map<THREE.Mesh, Set<number>>();
   const target = new THREE.Vector3();
   const toLocal = new THREE.Matrix4();
+  const corner = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+  const facing = new THREE.Vector3();
+  const out = new THREE.Vector3();
+  const turn = new THREE.Quaternion();
+  const none = new THREE.Quaternion();
+  const full = new THREE.Quaternion();
+  const toWorld = new THREE.Matrix3();
+  const toNormal = new THREE.Matrix3();
   for (const [tree, list] of byTree) {
     const { x, y: z } = trunks[tree];
     const distance = (c: (typeof list)[number]) => Math.hypot(c.center.x - x, c.center.z - z);
@@ -171,30 +191,56 @@ export function shapeEvergreenCones(root: THREE.Object3D) {
     for (const card of list) {
       // Cone surface area by height falls as (1 − t): the inverse of its share up to t.
       const t = 1 - Math.sqrt(1 - heightRank.get(card)! / last);
-      const out = 0.4 + 0.6 * Math.sqrt(outRank.get(card)! / last);
-      const fray = 1 + EVERGREEN_CONE.JITTER * (2 * cardHash(card.center.x, card.center.z) - 1);
-      const reach = (radius * (1 - t) + 0.15) * out * fray;
+      const depth = 0.4 + 0.6 * Math.sqrt(outRank.get(card)! / last);
+      const hash = cardHash(card.center.x, card.center.z);
+      const fray = 1 + EVERGREEN_CONE.JITTER * (2 * hash - 1);
+      const height = t * (top - bottom);
+      const whorl = 1 - EVERGREEN_CONE.TIER_DEPTH * ((height / EVERGREEN_CONE.TIER) % 1);
+      const reach = (radius * (1 - t) + 0.15) * depth * fray * whorl;
       const bearing = Math.atan2(card.center.z - z, card.center.x - x);
-      target.set(x + Math.cos(bearing) * reach, bottom + t * (top - bottom), z + Math.sin(bearing) * reach);
-      // The move in the mesh's own space (the garden's meshes are not scaled or rotated per tree).
-      toLocal.copy(card.mesh.matrixWorld).invert();
-      const from = card.center.clone().applyMatrix4(toLocal);
-      const to = target.applyMatrix4(toLocal);
+      target.set(x + Math.cos(bearing) * reach, bottom + height, z + Math.sin(bearing) * reach);
       const { index } = card.mesh.geometry;
       const position = card.mesh.geometry.attributes.position as THREE.BufferAttribute;
+      const normal = card.mesh.geometry.attributes.normal as THREE.BufferAttribute | undefined;
+      toWorld.getNormalMatrix(card.mesh.matrixWorld);
+      // The turn toward facing out, in world space: the card's normal (either side) to the slope.
+      for (let k = 0; k < 3; k++)
+        corner[k].fromBufferAttribute(position, index!.getX(card.first + k)).applyMatrix4(card.mesh.matrixWorld);
+      facing.subVectors(corner[1], corner[0]).cross(out.subVectors(corner[2], corner[0])).normalize();
+      const raise =
+        EVERGREEN_CONE.RAISE + EVERGREEN_CONE.RAISE_JITTER * (2 * cardHash(card.center.z, card.center.x) - 1);
+      out.set(Math.cos(bearing) * Math.cos(raise), Math.sin(raise), Math.sin(bearing) * Math.cos(raise));
+      if (facing.dot(out) < 0) facing.negate();
+      full.setFromUnitVectors(facing, out);
+      turn.slerpQuaternions(none, full, EVERGREEN_CONE.FACE);
+      const size = EVERGREEN_CONE.CARD + (EVERGREEN_CONE.CARD_TIP - EVERGREEN_CONE.CARD) * t;
+      // The move in the mesh's own space (the garden's meshes are not scaled or rotated per tree).
+      toLocal.copy(card.mesh.matrixWorld).invert();
       const done = moved.get(card.mesh) ?? new Set<number>();
       moved.set(card.mesh, done);
       for (let k = card.first; k < card.first + 6; k++) {
         const vertex = index!.getX(k);
         if (done.has(vertex)) continue;
         done.add(vertex);
-        local.fromBufferAttribute(position, vertex).sub(from).multiplyScalar(EVERGREEN_CONE.CARD).add(to);
+        local
+          .fromBufferAttribute(position, vertex)
+          .applyMatrix4(card.mesh.matrixWorld)
+          .sub(card.center)
+          .applyQuaternion(turn)
+          .multiplyScalar(size)
+          .add(target)
+          .applyMatrix4(toLocal);
         position.setXYZ(vertex, local.x, local.y, local.z);
+        if (!normal) continue;
+        local.fromBufferAttribute(normal, vertex).applyMatrix3(toWorld).applyQuaternion(turn);
+        local.applyMatrix3(toNormal.copy(toWorld).invert()).normalize();
+        normal.setXYZ(vertex, local.x, local.y, local.z);
       }
     }
   }
   for (const mesh of moved.keys()) {
     mesh.geometry.attributes.position.needsUpdate = true;
+    if (mesh.geometry.attributes.normal) mesh.geometry.attributes.normal.needsUpdate = true;
     mesh.geometry.computeBoundingBox();
     mesh.geometry.computeBoundingSphere();
   }
