@@ -18,7 +18,7 @@ import { addGardenDetails } from './gardenDetails';
 import { IMPOSTOR_FILE } from './farForest';
 import { roundWoodlandCrowns } from './crownNormals';
 import { createForestFloor, type CrownFootprint } from './forestFloor';
-import { splitEvergreenWoodland } from './evergreenWoodland';
+import { shapeEvergreenCones, splitEvergreenWoodland } from './evergreenWoodland';
 import { addSpringFlowers } from './springFlowers';
 import { createSeasonColors, type Season } from './season';
 import { updateSeasonLight } from './seasonalLight';
@@ -771,6 +771,7 @@ export default function SaunaScene({
             }
             gardenScenes.push(woodland);
             const crowns: CrownFootprint[] = [];
+            setData('evergreenConeCards', String(shapeEvergreenCones(woodland)));
             setData('roundedCrownCards', String(roundWoodlandCrowns(woodland, crowns)));
             forestFloor.update(crowns);
             setData('evergreenTrees', String(splitEvergreenWoodland(woodland)));

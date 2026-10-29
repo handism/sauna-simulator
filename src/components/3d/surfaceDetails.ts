@@ -207,6 +207,8 @@ const STONE = /* glsl */ `
 // meters. Broad patches keep the meadow readable at mid distance: drier yellow-green and lusher
 // dark green (balanced around the source color), drier crests, earthier steep slopes, and tufts
 // and blades near the camera that fade to their mean.
+/** The meadow's patches: cycles per meter, and the tint per unit of noise either side of its mean. */
+export const GROUND_PATCH = { frequency: 0.32, tone: [0.5, 0.42, 0.18] };
 const GROUND = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;
   float suiBroad = suiSurfaceNoise(vec3(suiSurfaceP.xz * 0.07, 0.0)) * 0.65
@@ -227,6 +229,11 @@ const GROUND = /* glsl */ `
     + suiSurfaceFilteredNoise(vec3(suiSurfaceP.xz * 0.95, 8.9)) * 0.45;
   float suiGrazing = 1.0 - smoothstep(0.05, 0.4, normalize(cameraPosition - suiSurfaceP).y);
   suiGroundTint *= mix(vec3(1.0), vec3(1.2, 1.18, 0.86), suiGrazing * (0.3 + 0.25 * suiDry));
+  // Not in the source: patches a few meters across (GROUND_PATCH), lighter and yellower or darker
+  // and bluer. The dry and lush tones change over tens of meters, so from the deck the meadow was
+  // one flat green between them.
+  float suiPatch = suiSurfaceFilteredNoise(vec3(suiSurfaceP.xz * ${GROUND_PATCH.frequency.toFixed(2)}, 11.3)) - 0.5;
+  suiGroundTint *= 1.0 + suiPatch * vec3(${GROUND_PATCH.tone.map((v) => v.toFixed(2)).join(', ')});
   diffuseColor.rgb *= suiGroundTint * (1.0 + (suiTuft - 0.5) * 0.45 + (suiBlade - 0.5) * 0.3 + (suiClump - 0.5) * 0.55);
   float suiSurfaceRoughness = (suiDry - suiLush) * 0.05;
   float suiSurfaceHeight = suiTuft * 0.004 + suiBlade * 0.0006;
@@ -312,7 +319,7 @@ const LINEN = /* glsl */ `
 // tops out near 0.8 and the fold normals are faint. Pull the color down to an oatmeal beige, add a
 // terry pile (a few millimeters, fading to its mean once subpixel) and a coarser weave of rows, and
 // shade the draped sides and the undersides of the folds.
-export const TOWEL_TINT = [0.8, 0.76, 0.67] as const;
+export const TOWEL_TINT = [0.74, 0.69, 0.59] as const;
 /** The creases: radians per meter across them, the valleys' darkening and the bump's height (m). */
 export const TOWEL_CREASE = { frequency: 38, shade: 0.14, height: 0.0035 };
 const TOWEL = /* glsl */ `
@@ -342,7 +349,7 @@ const TOWEL = /* glsl */ `
 // blue-hour probes through the glass, the pale tops read lavender-white above a dark room.
 export const HEATER_SCALE = { from: 0.88, to: 1.0, color: [0.26, 0.27, 0.29], most: 0.55, dusk: 0.35 } as const;
 /** The pile's ember glow: linear radiance at most, fading above `deep` and outside the `core` radius (m). */
-export const HEATER_EMBER = { color: [0.16, 0.035, 0.007], deep: [0.5, 0.9], core: [0.12, 0.34] } as const;
+export const HEATER_EMBER = { color: [0.26, 0.056, 0.011], deep: [0.5, 0.9], core: [0.12, 0.34] } as const;
 const HEATER = /* glsl */ `
   vec3 suiSurfaceP = vSuiSurfacePosition;
   float suiScalePatch = suiSurfaceFilteredNoise(suiSurfaceP * 26.0) * 0.65 + suiSurfaceFilteredNoise(suiSurfaceP * 71.0 + 2.3) * 0.35;

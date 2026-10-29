@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { isEvergreenTree, splitEvergreenWoodland } from './evergreenWoodland';
+import { EVERGREEN_CONE, isEvergreenTree, shapeEvergreenCones, splitEvergreenWoodland } from './evergreenWoodland';
 import { createSeasonColors } from './season';
 
 /** Leaf cards (two triangles over four vertices each) around a trunk, in the crown. */
@@ -68,6 +68,38 @@ describe('evergreen woodland', () => {
     seasons.update('winter');
     expect(leaves.visible).toBe(false);
     expect(crowns.visible).toBe(true);
+  });
+
+  it('gathers the evergreen cards into a slender cone and leaves the deciduous cards in place', () => {
+    const { root, leaves, evergreen, deciduous } = woodland();
+    const before = Float32Array.from(leaves.geometry.attributes.position.array);
+    expect(shapeEvergreenCones(root)).toBe(12);
+    const position = leaves.geometry.attributes.position;
+    const centers = Array.from({ length: 20 }, (_, card) => {
+      const center = new THREE.Vector3();
+      for (let k = 0; k < 4; k++) center.add(new THREE.Vector3().fromBufferAttribute(position, card * 4 + k));
+      return center.multiplyScalar(1 / 4);
+    });
+    const top = 3.1 + EVERGREEN_CONE.TIP;
+    const bottom = Math.max(EVERGREEN_CONE.LOW, top * EVERGREEN_CONE.BASE);
+    const radius = THREE.MathUtils.clamp((top - bottom) * EVERGREEN_CONE.SLENDER, ...EVERGREEN_CONE.RADIUS);
+    const cone = centers.slice(0, 12);
+    // Up the cone from near its base to its tip, narrower toward the top.
+    expect(Math.min(...cone.map((c) => c.y))).toBeLessThan(bottom + 0.5);
+    expect(Math.max(...cone.map((c) => c.y))).toBeGreaterThan(top - 1.2);
+    for (const c of cone) {
+      const t = (c.y - bottom) / (top - bottom);
+      const reach = Math.hypot(c.x - evergreen, c.z);
+      expect(reach).toBeLessThanOrEqual((radius * (1 - t) + 0.15) * (1 + EVERGREEN_CONE.JITTER) + 1e-4);
+    }
+    // The cards shrink about their centers.
+    const side = new THREE.Vector3()
+      .fromBufferAttribute(position, 1)
+      .distanceTo(new THREE.Vector3().fromBufferAttribute(position, 0));
+    expect(side).toBeCloseTo(0.2 * EVERGREEN_CONE.CARD, 5);
+    // The deciduous tree's cards did not move.
+    expect(Array.from(position.array.slice(12 * 12))).toEqual(Array.from(before.slice(12 * 12)));
+    for (const c of centers.slice(12)) expect(Math.hypot(c.x - deciduous, c.z)).toBeLessThan(1.7);
   });
 
   it('leaves a woodland without trunks unchanged', () => {

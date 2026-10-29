@@ -64,9 +64,9 @@ const OUTLINE_AREA = OUTLINE.slice(1).reduce((sum, [t, w], i) => sum + (t - OUTL
 // their stalks, so they cover a little less above the cutoff (0.41) than the earlier evenly
 // spread leaves (0.44) did with 0.9. Split three ways (LEAF_SPLIT) they overlap more: 1.55 kept 0.41;
 // split five ways, six to a sprig, 1.7 keeps 0.42. Along a twig (LEAF_SPRAY) they overlap less:
-// 1.3 keeps 0.42.
+// 1.3 kept 0.42. Gathered in three lobes (LEAF_LOBES) they overlap more again: 2.2 keeps 0.41.
 const LEAF_ASPECT = 2.2;
-const LEAF_AREA = 1.3;
+const LEAF_AREA = 2.2;
 // Leaves per sprig; the sprigs lie on a sunflower spiral out to LEAF_SPRIG_REACH of the card,
 // each moved up to LEAF_SPRIG_JITTER of their spacing. A centre and one ring (five sprigs of four
 // leaves) drew rosettes too regular once the leaves were smaller.
@@ -76,7 +76,9 @@ const LEAF_SPRIG_JITTER = 0.35;
 
 /**
  * How a card's leaves are drawn: split per source leaf, length over width, area share, per sprig,
- * and for a spray the leaves' angle off the twig (rad) and the spread of the sprigs' sizes (±).
+ * for a spray the leaves' angle off the twig (rad) and the spread of the sprigs' sizes (±), and for
+ * lobes the number of separate clumps, their centres' distance from the card's, their own reach and
+ * the sprays' twig length (0.55 without lobes).
  */
 export type LeafForm = {
   split: number;
@@ -84,6 +86,7 @@ export type LeafForm = {
   area: number;
   perSprig: number;
   spray?: { angle: number; sizes: number };
+  lobes?: { count: number; offset: number; reach: number; twig: number };
 };
 /**
  * The broadleaf sprigs are sprays: leaves alternate along a short twig, angled off it, the last at
@@ -91,12 +94,21 @@ export type LeafForm = {
  * mid-ground crowns at dusk as rows of like round clumps cut from paper against the sky.
  */
 export const LEAF_SPRAY = { angle: 0.85, sizes: 0.4 };
+/**
+ * Not in the source: the broadleaf sprays gather in three clumps round the card's centre, with
+ * gaps between them. In one disc each card stood against the sky in the near crowns (10–20m) as
+ * a single leaf the size of the card, with a serrated edge, once the far fill closed its leaves up.
+ */
+export const LEAF_LOBES = { count: 3, offset: 0.28, reach: 0.09, twig: 0.15 };
+/** The lobed leaves' disc (radius, of the card). */
+const LOBE_DISC = 0.5;
 const BROADLEAF: LeafForm = {
   split: LEAF_SPLIT,
   aspect: LEAF_ASPECT,
   area: LEAF_AREA,
   perSprig: LEAVES_PER_SPRIG,
   spray: LEAF_SPRAY,
+  lobes: LEAF_LOBES,
 };
 /**
  * Not in the source: the evergreen share of the woodland (evergreenWoodland.ts) drawn as sprays of
@@ -131,21 +143,32 @@ export function leafCluster(leaves: number, size = LEAF_CLUSTER_SIZE, form: Leaf
   // Their own stream, so the shades leave the outline as it was.
   const shadeOf = random(leaves + 101);
   const sizeOf = random(leaves + 211);
-  const { split, aspect, area: leafArea, perSprig, spray } = form;
+  const { split, aspect, area: leafArea, perSprig, spray, lobes } = form;
   const count = leaves * split;
   // Each leaf's stalk at its sprig's centre, the leaves spread round it like a rosette, so the card
   // fills a scalloped disc. Leaves on a jittered grid out to the corners showed the card's rectangle
   // in the mid-ground crowns once the far fill and bias closed them up; leaves evenly over a disc,
   // one smooth oval like a single huge leaf on the long cards (docs/3d-qa/leaf-card-sprigs/).
   const sprigCount = Math.max(1, Math.round(count / perSprig));
-  const spacing = LEAF_SPRIG_REACH / Math.sqrt(sprigCount);
+  // With lobes, each lobe takes every `lobes.count`th sprig on its own smaller spiral.
+  const lobeCount = lobes?.count ?? 1;
+  const perLobe = Math.ceil(sprigCount / lobeCount);
+  const reachOf = lobes?.reach ?? LEAF_SPRIG_REACH;
+  const spacing = reachOf / Math.sqrt(perLobe);
+  const lobeTurn = next() * 2 * Math.PI;
   const sprigs = Array.from({ length: sprigCount }, (_, index) => {
     const turn = next() * 2 * Math.PI;
-    const radius = LEAF_SPRIG_REACH * Math.sqrt((index + 0.5) / sprigCount);
-    const around = index * Math.PI * (3 - Math.sqrt(5));
+    const lobe = index % lobeCount;
+    const order = Math.floor(index / lobeCount);
+    const radius = reachOf * Math.sqrt((order + 0.5) / perLobe);
+    const around = order * Math.PI * (3 - Math.sqrt(5));
+    const toward = lobeTurn + (lobe * 2 * Math.PI) / lobeCount;
+    const [cx, cy] = lobes
+      ? [0.5 + lobes.offset * Math.cos(toward), 0.5 + lobes.offset * Math.sin(toward)]
+      : [0.5, 0.5];
     return {
-      x: 0.5 + radius * Math.cos(around) + LEAF_SPRIG_JITTER * spacing * (next() - 0.5),
-      y: 0.5 + radius * Math.sin(around) + LEAF_SPRIG_JITTER * spacing * (next() - 0.5),
+      x: cx + radius * Math.cos(around) + LEAF_SPRIG_JITTER * spacing * (next() - 0.5),
+      y: cy + radius * Math.sin(around) + LEAF_SPRIG_JITTER * spacing * (next() - 0.5),
       turn,
       // A spray's own size, its own stream so the rosette masks keep their leaves.
       size: spray ? 1 + spray.sizes * (2 * sizeOf() - 1) : 1,
@@ -167,7 +190,8 @@ export function leafCluster(leaves: number, size = LEAF_CLUSTER_SIZE, form: Leaf
       // last leaf at the tip carries on along the twig.
       const tip = place === around - 1;
       const step = (place + 0.5) / around - 0.5;
-      const twig = 0.55 * Math.sqrt((leafArea * sprig.size ** 2) / (2 * count * aspect)) * aspect * around;
+      const twig =
+        (lobes?.twig ?? 0.55) * Math.sqrt((leafArea * sprig.size ** 2) / (2 * count * aspect)) * aspect * around;
       stalkX += step * twig * Math.cos(sprig.turn);
       stalkY += step * twig * Math.sin(sprig.turn);
       angle = sprig.turn + (tip ? 0 : (place % 2 ? 1 : -1) * spray.angle) + 0.3 * (next() - 0.5);
@@ -179,8 +203,13 @@ export function leafCluster(leaves: number, size = LEAF_CLUSTER_SIZE, form: Leaf
     // The leaf's farthest point from its centre, one texel clear of the border as the diamonds were.
     const reach = Math.max(...OUTLINE.map(([t, w]) => Math.hypot((t - 0.5) * length, w * widest))) + 1 / size;
     const out = 0.5 * length;
-    const x = THREE.MathUtils.clamp(stalkX + out * cos, reach, 1 - reach);
-    const y = THREE.MathUtils.clamp(stalkY + out * sin, reach, 1 - reach);
+    let [cx, cy] = [stalkX + out * cos - 0.5, stalkY + out * sin - 0.5];
+    // Lobes reach toward the card's corners: keep their leaves inside the disc, whose clear corners
+    // keep a far card's rectangle from showing.
+    const inside = Math.hypot(cx, cy);
+    if (lobes && inside > LOBE_DISC - reach) [cx, cy] = [cx, cy].map((c) => (c * (LOBE_DISC - reach)) / inside);
+    const x = THREE.MathUtils.clamp(0.5 + cx, reach, 1 - reach);
+    const y = THREE.MathUtils.clamp(0.5 + cy, reach, 1 - reach);
     const shade = 1 + LEAF_SHADE.spread * (2 * shadeOf() - 1);
     return { x, y, cos, sin, length, widest, reach, shade };
   });

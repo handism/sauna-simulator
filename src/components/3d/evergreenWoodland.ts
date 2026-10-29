@@ -96,6 +96,111 @@ export function trunkFinder(trunks: THREE.Vector2[]) {
   };
 }
 
+/**
+ * Not in the source: the evergreen crowns' cone. The woodland's trees all carry their cards as a
+ * broadleaf crown high on a bare stem, so the evergreen share read as summer broadleaf trees in the
+ * snow even with the needle mask. The cone starts `BASE` of the way up (at least `LOW` above the
+ * ground), reaches `TIP` past the highest card, and is `SLENDER` times its height across at the
+ * base (clamped to `RADIUS`); `JITTER` frays its outline card by card. The cards shrink to `CARD` of
+ * their size: at full size the near trees' needle sprays still blurred into broad leaves.
+ */
+export const EVERGREEN_CONE = {
+  BASE: 0.16,
+  LOW: 0.9,
+  TIP: 0.5,
+  SLENDER: 0.3,
+  RADIUS: [1.3, 2.4],
+  JITTER: 0.18,
+  CARD: 0.75,
+};
+
+const cardHash = (x: number, z: number) => {
+  let h = Math.imul(Math.round(x * 100), 0x27d4eb2d) ^ Math.imul(Math.round(z * 100), 0x165667b1);
+  h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d);
+  return ((h ^ (h >>> 13)) >>> 0) / 4294967296;
+};
+
+/**
+ * Moves the cards of the evergreen trees (`isEvergreenTree`) into a slender cone around their
+ * trunk, keeping each card's tilt and bearing from the trunk. Cards go up the cone by their
+ * height's rank in the tree, denser low where the cone is wider, and out by their distance's rank,
+ * mostly toward the surface where they make the outline. Call before roundWoodlandCrowns, so the
+ * crown normals and the forest floor's footprints follow the cone. Returns the number of cards moved.
+ */
+export function shapeEvergreenCones(root: THREE.Object3D) {
+  root.updateMatrixWorld(true);
+  const trunks = trunkBases(root);
+  const chosen = trunks.map((base) => isEvergreenTree(base.x, base.y));
+  if (!chosen.some(Boolean)) return 0;
+  const nearestTrunk = trunkFinder(trunks);
+  const cards: { mesh: THREE.Mesh; first: number; center: THREE.Vector3; tree: number }[] = [];
+  const local = new THREE.Vector3();
+  root.traverse((object) => {
+    if (
+      !(object instanceof THREE.Mesh) ||
+      Array.isArray(object.material) ||
+      !WOODLAND_CARD.test(object.material.name) ||
+      !object.geometry.index
+    )
+      return;
+    const { index } = object.geometry;
+    const position = object.geometry.attributes.position;
+    for (let t = 0; t < index.count; t += 6) {
+      const center = new THREE.Vector3();
+      for (let k = t; k < t + 6; k++) center.add(local.fromBufferAttribute(position, index.getX(k)));
+      center.multiplyScalar(1 / 6).applyMatrix4(object.matrixWorld);
+      const [tree, best] = nearestTrunk(center.x, center.z);
+      if (tree >= 0 && best < 25 && chosen[tree]) cards.push({ mesh: object, first: t, center, tree });
+    }
+  });
+  const byTree = new Map<number, typeof cards>();
+  for (const card of cards) byTree.set(card.tree, [...(byTree.get(card.tree) ?? []), card]);
+  const moved = new Map<THREE.Mesh, Set<number>>();
+  const target = new THREE.Vector3();
+  const toLocal = new THREE.Matrix4();
+  for (const [tree, list] of byTree) {
+    const { x, y: z } = trunks[tree];
+    const distance = (c: (typeof list)[number]) => Math.hypot(c.center.x - x, c.center.z - z);
+    const top = Math.max(...list.map((c) => c.center.y)) + EVERGREEN_CONE.TIP;
+    const bottom = Math.max(EVERGREEN_CONE.LOW, top * EVERGREEN_CONE.BASE);
+    const [low, high] = EVERGREEN_CONE.RADIUS;
+    const radius = THREE.MathUtils.clamp((top - bottom) * EVERGREEN_CONE.SLENDER, low, high);
+    const heightRank = new Map([...list].sort((a, b) => a.center.y - b.center.y).map((c, i) => [c, i]));
+    const outRank = new Map([...list].sort((a, b) => distance(a) - distance(b)).map((c, i) => [c, i]));
+    const last = Math.max(1, list.length - 1);
+    for (const card of list) {
+      // Cone surface area by height falls as (1 − t): the inverse of its share up to t.
+      const t = 1 - Math.sqrt(1 - heightRank.get(card)! / last);
+      const out = 0.4 + 0.6 * Math.sqrt(outRank.get(card)! / last);
+      const fray = 1 + EVERGREEN_CONE.JITTER * (2 * cardHash(card.center.x, card.center.z) - 1);
+      const reach = (radius * (1 - t) + 0.15) * out * fray;
+      const bearing = Math.atan2(card.center.z - z, card.center.x - x);
+      target.set(x + Math.cos(bearing) * reach, bottom + t * (top - bottom), z + Math.sin(bearing) * reach);
+      // The move in the mesh's own space (the garden's meshes are not scaled or rotated per tree).
+      toLocal.copy(card.mesh.matrixWorld).invert();
+      const from = card.center.clone().applyMatrix4(toLocal);
+      const to = target.applyMatrix4(toLocal);
+      const { index } = card.mesh.geometry;
+      const position = card.mesh.geometry.attributes.position as THREE.BufferAttribute;
+      const done = moved.get(card.mesh) ?? new Set<number>();
+      moved.set(card.mesh, done);
+      for (let k = card.first; k < card.first + 6; k++) {
+        const vertex = index!.getX(k);
+        if (done.has(vertex)) continue;
+        done.add(vertex);
+        local.fromBufferAttribute(position, vertex).sub(from).multiplyScalar(EVERGREEN_CONE.CARD).add(to);
+        position.setXYZ(vertex, local.x, local.y, local.z);
+      }
+    }
+  }
+  for (const mesh of moved.keys()) {
+    mesh.geometry.attributes.position.needsUpdate = true;
+    mesh.geometry.computeBoundingBox();
+    mesh.geometry.computeBoundingSphere();
+  }
+  return cards.length;
+}
+
 /** The listed vertices and the triangles among them, as a compact indexed geometry. */
 function subset(geometry: THREE.BufferGeometry, vertices: number[], triangles: number[]) {
   const remap = new Map<number, number>();

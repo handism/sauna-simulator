@@ -106,8 +106,25 @@ export function isolateRoomReceivers(root: THREE.Object3D) {
   return triangles;
 }
 
+/**
+ * Not in the source: the heater's warmth on the room's floor, benches and walls. The ember glow
+ * (surfaceDetails.ts HEATER_EMBER) lit only the stones, so by dusk and night the stove stood cold
+ * in an evenly lit room. A point at the pile's hot core (`at`, world) gives `color` (linear, W/sr)
+ * with cosine falloff over d² + `soft`; the cage's solid base hides it from the floor within
+ * `shade` of the stove's axis. It is weak beside daylight and shows by dusk and night.
+ */
+export const STOVE_GLOW = { at: [-1.25, 0.62, -1.28], color: [1.3, 0.42, 0.1], soft: 0.04, shade: [0.42, 0.9] };
+const f = (value: number) => value.toFixed(4);
+
 const PARS = /* glsl */ `
 #ifdef SUI_ROOM_IRRADIANCE
+vec3 suiStoveGlow(vec3 P, vec3 N) {
+  vec3 toStove = vec3(${STOVE_GLOW.at.map(f).join(', ')}) - P;
+  float d2 = dot(toStove, toStove);
+  float facing = max(dot(N, toStove * inversesqrt(max(d2, 1e-6))), 0.0);
+  float base = smoothstep(${f(STOVE_GLOW.shade[0])}, ${f(STOVE_GLOW.shade[1])}, length(toStove.xz));
+  return vec3(${STOVE_GLOW.color.map(f).join(', ')}) * facing * mix(base, 1.0, step(0.3, P.y)) / (d2 + ${f(STOVE_GLOW.soft)});
+}
 uniform highp sampler3D suiRoomIrradiance;
 uniform vec4 suiRoomBounds[6];
 uniform vec2 suiRoomResolution[6];
@@ -313,7 +330,8 @@ ${rect}
   THREE.ShaderChunk.lights_fragment_begin = THREE.ShaderChunk.lights_fragment_begin.replace(
     IRRADIANCE_LINE,
     `#ifdef SUI_ROOM_IRRADIANCE
-irradiance += suiRoomLight(suiWorldPosition, suiWorldNormal, suiInterior, suiUnderwater, suiRoomDirectLight.rgb);
+irradiance += suiRoomLight(suiWorldPosition, suiWorldNormal, suiInterior, suiUnderwater, suiRoomDirectLight.rgb)
+  + suiStoveGlow(suiWorldPosition, suiWorldNormal);
 #else
 ${IRRADIANCE_LINE}
 #endif`,

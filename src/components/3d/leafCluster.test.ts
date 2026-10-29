@@ -9,6 +9,7 @@ import {
   LEAF_FAR_BIAS,
   LEAF_FAR_FILL,
   LEAF_FAR_RAMP,
+  LEAF_LOBES,
   NEEDLE_LEAF,
   applyLeafCluster,
   leafCluster,
@@ -63,6 +64,21 @@ describe('woodland leaf cluster cards', () => {
     });
     // The corners outside that disc are 30% of the card; filled, a far card showed its rectangle.
     expect(corners / coverage.length).toBeLessThan(0.002);
+  });
+
+  it('gathers the broadleaf sprays in lobes with clear gaps between them', () => {
+    // Read at a mip a near crown samples (a quarter of the base), cut at the far fill's cutoff.
+    const size = LEAF_CLUSTER_SIZE / 4;
+    const coverage = leafClusterMips(leafClusterCoverage(20), LEAF_CLUSTER_SIZE)[2];
+    const solid = coverage.map((value) => (value >= 0.5 - LEAF_FAR_FILL ? 1 : 0));
+    // Around a ring through the lobes, the mask is clear between them.
+    const ring = Array.from({ length: 180 }, (_, i) => {
+      const a = (i / 180) * Math.PI * 2;
+      const [x, y] = [0.5 + LEAF_LOBES.offset * Math.cos(a), 0.5 + LEAF_LOBES.offset * Math.sin(a)];
+      return solid[Math.floor(y * size) * size + Math.floor(x * size)];
+    });
+    const gaps = ring.filter((value, i) => value === 0 && ring[(i + 179) % 180] === 1).length;
+    expect(gaps).toBeGreaterThanOrEqual(LEAF_LOBES.count - 1);
   });
 
   it('draws a ragged sprig of leaves rather than one solid blob', () => {
